@@ -1,0 +1,21 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Build CI
+
+on:
+  push:
+    branches: 
+      - main
+        
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: trigger docs build
+      shell: bash
+      run:  |
+        gh workflow list --repo 'metaflowys/docs-compiler' -a||true
+        gh workflow run --repo 'metaflowys/docs-compiler' --ref 'main' 'Build CI'||true
+      env:
+        GITHUB_TOKEN: "${{ secrets.DOCSACTION }}"
