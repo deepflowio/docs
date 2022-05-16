@@ -15,7 +15,7 @@ jobs:
     - name: trigger docs build
       shell: bash
       run:  |
-        gh workflow list --repo 'metaflowys/docs-compiler' -a||true
-        gh workflow run --repo 'metaflowys/docs-compiler' --ref 'main' 'Build CI'||true
+        gh workflow list --repo 'metaflowys/docs-compiler' -a
+        gh workflow run --repo 'metaflowys/docs-compiler' --ref 'main' 'Build CI'
       env:
         GITHUB_TOKEN: "${{ secrets.DOCSACTION }}"
