@@ -18,10 +18,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    # - name: prepare for env
-    #   shell: bash
-    #   run:  |
-    #     more $GITHUB_EVENT_PATH
+    - name: prepare for env
+      shell: bash
+      run:  |
+        more $GITHUB_EVENT_PATH
 
     - name: Invoke workflow in another repo with inputs
       uses: benc-uk/workflow-dispatch@v1
@@ -29,5 +29,5 @@ jobs:
         workflow: Build CI
         repo: metaflowys/docs-compiler
         token: ${{ secrets.DOCSACTION }}
-        ref: 'main'
-        inputs: '{ "ref": "${{ github.event.pull_request.head.ref }}"}'
+        ref: 'update-ci-2'
+        inputs: '{ "ref": "${{ github.event.pull_request.head.ref }}", "repo": "${{ github.event.pull_request.head.repo.full_name }}", "event": "${{ github.event_name }}" }'
