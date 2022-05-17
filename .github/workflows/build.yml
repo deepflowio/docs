@@ -7,15 +7,27 @@ on:
   push:
     branches: 
       - main
+  pull_request:
+    branches:
+      - main
         
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: trigger docs build
-      shell: bash
-      run:  |
-        gh workflow list --repo 'metaflowys/docs-compiler' -a
-        gh workflow run --repo 'metaflowys/docs-compiler' --ref 'main' 'Build CI'
-      env:
-        GITHUB_TOKEN: "${{ secrets.DOCSACTION }}"
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    # - name: prepare for env
+    #   shell: bash
+    #   run:  |
+    #     more $GITHUB_EVENT_PATH
+
+    - name: Invoke workflow in another repo with inputs
+      uses: benc-uk/workflow-dispatch@v1
+      with:
+        workflow: Build CI
+        repo: metaflowys/docs-compiler
+        token: ${{ secrets.DOCSACTION }}
+        ref: 'main'
+        inputs: '{ "ref": "${{ github.event.pull_request.head.ref }}"}'
