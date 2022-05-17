@@ -1,21 +1,22 @@
-# metaflow-docs
+# MetaFlow-docs
 
-# markdown编写注意事项
-1. HOME文件不可删除，属于各语言下的首页内容，markdown里面的内容可以调整。
-2. 多语言版本文件目录需要一一对应，比如说存在`/test.md`，那么`/zh/test.md`也一定要存在，否则会404。
-3. md文件一定要写title属性，因为文件名是一样的，但是在中英文下左侧目录是不同的，中文下需要显示中文目录，故需要在md顶部提前写好title属性。格式：（**三**个中划线）
+# Notes for writing markdown
+1. The HOME file cannot be deleted. It belongs to the content of the home page in each language, and the content in its markdown can be adjusted.
+2. Multi language version file directories need to be mapped one by one. For example, there is `/test.md`, then `/zh/test.md` must also exist, otherwise it will 404.
+3. The markdown file must write the title attribute, because the file name is the same, but the directory on the left is different in Chinese and English. The Chinese Directory needs to be displayed in Chinese, so the title attribute needs to be written at the top of MD in advance. Format: (**three** middle dashes)
 ```md
 ---
 title: xxx
 ---
+Content
 ```
-4. 目录翻译写在`/LOCALES.json`文件内。
-5. markdown内的图片大小控制方案。
+4. The translation of the left directory is written in `/LOCALES.json` file.
+5. Picture size control scheme in markdown.
 ```md
-![MetaFlow软件架构](./imgs/metaflow-architecture.png) // 无规则，宽高皆自适应
-![MetaFlow软件架构](./imgs/metaflow-architecture.png?w=120) // 宽度为120的图片，高度随比例变化
-![MetaFlow软件架构](./imgs/metaflow-architecture.png?h=120) // 高度为120的图片，宽度随比例变化
-![MetaFlow软件架构](./imgs/metaflow-architecture.png?w=120&h=120) // 宽高都为120的图片，比例写死（**不建议使用**）
-![MetaFlow软件架构](./imgs/metaflow-architecture.png?align=center) // 图片居中，align取值分别是center(居中)，left(靠左)，right(靠右)
-以上属性可结合使用，多属性用`&`拼接
+![MetaFlow软件架构](./imgs/metaflow-architecture.png) // Irregular, adaptive in width and height
+![MetaFlow软件架构](./imgs/metaflow-architecture.png?w=120) // For a picture with a width of 120, the height changes with scale
+![MetaFlow软件架构](./imgs/metaflow-architecture.png?h=120) // For a picture with a height of 120, the width changes with scale
+![MetaFlow软件架构](./imgs/metaflow-architecture.png?w=120&h=120) // For pictures with width and height of 120, the proportion is written dead (not recommended)
+![MetaFlow软件架构](./imgs/metaflow-architecture.png?align=center) // The values of image alignment are center, left and right respectively. Default left
+The above attributes can be used in combination, and multiple attributes can be spliced with `&'
 ```
