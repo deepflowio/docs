@@ -1,5 +1,5 @@
 ---
-title: 监控多个K8s集群
+title: 监控传统服务器
 ---
 
 # 部署拓扑
@@ -7,15 +7,18 @@ title: 监控多个K8s集群
 ```mermaid
 flowchart LR
 
-subgraph K8s-Cluster-1
+subgraph K8s-Cluster
   MetaFlowServer["metaflow-server (statefulset)"]
-  MetaFlowAgent1["metaflow-agent (daemonset)"]
-  MetaFlowAgent1 -->|load balancing| MetaFlowServer
 end
 
-subgraph K8s-Cluster-2
-  MetaFlowAgent2["metaflow-agent (daemonset)"]
-  MetaFlowAgent2 -->|load balancing| MetaFlowServer
+subgraph Legacy-Host-1
+  MetaFlowAgent1[metaflow-agent]
+  MetaFlowAgent1 --> MetaFlowServer
+end
+
+subgraph Legacy-Host-2
+  MetaFlowAgent2[metaflow-agent]
+  MetaFlowAgent2 --> MetaFlowServer
 end
 ```
 
