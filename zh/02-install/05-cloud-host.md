@@ -1,22 +1,31 @@
 ---
-title: 监控多个K8s集群
+title: 监控云服务器
 ---
 
 # 部署拓扑
 
 ```mermaid
-flowchart LR
+flowchart TD
 
-subgraph K8s-Cluster-1
-  MetaFlowServer["metaflow-server (statefulset)"]
-  MetaFlowAgent1["metaflow-agent (daemonset)"]
-  MetaFlowAgent1 -->|load balancing| MetaFlowServer
+subgraph VPC-1
+  subgraph K8s-Cluster
+    MetaFlowServer["metaflow-server (statefulset)"]
+  end
+  
+  subgraph Cloud-Host-1
+    MetaFlowAgent1[metaflow-agent]
+    MetaFlowAgent1 --> MetaFlowServer
+  end
 end
 
-subgraph K8s-Cluster-2
-  MetaFlowAgent2["metaflow-agent (daemonset)"]
-  MetaFlowAgent2 -->|load balancing| MetaFlowServer
+subgraph VPC-2
+  subgraph Cloud-Host-2
+    MetaFlowAgent2[metaflow-agent]
+    MetaFlowAgent2 -->|"tcp/udp 30033+30035"| MetaFlowServer
+  end
 end
+
+MetaFlowServer -->|"get resource & label"| CloudAPI[cloud api service]
 ```
 
 # 部署 MetaFlow Agent
