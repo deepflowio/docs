@@ -1,56 +1,11 @@
 ---
-title: MetaFlow All-in-One 安装
+title: Spring Boot Demo
 ---
 
-# 在单机上部署MetaFlow Demo
-
-## 资源准备
+# 部署 Spring Boot Demo
 
 TODO
 
-## 部署All-in-One K8s集群
+# 查看 MetaFlow AutoTracing 效果
 
 TODO
-
-## 部署All-in-One MetaFlow
-
-TODO
-
-# 监控一个K8s集群
-
-## 部署方案
-
-TODO
-
-## 部署MetaFlow
-
-TODO
-
-# 监控多个K8s集群
-
-## 部署方案
-
-TODO
-
-## 部署MetaFlow Agent
-
-TODO
-
-## 配置MetaFlow
-
-TODO
-
-# 监控云服务器
-
-## 部署方案
-
-TODO
-
-## 部署MetaFlow Agent
-
-TODO
-
-## 配置MetaFlow
-
-TODO
-
