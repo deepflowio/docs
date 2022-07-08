@@ -1,56 +1,19 @@
 ---
-title: MetaFlow All-in-One 安装
+title: 集成 SkyWalking 数据
 ---
 
-# 在单机上部署MetaFlow Demo
-
-## 资源准备
+# 数据流
 
 TODO
 
-## 部署All-in-One K8s集群
+# 配置 SkyWalking
 
 TODO
 
-## 部署All-in-One MetaFlow
+# 配置 MetaFlow
 
 TODO
 
-# 监控一个K8s集群
-
-## 部署方案
+# 基于 SkyWalking Demo 体验
 
 TODO
-
-## 部署MetaFlow
-
-TODO
-
-# 监控多个K8s集群
-
-## 部署方案
-
-TODO
-
-## 部署MetaFlow Agent
-
-TODO
-
-## 配置MetaFlow
-
-TODO
-
-# 监控云服务器
-
-## 部署方案
-
-TODO
-
-## 部署MetaFlow Agent
-
-TODO
-
-## 配置MetaFlow
-
-TODO
-
