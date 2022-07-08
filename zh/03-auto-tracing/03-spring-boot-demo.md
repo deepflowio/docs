@@ -4,8 +4,14 @@ title: Spring Boot Demo
 
 # 部署 Spring Boot Demo
 
-TODO
+TODO @嘉炜 @建昌
 
-# 查看 MetaFlow AutoTracing 效果
+https://gitlab.yunshan.net/yunshan/deepflow-group/spring-boot-istio-jaeger-demo
+
+# 配置 MetaFlow
+
+TODO @嘉炜
+
+# 查看分布式追踪
 
 TODO

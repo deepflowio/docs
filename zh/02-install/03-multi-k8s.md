@@ -1,5 +1,5 @@
 ---
-title: 监控多个K8s集群
+title: 监控多个 K8s 集群
 ---
 
 # 简介
@@ -25,7 +25,7 @@ subgraph K8s-Cluster-2
 end
 ```
 
-## 确保 K8s 可区分
+## 确保不同 K8s 集群可区分
 
 MetaFlow 使用 K8s 的 CA 文件 MD5 值区分不同的集群，请在不同 K8s 集群的 Pod 中查看 `/run/secrets/kubernetes.io/serviceaccount/ca.crt` 文件，确保不同集群的 CA 文件不同。
 

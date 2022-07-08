@@ -4,8 +4,7 @@ title: All-in-One 快速部署
 
 # 简介
 
-虽然 metaflow-agent 可运行于各种环境中，但 metaflow-server 仅能运行在 K8s 之上。
-因此本章我们从一个 All-in-One K8s 集群出发，介绍如何部署一个 MetaFlow 的体验环境。
+虽然 metaflow-agent 可运行于各种环境中，但 metaflow-server 仅能运行在 K8s 之上。因此本章我们从一个 All-in-One K8s 集群出发，介绍如何部署一个 MetaFlow 的体验环境。
 
 # 准备工作
 
