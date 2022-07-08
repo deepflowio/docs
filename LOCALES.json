@@ -1,3 +1,9 @@
 {
-    "about": "关于"
+    "about": "关于MetaFlow",
+    "install": "安装部署",
+    "auto-metrics": "AutoMetrics",
+    "auto-tracing": "AutoTracing",
+    "auto-tagging": "AutoTagging",
+    "integration": "数据集成",
+    "api": "API"
 }
