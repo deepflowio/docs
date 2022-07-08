@@ -4,29 +4,24 @@ title: All-in-One 快速部署
 
 # 简介
 
-虽然 metaflow-agent 可运行于各种环境中，但 metafloe-server 仅能运行在 K8s 之上。
+虽然 metaflow-agent 可运行于各种环境中，但 metaflow-server 仅能运行在 K8s 之上。
 因此本章我们从一个 All-in-One K8s 集群出发，介绍如何部署一个 MetaFlow 的体验环境。
+
+# 资源需求
+
+最低资源需求为4C8G。
 
 # 部署 All-in-One K8s
 
 使用 [sealos](https://github.com/labring/sealos) 快速部署一个 K8s 集群：
 ```console
 # install sealos
-wget -c https://sealyun-home.oss-cn-beijing.aliyuncs.com/sealos/latest/sealos && \
-    chmod +x sealos && mv sealos /usr/bin
-
-# k8s version
-K8S_VERSION="1.22.0"
-
-# download k8s tar ball
-# @建昌，能否选择在线安装，因为下面的链接有硬编码
-wget -c https://sealyun.oss-cn-beijing.aliyuncs.com/05a3db657821277f5f3b92d834bbaf98-v1.22.0/kube${K8S_VERSION}.tar.gz
-
+curl -o /usr/bin/sealos https://sealyun-home.oss-cn-beijing.aliyuncs.com/sealos-4.0/latest/sealos-amd64 && \
+    chmod +x /usr/bin/sealos
 # install All-in-One kubernetes cluster
-sealos init --passwd '<Your passwoed>' \
-	--master <Your IP address> \
-	--pkg-url /root/kube${K8S_VERSION}.tar.gz \
-	--version v${K8S_VERSION}
+sealos run labring/kubernetes:v1.24.0 labring/calico:v3.22.1 --masters <your-ip-address> -p <your-ssh-passwd>
+# remove kubernetes node taint
+kubectl taint node node-role.kubernetes.io/master- node-role.kubernetes.io/control-plane- --all
 ```
 
 # 安装 Helm
@@ -37,14 +32,19 @@ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scrip
 chmod 700 get_helm.sh
 ./get_helm.sh
 ```
+如果因网络原因脚本无法正常运行可选择使用 sealos 安装 helm
+
+```console
+sealos run labring/helm:v3.8.2
+```
 
 # 部署 All-in-One MetaFlow
 
-使用Helm安装一个 All-in-One MetaFlow：
+使用 Helm 安装一个 All-in-One MetaFlow：
 ```console
 helm repo add metaflow https://metaflowys.github.io/metaflow
-helm repo udpate metaflow
-helm install metaflow -n metaflow metaflow/metaflow --create-namespace
+helm repo update metaflow
+helm install metaflow -n metaflow metaflow/metaflow --create-namespace --set global.allInOneLocalStorage=true
 ```
 
 # 下一步
