@@ -17,7 +17,7 @@ subgraph K8s-Cluster
   subgraph MetaFlow Backend
     MetaFlowServer["metaflow-server (statefulset)"]
     ClickHouse["clickhouse (statefulset)"]
-    MySQL["mysql (statefulset)"]
+    MySQL["mysql (deployment)"]
     MetaFlowApp["metaflow-app (deployment)"]
     Grafana["grafana (deployment)"]
   end
@@ -37,7 +37,10 @@ subgraph K8s-Cluster
 end
 ```
 
-# 运行 PVC 控制器
+# 准备 Storage Class
+
+我们建议使用 Persistent Volumes 来保存 mysql 和 clickhouse 的数据，以避免不必要的维护成本。
+你可以提供默认 Storage Class 或配置 mysql.storageConfig.persistence.storageClass、clickhouse.storageConfig.persistence[].storageClass 来选择 Storage Class 以创建 Persistent Volumes Claims。
 
 可选择 [OpenEBS](https://openebs.io/) 用于创建 PVC：
 ```console
@@ -46,15 +49,21 @@ kubectl apply -f https://openebs.github.io/charts/openebs-operator.yaml
 
 # 部署 MetaFlow
 
-使用Helm安装一个 All-in-One MetaFlow：
+使用 Helm 安装 MetaFlow：
 ```console
-NAMESPACE=metaflow
-HELM_RELEASE=metaflow
-
 helm repo add metaflow https://metaflowys.github.io/metaflow
-helm repo udpate metaflow
-helm install $HELM_RELEASE -n $NAMESPACE metaflow/metaflow --create-namespace
+helm repo update metaflow
+helm install metaflow -n metaflow metaflow/metaflow --create-namespace
 ```
+
+# 部署 metaflow-ctl
+
+下载 metaflow-ctl 到 MetaFlow Server 的 Node
+```console
+curl -o /usr/bin/metaflow-ctl https://metaflow.oss-cn-beijing.aliyuncs.com/bin/ctl/latest/linux/amd64/metaflow-ctl
+chmod a+x /usr/bin/metaflow-ctl
+```
+
 
 # 下一步
 
