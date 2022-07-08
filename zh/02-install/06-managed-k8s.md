@@ -1,35 +1,28 @@
 ---
-title: 监控云服务器
+title: 监控托管 K8s 集群
 ---
 
 # 简介
 
-MetaFlow 支持监控云服务器，并通过调用云厂商 API 获取资源信息和标签，自动注入到所有观测数据中（AutoTagging）。
+MetaFlow 支持监控云服务商的托管 K8s 集群。与[直接监控 K8s 集群](./single-k8s.html)的区别是，通过配置 metaflow-server 调用云厂商 API，可自动向观测数据中注入云资源标签（AutoTagging）。
 
 # 部署拓扑
 
 ```mermaid
 flowchart TD
 
-subgraph VPC-1
-  subgraph K8s-Cluster
+subgraph VPC
+  subgraph Managed-K8s-Cluster
+    APIServer["k8s apiserver"]
+    MetaFlowAgent["metaflow-agent (daemonset)"]
     MetaFlowServer["metaflow-server (statefulset)"]
-  end
-  
-  subgraph Cloud-Host-1
-    MetaFlowAgent1[metaflow-agent]
-    MetaFlowAgent1 --> MetaFlowServer
+
+    MetaFlowAgent -->|"get k8s resource & label"| APIServer
+    MetaFlowAgent -->|"control & data"| MetaFlowServer
   end
 end
 
-subgraph VPC-2
-  subgraph Cloud-Host-2
-    MetaFlowAgent2[metaflow-agent]
-    MetaFlowAgent2 -->|"tcp/udp 30033+30035"| MetaFlowServer
-  end
-end
-
-MetaFlowServer -->|"get resource & label"| CloudAPI[cloud api service]
+MetaFlowServer -->|"get cloud resource & label"| CloudAPI[cloud api service]
 ```
 
 # 配置 MetaFlow Server
