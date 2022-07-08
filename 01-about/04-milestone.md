@@ -4,9 +4,9 @@ title: MetaFlow Milestone
 
 <mark>Attention: This page is translated by Google. Your contributions are welcome!</mark>
 
-MetaFlow was born from DeepFlow, a commercial product of Yunshan Networks, which has now developed to v6.1.0. There is still some code refactor work to be done. We plan to release the first downloadable version in June 2022, with the following features:
+MetaFlow was born from DeepFlow, a commercial product of Yunshan Networks, which has now developed to v6.1.0. There is still some code refactor work to be done. We plan to release the first downloadable version v6.1.1 in July 2022, with the following features:
 - AutoMetrics capability based on eBPF, BPF+AF\_PACKET
-- HTTP 1/2/S, Dubbo, MySQL, Redis, Kafka, DNS application protocol parsing capabilities based on eBPF
+- HTTP 1/2/S, Dubbo, MySQL, Redis, Kafka, MQTT, DNS application protocol parsing capabilities based on eBPF
 - AutoTracing distributed span tracing capability based on eBPF, supports synchronous concurrency model and kernel-level thread scheduling model
 - AutoTagging capability to automatically synchronize K8s apiserver and inject resource and service tags
 - High-performance SmartEncoding tag injection capability
