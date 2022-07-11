@@ -42,7 +42,7 @@ With the microservice of applications, distributed link tracking has gradually b
 MetaFlow does not simply use eBPF. Through a series of technological innovations, we relate eBPF Event, BPF Packet, Thread ID, Coroutine ID, Request arrival timing, and TCP sending timing to achieve a highly automated, distributed call chain **AutoTracing** capability. At present, AutoTracing supports the upstream and downstream call tracing of any microservice in the synchronous concurrency model and the kernel-level threading model, and is exploring the automatic tracing capability under the asynchronous concurrency model and the hybrid threading model.
 
 By combining with Span data sources such as OpenTelemetry, such AutoTracing capabilities will be more complete and can eliminate any blind spots in the distributed call chain. In the flame graph in the image below we can see:
-- The upstream and downstream calls of any microservice can be tracked, including DNS, Log and other calls that developers tend to ignore, including services such as MySQL that cannot be inserted
+- The upstream and downstream calls of any microservice can be tracked, including DNS and other calls that developers tend to ignore, including services such as MySQL that cannot be inserted
 - The network path between any two microservices can be traced, from application code to system calls, sidecars, container networks, virtual machine networks, cloud networks
 
 ![Tracing without blind spots](./imgs/tracing-without-blind-spots.png)
