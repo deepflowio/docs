@@ -4,7 +4,7 @@ title: 监控传统服务器
 
 # 简介
 
-MetaFlow 支持监控传统服务器。
+MetaFlow 支持监控传统服务器。注意 MetaFlow Server 必须运行在 K8s 之上，如果你没有 K8s 集群，可参考 [All-in-One 快速部署](./all-in-one.html)章节先部署 MetaFlow Server。
 
 # 部署拓扑
 

@@ -21,7 +21,7 @@ MetaFlow 基于 eBPF 的 **AutoMetrics** 能力可自动获取系统调用、应
   - MySQL、Redis 等数据库
   - Kafka 等消息队列
 
-目前，MetaFlow 已经通过 eBPF 支持了主流应用协议的解析，包括 HTTP 1/2/S、Dubbo、MySQL、Redis、Kafka、MQTT、DNS，未来还将扩展更多应用协议的支持。基于 MetaFlow 的 AutoMetrics 能力，能够零侵扰的获取应用的 RED（Request、Error、Delay）指标、网络协议栈的吞吐、时延、建连异常、重传、零窗等指标。MetaFlow Agent 会维护每个 TCP 连接、每个应用协议 Request 的会话状态，称之为 `Flow`。所有原始性能指标数据精细至 Flow 粒度，并额外自动聚合为 1s、1min 指标数据。继续这些指标数据，我们可呈现任意服务、工作负载、API 的性能数据，并可绘制任意服务之间的调用关系拓扑图 —— `Universal Service Map`。
+目前，MetaFlow 已经通过 eBPF 支持了主流应用协议的解析，包括 HTTP 1/2/S、Dubbo、MySQL、Redis、Kafka、MQTT、DNS，未来还将扩展更多应用协议的支持。基于 MetaFlow 的 AutoMetrics 能力，能够零侵扰的获取应用的 RED（Request、Error、Delay）指标、网络协议栈的吞吐、时延、建连异常、重传、零窗等指标。MetaFlow Agent 会维护每个 TCP 连接、每个应用协议 Request 的会话状态，称之为 `Flow`。所有原始性能指标数据精细至 Flow 粒度，并额外自动聚合为 1s、1min 指标数据。基于这些指标数据，我们可呈现任意服务、工作负载、API 的全栈性能数据，并可绘制任意服务之间的调用关系拓扑图 —— `Universal Service Map`。
 
 ![Universal Service Map](./imgs/universal-service-map.png)
 
@@ -37,7 +37,7 @@ MetaFlow 基于 eBPF 的 **AutoMetrics** 能力可自动获取系统调用、应
 
 随着应用的微服务化，分布式链路追踪逐渐成为一项必备的可观测性能力。但开发者需要花费大量时间用于考虑如何在自己的语言和框架中插码，如何传递上下文等工作。
 
-MetaFlow 并不只是简单的使用 eBPF，通过一系列技术创新，我们将 eBPF Event、BPF Packet、Thread ID、Request 到达时序、TCP 发送时序进行关系，实现了高度自动化的、分布式调用链 **AutoTracing** 能力。目前 AutoTracing 支持同步并发模型、[kernel-level threading](https://en.wikipedia.org/wiki/Thread_(computing)) 模型场景下任意微服务的上下游调用追踪，并在探索异步并发模型、hybrid threading 模型下的自动追踪能力。
+MetaFlow 并不只是简单的使用 eBPF，通过一系列技术创新，我们将 eBPF Event、BPF Packet、Thread ID、Coroutine ID、Request 到达时序、TCP 发送时序进行关联，实现了高度自动化的、分布式调用链 **AutoTracing** 能力。目前 AutoTracing 支持同步并发模型、[kernel-level threading](https://en.wikipedia.org/wiki/Thread_(computing)) 模型场景下任意微服务的上下游调用追踪，并在探索异步并发模型、hybrid threading 模型下的自动追踪能力。
 
 通过与 OpenTelemetry 等 Span 数据源的结合，这样的 AutoTracing 能力将更加完善，能够消除分布式调用链中的任何盲点。在下图中的火焰图中我们可以看到：
 - 任意微服务的上下游调用都能追踪，包括开发者容易忽略的 DNS、Log 等调用，包括 MySQL 等无法插码的服务

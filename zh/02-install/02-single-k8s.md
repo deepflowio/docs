@@ -4,7 +4,7 @@ title: 监控单个 K8s 集群
 
 # 简介
 
-假设您在一个 K8s 集群中部署了应用，本章介绍如何使用 MetaFlow 进行监控。MetaFlow 能够自动采集所有 Pod 的应用和网络观测数据（AutoMetrics、AutoTracing），并基于调用 apiserver 获取的信息自动为所有观测数据注入容器资源和自定义 Label 标签（AutoTagging）。
+假如你在一个 K8s 集群中部署了应用，本章介绍如何使用 MetaFlow 进行监控。MetaFlow 能够自动采集所有 Pod 的应用和网络观测数据（AutoMetrics、AutoTracing），并基于调用 apiserver 获取的信息自动为所有观测数据注入容器资源和自定义 Label 标签（AutoTagging）。
 
 # 准备工作
 
