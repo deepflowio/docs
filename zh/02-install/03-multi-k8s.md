@@ -4,7 +4,7 @@ title: 监控多个 K8s 集群
 
 # 简介
 
-假设您在一个 K8s 集群中已经部署好了 metaflow-server，本章介绍如何监控其他的 K8s 集群。
+假设你在一个 K8s 集群中已经部署好了 metaflow-server，本章介绍如何监控其他的 K8s 集群。
 
 # 准备工作
 
@@ -29,7 +29,7 @@ end
 
 MetaFlow 使用 K8s 的 CA 文件 MD5 值区分不同的集群，请在不同 K8s 集群的 Pod 中查看 `/run/secrets/kubernetes.io/serviceaccount/ca.crt` 文件，确保不同集群的 CA 文件不同。
 
-若您的 K8s 集群使用了同样的 CA 文件，在一个新集群中部署 metaflow-agent 之前，需要利用 `metaflow-ctl domain create` 获取一个集群ID：
+假如你的不同 K8s 集群使用了相同的 CA 文件，在多个集群中部署 metaflow-agent 之前，需要利用 `metaflow-ctl domain create` 获取一个集群ID：
 ```console
 @建昌 补充一条最简但的创建命令
 ```
