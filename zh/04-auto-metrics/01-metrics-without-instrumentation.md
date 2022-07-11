@@ -21,4 +21,7 @@ MetaFlow 基于 BPF 的 **AutoMetrics** 能力可自动获取系统调用、应�
 
 为了更加直观的感受 AutoMetrics 的能力，如果你运行 MetaFlow 的环境中还没有业务流量，建议首先部署一个 [Google 开源的 Online Boutique Demo](https://gitlab.yunshan.net/yunshan/deepflow-group/microservices-demo)。
 
-TODO @建昌
+```console
+kubectl create namespace gcp-microservices-demo
+kubectl apply -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main/GoogleCloudPlatform-microservices-demo/kubernetes-manifests.yaml --namespace gcp-microservices-demo
+```

@@ -42,7 +42,7 @@ end
 ## Storage Class
 
 我们建议使用 Persistent Volumes 来保存 mysql 和 clickhouse 的数据，以避免不必要的维护成本。
-你可以提供默认 Storage Class 或配置 `mysql.storageConfig.persistence.storageClass` 及 `clickhouse.storageConfig.persistence[].storageClass` 来选择 Storage Class 以创建 PVC。
+你可以提供默认 Storage Class 或添加 `--set global.storageClass=<your storageClass>` 参数来选择 Storage Class 以创建 PVC。
 
 可选择 [OpenEBS](https://openebs.io/) 用于创建 PVC：
 ```console
@@ -83,6 +83,19 @@ helm repo update metaflow
 helm install metaflow -n metaflow metaflow/metaflow --create-namespace
 ```
 
+注意：
+- 虽然你可以使用 helm `--set` 参数来定义部分配置，但我们建议将自定义的配置保存一个独立的 yaml 文件中。
+  例如 `values-custom.yaml` ：
+  ```yaml
+  global:
+    storageClass: "<your storageClass>"
+    replicas: 1  ## replicas for metaflow-server and clickhouse
+  ```
+  后续更新可以使用 `-f values-custom.yaml` 参数使用自定义配置：
+  ```console
+  helm upgrade metaflow -n metaflow -f values-custom.yaml metaflow/metaflow
+  ```
+  
 # 下载 metaflow-ctl
 
 metaflow-ctl 是管理 MetaFlow 的一个命令行工具，建议下载至 metaflow-server 所在的 K8s Node 上：
