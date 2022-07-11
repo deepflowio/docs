@@ -15,7 +15,7 @@ subgraph VPC-1
   subgraph K8s-Cluster
     MetaFlowServer["metaflow-server (statefulset)"]
   end
-  
+
   subgraph Cloud-Host-1
     MetaFlowAgent1[metaflow-agent]
     MetaFlowAgent1 --> MetaFlowServer
@@ -31,6 +31,18 @@ end
 
 MetaFlowServer -->|"get resource & label"| CloudAPI[cloud api service]
 ```
+
+# 支持的公有云
+
+| 云服务商（英文） | 云服务商（中文） | MetaFlow中使用的类型标识 |
+| ---------------  | ---------------  | ------------------------ |
+| AWS              | AWS              | aws                      |
+| Aliyun           | 阿里云           | aliyun                   |
+| Baidu Cloud      | 百度云           | baidu                    |
+| Huawei Cloud     | 华为云           | huawei                   |
+| Microsoft Azure  | 微软云           | azure                    |
+| QingCloud        | 青云             | qingcloud                |
+| Tencent Cloud    | 腾讯云           | tencentcloud             |
 
 # 配置 MetaFlow Server
 
