@@ -4,7 +4,8 @@
 
 1. The HOME file cannot be deleted. It belongs to the content of the home page in each language, and the content in its markdown can be adjusted.
 2. Multi language version file directories need to be mapped one by one. For example, there is `/test.md`, then `/zh/test.md` must also exist, otherwise it will 404.
-3. The markdown file must write the title attribute, because the file name is the same, but the directory on the left is different in Chinese and English. The Chinese Directory needs to be displayed in Chinese, so the title attribute needs to be written at the top of MD in advance. Format: (**three** middle dashes)
+3. For file naming, you need to add a serial number, such as `/01-about/01-test.md`, the framework will automatically sort `01` and use `/about/test/` as the access address
+4. The markdown file must write the title attribute, because the file name is the same, but the directory on the left is different in Chinese and English. The Chinese Directory needs to be displayed in Chinese, so the title attribute needs to be written at the top of MD in advance. Format: (**three** middle dashes)
 
 ```md
 ---
@@ -14,7 +15,7 @@ title: xxx
 Content
 ```
 
-4. The left directory translation is written in the language file corresponding to the `/LOCALES' path. It supports writing paths, but it needs to be written from scratch (non language).
+5. The left directory translation is written in the language file corresponding to the `/LOCALES' path. It supports writing paths, but it needs to be written from scratch (non language).
 
 ```md
 eg: {
@@ -25,14 +26,14 @@ eg: {
 
 translate:
 
-1. /about: about
-2. /agent: agent
-3. /agent/about: agent/about agent
+I. /about: about
+II. /agent: agent
+III. /agent/about: agent/about agent
 
-Tip: `zh/agent/about`translate to`agent/about agent`，Because the directory structure needs to be preserved。
+Tip: `agent/about`translate to`agent/about agent`，Because the directory structure needs to be preserved。
 ```
 
-5. Picture size control scheme in markdown.
+6. Picture size control scheme in markdown.
 
 ```md
 ![MetaFlow软件架构](./imgs/metaflow-architecture.png) // Irregular, adaptive in width and height
@@ -43,7 +44,7 @@ Tip: `zh/agent/about`translate to`agent/about agent`，Because the directory str
 The above attributes can be used in combination, and multiple attributes can be spliced with `&'
 ```
 
-6. Tip warning text block
+7. Tip warning text block
 
 ```md
 eg:
