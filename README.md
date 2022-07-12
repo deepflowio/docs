@@ -48,8 +48,8 @@ The above attributes can be used in combination, and multiple attributes can be 
 
 ```md
 eg:
-::: waring
-This is waring
+::: warning
+This is warning
 :::
 
 eg:
