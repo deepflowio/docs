@@ -46,11 +46,43 @@ MetaFlowServer -->|"get resource & label"| CloudAPI[cloud api service]
 
 # 配置 MetaFlow Server
 
-TODO
+通过 `metaflow-ctl domain example <domain_type>` 命令获取创建云平台的配置文件模板。
+支持的公有云对应的 domain_type ：
+- 阿里云：aliyun
+- 百度云：baidu_bce
+- 青云：qingcloud
+
+以阿里云为例：
+```console
+metaflow-ctl domain example aliyun > aliyun.yaml
+```
+修改配置文件模板中的字段；
+使用修改好的配置文件创建云平台：
+```console
+metaflow-ctl domain create -f aliyun.yaml
+```
 
 # 部署 MetaFlow Agent
 
-TODO
+下载包含 metaflow-agent rpm 的 zip 包
+```console
+curl -O https://metaflow.oss-cn-beijing.aliyuncs.com/rpm/agent/latest/linux/amd64/metaflow-agent-rpm.zip
+unzip metaflow-agent-rpm.zip
+yum -y localinstall x86_64/metaflow-agent-1.0*.rpm
+```
+
+修改 metaflow-agent 的配置文件 `/etc/metaflow-agent.yaml` ：
+```yaml
+controller-ips:
+  - 10.1.2.3  # FIXME: K8s Node IPs of metaflow-server
+```
+
+启动 metaflow-agent ：
+
+```console
+systemctl enable metaflow-agent
+systemctl restart metaflow-agent
+```
 
 # 下一步
 
