@@ -1,0 +1,10 @@
+{
+    "about": "About MetaFlow",
+    "install": "Install",
+    "auto-metrics": "AutoMetrics",
+    "auto-tracing": "AutoTracing",
+    "auto-tagging": "AutoTagging",
+    "integration": "Integration",
+    "api": "API",
+    "release-notes": "Release Notes"
+}
