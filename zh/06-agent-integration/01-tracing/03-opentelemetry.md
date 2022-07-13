@@ -49,6 +49,7 @@ https://github.com/open-telemetry/opentelemetry-demo-webstore
 
 # 基于 Spring Boot Demo 体验
 
-TODO @嘉炜 @建昌
-
-https://gitlab.yunshan.net/yunshan/deepflow-group/spring-boot-istio-jaeger-demo
+```bash
+kubectl create namespace bookinfo
+kubectl apply -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main/sb-jaeger-tracing-demo/sb-jaeger-tracing-otel-demo.yaml
+```

@@ -30,32 +30,34 @@ end
 MetaFlow 使用 K8s 的 CA 文件 MD5 值区分不同的集群，请在不同 K8s 集群的 Pod 中查看 `/run/secrets/kubernetes.io/serviceaccount/ca.crt` 文件，确保不同集群的 CA 文件不同。
 
 假如你的不同 K8s 集群使用了相同的 CA 文件，在多个集群中部署 metaflow-agent 之前，需要利用 `metaflow-ctl domain create` 获取一个集群ID：
-```console
-METAFLOW_SERVER_NODE_IP="10.1.2.3"  # FIXME: K8s Node IPs of metaflow-server
+```bash
+unset CLUSTER_NAME
 CLUSTER_NAME="k8s-1"  # FIXME: K8s cluster name
-metaflow-ctl domain example kubernetes | sed "s|127.0.0.1|$METAFLOW_SERVER_NODE_IP|" | sed "s|kubernetes|$CLUSTER_NAME|" > example_kubernetes.yaml
-metaflow-ctl domain create $CLUSTER_NAME -f example_kubernetes.yaml
-metaflow-ctl domain list $CLUSTER_NAME -o yaml|grep CLUSTER_ID
+cat << EOF | metaflow-ctl domain create -f -
+name: $CLUSTER_NAME
+type: kubernetes
+EOF
+metaflow-ctl domain list $CLUSTER_NAME  # Get ID
 ```
 
 # 部署 metaflow-agent
 
 使用 Helm 安装 metaflow-agent：
-```console
+```bash
 METAFLOW_SERVER_NODE_IPS="10.1.2.3, 10.4.5.6"  # FIXME: K8s Node IPs of metaflow-server
 
 helm repo add metaflow https://metaflowys.github.io/metaflow
-helm repo update metaflow
+helm repo update metaflow # use `helm repo update` when helm < 3.7.0
 helm install metaflow-agent -n metaflow metaflow/metaflow-agent --create-namespace \
     --set metaflowServerNodeIPS={$METAFLOW_SERVER_NODE_IPS}
 ```
 
 我们为 metaflow-server 的 service 设置了 `externalTrafficPolicy=Local` 以优化流量路径，
-因此上述部署过程中会将 metaflow-agent 的 `metaflowServerNodeIps` 配置为 metaflow-server 所在集群的 Node IP。
+因此上述部署过程中会将 metaflow-agent 的 `metaflowServerNodeIps` 配置为 metaflow-server Pod 的 Node IP。
 
 注意：
 - 若不同 K8s 集群的 CA 文件一样，部署时需要传入使用 `metaflow-ctl` 获取到的 `kubernetesClusterId`：
-  ```console
+  ```bash
   METAFLOW_K8S_CLUSTER_ID="fffffff"              # FIXME: Generate by `metaflow-ctl domain create`
   helm upgrade metaflow-agent -n metaflow metaflow/metaflow-agent  \
       --set metaflowK8sClusterID=$METAFLOW_K8S_CLUSTER_ID
@@ -70,7 +72,7 @@ helm install metaflow-agent -n metaflow metaflow/metaflow-agent --create-namespa
   metaflowK8sClusterID: "fffffff" # FIXME: Generate by `metaflow-ctl 
   ```
   后续更新可以使用 `-f values-custom.yaml` 参数使用自定义配置：
-  ```console
+  ```bash
   helm upgrade metaflow-agent -n metaflow -f values-custom.yaml metaflow/metaflow-agent
   ```
 
