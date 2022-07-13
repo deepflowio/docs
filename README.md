@@ -57,3 +57,10 @@ eg:
 This is tip
 :::
 ```
+
+8. As for the reference of image URL resources in markdown, Under the current new mode, image URL resources do not participate in compilation, so the compiled address can be used directly。(Compilation will remove the sequence number)
+
+```md
+old: ![MetaFlow Architecture](./../01-about/imgs/metaflow-architecture.png)
+new: ![MetaFlow Architecture](./../about/imgs/metaflow-architecture.png)
+```
