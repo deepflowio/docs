@@ -12,10 +12,10 @@ MetaFlow 基于 BPF 的 **AutoMetrics** 能力可自动获取系统调用、应�
 
 # 指标类型
 
-- [应用性能指标](./application-metrics.html)
-- [应用调用详情](./request-log.html)
-- [网络性能指标](./network-metrics.html)
-- [网络流日志](./flow-log.html)
+- [应用性能指标](./application-metrics/)
+- [应用调用详情](./request-log/)
+- [网络性能指标](./network-metrics/)
+- [网络流日志](./flow-log/)
 
 # 部署 Online Boutique Demo
 
