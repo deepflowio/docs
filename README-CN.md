@@ -57,3 +57,10 @@ eg:
 这是一个 tip
 :::
 ```
+
+8. 关于markdown内图片url资源引用问题，目前新模式下，图片url资源不参与编译，故直接使用编译后的地址即可。（编译会去掉序号）
+
+```md
+旧版: ![MetaFlow软件架构](./../01-about/imgs/metaflow-architecture.png)
+新版: ![MetaFlow软件架构](./../about/imgs/metaflow-architecture.png)
+```
