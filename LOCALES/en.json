@@ -4,7 +4,13 @@
     "auto-metrics": "AutoMetrics",
     "auto-tracing": "AutoTracing",
     "auto-tagging": "AutoTagging",
-    "integration": "Integration",
-    "api": "API",
+    "agent-integration": "Agent Integration",
+    "agent-integration/tracing": "Tracing Collector",
+    "agent-integration/metrics": "Metrics Collector",
+    "agent-integration/logging": "Logging Collector",
+    "agent-integration/export": "Data Exporter",
+    "server-integration": "Server Integration",
+    "server-integration/query": "Data Querier",
+    "server-integration/export": "Data Exporter",
     "release-notes": "Release Notes"
 }

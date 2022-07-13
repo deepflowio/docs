@@ -4,7 +4,13 @@
     "auto-metrics": "AutoMetrics",
     "auto-tracing": "AutoTracing",
     "auto-tagging": "AutoTagging",
-    "integration": "数据集成",
-    "api": "API",
+    "agent-integration": "Agent 数据集成",
+    "agent-integration/tracing": "汇集 Tracing 数据",
+    "agent-integration/metrics": "汇集 Metrics 数据",
+    "agent-integration/logging": "汇集 Logging 数据",
+    "agent-integration/export": "输出数据",
+    "server-integration": "Server 数据集成",
+    "server-integration/query": "查询数据",
+    "server-integration/export": "输出数据",
     "release-notes": "发行注记"
 }

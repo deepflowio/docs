@@ -79,5 +79,5 @@ helm install metaflow-agent -n metaflow metaflow/metaflow-agent --create-namespa
 - [自动分布式追踪 - 体验 MetaFlow 基于 eBPF 的 AutoTracing 能力](../auto-tracing/overview.html)
 - [微服务全景图 - 体验 MetaFlow 基于 BPF 的 AutoMetrics 能力](../auto-metrics/overview.html)
 - [消除数据孤岛 - 了解 MetaFlow 的 AutoTagging 和 SmartEncoding 能力](../auto-tagging/elimilate-data-silos.html)
-- [无缝分布式追踪 - 集成 OpenTelemetry 等追踪数据](../integration/tracing/overview.html)
-- [告别高基烦恼 - 集成 Promethes 等指标数据](../integration/metrics/overview.html)
+- [无缝分布式追踪 - 集成 OpenTelemetry 等追踪数据](../agent-integration/tracing/overview.html)
+- [告别高基烦恼 - 集成 Promethes 等指标数据](../agent-integration/metrics/overview.html)
