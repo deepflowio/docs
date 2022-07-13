@@ -4,7 +4,7 @@ title: SmartEncoding
 
 MetaFlow 为每个服务自动注入 20+ 资源标签以及所有的 K8s 自定义 Label，在一个典型的生产环境中，需要为一条路径数据自动注入的标签可能多大 100+ 个。这些标签为后端存储带来了很大的压力，MetaFlow 的 SmartEncoding 机制创新的解决了此问题，使得性能开销显著降低。
 
-![SmartEncoding](../about/imgs/smart-encoding.png)
+![SmartEncoding](../01-about/imgs/smart-encoding.png)
 
 SmartEncoding 依赖于对各类标签信息的采集和编码。Agent 通过信息同步获取到字符串格式的标签，汇总到 Server 上。Server 通过对所有的标签进行编码，为所有的数据统一注入 Int 类型的标签并存储到数据库中。在此之后，对观测数据的 SmartEncoding 过程包含三个阶段：
 - 采集阶段：Agent 为观测数据自动注入 VPC（Integer）和 IP 标签
