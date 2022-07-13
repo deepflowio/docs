@@ -44,17 +44,23 @@ Tip: `agent/about`translate to`agent/about agent`，Because the directory struct
 The above attributes can be used in combination, and multiple attributes can be spliced with `&'
 ```
 
-7. Tip warning text block
+7. text block
 
 ```md
-eg:
-::: warning
-This is warning
+::: tip
+This is a tip
 :::
 
-eg:
-::: tip
-This is tip
+::: warning
+This is a warning
+:::
+
+::: danger
+This is a danger warning
+:::
+
+::: details
+This is a detail block, which does not take effect in IE / edge
 :::
 ```
 
