@@ -37,7 +37,7 @@ MetaFlow 基于 eBPF 的 **AutoMetrics** 能力可自动获取系统调用、应
 
 随着应用的微服务化，分布式链路追踪逐渐成为一项必备的可观测性能力。但开发者需要花费大量时间用于考虑如何在自己的语言和框架中插码，如何传递上下文等工作。
 
-MetaFlow 并不只是简单的使用 eBPF，通过一系列技术创新，我们将 eBPF Event、BPF Packet、Thread ID、Coroutine ID、Request 到达时序、TCP 发送时序进行关联，实现了高度自动化的、分布式调用链 **AutoTracing** 能力。目前 AutoTracing 支持同步并发模型、[kernel-level threading](https://en.wikipedia.org/wiki/Thread_(computing)) 模型场景下任意微服务的上下游调用追踪，并在探索异步并发模型、hybrid threading 模型下的自动追踪能力。
+MetaFlow 并不只是简单的使用 eBPF，通过一系列技术创新，我们将 eBPF Event、BPF Packet、Thread ID、Coroutine ID、Request 到达时序、TCP 发送时序进行关联，实现了高度自动化的、分布式调用链 **AutoTracing** 能力。目前 AutoTracing 支持所有同步阻塞调用（BIO，Blocking IO）场景、部分同步非阻塞调用（NIO，Non-blocking IO）场景，支持内核线程调度（[kernel-level threading](https://en.wikipedia.org/wiki/Thread_(computing))）场景，在这些场景下支持对任意服务组成的分布式调用链进行追踪。除此之外，通过解析请求中的 X-Request-ID 等字段，也支持对采用 NIO 模式的网关（如 Envoy）前后的调用链进行追踪。
 
 通过与 OpenTelemetry 等 Span 数据源的结合，这样的 AutoTracing 能力将更加完善，能够消除分布式调用链中的任何盲点。在下图中的火焰图中我们可以看到：
 - 任意微服务的上下游调用都能追踪，包括开发者容易忽略的 DNS 等调用，包括 MySQL 等无法插码的服务
