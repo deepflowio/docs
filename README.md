@@ -51,6 +51,10 @@ The above attributes can be used in combination, and multiple attributes can be 
 This is a tip
 :::
 
+::: tip other
+This is a tip
+:::
+
 ::: warning
 This is a warning
 :::
