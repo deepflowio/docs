@@ -8,11 +8,10 @@ title: Spring Boot Demo
 
 # 部署 Spring Boot Demo
 
-TODO @嘉炜 @建昌
-
-https://gitlab.yunshan.net/yunshan/deepflow-group/spring-boot-istio-jaeger-demo
-
-注意：修改一下现有的部署，使得这个Demo不要依赖Istio
+```bash
+kubectl create namespace bookinfo
+kubectl apply -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main/sb-jaeger-tracing-demo/sb-jaeger-tracing-demo.yaml
+```
 
 # 配置 MetaFlow
 

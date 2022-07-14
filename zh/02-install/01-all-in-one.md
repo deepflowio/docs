@@ -16,7 +16,7 @@ title: All-in-One 快速部署
 ## 部署 All-in-One K8s
 
 使用 [sealos](https://github.com/labring/sealos) 快速部署一个 K8s 集群：
-```console
+```bash
 # install sealos
 curl -o /usr/bin/sealos https://sealyun-home.oss-cn-beijing.aliyuncs.com/sealos-4.0/latest/sealos-amd64 && \
     chmod +x /usr/bin/sealos
@@ -33,23 +33,23 @@ kubectl taint node node-role.kubernetes.io/master- node-role.kubernetes.io/contr
 ## 安装 Helm
 
 MetaFlow 使用 [Helm](https://helm.sh/) 进行部署，安装方法为：
-```console
+```bash
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
 chmod 700 get_helm.sh
 ./get_helm.sh
 ```
 
 也可使用 sealos 安装 helm：
-```console
+```bash
 sealos run labring/helm:v3.8.2
 ```
 
 # 部署 All-in-One MetaFlow
 
 使用 Helm 安装 All-in-One MetaFlow：
-```console
+```bash
 helm repo add metaflow https://metaflowys.github.io/metaflow
-helm repo update metaflow
+helm repo update metaflow # use `helm repo update` when helm < 3.7.0
 helm install metaflow -n metaflow metaflow/metaflow --create-namespace \
     --set global.allInOneLocalStorage=true
 ```

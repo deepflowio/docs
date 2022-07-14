@@ -8,7 +8,7 @@ title: Istio Bookinfo Demo
 
 # 部署 Istio Bookinfo Demo
 
-```console
+```bash
 kubectl create namespace bookinfo
 kubectl apply -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main/Istio-Bookinfo/bookinfo.yaml --namespace bookinfo
 ```

@@ -28,23 +28,26 @@ end
 
 # 配置 MetaFlow Server
 
-```console
-METAFLOW_SERVER_NODE_IP="10.1.2.3"  # FIXME: K8s Node IPs of metaflow-server
-PLATFORM_NAME="example"  # FIXME: platform name
+```bash
+unset DOMAIN_NAME
+DOMAIN_NAME="legacy-host"  # FIXME: domain name
 ```
 
 ## 创建云平台
 
-```console
-metaflow-ctl domain example genesis | sed "s|127.0.0.1|$METAFLOW_SERVER_NODE_IP|" | sed "s|genesis|$PLATFORM_NAME|" > agent-group-config.yaml
-metaflow-ctl domain create -f agent-group-config.yaml
+```bash
+cat << EOF | metaflow-ctl domain create -f -
+name: $DOMAIN_NAME
+type: agent_sync
+EOF
+metaflow-ctl domain create -f create_agent_sync_domain.yaml
 ```
 
 ## 创建采集器组
 
-```console
-metaflow-ctl agent-group create $PLATFORM_NAME
-metaflow-ctl agent-group list $PLATFORM_NAME # Get agent-group ID
+```bash
+metaflow-ctl agent-group create $DOMAIN_NAME
+metaflow-ctl agent-group list $DOMAIN_NAME # Get agent-group ID
 ```
 
 ## 创建采集器配置
@@ -55,14 +58,14 @@ vtap_group_id: g-ffffff # FIXME: agent-group ID
 platform_enabled: 1
 ```
 创建采集器组配置
-```console
+```bash
 metaflow-ctl agent-group-config create -f agent-group-config.yaml
 ```
 
 # 部署 MetaFlow Agent
 
 下载包含 metaflow-agent rpm 的 zip 包
-```console
+```bash
 curl -O https://metaflow.oss-cn-beijing.aliyuncs.com/rpm/agent/latest/linux/amd64/metaflow-agent-rpm.zip
 unzip metaflow-agent-rpm.zip
 yum -y localinstall x86_64/metaflow-agent-1.0*.rpm
@@ -77,7 +80,7 @@ vtap-group-id-request: "g-fffffff"  # FIXME: agent-group ID
 
 启动 metaflow-agent ：
 
-```console
+```bash
 systemctl enable metaflow-agent
 systemctl restart metaflow-agent
 ```

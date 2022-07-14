@@ -45,7 +45,7 @@ end
 你可以提供默认 Storage Class 或添加 `--set global.storageClass=<your storageClass>` 参数来选择 Storage Class 以创建 PVC。
 
 可选择 [OpenEBS](https://openebs.io/) 用于创建 PVC：
-```console
+```bash
 kubectl apply -f https://openebs.github.io/charts/openebs-operator.yaml
 ```
 
@@ -77,9 +77,9 @@ metaflow-agent 需要以下 Kubernetes 资源的 get/list/watch 权限：
 # 部署 MetaFlow
 
 使用 Helm 安装 MetaFlow：
-```console
+```bash
 helm repo add metaflow https://metaflowys.github.io/metaflow
-helm repo update metaflow
+helm repo update metaflow ## use `helm repo update` when helm < 3.7.0
 helm install metaflow -n metaflow metaflow/metaflow --create-namespace
 ```
 
@@ -92,14 +92,14 @@ helm install metaflow -n metaflow metaflow/metaflow --create-namespace
     replicas: 1  ## replicas for metaflow-server and clickhouse
   ```
   后续更新可以使用 `-f values-custom.yaml` 参数使用自定义配置：
-  ```console
+  ```bash
   helm upgrade metaflow -n metaflow -f values-custom.yaml metaflow/metaflow
   ```
   
 # 下载 metaflow-ctl
 
 metaflow-ctl 是管理 MetaFlow 的一个命令行工具，建议下载至 metaflow-server 所在的 K8s Node 上：
-```console
+```bash
 curl -o /usr/bin/metaflow-ctl https://metaflow.oss-cn-beijing.aliyuncs.com/bin/ctl/latest/linux/amd64/metaflow-ctl
 chmod a+x /usr/bin/metaflow-ctl
 ```
