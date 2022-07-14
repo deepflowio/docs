@@ -11,7 +11,7 @@ subgraph K8s-Cluster
   subgraph AppPod
     OTelSDK1["otel-sdk / otel-javaagent"]
   end
-  OTelAgent1["otel-agent (daemonset)"]
+  OTelAgent1["otel-collector (agent mode, daemonset)"]
   MetaFlowAgent1["metaflow-agent (daemonset)"]
   MetaFlowServer["metaflow-server (statefulset)"]
 
@@ -24,7 +24,7 @@ subgraph Host
   subgraph AppProcess
     OTelSDK2["otel-sdk / otel-javaagent"]
   end
-  OTelAgent2[otel-agent]
+  OTelAgent2["otel-collector (agent mode)"]
   MetaFlowAgent2[metaflow-agent]
 
   OTelSDK2 -->|traces| OTelAgent2
