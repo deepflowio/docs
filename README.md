@@ -44,19 +44,33 @@ Tip: `agent/about`translate to`agent/about agent`，Because the directory struct
 The above attributes can be used in combination, and multiple attributes can be spliced with `&'
 ```
 
-7. Tip warning text block
+7. text block
 
 ```md
-eg:
-::: warning
-This is warning
+::: tip Tip
+This is a tip
 :::
 
-eg:
+::: warning Warning
+This is a warning
+:::
+
+::: danger Danger
+This is a danger warning
+:::
+
+::: details Details
+This is a detail block, which does not take effect in IE / edge
+:::
+
 ::: tip
-This is tip
+This is a default tip
 :::
 ```
+
+output
+
+![text block](./images/text-block-en.jpg)
 
 8. As for the reference of image URL resources in markdown, Under the current new mode, image URL resources do not participate in compilation, so the compiled address can be used directly。(Compilation will remove the sequence number)
 
