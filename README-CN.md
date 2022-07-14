@@ -51,10 +51,6 @@ Tip: `zh/agent/about`翻译成`采集器/关于采集器`，是因为需要保�
 这是一个提示
 :::
 
-::: tip 别称
-这是一个提示
-:::
-
 ::: warning
 这是一个警告
 :::
@@ -66,11 +62,15 @@ Tip: `zh/agent/about`翻译成`采集器/关于采集器`，是因为需要保�
 ::: details
 这是一个详情块，在 IE / Edge 中不生效
 :::
+
+::: tip 名字
+这是一个带有名字的提示
+:::
 ```
 
 输出
 
-![文字块](./images/text-block-zh.png)
+![文字块](./images/text-block-zh.jpg)
 
 8. 关于markdown内图片url资源引用问题，目前新模式下，图片url资源不参与编译，故直接使用编译后的地址即可。（编译会去掉序号）
 

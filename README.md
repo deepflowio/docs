@@ -47,30 +47,30 @@ The above attributes can be used in combination, and multiple attributes can be 
 7. text block
 
 ```md
-::: tip
+::: tip Tip
 This is a tip
 :::
 
-::: tip other
-This is a tip
-:::
-
-::: warning
+::: warning Warning
 This is a warning
 :::
 
-::: danger
+::: danger Danger
 This is a danger warning
 :::
 
-::: details
+::: details Details
 This is a detail block, which does not take effect in IE / edge
+:::
+
+::: tip
+This is a default tip
 :::
 ```
 
 output
 
-![text block](./images/text-block-en.png)
+![text block](./images/text-block-en.jpg)
 
 8. As for the reference of image URL resources in markdown, Under the current new mode, image URL resources do not participate in compilation, so the compiled address can be used directly。(Compilation will remove the sequence number)
 
