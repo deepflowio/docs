@@ -4,7 +4,7 @@ title: 监控托管 K8s 集群
 
 # 简介
 
-MetaFlow 支持监控云服务商的托管 K8s 集群。与[直接监控 K8s 集群](./single-k8s/)的区别是，通过配置 metaflow-server 调用云厂商 API，可自动向观测数据中注入云资源标签（AutoTagging）。
+MetaFlow 支持监控云服务商的托管 K8s 集群。与[直接监控 K8s 集群](./single-k8s/)的唯一区别是，通过调用云厂商 API，可自动向观测数据中注入云资源的标签（AutoTagging）。
 
 # 部署拓扑
 

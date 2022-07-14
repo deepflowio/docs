@@ -4,7 +4,7 @@ title: 监控多个 K8s 集群
 
 # 简介
 
-假设你在一个 K8s 集群中已经部署好了 metaflow-server，本章介绍如何监控其他的 K8s 集群。
+MetaFlow Server 可服务于多个 K8s 集群中的 MetaFlow Agent。假设你在一个 K8s 集群中已经部署好了 Metaflow Server，本章介绍如何监控其他的 K8s 集群。
 
 # 准备工作
 
@@ -29,7 +29,7 @@ end
 
 MetaFlow 使用 K8s 的 CA 文件 MD5 值区分不同的集群，请在不同 K8s 集群的 Pod 中查看 `/run/secrets/kubernetes.io/serviceaccount/ca.crt` 文件，确保不同集群的 CA 文件不同。
 
-假如你的不同 K8s 集群使用了相同的 CA 文件，在多个集群中部署 metaflow-agent 之前，需要利用 `metaflow-ctl domain create` 获取一个集群ID：
+假如你的不同 K8s 集群使用了相同的 CA 文件，在多个集群中部署 metaflow-agent 之前，需要利用 `metaflow-ctl domain create` 获取一个 `K8sClusterID`：
 ```bash
 unset CLUSTER_NAME
 CLUSTER_NAME="k8s-1"  # FIXME: K8s cluster name
@@ -37,7 +37,7 @@ cat << EOF | metaflow-ctl domain create -f -
 name: $CLUSTER_NAME
 type: kubernetes
 EOF
-metaflow-ctl domain list $CLUSTER_NAME  # Get ID
+metaflow-ctl domain list $CLUSTER_NAME  # Get K8sClusterID
 ```
 
 # 部署 metaflow-agent
@@ -53,7 +53,7 @@ helm install metaflow-agent -n metaflow metaflow/metaflow-agent --create-namespa
 ```
 
 我们为 metaflow-server 的 service 设置了 `externalTrafficPolicy=Local` 以优化流量路径，
-因此上述部署过程中会将 metaflow-agent 的 `metaflowServerNodeIps` 配置为 metaflow-server Pod 的 Node IP。
+因此上述部署过程中需要将 metaflow-agent 的 `metaflowServerNodeIps` 配置为 metaflow-server Pod 所在的 Node IP。
 
 注意：
 - 若不同 K8s 集群的 CA 文件一样，部署时需要传入使用 `metaflow-ctl` 获取到的 `kubernetesClusterId`：
@@ -69,7 +69,7 @@ helm install metaflow-agent -n metaflow metaflow/metaflow-agent --create-namespa
   metaflowServerNodeIPS:
   - 10.1.2.3 # FIXME: K8s Node IPs of 
   - 10.4.5.6 # FIXME: K8s Node IPs of 
-  metaflowK8sClusterID: "fffffff" # FIXME: Generate by `metaflow-ctl 
+  metaflowK8sClusterID: "fffffff" # FIXME: Generate by `metaflow-ctl domain create`
   ```
   后续更新可以使用 `-f values-custom.yaml` 参数使用自定义配置：
   ```bash

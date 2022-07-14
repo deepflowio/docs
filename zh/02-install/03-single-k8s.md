@@ -4,7 +4,9 @@ title: 监控单个 K8s 集群
 
 # 简介
 
-假如你在一个 K8s 集群中部署了应用，本章介绍如何使用 MetaFlow 进行监控。MetaFlow 能够自动采集所有 Pod 的应用和网络观测数据（AutoMetrics、AutoTracing），并基于调用 apiserver 获取的信息自动为所有观测数据注入容器资源和自定义 Label 标签（AutoTagging）。
+假如你在一个 K8s 集群中部署了应用，本章介绍如何使用 MetaFlow 进行监控。
+MetaFlow 能够自动采集所有 Pod 的应用和网络观测数据（AutoMetrics、AutoTracing），
+并基于调用 apiserver 获取的信息自动为所有观测数据注入`K8s 资源`和`K8s 自定义 Label`标签（AutoTagging）。
 
 # 准备工作
 
@@ -51,16 +53,16 @@ kubectl apply -f https://openebs.github.io/charts/openebs-operator.yaml
 
 ## metaflow-agent 权限需求
 
-metaflow-agent 需要的容器节点权限如下：
+metaflow-agent 要求所在容器节点的配置如下：
+- `selinux` = `Permissive` OR `disabled`
+
+metaflow-agent 作为 DaemonSet 部署时将会打开它的如下权限：
 - `hostNetwork`
 - `hostPID`
 - `privileged`
 - Write `/sys/kernel/debug`
 
-metaflow-agent 需要的容器节点配置如下：
-- `selinux` = `Permissive` OR `disabled`
-  
-metaflow-agent 需要以下 Kubernetes 资源的 get/list/watch 权限：
+metaflow-agent 同步 K8s 资源和 Label 信息时需要以下资源的 get/list/watch 权限：
 - `nodes`
 - `namespaces`
 - `configmaps`
@@ -95,14 +97,18 @@ helm install metaflow -n metaflow metaflow/metaflow --create-namespace
   ```bash
   helm upgrade metaflow -n metaflow -f values-custom.yaml metaflow/metaflow
   ```
-  
+
 # 下载 metaflow-ctl
 
-metaflow-ctl 是管理 MetaFlow 的一个命令行工具，建议下载至 metaflow-server 所在的 K8s Node 上：
+metaflow-ctl 是管理 MetaFlow 的一个命令行工具，建议下载至 metaflow-server 所在的 K8s Node 上，用于后续使用：
 ```bash
 curl -o /usr/bin/metaflow-ctl https://metaflow.oss-cn-beijing.aliyuncs.com/bin/ctl/latest/linux/amd64/metaflow-ctl
 chmod a+x /usr/bin/metaflow-ctl
 ```
+
+# 访问 Grafana 页面
+
+@建昌
 
 # 下一步
 

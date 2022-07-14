@@ -4,7 +4,7 @@ title: All-in-One 快速部署
 
 # 简介
 
-虽然 metaflow-agent 可运行于各种环境中，但 metaflow-server 仅能运行在 K8s 之上。因此本章我们从一个 All-in-One K8s 集群出发，介绍如何部署一个 MetaFlow 的体验环境。
+虽然 metaflow-agent 可运行于各种环境中，但 metaflow-server 必须运行在 K8s 之上。本章我们从一个 All-in-One K8s 集群出发，介绍如何部署一个 MetaFlow 的体验环境。
 
 # 准备工作
 
@@ -53,6 +53,10 @@ helm repo update metaflow # use `helm repo update` when helm < 3.7.0
 helm install metaflow -n metaflow metaflow/metaflow --create-namespace \
     --set global.allInOneLocalStorage=true
 ```
+
+# 访问 Grafana 页面
+
+@建昌
 
 # 下一步
 
