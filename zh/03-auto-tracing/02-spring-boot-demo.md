@@ -9,7 +9,6 @@ title: Spring Boot Demo
 # 部署 Spring Boot Demo
 
 ```bash
-kubectl create namespace bookinfo
 kubectl apply -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main/sb-jaeger-tracing-demo/sb-jaeger-tracing-demo.yaml
 ```
 

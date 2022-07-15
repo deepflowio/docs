@@ -43,7 +43,7 @@ end
 
 ## Storage Class
 
-我们建议使用 Persistent Volumes 来保存 mysql 和 clickhouse 的数据，以避免不必要的维护成本。
+我们建议使用 Persistent Volumes 来保存 MySQL 和 Clickhouse 的数据，以避免不必要的维护成本。
 你可以提供默认 Storage Class 或添加 `--set global.storageClass=<your storageClass>` 参数来选择 Storage Class 以创建 PVC。
 
 可选择 [OpenEBS](https://openebs.io/) 用于创建 PVC：
@@ -108,7 +108,18 @@ chmod a+x /usr/bin/metaflow-ctl
 
 # 访问 Grafana 页面
 
-@建昌
+执行 helm 部署 metaflow 时输出的命令，获取访问 Grafana 的 URL 和密码，输出示例：
+
+```bash
+NODE_PORT=$(kubectl get --namespace metaflow -o jsonpath="{.spec.ports[0].nodePort}" services metaflow-grafana)
+NODE_IP=$(kubectl get nodes -o jsonpath="{.items[0].status.addresses[0].address}")
+echo -e "Grafana URL: http://$NODE_IP:$NODE_PORT  \nGrafana auth: metaflow"
+```
+执行命令输出示例：
+```text
+Grafana URL: http://10.1.2.3:31999
+Grafana auth: admin:metaflow
+```
 
 # 下一步
 
