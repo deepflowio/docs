@@ -36,7 +36,7 @@ end
 helm repo add influxdata https://helm.influxdata.com/
 
 # install telegraf
-helm upgrade --install telegraf influxdata/telegraf -n metaflow-telegraf-demo --create-namespace -f values.yaml
+helm upgrade --install telegraf influxdata/telegraf -n metaflow-telegraf-demo --create-namespace
 
 # switch from deployment to daemonset
 kubectl apply -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main/metaflow-telegraf-demo/metaflow-telegraf-demo.yaml

@@ -70,7 +70,7 @@ OTEL_AGENT_CONF=otel-agent-conf
 接下来，执行命令，修改 OpenTelemetry 的配置。
 
 ```bash
-kubectl edit cm -n ${OTEL_NS} ${OTEL_AGENT_CONF}
+kubectl edit cm -n open-telemetry otel-agent-conf
 ```
 
 2. 在 Receivers 一节中，增加如下内容：
@@ -96,10 +96,42 @@ service:
       receivers: [skywalking]
 ```
 
+3. 解下来，需要将 otel-agent 的容器端口及 otel-agent 的 service 的转发端口打开。
+
+首先，我们修改 otel-agent Daemonset 的配置
+```bash
+kubectl edit daemonset otel-agent -n open-telemetry 
+```
+
+增加以下配置
+```yaml
+- containerPort: 11800
+  protocol: TCP
+- containerPort: 12800
+  protocol: TCP
+```
+
+接下来，修改 otel-agent Service
+```bash
+kubectl edit service otel-agent -n open-telemetry 
+```
+
+增加以下配置
+```yaml
+- name: skw-http
+  port: 12800
+  protocol: TCP
+  targetPort: 12800
+- name: skw-grpc
+  port: 11800
+  protocol: TCP
+  targetPort: 11800
+```
+
 4. 最后，重启 otel-agent 完成应用更新。
 
 ```bash
-kubectl rollout restart -n ${OTEL_NS} daemonset/otel-agent
+kubectl rollout restart -n open-telemetry daemonset/otel-agent
 ```
 
 # 配置 MetaFlow
@@ -115,7 +147,7 @@ kubectl rollout restart -n ${OTEL_NS} daemonset/otel-agent
 
 使用如下命令可以一键部署这个 Demo：
 ```bash
-kubectl apply -n metaflow-otel-spring-demo -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main/metaflow-otel-spring-demo/metaflow-otel-spring-demo.yaml
+kubectl apply -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main/metaflow-otel-skywalking-demo/metaflow-otel-skywalking-demo.yaml
 ```
 
 ## 查看追踪数据
