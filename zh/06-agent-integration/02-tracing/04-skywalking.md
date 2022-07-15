@@ -37,7 +37,7 @@ end
 
 ## 背景知识
 
-你可以查看 [OpenTelemetry 文档](https://opentelemetry.io/docs/) 了解 OpenTelemetry 背景知识，并参考 [OpenTelemetry安装](../tracing/03-opentelemetry/#配置-opentelemetry) 快速完成 OpenTelemetry 安装。
+你可以查看 [OpenTelemetry 文档](https://opentelemetry.io/docs/) 了解 OpenTelemetry 背景知识，并参考 [OpenTelemetry安装](../tracing/opentelemetry/#配置-opentelemetry) 快速完成 OpenTelemetry 安装。
 
 你可以查看 [Skywalking 文档](https://skywalking.apache.org/docs/) 了解 Skywalking 背景知识，这个 Demo 可以不安装 Skywalking ，而是使用 OpenTelemetry 来集成 Skywalking Trace 数据。
 
