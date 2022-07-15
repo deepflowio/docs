@@ -46,7 +46,7 @@ kubectl edit cm -n metaflow-prometheus-demo prometheus-server
 配置 `remote_write` 地址（请修改 `METAFLOW_AGENT_SVC`）：
 ```yaml
 remote_write:
-  - url: http://${METAFLOW_AGENT_SVC}:38086/api/v1/prometheus
+  - url: http://${METAFLOW_AGENT_SVC}/api/v1/prometheus
 ```
 
 # 配置 MetaFlow
