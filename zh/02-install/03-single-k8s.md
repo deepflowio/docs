@@ -49,6 +49,8 @@ end
 可选择 [OpenEBS](https://openebs.io/) 用于创建 PVC：
 ```bash
 kubectl apply -f https://openebs.github.io/charts/openebs-operator.yaml
+## config default storage class
+kubectl patch storageclass openebs-hostpath  -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 ```
 
 ## metaflow-agent 权限需求
@@ -112,7 +114,7 @@ chmod a+x /usr/bin/metaflow-ctl
 ```bash
 NODE_PORT=$(kubectl get --namespace metaflow -o jsonpath="{.spec.ports[0].nodePort}" services metaflow-grafana)
 NODE_IP=$(kubectl get nodes -o jsonpath="{.items[0].status.addresses[0].address}")
-echo -e "Grafana URL: http://$NODE_IP:$NODE_PORT  \nGrafana auth: metaflow"
+echo -e "Grafana URL: http://$NODE_IP:$NODE_PORT  \nGrafana auth: admin:metaflow"
 ```
 
 执行上述命令后的输出示例：

@@ -38,7 +38,6 @@ cat << EOF | metaflow-ctl domain create -f -
 name: $DOMAIN_NAME
 type: agent_sync
 EOF
-metaflow-ctl domain create -f create_agent_sync_domain.yaml
 ```
 
 ## 创建采集器组
