@@ -37,13 +37,17 @@ end
 
 ## 背景知识
 
-你可以查看 [OpenTelemetry 文档](https://opentelemetry.io/docs/) 了解 OpenTelemetry 背景知识，并参考 [OpenTelemetry安装](./opentelemetry/#安装opentelemetry) 快速完成 OpenTelemetry 安装。
+你可以查看 [OpenTelemetry 文档](https://opentelemetry.io/docs/) 了解 OpenTelemetry 背景知识，并参考 [OpenTelemetry安装](../tracing/03-opentelemetry/#配置-opentelemetry) 快速完成 OpenTelemetry 安装。
 
 你可以查看 [Skywalking 文档](https://skywalking.apache.org/docs/) 了解 Skywalking 背景知识，这个 Demo 可以不安装 Skywalking ，而是使用 OpenTelemetry 来集成 Skywalking Trace 数据。
 
 ## 配置 OpenTelemetry 
 
 首先，你需要开启 OpenTelemetry 的 Skywalking 数据接收能力，将数据经过 OpenTelemetry 标准协议处理之后，发送到 MetaFlow Agent。
+
+因为 OpenTelemetry 接收 Skywalking 数据的功能是在 [这个PR](https://github.com/open-telemetry/opentelemetry-collector-contrib/pull/11562) 之后才变得完善，所以我们需要 OpenTelemetry 的 [Collector 镜像](https://hub.docker.com/r/otel/opentelemetry-collector-contrib) 版本要在 0.56.0 及以上，才能完整包含这项能力。
+
+请检查你的环境中 otel-agent 的镜像版本，并确保它符合要求。可参考 [OpenTelemetry安装](../tracing/opentelemetry/#配置-otel-agent) 中的更新镜像命令，更新你的环境中的 otel-agent 版本。
 
 1. 修改 OpenTelemetry 的配置文件
 
@@ -55,7 +59,7 @@ OTEL_NS=xxxx #FIXME
 OTEL_AGENT_CONF=xxxx #FIXME
 ```
 
-我们以 [OpenTelemetry安装](./opentelemetry/#安装opentelemetry) 部署后的应用为例，修改这两项配置，并继续后面的操作。
+我们以 [OpenTelemetry安装](../tracing/03-opentelemetry/#配置-opentelemetry) 部署后的应用为例，修改这两项配置，并继续后面的操作。
 
 ```bash
 OTEL_NS=open-telemetry
