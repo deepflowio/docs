@@ -11,7 +11,7 @@ subgraph K8s-Cluster
   subgraph AppPod
     OTelSDK1["otel-sdk / otel-javaagent"]
   end
-  OTelAgent1["otel-agent (daemonset)"]
+  OTelAgent1["otel-collector (agent mode, daemonset)"]
   MetaFlowAgent1["metaflow-agent (daemonset)"]
   MetaFlowServer["metaflow-server (statefulset)"]
 
@@ -24,7 +24,7 @@ subgraph Host
   subgraph AppProcess
     OTelSDK2["otel-sdk / otel-javaagent"]
   end
-  OTelAgent2[otel-agent]
+  OTelAgent2["otel-collector (agent mode)"]
   MetaFlowAgent2[metaflow-agent]
 
   OTelSDK2 -->|traces| OTelAgent2
@@ -33,11 +33,11 @@ subgraph Host
 end
 ```
 
-# 安装OpenTelemetry
+# 安装 OpenTelemetry
 
-- 了解[OpenTelemetry](https://opentelemetry.io/docs/)相关知识。
+- 了解 [OpenTelemetry](https://opentelemetry.io/docs/) 相关知识。
 
-- 使用[MetaFlow-Demo](https://github.com/metaflowys/metaflow-demo)下的部署清单，快速搭建起一个 OpenTelemetry 环境：
+- 使用 [MetaFlow-Demo](https://github.com/metaflowys/metaflow-demo) 下的部署清单，快速搭建起一个 OpenTelemetry 环境：
 
   ```bash
   $ kubectl create ns open-telemetry
@@ -72,7 +72,7 @@ end
 
 # 配置 MetaFlow
 
-- 在部署了 MetaFlow-Ctl 的宿主机上，执行如下命令，开启 MetaFlow Agent 的数据监听服务：
+- 在部署了 metaflow-ctl 的容器节点上，执行如下命令，开启 MetaFlow Agent 的数据监听服务：
 
 ```bash
 $ export VTAP_GROUP_ID=$(metaflow-ctl agent-group list  | awk 'NR>1 {print $2}')
@@ -88,14 +88,14 @@ $ metaflow-ctl agent-group-config update ${VTAP_GROUP_ID} -f agent.yaml
 
 # 基于 Spring Boot Demo 体验
 
-## 部署Spring Boot Otel Demo
+## 部署 Spring Boot Otel Demo
 
 ```bash
 $ kubectl create ns metaflow-otel-spring-demo
 $ kubectl apply -n metaflow-otel-spring-demo -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main/Spring-Boot-Demo/springboot-otel-demo.yaml
 ```
 
-## 关于Demo
+## 关于 Demo
 
 - 此Demo来源于 https://github.com/liuzhibin-cn/my-demo ，可参考应用架构如下：
 
@@ -104,14 +104,14 @@ $ kubectl apply -n metaflow-otel-spring-demo -f https://raw.githubusercontent.co
 
 # 基于 OpenTelemetry WebStore Demo 体验
 
-## 部署OpenTelemetry WebStore Demo
+## 部署 OpenTelemetry WebStore Demo
 
 ```bash
 $ kubectl create ns metaflow-otel-grpc-demo
 $ kubectl apply -n metaflow-otel-grpc-demo -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main/OpenTelemetry-WebStore-Demo/otel-webstore-demo.yaml
 ```
 
-## 关于Demo
+## 关于 Demo
 
 - 此demo来源于 [opentelemetry-webstore-demo](https://github.com/open-telemetry/opentelemetry-demo-webstore)，可参考应用调用架构如下：
 
