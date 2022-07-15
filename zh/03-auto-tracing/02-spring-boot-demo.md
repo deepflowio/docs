@@ -8,7 +8,7 @@ title: Spring Boot Demo
 
 # 部署 Spring Boot Demo
 
-们使用的 Demo 源自[这个 GitHub 仓库](https://github.com/chanjarster/spring-boot-istio-jaeger-demo)，
+我们使用的 Demo 源自[这个 GitHub 仓库](https://github.com/chanjarster/spring-boot-istio-jaeger-demo)，
 它的调用链比较简单：`foo_svc -> bar_svc -> loo_svc -> redis`。
 
 使用如下命令可在 K8s 中快速部署 Demo：
