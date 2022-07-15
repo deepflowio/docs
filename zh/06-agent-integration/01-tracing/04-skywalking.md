@@ -41,7 +41,7 @@ end
 
 你可以查看 [Skywalking 文档](https://skywalking.apache.org/docs/) 了解 Skywalking 背景知识，这个 Demo 可以不安装 Skywalking ，而是使用 OpenTelemetry 来集成 Skywalking Trace 数据。
 
-## 配置 OpenTelemetry 
+## 配置 OpenTelemetry
 
 首先，你需要开启 OpenTelemetry 的 Skywalking 数据接收能力，将数据经过 OpenTelemetry 标准协议处理之后，发送到 MetaFlow Agent。
 
@@ -74,11 +74,11 @@ kubectl edit cm -n ${OTEL_NS} ${OTEL_AGENT_CONF}
 ```
 
 2. 在 Receivers 一节中，增加如下内容：
-  
+
 ```yaml
 receivers:
   # 以下为增加的内容
-  skywalking: 
+  skywalking:
     protocols:
       grpc:
         endpoint: 0.0.0.0:11800
@@ -120,4 +120,7 @@ kubectl apply -n metaflow-otel-spring-demo -f https://raw.githubusercontent.com/
 
 ## 查看追踪数据
 
-TODO
+前往 Grafana，打开 `Distributed Tracing` Dashboard，选择 `namespace = metaflow-otel-skywalking-demo` 后，可选择一个调用进行追踪，效果如下图：
+![OTel SkyWalking Demo](./imgs/otel-skywalking-demo.png)
+
+你也可以访问 [MetaFlow Online Demo](https://demo.metaflow.yunshan.net/d/a3x57qenk/distributed-tracing?orgId=1&var-cluster=All&var-namespace=15&var-workload=All&var-vm=All&var-trace_id=*&var-span_id=*&var-request_resource=*&from=now-5m&to=now&from=metaflow-doc) 查看效果。
