@@ -40,8 +40,7 @@ end
 - 使用 [MetaFlow-Demo](https://github.com/metaflowys/metaflow-demo) 下的部署清单，快速搭建起一个 OpenTelemetry 环境：
 
   ```bash
-  $ kubectl create ns open-telemetry
-  $ kubectl apply -n open-telemetry -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main/OpenTelemetry/open-telemetry.yaml
+  $ kubectl apply -n open-telemetry -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main/open-telemetry/open-telemetry.yaml
   ```
 
   - 安装完毕之后，可以在环境里看到这样一个组件清单
@@ -91,8 +90,7 @@ $ metaflow-ctl agent-group-config update ${VTAP_GROUP_ID} -f agent.yaml
 ## 部署 Spring Boot Otel Demo
 
 ```bash
-$ kubectl create ns metaflow-otel-spring-demo
-$ kubectl apply -n metaflow-otel-spring-demo -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main/Spring-Boot-Demo/springboot-otel-demo.yaml
+$ kubectl apply -n metaflow-otel-spring-demo -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main/metaflow-otel-spring-demo/metaflow-otel-spring-demo.yaml
 ```
 
 ## 关于 Demo
@@ -107,8 +105,7 @@ $ kubectl apply -n metaflow-otel-spring-demo -f https://raw.githubusercontent.co
 ## 部署 OpenTelemetry WebStore Demo
 
 ```bash
-$ kubectl create ns metaflow-otel-grpc-demo
-$ kubectl apply -n metaflow-otel-grpc-demo -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main/OpenTelemetry-WebStore-Demo/otel-webstore-demo.yaml
+$ kubectl apply -n metaflow-otel-grpc-demo -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main/metaflow-otel-grpc-demo/metaflow-otel-grpc-demo.yaml
 ```
 
 ## 关于 Demo
