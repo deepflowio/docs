@@ -134,7 +134,10 @@ kubectl apply -n metaflow-otel-spring-demo -f https://raw.githubusercontent.com/
 
 ## 查看追踪数据
 
-TODO
+前往 Grafana，打开 `Distributed Tracing` Dashboard，选择 `namespace = metaflow-otel-spring-demo` 后，可选择一个调用进行追踪，效果如下图：
+![OTel Spring Demo](./imgs/otel-spring-demo.png)
+
+你也可以访问 [MetaFlow Online Demo](https://demo.metaflow.yunshan.net/d/a3x57qenk/distributed-tracing?orgId=1&var-cluster=All&var-namespace=12&var-workload=All&var-vm=All&var-trace_id=*&var-span_id=*&var-request_resource=*&from=now-5m&to=now&from=metaflow-doc) 查看效果。
 
 # 基于 OpenTelemetry WebStore Demo 体验
 
@@ -196,4 +199,7 @@ kubectl apply -n metaflow-otel-grpc-demo -f https://raw.githubusercontent.com/me
 
 ## 查看追踪数据
 
-TODO
+前往 Grafana，打开 `Distributed Tracing` Dashboard，选择 `namespace = metaflow-otel-grpc-demo` 后，可选择一个调用进行追踪，效果如下图：
+![OTel gRPC Demo](./imgs/otel-grpc-demo.png)
+
+你也可以访问 [MetaFlow Online Demo](https://demo.metaflow.yunshan.net/d/a3x57qenk/distributed-tracing?orgId=1&var-cluster=All&var-namespace=13&var-workload=62&var-vm=All&var-trace_id=*&var-span_id=*&var-request_resource=*&from=now-5m&to=now&from=metaflow-doc) 查看效果。
