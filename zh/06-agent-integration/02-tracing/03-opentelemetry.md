@@ -125,7 +125,7 @@ metaflow-ctl agent-group-config create -f your-agent-group-config.yaml
 ## 部署 Demo
 
 此Demo来源于 [这个 GitHub 仓库](https://github.com/liuzhibin-cn/my-demo)，这是一个基于 Spring Boot 编写的由五个微服务组成的 WebShop 应用，其架构如下：
-![Sping Boot Demo Architecture](https://camo.githubusercontent.com/a3ea4d518362321ddafa7f92223d2790d5086f5c4fd9a8feadfb76602ae6fe84/68747470733a2f2f7269636869652d6c656f2e6769746875622e696f2f79647265732f696d672f31302f3138302f313031342f6172636869746563747572652e706e67)
+![Sping Boot Demo Architecture](./imgs/spring-boot-webshop-arch.png)
 
 使用如下命令可以一键部署这个 Demo：
 ```bash
