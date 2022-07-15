@@ -13,7 +13,7 @@ title: Spring Boot Demo
 
 使用如下命令可在 K8s 中快速部署 Demo：
 ```bash
-kubectl apply -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main/sb-jaeger-tracing-demo/sb-jaeger-tracing-demo.yaml
+kubectl apply -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main/MetaFlow-EBPF-Sping-Demo/metaflow-ebpf-spring-demo.yaml
 ```
 
 # 查看分布式追踪
