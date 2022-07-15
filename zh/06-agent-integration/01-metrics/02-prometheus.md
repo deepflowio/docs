@@ -29,7 +29,7 @@ helm repo add prometheus-community https://prometheus-community.github.io/helm-c
 helm repo update
 
 # install prometheus
-helm install prometheus prometheus-community/prometheus -n metaflow-prometheus-demo --create-namespace -f values.yaml
+helm install prometheus prometheus-community/prometheus -n metaflow-prometheus-demo --create-namespace
 ```
 
 ## 配置 remote_write
