@@ -74,5 +74,5 @@ MetaFlow 会将 Telegraf 的原始标签保存在 tag.X 中，原始指标保存
 使用 Grafana，选择 `MetaFlow` 数据源进行搜索时的展现图下图：
 ![Telegraf 集成](./imgs/telegraf-integration.png)
 
-除此之外 MetaFlow 还会向每个数据中依靠 [AutoTagging](./auto-tagging/) 自动注入大量标签，
+除此之外 MetaFlow 还会向每个数据中依靠 [AutoTagging](./metrics-auto-tagging/) 自动注入大量标签，
 使得 Telegraf 采集的数据可以与其他数据源无缝关联。
