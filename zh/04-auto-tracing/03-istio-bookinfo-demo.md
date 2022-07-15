@@ -8,7 +8,7 @@ title: Istio Bookinfo Demo
 
 # 部署 Istio Bookinfo Demo
 
-我们使用的 Demo 源自[这个 GitHub 仓库](https://github.com/istio/istio/tree/master/samples/bookinfo)，它的应用架构如下：
+我们使用的 Demo 源自[这个 GitHub 仓库](https://github.com/istio/istio/tree/master/samples/bookinfo)，它的应用架构如下 [link](https://istio.io/latest/docs/examples/bookinfo/withistio.svg)：
 ![Bookinfo Application with Istio](https://istio.io/latest/docs/examples/bookinfo/withistio.svg)
 
 使用如下命令可在 K8s 中快速部署 Demo：
