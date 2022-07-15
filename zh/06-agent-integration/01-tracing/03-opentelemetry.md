@@ -33,122 +33,150 @@ subgraph Host
 end
 ```
 
-# 安装 OpenTelemetry
+# 配置 OpenTelemetry
 
-- 了解 [OpenTelemetry](https://opentelemetry.io/docs/) 相关知识。
+我们推荐使用 agent 模式的 otel-collector 向 metaflow-agent 发送 trace 数据，以避免数据跨 K8s 节点传输。
+当然使用 gateway 模式的 otel-collector 也是完全可行的。以下的文档中以 otel-agent 为例介绍部署和配置方法。
 
-- 使用 [MetaFlow-Demo](https://github.com/metaflowys/metaflow-demo) 下的部署清单，快速搭建起一个 OpenTelemetry 环境：
+## 安装 otel-agent
 
-  ```bash
-  $ kubectl apply -n open-telemetry -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main/open-telemetry/open-telemetry.yaml
-  ```
+查看 [OpenTelemetry 文档](https://opentelemetry.io/docs/) 可了解相关背景知识。
+如果你的环境中还没有 OpenTelemetry，可以使用如下命令在 `open-telemetry` 命名空间中快速部署一个 otel-agent DaesmonSet：
+```bash
+kubectl apply -n open-telemetry -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main/open-telemetry/open-telemetry.yaml
+```
 
-  - 安装完毕之后，可以在环境里看到这样一个组件清单
+安装完毕之后，可以在环境里看到这样一个组件清单：
+```bash
+kubectl get all -n open-telemetry
+```
 
-  ```bash
-  $ kubectl get all -n open-telemetry
-  ```
+| Type | Component |
+| --- | --- |
+| Daemonset | otel-agent |
+| Service | otel-agent |
+| ConfigMap | otel-agent |
 
-  | Type | Component |
-  | --- | --- |
-  | Daemonset | otel-agent | 
-  | Service | otel-agent |
-  | ConfigMap | otel-agent |
+如果你需要使用其他版本或更新的 opentelemetry-collector-contrib，
+请在 [otel-docker](https://hub.docker.com/r/otel/opentelemetry-collector-contrib/tags) 仓库中，
+找到你想要的镜像版本，然后使用如下命令更新镜像：
+```bash
+LATEST_TAG="xxx"  # FIXME
 
-  - 其中，如果你需要使用其他版本或更新的 opentelemetry-collector-contrib ，请在[otel-docker](https://hub.docker.com/r/otel/opentelemetry-collector-contrib/tags)仓库中，找到你想要的镜像版本，然后使用如下命令更新镜像
+kubectl set image -n open-telemetry daemonset/otel-agent otel-agent=otel/opentelemetry-collector-contrib:${LATEST_TAG}
+```
 
-  ```bash
-  $ kubectl set image -n open-telemetry daemonset/otel-agent otel-agent=otel/opentelemetry-collector-contrib:${LASTEST_TAG}
-  ```
+## 配置 otel-agent
 
-- 对接 MetaFlow
-  - 查看对接 MetaFlow 的地址：
+我们需要配置 otel-agent ConfigMap 中的 `otel-agent-config.exporters.otlphttp`，将 trace 发送至 MetaFlow。首先查询当前配置：
+```bash
+kubectl get cm -n open-telemetry otel-agent-conf -o custom-columns=DATA:.data | \
+    grep -A 5 otlphttp:
+```
 
-  ```bash
-  $ kubectl get cm -n open-telemetry otel-agent-conf -o custom-columns=DATA:.data | grep -A 1 otlphttp
-  ```
-  - 可在[配置MetaFlow](#配置-metaflow)一节中，检查配置与实际监听的端口是否一致。
+metaflow-agent 使用 NodePort 接收 trace，默认端口为 38086，将 otel-agent 的配置进行修改：
+```yaml
+otlphttp:
+  traces_endpoint: "http://${HOST_IP}:38086/api/v1/otel/trace"
+  tls:
+    insecure: true
+  retry_on_failure:
+    enabled: true
+```
 
 # 配置 MetaFlow
 
-- 在部署了 metaflow-ctl 的容器节点上，执行如下命令，开启 MetaFlow Agent 的数据监听服务：
+接下来我们需要开启 metaflow-agent 的数据接收服务。
 
+首先我们确定 metaflow-agent 所在的采集器组 ID，一般为名为 default 的组的ID：
 ```bash
-$ export VTAP_GROUP_ID=$(metaflow-ctl agent-group list  | awk 'NR>1 {print $2}')
+metaflow-ctl agent-group list
+```
 
-$ cat > agent.yaml << EOF
-vtap_group_id: ${VTAP_GROUP_ID}
-external_agent_http_proxy_enabled: 1
-external_agent_http_proxy_port: 38086
-EOF
+确认该采集器组是否已经有了配置：
+```bash
+metaflow-ctl agent-group-config list
+```
 
-$ metaflow-ctl agent-group-config update ${VTAP_GROUP_ID} -f agent.yaml
+若已有配置，将其导出至 yaml 文件中便于进行修改：
+```bash
+metaflow-ctl agent-group-config list <your-agent-group-id> > your-agent-group-config.yaml
+```
+
+修改 yaml 文件，确认包含如下配置项：
+```bash
+vtap_group_id: <your-agent-group-id>
+external_agent_http_proxy_enabled: 1   # required
+external_agent_http_proxy_port: 38086  # optional, default 38086
+```
+
+更新采集器组的配置：
+```
+metaflow-ctl agent-group-config update <your-agent-group-id> -f your-agent-group-config.yaml
+```
+
+如果采集器组还没有配置，可使用如下命令基于 your-agent-group-config.yaml 文件新建配置：
+```bash
+metaflow-ctl agent-group-config create -f your-agent-group-config.yaml
 ```
 
 # 基于 Spring Boot Demo 体验
 
-## 部署 Spring Boot Otel Demo
+## 部署 Demo
 
+此Demo来源于 [这个 GitHub 仓库](https://github.com/liuzhibin-cn/my-demo)，这是一个基于 Spring Boot 编写的由五个微服务组成的 WebShop 应用，其架构如下：
+![Sping Boot Demo Architecture](https://camo.githubusercontent.com/a3ea4d518362321ddafa7f92223d2790d5086f5c4fd9a8feadfb76602ae6fe84/68747470733a2f2f7269636869652d6c656f2e6769746875622e696f2f79647265732f696d672f31302f3138302f313031342f6172636869746563747572652e706e67)
+
+使用如下命令可以一键部署这个 Demo：
 ```bash
-$ kubectl apply -n metaflow-otel-spring-demo -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main/metaflow-otel-spring-demo/metaflow-otel-spring-demo.yaml
+kubectl apply -n metaflow-otel-spring-demo -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main/metaflow-otel-spring-demo/metaflow-otel-spring-demo.yaml
 ```
 
-## 关于 Demo
+## 查看追踪数据
 
-- 此Demo来源于 https://github.com/liuzhibin-cn/my-demo ，可参考应用架构如下：
-
-![image](https://camo.githubusercontent.com/a3ea4d518362321ddafa7f92223d2790d5086f5c4fd9a8feadfb76602ae6fe84/68747470733a2f2f7269636869652d6c656f2e6769746875622e696f2f79647265732f696d672f31302f3138302f313031342f6172636869746563747572652e706e67)
-
+TODO
 
 # 基于 OpenTelemetry WebStore Demo 体验
 
-## 部署 OpenTelemetry WebStore Demo
+## 部署 Demo
 
-```bash
-$ kubectl apply -n metaflow-otel-grpc-demo -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main/metaflow-otel-grpc-demo/metaflow-otel-grpc-demo.yaml
-```
-
-## 关于 Demo
-
-- 此demo来源于 [opentelemetry-webstore-demo](https://github.com/open-telemetry/opentelemetry-demo-webstore)，可参考应用调用架构如下：
-
+此 Demo 来源于 [opentelemetry-webstore-demo](https://github.com/open-telemetry/opentelemetry-demo-webstore)，
+这个 Demo 由 Go、C#、Node.js、Python、Java 等语言实现的十多个微服务组成，它的应用架构如下：
 ```mermaid
 graph TD
+  subgraph Service Diagram
+  adservice(Ad Service):::java
+  cache[(Cache<br/>&#40redis&#41)]
+  cartservice(Cart Service):::dotnet
+  checkoutservice(Checkout Service):::golang
+  currencyservice(Currency Service):::nodejs
+  emailservice(Email Service):::ruby
+  frontend(Frontend):::golang
+  loadgenerator([Load Generator]):::python
+  paymentservice(Payment Service):::nodejs
+  productcatalogservice(ProductCatalog Service):::golang
+  recommendationservice(Recommendation Service):::python
+  shippingservice(Shipping Service):::golang
 
-subgraph Service Diagram
-adservice(Ad Service):::java
-cache[(Cache<br/>&#40redis&#41)]
-cartservice(Cart Service):::dotnet
-checkoutservice(Checkout Service):::golang
-currencyservice(Currency Service):::nodejs
-emailservice(Email Service):::ruby
-frontend(Frontend):::golang
-loadgenerator([Load Generator]):::python
-paymentservice(Payment Service):::nodejs
-productcatalogservice(ProductCatalog Service):::golang
-recommendationservice(Recommendation Service):::python
-shippingservice(Shipping Service):::golang
+  Internet -->|HTTP| frontend
+  loadgenerator -->|HTTP| frontend
 
-Internet -->|HTTP| frontend
-loadgenerator -->|HTTP| frontend
+  checkoutservice --> cartservice --> cache
+  checkoutservice --> productcatalogservice
+  checkoutservice --> currencyservice
+  checkoutservice --> emailservice
+  checkoutservice --> paymentservice
+  checkoutservice --> shippingservice
 
-checkoutservice --> cartservice --> cache
-checkoutservice --> productcatalogservice
-checkoutservice --> currencyservice
-checkoutservice --> emailservice
-checkoutservice --> paymentservice
-checkoutservice --> shippingservice
-
-frontend --> adservice
-frontend --> cartservice
-frontend --> productcatalogservice
-frontend --> checkoutservice
-frontend --> currencyservice
-frontend --> recommendationservice --> productcatalogservice
-frontend --> shippingservice
-
-
+  frontend --> adservice
+  frontend --> cartservice
+  frontend --> productcatalogservice
+  frontend --> checkoutservice
+  frontend --> currencyservice
+  frontend --> recommendationservice --> productcatalogservice
+  frontend --> shippingservice
 end
+
 classDef java fill:#b07219,color:white;
 classDef dotnet fill:#178600,color:white;
 classDef golang fill:#00add8,color:black;
@@ -160,3 +188,12 @@ classDef rust fill:#dea584,color:black;
 classDef erlang fill:#b83998,color:white;
 classDef php fill:#4f5d95,color:white;
 ```
+
+使用如下命令可以一键部署这个 Demo：
+```bash
+kubectl apply -n metaflow-otel-grpc-demo -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main/metaflow-otel-grpc-demo/metaflow-otel-grpc-demo.yaml
+```
+
+## 查看追踪数据
+
+TODO
