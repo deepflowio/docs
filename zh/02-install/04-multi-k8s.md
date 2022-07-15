@@ -44,7 +44,7 @@ metaflow-ctl domain list $CLUSTER_NAME  # Get K8sClusterID
 
 使用 Helm 安装 metaflow-agent：
 ```bash
-METAFLOW_SERVER_NODE_IPS="10.1.2.3, 10.4.5.6"  # FIXME: K8s Node IPs of metaflow-server
+METAFLOW_SERVER_NODE_IPS="10.1.2.3,10.4.5.6"  # FIXME: K8s Node IPs of metaflow-server
 
 helm repo add metaflow https://metaflowys.github.io/metaflow
 helm repo update metaflow # use `helm repo update` when helm < 3.7.0
