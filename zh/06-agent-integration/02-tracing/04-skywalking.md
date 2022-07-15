@@ -59,7 +59,7 @@ OTEL_NS=xxxx #FIXME
 OTEL_AGENT_CONF=xxxx #FIXME
 ```
 
-我们以 [OpenTelemetry安装](../tracing/03-opentelemetry/#配置-opentelemetry) 部署后的应用为例，修改这两项配置，并继续后面的操作。
+我们以 [OpenTelemetry安装](../tracing/opentelemetry/#配置-opentelemetry) 部署后的应用为例，修改这两项配置，并继续后面的操作。
 
 ```bash
 OTEL_NS=open-telemetry
