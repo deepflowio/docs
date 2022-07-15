@@ -50,6 +50,5 @@ https://github.com/open-telemetry/opentelemetry-demo-webstore
 # 基于 Spring Boot Demo 体验
 
 ```bash
-kubectl create namespace bookinfo
 kubectl apply -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main/sb-jaeger-tracing-demo/sb-jaeger-tracing-otel-demo.yaml
 ```

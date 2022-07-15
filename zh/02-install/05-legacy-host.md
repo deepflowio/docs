@@ -28,14 +28,12 @@ end
 
 # 配置 MetaFlow Server
 
+## 创建 Host Domain
+
 ```bash
 unset DOMAIN_NAME
 DOMAIN_NAME="legacy-host"  # FIXME: domain name
-```
 
-## 创建云平台
-
-```bash
 cat << EOF | metaflow-ctl domain create -f -
 name: $DOMAIN_NAME
 type: agent_sync
@@ -45,19 +43,22 @@ metaflow-ctl domain create -f create_agent_sync_domain.yaml
 
 ## 创建采集器组
 
+创建采集器组：
 ```bash
-metaflow-ctl agent-group create $DOMAIN_NAME
-metaflow-ctl agent-group list $DOMAIN_NAME # Get agent-group ID
+unset AGENT_GROUP
+AGENT_GROUP="legacy-host"  # FIXME: domain name
+
+metaflow-ctl agent-group create $AGENT_GROUP
+metaflow-ctl agent-group list $AGENT_GROUP # Get agent-group ID
 ```
 
-## 创建采集器配置
-
-创建采集器组配置文件 `agent-group-config.yaml` ：
+创建采集器组配置文件 `agent-group-config.yaml`：
 ```yaml
 vtap_group_id: g-ffffff # FIXME: agent-group ID
 platform_enabled: 1
 ```
-创建采集器组配置
+
+创建采集器组配置：
 ```bash
 metaflow-ctl agent-group-config create -f agent-group-config.yaml
 ```
