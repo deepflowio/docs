@@ -110,7 +110,7 @@ chmod a+x /usr/bin/metaflow-ctl
 
 # 访问 Grafana 页面
 
-执行 helm 部署 MetaFlow 时输出的内容提示了如何访问 Grafana 的 URL 和密码，输出示例：
+执行 helm 部署 MetaFlow 时输出的内容提示了获取访问 Grafana 的 URL 和密码的命令，输出示例：
 ```bash
 NODE_PORT=$(kubectl get --namespace metaflow -o jsonpath="{.spec.ports[0].nodePort}" services metaflow-grafana)
 NODE_IP=$(kubectl get nodes -o jsonpath="{.items[0].status.addresses[0].address}")
