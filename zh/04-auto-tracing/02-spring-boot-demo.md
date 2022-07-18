@@ -16,6 +16,8 @@ title: Spring Boot Demo
 kubectl apply -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main/MetaFlow-EBPF-Sping-Demo/metaflow-ebpf-spring-demo.yaml
 ```
 
+这个 Demo 原始的 GitHub 代码仓库中使用 Jaeger 进行了主动追踪，为了演示 AutoTracing 能力我们特意在上述部署脚本中去掉了 Jaeger。
+
 # 查看分布式追踪
 
 前往 Grafana，打开 `Distributed Tracing` Dashboard，选择 `namespace = metaflow-ebpf-spring-demo` 后，可选择一个调用进行追踪，效果如下图：
