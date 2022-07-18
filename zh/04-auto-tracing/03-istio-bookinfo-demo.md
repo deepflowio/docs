@@ -36,7 +36,8 @@ EOF
 
 ## 部署 Bookinfo Demo
 
-我们使用的 Demo 源自[这个 GitHub 仓库](https://github.com/istio/istio/tree/master/samples/bookinfo)，它的应用架构如下 [link](https://istio.io/latest/docs/examples/bookinfo/withistio.svg)：
+我们使用的 Demo 源自[这个 GitHub 仓库](https://github.com/istio/istio/tree/master/samples/bookinfo)，它的应用架构如下：
+
 ![Bookinfo Application with Istio](https://istio.io/latest/docs/examples/bookinfo/withistio.svg)
 
 使用如下命令可在 K8s 中快速部署 Demo：
@@ -49,6 +50,7 @@ kubectl apply -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main
 # 查看分布式追踪
 
 前往 Grafana，打开 `Distributed Tracing` Dashboard，选择 `namespace = metaflow-ebpf-istio-demo` 后，可选择一个调用进行追踪，效果如下图：
+
 ![eBPF Istio Demo](./imgs/ebpf-istio-demo.png)
 
 在 [Spring Boot Demo](./spring-boot-demo/) 的基础上，MetaFlow 通过解析 BPF/eBPF 数据中 HTTP 头部的 X-Request-ID 字段，可以实现对 Envoy 前后调用的追踪。

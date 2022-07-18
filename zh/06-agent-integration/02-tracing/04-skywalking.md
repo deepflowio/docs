@@ -100,7 +100,7 @@ service:
 
 首先，我们修改 otel-agent Daemonset 的配置
 ```bash
-kubectl edit daemonset otel-agent -n open-telemetry 
+kubectl edit daemonset otel-agent -n open-telemetry
 ```
 
 增加以下配置
@@ -113,7 +113,7 @@ kubectl edit daemonset otel-agent -n open-telemetry
 
 接下来，修改 otel-agent Service
 ```bash
-kubectl edit service otel-agent -n open-telemetry 
+kubectl edit service otel-agent -n open-telemetry
 ```
 
 增加以下配置
@@ -143,6 +143,7 @@ kubectl rollout restart -n open-telemetry daemonset/otel-agent
 ## 部署 Demo
 
 此Demo来源于 [这个 GitHub 仓库](https://github.com/liuzhibin-cn/my-demo)，这是一个基于 Spring Boot 编写的由五个微服务组成的 WebShop 应用，其架构如下：
+
 ![Sping Boot Demo Architecture](./imgs/spring-boot-webshop-arch.png)
 
 使用如下命令可以一键部署这个 Demo：
@@ -153,6 +154,7 @@ kubectl apply -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main
 ## 查看追踪数据
 
 前往 Grafana，打开 `Distributed Tracing` Dashboard，选择 `namespace = metaflow-otel-skywalking-demo` 后，可选择一个调用进行追踪，效果如下图：
+
 ![OTel SkyWalking Demo](./imgs/otel-skywalking-demo.png)
 
 你也可以访问 [MetaFlow Online Demo](https://demo.metaflow.yunshan.net/d/a3x57qenk/distributed-tracing?orgId=1&var-cluster=All&var-namespace=15&var-workload=All&var-vm=All&var-trace_id=*&var-span_id=*&var-request_resource=*&from=now-5m&to=now&from=metaflow-doc) 查看效果。

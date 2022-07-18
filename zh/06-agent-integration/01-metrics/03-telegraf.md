@@ -72,6 +72,7 @@ Telegraf 中的指标将会存储在 MetaFlow 的 `ext_metrics` database 中。
 
 MetaFlow 会将 Telegraf 的原始标签保存在 tag.X 中，原始指标保存在 int.X 或 float.X 中。
 使用 Grafana，选择 `MetaFlow` 数据源进行搜索时的展现图下图：
+
 ![Telegraf 集成](./imgs/telegraf-integration.png)
 
 除此之外 MetaFlow 还会向每个数据中依靠 [AutoTagging](./metrics-auto-tagging/) 自动注入大量标签，

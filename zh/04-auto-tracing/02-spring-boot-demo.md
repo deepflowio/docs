@@ -21,6 +21,7 @@ kubectl apply -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main
 # 查看分布式追踪
 
 前往 Grafana，打开 `Distributed Tracing` Dashboard，选择 `namespace = metaflow-ebpf-spring-demo` 后，可选择一个调用进行追踪，效果如下图：
+
 ![eBPF Sping Demo](./imgs/ebpf-spring-demo.png)
 
 MetaFlow 的追踪数据中含有三种 Span，跟踪一次请求的整个轨迹：
