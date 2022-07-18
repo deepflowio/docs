@@ -135,7 +135,9 @@ kubectl apply -n metaflow-otel-spring-demo -f https://raw.githubusercontent.com/
 
 ## 查看追踪数据
 
-前往 Grafana，打开 `Distributed Tracing` Dashboard，选择 `namespace = metaflow-otel-spring-demo` 后，可选择一个调用进行追踪，效果如下图：
+前往 Grafana，打开 `Distributed Tracing` Dashboard，选择 `namespace = metaflow-otel-spring-demo` 后，可选择一个调用进行追踪。
+MetaFlow 能够将 OpenTelemetry、eBPF、BPF 获取到的追踪数据关联展示在一个 Trace 火焰图中，
+覆盖一个 Spring Boot 应用从业务代码、系统函数、网络接口的全栈调用路径，实现真正的全链路分布式追踪，效果如下：
 
 ![OTel Spring Demo](./imgs/otel-spring-demo.png)
 
@@ -201,7 +203,9 @@ kubectl apply -n metaflow-otel-grpc-demo -f https://raw.githubusercontent.com/me
 
 ## 查看追踪数据
 
-前往 Grafana，打开 `Distributed Tracing` Dashboard，选择 `namespace = metaflow-otel-grpc-demo` 后，可选择一个调用进行追踪，效果如下图：
+前往 Grafana，打开 `Distributed Tracing` Dashboard，选择 `namespace = metaflow-otel-grpc-demo` 后，可选择一个调用进行追踪。
+MetaFlow 能够将 OpenTelemetry、eBPF、BPF 获取到的追踪数据关联展示在一个 Trace 火焰图中，
+覆盖一个多语言应用从业务代码、系统函数、网络接口的全栈调用路径，实现真正的全链路分布式追踪，效果如下：
 
 ![OTel gRPC Demo](./imgs/otel-grpc-demo.png)
 
