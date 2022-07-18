@@ -55,7 +55,8 @@ eBPF 采集到的数据，`tap_side` 取值的含义如下：
 为了更加直观的感受 AutoMetrics 的能力，如果你运行 MetaFlow 的环境中还没有业务流量，
 建议首先部署一个 [Online Boutique Demo](https://github.com/GoogleCloudPlatform/microservices-demo)。
 这个 Demo 由 Go、C#、Node.js、Python、Java 等语言实现的十多个微服务组成，业务拓扑如下：
-![GCP Online Boutique Architecture](https://github.com/GoogleCloudPlatform/microservices-demo/blob/main/docs/img/architecture-diagram.png)
+
+![GCP Online Boutique Architecture](https://github.com/GoogleCloudPlatform/microservices-demo/blob/main/docs/img/architecture-diagram.png?raw=true)
 
 使用如下命令可在 K8s 中快速部署 Demo：
 ```bash

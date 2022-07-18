@@ -60,6 +60,7 @@ MetaFlow 会将指标名称按 `_` 分隔后取前 N 节（默认取前 1 节）
 
 MetaFlow 会将 Prometheus 的原始标签保存在 tag.X 中，原始指标保存在 int.X 或 float.X 中。
 使用 Grafana，选择 `MetaFlow` 数据源进行搜索时的展现图下图：
+
 ![Prometheus 集成](./imgs/prometheus-integration.png)
 
 除此之外 MetaFlow 还会向每个数据中依靠 [AutoTagging](./metrics-auto-tagging/) 自动注入大量标签，

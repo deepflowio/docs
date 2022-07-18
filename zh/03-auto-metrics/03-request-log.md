@@ -9,6 +9,7 @@ title: 应用调用详情
 - Metrics 列表：[吞吐、时延、异常](https://github.com/metaflowys/metaflow/blob/main/server/querier/db_descriptions/clickhouse/metrics/flow_log/l7_flow_log)
 
 基于上述数据可通过 Grafana 构建丰富的 Dashboard。我们在 Grafana 中预置了一个 `Application - Request Log` Dashboard，效果图如下：
+
 ![Application Request Log](./imgs/application-request-log.png)
 
 你也可以访问 [MetaFlow Online Demo](https://demo.metaflow.yunshan.net/d/JimNq_67z/application-request-log?from=metaflow-doc) 查看效果。
