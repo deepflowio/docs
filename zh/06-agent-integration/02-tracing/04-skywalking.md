@@ -33,110 +33,88 @@ subgraph Host
 end
 ```
 
-# 配置 OpenTelemetry Skywalking Receiver
+# 配置 OpenTelemetry SkyWalking Receiver
 
 ## 背景知识
 
-你可以查看 [OpenTelemetry 文档](https://opentelemetry.io/docs/) 了解 OpenTelemetry 背景知识，并参考 [OpenTelemetry安装](../tracing/opentelemetry/#配置-opentelemetry) 快速完成 OpenTelemetry 安装。
+你可以查看 [OpenTelemetry 文档](https://opentelemetry.io/docs/) 了解 OpenTelemetry 背景知识，并参考前序章节中的 [OpenTelemetry 安装](../tracing/opentelemetry/#配置-opentelemetry) 快速安装 OpenTelemetry。
 
-你可以查看 [Skywalking 文档](https://skywalking.apache.org/docs/) 了解 Skywalking 背景知识，这个 Demo 可以不安装 Skywalking ，而是使用 OpenTelemetry 来集成 Skywalking Trace 数据。
+你可以查看 [SkyWalking 文档](https://skywalking.apache.org/docs/) 了解 SkyWalking 背景知识，这个 Demo 不需要安装完整的 SkyWalking ，我们将使用 OpenTelemetry 来集成 SkyWalking 的 Trace 数据。
 
-## 配置 OpenTelemetry
+## 确认 OpenTelemetry 版本
 
-首先，你需要开启 OpenTelemetry 的 Skywalking 数据接收能力，将数据经过 OpenTelemetry 标准协议处理之后，发送到 MetaFlow Agent。
+首先，你需要开启 OpenTelemetry 的 SkyWalking 数据接收能力，将数据经过 OpenTelemetry 标准协议处理之后，发送到 MetaFlow Agent。
 
-因为 OpenTelemetry 接收 Skywalking 数据的功能是在 [这个PR](https://github.com/open-telemetry/opentelemetry-collector-contrib/pull/11562) 之后才变得完善，所以我们需要 OpenTelemetry 的 [Collector 镜像](https://hub.docker.com/r/otel/opentelemetry-collector-contrib) 版本要在 0.56.0 及以上，才能完整包含这项能力。
+OpenTelemetry 接收 SkyWalking 数据存在 Bug，最近我们在 [这个 PR](https://github.com/open-telemetry/opentelemetry-collector-contrib/pull/11562) 中进行了修复，接下来的 Demo 我们需要 OpenTelemetry 的 [Collector 镜像](https://hub.docker.com/r/otel/opentelemetry-collector-contrib) 版本 `>= 0.56.0`。请检查你的环境中 otel-agent 的镜像版本，并确保它符合要求。可参考前序章节中的 [OpenTelemetry 安装](../tracing/opentelemetry/#配置-otel-agent)，更新你的环境中的 otel-agent 版本。
 
-请检查你的环境中 otel-agent 的镜像版本，并确保它符合要求。可参考 [OpenTelemetry安装](../tracing/opentelemetry/#配置-otel-agent) 中的更新镜像命令，更新你的环境中的 otel-agent 版本。
+## 配置 OpenTelemetry 接收 SkyWalking 数据
 
-1. 修改 OpenTelemetry 的配置文件
-
-其中，OTEL_NS 是 OpenTelemetry 所在的命名空间，OTEL_AGENT_CONF 是 OpenTelemetry Collector 启动时使用的配置文件。
-
+我们假设 OpenTelemetry 所在的命名空间为 `open-telemetry`，假设 otel-agent 使用的 ConfigMap 名为 `otel-agent-conf`，使用如下命令修改 otel-agent 配置：
 ```bash
-OTEL_NS=xxxx #FIXME
-
-OTEL_AGENT_CONF=xxxx #FIXME
+kubectl -n open-telemetry edit cm otel-agent-conf
 ```
 
-我们以 [OpenTelemetry安装](../tracing/opentelemetry/#配置-opentelemetry) 部署后的应用为例，修改这两项配置，并继续后面的操作。
-
-```bash
-OTEL_NS=open-telemetry
-
-OTEL_AGENT_CONF=otel-agent-conf
-```
-
-接下来，执行命令，修改 OpenTelemetry 的配置。
-
-```bash
-kubectl edit cm -n open-telemetry otel-agent-conf
-```
-
-2. 在 Receivers 一节中，增加如下内容：
-
+在 `receivers` 和 `service.pipelines.traces` 两节中，增加如下内容：
 ```yaml
 receivers:
-  # 以下为增加的内容
+  # add the following config
   skywalking:
     protocols:
       grpc:
         endpoint: 0.0.0.0:11800
       http:
         endpoint: 0.0.0.0:12800
-```
-
-在 Pipeline 一节中，将增加的 skywalking 添加到 Trace Pipeline，如下所示
-
-```yaml
 service:
   pipelines:
     traces:
-      # 在 receivers 中增加 skywalking
+      # add receiver `skywalking`
       receivers: [skywalking]
 ```
 
-3. 解下来，需要将 otel-agent 的容器端口及 otel-agent 的 service 的转发端口打开。
-
-首先，我们修改 otel-agent Daemonset 的配置
+修改 otel-agent Daemonset 配置：
 ```bash
-kubectl edit daemonset otel-agent -n open-telemetry
+kubectl -n open-telemetry edit daemonset otel-agent
 ```
 
-增加以下配置
+打开用于 grpc 和 http 的两个转发端口：
 ```yaml
-- containerPort: 11800
-  protocol: TCP
-- containerPort: 12800
-  protocol: TCP
+spec:
+  template:
+    spec:
+      ports:
+      - containerPort: 11800
+        protocol: TCP
+      - containerPort: 12800
+        protocol: TCP
 ```
 
-接下来，修改 otel-agent Service
+修改 otel-agent Service 配置：
 ```bash
-kubectl edit service otel-agent -n open-telemetry
+kubectl -n open-telemetry edit service otel-agent
 ```
 
-增加以下配置
+增加以下配置：
 ```yaml
-- name: skw-http
-  port: 12800
-  protocol: TCP
-  targetPort: 12800
-- name: skw-grpc
-  port: 11800
-  protocol: TCP
-  targetPort: 11800
+spec:
+  ports:
+    - name: sw-http
+      port: 12800
+      protocol: TCP
+      targetPort: 12800
+    - name: sw-grpc
+      port: 11800
+      protocol: TCP
+      targetPort: 11800
 ```
 
-4. 最后，重启 otel-agent 完成应用更新。
-
+最后，重启 otel-agent 完成应用更新：
 ```bash
 kubectl rollout restart -n open-telemetry daemonset/otel-agent
 ```
 
 # 配置 MetaFlow
 
-请参考 [配置MetaFlow](../tracing/opentelemetry/#配置-metaflow) 一节内容，完成 MetaFlow Agent 配置。
+请参考 [配置 MetaFlow](../tracing/opentelemetry/#配置-metaflow) 一节内容，完成 MetaFlow Agent 的配置。
 
 # 基于 WebShop Demo 体验
 
@@ -153,7 +131,9 @@ kubectl apply -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main
 
 ## 查看追踪数据
 
-前往 Grafana，打开 `Distributed Tracing` Dashboard，选择 `namespace = metaflow-otel-skywalking-demo` 后，可选择一个调用进行追踪，效果如下图：
+前往 Grafana，打开 `Distributed Tracing` Dashboard，选择 `namespace = metaflow-otel-skywalking-demo` 后，可选择一个调用进行追踪。
+MetaFlow 能够将 SkyWalking、eBPF、BPF 获取到的追踪数据关联展示在一个 Trace 火焰图中，
+覆盖一个 Spring Boot 应用从业务代码、系统函数、网络接口的全栈调用路径，实现真正的全链路分布式追踪，效果如下：
 
 ![OTel SkyWalking Demo](./imgs/otel-skywalking-demo.png)
 

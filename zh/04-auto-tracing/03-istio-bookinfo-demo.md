@@ -10,9 +10,7 @@ title: Istio Bookinfo Demo
 
 ## 部署 Istio
 
-你可参考 [Istio 官方文档](https://istio.io/latest/zh/docs/setup/getting-started/)部署 Istio。
-
-也可以使用如下命令部署 Istio:
+你可参考 [Istio 官方文档](https://istio.io/latest/zh/docs/setup/getting-started/)部署 Istio。也可以使用如下命令快速部署：
 ```bash
 curl -L https://istio.io/downloadIstio | sh -
 cd istio-*
@@ -20,7 +18,7 @@ export PATH=$PWD/bin:$PATH
 istioctl install --set profile=demo -y
 ```
 
-关闭 Istio 流量加密:
+MetaFlow 目前已经支持了 Golang 应用的 HTTPS 采集能力，其他语言的支持还在迭代中。我们在此 Demo 中先关闭 Istio mTLS：
 ```bash
 kubectl apply -f - <<EOF
 apiVersion: security.istio.io/v1beta1
