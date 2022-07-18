@@ -7,6 +7,7 @@ title: Istio Bookinfo Demo
 本章以一个由 Java、Python、Ruby、Node.js 四种语言实现的微服务应用为例，展示 MetaFlow 在多语言、Istio 服务网格下的 AutoTracing 能力。
 
 # 部署 Istio Bookinfo Demo
+
 ## 部署 Istio
 
 你可参考 [Istio 官方文档](https://istio.io/latest/zh/docs/setup/getting-started/)部署 Istio。
