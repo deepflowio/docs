@@ -28,6 +28,22 @@ end
 
 # 配置 MetaFlow Server
 
+## 更新 metaflow-server 配置
+
+修改 `values-custom.yaml` 自定义配置文件：
+```yaml
+# add
+config:
+  tridentTypeForUnkonwVtap: 3
+```
+
+更新 metaflow
+```bash
+helm upgrade metaflow -n metaflow -f values-custom.yaml metaflow/metaflow
+## Restart metaflow-server
+kubectl delete pods -n metaflow -l app=metaflow -l component=metaflow-server
+```
+
 ## 创建 Host Domain
 
 ```bash

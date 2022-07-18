@@ -8,6 +8,34 @@ title: Istio Bookinfo Demo
 
 # 部署 Istio Bookinfo Demo
 
+## 部署 Istio
+
+你可参考 [Istio 官方文档](https://istio.io/latest/zh/docs/setup/getting-started/)部署 Istio。
+
+也可以使用如下命令部署 Istio:
+```bash
+curl -L https://istio.io/downloadIstio | sh -
+cd istio-*
+export PATH=$PWD/bin:$PATH
+istioctl install --set profile=demo -y
+```
+
+关闭 Istio 流量加密:
+```bash
+kubectl apply -f - <<EOF
+apiVersion: security.istio.io/v1beta1
+kind: PeerAuthentication
+metadata:
+  name: "default"
+  namespace: "istio-system"
+spec:
+  mtls:
+    mode: DISABLE
+EOF
+```
+
+## 部署 Bookinfo Demo
+
 我们使用的 Demo 源自[这个 GitHub 仓库](https://github.com/istio/istio/tree/master/samples/bookinfo)，它的应用架构如下 [link](https://istio.io/latest/docs/examples/bookinfo/withistio.svg)：
 ![Bookinfo Application with Istio](https://istio.io/latest/docs/examples/bookinfo/withistio.svg)
 
