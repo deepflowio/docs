@@ -1,10 +1,10 @@
 ---
-title: MetaFlow 版本规则
+title: DeepFlow 版本规则
 ---
 
 # 版本命名
 
-MetaFlow 遵循 [Semantic Versioning](https://semver.org/) 版本命名方式，版本号格式为 `X.Y.Z`，其中 `X` 为主要版本号（Major Version），`Y` 为次要版本号（Minor Version），`Z` 为补丁版本号（Patch Version）。
+DeepFlow 遵循 [Semantic Versioning](https://semver.org/) 版本命名方式，版本号格式为 `X.Y.Z`，其中 `X` 为主要版本号（Major Version），`Y` 为次要版本号（Minor Version），`Z` 为补丁版本号（Patch Version）。
 
 # 迭代周期
 

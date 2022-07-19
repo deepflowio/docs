@@ -4,8 +4,8 @@ title: 监控云服务器
 
 # 简介
 
-MetaFlow 支持监控云服务器，并通过调用云厂商 API 获取云资源信息，自动注入到所有观测数据中（AutoTagging）。
-注意 MetaFlow Server 必须运行在 K8s 之上，如果你没有 K8s 集群，可参考 [All-in-One 快速部署](./all-in-one/)章节先部署 MetaFlow Server。
+DeepFlow 支持监控云服务器，并通过调用云厂商 API 获取云资源信息，自动注入到所有观测数据中（AutoTagging）。
+注意 DeepFlow Server 必须运行在 K8s 之上，如果你没有 K8s 集群，可参考 [All-in-One 快速部署](./all-in-one/)章节先部署 DeepFlow Server。
 
 # 部署拓扑
 
@@ -14,29 +14,29 @@ flowchart TD
 
 subgraph VPC-1
   subgraph K8s-Cluster
-    MetaFlowServer["metaflow-server (statefulset)"]
+    DeepFlowServer["metaflow-server (statefulset)"]
   end
 
   subgraph Cloud-Host-1
-    MetaFlowAgent1[metaflow-agent]
-    MetaFlowAgent1 --> MetaFlowServer
+    DeepFlowAgent1[metaflow-agent]
+    DeepFlowAgent1 --> DeepFlowServer
   end
 end
 
 subgraph VPC-2
   subgraph Cloud-Host-2
-    MetaFlowAgent2[metaflow-agent]
-    MetaFlowAgent2 -->|"tcp/udp 30033+30035"| MetaFlowServer
+    DeepFlowAgent2[metaflow-agent]
+    DeepFlowAgent2 -->|"tcp/udp 30033+30035"| DeepFlowServer
   end
 end
 
-MetaFlowServer -->|"get resource & label"| CloudAPI[cloud api service]
+DeepFlowServer -->|"get resource & label"| CloudAPI[cloud api service]
 ```
 
 # 创建公有云 Domain
 
-MetaFlow 目前支持如下公有云的资源信息同步（标记为 `TBD` 的正在整理代码中）：
-| 云服务商（英文） | 云服务商（中文） | MetaFlow中使用的类型标识 |
+DeepFlow 目前支持如下公有云的资源信息同步（标记为 `TBD` 的正在整理代码中）：
+| 云服务商（英文） | 云服务商（中文） | DeepFlow中使用的类型标识 |
 | ---------------- | ---------------- | ------------------------ |
 | AWS              | AWS              | `TBD`                    |
 | Aliyun           | 阿里云           | aliyun                   |
@@ -69,7 +69,7 @@ config:
 metaflow-ctl domain create -f aliyun.yaml
 ```
 
-# 部署 MetaFlow Agent
+# 部署 DeepFlow Agent
 
 下载包含 metaflow-agent rpm 的 zip 包
 ```bash
@@ -92,8 +92,8 @@ systemctl restart metaflow-agent
 
 # 下一步
 
-- [微服务全景图 - 体验 MetaFlow 基于 BPF 的 AutoMetrics 能力](../auto-metrics/metrics-without-instrumentation/)
-- [自动分布式追踪 - 体验 MetaFlow 基于 eBPF 的 AutoTracing 能力](../auto-tracing/tracing-without-instrumentation/)
-- [消除数据孤岛 - 了解 MetaFlow 的 AutoTagging 和 SmartEncoding 能力](../auto-tagging/elimilate-data-silos/)
+- [微服务全景图 - 体验 DeepFlow 基于 BPF 的 AutoMetrics 能力](../auto-metrics/metrics-without-instrumentation/)
+- [自动分布式追踪 - 体验 DeepFlow 基于 eBPF 的 AutoTracing 能力](../auto-tracing/tracing-without-instrumentation/)
+- [消除数据孤岛 - 了解 DeepFlow 的 AutoTagging 和 SmartEncoding 能力](../auto-tagging/elimilate-data-silos/)
 - [告别高基烦恼 - 集成 Promethes 等指标数据](../agent-integration/metrics/metrics-auto-tagging/)
 - [无缝分布式追踪 - 集成 OpenTelemetry 等追踪数据](../agent-integration/tracing/tracing-without-blind-spot/)

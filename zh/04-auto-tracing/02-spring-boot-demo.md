@@ -4,7 +4,7 @@ title: Spring Boot Demo
 
 # 简介
 
-本章以一个使用 Spring Boot 开发的微服务应用为例，展示 MetaFlow 的 AutoTracing 能力。
+本章以一个使用 Spring Boot 开发的微服务应用为例，展示 DeepFlow 的 AutoTracing 能力。
 
 # 部署 Spring Boot Demo
 
@@ -13,7 +13,7 @@ title: Spring Boot Demo
 
 使用如下命令可在 K8s 中快速部署 Demo：
 ```bash
-kubectl apply -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main/MetaFlow-EBPF-Sping-Demo/metaflow-ebpf-spring-demo.yaml
+kubectl apply -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main/DeepFlow-EBPF-Sping-Demo/metaflow-ebpf-spring-demo.yaml
 ```
 
 这个 Demo 原始的 GitHub 代码仓库中使用 Jaeger 进行了主动追踪，为了演示 AutoTracing 能力我们特意在上述部署脚本中去掉了 Jaeger。
@@ -24,11 +24,11 @@ kubectl apply -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main
 
 ![eBPF Sping Demo](./imgs/ebpf-spring-demo.png)
 
-MetaFlow 的追踪数据中含有三种 Span，跟踪一次请求的整个轨迹：
+DeepFlow 的追踪数据中含有三种 Span，跟踪一次请求的整个轨迹：
 - N：通过 BPF 从网络流量中提取的 Span
 - S：通过 eBPF 从系统或应用函数调用中提取的 Span
 - A：通过 OTel 从应用内部采集的 Span
 
 上图中展示了前两种，第三种在[集成 OpenTelemetry](../agent-integration/tracing/opentelemetry/) 可以展示出来。
 
-[访问 MetaFlow Online Demo](https://demo.metaflow.yunshan.net/d/a3x57qenk/distributed-tracing?orgId=1&var-cluster=All&var-namespace=9&var-workload=All&var-vm=All&var-trace_id=*&var-span_id=*&var-request_resource=*&from=metaflow-doc) 也可查看追踪效果。
+[访问 DeepFlow Online Demo](https://demo.metaflow.yunshan.net/d/a3x57qenk/distributed-tracing?orgId=1&var-cluster=All&var-namespace=9&var-workload=All&var-vm=All&var-trace_id=*&var-span_id=*&var-request_resource=*&from=metaflow-doc) 也可查看追踪效果。

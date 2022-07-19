@@ -4,7 +4,7 @@ title: All-in-One 快速部署
 
 # 简介
 
-虽然 metaflow-agent 可运行于各种环境中，但 metaflow-server 必须运行在 K8s 之上。本章我们从一个 All-in-One K8s 集群出发，介绍如何部署一个 MetaFlow 的体验环境。
+虽然 metaflow-agent 可运行于各种环境中，但 metaflow-server 必须运行在 K8s 之上。本章我们从一个 All-in-One K8s 集群出发，介绍如何部署一个 DeepFlow 的体验环境。
 
 # 准备工作
 
@@ -32,7 +32,7 @@ kubectl taint node node-role.kubernetes.io/master- node-role.kubernetes.io/contr
 
 ## 安装 Helm
 
-MetaFlow 使用 [Helm](https://helm.sh/) 进行部署，安装方法为：
+DeepFlow 使用 [Helm](https://helm.sh/) 进行部署，安装方法为：
 ```bash
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
 chmod 700 get_helm.sh
@@ -44,9 +44,9 @@ chmod 700 get_helm.sh
 sealos run labring/helm:v3.8.2
 ```
 
-# 部署 All-in-One MetaFlow
+# 部署 All-in-One DeepFlow
 
-使用 Helm 安装 All-in-One MetaFlow：
+使用 Helm 安装 All-in-One DeepFlow：
 ```bash
 helm repo add metaflow https://metaflowys.github.io/metaflow
 helm repo update metaflow # use `helm repo update` when helm < 3.7.0
@@ -56,7 +56,7 @@ helm install metaflow -n metaflow metaflow/metaflow --create-namespace \
 
 # 访问 Grafana 页面
 
-执行 helm 部署 MetaFlow 时输出的内容提示了获取访问 Grafana 的 URL 和密码的命令，输出示例：
+执行 helm 部署 DeepFlow 时输出的内容提示了获取访问 Grafana 的 URL 和密码的命令，输出示例：
 ```bash
 NODE_PORT=$(kubectl get --namespace metaflow -o jsonpath="{.spec.ports[0].nodePort}" services metaflow-grafana)
 NODE_IP=$(kubectl get nodes -o jsonpath="{.items[0].status.addresses[0].address}")
@@ -71,8 +71,8 @@ Grafana auth: admin:metaflow
 
 # 下一步
 
-- [微服务全景图 - 体验 MetaFlow 基于 BPF 的 AutoMetrics 能力](../auto-metrics/metrics-without-instrumentation/)
-- [自动分布式追踪 - 体验 MetaFlow 基于 eBPF 的 AutoTracing 能力](../auto-tracing/tracing-without-instrumentation/)
-- [消除数据孤岛 - 了解 MetaFlow 的 AutoTagging 和 SmartEncoding 能力](../auto-tagging/elimilate-data-silos/)
+- [微服务全景图 - 体验 DeepFlow 基于 BPF 的 AutoMetrics 能力](../auto-metrics/metrics-without-instrumentation/)
+- [自动分布式追踪 - 体验 DeepFlow 基于 eBPF 的 AutoTracing 能力](../auto-tracing/tracing-without-instrumentation/)
+- [消除数据孤岛 - 了解 DeepFlow 的 AutoTagging 和 SmartEncoding 能力](../auto-tagging/elimilate-data-silos/)
 - [告别高基烦恼 - 集成 Promethes 等指标数据](../agent-integration/metrics/metrics-auto-tagging/)
 - [无缝分布式追踪 - 集成 OpenTelemetry 等追踪数据](../agent-integration/tracing/tracing-without-blind-spot/)

@@ -4,7 +4,7 @@ title: Istio Bookinfo Demo
 
 # 简介
 
-本章以一个由 Java、Python、Ruby、Node.js 四种语言实现的微服务应用为例，展示 MetaFlow 在多语言、Istio 服务网格下的 AutoTracing 能力。
+本章以一个由 Java、Python、Ruby、Node.js 四种语言实现的微服务应用为例，展示 DeepFlow 在多语言、Istio 服务网格下的 AutoTracing 能力。
 
 # 部署 Istio Bookinfo Demo
 
@@ -18,7 +18,7 @@ export PATH=$PWD/bin:$PATH
 istioctl install --set profile=demo -y
 ```
 
-MetaFlow 目前已经支持了 Golang 应用的 HTTPS 采集能力，其他语言的支持还在迭代中。我们在此 Demo 中先关闭 Istio mTLS：
+DeepFlow 目前已经支持了 Golang 应用的 HTTPS 采集能力，其他语言的支持还在迭代中。我们在此 Demo 中先关闭 Istio mTLS：
 ```bash
 kubectl apply -f - <<EOF
 apiVersion: security.istio.io/v1beta1
@@ -51,6 +51,6 @@ kubectl apply -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main
 
 ![eBPF Istio Demo](./imgs/ebpf-istio-demo.png)
 
-在 [Spring Boot Demo](./spring-boot-demo/) 的基础上，MetaFlow 通过解析 BPF/eBPF 数据中 HTTP 头部的 X-Request-ID 字段，可以实现对 Envoy 前后调用的追踪。
+在 [Spring Boot Demo](./spring-boot-demo/) 的基础上，DeepFlow 通过解析 BPF/eBPF 数据中 HTTP 头部的 X-Request-ID 字段，可以实现对 Envoy 前后调用的追踪。
 
-[访问 MetaFlow Online Demo](https://demo.metaflow.yunshan.net/d/a3x57qenk/distributed-tracing?orgId=1&var-cluster=All&var-namespace=10&var-workload=All&var-vm=All&var-trace_id=*&var-span_id=*&var-request_resource=*&from=metaflow-doc) 也可查看追踪效果。
+[访问 DeepFlow Online Demo](https://demo.metaflow.yunshan.net/d/a3x57qenk/distributed-tracing?orgId=1&var-cluster=All&var-namespace=10&var-workload=All&var-vm=All&var-trace_id=*&var-span_id=*&var-request_resource=*&from=metaflow-doc) 也可查看追踪效果。

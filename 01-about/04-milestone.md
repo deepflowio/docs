@@ -1,5 +1,5 @@
 ---
-title: MetaFlow Milestone
+title: DeepFlow Milestone
 ---
 
 <mark>Attention: This page is translated by Google. Your contributions are welcome!</mark>
@@ -28,7 +28,7 @@ DeepFlow has been iterated to v6.1.0 before open source, and v6.1.1 planned to b
   - [x] Provide SQL API as DataSource for Grafana
   - [x] Use ClickHouse as storage engine
 
-There are many more exciting features of MetaFlow waiting for us to develop together with the community in the future, including:
+There are many more exciting features of DeepFlow waiting for us to develop together with the community in the future, including:
 - AutoMetrics
   - [ ] AutoMetrics capability based on BPF+Winpcap
   - [ ] C/C++/Java/Golang and other applications based on eBPF USDT/uprobe HTTP2/HTTPS protocol parsing capability

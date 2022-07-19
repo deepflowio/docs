@@ -4,7 +4,7 @@ title: 监控传统服务器
 
 # 简介
 
-MetaFlow 支持监控传统服务器。注意 MetaFlow Server 必须运行在 K8s 之上，如果你没有 K8s 集群，可参考 [All-in-One 快速部署](./all-in-one/)章节先部署 MetaFlow Server。
+DeepFlow 支持监控传统服务器。注意 DeepFlow Server 必须运行在 K8s 之上，如果你没有 K8s 集群，可参考 [All-in-One 快速部署](./all-in-one/)章节先部署 DeepFlow Server。
 
 # 部署拓扑
 
@@ -12,21 +12,21 @@ MetaFlow 支持监控传统服务器。注意 MetaFlow Server 必须运行在 K8
 flowchart LR
 
 subgraph K8s-Cluster
-  MetaFlowServer["metaflow-server (statefulset)"]
+  DeepFlowServer["metaflow-server (statefulset)"]
 end
 
 subgraph Legacy-Host-1
-  MetaFlowAgent1[metaflow-agent]
-  MetaFlowAgent1 --> MetaFlowServer
+  DeepFlowAgent1[metaflow-agent]
+  DeepFlowAgent1 --> DeepFlowServer
 end
 
 subgraph Legacy-Host-2
-  MetaFlowAgent2[metaflow-agent]
-  MetaFlowAgent2 --> MetaFlowServer
+  DeepFlowAgent2[metaflow-agent]
+  DeepFlowAgent2 --> DeepFlowServer
 end
 ```
 
-# 配置 MetaFlow Server
+# 配置 DeepFlow Server
 
 ## 更新 metaflow-server 配置
 
@@ -78,7 +78,7 @@ platform_enabled: 1
 metaflow-ctl agent-group-config create -f agent-group-config.yaml
 ```
 
-# 部署 MetaFlow Agent
+# 部署 DeepFlow Agent
 
 下载包含 metaflow-agent rpm 的 zip 包
 ```bash
@@ -103,8 +103,8 @@ systemctl restart metaflow-agent
 
 # 下一步
 
-- [微服务全景图 - 体验 MetaFlow 基于 BPF 的 AutoMetrics 能力](../auto-metrics/metrics-without-instrumentation/)
-- [自动分布式追踪 - 体验 MetaFlow 基于 eBPF 的 AutoTracing 能力](../auto-tracing/tracing-without-instrumentation/)
-- [消除数据孤岛 - 了解 MetaFlow 的 AutoTagging 和 SmartEncoding 能力](../auto-tagging/elimilate-data-silos/)
+- [微服务全景图 - 体验 DeepFlow 基于 BPF 的 AutoMetrics 能力](../auto-metrics/metrics-without-instrumentation/)
+- [自动分布式追踪 - 体验 DeepFlow 基于 eBPF 的 AutoTracing 能力](../auto-tracing/tracing-without-instrumentation/)
+- [消除数据孤岛 - 了解 DeepFlow 的 AutoTagging 和 SmartEncoding 能力](../auto-tagging/elimilate-data-silos/)
 - [告别高基烦恼 - 集成 Promethes 等指标数据](../agent-integration/metrics/metrics-auto-tagging/)
 - [无缝分布式追踪 - 集成 OpenTelemetry 等追踪数据](../agent-integration/tracing/tracing-without-blind-spot/)

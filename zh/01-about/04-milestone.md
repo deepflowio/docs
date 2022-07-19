@@ -1,5 +1,5 @@
 ---
-title: MetaFlow 路标
+title: DeepFlow 路标
 ---
 
 DeepFlow 开源之前已经迭代到了 v6.1.0，2022 年 7 月计划发布的 v6.1.1 将会是首个可下载使用的社区版，届时将具备如下特性：
@@ -26,7 +26,7 @@ DeepFlow 开源之前已经迭代到了 v6.1.0，2022 年 7 月计划发布的 v
   - [x] 提供 SQL API，作为 Grafana 的 DataSource
   - [x] 使用 ClickHouse 作为存储引擎
 
-MetaFlow未来还有很多激动人心的特性等待我们和社区一起开发，包括：
+DeepFlow未来还有很多激动人心的特性等待我们和社区一起开发，包括：
 - AutoMetrics
   - [ ] 基于 BPF+Winpcap 的 AutoMetrics 能力
   - [ ] 基于 eBPF USDT/uprobe 的 C/C++/Java/Golang 等应用 HTTP2/HTTPS 协议解析能力

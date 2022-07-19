@@ -12,12 +12,12 @@ subgraph K8s-Cluster
     OTelSDK1["otel-sdk / otel-javaagent"]
   end
   OTelAgent1["otel-collector (agent mode, daemonset)"]
-  MetaFlowAgent1["metaflow-agent (daemonset)"]
-  MetaFlowServer["metaflow-server (statefulset)"]
+  DeepFlowAgent1["metaflow-agent (daemonset)"]
+  DeepFlowServer["metaflow-server (statefulset)"]
 
   OTelSDK1 -->|traces| OTelAgent1
-  OTelAgent1 -->|traces| MetaFlowAgent1
-  MetaFlowAgent1 -->|traces| MetaFlowServer
+  OTelAgent1 -->|traces| DeepFlowAgent1
+  DeepFlowAgent1 -->|traces| DeepFlowServer
 end
 
 subgraph Host
@@ -25,11 +25,11 @@ subgraph Host
     OTelSDK2["otel-sdk / otel-javaagent"]
   end
   OTelAgent2["otel-collector (agent mode)"]
-  MetaFlowAgent2[metaflow-agent]
+  DeepFlowAgent2[metaflow-agent]
 
   OTelSDK2 -->|traces| OTelAgent2
-  OTelAgent2 -->|traces| MetaFlowAgent2
-  MetaFlowAgent2 -->|traces| MetaFlowServer
+  OTelAgent2 -->|traces| DeepFlowAgent2
+  DeepFlowAgent2 -->|traces| DeepFlowServer
 end
 ```
 
@@ -68,7 +68,7 @@ kubectl set image -n open-telemetry daemonset/otel-agent otel-agent=otel/opentel
 
 ## 配置 otel-agent
 
-我们需要配置 otel-agent ConfigMap 中的 `otel-agent-config.exporters.otlphttp`，将 trace 发送至 MetaFlow。首先查询当前配置：
+我们需要配置 otel-agent ConfigMap 中的 `otel-agent-config.exporters.otlphttp`，将 trace 发送至 DeepFlow。首先查询当前配置：
 ```bash
 kubectl get cm -n open-telemetry otel-agent-conf -o custom-columns=DATA:.data | \
     grep -A 5 otlphttp:
@@ -84,7 +84,7 @@ otlphttp:
     enabled: true
 ```
 
-# 配置 MetaFlow
+# 配置 DeepFlow
 
 接下来我们需要开启 metaflow-agent 的数据接收服务。
 
@@ -136,12 +136,12 @@ kubectl apply -n metaflow-otel-spring-demo -f https://raw.githubusercontent.com/
 ## 查看追踪数据
 
 前往 Grafana，打开 `Distributed Tracing` Dashboard，选择 `namespace = metaflow-otel-spring-demo` 后，可选择一个调用进行追踪。
-MetaFlow 能够将 OpenTelemetry、eBPF、BPF 获取到的追踪数据关联展示在一个 Trace 火焰图中，
+DeepFlow 能够将 OpenTelemetry、eBPF、BPF 获取到的追踪数据关联展示在一个 Trace 火焰图中，
 覆盖一个 Spring Boot 应用从业务代码、系统函数、网络接口的全栈调用路径，实现真正的全链路分布式追踪，效果如下：
 
 ![OTel Spring Demo](./imgs/otel-spring-demo.png)
 
-你也可以访问 [MetaFlow Online Demo](https://demo.metaflow.yunshan.net/d/a3x57qenk/distributed-tracing?orgId=1&var-cluster=All&var-namespace=12&var-workload=All&var-vm=All&var-trace_id=*&var-span_id=*&var-request_resource=*&from=now-5m&to=now&from=metaflow-doc) 查看效果。
+你也可以访问 [DeepFlow Online Demo](https://demo.metaflow.yunshan.net/d/a3x57qenk/distributed-tracing?orgId=1&var-cluster=All&var-namespace=12&var-workload=All&var-vm=All&var-trace_id=*&var-span_id=*&var-request_resource=*&from=now-5m&to=now&from=metaflow-doc) 查看效果。
 
 # 基于 OpenTelemetry WebStore Demo 体验
 
@@ -204,9 +204,9 @@ kubectl apply -n metaflow-otel-grpc-demo -f https://raw.githubusercontent.com/me
 ## 查看追踪数据
 
 前往 Grafana，打开 `Distributed Tracing` Dashboard，选择 `namespace = metaflow-otel-grpc-demo` 后，可选择一个调用进行追踪。
-MetaFlow 能够将 OpenTelemetry、eBPF、BPF 获取到的追踪数据关联展示在一个 Trace 火焰图中，
+DeepFlow 能够将 OpenTelemetry、eBPF、BPF 获取到的追踪数据关联展示在一个 Trace 火焰图中，
 覆盖一个多语言应用从业务代码、系统函数、网络接口的全栈调用路径，实现真正的全链路分布式追踪，效果如下：
 
 ![OTel gRPC Demo](./imgs/otel-grpc-demo.png)
 
-你也可以访问 [MetaFlow Online Demo](https://demo.metaflow.yunshan.net/d/a3x57qenk/distributed-tracing?orgId=1&var-cluster=All&var-namespace=13&var-workload=62&var-vm=All&var-trace_id=*&var-span_id=*&var-request_resource=*&from=now-5m&to=now&from=metaflow-doc) 查看效果。
+你也可以访问 [DeepFlow Online Demo](https://demo.metaflow.yunshan.net/d/a3x57qenk/distributed-tracing?orgId=1&var-cluster=All&var-namespace=13&var-workload=62&var-vm=All&var-trace_id=*&var-span_id=*&var-request_resource=*&from=now-5m&to=now&from=metaflow-doc) 查看效果。

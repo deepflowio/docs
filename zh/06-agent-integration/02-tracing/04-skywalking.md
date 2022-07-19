@@ -12,12 +12,12 @@ subgraph K8s-Cluster
     SWSDK1["sw-sdk / sw-javaagent"]
   end
   OTelAgent1["otel-collector (agent mode, daemonset)"]
-  MetaFlowAgent1["metaflow-agent (daemonset)"]
-  MetaFlowServer["metaflow-server (statefulset)"]
+  DeepFlowAgent1["metaflow-agent (daemonset)"]
+  DeepFlowServer["metaflow-server (statefulset)"]
 
   SWSDK1 -->|sw-traces| OTelAgent1
-  OTelAgent1 -->|otel-traces| MetaFlowAgent1
-  MetaFlowAgent1 -->|otel-traces| MetaFlowServer
+  OTelAgent1 -->|otel-traces| DeepFlowAgent1
+  DeepFlowAgent1 -->|otel-traces| DeepFlowServer
 end
 
 subgraph Host
@@ -25,11 +25,11 @@ subgraph Host
     SWSDK2["sw-sdk / sw-javaagent"]
   end
   OTelAgent2["otel-collector (agent mode)"]
-  MetaFlowAgent2[metaflow-agent]
+  DeepFlowAgent2[metaflow-agent]
 
   SWSDK2 -->|sw-traces| OTelAgent2
-  OTelAgent2 -->|otel-traces| MetaFlowAgent2
-  MetaFlowAgent2 -->|otel-traces| MetaFlowServer
+  OTelAgent2 -->|otel-traces| DeepFlowAgent2
+  DeepFlowAgent2 -->|otel-traces| DeepFlowServer
 end
 ```
 
@@ -43,7 +43,7 @@ end
 
 ## 确认 OpenTelemetry 版本
 
-首先，你需要开启 OpenTelemetry 的 SkyWalking 数据接收能力，将数据经过 OpenTelemetry 标准协议处理之后，发送到 MetaFlow Agent。
+首先，你需要开启 OpenTelemetry 的 SkyWalking 数据接收能力，将数据经过 OpenTelemetry 标准协议处理之后，发送到 DeepFlow Agent。
 
 OpenTelemetry 接收 SkyWalking 数据存在 Bug，最近我们在 [这个 PR](https://github.com/open-telemetry/opentelemetry-collector-contrib/pull/11562) 中进行了修复，接下来的 Demo 我们需要 OpenTelemetry 的 [Collector 镜像](https://hub.docker.com/r/otel/opentelemetry-collector-contrib) 版本 `>= 0.56.0`。请检查你的环境中 otel-agent 的镜像版本，并确保它符合要求。可参考前序章节中的 [OpenTelemetry 安装](../tracing/opentelemetry/#配置-otel-agent)，更新你的环境中的 otel-agent 版本。
 
@@ -112,9 +112,9 @@ spec:
 kubectl rollout restart -n open-telemetry daemonset/otel-agent
 ```
 
-# 配置 MetaFlow
+# 配置 DeepFlow
 
-请参考 [配置 MetaFlow](../tracing/opentelemetry/#配置-metaflow) 一节内容，完成 MetaFlow Agent 的配置。
+请参考 [配置 DeepFlow](../tracing/opentelemetry/#配置-metaflow) 一节内容，完成 DeepFlow Agent 的配置。
 
 # 基于 WebShop Demo 体验
 
@@ -132,9 +132,9 @@ kubectl apply -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main
 ## 查看追踪数据
 
 前往 Grafana，打开 `Distributed Tracing` Dashboard，选择 `namespace = metaflow-otel-skywalking-demo` 后，可选择一个调用进行追踪。
-MetaFlow 能够将 SkyWalking、eBPF、BPF 获取到的追踪数据关联展示在一个 Trace 火焰图中，
+DeepFlow 能够将 SkyWalking、eBPF、BPF 获取到的追踪数据关联展示在一个 Trace 火焰图中，
 覆盖一个 Spring Boot 应用从业务代码、系统函数、网络接口的全栈调用路径，实现真正的全链路分布式追踪，效果如下：
 
 ![OTel SkyWalking Demo](./imgs/otel-skywalking-demo.png)
 
-你也可以访问 [MetaFlow Online Demo](https://demo.metaflow.yunshan.net/d/a3x57qenk/distributed-tracing?orgId=1&var-cluster=All&var-namespace=15&var-workload=All&var-vm=All&var-trace_id=*&var-span_id=*&var-request_resource=*&from=now-5m&to=now&from=metaflow-doc) 查看效果。
+你也可以访问 [DeepFlow Online Demo](https://demo.metaflow.yunshan.net/d/a3x57qenk/distributed-tracing?orgId=1&var-cluster=All&var-namespace=15&var-workload=All&var-vm=All&var-trace_id=*&var-span_id=*&var-request_resource=*&from=now-5m&to=now&from=metaflow-doc) 查看效果。

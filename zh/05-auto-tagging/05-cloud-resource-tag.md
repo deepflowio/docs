@@ -2,7 +2,7 @@
 title: 云资源信息注入
 ---
 
-MetaFlow 目前支持资源信息同步的公有云厂商包括：
+DeepFlow 目前支持资源信息同步的公有云厂商包括：
 - AWS
 - Aliyun 阿里云
 - Baidu Cloud 百度云

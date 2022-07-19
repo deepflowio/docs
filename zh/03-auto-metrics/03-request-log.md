@@ -2,7 +2,7 @@
 title: 应用调用详情
 ---
 
-无需向应用中插入任何代码，MetaFlow 自动生成所有服务的应用请求日志：
+无需向应用中插入任何代码，DeepFlow 自动生成所有服务的应用请求日志：
 - 数据库表名：`flow_log.l7_flow_log`
 - 自动注入的 Tag 列表：[IP、协议、端口、请求/响应字段、采集位置、进程信息、云资源、K8s 资源](https://github.com/metaflowys/metaflow/blob/main/server/querier/db_descriptions/clickhouse/tag/flow_log/l7_flow_log)、K8s 自定义 Label
   - 支持的应用协议列表：[L7 Protocol List](https://github.com/metaflowys/metaflow/blob/main/server/querier/db_descriptions/clickhouse/tag/enum/l7_protocol)
@@ -12,4 +12,4 @@ title: 应用调用详情
 
 ![Application Request Log](./imgs/application-request-log.png)
 
-你也可以访问 [MetaFlow Online Demo](https://demo.metaflow.yunshan.net/d/JimNq_67z/application-request-log?from=metaflow-doc) 查看效果。
+你也可以访问 [DeepFlow Online Demo](https://demo.metaflow.yunshan.net/d/JimNq_67z/application-request-log?from=metaflow-doc) 查看效果。

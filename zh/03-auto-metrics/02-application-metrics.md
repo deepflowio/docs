@@ -4,7 +4,7 @@ title: 应用性能指标
 
 # 服务
 
-无需向应用中插入任何代码，MetaFlow 自动生成所有服务的应用性能指标：
+无需向应用中插入任何代码，DeepFlow 自动生成所有服务的应用性能指标：
 - 数据库表名：`flow_metrics.vtap_app_port`
 - 自动注入的 Tag 列表：[IP、协议、端口、采集位置、云资源、K8s 资源](https://github.com/metaflowys/metaflow/blob/main/server/querier/db_descriptions/clickhouse/tag/flow_metrics/vtap_app_port)、K8s 自定义 Label
   - 支持的应用协议列表：[L7 Protocol List](https://github.com/metaflowys/metaflow/blob/main/server/querier/db_descriptions/clickhouse/tag/enum/l7_protocol)
@@ -14,11 +14,11 @@ title: 应用性能指标
 
 ![Application K8s Pod](./imgs/application-k8s-pod.png)
 
-你也可以访问 [MetaFlow Online Demo](https://demo.metaflow.yunshan.net/d/n7vt1RR4k/application-k8s-pod?from=metaflow-doc) 查看效果。
+你也可以访问 [DeepFlow Online Demo](https://demo.metaflow.yunshan.net/d/n7vt1RR4k/application-k8s-pod?from=metaflow-doc) 查看效果。
 
 # 路径和拓扑
 
-无需向应用中插入任何代码，MetaFlow 自动生成所有服务访问路径的应用性能指标：
+无需向应用中插入任何代码，DeepFlow 自动生成所有服务访问路径的应用性能指标：
 - 数据库表名：`flow_metrics.vtap_app_edge_port`
 - 自动注入的 Tag 列表：[IP、协议、端口、采集位置、云资源、K8s 资源](https://github.com/metaflowys/metaflow/blob/main/server/querier/db_descriptions/clickhouse/tag/flow_metrics/vtap_app_edge_port)、K8s 自定义 Label
   - 支持的应用协议列表：[L7 Protocol List](https://github.com/metaflowys/metaflow/blob/main/server/querier/db_descriptions/clickhouse/tag/enum/l7_protocol)
@@ -28,4 +28,4 @@ title: 应用性能指标
 
 ![Application K8s Pod Map](./imgs/application-k8s-pod-map.png)
 
-你也可以访问 [MetaFlow Online Demo](https://demo.metaflow.yunshan.net/d/RPBaBRg4z/application-k8s-pod-map?from=metaflow-doc) 查看效果。
+你也可以访问 [DeepFlow Online Demo](https://demo.metaflow.yunshan.net/d/RPBaBRg4z/application-k8s-pod-map?from=metaflow-doc) 查看效果。
