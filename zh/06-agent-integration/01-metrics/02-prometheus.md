@@ -43,10 +43,10 @@ helm install prometheus prometheus-community/prometheus -n metaflow-prometheus-d
 kubectl edit cm -n metaflow-prometheus-demo prometheus-server
 ```
 
-配置 `remote_write` 地址（请修改 `METAFLOW_AGENT_SVC`）：
+配置 `remote_write` 地址（请修改 `DEEPFLOW_AGENT_SVC`）：
 ```yaml
 remote_write:
-  - url: http://${METAFLOW_AGENT_SVC}/api/v1/prometheus
+  - url: http://${DEEPFLOW_AGENT_SVC}/api/v1/prometheus
 ```
 
 # 配置 MetaFlow

@@ -44,12 +44,12 @@ metaflow-ctl domain list $CLUSTER_NAME  # Get K8sClusterID
 
 使用 Helm 安装 metaflow-agent：
 ```bash
-METAFLOW_SERVER_NODE_IPS="10.1.2.3,10.4.5.6"  # FIXME: K8s Node IPs of metaflow-server
+DEEPFLOW_SERVER_NODE_IPS="10.1.2.3,10.4.5.6"  # FIXME: K8s Node IPs of metaflow-server
 
 helm repo add metaflow https://metaflowys.github.io/metaflow
 helm repo update metaflow # use `helm repo update` when helm < 3.7.0
 helm install metaflow-agent -n metaflow metaflow/metaflow-agent --create-namespace \
-    --set metaflowServerNodeIPS={$METAFLOW_SERVER_NODE_IPS}
+    --set metaflowServerNodeIPS={$DEEPFLOW_SERVER_NODE_IPS}
 ```
 
 我们为 metaflow-server 的 service 设置了 `externalTrafficPolicy=Local` 以优化流量路径，
@@ -58,9 +58,9 @@ helm install metaflow-agent -n metaflow metaflow/metaflow-agent --create-namespa
 注意：
 - 若不同 K8s 集群的 CA 文件一样，部署时需要传入使用 `metaflow-ctl` 获取到的 `kubernetesClusterId`：
   ```bash
-  METAFLOW_K8S_CLUSTER_ID="fffffff"              # FIXME: Generate by `metaflow-ctl domain create`
+  DEEPFLOW_K8S_CLUSTER_ID="fffffff"              # FIXME: Generate by `metaflow-ctl domain create`
   helm upgrade metaflow-agent -n metaflow metaflow/metaflow-agent  \
-      --set metaflowK8sClusterID=$METAFLOW_K8S_CLUSTER_ID
+      --set metaflowK8sClusterID=$DEEPFLOW_K8S_CLUSTER_ID
       --reuse-values
   ```
 - 虽然你可以使用 helm `--set` 参数来定义部分配置，但我们建议将自定义的配置保存一个独立的 yaml 文件中。

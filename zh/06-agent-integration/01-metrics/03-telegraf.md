@@ -58,7 +58,7 @@ kubectl edit cm -n metaflow-telegraf-demo telegraf
 在 `telegraf.conf` 中，增加如下配置：
 ```toml
 [[outputs.http]]
-  url = "http://${METAFLOW_AGENT_SVC}/api/v1/telegraf"
+  url = "http://${DEEPFLOW_AGENT_SVC}/api/v1/telegraf"
   data_format = "influx"
 ```
 
