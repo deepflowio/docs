@@ -4,7 +4,7 @@ title: 监控多个 K8s 集群
 
 # 简介
 
-DeepFlow Server 可服务于多个 K8s 集群中的 DeepFlow Agent。假设你在一个 K8s 集群中已经部署好了 Metaflow Server，本章介绍如何监控其他的 K8s 集群。
+DeepFlow Server 可服务于多个 K8s 集群中的 DeepFlow Agent。假设你在一个 K8s 集群中已经部署好了 DeepFlow Server，本章介绍如何监控其他的 K8s 集群。
 
 # 准备工作
 
@@ -67,8 +67,8 @@ helm install deepflow-agent -n deepflow deepflow/deepflow-agent --create-namespa
   例如 `values-custom.yaml` ：
   ```yaml
   deepflowServerNodeIPS:
-  - 10.1.2.3 # FIXME: K8s Node IPs of 
-  - 10.4.5.6 # FIXME: K8s Node IPs of 
+  - 10.1.2.3 # FIXME: K8s Node IPs of
+  - 10.4.5.6 # FIXME: K8s Node IPs of
   deepflowK8sClusterID: "fffffff" # FIXME: Generate by `deepflow-ctl domain create`
   ```
   后续更新可以使用 `-f values-custom.yaml` 参数使用自定义配置：
