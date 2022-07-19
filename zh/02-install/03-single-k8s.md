@@ -19,15 +19,15 @@ subgraph K8s-Cluster
   APIServer["k8s apiserver"]
 
   subgraph DeepFlow Backend
-    DeepFlowServer["metaflow-server (statefulset)"]
+    DeepFlowServer["deepflow-server (statefulset)"]
     ClickHouse["clickhouse (statefulset)"]
     MySQL["mysql (deployment)"]
-    DeepFlowApp["metaflow-app (deployment)"]
+    DeepFlowApp["deepflow-app (deployment)"]
     Grafana["grafana (deployment)"]
   end
 
   subgraph DeepFlow Frontend
-    DeepFlowAgent["metaflow-agent (daemonset)"]
+    DeepFlowAgent["deepflow-agent (daemonset)"]
   end
 
   DeepFlowAgent -->|"control & data"| DeepFlowServer
@@ -53,18 +53,18 @@ kubectl apply -f https://openebs.github.io/charts/openebs-operator.yaml
 kubectl patch storageclass openebs-hostpath  -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 ```
 
-## metaflow-agent 权限需求
+## deepflow-agent 权限需求
 
-metaflow-agent 要求所在容器节点的配置如下：
+deepflow-agent 要求所在容器节点的配置如下：
 - `selinux` = `Permissive` OR `disabled`
 
-metaflow-agent 作为 DaemonSet 部署时将会打开它的如下权限：
+deepflow-agent 作为 DaemonSet 部署时将会打开它的如下权限：
 - `hostNetwork`
 - `hostPID`
 - `privileged`
 - Write `/sys/kernel/debug`
 
-metaflow-agent 同步 K8s 资源和 Label 信息时需要以下资源的 get/list/watch 权限：
+deepflow-agent 同步 K8s 资源和 Label 信息时需要以下资源的 get/list/watch 权限：
 - `nodes`
 - `namespaces`
 - `configmaps`
@@ -82,9 +82,9 @@ metaflow-agent 同步 K8s 资源和 Label 信息时需要以下资源的 get/lis
 
 使用 Helm 安装 DeepFlow：
 ```bash
-helm repo add metaflow https://metaflowys.github.io/metaflow
-helm repo update metaflow ## use `helm repo update` when helm < 3.7.0
-helm install metaflow -n metaflow metaflow/metaflow --create-namespace
+helm repo add deepflow https://deepflowys.github.io/deepflow
+helm repo update deepflow ## use `helm repo update` when helm < 3.7.0
+helm install deepflow -n deepflow deepflow/deepflow --create-namespace
 ```
 
 注意：
@@ -93,34 +93,34 @@ helm install metaflow -n metaflow metaflow/metaflow --create-namespace
   ```yaml
   global:
     storageClass: "<your storageClass>"
-    replicas: 1  ## replicas for metaflow-server and clickhouse
+    replicas: 1  ## replicas for deepflow-server and clickhouse
   ```
   后续更新可以使用 `-f values-custom.yaml` 参数使用自定义配置：
   ```bash
-  helm upgrade metaflow -n metaflow -f values-custom.yaml metaflow/metaflow
+  helm upgrade deepflow -n deepflow -f values-custom.yaml deepflow/deepflow
   ```
 
-# 下载 metaflow-ctl
+# 下载 deepflow-ctl
 
-metaflow-ctl 是管理 DeepFlow 的一个命令行工具，建议下载至 metaflow-server 所在的 K8s Node 上，用于后续使用：
+deepflow-ctl 是管理 DeepFlow 的一个命令行工具，建议下载至 deepflow-server 所在的 K8s Node 上，用于后续使用：
 ```bash
-curl -o /usr/bin/metaflow-ctl https://metaflow.oss-cn-beijing.aliyuncs.com/bin/ctl/latest/linux/amd64/metaflow-ctl
-chmod a+x /usr/bin/metaflow-ctl
+curl -o /usr/bin/deepflow-ctl https://deepflow.oss-cn-beijing.aliyuncs.com/bin/ctl/latest/linux/amd64/deepflow-ctl
+chmod a+x /usr/bin/deepflow-ctl
 ```
 
 # 访问 Grafana 页面
 
 执行 helm 部署 DeepFlow 时输出的内容提示了获取访问 Grafana 的 URL 和密码的命令，输出示例：
 ```bash
-NODE_PORT=$(kubectl get --namespace metaflow -o jsonpath="{.spec.ports[0].nodePort}" services metaflow-grafana)
+NODE_PORT=$(kubectl get --namespace deepflow -o jsonpath="{.spec.ports[0].nodePort}" services deepflow-grafana)
 NODE_IP=$(kubectl get nodes -o jsonpath="{.items[0].status.addresses[0].address}")
-echo -e "Grafana URL: http://$NODE_IP:$NODE_PORT  \nGrafana auth: admin:metaflow"
+echo -e "Grafana URL: http://$NODE_IP:$NODE_PORT  \nGrafana auth: admin:deepflow"
 ```
 
 执行上述命令后的输出示例：
 ```text
 Grafana URL: http://10.1.2.3:31999
-Grafana auth: admin:metaflow
+Grafana auth: admin:deepflow
 ```
 
 # 下一步

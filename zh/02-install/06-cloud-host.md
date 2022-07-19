@@ -14,18 +14,18 @@ flowchart TD
 
 subgraph VPC-1
   subgraph K8s-Cluster
-    DeepFlowServer["metaflow-server (statefulset)"]
+    DeepFlowServer["deepflow-server (statefulset)"]
   end
 
   subgraph Cloud-Host-1
-    DeepFlowAgent1[metaflow-agent]
+    DeepFlowAgent1[deepflow-agent]
     DeepFlowAgent1 --> DeepFlowServer
   end
 end
 
 subgraph VPC-2
   subgraph Cloud-Host-2
-    DeepFlowAgent2[metaflow-agent]
+    DeepFlowAgent2[deepflow-agent]
     DeepFlowAgent2 -->|"tcp/udp 30033+30035"| DeepFlowServer
   end
 end
@@ -46,10 +46,10 @@ DeepFlow 目前支持如下公有云的资源信息同步（标记为 `TBD` 的�
 | QingCloud        | 青云             | qingcloud                |
 | Tencent Cloud    | 腾讯云           | `TBD`                    |
 
-可通过 `metaflow-ctl domain example <domain_type>` 命令获取创建公有云 Domain 的配置文件模板。
+可通过 `deepflow-ctl domain example <domain_type>` 命令获取创建公有云 Domain 的配置文件模板。
 以阿里云为例：
 ```bash
-metaflow-ctl domain example aliyun > aliyun.yaml
+deepflow-ctl domain example aliyun > aliyun.yaml
 ```
 
 修改配置文件 `aliyun.yaml`，填写 AK/SK（需要云资源的只读权限）和资源所在的 Region 信息：
@@ -61,33 +61,33 @@ config:
   secret_id: xxxxxxxx ## FIXME: your secret_id
   # AccessKey Secret
   secret_key: xxxxxxx ## FIXME: your secret_key
-  include_regions: 华北2（北京） ## The region where metaflow is docked, if it is empty, it means all regions, and the regions are separated by commas
+  include_regions: 华北2（北京） ## The region where deepflow is docked, if it is empty, it means all regions, and the regions are separated by commas
 ```
 
 使用修改好的配置文件创建公有云 Domain：
 ```bash
-metaflow-ctl domain create -f aliyun.yaml
+deepflow-ctl domain create -f aliyun.yaml
 ```
 
 # 部署 DeepFlow Agent
 
-下载包含 metaflow-agent rpm 的 zip 包
+下载包含 deepflow-agent rpm 的 zip 包
 ```bash
-curl -O https://metaflow.oss-cn-beijing.aliyuncs.com/rpm/agent/latest/linux/amd64/metaflow-agent-rpm.zip
-unzip metaflow-agent-rpm.zip
-yum -y localinstall x86_64/metaflow-agent-1.0*.rpm
+curl -O https://deepflow.oss-cn-beijing.aliyuncs.com/rpm/agent/latest/linux/amd64/deepflow-agent-rpm.zip
+unzip deepflow-agent-rpm.zip
+yum -y localinstall x86_64/deepflow-agent-1.0*.rpm
 ```
 
-修改 metaflow-agent 的配置文件 `/etc/metaflow-agent.yaml` ：
+修改 deepflow-agent 的配置文件 `/etc/deepflow-agent.yaml` ：
 ```yaml
 controller-ips:
-  - 10.1.2.3  # FIXME: K8s Node IPs of metaflow-server
+  - 10.1.2.3  # FIXME: K8s Node IPs of deepflow-server
 ```
 
-启动 metaflow-agent ：
+启动 deepflow-agent ：
 ```bash
-systemctl enable metaflow-agent
-systemctl restart metaflow-agent
+systemctl enable deepflow-agent
+systemctl restart deepflow-agent
 ```
 
 # 下一步

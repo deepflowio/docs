@@ -10,7 +10,7 @@ title: 简介
 - [cloud-host](./cloud-host/)：部署 DeepFlow 监控云服务器上的所有应用，所有观测数据将会自动注入`云资源`标签
 - [managed-k8s](./managed-k8s/)：部署 DeepFlow 监控云服务商托管 K8s 集群上的所有应用，所有观测数据将会自动注入`云资源`、`K8s 资源`、`K8s 自定义 Label`标签
 
-如果你现在没有合适的资源部署 DeepFlow，也可登录我们的[在线 Demo](https://demo.metaflow.yunshan.net)（用户名/密码均为 `metaflow`），
+如果你现在没有合适的资源部署 DeepFlow，也可登录我们的[在线 Demo](https://demo.deepflow.yunshan.net)（用户名/密码均为 `deepflow`），
 借助如下文档章节抢先体验 DeepFlow 的强大能力：
 - [微服务全景图 - 体验 DeepFlow 基于 BPF 的 AutoMetrics 能力](../auto-metrics/metrics-without-instrumentation/)
 - [自动分布式追踪 - 体验 DeepFlow 基于 eBPF 的 AutoTracing 能力](../auto-tracing/tracing-without-instrumentation/)

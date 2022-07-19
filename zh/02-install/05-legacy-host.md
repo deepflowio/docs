@@ -12,23 +12,23 @@ DeepFlow 支持监控传统服务器。注意 DeepFlow Server 必须运行在 K8
 flowchart LR
 
 subgraph K8s-Cluster
-  DeepFlowServer["metaflow-server (statefulset)"]
+  DeepFlowServer["deepflow-server (statefulset)"]
 end
 
 subgraph Legacy-Host-1
-  DeepFlowAgent1[metaflow-agent]
+  DeepFlowAgent1[deepflow-agent]
   DeepFlowAgent1 --> DeepFlowServer
 end
 
 subgraph Legacy-Host-2
-  DeepFlowAgent2[metaflow-agent]
+  DeepFlowAgent2[deepflow-agent]
   DeepFlowAgent2 --> DeepFlowServer
 end
 ```
 
 # 配置 DeepFlow Server
 
-## 更新 metaflow-server 配置
+## 更新 deepflow-server 配置
 
 修改 `values-custom.yaml` 自定义配置文件：
 ```yaml
@@ -37,11 +37,11 @@ config:
   tridentTypeForUnkonwVtap: 3
 ```
 
-更新 metaflow
+更新 deepflow
 ```bash
-helm upgrade metaflow -n metaflow -f values-custom.yaml metaflow/metaflow
-## Restart metaflow-server
-kubectl delete pods -n metaflow -l app=metaflow -l component=metaflow-server
+helm upgrade deepflow -n deepflow -f values-custom.yaml deepflow/deepflow
+## Restart deepflow-server
+kubectl delete pods -n deepflow -l app=deepflow -l component=deepflow-server
 ```
 
 ## 创建 Host Domain
@@ -50,7 +50,7 @@ kubectl delete pods -n metaflow -l app=metaflow -l component=metaflow-server
 unset DOMAIN_NAME
 DOMAIN_NAME="legacy-host"  # FIXME: domain name
 
-cat << EOF | metaflow-ctl domain create -f -
+cat << EOF | deepflow-ctl domain create -f -
 name: $DOMAIN_NAME
 type: agent_sync
 EOF
@@ -63,8 +63,8 @@ EOF
 unset AGENT_GROUP
 AGENT_GROUP="legacy-host"  # FIXME: domain name
 
-metaflow-ctl agent-group create $AGENT_GROUP
-metaflow-ctl agent-group list $AGENT_GROUP # Get agent-group ID
+deepflow-ctl agent-group create $AGENT_GROUP
+deepflow-ctl agent-group list $AGENT_GROUP # Get agent-group ID
 ```
 
 创建采集器组配置文件 `agent-group-config.yaml`：
@@ -75,30 +75,30 @@ platform_enabled: 1
 
 创建采集器组配置：
 ```bash
-metaflow-ctl agent-group-config create -f agent-group-config.yaml
+deepflow-ctl agent-group-config create -f agent-group-config.yaml
 ```
 
 # 部署 DeepFlow Agent
 
-下载包含 metaflow-agent rpm 的 zip 包
+下载包含 deepflow-agent rpm 的 zip 包
 ```bash
-curl -O https://metaflow.oss-cn-beijing.aliyuncs.com/rpm/agent/latest/linux/amd64/metaflow-agent-rpm.zip
-unzip metaflow-agent-rpm.zip
-yum -y localinstall x86_64/metaflow-agent-1.0*.rpm
+curl -O https://deepflow.oss-cn-beijing.aliyuncs.com/rpm/agent/latest/linux/amd64/deepflow-agent-rpm.zip
+unzip deepflow-agent-rpm.zip
+yum -y localinstall x86_64/deepflow-agent-1.0*.rpm
 ```
 
-修改 metaflow-agent 的配置文件 `/etc/metaflow-agent.yaml` ：
+修改 deepflow-agent 的配置文件 `/etc/deepflow-agent.yaml` ：
 ```yaml
 controller-ips:
-  - 10.1.2.3  # FIXME: K8s Node IPs of metaflow-server
+  - 10.1.2.3  # FIXME: K8s Node IPs of deepflow-server
 vtap-group-id-request: "g-fffffff"  # FIXME: agent-group ID
 ```
 
-启动 metaflow-agent ：
+启动 deepflow-agent ：
 
 ```bash
-systemctl enable metaflow-agent
-systemctl restart metaflow-agent
+systemctl enable deepflow-agent
+systemctl restart deepflow-agent
 ```
 
 # 下一步

@@ -6,7 +6,7 @@ title: DeepFlow 架构
 
 DeepFlow 由 Agent 和 Server 两个进程组成。每个 K8s 容器节点、虚拟机或物理裸机中运行一个 Agent，负责该服务器上所有应用进程的 AutoMetrics 和 AutoTracing 数据采集。Server 运行在一个 K8s 集群中，提供 Agent 管理、数据标签注入、数据写入、数据查询服务。
 
-![DeepFlow 软件架构](./imgs/metaflow-architecture.png)
+![DeepFlow 软件架构](./imgs/deepflow-architecture.png)
 
 # 设计理念
 
@@ -14,7 +14,7 @@ DeepFlow 名称来自对 **Flow** 的**自动化**采集能力。网络中的 Fl
 
 除了能够自动化的获取 Request-scoped 观测数据之外，DeepFlow 通过 Agent 的开放能力集成大量其他开源 SDK 和 Agent 数据源，完整覆盖可观测性的 Tracing、Metrics、Logging 三大支柱。DeepFlow 并不是简单的将这些数据纳入进来，独有的 AutoTagging 和 SmartEncoding 技术能够高性能、自动化的为所有观测数据注入统一的属性标签，消除数据孤岛，并释放数据的下钻切分能力。
 
-![DeepFlow 设计定位](./imgs/metaflow-location.png?w=796&align=center)
+![DeepFlow 设计定位](./imgs/deepflow-location.png?w=796&align=center)
 
 # DeepFlow Agent
 

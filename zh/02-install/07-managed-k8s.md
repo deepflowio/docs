@@ -14,8 +14,8 @@ flowchart TD
 subgraph VPC
   subgraph Managed-K8s-Cluster
     APIServer["k8s apiserver"]
-    DeepFlowAgent["metaflow-agent (daemonset)"]
-    DeepFlowServer["metaflow-server (statefulset)"]
+    DeepFlowAgent["deepflow-agent (daemonset)"]
+    DeepFlowServer["deepflow-server (statefulset)"]
 
     DeepFlowAgent -->|"get k8s resource & label"| APIServer
     DeepFlowAgent -->|"control & data"| DeepFlowServer

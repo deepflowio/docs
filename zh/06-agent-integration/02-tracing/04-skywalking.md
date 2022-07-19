@@ -12,8 +12,8 @@ subgraph K8s-Cluster
     SWSDK1["sw-sdk / sw-javaagent"]
   end
   OTelAgent1["otel-collector (agent mode, daemonset)"]
-  DeepFlowAgent1["metaflow-agent (daemonset)"]
-  DeepFlowServer["metaflow-server (statefulset)"]
+  DeepFlowAgent1["deepflow-agent (daemonset)"]
+  DeepFlowServer["deepflow-server (statefulset)"]
 
   SWSDK1 -->|sw-traces| OTelAgent1
   OTelAgent1 -->|otel-traces| DeepFlowAgent1
@@ -25,7 +25,7 @@ subgraph Host
     SWSDK2["sw-sdk / sw-javaagent"]
   end
   OTelAgent2["otel-collector (agent mode)"]
-  DeepFlowAgent2[metaflow-agent]
+  DeepFlowAgent2[deepflow-agent]
 
   SWSDK2 -->|sw-traces| OTelAgent2
   OTelAgent2 -->|otel-traces| DeepFlowAgent2
@@ -114,7 +114,7 @@ kubectl rollout restart -n open-telemetry daemonset/otel-agent
 
 # 配置 DeepFlow
 
-请参考 [配置 DeepFlow](../tracing/opentelemetry/#配置-metaflow) 一节内容，完成 DeepFlow Agent 的配置。
+请参考 [配置 DeepFlow](../tracing/opentelemetry/#配置-deepflow) 一节内容，完成 DeepFlow Agent 的配置。
 
 # 基于 WebShop Demo 体验
 
@@ -126,15 +126,15 @@ kubectl rollout restart -n open-telemetry daemonset/otel-agent
 
 使用如下命令可以一键部署这个 Demo：
 ```bash
-kubectl apply -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main/metaflow-otel-skywalking-demo/metaflow-otel-skywalking-demo.yaml
+kubectl apply -f https://raw.githubusercontent.com/deepflowys/deepflow-demo/main/deepflow-otel-skywalking-demo/deepflow-otel-skywalking-demo.yaml
 ```
 
 ## 查看追踪数据
 
-前往 Grafana，打开 `Distributed Tracing` Dashboard，选择 `namespace = metaflow-otel-skywalking-demo` 后，可选择一个调用进行追踪。
+前往 Grafana，打开 `Distributed Tracing` Dashboard，选择 `namespace = deepflow-otel-skywalking-demo` 后，可选择一个调用进行追踪。
 DeepFlow 能够将 SkyWalking、eBPF、BPF 获取到的追踪数据关联展示在一个 Trace 火焰图中，
 覆盖一个 Spring Boot 应用从业务代码、系统函数、网络接口的全栈调用路径，实现真正的全链路分布式追踪，效果如下：
 
 ![OTel SkyWalking Demo](./imgs/otel-skywalking-demo.png)
 
-你也可以访问 [DeepFlow Online Demo](https://demo.metaflow.yunshan.net/d/a3x57qenk/distributed-tracing?orgId=1&var-cluster=All&var-namespace=15&var-workload=All&var-vm=All&var-trace_id=*&var-span_id=*&var-request_resource=*&from=now-5m&to=now&from=metaflow-doc) 查看效果。
+你也可以访问 [DeepFlow Online Demo](https://demo.deepflow.yunshan.net/d/a3x57qenk/distributed-tracing?orgId=1&var-cluster=All&var-namespace=15&var-workload=All&var-vm=All&var-trace_id=*&var-span_id=*&var-request_resource=*&from=now-5m&to=now&from=deepflow-doc) 查看效果。

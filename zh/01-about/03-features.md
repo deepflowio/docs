@@ -8,7 +8,7 @@ title: DeepFlow 关键特性
 
 DeepFlow 基于 eBPF 的 **AutoMetrics** 能力可自动获取系统调用、应用函数、网络通信的性能数据，并通过 BPF 和 AF\_PACKET/winpcap 将这些能力扩展到更广泛的 Linux 内核版本及 Windows 操作系统。
 
-![Agent 采集数据的方式](./imgs/metaflow-agent-tap-point.png)
+![Agent 采集数据的方式](./imgs/deepflow-agent-tap-point.png)
 
 从数据采集的方式可以看到，DeepFlow 可以自动化的采集任意软件技术栈的性能指标：
 - Any Dev Stack

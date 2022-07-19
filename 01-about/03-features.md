@@ -10,7 +10,7 @@ The traditional method of obtaining performance indicators must actively insert 
 
 DeepFlow's eBPF-based **AutoMetrics** capability can automatically obtain performance data of system calls, application functions, and network communications, and extend these capabilities to a wider range of Linux kernel versions and Windows operating systems through BPF and AF\_PACKET/winpcap.
 
-![Agent Tap Point](./imgs/metaflow-agent-tap-point.png)
+![Agent Tap Point](./imgs/deepflow-agent-tap-point.png)
 
 As can be seen from the way of data collection, DeepFlow can automatically collect performance indicators of any software technology stack:
 - Any Dev Stack

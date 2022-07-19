@@ -60,5 +60,5 @@ eBPF 采集到的数据，`tap_side` 取值的含义如下：
 
 使用如下命令可在 K8s 中快速部署 Demo：
 ```bash
-kubectl apply -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main/GoogleCloudPlatform-microservices-demo/kubernetes-manifests.yaml
+kubectl apply -f https://raw.githubusercontent.com/deepflowys/deepflow-demo/main/GoogleCloudPlatform-microservices-demo/kubernetes-manifests.yaml
 ```

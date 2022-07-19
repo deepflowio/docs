@@ -8,7 +8,7 @@ title: DeepFlow Architecture
 
 DeepFlow consists of two processes, Agent and Server. An Agent runs in each K8s node, virtual machine and physical bare metal, and is responsible for AutoMetrics and AutoTracing data collection of all application processes on the server. Server runs in a K8s cluster and provides Agent management, data tag injection, data writing and data query services.
 
-![DeepFlow Architecture](./imgs/metaflow-architecture.png)
+![DeepFlow Architecture](./imgs/deepflow-architecture.png)
 
 # Design Principle
 
@@ -16,7 +16,7 @@ The DeepFlow name comes from the **automated** collection capability of **Flow**
 
 In addition to automatically obtaining Request-scoped observation data, DeepFlow integrates a large number of other open source SDKs and Agent data sources through the open capabilities of the Agent, completely covering the three pillars of Tracing, Metrics, and Logging of observability. DeepFlow does not simply incorporate these data. The unique AutoTagging and SmartEncoding technologies can inject unified attribute tags into all observation data with high performance and automation, eliminate data silos, and release data drill-down and segmentation capabilities.
 
-![DeepFlow Design Principle](./imgs/metaflow-location.png?w=796&align=center)
+![DeepFlow Design Principle](./imgs/deepflow-location.png?w=796&align=center)
 
 # DeepFlow Agent
 

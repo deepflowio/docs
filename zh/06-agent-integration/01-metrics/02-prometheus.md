@@ -9,8 +9,8 @@ flowchart TD
 
 subgraph K8s-Cluster
   Prometheus["prometheus-server (deployment)"]
-  DeepFlowAgent["metaflow-agent (daemonset)"]
-  DeepFlowServer["metaflow-server (statefulset)"]
+  DeepFlowAgent["deepflow-agent (daemonset)"]
+  DeepFlowServer["deepflow-server (statefulset)"]
 
   Prometheus -->|metrics| DeepFlowAgent
   DeepFlowAgent -->|metrics| DeepFlowServer
@@ -22,25 +22,25 @@ end
 ## 安装 Prometheus
 
 在 [Prometheus 文档](https://prometheus.io/docs/introduction/overview/)中可了解相关背景知识。
-如果你的集群中没有 Prometheus，可用如下步骤在 `metaflow-prometheus-demo` 命名空间中快速部署一个 Prometheus：
+如果你的集群中没有 Prometheus，可用如下步骤在 `deepflow-prometheus-demo` 命名空间中快速部署一个 Prometheus：
 ```bash
 # add helm chart
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
 
 # install prometheus
-helm install prometheus prometheus-community/prometheus -n metaflow-prometheus-demo --create-namespace
+helm install prometheus prometheus-community/prometheus -n deepflow-prometheus-demo --create-namespace
 ```
 
 ## 配置 remote_write
 
 我们需要配置 Prometheus `remote_write`，将数据发送给 DeepFlow Agent。
 
-首先确定 DeepFlow Agent 启动的数据监听服务的地址。在[安装 DeepFlow Agent](../../install/single-k8s/) 后，会显示 DeepFlow Agent Service 地址，它的默认值是 `metaflow-agent.default`，请根据实际的服务名称与命名空间填写到配置中。
+首先确定 DeepFlow Agent 启动的数据监听服务的地址。在[安装 DeepFlow Agent](../../install/single-k8s/) 后，会显示 DeepFlow Agent Service 地址，它的默认值是 `deepflow-agent.default`，请根据实际的服务名称与命名空间填写到配置中。
 
-执行以下命令可修改 Prometheus 的默认配置（假设它在 `metaflow-prometheus-demo` 中）：
+执行以下命令可修改 Prometheus 的默认配置（假设它在 `deepflow-prometheus-demo` 中）：
 ```bash
-kubectl edit cm -n metaflow-prometheus-demo prometheus-server
+kubectl edit cm -n deepflow-prometheus-demo prometheus-server
 ```
 
 配置 `remote_write` 地址（请修改 `DEEPFLOW_AGENT_SVC`）：
@@ -51,7 +51,7 @@ remote_write:
 
 # 配置 DeepFlow
 
-请参考[配置 DeepFlow](../tracing/opentelemetry/#配置-metaflow) 一节内容，完成 DeepFlow Agent 配置。
+请参考[配置 DeepFlow](../tracing/opentelemetry/#配置-deepflow) 一节内容，完成 DeepFlow Agent 配置。
 
 # 查看 Prometheus 数据
 

@@ -1,4 +1,4 @@
-# [DeepFlow-docs](https://deepflow.yunshan.net/metaflow-docs/zh/)
+# [DeepFlow-docs](https://deepflow.yunshan.net/deepflow-docs/zh/)
 
 # markdown 编写注意事项
 
@@ -36,11 +36,11 @@ Tip: `zh/agent/about`翻译成`采集器/关于采集器`，是因为需要保�
 6. markdown 内的图片大小控制方案。
 
 ```md
-![DeepFlow软件架构](./imgs/metaflow-architecture.png) // 无规则，宽高皆自适应
-![DeepFlow软件架构](./imgs/metaflow-architecture.png?w=120) // 宽度为 120 的图片，高度随比例变化
-![DeepFlow软件架构](./imgs/metaflow-architecture.png?h=120) // 高度为 120 的图片，宽度随比例变化
-![DeepFlow软件架构](./imgs/metaflow-architecture.png?w=120&h=120) // 宽高都为 120 的图片，比例写死（不建议使用）
-![DeepFlow软件架构](./imgs/metaflow-architecture.png?align=center) // 图片对齐方式，align 取值分别是 center(居中)，left(靠左)，right(靠右)。默认 left
+![DeepFlow软件架构](./imgs/deepflow-architecture.png) // 无规则，宽高皆自适应
+![DeepFlow软件架构](./imgs/deepflow-architecture.png?w=120) // 宽度为 120 的图片，高度随比例变化
+![DeepFlow软件架构](./imgs/deepflow-architecture.png?h=120) // 高度为 120 的图片，宽度随比例变化
+![DeepFlow软件架构](./imgs/deepflow-architecture.png?w=120&h=120) // 宽高都为 120 的图片，比例写死（不建议使用）
+![DeepFlow软件架构](./imgs/deepflow-architecture.png?align=center) // 图片对齐方式，align 取值分别是 center(居中)，left(靠左)，right(靠右)。默认 left
 以上属性可结合使用，多属性用`&`拼接
 ```
 
@@ -75,6 +75,6 @@ Tip: `zh/agent/about`翻译成`采集器/关于采集器`，是因为需要保�
 8. 关于markdown内图片url资源引用问题，目前新模式下，图片url资源不参与编译，故直接使用编译后的地址即可。（编译会去掉序号）
 
 ```md
-旧版: ![DeepFlow软件架构](./../01-about/imgs/metaflow-architecture.png)
-新版: ![DeepFlow软件架构](./../about/imgs/metaflow-architecture.png)
+旧版: ![DeepFlow软件架构](./../01-about/imgs/deepflow-architecture.png)
+新版: ![DeepFlow软件架构](./../about/imgs/deepflow-architecture.png)
 ```
