@@ -4,7 +4,7 @@ title: MetaFlow Milestone
 
 <mark>Attention: This page is translated by Google. Your contributions are welcome!</mark>
 
-MetaFlow was born from Spruce Network's commercial product DeepFlow, which has now developed to v6.1.0. There is still some code cleanup work to be done. We plan to release the first downloadable version v6.1.1 in July 2022, with the following features:
+DeepFlow has been iterated to v6.1.0 before open source, and v6.1.1 planned to be released in July 2022 will be the first downloadable community version, which will have the following features:
 - AutoMetrics
   - [x] TCP network performance indicators based on BPF+AF\_PACKET
   - [x] HTTP1/2, Dubbo, MySQL, Redis, Kafka, MQTT, DNS application protocol resolution capabilities based on BPF+AF\_PACKET
