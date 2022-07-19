@@ -31,4 +31,4 @@ DeepFlow 的追踪数据中含有三种 Span，跟踪一次请求的整个轨迹
 
 上图中展示了前两种，第三种在[集成 OpenTelemetry](../agent-integration/tracing/opentelemetry/) 可以展示出来。
 
-[访问 DeepFlow Online Demo](https://demo.deepflow.yunshan.net/d/a3x57qenk/distributed-tracing?orgId=1&var-cluster=All&var-namespace=9&var-workload=All&var-vm=All&var-trace_id=*&var-span_id=*&var-request_resource=*&from=deepflow-doc) 也可查看追踪效果。
+[访问 DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d/a3x57qenk/distributed-tracing?orgId=1&var-cluster=All&var-namespace=9&var-workload=All&var-vm=All&var-trace_id=*&var-span_id=*&var-request_resource=*&from=deepflow-doc) 也可查看追踪效果。

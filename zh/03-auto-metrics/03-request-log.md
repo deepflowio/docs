@@ -12,4 +12,4 @@ title: 应用调用详情
 
 ![Application Request Log](./imgs/application-request-log.png)
 
-你也可以访问 [DeepFlow Online Demo](https://demo.deepflow.yunshan.net/d/JimNq_67z/application-request-log?from=deepflow-doc) 查看效果。
+你也可以访问 [DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d/JimNq_67z/application-request-log?from=deepflow-doc) 查看效果。

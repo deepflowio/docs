@@ -14,7 +14,7 @@ title: 应用性能指标
 
 ![Application K8s Pod](./imgs/application-k8s-pod.png)
 
-你也可以访问 [DeepFlow Online Demo](https://demo.deepflow.yunshan.net/d/n7vt1RR4k/application-k8s-pod?from=deepflow-doc) 查看效果。
+你也可以访问 [DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d/n7vt1RR4k/application-k8s-pod?from=deepflow-doc) 查看效果。
 
 # 路径和拓扑
 
@@ -28,4 +28,4 @@ title: 应用性能指标
 
 ![Application K8s Pod Map](./imgs/application-k8s-pod-map.png)
 
-你也可以访问 [DeepFlow Online Demo](https://demo.deepflow.yunshan.net/d/RPBaBRg4z/application-k8s-pod-map?from=deepflow-doc) 查看效果。
+你也可以访问 [DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d/RPBaBRg4z/application-k8s-pod-map?from=deepflow-doc) 查看效果。

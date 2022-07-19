@@ -13,7 +13,7 @@ title: 网络性能指标
 
 ![Network K8s Pod](./imgs/network-k8s-pod.png)
 
-你也可以访问 [DeepFlow Online Demo](https://demo.deepflow.yunshan.net/d/6LgDVUenz/network-k8s-pod?from=deepflow-doc) 查看效果。
+你也可以访问 [DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d/6LgDVUenz/network-k8s-pod?from=deepflow-doc) 查看效果。
 
 # 路径和拓扑
 
@@ -26,4 +26,4 @@ title: 网络性能指标
 
 ![Network K8s Pod Map](./imgs/network-k8s-pod-map.png)
 
-你也可以访问 [DeepFlow Online Demo](https://demo.deepflow.yunshan.net/d/mEm6OU67z/network-k8s-pod-map?from=deepflow-doc) 查看效果。
+你也可以访问 [DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d/mEm6OU67z/network-k8s-pod-map?from=deepflow-doc) 查看效果。
