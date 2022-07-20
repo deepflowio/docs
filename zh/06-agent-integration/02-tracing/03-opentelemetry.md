@@ -130,7 +130,7 @@ deepflow-ctl agent-group-config create -f your-agent-group-config.yaml
 
 使用如下命令可以一键部署这个 Demo：
 ```bash
-kubectl apply -n deepflow-otel-spring-demo -f https://raw.githubusercontent.com/deepflowys/deepflow-demo/main/deepflow-otel-spring-demo/deepflow-otel-spring-demo.yaml
+kubectl apply -n deepflow-otel-spring-demo -f https://raw.githubusercontent.com/deepflowys/deepflow-demo/main/DeepFlow-Otel-Spring-Demo/deepflow-otel-spring-demo.yaml
 ```
 
 ## 查看追踪数据
@@ -198,7 +198,7 @@ classDef php fill:#4f5d95,color:white;
 
 使用如下命令可以一键部署这个 Demo：
 ```bash
-kubectl apply -n deepflow-otel-grpc-demo -f https://raw.githubusercontent.com/deepflowys/deepflow-demo/main/deepflow-otel-grpc-demo/deepflow-otel-grpc-demo.yaml
+kubectl apply -n deepflow-otel-grpc-demo -f https://raw.githubusercontent.com/deepflowys/deepflow-demo/main/DeepFlow-Otel-Grpc-Demo/deepflow-otel-grpc-demo.yaml
 ```
 
 ## 查看追踪数据
