@@ -141,7 +141,7 @@ DeepFlow 能够将 OpenTelemetry、eBPF、BPF 获取到的追踪数据关联展�
 
 ![OTel Spring Demo](./imgs/otel-spring-demo.png)
 
-你也可以访问 [DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d/a3x57qenk/distributed-tracing?orgId=1&var-cluster=All&var-namespace=12&var-workload=All&var-vm=All&var-trace_id=*&var-span_id=*&var-request_resource=*&from=now-5m&to=now&from=deepflow-doc) 查看效果。
+你也可以访问 [DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d/Distributed_Tracing/distributed-tracing?var-namespace=deepflow-otel-spring-demo&from=deepflow-doc) 查看效果。
 
 # 基于 OpenTelemetry WebStore Demo 体验
 
@@ -209,4 +209,4 @@ DeepFlow 能够将 OpenTelemetry、eBPF、BPF 获取到的追踪数据关联展�
 
 ![OTel gRPC Demo](./imgs/otel-grpc-demo.png)
 
-你也可以访问 [DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d/a3x57qenk/distributed-tracing?orgId=1&var-cluster=All&var-namespace=13&var-workload=62&var-vm=All&var-trace_id=*&var-span_id=*&var-request_resource=*&from=now-5m&to=now&from=deepflow-doc) 查看效果。
+你也可以访问 [DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d/Distributed_Tracing/distributed-tracing?var-namespace=deepflow-otel-grpc-demo&from=deepflow-doc) 查看效果。

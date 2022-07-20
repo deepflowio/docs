@@ -17,7 +17,11 @@ DeepFlow 基于 BPF 的 **AutoMetrics** 能力可自动获取每一个微服务�
 - [网络性能指标](./network-metrics/)
 - [网络流日志](./flow-log/)
 
-# 路径统计位置
+为了更加直观的感受 AutoMetrics 的能力，如果你运行 DeepFlow 的环境中还没有业务流量，
+建议首先参考[基于 OpenTelemetry WebStore Demo 体验 - 部署 Demo](../agent-integration/tracing/opentelemetry/#部署-demo-2) 章节部署一个 OpenTelemetry 官方的微服务 Demo 应用，
+这个 Demo 由 Go、C#、Node.js、Python、Java 等语言实现的十多个微服务组成。特别说明一下，在本章节中我们展示的所有指标数据对 OpenTelemetry `没有任何依赖`。
+
+# 统计位置说明
 
 DeepFlow 通过 cBPF/eBPF 自动采集各个位置的指标数据，为了区分这些数据的采集位置，我们使用 `tap_side` 标签对数据进行标注。
 
@@ -49,16 +53,3 @@ eBPF 采集到的数据，`tap_side` 取值的含义如下：
 | OTel       | c-app           | 客户端应用，对应 `span.spankind = SPAN_KIND_CLIENT, SPAN_KIND_PRODUCER` |
 | OTel       | s-app           | 服务端应用，对应 `span.spankind = SPAN_KIND_SERVER, SPAN_KIND_CONSUMER` |
 | OTel       | app             | 应用，对应其他 spankind |
-
-# 部署 Online Boutique Demo
-
-为了更加直观的感受 AutoMetrics 的能力，如果你运行 DeepFlow 的环境中还没有业务流量，
-建议首先部署一个 [Online Boutique Demo](https://github.com/GoogleCloudPlatform/microservices-demo)。
-这个 Demo 由 Go、C#、Node.js、Python、Java 等语言实现的十多个微服务组成，业务拓扑如下：
-
-![GCP Online Boutique Architecture](https://github.com/GoogleCloudPlatform/microservices-demo/blob/main/docs/img/architecture-diagram.png?raw=true)
-
-使用如下命令可在 K8s 中快速部署 Demo：
-```bash
-kubectl apply -f https://raw.githubusercontent.com/deepflowys/deepflow-demo/main/GoogleCloudPlatform-microservices-demo/kubernetes-manifests.yaml
-```
