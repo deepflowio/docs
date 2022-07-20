@@ -126,7 +126,7 @@ kubectl rollout restart -n open-telemetry daemonset/otel-agent
 
 使用如下命令可以一键部署这个 Demo：
 ```bash
-kubectl apply -f https://raw.githubusercontent.com/deepflowys/deepflow-demo/main/deepflow-otel-skywalking-demo/deepflow-otel-skywalking-demo.yaml
+kubectl apply -f https://raw.githubusercontent.com/deepflowys/deepflow-demo/main/DeepFlow-Otel-SkyWalking-Demo/deepflow-otel-skywalking-demo.yaml
 ```
 
 ## 查看追踪数据
