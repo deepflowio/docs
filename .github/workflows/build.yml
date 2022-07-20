@@ -27,7 +27,7 @@ jobs:
       uses: benc-uk/workflow-dispatch@v1
       with:
         workflow: Build CI
-        repo: metaflowys/docs-compiler
+        repo: deepflowys/docs-compiler
         token: ${{ secrets.DOCSACTION }}
         ref: 'main'
         inputs: '{ "ref": "${{ github.event.pull_request.head.ref }}"}'
