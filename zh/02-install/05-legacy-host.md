@@ -82,7 +82,7 @@ deepflow-ctl agent-group-config create -f agent-group-config.yaml
 
 下载包含 deepflow-agent rpm 的 zip 包
 ```bash
-curl -O https://deepflow.oss-cn-beijing.aliyuncs.com/rpm/agent/latest/linux/amd64/deepflow-agent-rpm.zip
+curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/rpm/agent/latest/linux/amd64/deepflow-agent-rpm.zip
 unzip deepflow-agent-rpm.zip
 yum -y localinstall x86_64/deepflow-agent-1.0*.rpm
 ```
