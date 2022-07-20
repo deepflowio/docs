@@ -11,4 +11,4 @@ title: 网络流日志
 
 ![Network Flow Log](./imgs/network-flow-log.png)
 
-你也可以访问 [DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d/gkDAcU6nk/network-flow-log?from=deepflow-doc) 查看效果。
+你也可以访问 [DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d/Network_Flow_Log/network-flow-log?var-namespace=deepflow-otel-grpc-demo&from=deepflow-doc) 查看效果。
