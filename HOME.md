@@ -4,7 +4,7 @@ home: true
 # 此文件很重要 切勿删除
 
 # 标题以及描述
-heroText: MetaFlow - Observability with Automation
+heroText: DeepFlow - Observability with Automation
 description: Avoid manual instrumentation, eliminate tracing blind spots, simplify platform operation. Powered by eBPF, OTel, WASM, etc.
 
 # 按钮的链接以及文字

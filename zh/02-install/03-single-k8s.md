@@ -4,8 +4,8 @@ title: 监控单个 K8s 集群
 
 # 简介
 
-假如你在一个 K8s 集群中部署了应用，本章介绍如何使用 MetaFlow 进行监控。
-MetaFlow 能够自动采集所有 Pod 的应用和网络观测数据（AutoMetrics、AutoTracing），
+假如你在一个 K8s 集群中部署了应用，本章介绍如何使用 DeepFlow 进行监控。
+DeepFlow 能够自动采集所有 Pod 的应用和网络观测数据（AutoMetrics、AutoTracing），
 并基于调用 apiserver 获取的信息自动为所有观测数据注入`K8s 资源`和`K8s 自定义 Label`标签（AutoTagging）。
 
 # 准备工作
@@ -18,26 +18,26 @@ flowchart TD
 subgraph K8s-Cluster
   APIServer["k8s apiserver"]
 
-  subgraph MetaFlow Backend
-    MetaFlowServer["metaflow-server (statefulset)"]
+  subgraph DeepFlow Backend
+    DeepFlowServer["deepflow-server (statefulset)"]
     ClickHouse["clickhouse (statefulset)"]
     MySQL["mysql (deployment)"]
-    MetaFlowApp["metaflow-app (deployment)"]
+    DeepFlowApp["deepflow-app (deployment)"]
     Grafana["grafana (deployment)"]
   end
 
-  subgraph MetaFlow Frontend
-    MetaFlowAgent["metaflow-agent (daemonset)"]
+  subgraph DeepFlow Frontend
+    DeepFlowAgent["deepflow-agent (daemonset)"]
   end
 
-  MetaFlowAgent -->|"control & data"| MetaFlowServer
-  MetaFlowAgent -->|"get resource & label"| APIServer
+  DeepFlowAgent -->|"control & data"| DeepFlowServer
+  DeepFlowAgent -->|"get resource & label"| APIServer
 
-  MetaFlowServer --> ClickHouse
-  MetaFlowServer --> MySQL
-  MetaFlowApp -->|sql| MetaFlowServer
-  Grafana -->|"metrics/logging (sql)"| MetaFlowServer
-  Grafana -->|"tracing (api)"| MetaFlowApp
+  DeepFlowServer --> ClickHouse
+  DeepFlowServer --> MySQL
+  DeepFlowApp -->|sql| DeepFlowServer
+  Grafana -->|"metrics/logging (sql)"| DeepFlowServer
+  Grafana -->|"tracing (api)"| DeepFlowApp
 end
 ```
 
@@ -53,18 +53,18 @@ kubectl apply -f https://openebs.github.io/charts/openebs-operator.yaml
 kubectl patch storageclass openebs-hostpath  -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 ```
 
-## metaflow-agent 权限需求
+## deepflow-agent 权限需求
 
-metaflow-agent 要求所在容器节点的配置如下：
+deepflow-agent 要求所在容器节点的配置如下：
 - `selinux` = `Permissive` OR `disabled`
 
-metaflow-agent 作为 DaemonSet 部署时将会打开它的如下权限：
+deepflow-agent 作为 DaemonSet 部署时将会打开它的如下权限：
 - `hostNetwork`
 - `hostPID`
 - `privileged`
 - Write `/sys/kernel/debug`
 
-metaflow-agent 同步 K8s 资源和 Label 信息时需要以下资源的 get/list/watch 权限：
+deepflow-agent 同步 K8s 资源和 Label 信息时需要以下资源的 get/list/watch 权限：
 - `nodes`
 - `namespaces`
 - `configmaps`
@@ -78,13 +78,13 @@ metaflow-agent 同步 K8s 资源和 Label 信息时需要以下资源的 get/lis
 - `ingresses`
 - `routes`
 
-# 部署 MetaFlow
+# 部署 DeepFlow
 
-使用 Helm 安装 MetaFlow：
+使用 Helm 安装 DeepFlow：
 ```bash
-helm repo add metaflow https://metaflowys.github.io/metaflow
-helm repo update metaflow ## use `helm repo update` when helm < 3.7.0
-helm install metaflow -n metaflow metaflow/metaflow --create-namespace
+helm repo add deepflow https://deepflowys.github.io/deepflow
+helm repo update deepflow ## use `helm repo update` when helm < 3.7.0
+helm install deepflow -n deepflow deepflow/deepflow --create-namespace
 ```
 
 注意：
@@ -93,40 +93,40 @@ helm install metaflow -n metaflow metaflow/metaflow --create-namespace
   ```yaml
   global:
     storageClass: "<your storageClass>"
-    replicas: 1  ## replicas for metaflow-server and clickhouse
+    replicas: 1  ## replicas for deepflow-server and clickhouse
   ```
   后续更新可以使用 `-f values-custom.yaml` 参数使用自定义配置：
   ```bash
-  helm upgrade metaflow -n metaflow -f values-custom.yaml metaflow/metaflow
+  helm upgrade deepflow -n deepflow -f values-custom.yaml deepflow/deepflow
   ```
 
-# 下载 metaflow-ctl
+# 下载 deepflow-ctl
 
-metaflow-ctl 是管理 MetaFlow 的一个命令行工具，建议下载至 metaflow-server 所在的 K8s Node 上，用于后续使用：
+deepflow-ctl 是管理 DeepFlow 的一个命令行工具，建议下载至 deepflow-server 所在的 K8s Node 上，用于后续使用：
 ```bash
-curl -o /usr/bin/metaflow-ctl https://metaflow.oss-cn-beijing.aliyuncs.com/bin/ctl/latest/linux/amd64/metaflow-ctl
-chmod a+x /usr/bin/metaflow-ctl
+curl -o /usr/bin/deepflow-ctl https://deepflow.oss-cn-beijing.aliyuncs.com/bin/ctl/latest/linux/amd64/deepflow-ctl
+chmod a+x /usr/bin/deepflow-ctl
 ```
 
 # 访问 Grafana 页面
 
-执行 helm 部署 MetaFlow 时输出的内容提示了获取访问 Grafana 的 URL 和密码的命令，输出示例：
+执行 helm 部署 DeepFlow 时输出的内容提示了获取访问 Grafana 的 URL 和密码的命令，输出示例：
 ```bash
-NODE_PORT=$(kubectl get --namespace metaflow -o jsonpath="{.spec.ports[0].nodePort}" services metaflow-grafana)
+NODE_PORT=$(kubectl get --namespace deepflow -o jsonpath="{.spec.ports[0].nodePort}" services deepflow-grafana)
 NODE_IP=$(kubectl get nodes -o jsonpath="{.items[0].status.addresses[0].address}")
-echo -e "Grafana URL: http://$NODE_IP:$NODE_PORT  \nGrafana auth: admin:metaflow"
+echo -e "Grafana URL: http://$NODE_IP:$NODE_PORT  \nGrafana auth: admin:deepflow"
 ```
 
 执行上述命令后的输出示例：
 ```text
 Grafana URL: http://10.1.2.3:31999
-Grafana auth: admin:metaflow
+Grafana auth: admin:deepflow
 ```
 
 # 下一步
 
-- [微服务全景图 - 体验 MetaFlow 基于 BPF 的 AutoMetrics 能力](../auto-metrics/metrics-without-instrumentation/)
-- [自动分布式追踪 - 体验 MetaFlow 基于 eBPF 的 AutoTracing 能力](../auto-tracing/tracing-without-instrumentation/)
-- [消除数据孤岛 - 了解 MetaFlow 的 AutoTagging 和 SmartEncoding 能力](../auto-tagging/elimilate-data-silos/)
+- [微服务全景图 - 体验 DeepFlow 基于 BPF 的 AutoMetrics 能力](../auto-metrics/metrics-without-instrumentation/)
+- [自动分布式追踪 - 体验 DeepFlow 基于 eBPF 的 AutoTracing 能力](../auto-tracing/tracing-without-instrumentation/)
+- [消除数据孤岛 - 了解 DeepFlow 的 AutoTagging 和 SmartEncoding 能力](../auto-tagging/elimilate-data-silos/)
 - [告别高基烦恼 - 集成 Promethes 等指标数据](../agent-integration/metrics/metrics-auto-tagging/)
 - [无缝分布式追踪 - 集成 OpenTelemetry 等追踪数据](../agent-integration/tracing/tracing-without-blind-spot/)

@@ -1,5 +1,5 @@
 ---
-title: MetaFlow Key Features
+title: DeepFlow Key Features
 ---
 
 <mark>Attention: This page is translated by Google. Your contributions are welcome!</mark>
@@ -8,11 +8,11 @@ title: MetaFlow Key Features
 
 The traditional method of obtaining performance indicators must actively insert statistical code through SDK, bytecode enhancement or manual embedding, which brings a heavy burden to application developers, who need to adapt to various development languages and frameworks. The way of manual code insertion in the cloud native environment has ushered in more challenges. Any application call needs to traverse complex paths from microservices, sidecars, iptables/ipvs container networks, virtual machine vsiwtch, cloud networks, and NFV gateways. Observability construction should cover the full stack from applications to infrastructure in a cloud-native environment.
 
-MetaFlow's eBPF-based **AutoMetrics** capability can automatically obtain performance data of system calls, application functions, and network communications, and extend these capabilities to a wider range of Linux kernel versions and Windows operating systems through BPF and AF\_PACKET/winpcap.
+DeepFlow's eBPF-based **AutoMetrics** capability can automatically obtain performance data of system calls, application functions, and network communications, and extend these capabilities to a wider range of Linux kernel versions and Windows operating systems through BPF and AF\_PACKET/winpcap.
 
-![Agent Tap Point](./imgs/metaflow-agent-tap-point.png)
+![Agent Tap Point](./imgs/deepflow-agent-tap-point.png)
 
-As can be seen from the way of data collection, MetaFlow can automatically collect performance indicators of any software technology stack:
+As can be seen from the way of data collection, DeepFlow can automatically collect performance indicators of any software technology stack:
 - Any Dev Stack
   - any frame
   - any development language
@@ -23,23 +23,23 @@ As can be seen from the way of data collection, MetaFlow can automatically colle
   - Databases such as MySQL and Redis
   - Message queues such as Kafka
 
-At present, MetaFlow has already supported the parsing of mainstream application protocols through eBPF, including HTTP 1/2/S, Dubbo, MySQL, Redis, Kafka, MQTT, DNS, and will expand the support of more application protocols in the future. Based on the AutoMetrics capability of MetaFlow, it can acquire application RED (Request, Error, Delay) indicators, network protocol stack throughput, delay, abnormal connection establishment, retransmission, zero window and other indicators with zero intrusion. MetaFlow Agent will maintain the session state of each TCP connection and each application protocol Request, which is called `Flow`. All raw performance indicator data is refined to Flow granularity, and additionally automatically aggregated into 1s and 1min indicator data. Through these metrics data, we can present performance data of any service, workload, and API, and draw a topology map of the call relationship between any service, `Universal Service Map`.
+At present, DeepFlow has already supported the parsing of mainstream application protocols through eBPF, including HTTP 1/2/S, Dubbo, MySQL, Redis, Kafka, MQTT, DNS, and will expand the support of more application protocols in the future. Based on the AutoMetrics capability of DeepFlow, it can acquire application RED (Request, Error, Delay) indicators, network protocol stack throughput, delay, abnormal connection establishment, retransmission, zero window and other indicators with zero intrusion. DeepFlow Agent will maintain the session state of each TCP connection and each application protocol Request, which is called `Flow`. All raw performance indicator data is refined to Flow granularity, and additionally automatically aggregated into 1s and 1min indicator data. Through these metrics data, we can present performance data of any service, workload, and API, and draw a topology map of the call relationship between any service, `Universal Service Map`.
 
 ![Universal Service Map](./imgs/universal-service-map.png)
 
-On this basis, MetaFlow's **AutoTagging** capability can also inject unified attribute tags into Request-scoped indicator data obtained from different software stacks, including:
+On this basis, DeepFlow's **AutoTagging** capability can also inject unified attribute tags into Request-scoped indicator data obtained from different software stacks, including:
 - Resource related: region, availability zone, host, cloud server, VPC, subnet, NATGW, ALB
 - Service related: Cluster, Node, Namespace, Service, Ingress, Deployment/StatefulSet, Pod, Label
 
 The data collected by different agents will be injected into a unified label, which enables us to observe the performance changes of a Request from a full-stack perspective and quickly find the problem.
 
-In addition, MetaFlow fully embraces the open source community and supports receiving observation data from open source agents or SDKs. By integrating the indicator data acquisition capabilities of various Dev/Infra Stacks that have been accumulated by the Prometheus and Telegraf communities, the full stack advantages of MetaFlow will be brought into full play. The advantage of sending observation data to MetaFlow is that the same AutoTagging mechanism can completely break down data silos and enhance the ability to drill down and segment data.
+In addition, DeepFlow fully embraces the open source community and supports receiving observation data from open source agents or SDKs. By integrating the indicator data acquisition capabilities of various Dev/Infra Stacks that have been accumulated by the Prometheus and Telegraf communities, the full stack advantages of DeepFlow will be brought into full play. The advantage of sending observation data to DeepFlow is that the same AutoTagging mechanism can completely break down data silos and enhance the ability to drill down and segment data.
 
 # End to End
 
 With the microservice of applications, distributed link tracking has gradually become a necessary observability capability. But developers need to spend a lot of time thinking about how to plug in code in their own language and framework, how to pass context, etc.
 
-MetaFlow does not simply use eBPF. Through a series of technological innovations, we relate eBPF Event, BPF Packet, Thread ID, Coroutine ID, Request arrival timing, and TCP sending timing to achieve a highly automated, distributed call chain **AutoTracing** capability. Currently AutoTracing supports all synchronous Blocking-IO (BIO) scenarios, some synchronous Non-blocking-IO (NIO) scenarios, and supports kernel thread scheduling ([kernel-level threading](https://en.wikipedia. org/wiki/Thread_(computing))) scenarios, which support tracing of distributed call chains composed of arbitrary services. In addition, by parsing fields such as X-Request-ID in the request, it also supports tracking the call chain before and after the gateway in NIO mode (such as Envoy).
+DeepFlow does not simply use eBPF. Through a series of technological innovations, we relate eBPF Event, BPF Packet, Thread ID, Coroutine ID, Request arrival timing, and TCP sending timing to achieve a highly automated, distributed call chain **AutoTracing** capability. Currently AutoTracing supports all synchronous Blocking-IO (BIO) scenarios, some synchronous Non-blocking-IO (NIO) scenarios, and supports kernel thread scheduling ([kernel-level threading](https://en.wikipedia. org/wiki/Thread_(computing))) scenarios, which support tracing of distributed call chains composed of arbitrary services. In addition, by parsing fields such as X-Request-ID in the request, it also supports tracking the call chain before and after the gateway in NIO mode (such as Envoy).
 
 By combining with Span data sources such as OpenTelemetry, such AutoTracing capabilities will be more complete and can eliminate any blind spots in the distributed call chain. In the flame graph in the image below we can see:
 - The upstream and downstream calls of any microservice can be tracked, including DNS and other calls that developers tend to ignore, including services such as MySQL that cannot be inserted
@@ -51,11 +51,11 @@ In addition, we are also exploring more tracing possibilities, such as implement
 
 # High Performance
 
-MetaFlow has the ultimate pursuit of performance.
+DeepFlow has the ultimate pursuit of performance.
 
-Since 2016, MetaFlow's commercial products have used Golang to implement Agent, and it has continued to iterate until now. Starting in 2021, we decided to refactor the Agent to use Rust. This decision enables us to consume lower resources when processing massive eBPF/BPF data, usually equivalent to 1%~5% of the application itself. Rust has extreme memory safety and performance close to C, especially in terms of memory consumption, GC, etc., it has significant advantages over Golang.
+Since 2016, DeepFlow's commercial products have used Golang to implement Agent, and it has continued to iterate until now. Starting in 2021, we decided to refactor the Agent to use Rust. This decision enables us to consume lower resources when processing massive eBPF/BPF data, usually equivalent to 1%~5% of the application itself. Rust has extreme memory safety and performance close to C, especially in terms of memory consumption, GC, etc., it has significant advantages over Golang.
 
-MetaFlow Server is implemented in Golang. Thanks to our deep accumulation in the Golang version of the Agent, our rewritten high-performance map and high-performance pool have achieved a ten-fold performance improvement, which can significantly reduce the resource consumption of the server. In a production environment that writes 1M Flow per second, the resources consumed by the Server are generally 1% of the business.
+DeepFlow Server is implemented in Golang. Thanks to our deep accumulation in the Golang version of the Agent, our rewritten high-performance map and high-performance pool have achieved a ten-fold performance improvement, which can significantly reduce the resource consumption of the server. In a production environment that writes 1M Flow per second, the resources consumed by the Server are generally 1% of the business.
 
 ![SmartEncoding](./imgs/smart-encoding.png)
 

@@ -1,4 +1,4 @@
-# [MetaFlow-docs](https://deepflow.yunshan.net/metaflow-docs/)
+# [DeepFlow-docs](https://deepflow.yunshan.net/deepflow-docs/)
 
 # Notes for writing markdown
 
@@ -36,11 +36,11 @@ Tip: `agent/about`translate to`agent/about agent`，Because the directory struct
 6. Picture size control scheme in markdown.
 
 ```md
-![MetaFlow Architecture](./imgs/metaflow-architecture.png) // Irregular, adaptive in width and height
-![MetaFlow Architecture](./imgs/metaflow-architecture.png?w=120) // For a picture with a width of 120, the height changes with scale
-![MetaFlow Architecture](./imgs/metaflow-architecture.png?h=120) // For a picture with a height of 120, the width changes with scale
-![MetaFlow Architecture](./imgs/metaflow-architecture.png?w=120&h=120) // For pictures with width and height of 120, the proportion is written dead (not recommended)
-![MetaFlow Architecture](./imgs/metaflow-architecture.png?align=center) // The values of image alignment are center, left and right respectively. Default left
+![DeepFlow Architecture](./imgs/deepflow-architecture.png) // Irregular, adaptive in width and height
+![DeepFlow Architecture](./imgs/deepflow-architecture.png?w=120) // For a picture with a width of 120, the height changes with scale
+![DeepFlow Architecture](./imgs/deepflow-architecture.png?h=120) // For a picture with a height of 120, the width changes with scale
+![DeepFlow Architecture](./imgs/deepflow-architecture.png?w=120&h=120) // For pictures with width and height of 120, the proportion is written dead (not recommended)
+![DeepFlow Architecture](./imgs/deepflow-architecture.png?align=center) // The values of image alignment are center, left and right respectively. Default left
 The above attributes can be used in combination, and multiple attributes can be spliced with `&'
 ```
 
@@ -75,6 +75,6 @@ output
 8. As for the reference of image URL resources in markdown, Under the current new mode, image URL resources do not participate in compilation, so the compiled address can be used directly。(Compilation will remove the sequence number)
 
 ```md
-old: ![MetaFlow Architecture](./../01-about/imgs/metaflow-architecture.png)
-new: ![MetaFlow Architecture](./../about/imgs/metaflow-architecture.png)
+old: ![DeepFlow Architecture](./../01-about/imgs/deepflow-architecture.png)
+new: ![DeepFlow Architecture](./../about/imgs/deepflow-architecture.png)
 ```

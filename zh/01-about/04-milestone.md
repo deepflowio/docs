@@ -1,8 +1,8 @@
 ---
-title: MetaFlow 路标
+title: DeepFlow 路标
 ---
 
-MetaFlow 诞生于云杉网络的商业产品 DeepFlow，后者目前已经发展到了 v6.1.0。目前还有一些代码整理的工作需要进行，我们计划在 2022 年 7 月发布首个可下载使用的版本 v6.1.1，具备如下特性：
+DeepFlow 开源之前已经迭代到了 v6.1.0，2022 年 7 月计划发布的 v6.1.1 将会是首个可下载使用的社区版，届时将具备如下特性：
 - AutoMetrics
   - [x] 基于 BPF+AF\_PACKET 的 TCP 网络性能指标
   - [x] 基于 BPF+AF\_PACKET 的 HTTP1/2、Dubbo、MySQL、Redis、Kafka、MQTT、DNS 应用协议解析能力
@@ -26,7 +26,7 @@ MetaFlow 诞生于云杉网络的商业产品 DeepFlow，后者目前已经发�
   - [x] 提供 SQL API，作为 Grafana 的 DataSource
   - [x] 使用 ClickHouse 作为存储引擎
 
-MetaFlow未来还有很多激动人心的特性等待我们和社区一起开发，包括：
+DeepFlow未来还有很多激动人心的特性等待我们和社区一起开发，包括：
 - AutoMetrics
   - [ ] 基于 BPF+Winpcap 的 AutoMetrics 能力
   - [ ] 基于 eBPF USDT/uprobe 的 C/C++/Java/Golang 等应用 HTTP2/HTTPS 协议解析能力

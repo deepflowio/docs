@@ -6,9 +6,9 @@ title: 零侵扰的指标采集
 
 以往我们一般通过 SDK、字节码增强或手动埋点方式主动插入统计代码，这给应用开发者带来了沉重的负担，他们需要适配各种开发语言、各类 RPC 框架，高速的业务迭代也使得开发者经常在处理故障时才发现尚未给服务增加必要的性能指标。另外，诸如 Nginx、MySQL 等基础服务的运维人员更为被动，他们只能期待基础服务软件已经暴露了关键的性能指标。
 
-MetaFlow 基于 BPF 的 **AutoMetrics** 能力可自动获取每一个微服务的 API 调用在应用函数、系统函数和网络通信等全栈路径上的黄金性能指标，并通过 BPF 和 AF\_PACKET/winpcap 将这些能力扩展到更广泛的 Linux 内核版本及 Windows 操作系统。
+DeepFlow 基于 BPF 的 **AutoMetrics** 能力可自动获取每一个微服务的 API 调用在应用函数、系统函数和网络通信等全栈路径上的黄金性能指标，并通过 BPF 和 AF\_PACKET/winpcap 将这些能力扩展到更广泛的 Linux 内核版本及 Windows 操作系统。
 
-目前，MetaFlow 已经通过 eBPF 支持了主流应用协议的解析，包括 HTTP 1/2/S、Dubbo、MySQL、Redis、Kafka、MQTT、DNS，未来还将扩展更多应用协议的支持。基于 MetaFlow 的 AutoMetrics 能力，能够零侵扰的获取应用的 RED（Request、Error、Delay）指标、网络协议栈的吞吐、时延、建连异常、重传、零窗等指标。MetaFlow Agent 会维护每个 TCP 连接、每个应用协议 Request 的会话状态，称之为 `Flow`。所有原始性能指标数据精细至 Flow 粒度，并额外自动聚合为 1s、1min 指标数据。基于这些指标数据，我们可呈现任意服务、工作负载、API 的全栈性能数据，并可绘制任意服务之间的调用关系拓扑图 —— `Universal Service Map`。
+目前，DeepFlow 已经通过 eBPF 支持了主流应用协议的解析，包括 HTTP 1/2/S、Dubbo、MySQL、Redis、Kafka、MQTT、DNS，未来还将扩展更多应用协议的支持。基于 DeepFlow 的 AutoMetrics 能力，能够零侵扰的获取应用的 RED（Request、Error、Delay）指标、网络协议栈的吞吐、时延、建连异常、重传、零窗等指标。DeepFlow Agent 会维护每个 TCP 连接、每个应用协议 Request 的会话状态，称之为 `Flow`。所有原始性能指标数据精细至 Flow 粒度，并额外自动聚合为 1s、1min 指标数据。基于这些指标数据，我们可呈现任意服务、工作负载、API 的全栈性能数据，并可绘制任意服务之间的调用关系拓扑图 —— `Universal Service Map`。
 
 # 指标类型
 
@@ -19,7 +19,7 @@ MetaFlow 基于 BPF 的 **AutoMetrics** 能力可自动获取每一个微服务�
 
 # 路径统计位置
 
-MetaFlow 通过 cBPF/eBPF 自动采集各个位置的指标数据，为了区分这些数据的采集位置，我们使用 `tap_side` 标签对数据进行标注。
+DeepFlow 通过 cBPF/eBPF 自动采集各个位置的指标数据，为了区分这些数据的采集位置，我们使用 `tap_side` 标签对数据进行标注。
 
 cBPF 采集到的数据，`tap_side` 取值的含义如下：
 | 数据源类型 | `tap_side` 取值 | 数据采集位置         |
@@ -52,7 +52,7 @@ eBPF 采集到的数据，`tap_side` 取值的含义如下：
 
 # 部署 Online Boutique Demo
 
-为了更加直观的感受 AutoMetrics 的能力，如果你运行 MetaFlow 的环境中还没有业务流量，
+为了更加直观的感受 AutoMetrics 的能力，如果你运行 DeepFlow 的环境中还没有业务流量，
 建议首先部署一个 [Online Boutique Demo](https://github.com/GoogleCloudPlatform/microservices-demo)。
 这个 Demo 由 Go、C#、Node.js、Python、Java 等语言实现的十多个微服务组成，业务拓扑如下：
 
@@ -60,5 +60,5 @@ eBPF 采集到的数据，`tap_side` 取值的含义如下：
 
 使用如下命令可在 K8s 中快速部署 Demo：
 ```bash
-kubectl apply -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main/GoogleCloudPlatform-microservices-demo/kubernetes-manifests.yaml
+kubectl apply -f https://raw.githubusercontent.com/deepflowys/deepflow-demo/main/GoogleCloudPlatform-microservices-demo/kubernetes-manifests.yaml
 ```

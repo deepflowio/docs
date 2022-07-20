@@ -12,12 +12,12 @@ subgraph K8s-Cluster
     OTelSDK1["otel-sdk / otel-javaagent"]
   end
   OTelAgent1["otel-collector (agent mode, daemonset)"]
-  MetaFlowAgent1["metaflow-agent (daemonset)"]
-  MetaFlowServer["metaflow-server (statefulset)"]
+  DeepFlowAgent1["deepflow-agent (daemonset)"]
+  DeepFlowServer["deepflow-server (statefulset)"]
 
   OTelSDK1 -->|traces| OTelAgent1
-  OTelAgent1 -->|traces| MetaFlowAgent1
-  MetaFlowAgent1 -->|traces| MetaFlowServer
+  OTelAgent1 -->|traces| DeepFlowAgent1
+  DeepFlowAgent1 -->|traces| DeepFlowServer
 end
 
 subgraph Host
@@ -25,17 +25,17 @@ subgraph Host
     OTelSDK2["otel-sdk / otel-javaagent"]
   end
   OTelAgent2["otel-collector (agent mode)"]
-  MetaFlowAgent2[metaflow-agent]
+  DeepFlowAgent2[deepflow-agent]
 
   OTelSDK2 -->|traces| OTelAgent2
-  OTelAgent2 -->|traces| MetaFlowAgent2
-  MetaFlowAgent2 -->|traces| MetaFlowServer
+  OTelAgent2 -->|traces| DeepFlowAgent2
+  DeepFlowAgent2 -->|traces| DeepFlowServer
 end
 ```
 
 # 配置 OpenTelemetry
 
-我们推荐使用 agent 模式的 otel-collector 向 metaflow-agent 发送 trace 数据，以避免数据跨 K8s 节点传输。
+我们推荐使用 agent 模式的 otel-collector 向 deepflow-agent 发送 trace 数据，以避免数据跨 K8s 节点传输。
 当然使用 gateway 模式的 otel-collector 也是完全可行的。以下的文档中以 otel-agent 为例介绍部署和配置方法。
 
 ## 安装 otel-agent
@@ -43,7 +43,7 @@ end
 查看 [OpenTelemetry 文档](https://opentelemetry.io/docs/) 可了解相关背景知识。
 如果你的环境中还没有 OpenTelemetry，可以使用如下命令在 `open-telemetry` 命名空间中快速部署一个 otel-agent DaesmonSet：
 ```bash
-kubectl apply -n open-telemetry -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main/open-telemetry/open-telemetry.yaml
+kubectl apply -n open-telemetry -f https://raw.githubusercontent.com/deepflowys/deepflow-demo/main/open-telemetry/open-telemetry.yaml
 ```
 
 安装完毕之后，可以在环境里看到这样一个组件清单：
@@ -68,13 +68,13 @@ kubectl set image -n open-telemetry daemonset/otel-agent otel-agent=otel/opentel
 
 ## 配置 otel-agent
 
-我们需要配置 otel-agent ConfigMap 中的 `otel-agent-config.exporters.otlphttp`，将 trace 发送至 MetaFlow。首先查询当前配置：
+我们需要配置 otel-agent ConfigMap 中的 `otel-agent-config.exporters.otlphttp`，将 trace 发送至 DeepFlow。首先查询当前配置：
 ```bash
 kubectl get cm -n open-telemetry otel-agent-conf -o custom-columns=DATA:.data | \
     grep -A 5 otlphttp:
 ```
 
-metaflow-agent 使用 NodePort 接收 trace，默认端口为 38086，将 otel-agent 的配置进行修改：
+deepflow-agent 使用 NodePort 接收 trace，默认端口为 38086，将 otel-agent 的配置进行修改：
 ```yaml
 otlphttp:
   traces_endpoint: "http://${HOST_IP}:38086/api/v1/otel/trace"
@@ -84,23 +84,23 @@ otlphttp:
     enabled: true
 ```
 
-# 配置 MetaFlow
+# 配置 DeepFlow
 
-接下来我们需要开启 metaflow-agent 的数据接收服务。
+接下来我们需要开启 deepflow-agent 的数据接收服务。
 
-首先我们确定 metaflow-agent 所在的采集器组 ID，一般为名为 default 的组的ID：
+首先我们确定 deepflow-agent 所在的采集器组 ID，一般为名为 default 的组的ID：
 ```bash
-metaflow-ctl agent-group list
+deepflow-ctl agent-group list
 ```
 
 确认该采集器组是否已经有了配置：
 ```bash
-metaflow-ctl agent-group-config list
+deepflow-ctl agent-group-config list
 ```
 
 若已有配置，将其导出至 yaml 文件中便于进行修改：
 ```bash
-metaflow-ctl agent-group-config list <your-agent-group-id> > your-agent-group-config.yaml
+deepflow-ctl agent-group-config list <your-agent-group-id> > your-agent-group-config.yaml
 ```
 
 修改 yaml 文件，确认包含如下配置项：
@@ -112,12 +112,12 @@ external_agent_http_proxy_port: 38086  # optional, default 38086
 
 更新采集器组的配置：
 ```
-metaflow-ctl agent-group-config update <your-agent-group-id> -f your-agent-group-config.yaml
+deepflow-ctl agent-group-config update <your-agent-group-id> -f your-agent-group-config.yaml
 ```
 
 如果采集器组还没有配置，可使用如下命令基于 your-agent-group-config.yaml 文件新建配置：
 ```bash
-metaflow-ctl agent-group-config create -f your-agent-group-config.yaml
+deepflow-ctl agent-group-config create -f your-agent-group-config.yaml
 ```
 
 # 基于 Spring Boot Demo 体验
@@ -130,18 +130,18 @@ metaflow-ctl agent-group-config create -f your-agent-group-config.yaml
 
 使用如下命令可以一键部署这个 Demo：
 ```bash
-kubectl apply -n metaflow-otel-spring-demo -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main/metaflow-otel-spring-demo/metaflow-otel-spring-demo.yaml
+kubectl apply -n deepflow-otel-spring-demo -f https://raw.githubusercontent.com/deepflowys/deepflow-demo/main/deepflow-otel-spring-demo/deepflow-otel-spring-demo.yaml
 ```
 
 ## 查看追踪数据
 
-前往 Grafana，打开 `Distributed Tracing` Dashboard，选择 `namespace = metaflow-otel-spring-demo` 后，可选择一个调用进行追踪。
-MetaFlow 能够将 OpenTelemetry、eBPF、BPF 获取到的追踪数据关联展示在一个 Trace 火焰图中，
+前往 Grafana，打开 `Distributed Tracing` Dashboard，选择 `namespace = deepflow-otel-spring-demo` 后，可选择一个调用进行追踪。
+DeepFlow 能够将 OpenTelemetry、eBPF、BPF 获取到的追踪数据关联展示在一个 Trace 火焰图中，
 覆盖一个 Spring Boot 应用从业务代码、系统函数、网络接口的全栈调用路径，实现真正的全链路分布式追踪，效果如下：
 
 ![OTel Spring Demo](./imgs/otel-spring-demo.png)
 
-你也可以访问 [MetaFlow Online Demo](https://demo.metaflow.yunshan.net/d/a3x57qenk/distributed-tracing?orgId=1&var-cluster=All&var-namespace=12&var-workload=All&var-vm=All&var-trace_id=*&var-span_id=*&var-request_resource=*&from=now-5m&to=now&from=metaflow-doc) 查看效果。
+你也可以访问 [DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d/a3x57qenk/distributed-tracing?orgId=1&var-cluster=All&var-namespace=12&var-workload=All&var-vm=All&var-trace_id=*&var-span_id=*&var-request_resource=*&from=now-5m&to=now&from=deepflow-doc) 查看效果。
 
 # 基于 OpenTelemetry WebStore Demo 体验
 
@@ -198,15 +198,15 @@ classDef php fill:#4f5d95,color:white;
 
 使用如下命令可以一键部署这个 Demo：
 ```bash
-kubectl apply -n metaflow-otel-grpc-demo -f https://raw.githubusercontent.com/metaflowys/metaflow-demo/main/metaflow-otel-grpc-demo/metaflow-otel-grpc-demo.yaml
+kubectl apply -n deepflow-otel-grpc-demo -f https://raw.githubusercontent.com/deepflowys/deepflow-demo/main/deepflow-otel-grpc-demo/deepflow-otel-grpc-demo.yaml
 ```
 
 ## 查看追踪数据
 
-前往 Grafana，打开 `Distributed Tracing` Dashboard，选择 `namespace = metaflow-otel-grpc-demo` 后，可选择一个调用进行追踪。
-MetaFlow 能够将 OpenTelemetry、eBPF、BPF 获取到的追踪数据关联展示在一个 Trace 火焰图中，
+前往 Grafana，打开 `Distributed Tracing` Dashboard，选择 `namespace = deepflow-otel-grpc-demo` 后，可选择一个调用进行追踪。
+DeepFlow 能够将 OpenTelemetry、eBPF、BPF 获取到的追踪数据关联展示在一个 Trace 火焰图中，
 覆盖一个多语言应用从业务代码、系统函数、网络接口的全栈调用路径，实现真正的全链路分布式追踪，效果如下：
 
 ![OTel gRPC Demo](./imgs/otel-grpc-demo.png)
 
-你也可以访问 [MetaFlow Online Demo](https://demo.metaflow.yunshan.net/d/a3x57qenk/distributed-tracing?orgId=1&var-cluster=All&var-namespace=13&var-workload=62&var-vm=All&var-trace_id=*&var-span_id=*&var-request_resource=*&from=now-5m&to=now&from=metaflow-doc) 查看效果。
+你也可以访问 [DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d/a3x57qenk/distributed-tracing?orgId=1&var-cluster=All&var-namespace=13&var-workload=62&var-vm=All&var-trace_id=*&var-span_id=*&var-request_resource=*&from=now-5m&to=now&from=deepflow-doc) 查看效果。

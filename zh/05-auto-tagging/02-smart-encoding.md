@@ -2,7 +2,7 @@
 title: SmartEncoding
 ---
 
-MetaFlow 为每个服务自动注入 20+ 资源标签以及所有的 K8s 自定义 Label，在一个典型的生产环境中，需要为一条路径数据自动注入的标签可能多大 100+ 个。这些标签为后端存储带来了很大的压力，MetaFlow 的 SmartEncoding 机制创新的解决了此问题，使得性能开销显著降低。
+DeepFlow 为每个服务自动注入 20+ 资源标签以及所有的 K8s 自定义 Label，在一个典型的生产环境中，需要为一条路径数据自动注入的标签可能多大 100+ 个。这些标签为后端存储带来了很大的压力，DeepFlow 的 SmartEncoding 机制创新的解决了此问题，使得性能开销显著降低。
 
 ![SmartEncoding](../about/imgs/smart-encoding.png)
 
@@ -11,7 +11,7 @@ SmartEncoding 依赖于对各类标签信息的采集和编码。Agent 通过信
 - 存储阶段：Server 根据 Agent 标记的 VPC 和 IP 标签，为观测数据自动注入 20+ 维度的 K8s 资源、云资源属性标签
 - 查询阶段：Server 计算自定义标签和资源之间的关系，在查询阶段为观测数据自动注入所有 K8s 自定义 Label 标签
 
-我们看到，AutoTagging 解决了数据孤岛的痛点，SmartEncoding 机制解决了资源开销的痛点。使用 MetaFlow 时，我们建议：
+我们看到，AutoTagging 解决了数据孤岛的痛点，SmartEncoding 机制解决了资源开销的痛点。使用 DeepFlow 时，我们建议：
 - 资源开通时，为云资源注入尽量丰富的标签
 - 业务上线时，向 K8s 中注入尽量丰富的 Label
 - 服务注册时，向服务注册中心注入尽量丰富的信息

@@ -1,16 +1,16 @@
 ---
-title: MetaFlow 关键特性
+title: DeepFlow 关键特性
 ---
 
 # 全栈
 
 传统的性能指标获取方法必须通过 SDK 、字节码增强或手动埋点方式主动插入统计代码，这给应用开发者带来了沉重的负担，他们需要适配各种开发语言和框架。在云原生环境下手动插码的方式迎来了更多的挑战，任何一个应用调用需要穿越从微服务、Sidecar、iptables/ipvs 容器网络、虚拟机 vsiwtch、云网络、NFV网关等复杂的路径，可观测性建设应该能覆盖云原生环境下从应用到基础设施的全栈。
 
-MetaFlow 基于 eBPF 的 **AutoMetrics** 能力可自动获取系统调用、应用函数、网络通信的性能数据，并通过 BPF 和 AF\_PACKET/winpcap 将这些能力扩展到更广泛的 Linux 内核版本及 Windows 操作系统。
+DeepFlow 基于 eBPF 的 **AutoMetrics** 能力可自动获取系统调用、应用函数、网络通信的性能数据，并通过 BPF 和 AF\_PACKET/winpcap 将这些能力扩展到更广泛的 Linux 内核版本及 Windows 操作系统。
 
-![Agent 采集数据的方式](./imgs/metaflow-agent-tap-point.png)
+![Agent 采集数据的方式](./imgs/deepflow-agent-tap-point.png)
 
-从数据采集的方式可以看到，MetaFlow 可以自动化的采集任意软件技术栈的性能指标：
+从数据采集的方式可以看到，DeepFlow 可以自动化的采集任意软件技术栈的性能指标：
 - Any Dev Stack
   - 任何框架
   - 任何开发语言
@@ -21,23 +21,23 @@ MetaFlow 基于 eBPF 的 **AutoMetrics** 能力可自动获取系统调用、应
   - MySQL、Redis 等数据库
   - Kafka 等消息队列
 
-目前，MetaFlow 已经通过 eBPF 支持了主流应用协议的解析，包括 HTTP 1/2/S、Dubbo、MySQL、Redis、Kafka、MQTT、DNS，未来还将扩展更多应用协议的支持。基于 MetaFlow 的 AutoMetrics 能力，能够零侵扰的获取应用的 RED（Request、Error、Delay）指标、网络协议栈的吞吐、时延、建连异常、重传、零窗等指标。MetaFlow Agent 会维护每个 TCP 连接、每个应用协议 Request 的会话状态，称之为 `Flow`。所有原始性能指标数据精细至 Flow 粒度，并额外自动聚合为 1s、1min 指标数据。基于这些指标数据，我们可呈现任意服务、工作负载、API 的全栈性能数据，并可绘制任意服务之间的调用关系拓扑图 —— `Universal Service Map`。
+目前，DeepFlow 已经通过 eBPF 支持了主流应用协议的解析，包括 HTTP 1/2/S、Dubbo、MySQL、Redis、Kafka、MQTT、DNS，未来还将扩展更多应用协议的支持。基于 DeepFlow 的 AutoMetrics 能力，能够零侵扰的获取应用的 RED（Request、Error、Delay）指标、网络协议栈的吞吐、时延、建连异常、重传、零窗等指标。DeepFlow Agent 会维护每个 TCP 连接、每个应用协议 Request 的会话状态，称之为 `Flow`。所有原始性能指标数据精细至 Flow 粒度，并额外自动聚合为 1s、1min 指标数据。基于这些指标数据，我们可呈现任意服务、工作负载、API 的全栈性能数据，并可绘制任意服务之间的调用关系拓扑图 —— `Universal Service Map`。
 
 ![Universal Service Map](./imgs/universal-service-map.png)
 
-在此基础上，MetaFlow 的 **AutoTagging** 能力还能为从不同软件栈上获取到的 Request-scoped 指标数据注入统一的属性标签，包括：
+在此基础上，DeepFlow 的 **AutoTagging** 能力还能为从不同软件栈上获取到的 Request-scoped 指标数据注入统一的属性标签，包括：
 - 资源相关：区域、可用区、宿主机、云服务器、VPC、子网、NATGW、ALB
 - 服务相关：集群、节点、命名空间、服务、Ingress、Deployment/StatefulSet、Pod、Label
 
 不同 Agent 采集到的数据会注入统一的标签，这使得我们能从全栈视角全方位观测一个 Request 的性能变化，迅速找到问题所在。
 
-此外，MetaFlow 完全拥抱开源社区，支持接收开源 Agent 或 SDK 的观测数据。通过集成 Prometheus、Telegraf 社区已积淀下来的对各种 Dev/Infra Stack 的指标数据获取能力，MetaFlow 的全栈优势将会得到更大的发挥。将观测数据发送至 MetaFlow 的优势在于同一的 AutoTagging 机制能彻底打破数据孤岛，并能增强数据的下钻切分能力。
+此外，DeepFlow 完全拥抱开源社区，支持接收开源 Agent 或 SDK 的观测数据。通过集成 Prometheus、Telegraf 社区已积淀下来的对各种 Dev/Infra Stack 的指标数据获取能力，DeepFlow 的全栈优势将会得到更大的发挥。将观测数据发送至 DeepFlow 的优势在于同一的 AutoTagging 机制能彻底打破数据孤岛，并能增强数据的下钻切分能力。
 
 # 全链路
 
 随着应用的微服务化，分布式链路追踪逐渐成为一项必备的可观测性能力。但开发者需要花费大量时间用于考虑如何在自己的语言和框架中插码，如何传递上下文等工作。
 
-MetaFlow 并不只是简单的使用 eBPF，通过一系列技术创新，我们将 eBPF Event、BPF Packet、Thread ID、Coroutine ID、Request 到达时序、TCP 发送时序进行关联，实现了高度自动化的、分布式调用链 **AutoTracing** 能力。目前 AutoTracing 支持所有同步阻塞调用（BIO，Blocking IO）场景、部分同步非阻塞调用（NIO，Non-blocking IO）场景，支持内核线程调度（[kernel-level threading](https://en.wikipedia.org/wiki/Thread_(computing))）场景，在这些场景下支持对任意服务组成的分布式调用链进行追踪。除此之外，通过解析请求中的 X-Request-ID 等字段，也支持对采用 NIO 模式的网关（如 Envoy）前后的调用链进行追踪。
+DeepFlow 并不只是简单的使用 eBPF，通过一系列技术创新，我们将 eBPF Event、BPF Packet、Thread ID、Coroutine ID、Request 到达时序、TCP 发送时序进行关联，实现了高度自动化的、分布式调用链 **AutoTracing** 能力。目前 AutoTracing 支持所有同步阻塞调用（BIO，Blocking IO）场景、部分同步非阻塞调用（NIO，Non-blocking IO）场景，支持内核线程调度（[kernel-level threading](https://en.wikipedia.org/wiki/Thread_(computing))）场景，在这些场景下支持对任意服务组成的分布式调用链进行追踪。除此之外，通过解析请求中的 X-Request-ID 等字段，也支持对采用 NIO 模式的网关（如 Envoy）前后的调用链进行追踪。
 
 通过与 OpenTelemetry 等 Span 数据源的结合，这样的 AutoTracing 能力将更加完善，能够消除分布式调用链中的任何盲点。在下图中的火焰图中我们可以看到：
 - 任意微服务的上下游调用都能追踪，包括开发者容易忽略的 DNS 等调用，包括 MySQL 等无法插码的服务
@@ -49,11 +49,11 @@ MetaFlow 并不只是简单的使用 eBPF，通过一系列技术创新，我们
 
 # 高性能
 
-MetaFlow 对性能有着极致的追求。
+DeepFlow 对性能有着极致的追求。
 
-自 2016 年开始，MetaFlow 的商业产品开始用 Golang 实现 Agent，并持续迭代至今。从 2021 年开始，我们决定将 Agent 使用 Rust 重构，这一决定使得我们在处理海量 eBPF/BPF 数据时能够消耗更低的资源，通常相当于应用自身的 1%~5%。Rust 有着极致的内存安全性和逼近 C 的性能，特别是在内存消耗、GC 等方面相比 Golang 有显著的优势。
+自 2016 年开始，DeepFlow 的商业产品开始用 Golang 实现 Agent，并持续迭代至今。从 2021 年开始，我们决定将 Agent 使用 Rust 重构，这一决定使得我们在处理海量 eBPF/BPF 数据时能够消耗更低的资源，通常相当于应用自身的 1%~5%。Rust 有着极致的内存安全性和逼近 C 的性能，特别是在内存消耗、GC 等方面相比 Golang 有显著的优势。
 
-MetaFlow Server 使用 Golang 实现，得益于我们在 Golang 版本 Agent 的深厚积累，我们重写的高性能 map、高性能 pool 均达到了十倍性能的提升，能够显著降低 Server 的资源消耗。一个每秒写入 1M Flow 的生产环境中 Server 消耗的资源一般为业务的 1%。
+DeepFlow Server 使用 Golang 实现，得益于我们在 Golang 版本 Agent 的深厚积累，我们重写的高性能 map、高性能 pool 均达到了十倍性能的提升，能够显著降低 Server 的资源消耗。一个每秒写入 1M Flow 的生产环境中 Server 消耗的资源一般为业务的 1%。
 
 ![SmartEncoding](./imgs/smart-encoding.png)
 
