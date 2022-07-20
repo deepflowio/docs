@@ -104,7 +104,7 @@ helm install deepflow -n deepflow deepflow/deepflow --create-namespace
 
 deepflow-ctl 是管理 DeepFlow 的一个命令行工具，建议下载至 deepflow-server 所在的 K8s Node 上，用于后续使用：
 ```bash
-curl -o /usr/bin/deepflow-ctl https://deepflow.oss-cn-beijing.aliyuncs.com/bin/ctl/latest/linux/amd64/deepflow-ctl
+curl -o /usr/bin/deepflow-ctl https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/ctl/latest/linux/amd64/deepflow-ctl
 chmod a+x /usr/bin/deepflow-ctl
 ```
 
