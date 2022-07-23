@@ -52,15 +52,7 @@ kubectl apply -f https://raw.githubusercontent.com/deepflowys/deepflow-demo/main
 ![eBPF Istio Demo](./imgs/ebpf-istio-demo.png)
 
 [访问 DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d/Distributed_Tracing/distributed-tracing?var-namespace=deepflow-ebpf-istio-demo&from=deepflow-doc) 也可查看追踪效果。
-上图中的调用链火焰图对应的拓扑图如下。对这个追踪 Demo 我们总结一下：
-- 整个追踪过程不需要手动插入任何追踪代码，不需要向 HTTP Header 中注入任何 TraceID/SpanID
-- 利用 eBPF 和 BPF，自动追踪到了这个 Trace 的 38 个 Span
-- 支持对 Java、Python、Ruby、NodeJS 应用及 Envoy (C++) 的追踪
-- 支持追踪一个 Pod 内部从 Envoy[^envoy] Ingress、服务进程、Envoy Egress 的全过程，例如 Span 6-11 等
-- 支持追踪同 K8s Node 上两个 Pod 之间的网络路径，例如 Span 4-5 等
-- 支持追踪跨 K8s Node 上两个 Pod 之间的网络路径，即使中间经过了隧道封装，例如 Span 12-15 等（IPIP 隧道封装）
-
-[^envoy]：DeepFlow 同时还通过解析 HTTP 头部的 X-Request-ID 字段辅助了对 Envoy 前后调用的追踪。
+上图中的调用链火焰图对应的拓扑图如下。
 
 ```mermaid
 flowchart TD
@@ -216,3 +208,11 @@ classDef reviews_2 fill:#ceb961,color:black;
 classDef ratings_1 fill:#6aaec6,color:black;
 classDef ratings_2 fill:#aa48bc,color:black;
 ```
+
+对这个追踪 Demo 我们总结一下：
+- 整个追踪过程不需要手动插入任何追踪代码，不需要向 HTTP Header 中注入任何 TraceID/SpanID
+- 利用 eBPF 和 BPF，自动追踪到了这个 Trace 的 38 个 Span，含 24 个 eBPF Span、14 个 BPF Span
+- 支持对 Java、Python、Ruby、NodeJS 应用及 Envoy (C++) 的追踪
+- 支持追踪一个 Pod 内部从 Envoy Ingress、服务进程、Envoy Egress 的全过程，例如 Span 6-11 等
+- 支持追踪同 K8s Node 上两个 Pod 之间的网络路径，例如 Span 4-5 等
+- 支持追踪跨 K8s Node 上两个 Pod 之间的网络路径，即使中间经过了隧道封装，例如 Span 12-15 等（IPIP 隧道封装）
