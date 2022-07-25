@@ -61,18 +61,6 @@ jobs:
     - name: Node build
       shell: bash
       run: |
-        cp -r docs/.vuepress deepflow-docs/
-        rm -rf docs
-        rm -rf deepflow-docs/.gitlab
-        rm -rf deepflow-docs/.git
-        rm -rf deepflow-docs/README.md
-        rm -rf deepflow-docs/zh/README.md
-        rm -rf deepflow-docs/README-CN.md
-        mv deepflow-docs/HOME.md deepflow-docs/README.md
-        mv deepflow-docs/zh/HOME.md deepflow-docs/zh/README.md
-        cp -r deepflow-docs/LOCALES/*.json ./vdoing/page-locales/
-        rm -rf deepflow-docs/LOCALES
-        cp -r deepflow-docs docs/
         pnpm install
         pnpm run build
         node copy-file.js
@@ -80,16 +68,16 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
 
-      - name: Log in to ALIYUN Docker Registry
-        uses: docker/login-action@v2
-        with:
-          registry: "${{ secrets.REGISTRY_ALIYUN_ADDR }}"
-          username: "${{ secrets.REGISTRY_ALIYUN_USER }}" 
-          password: "${{ secrets.REGISTRY_PASS }}"
+    - name: Log in to ALIYUN Docker Registry
+      uses: docker/login-action@v2
+      with:
+        registry: "${{ secrets.REGISTRY_ALIYUN_ADDR }}"
+        username: "${{ secrets.REGISTRY_ALIYUN_USER }}" 
+        password: "${{ secrets.REGISTRY_PASS }}"
 
-      - name: set env
-        run: |
-          echo "IMAGE_TAG_PREFIX=${{ github.ref_name }}"|sed 's|main|latest|' >> $GITHUB_ENV
+    - name: set env
+      run: |
+        echo "IMAGE_TAG_PREFIX=${{ github.ref_name }}"|sed 's|main|latest|' >> $GITHUB_ENV
         
     - name: Build and push docs image
       uses: docker/build-push-action@v2
