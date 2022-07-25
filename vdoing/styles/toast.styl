@@ -1,0 +1,150 @@
+div.toast
+  max-width: 60%
+  padding: 1rem 3rem
+  line-height: 1.5
+  color: var(--text-p1)
+  font-weight: 500
+  text-align: center
+  border-radius: $border-card
+  background: var(--card)
+  position: fixed
+  top: 50%
+  left: 50%
+  transform: translate(-50%, -50%)
+  z-index: 9
+  disable-select()
+  box-shadow: $boxshadow-float
+
+
+
+.ys-model 
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100vh;
+  width: 100vw;
+  z-index: 2001;
+
+  .ys-modelmasking 
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(50, 42, 42, 0.38);
+  
+
+  .ys-model-contianer 
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    width: 18.75rem;
+    padding: 0.8446rem 1.3436rem 0.88968rem;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background: #fafbff;
+    border: 0.0133rem solid #ffffff;
+    border-radius: 0.0625rem;
+    box-shadow: 0rem 0.0625rem 0.1875rem 0rem rgba(0, 0, 0, 0.24);
+    transition-property: transform;
+    transition-duration: 0.3s;
+
+    .ys-model-contianer-title 
+      font-family: "PingFangSC-Regular", "PingFang SC", sans-serif,
+        "PingFangSC-Regular", "PingFang SC", sans-serif-400;
+      font-size: 0.8749rem;
+      font-weight: 400;
+      text-align: center;
+      color: #333333;
+      line-height: 1.2499rem;
+    
+    .ys-model-contianer-content 
+      font-size: 0.5625rem;
+      font-family: "PingFangSC-Regular", "PingFang SC", sans-serif,
+        "PingFangSC-Regular", "PingFang SC", sans-serif-400;
+      font-weight: 400;
+      text-align: center;
+      color: #475c77;
+      line-height: 0.7811rem;
+      padding: 0.5313rem 0 1.3596rem;
+
+      .content-link 
+        span 
+          min-width: 0;
+          flex: 1;
+          overflow: hidden; //超出的文本隐藏
+          text-overflow: ellipsis; //溢出用省略号显示
+          white-space: nowrap; //溢出不换行
+        
+        img 
+          width: 01.125rem;
+    
+    .ys-model-contianer-footer 
+      font-size: 0;
+      .primary-button 
+        margin-top: 0;
+        line-height: 2.5rem;
+        height: 2.5rem;
+        font-size: 1rem;
+        font-family: "PingFangSC-Regular", "PingFang SC", sans-serif,
+          "PingFangSC-Regular", "PingFang SC", sans-serif-400;
+        font-weight: 400;
+
+  #copy-content 
+    position: absolute;
+    top: -999999999px;
+    left: -999999999px;
+
+.ys-model-masking 
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(50, 42, 42, 0.38);
+
+
+
+.ys-toast 
+  display: none;
+  position: fixed;
+  z-index: 2001;
+  top: 0;
+  line-height: 3.3124rem;
+  width: 100%;
+  font-size: 0.75rem;
+  text-align: center;
+  transition-property: transform;
+  transition-duration: 0.3s;
+  will-change: transform;
+  background: #f0faeb;
+  border: 0.0133rem solid #d3ecc5;
+
+  font-family: PingFangSC, PingFangSC-Regular;
+  font-weight: 400;
+  color: #67c23a;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg 
+    width: 0.75rem;
+    height: 0.75rem;
+  
+
+  span 
+    margin-left: 0.1483rem;
+  
+  .ys-toast.hide 
+    transform: translateY(-100%);
+  
