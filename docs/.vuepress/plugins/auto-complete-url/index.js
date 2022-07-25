@@ -73,6 +73,7 @@ function addSuffixAndCheckValidUrl (url = '', sidebar = {}, suffix = '/', { rela
     reallyUrl = reallyUrl.endsWith(suffix) ? reallyUrl : reallyUrl + suffix
     // 补充以后还找不到链接，那么就是无效的地址
     if (!totalPage.includes(reallyUrl)) {
+        console.log('当前sidebar==', JSON.stringify(sidebar))
         console.log('当前页面地址==', totalPage)
         console.log('无效的目的页面地址==', reallyUrl)
         console.log('md==', relativePath)
