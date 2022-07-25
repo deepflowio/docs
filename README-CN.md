@@ -72,9 +72,36 @@ Tip: `zh/agent/about`翻译成`采集器/关于采集器`，是因为需要保�
 
 ![文字块](./images/text-block-zh.jpg)
 
-8. 关于markdown内图片url资源引用问题，目前新模式下，图片url资源不参与编译，故直接使用编译后的地址即可。（编译会去掉序号）
+8. 关于 markdown 内图片 url 资源引用问题，目前新模式下，图片 url 资源不参与编译，故直接使用编译后的地址即可。（编译会去掉序号）
 
 ```md
 旧版: ![DeepFlow软件架构](./../01-about/imgs/deepflow-architecture.png)
 新版: ![DeepFlow软件架构](./../about/imgs/deepflow-architecture.png)
 ```
+
+9. 文档脚注
+
+a. 2种写法，内联+非内联
+
+b. 脚注会统一在文档底部排版
+
+c. 引用源的分号是英文分号
+
+d. 找不到引用源的脚注会原样显示，不做任何修改
+
+```md
+脚注 1 链接[^first].
+
+脚注 2 链接[^second].
+
+行内的脚注^[Text of inline footnote] 定义.
+
+重复的页脚定义[^second].
+
+找不到引用源的脚注，会原样显示[^third]
+
+[^first]: 脚注
+[^second]: 脚注文字。
+```
+
+![脚注](./images/foot-note-zh.jpg)

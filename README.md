@@ -78,3 +78,31 @@ output
 old: ![DeepFlow Architecture](./../01-about/imgs/deepflow-architecture.png)
 new: ![DeepFlow Architecture](./../about/imgs/deepflow-architecture.png)
 ```
+
+9. Document footnotes
+
+a. Two ways of writing, inline + non inline
+
+b. Footnotes will be uniformly arranged at the bottom of the document
+
+c. The semicolon of the reference source is English semicolon
+
+d. Footnotes that cannot find the reference source will be displayed as is without any modification
+
+```md
+Footnote 1 link [^first]
+
+Footnote 2 link [^second]
+
+In line footnote ^[text of inline footnote] definition
+
+Duplicate footer definition [^second]
+
+If the footnote of the reference source cannot be found, [^third] will be displayed as it is
+
+[^first]: footnote
+
+[^second]: footnote text
+```
+
+![footnote](./images/foot-note-en.jpg)
