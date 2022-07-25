@@ -20,6 +20,7 @@ DeepFlow 支持自动注入的 K8s 资源信息包括：
 通过流量关联 K8s 资源信息还需要对 CNI 有深入的适配，目前 DeepFlow 适配的 CNI 包括：
 - Flannel
 - Calico
+- Cilium
 - Multus
 - Open vSwitch
 - Weave
