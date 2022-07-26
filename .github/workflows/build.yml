@@ -62,9 +62,7 @@ jobs:
     - name: Node build
       shell: bash
       run: |
-        cd docs
-        ls -a
-        cd ..
+        echo pwd
         pnpm install
         pnpm run build
         node copy-file.js

@@ -49,13 +49,7 @@ function handleUserName (str = '') {
  */
 function getPermalink (filePath = '') {
   filePath = filePath.split(path.sep)
-
-  do {
-    filePath.shift()
-  } while (filePath[0] !== 'docs' || filePath[1] !== 'docs')
-
-
-  filePath.shift()
+  filePath = filePath.slice(filePath.lastIndexOf('docs') + 1)
 
   if (['zh'].includes(filePath[0])) {
     filePath.shift()
@@ -85,17 +79,9 @@ function getPermalink (filePath = '') {
  */
 function getPermalink1 (filePath = '') {
   filePath = filePath.split(path.sep)
-  console.log('filePath==', JSON.stringify(filePath))
-
-  do {
-    filePath.shift()
-  } while (filePath[0] !== 'docs' && filePath[1] !== 'docs')
-
-  filePath.shift()
-
+  filePath = filePath.slice(filePath.lastIndexOf('docs') + 1)
   // 变成绝对路径
   filePath.unshift('')
-
   return filePath.join('/')
 }
 
