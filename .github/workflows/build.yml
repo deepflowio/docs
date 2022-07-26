@@ -7,7 +7,6 @@ on:
   push:
     branches: 
       - main
-      - Merge-docs
   pull_request:
     branches:
       - main
