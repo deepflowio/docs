@@ -7,7 +7,6 @@ on:
   push:
     branches: 
       - main
-      - Merge-docs
   pull_request:
     branches:
       - main
@@ -75,6 +74,11 @@ jobs:
         username: "${{ secrets.REGISTRY_ALIYUN_USER }}" 
         password: "${{ secrets.REGISTRY_PASS }}"
 
+    - name: debug
+      shell: bash
+      run:  |
+        more $GITHUB_EVENT_PATH
+        
     - name: set env
       run: |
         echo "IMAGE_TAG_PREFIX=${{ github.ref_name }}"|sed 's|main|latest|' >> $GITHUB_ENV
@@ -101,11 +105,6 @@ jobs:
       shell: bash
       run: |
          echo "TEMPLATE=green" >> $GITHUB_ENV
-
-    - name: prepare for env
-      shell: bash
-      run:  |
-        more $GITHUB_EVENT_PATH
     
     - name: info
       shell: bash
