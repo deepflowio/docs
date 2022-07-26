@@ -1,0 +1,340 @@
+:root
+  --color_theme:#0a72ef
+
+@media screen and (min-width: 800px)
+  .mobile
+    display: none;
+  .web
+    display: block;
+
+@media screen and (max-width: 800px)
+  .mobile
+    display: block;
+  .web
+    display: none;
+
+.logo-login-container
+.links-container
+  ul,
+  ol 
+    padding-left: 0;
+    list-style-type: none;
+
+
+.flex-y
+  display: flex;
+  align-items: center;
+
+.primary-button 
+  width: 230px;
+  height: 58px;
+  font-size: 20px;
+  border-radius: 150px;
+  border: 0;
+  color: #fff;
+  background-color: var(--color_theme);
+  margin: 29px auto 0 auto;
+  cursor: pointer;
+  transition-duration: var(--duration);
+  font-family: var(--fontfamily_text);
+
+.primary-button:hover 
+  background-color: var(--color_hover_active) !important;
+  color: #fff !important;
+
+.width1200
+  width: 1200px;
+  margin: 0 auto;
+
+.logo-login-container.web
+  position: relative
+  --color_theme: #0a72ef; // 主要颜色
+  --color_hover_active: rgba(53, 142, 246, 1); // 选中的颜色
+  --duration: 0.3s;
+  --border-radius: 3px;
+  --width-mini: 1250px;
+  --fontfamily_text: "PingFangSC-Regular", "PingFang SC", sans-serif,
+    "PingFangSC-Regular", "PingFang SC", sans-serif-400; 
+  font-family: PingFangSC-Regular, "PingFang SC", sans-serif;
+  font-style: normal;
+  min-width: var(--width-mini);
+  padding: 13px 25px;
+  transition-duration: var(--duration);
+  box-sizing: border-box;
+  background-image: linear-gradient(
+          to right,
+          #05449F,
+          #00CBFB
+        )
+  
+  .width1200
+    position relative
+    z-index 100
+
+  ul
+    list-style: none;
+    margin: 0;
+
+  .log-image-box
+    width 250px;
+    display: flex
+    align-items center
+  .logo-image 
+    height: 36px;
+    cursor: pointer;
+  
+  .feature-list
+    flex: 1;
+    font-weight: 400;
+    font-size 16px
+    .feature-item
+      color #8CC0FB
+      display inline
+      width: 130px;
+      line-height: 36px;
+      cursor: pointer;
+      text-align: center;
+      
+      span
+        display inline
+    
+    .feature-item.active
+      span
+        color: #fff;
+        border-bottom: 2px solid #fff
+
+    .feature-item:hover 
+        color: #fff;
+
+  .lang
+    height 36px
+    display flex
+    align-items center
+    position: relative
+    img 
+      width: 26px
+      display: block
+    .intl-options-wrapper
+      width 100px
+      display: none
+      position:absolute
+      top: calc(100%)
+      left 50%
+      transform translateX(-50%)
+      padding-top 13px
+      .intl-options
+        color: #606c80;
+        font-size: 16px;
+        background-color: #fff;
+        border-radius: 0.2vw;
+        border: 1px solid #ddd
+        overflow: auto;
+        padding: 10px 0;
+        line-height: 2;
+        text-align: center;
+        a
+          color: inherit
+        a.active
+        a:hover
+          color: #396aff
+
+  .lang:hover
+    .intl-options-wrapper
+        display: block
+
+  .search-box
+    input
+      background-color #fff
+      border: none
+    input:focus
+      border: none
+  .button-list
+    margin-right: 19px
+    justify-content: flex-end;
+    > li 
+      font-size: 13px;
+      width: 91px;
+      line-height: 36px;
+      text-align: center;
+      cursor: pointer;
+      font-family: var(--fontfamily_text);
+      border-radius: var(--border-radius);
+      > a 
+        display: block;
+        width: 100%;
+        height: 100%;
+      
+    
+    .login-button 
+      background-color: #f2f2f2;
+    .login-button:hover 
+        background-color: rgba(97, 121, 134, 1);
+        > a 
+          color: #fff;
+        
+      
+    
+    .sign-button 
+      color: #fff;
+      background-color: var(--color_theme);
+    .sign-button:hover 
+        background-color: var(--color_hover_active);
+      
+
+  
+.logo-login-container.web.sticky 
+    background-color: #fff;
+
+.l_main.list
+  padding-top: 0 !important
+
+
+.logo-login-container.mobile 
+  padding: 0.756rem 0.9218rem 0.7104rem 0.9541rem;
+  transition-duration: var(--duration);
+  box-sizing: border-box;
+  background: #f9fafb;
+  position: relative;
+  z-index: 9;
+  background: linear-gradient(134.6deg, #0046a1 0%, #0094d6 100%);
+  background-size: cover;
+
+  .logo-image 
+    height: 1.5792rem !important;
+
+  .blank
+    flex: 1
+
+  .lang
+    display flex
+    align-items center
+    position: relative
+    display: flex
+    flex-direction row-reverse
+    img 
+      width: 1.625rem
+      display: block
+    .intl-options-wrapper
+      width 25vw
+      display: none
+      position:absolute
+      top: calc(100%)
+      left 50%
+      transform translateX(-50%)
+      padding-top 0.625rem
+      .intl-options
+        margin-top: 0
+        color: #606c80;
+        font-size: 1rem;
+        background-color: #fff;
+        border-radius: 0.2vw;
+        border: 1px solid #ddd
+        overflow: auto;
+        padding: 1vh 0;
+        line-height: 2;
+        text-align: center;
+        a
+          color: inherit
+        a.active
+        a:hover
+          color: #396aff
+
+  .lang:hover
+    .intl-options-wrapper
+        display: block
+
+  .button-list 
+    justify-content: flex-end;
+    margin: 0
+
+    >li 
+      font-size: 0.75rem;
+      // width: 3.1242rem;
+      padding 0 0.3rem;
+      line-height: 1.875rem;
+      text-align: center;
+      cursor: pointer;
+      font-family: var(--fontfamily_text);
+      border-radius: 0.1249rem;
+      >a 
+        display: block;
+        width: 100%;
+        height: 100%;
+    
+    .login-button 
+      background: #ebf4ff;
+      color: var(--color_theme);
+      >a 
+        color: inherit;
+    
+    .sign-button 
+      color: var(--color_theme);
+      margin-left: 0.7811rem;
+      background-color: #fff;
+
+    .sign-button :hover 
+      background-color: var(--color_hover_active);
+    
+    .nav-button 
+      padding 0
+      width: auto;
+      height: auto;
+      background-color: transparent;
+      line-height: 0;
+      font-size: 0;
+      margin-left: 0.7811rem;
+      img 
+        width: 1.625rem
+        height: 1.625rem
+
+.logo-login-container.mobile.sticky 
+  background-color: #fff;
+  
+
+.nav-list 
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  z-index: 8;
+
+  ul
+    list-style: none
+    padding: 0
+
+  .masking 
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+  
+
+  .nav-list-box
+    margin: 0;
+    position: absolute;
+    width: 100%;
+    top: 3.0914rem;
+    background-color: #f9fafb;
+    font-size: 0.8749rem;
+    color: #666;
+    height: 7.5rem;
+    transition: height 0.3s;
+    overflow: hidden;
+    padding-top 0.625rem
+    li 
+      padding: 0.3rem  0.9375rem 0.625rem 0.9375rem;
+      line-height: 1.2492rem;
+      span 
+        display: block;
+        font-weight: 600;
+      li 
+        padding-top: 0;
+        padding-bottom: 0;

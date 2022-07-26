@@ -1,0 +1,123 @@
+
+// 评论区颜色重置
+.gt-container
+  .gt-ico-tip
+    &::after
+      content: '。( Win + . ) 或 ( ⌃ + ⌘ + ␣ ) 打开表情'
+      color: #999
+      font-size: .8rem
+  .gt-meta
+    border-color var(--borderColor)!important
+  .gt-comments-null
+    color var(--textColor)
+    opacity .5
+  .gt-header-textarea
+    color var(--textColor)
+    background rgba(180,180,180,0.1)!important
+  .gt-btn
+    border-color $accentColor!important
+    background-color $accentColor!important
+  .gt-btn-preview
+    background-color rgba(255,255,255,0)!important
+    color $accentColor!important
+  a
+    color $accentColor!important
+  .gt-svg svg
+    fill $accentColor!important
+  .gt-comment-content,.gt-comment-admin .gt-comment-content
+    background-color rgba(150,150,150,0.1)!important
+    &:hover
+      box-shadow 0 0 25px rgba(150,150,150,.5)!important
+    .gt-comment-body
+      color var(--textColor)!important
+
+
+// qq徽章
+.qq
+  position: relative;
+.qq::after
+  content: "可撩";
+  background: $accentColor;
+  color:#fff;
+  padding: 0 5px;
+  border-radius: 10px;
+  font-size:12px;
+  position: absolute;
+  top: -4px;
+  right: -35px;
+  transform:scale(0.85);
+
+// demo模块图标颜色
+body .vuepress-plugin-demo-block__wrapper
+  &,.vuepress-plugin-demo-block__display
+    border-color rgba(160,160,160,.3)
+  .vuepress-plugin-demo-block__footer:hover
+    .vuepress-plugin-demo-block__expand::before
+      border-top-color: $accentColor !important;
+      border-bottom-color: $accentColor !important;
+    svg
+      fill: $accentColor !important;
+
+// 全文搜索框
+.suggestions
+  overflow: auto
+  max-height: calc(100vh - 6rem)
+  @media (max-width: 719px) {
+    width: 90vw;
+    min-width: 90vw!important;
+    margin-right: -20px;
+  }
+  .highlight
+    color: $accentColor
+    font-weight: bold
+
+.todo-list
+  padding-left: 0
+
+.todo-list .todo-list-item
+  list-style-type: none;
+  position: relative;
+  min-height: 22px;
+  margin-left: 0 !important;
+
+.todo-list-checkbox
+  position: relative;
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  margin-top: -3px;
+  margin-right: 4px;
+  vertical-align: middle;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 2px;
+
+ul.todo-list li.todo-list-item>.todo-list-checkbox.checked
+  border-color: #396aff;
+  background-color: #396aff;
+
+.todo-list-checkbox.checked:after 
+    position: absolute;
+    top: 2px;
+    left: 5px;
+    display: table;
+    width: 3px;
+    height: 7px;
+    border: 2px solid #fff;
+    border-top: 0;
+    border-left: 0;
+    -webkit-transform: rotate(45deg) scale(1);
+    transform: rotate(45deg) scale(1);
+    -webkit-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+    content: "";
+
+.theme-vdoing-content img
+  background-color #fff
+
+.mermaid-diagram>svg  
+  height auto
+
+.footnote-anchor
+  margin-top: -3.1rem;
+  padding-top: 4rem;

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <script>
+      var html = document.getElementsByTagName("html")[0];
+      // 适配
+      var innerWidth = window.innerWidth;
+      var outerWidth = window.outerWidth;
+      if (outerWidth === 0) {
+        window.YS_ZOOM =
+          window.sessionStorage.getItem("YS_DEEPFLOW_ZOOM") ||
+          innerWidth / 1920;
+        html.style.zoom = window.YS_ZOOM;
+      } else if (innerWidth !== outerWidth && innerWidth - outerWidth > 20) {
+        // 发生了缩放
+        window.YS_ZOOM = innerWidth / Math.min(outerWidth, 1920);
+        html.style.zoom = window.YS_ZOOM;
+      } else if (innerWidth > 1920) {
+        window.YS_ZOOM = innerWidth / 1920;
+        html.style.zoom = window.YS_ZOOM;
+      }
+    </script>
+  </head>
+  <body class="theme-mode-light">
+    <div id="app"></div>
+  </body>
+  <script>
+    window.addEventListener("load", initZoom);
+
+    function initZoom() {
+      // 适配
+      var innerWidth = window.innerWidth;
+      var outerWidth = window.outerWidth;
+      if (outerWidth === 0) {
+        setTimeout(initZoom, 500);
+      } else if (innerWidth !== outerWidth && innerWidth - outerWidth > 20) {
+        // 发生了缩放
+        window.YS_ZOOM = innerWidth / Math.min(outerWidth, 1920);
+        window.sessionStorage.setItem("YS_DEEPFLOW_ZOOM", window.YS_ZOOM);
+      } else if (innerWidth > 1920) {
+        window.YS_ZOOM = innerWidth / 1920;
+        window.sessionStorage.setItem("YS_DEEPFLOW_ZOOM", window.YS_ZOOM);
+      }
+
+      if (
+        window.location.href.indexOf("/community.html") === -1 &&
+        window.YS_ZOOM
+      ) {
+        document.getElementsByTagName("html")[0].style.zoom = window.YS_ZOOM;
+        //
+        var featureList = document.getElementsByClassName("feature-list")[0];
+        if (featureList) {
+          var innerWidth = window.innerWidth;
+          var domWidth = innerWidth * 0.07;
+          domWidth = Math.max(domWidth, 130);
+          var childrenLen = featureList && featureList.children.length;
+          featureList.style.width =
+            (domWidth / window.YS_ZOOM) * childrenLen + "px";
+          if (innerWidth > 1920) {
+            featureList.style.fontSize =
+              (innerWidth * 0.0083) / window.YS_ZOOM + "px";
+          }
+        }
+      }
+    }
+  </script>
+</html>

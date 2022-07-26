@@ -10,24 +10,152 @@ on:
   pull_request:
     branches:
       - main
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "Why trigger?"
+        required: true 
+        type: string
         
+env:
+  IMAGE: "docs"
+
 jobs:
   build:
+
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: 
+        - 12.x
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
     steps:
     - name: Checkout
       uses: actions/checkout@v3
 
-    # - name: prepare for env
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - uses: pnpm/action-setup@v2.2.1
+      with:
+        version: 6
+
+    - name: Get pnpm store directory
+      id: pnpm-cache
+      run: |
+        echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+
+    - uses: actions/cache@v3
+      name: Setup pnpm cache
+      with:
+        path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
+        key: docs-${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          docs-${{ runner.os }}-pnpm-store-
+
+    - name: Node build
+      shell: bash
+      run: |
+        pnpm install
+        pnpm run build
+        node copy-file.js
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Log in to ALIYUN Docker Registry
+      uses: docker/login-action@v2
+      with:
+        registry: "${{ secrets.REGISTRY_ALIYUN_ADDR }}"
+        username: "${{ secrets.REGISTRY_ALIYUN_USER }}" 
+        password: "${{ secrets.REGISTRY_PASS }}"
+
+    # - name: debug
     #   shell: bash
     #   run:  |
     #     more $GITHUB_EVENT_PATH
+        
+    - name: set env
+      if: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main' }}
+      run: |
+        echo "IMAGE_TAG_PREFIX=${{ github.event.pull_request.head.ref }}"|sed 's|main|latest|' >> $GITHUB_ENV
 
-    - name: Invoke workflow in another repo with inputs
-      uses: benc-uk/workflow-dispatch@v1
+    - name: set env
+      if: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
+      run: |
+        echo "IMAGE_TAG_PREFIX=${{ github.ref_name }}"|sed 's|main|latest|' >> $GITHUB_ENV
+        
+    - name: Build and push docs image
+      uses: docker/build-push-action@v2
       with:
-        workflow: Build CI
-        repo: deepflowys/docs-compiler
-        token: ${{ secrets.DOCSACTION }}
-        ref: 'main'
-        inputs: '{ "ref": "${{ github.event.pull_request.head.ref }}"}'
+        context: .
+        file: Dockerfile
+        platforms: linux/amd64
+        push: true
+        tags: |
+          "${{ secrets.REGISTRY_ALIYUN_ADDR }}/deepservice/${{ env.IMAGE }}:${{ env.IMAGE_TAG_PREFIX }}-${{ github.run_id }}-${{ github.run_attempt }}"
+          "${{ secrets.REGISTRY_ALIYUN_ADDR }}/deepservice/${{ env.IMAGE }}:${{ env.IMAGE_TAG_PREFIX }}"
+
+    - name: template
+      if: ${{ github.event_name == 'pull_request' }}
+      shell: bash
+      run: |
+         echo "TEMPLATE=red" >> $GITHUB_ENV
+
+    - name: template
+      if: ${{ github.event_name == 'push' }}
+      shell: bash
+      run: |
+         echo "TEMPLATE=green" >> $GITHUB_ENV
+    
+    - name: info
+      shell: bash
+      run: |
+        curl -X POST -H "Content-Type: application/json"   -d  \
+        '{"msg_type":"interactive","card":
+        {
+          "config": {
+            "wide_screen_mode": true
+          },
+          "elements": [
+            {
+              "tag": "div",
+              "text": {
+                "content": "docs分支： ${{ github.ref_name }}\n镜像tag：${{ github.run_id }}-${{ github.run_attempt }}\nmain分支自动更新到测试环境\n更新命令：\nkubectl set image -n deepservice-test deployment deepservice-docs deepservice-docs=${{ secrets.REGISTRY_ALIYUN_ADDR }}/deepservice/${{ env.IMAGE }}:${{ env.IMAGE_TAG_PREFIX }}-${{ github.run_id }}-${{ github.run_attempt }}",
+                "tag": "lark_md"
+              }
+            }
+          ],
+          "header": {
+            "template": "${{ env.TEMPLATE }}",
+            "title": {
+              "content": "👻DeepFlow (Community)-docs ${{ github.event_name }} 事件",
+              "tag": "plain_text"
+            }
+          }
+        }
+        }' \
+        ${{ secrets.FEISHU_ROBOT }}
+
+    - uses: aliyun/ack-set-context@v1
+      if: ${{ github.event.pull_request.base.ref == 'main' && github.event.pull_request.merged == true }}
+      with:
+        access-key-id: "${{ secrets.ALIYUN_ACK_ACCESS_KEY_ID }}"
+        access-key-secret: "${{ secrets.ALIYUN_ACK_ACCESS_KEY_SECRET }}"
+        cluster-id: "${{ secrets.ALIYUN_ACK_CLUSTER_ID }}"
+
+    - name: update
+      if: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main' && github.event.pull_request.merged == true }}
+      shell: bash
+      run: |
+        kubectl set image -n deepservice-test deployment deepservice-docs deepservice-docs=${{ secrets.REGISTRY_ALIYUN_ADDR }}/deepservice/${{ env.IMAGE }}:${{ env.IMAGE_TAG_PREFIX }}-${{ github.run_id }}-${{ github.run_attempt }}
+
+    - name: update
+      if: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
+      shell: bash
+      run: |
+        kubectl set image -n deepservice-test deployment deepservice-docs deepservice-docs=${{ secrets.REGISTRY_ALIYUN_ADDR }}/deepservice/${{ env.IMAGE }}:${{ env.IMAGE_TAG_PREFIX }}-${{ github.run_id }}-${{ github.run_attempt }}
