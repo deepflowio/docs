@@ -75,14 +75,14 @@ jobs:
         username: "${{ secrets.REGISTRY_ALIYUN_USER }}" 
         password: "${{ secrets.REGISTRY_PASS }}"
 
-    # - name: debug
-      # shell: bash
-      # run:  |
-        # more $GITHUB_EVENT_PATH
+    - name: debug
+      shell: bash
+      run:  |
+        more $GITHUB_EVENT_PATH
         
     - name: set env
       run: |
-        echo "IMAGE_TAG_PREFIX=${{ github.event.head.ref  }}"|sed 's|main|latest|' >> $GITHUB_ENV
+        echo "IMAGE_TAG_PREFIX=${{ github.event.pull_request.head.ref }}"|sed 's|main|latest|' >> $GITHUB_ENV
         
     - name: Build and push docs image
       uses: docker/build-push-action@v2
@@ -137,7 +137,7 @@ jobs:
         ${{ secrets.FEISHU_ROBOT }}
 
     - uses: aliyun/ack-set-context@v1
-      if: ${{ github.event.pull_request.head.ref == 'main' && github.event.pull_request.merged == true }}
+      if: ${{ github.event.pull_request.base.ref == 'main' && github.event.pull_request.merged == true }}
       with:
         access-key-id: "${{ secrets.ALIYUN_ACK_ACCESS_KEY_ID }}"
         access-key-secret: "${{ secrets.ALIYUN_ACK_ACCESS_KEY_SECRET }}"
