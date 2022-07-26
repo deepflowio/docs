@@ -217,42 +217,46 @@ svcorder_otel_span_createorder_3(61-OTel: svc-order otel span createorder-3):::s
 svcorder_otel_span_getitem_1(62-OTel: svc-order otel span getitem-1):::svcorder
 svcorder_otel_span_getitem_2(63-OTel: svc-order otel span getitem-2):::svcorder
 svcorder_java_send_sql_1(64-eBPF: svc-order java send sql-1):::svcorder
-dbdemo_mysql_recv_sql_1(65-eBPF: db-demo mysql recv sql-1):::dbdemo
+svcorder_vnic_send_sql_1(65-BPF: svc-order vnic send sql-1):::nic
+dbdemo_vnic_recv_sql_1(66-BPF: db-demo vnic recv sql-1):::nic
+dbdemo_mysql_recv_sql_1(67-eBPF: db-demo mysql recv sql-1):::dbdemo
 
-svcorder_java_send_getitem(66-eBPF: svc-order java send getitem):::svcorder
-svcorder_vnic_send_getitem(67-BPF: svc-order vnic send getitem):::nic
-node2_nic_send_getitem(68-BPF: node2 nic send getitem):::nic
-node1_nic_recv_getitem(69-BPF: node0 nic recv getitem):::nic
-svcitem_vnic_recv_getitem(70-BPF: svc-item vnic recv getitem):::nic
-svcitem_java_recv_getitem(71-eBPF: svc-item java recv getitem):::svcitem
-svcitem_otel_span_getitem_1(72-OTel: svc-item otel span getitem-1):::svcitem
-svcitem_otel_span_getitem_2(73-OTel: svc-item otel span getitem-2):::svcitem
-svcitem_otel_span_getitem_3(74-OTel: svc-item otel span getitem-3):::svcitem
+svcorder_java_send_getitem(68-eBPF: svc-order java send getitem):::svcorder
+svcorder_vnic_send_getitem(69-BPF: svc-order vnic send getitem):::nic
+node2_nic_send_getitem(70-BPF: node2 nic send getitem):::nic
+node1_nic_recv_getitem(71-BPF: node0 nic recv getitem):::nic
+svcitem_vnic_recv_getitem(72-BPF: svc-item vnic recv getitem):::nic
+svcitem_java_recv_getitem(73-eBPF: svc-item java recv getitem):::svcitem
+svcitem_otel_span_getitem_1(74-OTel: svc-item otel span getitem-1):::svcitem
+svcitem_otel_span_getitem_2(75-OTel: svc-item otel span getitem-2):::svcitem
+svcitem_otel_span_getitem_3(76-OTel: svc-item otel span getitem-3):::svcitem
 
-svcorder_otel_span_getitem_3(75-OTel: svc-order otel span getitem-3):::svcorder
-svcorder_otel_span_getitem_4(76-OTel: svc-order otel span getitem-4):::svcorder
-svcorder_java_send_getitem_2(77-eBPF: svc-order java send getitem-2):::svcorder
-svcorder_vnic_send_getitem_2(78-BPF: svc-order vnic send getitem-2):::nic
-node2_nic_send_getitem_2(79-BPF: node2 nic send getitem-2):::nic
-node1_nic_recv_getitem_2(80-BPF: node0 nic recv getitem-2):::nic
-svcitem_vnic_recv_getitem_2(81-BPF: svc-item vnic recv getitem-2):::nic
-svcitem_java_recv_getitem_2(82-eBPF: svc-item java recv getitem-2):::svcitem
-svcitem_otel_span_getitem_4(83-OTel: svc-item otel span getitem-4):::svcitem
-svcitem_otel_span_getitem_5(84-OTel: svc-item otel span getitem-5):::svcitem
-svcitem_otel_span_getitem_6(85-OTel: svc-item otel span getitem-6):::svcitem
+svcorder_otel_span_getitem_3(77-OTel: svc-order otel span getitem-3):::svcorder
+svcorder_otel_span_getitem_4(78-OTel: svc-order otel span getitem-4):::svcorder
+svcorder_java_send_getitem_2(79-eBPF: svc-order java send getitem-2):::svcorder
+svcorder_vnic_send_getitem_2(80-BPF: svc-order vnic send getitem-2):::nic
+node2_nic_send_getitem_2(81-BPF: node2 nic send getitem-2):::nic
+node1_nic_recv_getitem_2(82-BPF: node0 nic recv getitem-2):::nic
+svcitem_vnic_recv_getitem_2(83-BPF: svc-item vnic recv getitem-2):::nic
+svcitem_java_recv_getitem_2(84-eBPF: svc-item java recv getitem-2):::svcitem
+svcitem_otel_span_getitem_4(85-OTel: svc-item otel span getitem-4):::svcitem
+svcitem_otel_span_getitem_5(86-OTel: svc-item otel span getitem-5):::svcitem
+svcitem_otel_span_getitem_6(87-OTel: svc-item otel span getitem-6):::svcitem
 
-svcorder_otel_span_getstock_1(86-OTel: svc-order otel span getstock-1):::svcorder
-svcorder_otel_span_getstock_2(87-OTel: svc-order otel span getstock-2):::svcorder
-svcorder_java_send_getstock(88-eBPF: svc-order java send getstock):::svcorder
-svcorder_vnic_send_getstock(89-BPF: svc-order vnic send getstock):::nic
-svcstock_vnic_recv_getstock(90-BPF: svc-stock vnic recv getstock):::nic
-svcstock_java_recv_getstock(91-eBPF: svc-stock java recv getstock):::svcstock
-svcstock_otel_span_getstock_1(92-OTel: svc-stock otel span getstock-1):::svcstock
-svcstock_otel_span_getstock_2(93-OTel: svc-stock otel span getstock-2):::svcstock
-svcstock_otel_span_getstock_3(94-OTel: svc-stock otel span getstock-3):::svcstock
+svcorder_otel_span_getstock_1(88-OTel: svc-order otel span getstock-1):::svcorder
+svcorder_otel_span_getstock_2(89-OTel: svc-order otel span getstock-2):::svcorder
+svcorder_java_send_getstock(90-eBPF: svc-order java send getstock):::svcorder
+svcorder_vnic_send_getstock(91-BPF: svc-order vnic send getstock):::nic
+svcstock_vnic_recv_getstock(92-BPF: svc-stock vnic recv getstock):::nic
+svcstock_java_recv_getstock(93-eBPF: svc-stock java recv getstock):::svcstock
+svcstock_otel_span_getstock_1(94-OTel: svc-stock otel span getstock-1):::svcstock
+svcstock_otel_span_getstock_2(95-OTel: svc-stock otel span getstock-2):::svcstock
+svcstock_otel_span_getstock_3(96-OTel: svc-stock otel span getstock-3):::svcstock
 
-svcorder_java_send_sql_2(95-eBPF: svc-order java send sql-2):::svcorder
-dbdemo_mysql_recv_sql_2(96-eBPF: db-demo mysql recv sql-2):::dbdemo
+svcorder_java_send_sql_2(97-eBPF: svc-order java send sql-2):::svcorder
+svcorder_vnic_send_sql_2(98-BPF: svc-order vnic send sql-2):::nic
+dbdemo_vnic_recv_sql_2(99-BPF: db-demo vnic recv sql-2):::nic
+dbdemo_mysql_recv_sql_2(100-eBPF: db-demo mysql recv sql-2):::dbdemo
 
 subgraph node1-1 [k8s node1]
     subgraph loadgenerator pod
@@ -383,6 +387,7 @@ subgraph k8s node2
     svcorder_vnic_send_getitem
     svcorder_vnic_send_getitem_2
     svcorder_vnic_send_getstock
+
     svcstock_vnic_recv_getstock
 
     subgraph svc-stock pod
@@ -392,8 +397,16 @@ subgraph k8s node2
         svcstock_otel_span_getstock_3
     end
 
-    subgraph db-demo pod
+    svcorder_vnic_send_sql_1
+    dbdemo_vnic_recv_sql_1
+    svcorder_vnic_send_sql_2
+    dbdemo_vnic_recv_sql_2
+
+    subgraph db-demo-pod-1 [db-demo pod]
         dbdemo_mysql_recv_sql_1
+    end
+
+    subgraph db-demo-pod-2 [db-demo pod]
         dbdemo_mysql_recv_sql_2
     end
 
@@ -422,7 +435,7 @@ webshop_otel_span_fulltest_2 --> webshop_otel_span_createorder_1 --> webshop_ote
 
 svcorder_vnic_recv_createorder --> svcorder_java_recv_createorder --> svcorder_otel_span_createorder_1 --> svcorder_otel_span_createorder_2 --> svcorder_otel_span_createorder_3
 
-svcorder_otel_span_createorder_3--> svcorder_otel_span_getitem_1 --> svcorder_otel_span_getitem_2 --> svcorder_java_send_sql_1 --> dbdemo_mysql_recv_sql_1
+svcorder_otel_span_createorder_3--> svcorder_otel_span_getitem_1 --> svcorder_otel_span_getitem_2 --> svcorder_java_send_sql_1 --> svcorder_vnic_send_sql_1 --> dbdemo_vnic_recv_sql_1 --> dbdemo_mysql_recv_sql_1
 
 svcorder_otel_span_getitem_2 --> svcorder_java_send_getitem --> svcorder_vnic_send_getitem --> node2_nic_send_getitem -->|IPIP encap| node1_nic_recv_getitem --> svcitem_vnic_recv_getitem
 
@@ -436,7 +449,7 @@ svcorder_otel_span_createorder_3--> svcorder_otel_span_getstock_1 --> svcorder_o
 
 svcstock_vnic_recv_getstock  --> svcstock_java_recv_getstock --> svcstock_otel_span_getstock_1 --> svcstock_otel_span_getstock_2 --> svcstock_otel_span_getstock_3
 
-svcorder_otel_span_getstock_2 --> svcorder_java_send_sql_2 --> dbdemo_mysql_recv_sql_2
+svcorder_otel_span_getstock_2 --> svcorder_java_send_sql_2 --> svcorder_vnic_send_sql_2 --> dbdemo_vnic_recv_sql_2 --> dbdemo_mysql_recv_sql_2
 
 classDef loadgenerator fill:#ceb961,color:black;
 classDef nic fill:#a1a1a1,color:white;
@@ -450,10 +463,10 @@ classDef dbdemo fill:#aa48bc,color:black;
 ```
 
 对这个追踪 Demo 我们总结一下：
-- 全链路：集成 OTel、eBPF 和 BPF，自动追踪到了这个 Trace 的 96 个 Span，含 20 个 eBPF Span、30 个 BPF Span
+- 全链路：集成 OTel、eBPF 和 BPF，自动追踪到了这个 Trace 的 100 个 Span，含 20 个 eBPF Span、34 个 BPF Span
 - 全链路：对 OTel 无插码的服务，支持通过 eBPF 自动追踪补齐，例如 Span 1-6（loadgenerator）等
-- 全链路：对 OTel 无法插码的服务，支持通过 eBPF 自动追踪补齐，例如 Span 65、96 的 eBPF Span 描绘出了 MySQL Transaction 的开始和结束（SET autocommit、commit）
-- 全栈：支持追踪同 K8s Node 上两个 Pod 之间的网络路径，例如 Span 89-90 等
+- 全链路：对 OTel 无法插码的服务，支持通过 eBPF 自动追踪补齐，例如 Span 67、100 的 eBPF Span 描绘出了 MySQL Transaction 的开始和结束（SET autocommit、commit）
+- 全栈：支持追踪同 K8s Node 上两个 Pod 之间的网络路径，例如 Span 91-92 等
 - 全栈：支持追踪跨 K8s Node 上两个 Pod 之间的网络路径，即使中间经过了隧道封装，例如 Span 2-5 等（IPIP 隧道封装）
 - 无盲点：eBPF 和 BPF Span 穿插在 OTel Span 之间，让追踪无盲点，例如 eBPF Span 12、27、41、53 与它们的父 Span（OTel）的显著时差可用于确定真实的性能瓶颈，避免上下游应用开发团队的迷惑
 
@@ -523,4 +536,4 @@ DeepFlow 能够将 OpenTelemetry、eBPF、BPF 获取到的追踪数据关联展�
 
 ![OTel gRPC Demo](./imgs/otel-grpc-demo.png)
 
-你也可以访问 [DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d/Distributed_Tracing/distributed-tracing?var-namespace=deepflow-otel-grpc-demo&from=deepflow-doc) 查看效果。
+你也可以访问 [DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d/Distributed_Tracing/distributed-tracing?var-namespace=deepflow-otel-grpc-demo&var-request_resource=*Order*&from=deepflow-doc) 查看效果。
