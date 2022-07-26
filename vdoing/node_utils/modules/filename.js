@@ -1,4 +1,6 @@
 const path = require('path')
+const cwd = process.cwd()
+
 /**
  * 获取文件名字
  * @param {*} filename
@@ -48,8 +50,8 @@ function handleUserName (str = '') {
  * @returns 
  */
 function getPermalink (filePath = '') {
+  filePath = filePath.slice(cwd.length+1)
   filePath = filePath.split(path.sep)
-  filePath = filePath.slice(filePath.lastIndexOf('docs') + 1)
 
   if (['zh'].includes(filePath[0])) {
     filePath.shift()
@@ -78,10 +80,12 @@ function getPermalink (filePath = '') {
  * @returns 
  */
 function getPermalink1 (filePath = '') {
+  filePath = filePath.slice(cwd.length + 1)
   filePath = filePath.split(path.sep)
-  filePath = filePath.slice(filePath.lastIndexOf('docs') + 1)
 
   // 变成绝对路径
+  filePath.shift()
+
   filePath.unshift('')
 
   return filePath.join('/')

@@ -7,7 +7,7 @@ const { checkLocalesFilename, getPermalink1, getPermalink, fileShouldCreateREADM
 
 const FILE_NAME = 'README.md' // readme.md文件
 const LOCALES = require('../page-locales/index')
-
+const cwd = process.cwd()
 /**
  * 三合一操作，遍历一次
  * 1. 检测是否需要readme文件
@@ -65,8 +65,8 @@ function handleFileAndGetSideBar (sourceDir, files, currentFileName) {
                 itemArr.shift()
             }
             const fullFile = path.sep + 'docs' + path.sep
-            const lastIndex = filePath.lastIndexOf(fullFile)
-            const itemStr = longestMatch(filePath.slice(lastIndex + fullFile.length))
+            // 需要截取docs目录后面那一串
+            const itemStr = longestMatch(filePath.slice(cwd.length + fullFile.length))
             res.sidebar.length && sidebar.push({
                 title: itemStr,
                 collapsable: true,
