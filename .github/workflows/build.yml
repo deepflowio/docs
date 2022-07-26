@@ -74,14 +74,14 @@ jobs:
         username: "${{ secrets.REGISTRY_ALIYUN_USER }}" 
         password: "${{ secrets.REGISTRY_PASS }}"
 
-    - name: debug
-      shell: bash
-      run:  |
-        more $GITHUB_EVENT_PATH
+    # - name: debug
+      # shell: bash
+      # run:  |
+        # more $GITHUB_EVENT_PATH
         
     - name: set env
       run: |
-        echo "IMAGE_TAG_PREFIX=${{ github.ref_name }}"|sed 's|main|latest|' >> $GITHUB_ENV
+        echo "IMAGE_TAG_PREFIX=${{ github.event.head.ref  }}"|sed 's|main|latest|' >> $GITHUB_ENV
         
     - name: Build and push docs image
       uses: docker/build-push-action@v2
@@ -119,7 +119,7 @@ jobs:
             {
               "tag": "div",
               "text": {
-                "content": "docs分支： ${{ env.DOCS_REF }}\n镜像tag：${{ github.run_id }}-${{ github.run_attempt }}\nmain分支自动更新到测试环境\n更新命令：\nkubectl set image -n deepservice-test deployment deepservice-docs deepservice-docs=${{ secrets.REGISTRY_ALIYUN_ADDR }}/deepservice/${{ env.IMAGE }}:${{ env.IMAGE_TAG_PREFIX }}-${{ github.run_id }}-${{ github.run_attempt }}",
+                "content": "docs分支： ${{ github.event.head.ref }}\n镜像tag：${{ github.run_id }}-${{ github.run_attempt }}\nmain分支自动更新到测试环境\n更新命令：\nkubectl set image -n deepservice-test deployment deepservice-docs deepservice-docs=${{ secrets.REGISTRY_ALIYUN_ADDR }}/deepservice/${{ env.IMAGE }}:${{ env.IMAGE_TAG_PREFIX }}-${{ github.run_id }}-${{ github.run_attempt }}",
                 "tag": "lark_md"
               }
             }
