@@ -64,7 +64,9 @@ function handleFileAndGetSideBar (sourceDir, files, currentFileName) {
             if (itemArr.length > 1) {
                 itemArr.shift()
             }
-            const itemStr = longestMatch(filePath.split(path.sep + 'docs' + path.sep)[1])
+            const fullFile = path.sep + 'docs' + path.sep
+            const lastIndex = filePath.lastIndexOf(fullFile)
+            const itemStr = longestMatch(filePath.slice(lastIndex + fullFile.length))
             res.sidebar.length && sidebar.push({
                 title: itemStr,
                 collapsable: true,

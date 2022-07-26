@@ -28,6 +28,9 @@ export default {
   created() {
     // /test/a
     const path = this.$route.path;
+    if (path === "/404.html") {
+      return false;
+    }
     const reuslt = path.split("/");
     noPathCache[path] = true; // 代表不存在
     reuslt.shift();
