@@ -21,6 +21,8 @@ module.exports = (options, ctx) => {
   const { sidebarData, simpledSidebarData } = createREADMEFileAndSetFrontmatterAndGetSideBar(sourceDir, themeConfig)
   themeConfig.sidebar = sidebarData;
   siteConfig.markdown.sidebar = simpledSidebarData;
+  console.log('=sidebarData==', sidebarData)
+  console.log('=simpledSidebarData==', simpledSidebarData)
   log(chalk.blue('tip ') + chalk.green('add sidebar data. 成功生成侧边栏数据。'))
 
   // resolve algolia
