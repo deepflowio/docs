@@ -444,18 +444,18 @@ classDef webshop_1 fill:#8498d1,color:white;
 classDef webshop_2 fill:#45b0d6,color:white;
 classDef svcuser fill:#9cdbc3,color:black;
 classDef svcorder fill:#16a9e8,color:white;
-classDef svcitem fill:#eadbc4,color:black;
+classDef svcitem fill:#eadb92,color:black;
 classDef svcstock fill:#49b292,color:white;
 classDef dbdemo fill:#aa48bc,color:black;
 ```
 
 对这个追踪 Demo 我们总结一下：
-- 集成 OTel、eBPF 和 BPF，自动追踪到了这个 Trace 的 96 个 Span，含 20 个 eBPF Span、30 个 BPF Span
-- 对 OTel 无插码的服务，支持通过 eBPF 自动追踪补齐，例如 Span 1-6（loadgenerator）等
-- 对 OTel 无法插码的服务，支持通过 eBPF 自动追踪补齐，例如 Span 65、96 的 eBPF Span 描绘出了 MySQL Transaction 的开始和结束（SET autocommit、commit）
-- 支持追踪同 K8s Node 上两个 Pod 之间的网络路径，例如 Span 89-90 等
-- 支持追踪跨 K8s Node 上两个 Pod 之间的网络路径，即使中间经过了隧道封装，例如 Span 2-5 等（IPIP 隧道封装）
-- eBPF 和 BPF Span 穿插在 OTel Span 之间，让追踪无盲点，例如 eBPF Span 12、27、41、53 与它们的父 Span（OTel）的显著时差可用于确定真实的性能瓶颈，避免上下游应用开发团队的迷惑
+- 全链路：集成 OTel、eBPF 和 BPF，自动追踪到了这个 Trace 的 96 个 Span，含 20 个 eBPF Span、30 个 BPF Span
+- 全链路：对 OTel 无插码的服务，支持通过 eBPF 自动追踪补齐，例如 Span 1-6（loadgenerator）等
+- 全链路：对 OTel 无法插码的服务，支持通过 eBPF 自动追踪补齐，例如 Span 65、96 的 eBPF Span 描绘出了 MySQL Transaction 的开始和结束（SET autocommit、commit）
+- 全栈：支持追踪同 K8s Node 上两个 Pod 之间的网络路径，例如 Span 89-90 等
+- 全栈：支持追踪跨 K8s Node 上两个 Pod 之间的网络路径，即使中间经过了隧道封装，例如 Span 2-5 等（IPIP 隧道封装）
+- 无盲点：eBPF 和 BPF Span 穿插在 OTel Span 之间，让追踪无盲点，例如 eBPF Span 12、27、41、53 与它们的父 Span（OTel）的显著时差可用于确定真实的性能瓶颈，避免上下游应用开发团队的迷惑
 
 # 基于 OpenTelemetry WebStore Demo 体验
 

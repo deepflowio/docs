@@ -201,7 +201,7 @@ ratings_vnic_recv --> ratings_envoy_ingress_recv --> ratings_envoy_ingress_send 
 classDef loadgenerator fill:#8498d1,color:white;
 classDef nic fill:#a1a1a1,color:white;
 classDef productpage_1 fill:#9cdbc3,color:black;
-classDef productpage_2 fill:#eadbc4,color:black;
+classDef productpage_2 fill:#eadb92,color:black;
 classDef details_1 fill:#16a9e8,color:white;
 classDef details_2 fill:#b38ebc,color:white;
 classDef reviews_1 fill:#49b292,color:white;
@@ -211,9 +211,9 @@ classDef ratings_2 fill:#aa48bc,color:black;
 ```
 
 对这个追踪 Demo 我们总结一下：
-- 整个追踪过程不需要手动插入任何追踪代码，不需要向 HTTP Header 中注入任何 TraceID/SpanID
-- 利用 eBPF 和 BPF，自动追踪到了这个 Trace 的 38 个 Span，含 24 个 eBPF Span、14 个 BPF Span
-- 支持对 Java、Python、Ruby、NodeJS 应用及 Envoy (C++) 的追踪
-- 支持追踪一个 Pod 内部从 Envoy Ingress、服务进程、Envoy Egress 的全过程，例如 Span 6-11 等
-- 支持追踪同 K8s Node 上两个 Pod 之间的网络路径，例如 Span 4-5 等
-- 支持追踪跨 K8s Node 上两个 Pod 之间的网络路径，即使中间经过了隧道封装，例如 Span 12-15 等（IPIP 隧道封装）
+- 零插码：整个追踪过程不需要手动插入任何追踪代码，不需要向 HTTP Header 中注入任何 TraceID/SpanID
+- 多语言：支持对 Java、Python、Ruby、NodeJS 语言应用及 C/C++（curl/envoy）语言基础服务的追踪
+- 全链路：利用 eBPF 和 BPF，自动追踪到了这个 Trace 的 38 个 Span，含 24 个 eBPF Span、14 个 BPF Span
+- 全栈：支持追踪同 K8s Node 上两个 Pod 之间的网络路径，例如 Span 4-5 等
+- 全栈：支持追踪跨 K8s Node 上两个 Pod 之间的网络路径，即使中间经过了隧道封装，例如 Span 12-15 等（IPIP 隧道封装）
+- 全栈：支持追踪一个 Pod 内部从 Envoy Ingress、服务进程、Envoy Egress 的全过程，例如 Span 6-11 等
