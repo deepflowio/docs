@@ -101,6 +101,11 @@ jobs:
       run: |
          echo "TEMPLATE=green" >> $GITHUB_ENV
 
+    - name: prepare for env
+      shell: bash
+      run:  |
+        more $GITHUB_EVENT_PATH
+
     - name: info
       shell: bash
       run: |
