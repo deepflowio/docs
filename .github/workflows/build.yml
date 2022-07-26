@@ -8,6 +8,7 @@ on:
     branches: 
       - main
       - Merge-docs
+      - test-branch
   pull_request:
     branches:
       - main
