@@ -68,8 +68,7 @@ function handleFileAndGetSideBar (sourceDir, files, currentFileName) {
             // 从后往前寻找/docs/
             const fullFile = path.sep + 'docs' + path.sep
             const lastIndex = filePath.lastIndexOf(fullFile)
-            const str = filePath.slice(lastIndex + fullFile.length)
-            const itemStr = longestMatch()
+            const itemStr = longestMatch(filePath.slice(lastIndex + fullFile.length))
             res.sidebar.length && sidebar.push({
                 title: itemStr,
                 collapsable: true,
