@@ -81,12 +81,12 @@ jobs:
     #     more $GITHUB_EVENT_PATH
         
     - name: set env
-      if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'main' }}
+      if: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main' }}
       run: |
         echo "IMAGE_TAG_PREFIX=${{ github.event.pull_request.head.ref }}"|sed 's|main|latest|' >> $GITHUB_ENV
 
     - name: set env
-      if: ${{ github.event_name == 'push'}}
+      if: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
       run: |
         echo "IMAGE_TAG_PREFIX=${{ github.ref_name }}"|sed 's|main|latest|' >> $GITHUB_ENV
         
@@ -150,7 +150,7 @@ jobs:
         cluster-id: "${{ secrets.ALIYUN_ACK_CLUSTER_ID }}"
 
     - name: update
-      if: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref == 'main' && github.event.pull_request.merged == true }}
+      if: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main' && github.event.pull_request.merged == true }}
       shell: bash
       run: |
         kubectl set image -n deepservice-test deployment deepservice-docs deepservice-docs=${{ secrets.REGISTRY_ALIYUN_ADDR }}/deepservice/${{ env.IMAGE }}:${{ env.IMAGE_TAG_PREFIX }}-${{ github.run_id }}-${{ github.run_attempt }}
