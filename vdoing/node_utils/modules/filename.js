@@ -52,7 +52,7 @@ function getPermalink (filePath = '') {
 
   do {
     filePath.shift()
-  } while (filePath[0] !== 'docs')
+  } while (filePath[0] !== 'docs' || filePath[1] !== 'docs')
 
 
   filePath.shift()
@@ -85,10 +85,11 @@ function getPermalink (filePath = '') {
  */
 function getPermalink1 (filePath = '') {
   filePath = filePath.split(path.sep)
+  console.log('filePath==', JSON.stringify(filePath))
 
   do {
     filePath.shift()
-  } while (filePath[0] !== 'docs')
+  } while (filePath[0] !== 'docs' && filePath[1] !== 'docs')
 
   filePath.shift()
 
