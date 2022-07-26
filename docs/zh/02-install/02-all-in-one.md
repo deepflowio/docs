@@ -19,7 +19,7 @@ permalink: /install/all-in-one
 使用 [sealos](https://github.com/labring/sealos) 快速部署一个 K8s 集群：
 ```bash
 # install sealos
-curl -o /usr/bin/sealos https://sealyun-home.oss-cn-beijing.aliyuncs.com/sealos-4.0/latest/sealos-amd64 && \
+curl -o /usr/bin/sealos https://deepflow-ce.oss-cn-beijing.aliyuncs.com/sealos/sealos && \
     chmod +x /usr/bin/sealos
 
 # install All-in-One kubernetes cluster
