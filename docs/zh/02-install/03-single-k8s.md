@@ -95,6 +95,11 @@ helm install deepflow -n deepflow deepflow/deepflow --create-namespace
   global:
     storageClass: "<your storageClass>"
     replicas: 1  ## replicas for deepflow-server and clickhouse
+    image:
+      ## ghcr Image repository address: ghcr.io/deepflowys/deepflow-ce
+      ## Dockerhub Image repository address: deepflowce
+      ## AliyunYun Image repository address: registry.cn-beijing.aliyuncs.com/deepflow-ce
+      repository: registry.cn-beijing.aliyuncs.com/deepflow-ce ## change deepflow image registry to  aliyun
   ```
   后续更新可以使用 `-f values-custom.yaml` 参数使用自定义配置：
   ```bash

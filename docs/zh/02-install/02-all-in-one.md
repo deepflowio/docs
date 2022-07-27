@@ -55,6 +55,23 @@ helm install deepflow -n deepflow deepflow/deepflow --create-namespace \
     --set global.allInOneLocalStorage=true
 ```
 
+注意：
+- 虽然你可以使用 helm `--set` 参数来定义部分配置，但我们建议将自定义的配置保存一个独立的 yaml 文件中。
+  例如 `values-custom.yaml` ：
+  ```yaml
+  global:
+    allInOneLocalStorage: true
+    image:
+      ## ghcr Image repository address: ghcr.io/deepflowys/deepflow-ce
+      ## Dockerhub Image repository address: deepflowce
+      ## AliyunYun Image repository address: registry.cn-beijing.aliyuncs.com/deepflow-ce
+      repository: registry.cn-beijing.aliyuncs.com/deepflow-ce ## change deepflow image registry to  aliyun
+  ```
+  后续更新可以使用 `-f values-custom.yaml` 参数使用自定义配置：
+  ```bash
+  helm upgrade deepflow -n deepflow -f values-custom.yaml deepflow/deepflow
+  ```
+
 # 访问 Grafana 页面
 
 执行 helm 部署 DeepFlow 时输出的内容提示了获取访问 Grafana 的 URL 和密码的命令，输出示例：
