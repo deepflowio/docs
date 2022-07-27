@@ -6,8 +6,8 @@ const Mermaid = {
         id: {
             type: String,
             required: false,
-            default() {
-                return 'diagram_'+Date.now()
+            default () {
+                return 'diagram_' + Date.now()
             }
         },
         graph: {
@@ -17,11 +17,12 @@ const Mermaid = {
     },
     data () {
         return {
-            svg: undefined
+            rendered: false
+            // id: Math.random().toString(16)
         }
     },
     computed: {
-        graphData() {
+        graphData () {
             if (this.graph) {
                 return this.graph
             }
@@ -30,14 +31,14 @@ const Mermaid = {
         }
     },
     render (h) {
-        if (this.svg === undefined) {
+        if (this.rendered === false) {
             return h('Loading')
         }
 
         return h('div', {
             class: ['mermaid-diagram'],
             domProps: {
-                innerHTML: this.svg,
+                id: this.id,
                 style: 'width: 100%'
             }
         })
@@ -49,7 +50,15 @@ const Mermaid = {
                 this.id,
                 this.graphData,
                 (svg) => {
-                    this.svg = svg
+                    const reomve = appendCanvasChild('canvas_' + this.id)
+                    svg = addHeightSvg(svg)
+                    window._YS_RENDER_IMAGE(svg, 'canvas_' + this.id, svg => {
+                        this.rendered = true
+                        this.$nextTick(() => {
+                            document.getElementById(this.id).appendChild(svg)
+                        })
+                        reomve()
+                    })
                 },
                 document.querySelector('.mermaid-contianer')
             )
@@ -62,4 +71,20 @@ const Mermaid = {
 
 export default ({ Vue }) => {
     Vue.component(Mermaid.name, Mermaid)
+}
+
+function addHeightSvg (svg = '') {
+    let index = svg.indexOf('style="max-width')
+    index = index + 'style="'.length
+    return svg.slice(0, index) + 'height: auto;' + svg.slice(index)
+}
+
+function appendCanvasChild (id) {
+    const canvas = document.createElement('canvas')
+    canvas.id = id
+    canvas.style = 'position: absolute;top: -9999px; left: -9999px;'
+    document.body.appendChild(canvas)
+    return () => {
+        canvas.remove()
+    }
 }
