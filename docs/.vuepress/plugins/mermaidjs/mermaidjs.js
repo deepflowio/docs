@@ -52,7 +52,7 @@ const Mermaid = {
                 (svg) => {
                     const reomve = appendCanvasChild('canvas_' + this.id)
                     svg = addHeightSvg(svg)
-                    renderImage(svg, 'canvas_' + this.id, svg => {
+                    window._YS_RENDER_IMAGE(svg, 'canvas_' + this.id, svg => {
                         this.rendered = true
                         this.$nextTick(() => {
                             document.getElementById(this.id).appendChild(svg)
@@ -71,35 +71,6 @@ const Mermaid = {
 
 export default ({ Vue }) => {
     Vue.component(Mermaid.name, Mermaid)
-}
-
-
-function renderImage (svg, id, cb) {
-    var canvas = document.getElementById(id);
-    var c = canvas.getContext('2d');
-
-    //新建Image对象
-    var img = new Image();
-
-    // svg编码成base64
-    img.src = 'data:image/svg+xml;base64,' + window.btoa(unescape(encodeURIComponent(svg)));//svg内容中可以有中文字符
-
-    //图片初始化完成后调用
-    img.onload = function () {
-        //将canvas的宽高设置为图像的宽高
-        canvas.width = img.width;
-        canvas.height = img.height;
-
-        //canvas画图片
-        c.drawImage(img, 0, 0);
-        //将图片添加到body中
-        cb(img)
-        // 
-    }
-
-    img.onerror = function (event) {
-        console.log('=event==', arguments)
-    }
 }
 
 function addHeightSvg (svg = '') {
