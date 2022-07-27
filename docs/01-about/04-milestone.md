@@ -53,7 +53,7 @@ There are many more exciting features of DeepFlow waiting for us to develop toge
 - Agent Integration
   - [ ] Integrate Sentry RUM data source
   - [ ] Integrate Promtail/Loki log data source
-  - [ ] Supports outputting data to log files and collecting through the log collection service [iLogTail](https://github.com/alibaba/ilogtail)
+  - [ ] Supports outputting data to log files and collecting through the log collection service iLogTail
 - Server Integration
   - [ ] Support for displaying distributed tracing data in Grafana Tempo
   - [ ] Support displaying log data in Grafana Loki GUI

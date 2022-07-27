@@ -51,7 +51,7 @@ DeepFlow未来还有很多激动人心的特性等待我们和社区一起开发
 - Agent Integration
   - [ ] 集成 Sentry RUM 数据源
   - [ ] 集成 Promtail/Loki 日志数据源
-  - [ ] 支持将数据输出至日志文件中，通过日志采集服务 [iLogTail](https://github.com/alibaba/ilogtail) 进行采集
+  - [ ] 支持将数据输出至日志文件中，通过日志采集服务 iLogTail 进行采集
 - Server Integration
   - [ ] 支持将分布式追踪数据展示在 Grafana Tempo 中
   - [ ] 支持将日志数据展示在 Grafana Loki GUI 中
