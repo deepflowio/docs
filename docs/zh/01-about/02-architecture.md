@@ -32,12 +32,12 @@ Agent 采集的数据包括三类：
 Agent 支持运行于各种工作负载环境中：
 - 以 Daemonset Pod 形态运行于 K8s Node 中，采集 Node 中所有 Pod 的数据
 - 以进程形态运行于 Linux 服务器中，采集服务器中所有进程的数据
-- 以进程形态运行于 Windows 服务器中，采集服务器中所有进程的数据 ^[1]
-- 以 Sidecar 形态运行于 Serverless Pod 中，采集 Pod 中所有 Container 的数据 ^[1]
+- 以进程形态运行于 Windows 服务器中，采集服务器中所有进程的数据 [^1]
+- 以 Sidecar 形态运行于 Serverless Pod 中，采集 Pod 中所有 Container 的数据 [^1]
 
-此外，Agent 支持基于 WASM 向开发者提供可编程接口 ^[1]，用于解析 Agent 尚未识别的应用协议，以及构建面向具体场景的业务分析能力。
+此外，Agent 支持基于 WASM 向开发者提供可编程接口 [^1]，用于解析 Agent 尚未识别的应用协议，以及构建面向具体场景的业务分析能力。
 
-^[1]：计划中的路标功能。
+[^1]: 计划中的路标功能。
 
 # DeepFlow Server
 

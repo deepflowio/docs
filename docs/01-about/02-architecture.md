@@ -34,12 +34,12 @@ The data collected by the Agent includes three categories:
 Agent supports running in various workload environments:
 - It runs in the K8s Node in the form of Daemonset Pod, and collects the data of all Pods in the Node.
 - It runs in the Linux server in the form of a process, and collects the data of all processes in the server
-- It runs in Windows server as a process and collects data of all processes in the server ^[1]
-- It runs in the Serverless Pod in the form of Sidecar, and collects the data of all Containers in the Pod ^[1]
+- It runs in Windows server as a process and collects data of all processes in the server [^1]
+- It runs in the Serverless Pod in the form of Sidecar, and collects the data of all Containers in the Pod [^1]
 
-In addition, Agent supports to provide developers with a programmable interface ^[1] based on WASM, which is used to parse application protocols that the Agent has not yet identified, and to build business analysis capabilities for specific scenarios.
+In addition, Agent supports to provide developers with a programmable interface [^1] based on WASM, which is used to parse application protocols that the Agent has not yet identified, and to build business analysis capabilities for specific scenarios.
 
-^[1]: Milestone features.
+[^1]: Milestone features.
 
 # DeepFlow Server
 
