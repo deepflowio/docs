@@ -5,7 +5,7 @@ export default {
     deepflowCloud: "DeepFlow Cloud",
     deepflowEnter: "DeepFlow Enterprise",
     community: "DeepFlow (Community)",
-    ocs: "文档",
+    docs: "文档",
     deepflowCloudDocs: "DeepFlow Cloud文档",
     blog: "博客",
 }

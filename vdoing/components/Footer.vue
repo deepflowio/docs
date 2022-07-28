@@ -200,8 +200,15 @@
             <li class="nav-link" data-name="community">DeepFlow (Community)</li>
           </ul> -->
         </li>
+        <li class="nav-link" data-name="blog">
+          {{locales[lang].blog}}
+          <!-- <span>学习</span> -->
+          <!-- <ul>
+            <li class="nav-link" data-name="docs">博客</li>
+          </ul> -->
+        </li>
         <li class="nav-link" data-name="docs">
-          {{locales[lang].learn}}
+          {{locales[lang].docs}}
           <!-- <span>学习</span> -->
           <!-- <ul>
             <li class="nav-link" data-name="docs">文档</li>
