@@ -5,7 +5,7 @@ export default {
     deepflowCloud: "DeepFlow Cloud",
     deepflowEnter: "DeepFlow Enterprise",
     community: "DeepFlow (Community)",
-    Docs: "Docs",
+    docs: "Docs",
     deepflowCloudDocs: "DeepFlow Cloud Docs",
     blog: "Blog",
 }

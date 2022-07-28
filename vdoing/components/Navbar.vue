@@ -96,8 +96,11 @@
           <li class="feature-item" data-name="community">
             <span>{{ locales[currentLang].openSource }}</span>
           </li>
-          <li class="feature-item active" data-name="docs">
-            <span>{{ locales[currentLang].learn }}</span>
+           <li class="feature-item active" data-name="docs">
+            <span>{{ locales[currentLang].docs }}</span>
+          </li>
+          <li class="feature-item" data-name="blog">
+            <span>{{ locales[currentLang].blog }}</span>
           </li>
         </ul>
 
