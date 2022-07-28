@@ -46,7 +46,7 @@ end
 
 首先，你需要开启 OpenTelemetry 的 SkyWalking 数据接收能力，将数据经过 OpenTelemetry 标准协议处理之后，发送到 DeepFlow Agent。
 
-OpenTelemetry 接收 SkyWalking 数据存在 Bug，最近我们在 [这个 PR](https://github.com/open-telemetry/opentelemetry-collector-contrib/pull/11562) 中进行了修复，接下来的 Demo 我们需要 OpenTelemetry 的 [Collector 镜像](https://hub.docker.com/r/otel/opentelemetry-collector-contrib) 版本 `>= 0.56.0`。请检查你的环境中 otel-agent 的镜像版本，并确保它符合要求。可参考前序章节中的 [OpenTelemetry 安装](../tracing/opentelemetry/#配置-otel-agent)，更新你的环境中的 otel-agent 版本。
+OpenTelemetry 接收 SkyWalking 数据存在 Bug，最近我们在 [#11562](https://github.com/open-telemetry/opentelemetry-collector-contrib/pull/11562) 与 [#12651](https://github.com/open-telemetry/opentelemetry-collector-contrib/pull/12651) 这两个 PR 中进行了修复，接下来的 Demo 我们需要 OpenTelemetry 的 [Collector 镜像](https://hub.docker.com/r/otel/opentelemetry-collector-contrib) 版本 `>= 0.57.0`。请检查你的环境中 otel-agent 的镜像版本，并确保它符合要求。可参考前序章节中的 [OpenTelemetry 安装](../tracing/opentelemetry/#配置-otel-agent)，更新你的环境中的 otel-agent 版本。
 
 ## 配置 OpenTelemetry 接收 SkyWalking 数据
 
@@ -70,23 +70,6 @@ service:
     traces:
       # add receiver `skywalking`
       receivers: [skywalking]
-```
-
-修改 otel-agent Daemonset 配置：
-```bash
-kubectl -n open-telemetry edit daemonset otel-agent
-```
-
-打开用于 grpc 和 http 的两个转发端口：
-```yaml
-spec:
-  template:
-    spec:
-      ports:
-      - containerPort: 11800
-        protocol: TCP
-      - containerPort: 12800
-        protocol: TCP
 ```
 
 修改 otel-agent Service 配置：
