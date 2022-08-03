@@ -14,7 +14,7 @@ DeepFlow 社区版是一个开源版本，是一个高度自动化的可观测�
 - AutoLogging：基于 eBPF/BPF，自动采集 TCP/UDP 流日志、HTTP/MySQL/Redis 等应用的访问日志
 - Integration：集成 Prometheus/Telegraf 等指标数据，解决数据孤岛和高基数问题
 - Integration：集成 OpenTelemetry/SkyWalking 等追踪数据，实现无盲点分布式追踪
-- Integration：集成 Fluentd 等外部日志数据源，解决日志存储的高资源消耗问题
+- Integration：集成 Fluentd 等日志数据源，解决日志存储的高资源消耗问题
 - AutoTagging：支持同步公有云资源标签，并自动注入所有观测数据
 - AutoTagging：支持同步容器资源标签和自定义 Label，并自动注入所有观测数据
 - AutoTagging：支持 SmartEncoding 高性能数据标签存储
@@ -25,18 +25,18 @@ DeepFlow 社区版是一个开源版本，是一个高度自动化的可观测�
 
 # 企业版（Enterprise Edition）
 
-DeepFlow 企业版是一个高度自动化的一站式可观测性平台，
-它拥有企业级的可视化及管理界面、具备完整的数据分析和增强的数据治理能力。
+DeepFlow 企业版是一个高度自动化的`一站式`可观测性`分析平台`，
+它拥有企业级的可视化及管理界面、具备完整的数据分析能力和增强的数据治理能力。
 除社区版所有功能之外，它还有如下功能：
 
 - 支持 Serverless 多租户网络隔离容器环境下的 AutoMetrics、AutoTracing、AutoLogging
 - 支持 Kata 等安全沙箱（runv）容器环境下的 AutoMetrics、AutoTracing、AutoLogging
-- 支持 Windows 服务器、HyperV 宿主机、ESXi 宿主机环境下的 AutoMetrics、AutoTracing、AutoLogging
+- 支持 Windows 服务器、HyperV/ESXi/Xen 宿主机环境下的 AutoMetrics、AutoTracing、AutoLogging
 - AutoMetrics 及 AutoLogging：支持零侵扰采集整个 KVM 宿主机上所有虚机、Pod 的数据，包括使用 DPDK 数据面的环境
 - AutoMetrics 及 AutoLogging：支持采集专有云 NFV 四七层网关的数据，包括使用 DPDK 数据面的环境
 - AutoMetrics 及 AutoLogging：支持采集物理网络设备的 Packet、NetFlow、sFlow 并生成指标数据
-- AutoTracing：除进程、Pod、虚拟机以外，支持覆盖宿主机、NFV 网关、物理防火墙负载均衡的分布式调用链追踪
-- AutoTracing：除 Pod、虚拟机以外，支持覆盖宿主机、NFV 网关、物理防火墙负载均衡的全栈智能 NAT 追踪
+- AutoTracing：除进程、Pod、虚拟机以外，支持宿主机、NFV 网关、物理防火墙负载均衡的分布式调用链追踪
+- AutoTracing：除 Pod、虚拟机以外，支持宿主机、NFV 网关、物理防火墙负载均衡的全栈智能 NAT 追踪
 - AutoLogging：支持高性能的全网包头存储能力，支持与流日志关联查询、展示 TCP 通信逐包时序图
 - AutoLogging：支持按需配置流量过滤策略，存储原始流量以供回溯取证
 - AutoTagging：与专有云产品深度适配，包括阿里、腾讯、华为等主流云平台
