@@ -45,7 +45,7 @@ DeepFlow Enterprise Edition is a highly automated one-stop observability platfor
 - Support encrypted data transmission between Agent and Server
 - Supports unified monitoring of proprietary cloud, public cloud, and container resources in multiple regions
 - Provide complete cloud-native observability construction solutions for industries such as finance, energy, operators (IT, 5GC), and Internet of Vehicles
-- Provide enterprise-level after-sales support services, including troubleshooting, performance tuning, version upgrades, and the best time for observability
+- Provide enterprise-level after-sales support services, including troubleshooting, performance tuning, version upgrades, implementation of best practices for observability, etc.
 
 # Cloud Edition
 
