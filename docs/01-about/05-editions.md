@@ -20,25 +20,25 @@ DeepFlow Community Edition is an open source version of a highly automated obser
 - AutoTagging: supports SmartEncoding for high-performance data tag storage
 - Support for displaying metrics, tracking, log data using Grafana
 - Support unified monitoring of multiple K8s clusters and non-container servers
-- Collection Agent supports running in K8s node and Linux Host environment
+- Agent supports running in K8s node and Linux Host environment
 - Support deployment under X86, ARM architecture
 
 # Enterprise Edition
 
 DeepFlow Enterprise Edition is a highly automated one-stop observability platform with self-developed GUI pages, complete data analysis and enhanced data governance capabilities. In addition to all the features of the community edition, it has the following features:
 
-- AutoMetrics: support zero intrusion to collect data of all virtual machines and pods on the entire KVM/HyperV/ESXi host
-- AutoMetrics: Supports data collection of proprietary cloud NFV gateways
-- AutoMetrics: Supports the collection of traffic, NetFlow, and sFlow data from physical network devices
+- Support AutoMetrics, AutoTracing, AutoLogging in serverless multi-tenant network isolated container environment
+- Support AutoMetrics, AutoTracing, AutoLogging in a secure sandbox (runv) container environment such as Kata
+- Supports AutoMetrics, AutoTracing, AutoLogging under Windows server, HyperV host, ESXi host environment
+- AutoMetrics and AutoLogging: support zero intrusion to collect data of all virtual machines and pods on the entire KVM host, including the environment using the DPDK data plane
+- AutoMetrics and AutoLogging: Supports data collection of proprietary cloud NFV Layer 4 and 7 gateways, including environments that use DPDK data planes
+- AutoMetrics and AutoLogging: Support to collect Packet, NetFlow, sFlow of physical network devices and generate metric data
 - AutoTracing: In addition to processes, pods, and virtual machines, it supports distributed call chain tracing covering host, NFV gateway, and physical firewall load balancing
 - AutoTracing: In addition to pods and virtual machines, it supports full-stack intelligent NAT tracing covering hosts, NFV gateways, and physical firewall load balancing
-- AutoLogging: Support the storage of original packet headers on the entire network, and support query associated with flow logs, and display the TCP communication sequence diagram
+- AutoLogging: Supports high-performance network-wide packet header storage capability, supports query associated with flow logs, and displays the packet-by-packet sequence diagram of TCP communication
+- AutoLogging: Supports configuring traffic filtering policies on demand, and stores raw traffic for retrospective forensics
 - AutoTagging: In-depth adaptation to proprietary cloud products, including mainstream cloud platforms such as Alibaba, Tencent, and Huawei
-- Support on-demand configuration of traffic filtering policies, distribution and storage of original traffic
-- Support serverless multi-tenant container environment
-- Support for secure sandbox (runv) container environments such as Kata
-- Collection Agent supports running in DPDK environment
-- Collection Agent supports running in Windows Host environment
+- Support on-demand configuration of traffic filtering policies to distribute traffic to security, network, auditing and other traffic consumption tools
 - Supports associated query and automatic jump of indicators, tracking, and log data
 - Support one-stop multi-team collaboration functions such as alarms, reports, and SLO
 - Supports providing services for multi-tenancy and data permission isolation
