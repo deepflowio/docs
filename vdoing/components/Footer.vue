@@ -90,28 +90,26 @@
             <a href="https://www.yunshan.net/solutions/5GC.html" target="_blank"
               >5G核心网网络功能服务监控</a
             >
+            <a href="https://www.yunshan.net/solutions/dfcon.html" target="_blank"
+              >容器化微服务可观测性方案</a
+            >
           </li>
           <li class="links-item">
-            <span class="links-title">DeepFlow Enterprise 最佳实践</span>
+            <span class="links-title">DeepFlow Enterprise 案例学习</span>
             <a
               href="https://www.yunshan.net/cases/deepflow.html"
               target="_blank"
               >客户案例</a
             >
             <a
-              href="https://www.yunshan.net/cooperation/partner.html"
-              target="_blank"
-              >合作伙伴</a
-            >
-            <a
               href="https://www.yunshan.net/cooperation/ysaliyun.html"
               target="_blank"
-              >阿里混合云网络监控最佳实践</a
+              >阿里混合云网络监控实践</a
             >
             <a
               href="https://www.yunshan.net/cooperation/ystencentcloud.html"
               target="_blank"
-              >腾讯金融行业云监控最佳实践</a
+              >腾讯金融行业云监控实践</a
             >
           </li>
           <li class="links-item">
