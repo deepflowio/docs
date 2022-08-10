@@ -1,40 +1,5 @@
 <template>
   <header class="navbar blur">
-    <!-- <SidebarButton @toggle-sidebar="$emit('toggle-sidebar')" />
-
-    <router-link
-      :to="$localePath"
-      class="home-link"
-    >
-      <img
-        class="logo"
-        v-if="$site.themeConfig.logo"
-        :src="$withBase($site.themeConfig.logo)"
-        :alt="$siteTitle"
-      />
-      <span
-        ref="siteName"
-        class="site-name"
-        v-if="$siteTitle"
-        :class="{ 'can-hide': $site.themeConfig.logo }"
-      >{{ $siteTitle }}</span>
-    </router-link>
-
-    <div
-      class="links"
-      :style="linksWrapMaxWidth ? {
-        'max-width': linksWrapMaxWidth + 'px'
-      } : {}"
-    >
-      <AlgoliaSearchBox
-        v-if="isAlgoliaSearch"
-        :options="algolia"
-      />
-      <SearchBox
-        v-else-if="$site.themeConfig.search !== false && $page.frontmatter.search !== false"
-      />
-      <NavLinks class="can-hide" />
-    </div> -->
     <div class="logo-login-container mobile">
       <div class="flex-y">
         <img
@@ -187,7 +152,6 @@
 </template>
 
 <script>
-import AlgoliaSearchBox from "@theme/components/AlgoliaSearchBox.vue";
 import SearchBox from "@SearchBox";
 import SidebarButton from "@theme/components/SidebarButton.vue";
 import NavLinks from "@theme/components/NavLinks.vue";
@@ -195,7 +159,7 @@ import locales from "./../locales/index";
 import { initHead, unbind } from "./../util/header";
 
 export default {
-  components: { SidebarButton, NavLinks, SearchBox, AlgoliaSearchBox },
+  components: { SidebarButton, NavLinks, SearchBox },
 
   data() {
     return {
@@ -281,16 +245,6 @@ export default {
   },
 
   computed: {
-    algolia() {
-      return (
-        this.$themeLocaleConfig.algolia || this.$site.themeConfig.algolia || {}
-      );
-    },
-
-    isAlgoliaSearch() {
-      return this.algolia && this.algolia.apiKey && this.algolia.indexName;
-    },
-
     currentLang() {
       return this.$page.relativePath.indexOf("zh/") > -1 ? "zh" : "en";
     },

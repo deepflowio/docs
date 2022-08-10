@@ -1,4 +1,4 @@
-import Flexsearch from 'flexsearch'
+import FlexSearch from 'flexsearch'
 // Use when flexSearch v0.7.0 will be available
 // import cyrillicCharset from 'flexsearch/dist/lang/cyrillic/default.min.js'
 // import cjkCharset from 'flexsearch/dist/lang/cjk/default.min.js'
@@ -11,9 +11,19 @@ let pagesByPath = null
 
 const cjkRegex = /[\u3131-\u314e|\u314f-\u3163|\uac00-\ud7a3]|[\u4E00-\u9FCC\u3400-\u4DB5\uFA0E\uFA0F\uFA11\uFA13\uFA14\uFA1F\uFA21\uFA23\uFA24\uFA27-\uFA29]|[\ud840-\ud868][\udc00-\udfff]|\ud869[\udc00-\uded6\udf00-\udfff]|[\ud86a-\ud86c][\udc00-\udfff]|\ud86d[\udc00-\udf34\udf40-\udfff]|\ud86e[\udc00-\udc1d]|[\u3041-\u3096]|[\u30A1-\u30FA]/giu
 
+let init = false
 export default {
-  buildIndex(allPages, options) {
-    const pages = allPages.filter(p => !p.frontmatter || p.frontmatter.search !== false)
+  buildIndex (allPages, options, searchData) {
+    if (init == true) {
+      return false
+    }
+    init = true
+    const pages = allPages.filter(p => !p.frontmatter || p.frontmatter.search !== false).reverse().map(item => {
+      return {
+        ...item,
+        ...searchData[item.key]
+      }
+    })
     const indexSettings = {
       encode: options.encode || 'simple',
       tokenize: options.tokenize || 'forward',
@@ -27,14 +37,14 @@ export default {
         field: ['title', 'headersStr', 'content'],
       },
     }
-    index = new Flexsearch(indexSettings)
+    index = new FlexSearch(indexSettings)
     index.add(pages)
 
     const cyrillicPages = pages.filter(p => p.charsets.cyrillic)
     const cjkPages = pages.filter(p => p.charsets.cjk)
 
     if (cyrillicPages.length) {
-      cyrillicIndex = new Flexsearch({
+      cyrillicIndex = new FlexSearch({
         ...indexSettings,
         encode: 'icase',
         split: /\s+/,
@@ -43,10 +53,10 @@ export default {
       cyrillicIndex.add(cyrillicPages)
     }
     if (cjkPages.length) {
-      cjkIndex = new Flexsearch({
+      cjkIndex = new FlexSearch({
         ...indexSettings,
         encode: false,
-        tokenize: function(str) {
+        tokenize: function (str) {
           const cjkWords = []
           let m = null
           do {
@@ -62,7 +72,7 @@ export default {
     }
     pagesByPath = _.keyBy(pages, 'path')
   },
-  async match(queryString, queryTerms, limit = 7) {
+  async match (queryString, queryTerms, limit = 7) {
     const searchParams = [
       {
         field: 'title',
@@ -105,7 +115,7 @@ export default {
   normalizeString,
 }
 
-function getParentPageTitle(page) {
+function getParentPageTitle (page) {
   const pathParts = page.path.split('/')
   let parentPagePath = '/'
   if (pathParts[1]) parentPagePath = `/${pathParts[1]}/`
@@ -114,7 +124,7 @@ function getParentPageTitle(page) {
   return parentPage.title
 }
 
-function getAdditionalInfo(page, queryString, queryTerms) {
+function getAdditionalInfo (page, queryString, queryTerms) {
   const query = queryString.toLowerCase()
   const match = getMatch(page, query, queryTerms)
   if (!match)
@@ -144,7 +154,7 @@ function getAdditionalInfo(page, queryString, queryTerms) {
   }
 }
 
-function getFullHeading(page, headerIndex, match) {
+function getFullHeading (page, headerIndex, match) {
   if (headerIndex == null) return { headingStr: page.title }
   const headersPath = []
   while (headerIndex != null) {
@@ -161,7 +171,7 @@ function getFullHeading(page, headerIndex, match) {
   return { headingStr, headingHighlight }
 }
 
-function getMatch(page, query, terms) {
+function getMatch (page, query, terms) {
   const matches = terms
     .map(t => {
       return getHeaderMatch(page, t) || getContentMatch(page, t)
@@ -176,7 +186,7 @@ function getMatch(page, query, terms) {
   return getContentMatch(page, query) || matches.find(m => m.headerIndex == null)
 }
 
-function getHeaderMatch(page, term) {
+function getHeaderMatch (page, term) {
   if (!page.headers) return null
   for (let i = 0; i < page.headers.length; i++) {
     const h = page.headers[i]
@@ -191,7 +201,7 @@ function getHeaderMatch(page, term) {
   return null
 }
 
-function getContentMatch(page, term) {
+function getContentMatch (page, term) {
   if (!page.normalizedContent) return null
   const charIndex = page.normalizedContent.indexOf(term)
   if (charIndex === -1) return null
@@ -199,7 +209,7 @@ function getContentMatch(page, term) {
   return { headerIndex: null, charIndex, termLength: term.length }
 }
 
-function getContentStr(page, match) {
+function getContentStr (page, match) {
   const snippetLength = 120
   const { charIndex, termLength } = match
 
@@ -232,7 +242,7 @@ function getContentStr(page, match) {
   }
 }
 
-function normalizeString(str) {
+function normalizeString (str) {
   if (!str) return str
   return str
     .trim()
