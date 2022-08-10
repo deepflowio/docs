@@ -55,11 +55,8 @@
 </template>
 
 <script>
-import flexsearchSvc from "../services/flexsearchSvc";
 
-// see https://vuepress.vuejs.org/plugin/option-api.html#clientdynamicmodules
-import hooks from "@dynamic/hooks";
-
+let flexsearchSvc = undefined;
 /* global SEARCH_MAX_SUGGESTIONS, SEARCH_PATHS, SEARCH_HOTKEYS */
 export default {
   name: "SearchBox",
@@ -74,6 +71,9 @@ export default {
   },
   computed: {
     queryTerms() {
+      if (!flexsearchSvc) {
+        return [];
+      }
       if (!this.query) return [];
       const result = flexsearchSvc
         .normalizeString(this.query)
@@ -100,7 +100,14 @@ export default {
   /* global OPTIONS */
   mounted() {
     const options = OPTIONS || {};
-    flexsearchSvc.buildIndex(this.$site.pages, options);
+    Promise.all([
+      import("./../services/flexsearchSvc"),
+      import("@dynamic/searchData"),
+    ]).then(([{ default: _flexsearchSvc }, { SEARCH_DATA }]) => {
+      flexsearchSvc = _flexsearchSvc;
+      flexsearchSvc.buildIndex(this.$site.pages, options, SEARCH_DATA);
+    });
+
     this.placeholder = this.$site.themeConfig.searchPlaceholder || "";
     document.addEventListener("keydown", this.onHotkey);
 
@@ -123,19 +130,14 @@ export default {
         this.suggestions = [];
         return;
       }
-      let suggestions = await flexsearchSvc.match(
-        this.query,
-        this.queryTerms,
-        this.$site.themeConfig.searchMaxSuggestions || SEARCH_MAX_SUGGESTIONS
-      );
-      if (hooks.processSuggestions) {
-        // augment suggestions with user-provided function
-        suggestions = await hooks.processSuggestions(
-          suggestions,
-          this.query,
-          this.queryTerms
-        );
-      }
+      let suggestions = flexsearchSvc
+        ? await flexsearchSvc.match(
+            this.query,
+            this.queryTerms,
+            this.$site.themeConfig.searchMaxSuggestions ||
+              SEARCH_MAX_SUGGESTIONS
+          )
+        : [];
       const isZH = this.$page.path.indexOf("/zh/") > -1;
       suggestions = suggestions.filter((item) => {
         if (isZH && item.path.startsWith("/zh/")) {
@@ -206,15 +208,6 @@ export default {
       if (!this.showSuggestions) {
         return;
       }
-      if (hooks.onGoToSuggestion) {
-        const result = hooks.onGoToSuggestion(
-          i,
-          this.suggestions[i],
-          this.query,
-          this.queryTerms
-        );
-        if (result === true) return;
-      }
       if (this.suggestions[i].external) {
         window.open(
           this.suggestions[i].path + this.suggestions[i].slug,
@@ -274,7 +267,7 @@ function highlight(str, strHighlight) {
   margin-right 19px
   input
     cursor text
-    width 10rem
+    width 6rem
     height: 2rem
     color lighten($textColor, 25%)
     display inline-block

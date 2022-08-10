@@ -201,5 +201,14 @@ export default () => {
         } else {
             addWebHeaderEvent();
         }
+        getGithubInfo();
     })
+
+    async function getGithubInfo () {
+        const res = await fetch('https://api.github.com/repos/deepflowys/deepflow').then(response => response.json())
+        document.querySelectorAll(".github-stars").forEach(stars_counts => {
+            stars_counts.innerHTML = res.stargazers_count;
+            stars_counts.setAttribute("style", "display: flex");
+        });
+    }
 }

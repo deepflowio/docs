@@ -4,8 +4,10 @@ const _ = require('lodash')
 
 let customTitles = null
 
+let SEARCH_DATA = {}
 module.exports = (options, ctx, globalCtx) => ({
-  extendPageData($page) {
+  name: 'fulltext-search',
+  extendPageData ($page) {
     try {
       const { html } = $page._context.markdown.render($page._strippedContent || '')
       if (!customTitles) customTitles = getCustomTitles(globalCtx)
@@ -25,11 +27,14 @@ module.exports = (options, ctx, globalCtx) => ({
         h.charIndex = plaintext.indexOf(titlePlaintext)
         if (h.charIndex === -1) h.charIndex = null
       }
-      $page.headersStr = $page.headers ? $page.headers.map(h => h.title).join(' ') : null
-      $page.content = plaintext
-      $page.normalizedContent = normalizeText(plaintext)
 
-      $page.charsets = getCharsets(plaintext)
+      SEARCH_DATA[$page.key] = {
+        charsets: getCharsets(plaintext),
+        title: $page.title || customTitles[normalizePath($page.path)],
+        headersStr: $page.headers ? $page.headers.map(h => h.title).join(' ') : null,
+        content: plaintext,
+        normalizedContent: normalizeText(plaintext)
+      }
 
       // Take title from sidebar if it's missing on the page itself
       if (!$page.title) $page.title = customTitles[normalizePath($page.path)]
@@ -41,27 +46,27 @@ module.exports = (options, ctx, globalCtx) => ({
   alias: {
     '@SearchBox': path.resolve(__dirname, 'components/SearchBox.vue'),
   },
-  clientDynamicModules() {
+  clientDynamicModules () {
     return {
-      name: 'hooks.js',
-      content: options.hooks || 'export default {}',
+      name: 'searchData.js',
+      content: `export const SEARCH_DATA = ${JSON.stringify(SEARCH_DATA)}`
     }
   },
-  define() {
+  define () {
     return {
       OPTIONS: options,
     }
   },
 })
 
-function normalizeText(text) {
+function normalizeText (text) {
   return text
     .toLowerCase()
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
 }
 
-function getCustomTitles(globalCtx) {
+function getCustomTitles (globalCtx) {
   try {
     const sidebarConfig = _.get(globalCtx, '_pluginContext.themeConfig.sidebar')
     if (!sidebarConfig) return {}
@@ -104,7 +109,7 @@ function getCustomTitles(globalCtx) {
   }
 }
 
-function normalizePath(rawPath) {
+function normalizePath (rawPath) {
   if (!rawPath) return null
   try {
     const parsedPath = path.parse(rawPath)
@@ -115,7 +120,7 @@ function normalizePath(rawPath) {
   }
 }
 
-function getCharsets(text) {
+function getCharsets (text) {
   const cyrillicRegex = /[\u0400-\u04FF]/iu
   const cjkRegex = /[\u3131-\u314e|\u314f-\u3163|\uac00-\ud7a3]|[\u4E00-\u9FCC\u3400-\u4DB5\uFA0E\uFA0F\uFA11\uFA13\uFA14\uFA1F\uFA21\uFA23\uFA24\uFA27-\uFA29]|[\ud840-\ud868][\udc00-\udfff]|\ud869[\udc00-\uded6\udf00-\udfff]|[\ud86a-\ud86c][\udc00-\udfff]|\ud86d[\udc00-\udf34\udf40-\udfff]|\ud86e[\udc00-\udc1d]|[\u3041-\u3096]|[\u30A1-\u30FA]/iu
 

@@ -1,40 +1,5 @@
 <template>
   <header class="navbar blur">
-    <!-- <SidebarButton @toggle-sidebar="$emit('toggle-sidebar')" />
-
-    <router-link
-      :to="$localePath"
-      class="home-link"
-    >
-      <img
-        class="logo"
-        v-if="$site.themeConfig.logo"
-        :src="$withBase($site.themeConfig.logo)"
-        :alt="$siteTitle"
-      />
-      <span
-        ref="siteName"
-        class="site-name"
-        v-if="$siteTitle"
-        :class="{ 'can-hide': $site.themeConfig.logo }"
-      >{{ $siteTitle }}</span>
-    </router-link>
-
-    <div
-      class="links"
-      :style="linksWrapMaxWidth ? {
-        'max-width': linksWrapMaxWidth + 'px'
-      } : {}"
-    >
-      <AlgoliaSearchBox
-        v-if="isAlgoliaSearch"
-        :options="algolia"
-      />
-      <SearchBox
-        v-else-if="$site.themeConfig.search !== false && $page.frontmatter.search !== false"
-      />
-      <NavLinks class="can-hide" />
-    </div> -->
     <div class="logo-login-container mobile">
       <div class="flex-y">
         <img
@@ -66,6 +31,25 @@
             </ul>
           </div>
         </div>
+        <div class="github flex">
+          <a
+            class="github-icon flex"
+            href="https://github.com/deepflowys/deepflow"
+            target="_blank"
+          >
+            <img
+              src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjQwcHgiIGhlaWdodD0iNDBweCIgdmlld0JveD0iMTIgMTIgNDAgNDAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMTIgMTIgNDAgNDAiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxwYXRoIGZpbGw9IiMzMzMzMzMiIGQ9Ik0zMiAxMy40Yy0xMC41IDAtMTkgOC41LTE5IDE5YzAgOC40IDUuNSAxNS41IDEzIDE4YzEgMC4yIDEuMy0wLjQgMS4zLTAuOWMwLTAuNSAwLTEuNyAwLTMuMiBjLTUuMyAxLjEtNi40LTIuNi02LjQtMi42QzIwIDQxLjYgMTguOCA0MSAxOC44IDQxYy0xLjctMS4yIDAuMS0xLjEgMC4xLTEuMWMxLjkgMC4xIDIuOSAyIDIuOSAyYzEuNyAyLjkgNC41IDIuMSA1LjUgMS42IGMwLjItMS4yIDAuNy0yLjEgMS4yLTIuNmMtNC4yLTAuNS04LjctMi4xLTguNy05LjRjMC0yLjEgMC43LTMuNyAyLTUuMWMtMC4yLTAuNS0wLjgtMi40IDAuMi01YzAgMCAxLjYtMC41IDUuMiAyIGMxLjUtMC40IDMuMS0wLjcgNC44LTAuN2MxLjYgMCAzLjMgMC4yIDQuNyAwLjdjMy42LTIuNCA1LjItMiA1LjItMmMxIDIuNiAwLjQgNC42IDAuMiA1YzEuMiAxLjMgMiAzIDIgNS4xYzAgNy4zLTQuNSA4LjktOC43IDkuNCBjMC43IDAuNiAxLjMgMS43IDEuMyAzLjVjMCAyLjYgMCA0LjYgMCA1LjJjMCAwLjUgMC40IDEuMSAxLjMgMC45YzcuNS0yLjYgMTMtOS43IDEzLTE4LjFDNTEgMjEuOSA0Mi41IDEzLjQgMzIgMTMuNHoiLz48L3N2Zz4="
+              alt="github-icon"
+            />
+          </a>
+          <a
+            class="github-stars"
+            href="https://github.com/deepflowys/deepflow"
+            target="_blank"
+          >
+            ***
+          </a>
+        </div>
         <ul class="button-list flex-y">
           <!-- <li class="login-button">
             <a id="signin-m" href="javascript:void(0)">登录</a>
@@ -96,7 +80,7 @@
           <li class="feature-item" data-name="community">
             <span>{{ locales[currentLang].openSource }}</span>
           </li>
-           <li class="feature-item active" data-name="docs">
+          <li class="feature-item active" data-name="docs">
             <span>{{ locales[currentLang].docs }}</span>
           </li>
           <li class="feature-item" data-name="blog">
@@ -110,6 +94,26 @@
             $page.frontmatter.search !== false
           "
         />
+        <div class="github flex">
+          <a
+            class="github-icon flex"
+            href="https://github.com/deepflowys/deepflow"
+            target="_blank"
+          >
+            <img
+              src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjQwcHgiIGhlaWdodD0iNDBweCIgdmlld0JveD0iMTIgMTIgNDAgNDAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMTIgMTIgNDAgNDAiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxwYXRoIGZpbGw9IiMzMzMzMzMiIGQ9Ik0zMiAxMy40Yy0xMC41IDAtMTkgOC41LTE5IDE5YzAgOC40IDUuNSAxNS41IDEzIDE4YzEgMC4yIDEuMy0wLjQgMS4zLTAuOWMwLTAuNSAwLTEuNyAwLTMuMiBjLTUuMyAxLjEtNi40LTIuNi02LjQtMi42QzIwIDQxLjYgMTguOCA0MSAxOC44IDQxYy0xLjctMS4yIDAuMS0xLjEgMC4xLTEuMWMxLjkgMC4xIDIuOSAyIDIuOSAyYzEuNyAyLjkgNC41IDIuMSA1LjUgMS42IGMwLjItMS4yIDAuNy0yLjEgMS4yLTIuNmMtNC4yLTAuNS04LjctMi4xLTguNy05LjRjMC0yLjEgMC43LTMuNyAyLTUuMWMtMC4yLTAuNS0wLjgtMi40IDAuMi01YzAgMCAxLjYtMC41IDUuMiAyIGMxLjUtMC40IDMuMS0wLjcgNC44LTAuN2MxLjYgMCAzLjMgMC4yIDQuNyAwLjdjMy42LTIuNCA1LjItMiA1LjItMmMxIDIuNiAwLjQgNC42IDAuMiA1YzEuMiAxLjMgMiAzIDIgNS4xYzAgNy4zLTQuNSA4LjktOC43IDkuNCBjMC43IDAuNiAxLjMgMS43IDEuMyAzLjVjMCAyLjYgMCA0LjYgMCA1LjJjMCAwLjUgMC40IDEuMSAxLjMgMC45YzcuNS0yLjYgMTMtOS43IDEzLTE4LjFDNTEgMjEuOSA0Mi41IDEzLjQgMzIgMTMuNHoiLz48L3N2Zz4="
+              alt="github-icon"
+            />
+            <span>Star</span>
+          </a>
+          <a
+            class="github-stars"
+            href="https://github.com/deepflowys/deepflow"
+            target="_blank"
+          >
+            ***
+          </a>
+        </div>
         <ul class="button-list flex-y" v-if="currentLang === 'zh'">
           <!-- <li class="login-button">
             <a
@@ -148,7 +152,6 @@
 </template>
 
 <script>
-import AlgoliaSearchBox from "@theme/components/AlgoliaSearchBox.vue";
 import SearchBox from "@SearchBox";
 import SidebarButton from "@theme/components/SidebarButton.vue";
 import NavLinks from "@theme/components/NavLinks.vue";
@@ -156,7 +159,7 @@ import locales from "./../locales/index";
 import { initHead, unbind } from "./../util/header";
 
 export default {
-  components: { SidebarButton, NavLinks, SearchBox, AlgoliaSearchBox },
+  components: { SidebarButton, NavLinks, SearchBox },
 
   data() {
     return {
@@ -242,16 +245,6 @@ export default {
   },
 
   computed: {
-    algolia() {
-      return (
-        this.$themeLocaleConfig.algolia || this.$site.themeConfig.algolia || {}
-      );
-    },
-
-    isAlgoliaSearch() {
-      return this.algolia && this.algolia.apiKey && this.algolia.indexName;
-    },
-
     currentLang() {
       return this.$page.relativePath.indexOf("zh/") > -1 ? "zh" : "en";
     },
@@ -379,4 +372,71 @@ $navbar-horizontal-padding = 1.5rem;
     color: #0088E4;
   }
 }
+
+.github
+    display: flex
+    font-size: 13px
+    margin-right: 1rem
+    .github-icon
+      width: 67.5px;
+      min-height: 30px;
+      border-radius: 3px 3px 3px 3px;
+      background-color: #f7f8f8;
+      display: flex
+      align-items: center
+      justify-content: center
+      img
+        width: 18px;
+        height: 18px;
+
+      span
+        font-family: PingFangSC;
+        color: #333333;
+        font-style: normal;
+        text-decoration: none;
+        text-align: justify;
+
+
+    .github-stars
+      display: none;
+      padding: 0 15px;
+      min-height: 30px;
+      height: 1.875vw;
+      background-color: #f7f8f8;
+      border-radius: 3px 3px 3px 3px;
+      position: relative;
+      margin-left: 4px;
+      align-items: center;
+      justify-content: center;
+      > a
+        &:active
+          color: var(--color_theme);
+
+    .github-stars:before
+      box-sizing: border-box;
+      content: "";
+      position: absolute;
+      display: inline-block;
+      width: 0;
+      height: 0;
+      border-color: transparent;
+      border-style: solid;
+      top: 50%;
+      left: -3px;
+      margin-top: -4px;
+      border-width: 4px 4px 4px 0;
+      border-right-color: #fafafa;
+
+.mobile .github
+  margin-right: 0
+  margin-left 0.7811rem
+  .github-icon
+    width: auto
+    padding 0 5px
+  img
+    width: 15px
+    height 15px
+  .github-stars
+    padding: 0 5px
+  
 </style>
