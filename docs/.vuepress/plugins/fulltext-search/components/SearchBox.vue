@@ -274,7 +274,7 @@ function highlight(str, strHighlight) {
   margin-right 19px
   input
     cursor text
-    width 10rem
+    width 6rem
     height: 2rem
     color lighten($textColor, 25%)
     display inline-block
