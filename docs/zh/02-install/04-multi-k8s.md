@@ -64,18 +64,7 @@ helm install deepflow-agent -n deepflow deepflow/deepflow-agent --create-namespa
       --set deepflowK8sClusterID=$DEEPFLOW_K8S_CLUSTER_ID \
       --reuse-values
   ```
-- 虽然你可以使用 helm `--set` 参数来定义部分配置，但我们建议将自定义的配置保存一个独立的 yaml 文件中。
-  例如 `values-custom.yaml` ：
-  ```yaml
-  deepflowServerNodeIPS:
-  - 10.1.2.3 # FIXME: K8s Node IPs of
-  - 10.4.5.6 # FIXME: K8s Node IPs of
-  deepflowK8sClusterID: "fffffff" # FIXME: Generate by `deepflow-ctl domain create`
-  ```
-  后续更新可以使用 `-f values-custom.yaml` 参数使用自定义配置：
-  ```bash
-  helm upgrade deepflow-agent -n deepflow -f values-custom.yaml deepflow/deepflow-agent
-  ```
+- 虽然你可以使用 helm `--set` 参数来定义部分配置，但我们建议将自定义的配置保存一个独立的 yaml 文件中，参考[保存自定义配置](./advanced-config#保存自定义配置)。
 
 # 下一步
 
