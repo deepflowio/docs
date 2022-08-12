@@ -401,7 +401,6 @@ $navbar-horizontal-padding = 1.5rem;
       display: none;
       padding: 0 15px;
       min-height: 30px;
-      height: 1.875vw;
       background-color: #f7f8f8;
       border-radius: 3px 3px 3px 3px;
       position: relative;

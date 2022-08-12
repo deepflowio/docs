@@ -1,52 +1,62 @@
 <template>
   <div class="footer">
     <div class="footer mobile" :style="mobileBg">
-      <div class="footrigcon" v-if="lang === 'zh'">
+      <div class="footrigcon" v-if="lang==='zh'">
         <h4>产品</h4>
         <div class="lia">
           <a href="https://www.yunshan.net/products/deepflow.html"
-            >DeepFlow云网分析</a
+            >DeepFlow Enterprise</a
           >
           <span></span>
-          <a href="https://www.yunshan.net/products/nsp.html"
-            >NSP-DCN数据中心网络</a
+          <a href="http://cloud.deepflow.yunshan.net/"
+            >DeepFlow Cloud</a
           >
-          <span></span>
-          <a href="https://www.yunshan.net/products/wan.html">NSP-WAN广域网</a>
         </div>
-        <h4>方案</h4>
+        <h4>DeepFlow Enterprise 解决方案</h4>
         <div class="lia">
-          <a href="https://www.yunshan.net/solutions/npb.html">DeepFlow NPB</a>
+          <a href="https://www.yunshan.net/solutions/npb.html"
+            >NPB 混合云全网流量采集与分发</a
+          >
           <span></span>
           <a href="https://www.yunshan.net/solutions/npmd.html"
-            >DeepFlow NPMD</a
+            >NPMD 混合云网络监控诊断</a
           >
           <span></span>
-          <a href="https://www.yunshan.net/solutions/5GC.html">DeepFlow 5GC</a>
-          <span></span>
-          <a href="https://www.yunshan.net/solutions/dfcon.html"
-            >DeepFlow Observability</a
+          <a href="https://www.yunshan.net/solutions/5GC.html"
+            >5G核心网网络功能服务监控</a
           >
-          <br />
-          <a href="https://www.yunshan.net/solutions/nci.html"
-            >NSP DCN-NCI容器网络服务</a
+          <span></span>
+          <a href="https://www.yunshan.net/solutions/dfcon.html" target="_blank"
+            >容器化微服务可观测性方案</a
           >
         </div>
-        <h4>案例</h4>
+        <h4>DeepFlow Enterprise 案例学习</h4>
         <div class="lia">
-          <a href="https://www.yunshan.net/cases/deepflow.html">DeepFlow</a>
-          <span></span> <a href="https://www.yunshan.net/cases/nsp.html">NSP</a>
+          <a href="https://www.yunshan.net/cases/deepflow.html">客户案例</a>
+          <span></span>
+          <a
+            href="https://www.yunshan.net/cooperation/ysaliyun.html"
+            target="_blank"
+            >阿里混合云网络监控实践</a
+          >
+          <span></span>
+          <a
+            href="https://www.yunshan.net/cooperation/ystencentcloud.html"
+            target="_blank"
+            >腾讯金融行业云监控实践</a
+          >
         </div>
-        <h4>公司</h4>
+        <h4>关于</h4>
         <div class="lia">
           <a href="https://www.yunshan.net/about.html#description">关于我们</a>
           <span></span>
+          <a href="https://www.yunshan.net/about.html#founders">创始人</a>
+          <span></span>
+          <a href="https://www.yunshan.net/about.html#investors">投资者</a>
+          <span></span>
           <a href="https://www.yunshan.net/about.html#history">云杉历程</a>
           <span></span>
-          <a href="https://www.yunshan.net/cooperation/partner.html"
-            >合作伙伴</a
-          >
-          <span></span> <a href="https://www.yunshan.net/blog/">云杉博客</a>
+          <a href="https://www.yunshan.net/about.html#contact">联系我们</a>
         </div>
       </div>
       <p class="copyright">
@@ -58,7 +68,7 @@
           target="_blank"
           href="https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802031005"
         >
-          <img src="https://deepflow.yunshan.net/images/mobile/beian.png" />
+          <img src="/images/mobile/beian.png" />
           京公网安备 11010802031005号
         </a>
       </p>
@@ -90,7 +100,9 @@
             <a href="https://www.yunshan.net/solutions/5GC.html" target="_blank"
               >5G核心网网络功能服务监控</a
             >
-            <a href="https://www.yunshan.net/solutions/dfcon.html" target="_blank"
+            <a
+              href="https://www.yunshan.net/solutions/dfcon.html"
+              target="_blank"
               >容器化微服务可观测性方案</a
             >
           </li>
@@ -185,28 +197,28 @@
       <div class="masking"></div>
       <ul class="nav-list-box" style="height: 1px">
         <li class="nav-link" data-name="deepflow-cloud">
-          {{locales[lang].product}}
+          {{ locales[lang].product }}
           <!-- <span>产品</span> -->
           <!-- <ul>
             <li class="nav-link" data-name="deepflow-cloud">DeepFlow Cloud</li>
           </ul> -->
         </li>
         <li class="nav-link" data-name="community">
-          {{locales[lang].openSource}}
+          {{ locales[lang].openSource }}
           <!-- <span>开源</span> -->
           <!-- <ul>
             <li class="nav-link" data-name="community">DeepFlow (Community)</li>
           </ul> -->
         </li>
-         <li class="nav-link" data-name="docs">
-          {{locales[lang].docs}}
+        <li class="nav-link" data-name="docs">
+          {{ locales[lang].docs }}
           <!-- <span>学习</span> -->
           <!-- <ul>
             <li class="nav-link" data-name="docs">文档</li>
           </ul> -->
         </li>
         <li class="nav-link" data-name="blog">
-          {{locales[lang].blog}}
+          {{ locales[lang].blog }}
           <!-- <span>学习</span> -->
           <!-- <ul>
             <li class="nav-link" data-name="docs">博客</li>
