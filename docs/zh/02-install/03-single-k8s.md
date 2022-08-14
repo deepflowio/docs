@@ -89,17 +89,9 @@ helm install deepflow -n deepflow deepflow/deepflow --create-namespace
 ```
 
 注意：
-- 虽然你可以使用 helm `--set` 参数来定义部分配置，但我们建议将自定义的配置保存一个独立的 yaml 文件中。
-  例如 `values-custom.yaml` ：
-  ```yaml
-  global:
-    storageClass: "<your storageClass>"
-    replicas: 1  ## replicas for deepflow-server and clickhouse
-  ```
-  后续更新可以使用 `-f values-custom.yaml` 参数使用自定义配置：
-  ```bash
-  helm upgrade deepflow -n deepflow -f values-custom.yaml deepflow/deepflow
-  ```
+- 使用 helm --set global.storageClass 可指定 storageClass
+- 使用 helm --set global.replicas 可指定 deepflow-server 和 clickhouse 的副本数量
+- 我们建议将 helm 的 `--set` 参数内容保存一个独立的 yaml 文件中，参考[高级配置](./advanced-config#deepflow-server)章节。
 
 # 下载 deepflow-ctl
 

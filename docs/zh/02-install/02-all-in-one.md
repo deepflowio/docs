@@ -55,6 +55,9 @@ helm install deepflow -n deepflow deepflow/deepflow --create-namespace \
     --set global.allInOneLocalStorage=true
 ```
 
+注意：
+- 我们建议将 helm 的 `--set` 参数内容保存一个独立的 yaml 文件中，参考[高级配置](./advanced-config#deepflow-server)章节。
+
 # 访问 Grafana 页面
 
 执行 helm 部署 DeepFlow 时输出的内容提示了获取访问 Grafana 的 URL 和密码的命令，输出示例：
