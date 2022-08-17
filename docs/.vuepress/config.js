@@ -10,10 +10,12 @@ module.exports = ({
     "/": {
       lang: "en-US",
       title: "DeepFlow Docs",
+      description: 'Avoid manual instrumentation, eliminate tracing blind spots, simplify platform operation. Powered by eBPF, OTel, WASM, etc.'
     },
     '/zh/': {
       lang: 'zh-CN',
       title: 'DeepFlow 文档',
+      description: '避免手工插码，消除追踪盲点，简化平台维护。使用eBPF、OTel、WASM等技术，让观测更自动。'
     },
   },
   shouldPrefetch: false,
