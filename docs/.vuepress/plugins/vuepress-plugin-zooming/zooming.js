@@ -776,8 +776,15 @@ var cursor = {
         if (this.options.closeOnWindowResize) {
           listen(window, 'resize', this.handler.resizeWindow);
         }
-  
+
+        let flag = false
+        let timer
         var onOpenEnd = function onOpenEnd() {
+          if(flag){
+            return 
+          }
+          flag = true
+          clearTimeout(timer)
           listen(target$$1, transEndEvent, onOpenEnd, false);
           _this.lock = false;
           _this.target.upgradeSource();
@@ -790,6 +797,7 @@ var cursor = {
         };
   
         listen(target$$1, transEndEvent, onOpenEnd);
+        timer = setTimeout(onOpenEnd, 200);
   
         return this;
       }
@@ -826,8 +834,15 @@ var cursor = {
         if (this.options.closeOnWindowResize) {
           listen(window, 'resize', this.handler.resizeWindow, false);
         }
-  
+
+        let flag = false
+        let timer
         var onCloseEnd = function onCloseEnd() {
+          if(flag){
+            return 
+          }
+          flag = true
+          clearTimeout(timer)
           listen(target$$1, transEndEvent, onCloseEnd, false);
   
           _this2.shown = false;
@@ -846,7 +861,8 @@ var cursor = {
         };
   
         listen(target$$1, transEndEvent, onCloseEnd);
-  
+        timer = setTimeout(onCloseEnd, 200);
+        
         return this;
       }
   
@@ -945,8 +961,15 @@ var cursor = {
         this.lock = true;
         this.body.style.cursor = cursor.default;
         this.target.restoreOpenStyle();
-  
+
+        let flag = false
+        let timer
         var onReleaseEnd = function onReleaseEnd() {
+          if(flag){
+            return 
+          }
+          flag = true
+          clearTimeout(timer)
           listen(target$$1, transEndEvent, onReleaseEnd, false);
           _this3.lock = false;
           _this3.released = true;
@@ -954,7 +977,8 @@ var cursor = {
         };
   
         listen(target$$1, transEndEvent, onReleaseEnd);
-  
+        timer = setTimeout(onReleaseEnd, 200);
+
         return this;
       }
     }]);
