@@ -13,7 +13,7 @@ permalink: /auto-metrics/application-metrics
 
 基于上述数据可通过 Grafana 构建丰富的 Dashboard。我们在 Grafana 中预置了一个 `Application - K8s Pod` Dashboard，效果图如下：
 
-![Application K8s Pod](./imgs/application-k8s-pod.png)
+![Application K8s Pod](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202208236304362eb5efd.png)
 
 你也可以访问 [DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d/Application_K8s_Pod/application-k8s-pod?var-namespace=deepflow-otel-grpc-demo&from=deepflow-doc) 查看效果。
 
@@ -27,6 +27,6 @@ permalink: /auto-metrics/application-metrics
 
 基于上述数据可通过 Grafana 构建丰富的 Dashboard。我们在 Grafana 中预置了一个 `Application - K8s Pod` Dashboard，效果图如下：
 
-![Application K8s Pod Map](./imgs/application-k8s-pod-map.png)
+![Application K8s Pod Map](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202208236304413c79b43.png)
 
 你也可以访问 [DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d/Application_K8s_Pod_Map/application-k8s-pod-map?var-namespace=deepflow-otel-grpc-demo&from=deepflow-doc) 查看效果。

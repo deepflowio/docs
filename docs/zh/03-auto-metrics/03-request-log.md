@@ -11,6 +11,6 @@ permalink: /auto-metrics/request-log
 
 基于上述数据可通过 Grafana 构建丰富的 Dashboard。我们在 Grafana 中预置了一个 `Application - Request Log` Dashboard，效果图如下：
 
-![Application Request Log](./imgs/application-request-log.png)
+![Application Request Log](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202208236304413d69d7c.png)
 
 你也可以访问 [DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d/Application_Request_Log/application-request-log?var-namespace=deepflow-otel-grpc-demo&from=deepflow-doc) 查看效果。

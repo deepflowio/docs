@@ -23,7 +23,7 @@ kubectl apply -f https://raw.githubusercontent.com/deepflowys/deepflow-demo/main
 
 前往 Grafana，打开 `Distributed Tracing` Dashboard，选择 `namespace = deepflow-ebpf-spring-demo` 后，可选择一个调用进行追踪，效果如下图：
 
-![eBPF Sping Demo](./imgs/ebpf-spring-demo.png)
+![eBPF Sping Demo](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20220823630441420077b.png)
 
 DeepFlow 的追踪数据中含有三种 Span，跟踪一次请求的整个轨迹：
 - N：通过 BPF 从网络流量中提取的 Span
