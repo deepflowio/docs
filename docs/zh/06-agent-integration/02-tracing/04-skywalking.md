@@ -119,6 +119,6 @@ kubectl apply -f https://raw.githubusercontent.com/deepflowys/deepflow-demo/main
 DeepFlow 能够将 SkyWalking、eBPF、BPF 获取到的追踪数据关联展示在一个 Trace 火焰图中，
 覆盖一个 Spring Boot 应用从业务代码、系统函数、网络接口的全栈调用路径，实现真正的全链路分布式追踪，效果如下：
 
-![OTel SkyWalking Demo](./imgs/otel-skywalking-demo.png)
+![OTel SkyWalking Demo](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2022082363044145adc1b.png)
 
 你也可以访问 [DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d/Distributed_Tracing/distributed-tracing?var-namespace=deepflow-otel-skywalking-demo&from=deepflow-doc) 查看效果。

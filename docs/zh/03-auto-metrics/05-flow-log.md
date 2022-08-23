@@ -10,6 +10,6 @@ permalink: /auto-metrics/flow-log
 
 基于上述数据可通过 Grafana 构建丰富的 Dashboard。我们在 Grafana 中预置了一个 `Network - Flow Log` Dashboard，效果图如下：
 
-![Network Flow Log](./imgs/network-flow-log.png)
+![Network Flow Log](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20220823630441427cfa5.png)
 
 你也可以访问 [DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d/Network_Flow_Log/network-flow-log?var-namespace=deepflow-otel-grpc-demo&from=deepflow-doc) 查看效果。

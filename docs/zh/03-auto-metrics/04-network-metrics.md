@@ -12,7 +12,7 @@ permalink: /auto-metrics/network-metrics
 
 基于上述数据可通过 Grafana 构建丰富的 Dashboard。我们在 Grafana 中预置了一个 `Network - K8s Pod` Dashboard，效果图如下：
 
-![Network K8s Pod](./imgs/network-k8s-pod.png)
+![Network K8s Pod](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2022082363044143504e0.png)
 
 你也可以访问 [DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d/Network_K8s_Pod/network-k8s-pod?var-namespace=deepflow-otel-grpc-demo&from=deepflow-doc) 查看效果。
 
@@ -25,6 +25,6 @@ permalink: /auto-metrics/network-metrics
 
 基于上述数据可通过 Grafana 构建丰富的 Dashboard。我们在 Grafana 中预置了一个 `Network - K8s Pod` Dashboard，效果图如下：
 
-![Network K8s Pod Map](./imgs/network-k8s-pod-map.png)
+![Network K8s Pod Map](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2022082363044143e589f.png)
 
 你也可以访问 [DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d/Network_K8s_Pod_Map/network-k8s-pod-map?var-namespace=deepflow-otel-grpc-demo&from=deepflow-doc) 查看效果。
