@@ -50,7 +50,7 @@ kubectl apply -f https://raw.githubusercontent.com/deepflowys/deepflow-demo/main
 
 前往 Grafana，打开 `Distributed Tracing` Dashboard，选择 `namespace = deepflow-ebpf-istio-demo` 后，可选择一个调用进行追踪，效果如下图：
 
-![eBPF Istio Demo](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20220823630441414dda2.png)
+![eBPF Istio Demo](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2022082363044b235153a.png)
 
 [访问 DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d/Distributed_Tracing/distributed-tracing?var-namespace=deepflow-ebpf-istio-demo&from=deepflow-doc) 也可查看追踪效果。
 上图中的调用链火焰图对应的拓扑图如下。
