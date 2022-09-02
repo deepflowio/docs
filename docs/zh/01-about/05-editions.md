@@ -6,7 +6,7 @@ permalink: /about/editions
 # 社区版（Community Edition）
 
 DeepFlow 社区版是一个开源版本，是一个高度自动化的可观测性`数据平台`。
-它的核心采用 Apache 2.0 许可证，前端页面完全基于 Grafana 因此采用 AGPL 许可证。
+它的核心采用 Apache 2.0 许可证，前端页面完全基于 Grafana ，因此采用 AGPL 许可证。
 它具备高效建设可观测性所需要的的所有功能，包括：
 
 - AutoMetrics：基于 eBPF/BPF，自动采集应用、网络全栈性能指标
@@ -53,3 +53,44 @@ DeepFlow 企业版是一个高度自动化的`一站式`可观测性`分析平�
 
 DeepFlow 云服务版是一个完全托管的一站式可观测性平台，
 它拥有与企业版一致的功能，目前处于测试试用阶段。
+
+# 功能一览
+
+| 模块 | 支持能力 | 社区版 | 企业版 | 云服务 |
+| -- | -- | -- | -- | -- |
+| AutoMetrics | 应用性能指标 | ✔ | ✔ | ✔ |
+|| 网络全栈性能指标 | ✔ | ✔ | ✔ |
+|| 物理设备 Packet/NetFlow/sFlow | | ✔ | ✔ |
+| AutoTracing | Pod/进程全栈追踪 | ✔ | ✔ | ✔ |
+|| NFV 网关 | | ✔ | ✔ |
+|| NAT 追踪 | | ✔ | ✔ |
+|| 物理防火墙/负载均衡 | | ✔ | ✔ |
+| AutoLogging | TCP/UDP 流日志 | ✔ | ✔ | ✔ |
+|| HTTP/MySQL/Redis 访问日志 | ✔ | ✔ | ✔ |
+|| 原始流量 | | ✔ | ✔ |
+|| 流量过滤 | | ✔ | ✔ |
+|| TCP 逐包时序图 | | ✔ | ✔ |
+|| NFV 网关访问 | | ✔ | ✔ |
+| AutoTagging | 公有云资源 | ✔ | ✔ | ✔ |
+|| k8s 资源标签 | ✔ | ✔ | ✔ |
+|| SmartEncoding 标签存储 | ✔ | ✔ | ✔ |
+|| 专有云、阿里、腾讯、华为云平台 | | ✔ | ✔ |
+| Integration | Fluentd | ✔ | ✔ | ✔ |
+|| Prometheus/Telegraf | ✔ | ✔ | ✔ |
+|| OpenTelemetry/SkyWalking | ✔ | ✔ | ✔ 
+| Visualization | Gafana 前端 | ✔ | ✔ | ✔ |
+|| DeepFlow 可观测性分析平台 | | ✔ | ✔ |
+| Infrastructure | k8s 集群 | ✔ | ✔ | ✔ |
+|| Linux Server | ✔ | ✔ | ✔ |
+|| x86 架构 | ✔ | ✔ | ✔ |
+|| ARM 架构 | ✔ | ✔ | ✔ |
+|| Serverless | | ✔ | ✔ |
+|| runv 容器 | | ✔ | ✔ |
+|| WindowsServer | | ✔ | ✔ |
+|| KVM/HyperV/Esxi/Xen | | ✔ | ✔ |
+| Advanced Feature | 流量分发 | | ✔ | ✔ |
+|| 多区域支持 | | ✔ | ✔ |
+|| 多租户及权限隔离 | | ✔ | ✔ |
+|| 告警、报表、SLO | | ✔ | ✔ |
+|| 采集数据加密传输 | | ✔ | ✔ |
+|| 指标/追踪/日志 数据关联分析 | | ✔ | ✔ |
