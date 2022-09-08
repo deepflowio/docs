@@ -1,5 +1,5 @@
 ---
-title: 无缝链路追踪
+title: 无盲点分布式追踪
 permalink: /agent-integration/tracing/tracing-without-blind-spot
 ---
 
