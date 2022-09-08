@@ -9,9 +9,10 @@ permalink: /server-integration/query/sql
 
 # SQL 服务端点
 
-TODO @songzhen
-
-# SQL 查询语句
+获取服务端点：
+```bash
+port=$(kubectl get --namespace deepflow -o jsonpath="{.spec.ports[0].nodePort}" services deepflow-server)
+```
 
 ## 获取所有数据库
 
@@ -22,7 +23,7 @@ show databases
 
 API 调用方式：
 ```bash
-curl -XPOST "http://${deepflow_server_node_ip}:30416/v1/query/" \
+curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/query/" \
     --data-urlencode "sql=show databases"
 ```
 
@@ -35,7 +36,7 @@ show tables
 
 API 调用方式：
 ```bash
-curl -XPOST "http://${deepflow_server_node_ip}:30416/v1/query/" \
+curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/query/" \
     --data-urlencode "db=${db_name}" \
     --data-urlencode "sql=show tables"
 ```
@@ -49,9 +50,42 @@ show tags from ${table_name}
 
 API 调用方式：
 ```bash
-curl -XPOST "http://${deepflow_server_node_ip}:30416/v1/query/" \
+curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/query/" \
     --data-urlencode "db=${db_name}" \
     --data-urlencode "sql=show tags from ${table_name}"
+```
+
+输出示例：
+```text
+{
+    "OPT_STATUS": "SUCCESS",
+    "DESCRIPTION": "",
+    "result": {
+        "columns": [
+          "name",
+          "client_name",
+          "server_name",
+          "display_name",
+          "type" // tag类型，取值范围：int, int_enum, string, string_enum, resource_name, resource_id, ip
+        ],
+        "values": [
+            [
+              "chost",
+              "chost_0",
+              "chost_1",
+              "云服务器",
+              "resource_id"
+            ],
+            [
+              "chost_name",
+              "chost_name_0",
+              "chost_name_1",
+              "云服务器名称",
+              "resource_name"
+            ]
+        ]
+    }
+}
 ```
 
 ## 获取指定 Tag 的取值
@@ -63,9 +97,31 @@ show tag ${tag_name} values from ${table_name}
 
 API 调用方式：
 ```bash
-curl -XPOST "http://${deepflow_server_node_ip}:30416/v1/query/" \
+curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/query/" \
     --data-urlencode "db=${db_name}" \
     --data-urlencode "sql=show tag ${tag_name} values from ${table_name}"
+```
+
+输出示例：
+```text
+{
+    "OPT_STATUS": "SUCCESS",
+    "DESCRIPTION": "",
+    "result": {
+        "columns": [
+          "value",
+          "display_name",
+          "uid"
+        ],
+        "values": [
+            [
+                348,
+                "deepflow",
+                "i-2ze3bpa0o5cy8edplozi"
+            ],
+        ]
+    }
+}
 ```
 
 ## 获取指定数据表中的 Metrics
@@ -77,7 +133,7 @@ show metrics from ${table_name}
 
 API 调用方式：
 ```bash
-curl -XPOST "http://${deepflow_server_node_ip}:30416/v1/query/" \
+curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/query/" \
     --data-urlencode "db=${db_name}" \
     --data-urlencode "sql=show metrics from ${table_name}"
 ```
@@ -97,7 +153,7 @@ LIMIT 100
 
 API 调用方式：
 ```bash
-curl -XPOST "http://${deepflow_server_node_ip}:30416/v1/query/" \
+curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/query/" \
     --data-urlencode "db=${db_name}" \
     --data-urlencode "sql=${sql}"
 ```
@@ -106,8 +162,19 @@ curl -XPOST "http://${deepflow_server_node_ip}:30416/v1/query/" \
 
 ## Tag 支持的函数
 
-TODO
+- enum函数
+  - 示例：`enum(tap_side)`
+  - 仅`string_enum`、`int_enum`类型的Tag支持
 
 ## Metrics 支持的函数
 
-TODO
+SQL语句：
+```SQL
+show metric function
+```
+
+API 调用方式：
+```bash
+curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/query/" \
+    --data-urlencode "sql=show metric function"
+```
