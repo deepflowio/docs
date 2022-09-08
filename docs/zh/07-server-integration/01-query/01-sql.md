@@ -9,10 +9,12 @@ permalink: /server-integration/query/sql
 
 # SQL 服务端点
 
-获取服务端点：
+获取服务端点端口号：
 ```bash
 port=$(kubectl get --namespace deepflow -o jsonpath="{.spec.ports[0].nodePort}" services deepflow-server)
 ```
+
+# SQL 查询语句
 
 ## 获取所有数据库
 
@@ -56,7 +58,7 @@ curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/query/" \
 ```
 
 输出示例：
-```text
+```json
 {
     "OPT_STATUS": "SUCCESS",
     "DESCRIPTION": "",
@@ -66,7 +68,7 @@ curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/query/" \
           "client_name",
           "server_name",
           "display_name",
-          "type" // tag类型，取值范围：int, int_enum, string, string_enum, resource_name, resource_id, ip
+          "type" // int, int_enum, string, string_enum, resource_name, resource_id, ip
         ],
         "values": [
             [
@@ -103,7 +105,7 @@ curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/query/" \
 ```
 
 输出示例：
-```text
+```json
 {
     "OPT_STATUS": "SUCCESS",
     "DESCRIPTION": "",
@@ -162,13 +164,14 @@ curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/query/" \
 
 ## Tag 支持的函数
 
-- enum函数
-  - 示例：`enum(tap_side)`
-  - 仅`string_enum`、`int_enum`类型的Tag支持
+- enum
+  - 说明：`enum(tap_side)` 将枚举字段转化为值
+  - 示例：`SELECT enum(tap_side) ...`、`... WHERE enum(tap_side) = 'xxx' ...`
+  - 注意：仅`string_enum`、`int_enum`类型的Tag支持
 
 ## Metrics 支持的函数
 
-SQL语句：
+执行如下 SQL 语句可获取所有的函数：
 ```SQL
 show metric function
 ```
