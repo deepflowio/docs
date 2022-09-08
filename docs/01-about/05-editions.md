@@ -11,7 +11,8 @@ DeepFlow Community Edition is an open source version of a highly automated obser
 
 - AutoMetrics: Based on eBPF/BPF, automatic collection of application and network full-stack performance metrics
 - AutoTracing: Based on eBPF/BPF, automatically trace the distributed call chain of microservices
-- AutoLogging: Based on eBPF/BPF, automatically collect access logs of applications such as HTTP/MySQL/Redis
+- AutoLogging: Based on eBPF/BPF, automatically collect TCP/UDP flow log
+- AutoLogging: Based on eBPF/BPF, automatically collect access logs of applications such as HTTP1/2/S, Dubbo, MySQL, Redis, Kafka, MQTT, DNS
 - Integration: Integrate indicator data such as Prometheus/Telegraf to solve the problem of data islands and high cardinality
 - Integration: Integrate tracking data such as OpenTelemetry/SkyWalking to achieve distributed tracking without blind spots
 - Integration: Integrate external log data sources such as Fluentd to solve the problem of high resource consumption of log storage
@@ -29,7 +30,7 @@ DeepFlow Enterprise Edition is a highly automated one-stop observability platfor
 
 - Supports AutoMetrics, AutoTracing, AutoLogging in serverless multi-tenant network isolated container environment
 - Supports AutoMetrics, AutoTracing, AutoLogging in a secure sandbox (runv) container environment such as Kata
-- Supports AutoMetrics, AutoTracing, AutoLogging under Windows server, HyperV host, ESXi host environment
+- Supports AutoMetrics, AutoTracing, AutoLogging under Windows server, KVM host, HyperV host, ESXi host, Xen host environment
 - AutoMetrics and AutoLogging: support zero intrusion to collect data of all virtual machines and pods on the entire KVM host, including the environment using the DPDK data plane
 - AutoMetrics and AutoLogging: Supports data collection of proprietary cloud NFV Layer 4 and 7 gateways, including environments that use DPDK data planes
 - AutoMetrics and AutoLogging: Support to collect Packet, NetFlow, sFlow of physical network devices and generate metric data

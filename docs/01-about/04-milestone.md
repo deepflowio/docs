@@ -24,7 +24,7 @@ DeepFlow has been iterated to v6.1.0 before open source, and v6.1.1 planned to b
   - [x] High-performance SmartEncoding tag storage query capability
 - Agent Integration
   - [x] Integrate metrics data from Prometheus and Telegraf
-  - [x] Integrate tracking data from OpenTelemetry and SkyWalking
+  - [x] Integrate tracing data from OpenTelemetry and SkyWalking
 - Server Integration
   - [x] Provide SQL API as DataSource for Grafana
   - [x] Use ClickHouse as storage engine
