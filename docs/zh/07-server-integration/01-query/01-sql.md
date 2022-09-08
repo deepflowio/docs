@@ -5,88 +5,109 @@ permalink: /server-integration/query/sql
 
 # 简介
 
-提供统一的 SQL 接口查询所有类型的观测数据，可作为 Grafana 的 DataSource
+提供统一的 SQL 接口查询所有类型的观测数据，可作为 Grafana 的 DataSource，或基于此实现自己的 GUI。
 
-# SQL查询语句
+# SQL 服务端点
+
+TODO @songzhen
+
+# SQL 查询语句
 
 ## 获取所有数据库
 
-- SQL语句
-  ```SQL
-  show databases
-  ```
-- API调用方式
-  ```bash
-  curl -XPOST "http://${deepflow_server_node_ip}:30416/v1/query/"\
-      --data-urlencode "sql=show databases"
-  ```
+SQL 语句：
+```SQL
+show databases
+```
+
+API 调用方式：
+```bash
+curl -XPOST "http://${deepflow_server_node_ip}:30416/v1/query/" \
+    --data-urlencode "sql=show databases"
+```
 
 ## 获取指定数据库的所有表
 
-- SQL语句
-  ```SQL
-  show tables
-  ```
-- API调用方式
-  ```bash
-  curl -XPOST "http://${deepflow_server_node_ip}:30416/v1/query/"\
-      --data-urlencode "db=${db_name}" \
-      --data-urlencode "sql=show tables"
-  ```
+SQL 语句：
+```SQL
+show tables
+```
 
-## 获取指定数据表所支持的tag及描述
+API 调用方式：
+```bash
+curl -XPOST "http://${deepflow_server_node_ip}:30416/v1/query/" \
+    --data-urlencode "db=${db_name}" \
+    --data-urlencode "sql=show tables"
+```
 
-- SQL语句
-  ```SQL
-  show tags from ${table_name}
-  ```
-- API调用方式
-  ```bash
-  curl -XPOST "http://${deepflow_server_node_ip}:30416/v1/query/"\
-      --data-urlencode "db=${db_name}" \
-      --data-urlencode "sql=show tags from ${table_name}"
-  ```
+## 获取指定数据表中的 Tag
 
-## 获取指定tag取值及描述
+SQL 语句：
+```SQL
+show tags from ${table_name}
+```
 
-- SQL语句
-  ```SQL
-  show tag ${tag_name} values from ${table_name}
-  ```
-- API调用方式
-  ```bash
-  curl -XPOST "http://${deepflow_server_node_ip}:30416/v1/query/"\
-      --data-urlencode "db=${db_name}" \
-      --data-urlencode "sql=show tag ${tag_name} values from ${table_name}"
-  ```
+API 调用方式：
+```bash
+curl -XPOST "http://${deepflow_server_node_ip}:30416/v1/query/" \
+    --data-urlencode "db=${db_name}" \
+    --data-urlencode "sql=show tags from ${table_name}"
+```
 
-## 获取指定数据表所支持的metric及描述
+## 获取指定 Tag 的取值
 
-- SQL语句
-  ```SQL
-  show metrics from ${table_name}
-  ```
-- API调用方式
-  ```bash
-  curl -XPOST "http://${deepflow_server_node_ip}:30416/v1/query/"\
-      --data-urlencode "db=${db_name}" \
-      --data-urlencode "sql=show metrics from ${table_name}"
-  ```
+SQL 语句：
+```SQL
+show tag ${tag_name} values from ${table_name}
+```
 
-## 执行具体查询语句
+API 调用方式：
+```bash
+curl -XPOST "http://${deepflow_server_node_ip}:30416/v1/query/" \
+    --data-urlencode "db=${db_name}" \
+    --data-urlencode "sql=show tag ${tag_name} values from ${table_name}"
+```
 
-- SQL语句
-  ```SQL
-  select xxxx \
-  from ${table_name} \
-  where xxxx \
-  group by xxxx \
-  order by xxxx \
-  limit xxxx
-  ```
-- API调用方式
-  ```bash
-  curl -XPOST "http://${deepflow_server_node_ip}:30416/v1/query/"\
-      --data-urlencode "db=${db_name}" \
-      --data-urlencode "sql=${sql}"
-  ```
+## 获取指定数据表中的 Metrics
+
+SQL 语句：
+```SQL
+show metrics from ${table_name}
+```
+
+API 调用方式：
+```bash
+curl -XPOST "http://${deepflow_server_node_ip}:30416/v1/query/" \
+    --data-urlencode "db=${db_name}" \
+    --data-urlencode "sql=show metrics from ${table_name}"
+```
+
+## 查询观测数据
+
+SQL 语句：
+```SQL
+SELECT col_1, col_2, col_3 \
+FROM   tbl_1 \
+WHERE  col_4 = y \
+GROUP BY col_1, col_2 \
+HAVING   col_5 > 100 \
+ORDER BY col_3 \
+LIMIT 100
+```
+
+API 调用方式：
+```bash
+curl -XPOST "http://${deepflow_server_node_ip}:30416/v1/query/" \
+    --data-urlencode "db=${db_name}" \
+    --data-urlencode "sql=${sql}"
+```
+
+# SQL 查询函数
+
+## Tag 支持的函数
+
+TODO
+
+## Metrics 支持的函数
+
+TODO
