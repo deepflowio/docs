@@ -57,46 +57,46 @@ DeepFlow 云服务版是一个完全托管的一站式可观测性平台，
 
 # 版本功能对比
 
-| 模块             | 支持能力                           | 社区版 | 企业版 |
-| ---------------- | ---------------------------------- | ------ | ------ |
-| AutoMetrics      | 应用性能指标 - 进程/容器/服务器    | ✔      | ✔      |
-|                  | 网络性能指标 - 进程/容器/服务器    | ✔      | ✔      |
-|                  | 应用性能指标 - 宿主机/NFV/物理网元 |        | ✔      |
-|                  | 网络性能指标 - 宿主机/NFV/物理网元 |        | ✔      |
-|                  | 网络性能指标 - NetFlow/sFlow       |        | ✔      |
-| AutoTracing      | 无盲点追踪 - eBPF/cBPF/OTel关联    | ✔      | ✔      |
-|                  | 分布式追踪 - 代码/进程/容器/服务器 | ✔      | ✔      |
-|                  | 分布式追踪 - 宿主机/NFV/物理网元   |        | ✔      |
-|                  | 全栈智能 NAT 追踪                  |        | ✔      |
-| AutoLogging      | L7 访问日志 - 进程/容器/服务器     | ✔      | ✔      |
-|                  | L4 流日志 - 进程/容器/服务器       | ✔      | ✔      |
-|                  | L4 流日志 - 宿主机/NFV/物理网元    |        | ✔      |
-|                  | L4 流日志 - NetFlow/sFlow          |        | ✔      |
-|                  | L7 访问日志 - 宿主机/NFV/物理网元  |        | ✔      |
-|                  | TCP 逐包时序图                     |        | ✔      |
-|                  | 原始流量 Packet 回溯               |        | ✔      |
-| AutoTagging      | SmartEncoding 标签存储             | ✔      | ✔      |
-|                  | K8s 资源、自定义 Label 标签        | ✔      | ✔      |
-|                  | 公有云资源标签                     | ✔      | ✔      |
-|                  | 私有云/专有云资源标签              |        | ✔      |
-| Integration      | Prometheus/Telegraf 等指标数据     | ✔      | ✔      |
-|                  | OpenTelemetry/SkyWalking 等追踪数据| ✔      | ✔      |
-|                  | Fluentd/Promtail 等日志数据        | ✔      | ✔      |
-| GUI              | Grafana Datasource、Panel          | ✔      | ✔      |
-|                  | 可观测性关联分析平台               |        | ✔      |
-| Compatibility    | Agent/Server 运行于 X86/ARM 服务器 | ✔      | ✔      |
-|                  | Agent 运行于专有 K8s 集群          | ✔      | ✔      |
-|                  | Agent 运行于 Linux 服务器          | ✔      | ✔      |
-|                  | Agent 运行于 Windows 服务器        |        | ✔      |
-|                  | Agent 运行于多租户 K8s 集群        |        | ✔      |
-|                  | Agent 运行于 KVM/HyperV/ESXi/Xen   |        | ✔      |
-|                  | Agent 运行于 DPDK 数据面环境       |        | ✔      |
-|                  | Agent 运行于专属服务器采集镜像流量 |        | ✔      |
-| Advanced Feature | 云网流量分发（NPB）                |        | ✔      |
-|                  | 多 Region 统一管理                 |        | ✔      |
-|                  | 多租户及权限隔离                   |        | ✔      |
-|                  | 告警、报表、SLO                    |        | ✔      |
-|                  | 采集数据加密传输                   |        | ✔      |
-|                  | Agent 注册安全确认                 |        | ✔      |
-| Service          | 行业可观测性解决方案               |        | ✔      |
-|                  | 企业级售后服务支持                 |        | ✔      |
+| 模块             | <center>支持能力</center>           | 社区版 | 企业版 |
+| ---------------- | :---------------------------------  | ------ | ------ |
+| AutoMetrics      | 应用性能指标 - 进程/容器/服务器     | ✔     | ✔     |
+|                  | 网络性能指标 - 进程/容器/服务器     | ✔     | ✔     |
+|                  | 应用性能指标 - 宿主机/NFV/物理网元  |        | ✔     |
+|                  | 网络性能指标 - 宿主机/NFV/物理网元  |        | ✔     |
+|                  | 网络性能指标 - NetFlow/sFlow        |        | ✔     |
+| AutoTracing      | 无盲点追踪 - eBPF/cBPF/OTel关联     | ✔     | ✔     |
+|                  | 分布式追踪 - 代码/进程/容器/服务器  | ✔     | ✔     |
+|                  | 分布式追踪 - 宿主机/NFV/物理网元    |        | ✔     |
+|                  | 全栈智能 NAT 追踪                   |        | ✔     |
+| AutoLogging      | L7 访问日志 - 进程/容器/服务器      | ✔     | ✔     |
+|                  | L4 流日志 - 进程/容器/服务器        | ✔     | ✔     |
+|                  | L4 流日志 - 宿主机/NFV/物理网元     |        | ✔     |
+|                  | L4 流日志 - NetFlow/sFlow           |        | ✔     |
+|                  | L7 访问日志 - 宿主机/NFV/物理网元   |        | ✔     |
+|                  | TCP 逐包时序图                      |        | ✔     |
+|                  | 原始流量 Packet 回溯                |        | ✔     |
+| AutoTagging      | SmartEncoding 标签存储              | ✔     | ✔     |
+|                  | K8s 资源、自定义 Label 标签         | ✔     | ✔     |
+|                  | 公有云资源标签                      | ✔     | ✔     |
+|                  | 私有云/专有云资源标签               |        | ✔     |
+| Integration      | Prometheus/Telegraf 等指标数据      | ✔     | ✔     |
+|                  | OpenTelemetry/SkyWalking 等追踪数据 | ✔     | ✔     |
+|                  | Fluentd/Promtail 等日志数据         | ✔     | ✔     |
+| GUI              | Grafana Datasource、Panel           | ✔     | ✔     |
+|                  | 可观测性关联分析平台                |        | ✔     |
+| Compatibility    | Agent/Server 运行于 X86/ARM 服务器  | ✔     | ✔     |
+|                  | Agent 运行于专有 K8s 集群           | ✔     | ✔     |
+|                  | Agent 运行于 Linux 服务器           | ✔     | ✔     |
+|                  | Agent 运行于 Windows 服务器         |        | ✔     |
+|                  | Agent 运行于多租户 K8s 集群         |        | ✔     |
+|                  | Agent 运行于 KVM/HyperV/ESXi/Xen    |        | ✔     |
+|                  | Agent 运行于 DPDK 数据面环境        |        | ✔     |
+|                  | Agent 运行于专属服务器采集镜像流量  |        | ✔     |
+| Advanced Feature | 云网流量分发（NPB）                 |        | ✔     |
+|                  | 多 Region 统一管理                  |        | ✔     |
+|                  | 多租户及权限隔离                    |        | ✔     |
+|                  | 告警、报表、SLO                     |        | ✔     |
+|                  | 采集数据加密传输                    |        | ✔     |
+|                  | Agent 注册安全确认                  |        | ✔     |
+| Service          | 行业可观测性解决方案                |        | ✔     |
+|                  | 企业级售后服务支持                  |        | ✔     |
