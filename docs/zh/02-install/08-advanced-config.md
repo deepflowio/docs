@@ -116,4 +116,4 @@ deepflow-ctl agent-group-config update <Your-agnet-group-ID> -f your-agent-group
 - `max_memory`: agent 最大内存限制，默认值为 `768`，单位为 MB。
 - `thread_threshold`: agent 最大线程数量，默认值为 `500`。
 - `tap_interface_regex`: agent 采集网卡正则配置，默认值为 `^(tap.*|cali.*|veth.*|eth.*|en[ospx].*|lxc.*|lo)$`，agent 只需要采集 Pod 网卡和 Node/Host 物理网卡即可。
-- `platform_enabled: agent 上报资源时使用， 用于 `agent-sync` 的 domain，一个 DeepFlow 平台只能有一个`agent-sync` 的 domain。
+- `platform_enabled`: agent 上报资源时使用， 用于 `agent-sync` 的 domain，一个 DeepFlow 平台只能有一个`agent-sync` 的 domain。
