@@ -64,7 +64,7 @@ helm install deepflow-agent -n deepflow deepflow/deepflow-agent --create-namespa
       --set deepflowK8sClusterID=$DEEPFLOW_K8S_CLUSTER_ID \
       --reuse-values
   ```
-- 我们建议将 helm 的 `--set` 参数内容保存一个独立的 yaml 文件中，参考[高级配置](./advanced-config#deepflow-server)章节。
+- 我们建议将 helm 的 `--set` 参数内容保存一个独立的 yaml 文件中，参考[高级配置](./advanced-config/server-advanced-config/)章节。
 
 # 下一步
 

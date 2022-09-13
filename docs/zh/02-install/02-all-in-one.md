@@ -49,20 +49,20 @@ sealos run labring/helm:v3.8.2
 
 使用 Helm 安装 All-in-One DeepFlow：
 ```bash
-helm repo add deepflow https://deepflowys.github.io/deepflow
+helm repo add deepflow https://deepflowys.github.io/deepflow # use aliyun helm repo `https://deepflow-ce.oss-cn-beijing.aliyuncs.com/chart/stable`
 helm repo update deepflow # use `helm repo update` when helm < 3.7.0
 helm install deepflow -n deepflow deepflow/deepflow --create-namespace \
     --set global.allInOneLocalStorage=true
 ```
 
 注意：
-- 我们建议将 helm 的 `--set` 参数内容保存一个独立的 yaml 文件中，参考[高级配置](./advanced-config#deepflow-server)章节。
+- 我们建议将 helm 的 `--set` 参数内容保存一个独立的 yaml 文件中，参考[高级配置](./advanced-config/server-advanced-config/)章节。
 
 # 下载 deepflow-ctl
 
 deepflow-ctl 是管理 DeepFlow 的一个命令行工具，建议下载至 deepflow-server 所在的 K8s Node 上，用于后续使用：
 ```bash
-curl -o /usr/bin/deepflow-ctl https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/ctl/latest/linux/amd64/deepflow-ctl
+curl -o /usr/bin/deepflow-ctl https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/ctl/stable/linux/amd64/deepflow-ctl
 chmod a+x /usr/bin/deepflow-ctl
 ```
 

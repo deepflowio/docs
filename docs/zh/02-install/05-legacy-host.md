@@ -88,7 +88,7 @@ deepflow-ctl agent-group-config create -f agent-group-config.yaml
 @tab rpm
 
 ```bash
-curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/rpm/agent/latest/linux/amd64/deepflow-agent-rpm.zip
+curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/rpm/agent/stable/linux/amd64/deepflow-agent-rpm.zip
 unzip deepflow-agent-rpm.zip
 yum -y localinstall x86_64/deepflow-agent-1.0*.rpm
 ```
@@ -96,7 +96,7 @@ yum -y localinstall x86_64/deepflow-agent-1.0*.rpm
 @tab deb
 
 ```bash
-curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/deb/agent/latest/linux/amd64/deepflow-agent-deb.zip
+curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/deb/agent/stable/linux/amd64/deepflow-agent-deb.zip
 unzip deepflow-agent-deb.zip
 dpkg -i x86_64/deepflow-agent-1.0-6447.systemd.deb
 ```
@@ -104,7 +104,7 @@ dpkg -i x86_64/deepflow-agent-1.0-6447.systemd.deb
 @tab binary file
 
 ```bash
-curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/agent/latest/linux/amd64/deepflow-agent.tar.gz
+curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/agent/stable/linux/amd64/deepflow-agent.tar.gz
 tar -zxvf deepflow-agent.tar.gz -C /usr/sbin/
 
 cat << EOF > /etc/systemd/system/deepflow-agent.service

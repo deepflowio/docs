@@ -83,21 +83,21 @@ deepflow-agent 同步 K8s 资源和 Label 信息时需要以下资源的 get/lis
 
 使用 Helm 安装 DeepFlow：
 ```bash
-helm repo add deepflow https://deepflowys.github.io/deepflow
-helm repo update deepflow ## use `helm repo update` when helm < 3.7.0
+helm repo add deepflow https://deepflowys.github.io/deepflow # use aliyun helm repo `https://deepflow-ce.oss-cn-beijing.aliyuncs.com/chart/stable`
+helm repo update deepflow # use `helm repo update` when helm < 3.7.0
 helm install deepflow -n deepflow deepflow/deepflow --create-namespace
 ```
 
 注意：
 - 使用 helm --set global.storageClass 可指定 storageClass
 - 使用 helm --set global.replicas 可指定 deepflow-server 和 clickhouse 的副本数量
-- 我们建议将 helm 的 `--set` 参数内容保存一个独立的 yaml 文件中，参考[高级配置](./advanced-config#deepflow-server)章节。
+- 我们建议将 helm 的 `--set` 参数内容保存一个独立的 yaml 文件中，参考[高级配置](./advanced-config/server-advanced-config/)章节。
 
 # 下载 deepflow-ctl
 
 deepflow-ctl 是管理 DeepFlow 的一个命令行工具，建议下载至 deepflow-server 所在的 K8s Node 上，用于后续使用：
 ```bash
-curl -o /usr/bin/deepflow-ctl https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/ctl/latest/linux/amd64/deepflow-ctl
+curl -o /usr/bin/deepflow-ctl https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/ctl/stable/linux/amd64/deepflow-ctl
 chmod a+x /usr/bin/deepflow-ctl
 ```
 
