@@ -3,7 +3,7 @@ title: SmartEncoding
 permalink: /auto-tagging/smart-encoding
 ---
 
-DeepFlow 为每个服务自动注入 20+ 资源标签以及所有的 K8s 自定义 Label，在一个典型的生产环境中，需要为一条路径数据自动注入的标签可能多大 100+ 个。这些标签为后端存储带来了很大的压力，DeepFlow 的 SmartEncoding 机制创新的解决了此问题，使得性能开销显著降低。
+DeepFlow 为每个服务自动注入 20+ 资源标签以及所有的 K8s 自定义 Label，在一个典型的生产环境中，需要为一条路径数据自动注入的标签可能多达 100+ 个。这些标签为后端存储带来了很大的压力，DeepFlow 的 SmartEncoding 机制创新的解决了此问题，使得性能开销显著降低。
 
 ![SmartEncoding](../about/imgs/smart-encoding.png)
 
