@@ -105,6 +105,7 @@ module.exports = ({
       md.plugin('ys-todo').use(require("./plugins/todo/index")).end();
     },
     extendMarkdown: (md) => {
+      md.use(require('./plugins/code-tabs/index'));
       md.use(require("./plugins/disable-url-encode/index"));
       md.use(require("./plugins/auto-complete-url/index"));
       md.use(require("./plugins/auto-add-title-order/index"));
