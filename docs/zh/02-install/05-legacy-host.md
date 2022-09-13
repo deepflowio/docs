@@ -81,12 +81,53 @@ deepflow-ctl agent-group-config create -f agent-group-config.yaml
 
 # 部署 DeepFlow Agent
 
-下载包含 deepflow-agent rpm 的 zip 包
+下载 deepflow-agent
+
+::: code-tabs#shell
+
+@tab rpm
+
 ```bash
 curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/rpm/agent/latest/linux/amd64/deepflow-agent-rpm.zip
 unzip deepflow-agent-rpm.zip
 yum -y localinstall x86_64/deepflow-agent-1.0*.rpm
 ```
+
+@tab deb
+
+```bash
+curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/deb/agent/latest/linux/amd64/deepflow-agent-deb.zip
+unzip deepflow-agent-deb.zip
+dpkg -i x86_64/deepflow-agent-1.0-6447.systemd.deb
+```
+
+@tab binary file
+
+```bash
+curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/agent/latest/linux/amd64/deepflow-agent.tar.gz
+tar -zxvf deepflow-agent.tar.gz -C /usr/sbin/
+
+cat << EOF > /etc/systemd/system/deepflow-agent.service
+[Unit]
+Description=deepflow-agent.service
+After=syslog.target network-online.target
+
+[Service]
+Environment=GOTRACEBACK=single
+LimitCORE=1G
+ExecStart=/usr/sbin/deepflow-agent
+Restart=always
+RestartSec=10
+LimitNOFILE=1024:4096
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+systemctl daemon-reload
+```
+
+:::
 
 修改 deepflow-agent 的配置文件 `/etc/deepflow-agent.yaml` ：
 ```yaml
