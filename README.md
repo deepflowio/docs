@@ -106,3 +106,30 @@ If the footnote of the reference source cannot be found, [^third] will be displa
 ```
 
 ![footnote](./images/foot-note-en.jpg)
+
+10. Code block grouping
+
+````
+::: code-tabs#shell
+
+@tab pnpm
+
+```bash
+pnpm install
+```
+
+@tab npm
+
+```bash
+npm install
+```
+
+@tab yarn
+
+```bash
+yarn install
+```
+
+:::
+
+````
