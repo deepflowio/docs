@@ -1,7 +1,30 @@
 ---
-title: DeepFlow 6.1.1 Release Notes
-permalink: /release-notes/release-6.1.1
+title: DeepFlow 6.1 Release Notes
+permalink: /release-notes/release-6.1
 ---
+
+# 6.1.2 [2022/09/08]
+
+V6.1.2 是开源之后的第二个版本，我们正式开启两周一个小版本的节奏。
+
+## 应用
+
+- AutoMetrics、AutoLogging
+  - MySQL 新增 `COM_STMT_PREPARE`、`COM_STMT_EXECUTE`、`COM_STMT_FETCH`、`COM_STMT_CLOSE` [命令](https://dev.mysql.com/doc/dev/mysql-server/latest/page_protocol_command_phase.html)解析能力
+  - 支持采集 MQTT 3.1 调用日志和性能指标
+- SQL API
+  - 支持 `SELECT labels` 获取所有的自定义 label 列
+
+## 系统
+
+- deepflow-agent
+  - 增加`非活跃 IP 指标数据`配置项，关闭此配置后没有回复流量的 IP 将会被聚合
+  - 使用 BPF 预过滤采集接口，提升采集性能
+  - 提供 deb 安装包
+- deepflow-ctl
+  - agent-group-config update 无需再指定 agent-group-id 参数
+
+# 6.1.1 [2022/08/25]
 
 V6.1.1 历时三个月开发，是 V6 系列的一个重大迭代版本，也是 DeepFlow 正式发布的第一个社区版。自此以后企业版和社区版将会同步迭代，也将会提升到`每两周发布一个小版本`的开发节奏，并于大约四个小版本后发布 V6.1 的最后一个小版本（LTS 版本）。
 
@@ -15,7 +38,7 @@ V6.1.1 历时三个月开发，是 V6 系列的一个重大迭代版本，也是
 
 注：下述 Release Note 不包含企业版功能。
 
-# 应用功能
+## 应用功能
 
 - <mark>指标数据增强</mark>
   - 支持集成 Prometheus 指标数据（实现 `remote_write` 接口）
@@ -45,7 +68,7 @@ V6.1.1 历时三个月开发，是 V6 系列的一个重大迭代版本，也是
   - 存储流量中的 VLAN 字段
 - 指标量新增 Math 算子
 
-# 系统功能
+## 系统功能
 
 - 提供 deepflow-ctl 命令行工具用于 CLI 管理
 - Agent（采集器）
