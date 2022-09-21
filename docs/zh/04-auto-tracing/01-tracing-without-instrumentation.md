@@ -7,7 +7,16 @@ permalink: /auto-tracing/tracing-without-instrumentation
 
 基于 eBPF，DeepFlow 创新的实现了零侵扰的分布式追踪。DeepFlow 将 eBPF Event、BPF Packet、Thread ID、Coroutine ID、Request 到达时序、TCP 发送时序进行关联，实现了高度自动化的分布式追踪（**AutoTracing**）。目前 AutoTracing 支持所有同步阻塞调用（BIO，Blocking IO）场景、部分同步非阻塞调用（NIO，Non-blocking IO）场景，支持内核线程调度（[kernel-level threading](https://en.wikipedia.org/wiki/Thread_(computing))）场景，在这些场景下支持对任意服务组成的分布式调用链进行追踪。除此之外，通过解析请求中的 X-Request-ID 等字段，也支持对采用 NIO 模式的网关（如 Envoy）前后的调用链进行追踪。
 
-本章将会以两个 Demo 应用为例，展示 DeepFlow 的 AutoTracing 能力。这两个 Demo 不依赖插入任何 Jaeger、OpenTelemetry、SkyWalking 等代码，完全基于 eBPF 采集的数据即可完成分布式追踪。基于 eBPF 的 AutoTracing 是一项探索中的创新工作，还有大量的问题等待我们去解答，例如异步调用（AIO，Asynchronous IO）、协程调度（hybrid threading）等场景下的自动追踪能力。欢迎你一起加入这项激动人心的探索！
+本章将会以两个 Demo 应用为例，展示 DeepFlow 的 AutoTracing 能力。这两个 Demo 不依赖插入任何 Jaeger、OpenTelemetry、SkyWalking 等代码，完全基于 eBPF 采集的数据即可完成分布式追踪。
+
+::: warning 当前限制
+基于 eBPF 的 AutoTracing 是一项探索中的创新工作，还有大量的问题等待我们去解答，包括：
+- 同步非阻塞调用（NIO，Non-blocking IO）场景下的追踪
+- 异步调用（AIO，Asynchronous IO）场景下的追踪
+- 协程调度（hybrid threading）场景下的追踪
+- 跨线程调用场景下的追踪
+欢迎你一起加入这项激动人心的探索！
+:::
 
 ::: tip 说明
 目前我们以 Grafana Panel 展示 Trace 数据，发现非常受局限，下个版本将修改为通过 Grafana Tempo 展示。
