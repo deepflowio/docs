@@ -5,7 +5,7 @@ permalink: /install/upgrade/
 
 # 简介
 
-升级 DeepFlow 至最新版本及获取最新的Grafana dashboard。
+升级 DeepFlow 至最新版本及获取最新的 Grafana dashboard 。
 
 # 升级 DeepFlow Server
 
@@ -24,7 +24,7 @@ tar -zxvf deepflow-agent.tar.gz -C /usr/sbin/
 deepflow-ctl agent list # get your cloud-host and legacy-host agent name
 for AGENT in $(deepflow-ctl agent list|grep -v NAME|awk '{print $1}')
   do 
-    deepflow-ctl agent-upgrade metaflow-demo-1-P3 --package=/usr/sbin/deepflow-agent
+    deepflow-ctl agent-upgrade $AGENT --package=/usr/sbin/deepflow-agent
   done
 ```
 
