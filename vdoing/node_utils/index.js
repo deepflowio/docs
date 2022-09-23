@@ -23,8 +23,6 @@ function createREADMEFileAndSetFrontmatterAndGetSideBar (sourceDir, themeConfig)
 
     // 先忽略vuepress @pages
     files = files.filter((item) => ![".vuepress"].includes(item));
-    console.log('readdirSync=== success', files)
-    console.log('readdirSync=== success test')
 
     const currentFileName = getCurrnetFileName(sourceDir)
 
@@ -57,6 +55,15 @@ function handleFileAndGetSideBar (sourceDir, files, currentFileName) {
         const filePath = path.join(sourceDir, item);
         const stat = fs.statSync(filePath);
         if (stat.isDirectory()) {
+            const readmePath = filePath + '/README.md'
+            const hasReadme = fs.existsSync(readmePath)
+            // 如果存在README 则需要读取内容的Permalink
+            let directoryPath = null
+            if (hasReadme) {
+                const fileContent = fs.readFileSync(readmePath, "utf8");
+                const { data: matterData } = matter(fileContent, {});
+                directoryPath = matterData.permalink
+            }
             // 如果是文件夹 则进行递归
             const res = handleFileAndGetSideBar(filePath, fs.readdirSync(filePath), item)
             // 需要处理下文件名称
@@ -70,7 +77,7 @@ function handleFileAndGetSideBar (sourceDir, files, currentFileName) {
             res.sidebar.length && sidebar.push({
                 title: itemStr,
                 collapsable: true,
-                path: fileShouldCreateREADME(item) ? getPermalink1(filePath) + "/" : null,
+                path: directoryPath,
                 children: res.sidebar
             })
             return false
