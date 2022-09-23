@@ -157,6 +157,12 @@ function simplifySidebarData (sidebarData) {
         function loop (array) {
             array.forEach(sider => {
                 if ('path' in sider) {
+                    if (sider.path) {
+                        result[key].push({
+                            old: sider.path,
+                            new: sider.path
+                        })
+                    }
                     loop(sider.children)
                 } else {
                     result[key].push({
