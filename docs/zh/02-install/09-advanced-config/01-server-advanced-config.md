@@ -23,7 +23,7 @@ global:
     repository: registry.cn-beijing.aliyuncs.com/deepflow-ce ## change deepflow image registry to  aliyun
 ```
 
-## 使用阿里云镜像仓库：
+## 使用阿里云镜像仓库
 
 ```yaml
 global:
@@ -36,7 +36,7 @@ grafana:
 
 ## 修改 Server 配置文件
 
-参考 [server 配置文件](https://github.com/deepflowys/deepflow/blob/main/server/server.yaml)修改 values中的对应字段即可,
+参考 [server 配置文件](https://github.com/deepflowys/deepflow/blob/main/server/server.yaml)修改 values 中的对应字段即可,
 例如修改日志级别:
 
 ```yaml

@@ -16,7 +16,7 @@ helm repo update deepflow # use `helm repo update` when helm < 3.7.0
 helm upgrade deepflow -n deepflow deepflow/deepflow -f values-custom.yaml
 ```
 
-# 升级 DeepFlow Cli
+# 升级 DeepFlow CLI
 
 下载最新的 deepflow-ctl:
 
@@ -65,11 +65,3 @@ kubectl get deployment -n deepflow deepflow-grafana -o yaml|grep -E 'image:|imag
 ```bash
 kubectl delete pods -n deepflow -l app.kubernetes.io/instance=deepflow -l app.kubernetes.io/name=grafana
 ```
-
-# 下一步
-
-- [微服务全景图 - 体验 DeepFlow 基于 BPF 的 AutoMetrics 能力](../auto-metrics/metrics-without-instrumentation/)
-- [自动分布式追踪 - 体验 DeepFlow 基于 eBPF 的 AutoTracing 能力](../auto-tracing/tracing-without-instrumentation/)
-- [消除数据孤岛 - 了解 DeepFlow 的 AutoTagging 和 SmartEncoding 能力](../auto-tagging/elimilate-data-silos/)
-- [告别高基烦恼 - 集成 Promethes 等指标数据](../agent-integration/metrics/metrics-auto-tagging/)
-- [无盲点分布式追踪 - 集成 OpenTelemetry 等追踪数据](../agent-integration/tracing/tracing-without-blind-spot/)
