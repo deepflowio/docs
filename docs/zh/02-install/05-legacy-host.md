@@ -98,7 +98,7 @@ yum -y localinstall x86_64/deepflow-agent-1.0*.rpm
 ```bash
 curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/deb/agent/stable/linux/amd64/deepflow-agent-deb.zip
 unzip deepflow-agent-deb.zip
-dpkg -i x86_64/deepflow-agent-1.0-6447.systemd.deb
+dpkg -i x86_64/deepflow-agent-1.0*.systemd.deb
 ```
 
 @tab binary file
