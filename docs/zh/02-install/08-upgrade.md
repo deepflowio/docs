@@ -9,12 +9,25 @@ permalink: /install/upgrade/
 
 # 升级 DeepFlow Server
 
+通过 Helm 一键升级 DeepFlow Server 及本集群的 DeepFlow Agent：
+
 ```bash
 helm repo update deepflow # use `helm repo update` when helm < 3.7.0
 helm upgrade deepflow -n deepflow deepflow/deepflow -f values-custom.yaml
 ```
 
+# 升级 DeepFlow Cli
+
+下载最新的 deepflow-ctl:
+
+```bash
+curl -o /usr/bin/deepflow-ctl https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/ctl/stable/linux/amd64/deepflow-ctl
+chmod a+x /usr/bin/deepflow-ctl
+```
+
 # 升级 DeepFlow Agent
+
+## 远程升级云服务器和传统服务器上部署的 DeepFlow Agent
 
 通过 deepflow-ctl 升级云服务器和传统服务器上部署的 DeepFlow Agent：
 
@@ -22,21 +35,15 @@ helm upgrade deepflow -n deepflow deepflow/deepflow -f values-custom.yaml
 curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/agent/stable/linux/amd64/deepflow-agent.tar.gz
 tar -zxvf deepflow-agent.tar.gz -C /usr/sbin/
 deepflow-ctl agent list # get your cloud-host and legacy-host agent name
-for AGENT in $(deepflow-ctl agent list | grep -v NAME | awk '{print $1}')
+for AGENT in $(deepflow-ctl agent list | grep -E " CHOST_[VB]M " | awk '{print $1}')
   do 
     deepflow-ctl agent-upgrade $AGENT --package=/usr/sbin/deepflow-agent
   done
 ```
 
-检查 K8s 中的 Agent 是否有因版本不匹配导致的重启：
+## 升级 K8s 集群中部署的 DeepFlow Agent
 
-```bash
-kubectl  logs -n deepflow deepflow-agent-XXXX -p | grep upgrade
-```
-
-若有，需要通过 Helm 或修改 deepflow-agent 的 DaemonSet image 字段升级至已发布的最新版本。
-
-升级 K8s 集群中部署的 DeepFlow Agent：
+通过 Helm 一键升级 DeepFlow Agent：
 
 ```bash
 helm repo update deepflow # use `helm repo update` when helm < 3.7.0
