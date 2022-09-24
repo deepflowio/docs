@@ -5,7 +5,7 @@ permalink: /install/upgrade/
 
 # 简介
 
-升级 DeepFlow 至最新版本及获取最新的 Grafana dashboard 。
+升级 DeepFlow 至最新版本及获取最新的 Grafana dashboard。
 
 # 升级 DeepFlow Server
 
@@ -22,16 +22,16 @@ helm upgrade deepflow -n deepflow deepflow/deepflow -f values-custom.yaml
 curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/agent/stable/linux/amd64/deepflow-agent.tar.gz
 tar -zxvf deepflow-agent.tar.gz -C /usr/sbin/
 deepflow-ctl agent list # get your cloud-host and legacy-host agent name
-for AGENT in $(deepflow-ctl agent list|grep -v NAME|awk '{print $1}')
+for AGENT in $(deepflow-ctl agent list | grep -v NAME | awk '{print $1}')
   do 
     deepflow-ctl agent-upgrade $AGENT --package=/usr/sbin/deepflow-agent
   done
 ```
 
-检查 K8s 中的 Agent 是否有因未版本不匹配导致的重启：
+检查 K8s 中的 Agent 是否有因版本不匹配导致的重启：
 
 ```bash
-kubectl  logs -n deepflow deepflow-agent-XXXX -p|grep upgrade
+kubectl  logs -n deepflow deepflow-agent-XXXX -p | grep upgrade
 ```
 
 若有，需要通过 Helm 或修改 deepflow-agent 的 DaemonSet image 字段升级至已发布的最新版本。
