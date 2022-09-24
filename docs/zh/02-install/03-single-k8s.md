@@ -83,7 +83,7 @@ deepflow-agent 同步 K8s 资源和 Label 信息时需要以下资源的 get/lis
 
 使用 Helm 安装 DeepFlow：
 ```bash
-helm repo add deepflow https://deepflowys.github.io/deepflow # use aliyun helm repo `https://deepflow-ce.oss-cn-beijing.aliyuncs.com/chart/stable`
+helm repo add deepflow https://deepflowys.github.io/deepflow # use aliyun: helm repo add deepflow https://deepflow-ce.oss-cn-beijing.aliyuncs.com/chart/stable
 helm repo update deepflow # use `helm repo update` when helm < 3.7.0
 helm install deepflow -n deepflow deepflow/deepflow --create-namespace
 ```

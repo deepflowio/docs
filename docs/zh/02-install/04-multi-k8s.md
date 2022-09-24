@@ -47,7 +47,7 @@ deepflow-ctl domain list $CLUSTER_NAME  # Get K8sClusterID
 ```bash
 DEEPFLOW_SERVER_NODE_IPS="10.1.2.3,10.4.5.6"  # FIXME: K8s Node IPs
 
-helm repo add deepflow https://deepflowys.github.io/deepflow
+helm repo add deepflow https://deepflowys.github.io/deepflow # use aliyun: helm repo add deepflow https://deepflow-ce.oss-cn-beijing.aliyuncs.com/chart/stable
 helm repo update deepflow # use `helm repo update` when helm < 3.7.0
 helm install deepflow-agent -n deepflow deepflow/deepflow-agent --create-namespace \
     --set deepflowServerNodeIPS={$DEEPFLOW_SERVER_NODE_IPS}
