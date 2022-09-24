@@ -27,7 +27,7 @@ permalink: /release-notes/release-6.1
 
 - 首次部署时等待 agent 上线的时间从 7 分钟优化到 4 分钟
 - 同一个 K8s 集群内对 deepflow-server 和 clickhouse 的访问不再使用 NodeIP
-- deepflow-server 默认使用 `externalTrafficPolicy=Cluster` 避免 CNI 兼容性问题，可手动修改为 `Local` 以优化跨集群流量
+- deepflow-server 默认使用 `externalTrafficPolicy=Cluster` 避免部分环境的 kube-proxy 的 `externalTrafficPolicy=Local` 的功能不可用和部分 CNI 兼容性问题，可手动修改为 `Local` 以优化跨集群流量
 - deepflow-server 新增 `ext-metrics-ttl`、`flow-metrics-ttl`、`flow-log-ttl` 配置参数用于初始化数据保留时长
 - deepflow-agent 支持将 `l4_flow_log` 和 `l7_flow_log` 写入到本地文件中
 - deepflow-agent 去除对 libbpf 的依赖
