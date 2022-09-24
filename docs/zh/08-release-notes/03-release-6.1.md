@@ -3,6 +3,35 @@ title: DeepFlow 6.1 Release Notes
 permalink: /release-notes/release-6.1
 ---
 
+# 6.1.3 [2022/09/23]
+
+## 新特性
+
+- AutoMetrics
+  - 新增指标：客户端等待时延、SYN 包数、SYN-ACK 包数、SYN 重传包数、SYN-ACK 重传包数
+- AutoTracing
+  - 支持将 eBPF uprobe Span 与 cBPF Span、OTel Span 关联，展示在追踪火焰图中
+- AutoLogging
+  - 支持使用 eBPF uprobe 采集 Golang HTTP2、HTTP2\_TLS 调用
+  - 支持采集裁剪了标准符号表的 Golang 进程 uprobe 数据（Golang >= 1.13 且 < 1.18）
+- AutoTagging
+  - 对于未关联云服务器的 K8s 节点，自动生成云服务器标签
+  - 支持同步华为公有云的资源信息
+- Querier SQL API
+  - GROUP BY 后的字段自动返回，无需在 SELECT 后显式声明
+- Grafana
+  - 拓扑图（DeepFlow Topo）、追踪火焰图（DeepFlow AppTracing）增加缩略图展示
+  - 优化追踪火焰图中的 Span Tip，显示 Span 自身耗时比例
+
+## 系统
+
+- 首次部署时等待数据的时间，从 7 分钟优化到 4 分钟
+- 同一个 K8s 集群内对 deepflow-server 和 clickhouse 的访问不再使用 NodeIP
+- deepflow-server 默认使用 `externalTrafficPolicy=Cluster` 避免 CNI 兼容性问题，可手动修改为 `Local` 以优化跨集群流量
+- deepflow-server 新增 `ext-metrics-ttl`、`flow-metrics-ttl`、`flow-log-ttl` 配置参数用于初始化数据保留时长
+- deepflow-agent 支持将 `l4_flow_log` 和 `l7_flow_log` 写入到本地文件中
+- deepflow-agent 去除对 libbpf 的依赖
+
 # 6.1.2 [2022/09/08]
 
 V6.1.2 是开源之后的第二个版本，我们正式开启两周一个小版本的节奏。

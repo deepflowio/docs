@@ -42,7 +42,7 @@ DeepFlow 目前支持如下公有云的资源信息同步（标记为 `TBD` 的�
 | AWS              | AWS              | `TBD`                    |
 | Aliyun           | 阿里云           | aliyun                   |
 | Baidu Cloud      | 百度云           | baidu\_bce               |
-| Huawei Cloud     | 华为云           | `TBD`                    |
+| Huawei Cloud     | 华为云           | huawei                   |
 | Microsoft Azure  | 微软云           | `TBD`                    |
 | QingCloud        | 青云             | qingcloud                |
 | Tencent Cloud    | 腾讯云           | `TBD`                    |
