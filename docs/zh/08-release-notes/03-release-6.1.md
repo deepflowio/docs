@@ -5,7 +5,7 @@ permalink: /release-notes/release-6.1
 
 # 6.1.3 [2022/09/23]
 
-## 新特性
+## 应用
 
 - AutoMetrics
   - 新增指标：客户端等待时延、SYN 包数、SYN-ACK 包数、SYN 重传包数、SYN-ACK 重传包数
@@ -25,7 +25,7 @@ permalink: /release-notes/release-6.1
 
 ## 系统
 
-- 首次部署时等待数据的时间，从 7 分钟优化到 4 分钟
+- 首次部署时等待 agent 上线的时间从 7 分钟优化到 4 分钟
 - 同一个 K8s 集群内对 deepflow-server 和 clickhouse 的访问不再使用 NodeIP
 - deepflow-server 默认使用 `externalTrafficPolicy=Cluster` 避免 CNI 兼容性问题，可手动修改为 `Local` 以优化跨集群流量
 - deepflow-server 新增 `ext-metrics-ttl`、`flow-metrics-ttl`、`flow-log-ttl` 配置参数用于初始化数据保留时长
