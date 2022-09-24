@@ -1,16 +1,17 @@
 ---
-title: 高级配置
-permalink: /install/advanced-config
+title: Server 高级配置
+permalink: /install/advanced-config/server-advanced-config/
 ---
 
 # 简介
 
-DeepFlow Server 和 DeepFlow Agent 的高级配置。
+DeepFlow Server 高级配置。
 
-# DeepFlow Server
+## 自定义部署参数
 
 虽然你可以使用 helm `--set` 参数来定义部分配置，但我们建议将自定义的配置保存一个独立的 yaml 文件中。
 例如 `values-custom.yaml` ：
+
 ```yaml
 global:
   storageClass: "<your storageClass>"
@@ -22,7 +23,30 @@ global:
     repository: registry.cn-beijing.aliyuncs.com/deepflow-ce ## change deepflow image registry to  aliyun
 ```
 
+## 使用阿里云镜像仓库
+
+```yaml
+global:
+  image:
+      repository: registry.cn-beijing.aliyuncs.com/deepflow-ce
+grafana:
+  image:
+    repository: registry.cn-beijing.aliyuncs.com/deepflow-ce/grafana
+```
+
+## 修改 Server 配置文件
+
+参考 [server 配置文件](https://github.com/deepflowys/deepflow/blob/main/server/server.yaml)修改 values 中的对应字段即可,
+例如修改日志级别:
+
+```yaml
+configmap:
+  server.yaml:
+    log-level: debug
+```
+
 后续更新可以使用 `-f values-custom.yaml` 参数使用自定义配置：
+
 ```bash
 helm upgrade deepflow -n deepflow -f values-custom.yaml deepflow/deepflow
 ```
@@ -37,8 +61,6 @@ helm upgrade deepflow -n deepflow -f values-custom.yaml deepflow/deepflow
 
 ## 服务端口
 
-- `global.nodePort.clickhouse`
-  - Clickhouse 需要暴露的 NodePort 端口号，默认为30900，如有冲突，可以直接修改。
 - `global.nodePort.deepflowServerIngester`
   - deepflow-server ingrester 模块需要暴露的 NodePort 端口号，默认为30033，用于 agent 向 server 传输数据。
   - 如有冲突，修改此处后需要修改 `agent-group-config` 的 `analyzer_port`。
@@ -56,64 +78,3 @@ helm upgrade deepflow -n deepflow -f values-custom.yaml deepflow/deepflow
 - `global.ntpServer`: DeepFlow 的时间同步服务器，默认值为 `ntp.aliyun.com` 。
 - `global.storageClass`: DeepFlow 部署使用的 `storageClass`，默认为空即使用 default storageClass。
 
-# DeepFlow Agent
-
-DeepFlow 使用声明式 API 对所有 deepflow-agent 进行控制，几乎所有的 deepflow-agent 配置均通过 deepflow-server 下发。在 DeepFlow 中，agent-group 为管理一组 deepflow-agent 配置的组。我们可以在 deepflow-agent 本地配置文件（K8s ConfigMap、Host 上的 deepflow-agent.yaml）中指定 `vtap-group-id-request` 来声明希望加入的组，也可直接在 deepflow-server 上配置每个 deepflow-agent 的所属组（且后者优先级更高）。agent-group-config 和 agent-group 一一对应，通过 agent-group ID 关联。
-
-## agent-group 操作
-
-查看 agent-group 列表：
-```bash
-deepflow-ctl agent-group list
-```
-
-创建一个 agent-group：
-```bash
-deepflow-ctl agent-group create your-agent-group
-```
-
-获取刚刚创建的 agent-group ID:
-```bash
-deepflow-ctl agent-group list your-agent-group
-```
-
-### 获取 agent 默认配置
-
-```bash
-deepflow-ctl agent-group-config example
-```
-
-## agent-group-config 操作
-
-参考上述 agent 默认配置，摘取其中你想修改的部分，创建一个 `your-agent-group-config.yaml` 文件并填写 agent 配置参数，注意必须包含 `vtap_group_id`：
-```yaml
-vtap_group_id: <Your-agnet-group-ID>
-# write configurations here
-```
-
-创建 agent-group-config:
-```bash
-deepflow-ctl agent-group-config create -f your-agent-group-config.yaml
-```
-
-获取 agent-group-config 列表：
-```bash
-deepflow-ctl agent-group-config list
-```
-
-获取 agent-group-config 配置：
-```bash
-deepflow-ctl agent-group-config list <Your-agnet-group-ID> -o yaml
-```
-
-更新 agent-group-config 配置：
-```bash
-deepflow-ctl agent-group-config update <Your-agnet-group-ID> -f your-agent-group-config.yaml
-```
-
-## 常用配置项
-
-- `max_memory`: agent 最大内存限制，默认值为 `768`，单位为 MB。
-- `thread_threshold`: agent 最大线程数量，默认值为 `500`。
-- `tap_interface_regex`: agent 采集网卡正则配置，默认值为 `^(tap.*|cali.*|veth.*|eth.*|en[ospx].*|lxc.*|lo)$`，agent 只需要采集 Pod 网卡和 Node/Host 物理网卡即可。
-- `platform_enabled`: agent 上报资源时使用， 用于 `agent-sync` 的 domain，一个 DeepFlow 平台只能有一个`agent-sync` 的 domain。

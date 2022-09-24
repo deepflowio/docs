@@ -254,7 +254,7 @@ function resolveItem (item, pages, base, groupDepth = 1) {
     }
     return {
       type: 'group',
-      path: item.path,
+      path: item.path && (base + item.path.substring(1)),
       title: item.title,
       sidebarDepth: item.sidebarDepth,
       initialOpenGroupIndex: item.initialOpenGroupIndex,

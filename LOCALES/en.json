@@ -1,6 +1,7 @@
 {
     "about": "About DeepFlow",
     "install": "Install",
+    "install/advanced-config": "Advanced Config",
     "auto-metrics": "AutoMetrics",
     "auto-tracing": "AutoTracing",
     "auto-tagging": "AutoTagging",
