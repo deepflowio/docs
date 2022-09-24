@@ -27,7 +27,16 @@ chmod a+x /usr/bin/deepflow-ctl
 
 # 升级 DeepFlow Agent
 
-## 远程升级云服务器和传统服务器上部署的 DeepFlow Agent
+## 升级 K8s 集群中的 Agent
+
+通过 Helm 一键升级 DeepFlow Agent：
+
+```bash
+helm repo update deepflow # use `helm repo update` when helm < 3.7.0
+helm upgrade deepflow-agent -n deepflow deepflow/deepflow-agent -f values-custom.yaml
+```
+
+## 远程升级云服务器中的 Agent
 
 通过 deepflow-ctl 升级云服务器和传统服务器上部署的 DeepFlow Agent：
 
@@ -39,15 +48,6 @@ for AGENT in $(deepflow-ctl agent list | grep -E " CHOST_[VB]M " | awk '{print $
   do 
     deepflow-ctl agent-upgrade $AGENT --package=/usr/sbin/deepflow-agent
   done
-```
-
-## 升级 K8s 集群中部署的 DeepFlow Agent
-
-通过 Helm 一键升级 DeepFlow Agent：
-
-```bash
-helm repo update deepflow # use `helm repo update` when helm < 3.7.0
-helm upgrade deepflow-agent -n deepflow deepflow/deepflow-agent -f values-custom.yaml
 ```
 
 # 获取最新 DeepFlow Grafana dashboard
