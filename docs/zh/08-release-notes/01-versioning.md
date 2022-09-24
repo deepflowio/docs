@@ -17,11 +17,3 @@ DeepFlow 遵循 [Semantic Versioning](https://semver.org/) 版本命名方式，
 
 - 每个 `X.Y` 版本中最大的 `Z` 版本为长期支持（LTS，Long-Term Support）版本
 - 每个 `X.Y.Z` 版本发布后，所有 `X.Y.0` - `X.Y.{Z-1}` 不再维护更新
-
-# 版本发布阶段
-
-一个 `X.Y.Z` 版本发布一版会经历如下阶段：
-- X.Y.Z-Alpha：Alpha Release，功能基本开发完成，经过了初步的测试，可能存在较多 Bug，可作为 Preview 使用
-- X.Y.Z-Beta：Beta Release，经过了一轮完整测试，可能还存在一些 Bug，基本可用
-- X.Y.Z：GA Release，可在生产环境进行升级
-- X.Y.Z-$I：BugFix Release，不定期发布，$I 依次递增
