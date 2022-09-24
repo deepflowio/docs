@@ -123,7 +123,7 @@ systemctl daemon-reload
 修改 deepflow-agent 的配置文件 `/etc/deepflow-agent.yaml` ：
 ```yaml
 controller-ips:
-  - 10.1.2.3  # FIXME: K8s Node IPs of deepflow-server
+  - 10.1.2.3  # FIXME: K8s Node IPs
 ```
 
 启动 deepflow-agent ：

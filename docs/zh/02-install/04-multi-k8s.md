@@ -45,7 +45,7 @@ deepflow-ctl domain list $CLUSTER_NAME  # Get K8sClusterID
 
 使用 Helm 安装 deepflow-agent：
 ```bash
-DEEPFLOW_SERVER_NODE_IPS="10.1.2.3,10.4.5.6"  # FIXME: K8s Node IPs of deepflow-server
+DEEPFLOW_SERVER_NODE_IPS="10.1.2.3,10.4.5.6"  # FIXME: K8s Node IPs
 
 helm repo add deepflow https://deepflowys.github.io/deepflow
 helm repo update deepflow # use `helm repo update` when helm < 3.7.0
@@ -53,8 +53,7 @@ helm install deepflow-agent -n deepflow deepflow/deepflow-agent --create-namespa
     --set deepflowServerNodeIPS={$DEEPFLOW_SERVER_NODE_IPS}
 ```
 
-我们为 deepflow-server 的 service 设置了 `externalTrafficPolicy=Local` 以优化流量路径，
-因此上述部署过程中需要将 deepflow-agent 的 `deepflowServerNodeIps` 配置为 deepflow-server Pod 所在的 Node IP。
+因此上述部署过程中需要将 deepflow-agent 的 `deepflowServerNodeIps` 配置为 K8s 集群的一个或多个 Node IP。
 
 注意：
 - 若不同 K8s 集群的 CA 文件一样，部署时需要传入使用 `deepflow-ctl` 获取到的 `kubernetesClusterId`：
