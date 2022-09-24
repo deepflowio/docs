@@ -45,15 +45,15 @@ helm upgrade deepflow-agent -n deepflow deepflow/deepflow-agent -f values-custom
 
 # 获取最新 DeepFlow Grafana dashboard
 
-检查 Grafana 的 init container 的镜像是否为 `latest`, 镜像拉取策略是否为 `Always`:
+检查 Grafana 的 init container `init-grafana-ds-dh` 的镜像是否为 `latest`, 镜像拉取策略是否为 `Always`:
 
 ```bash
 kubectl get deployment -n deepflow deepflow-grafana -o yaml|grep -E 'image:|imagePullPolicy'
 ```
 
-若 Grafana 的 init container 的镜像不是 `latest`, 镜像拉取策略不是 `Always`，请修改为`latest`和 `Always`。
+若 Grafana 的 init container `init-grafana-ds-dh` 的镜像不是 `latest`, 镜像拉取策略不是 `Always`，请修改为 `latest` 和 `Always`。
 
-重启 Grafana , 拉取最新的 init container 镜像，获取最新的 dashboard ：
+重启 Grafana , 拉取最新的 init container `init-grafana-ds-dh` 镜像，获取最新的 dashboard ：
 
 ```bash
 kubectl delete pods -n deepflow -l app.kubernetes.io/instance=deepflow -l app.kubernetes.io/name=grafana
