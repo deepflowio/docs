@@ -48,12 +48,41 @@ sealos run labring/helm:v3.8.2
 # 部署 All-in-One DeepFlow
 
 使用 Helm 安装 All-in-One DeepFlow：
+
+::: code-tabs#shell
+
+@tab Use Github and DockerHub
+
 ```bash
-helm repo add deepflow https://deepflowys.github.io/deepflow # use aliyun: helm repo add deepflow https://deepflow-ce.oss-cn-beijing.aliyuncs.com/chart/stable
+helm repo add deepflow https://deepflowys.github.io/deepflow
 helm repo update deepflow # use `helm repo update` when helm < 3.7.0
+cat << EOF > values-custom.yaml
+global:
+  allInOneLocalStorage: true
+EOF
 helm install deepflow -n deepflow deepflow/deepflow --create-namespace \
-    --set global.allInOneLocalStorage=true
+  -f values-custom.yaml
 ```
+
+@tab Use Aliyun
+
+```bash
+helm repo add deepflow https://deepflow-ce.oss-cn-beijing.aliyuncs.com/chart/stable
+helm repo update deepflow # use `helm repo update` when helm < 3.7.0
+cat << EOF > values-custom.yaml
+global:
+  allInOneLocalStorage: true
+  image:
+      repository: registry.cn-beijing.aliyuncs.com/deepflow-ce
+grafana:
+  image:
+    repository: registry.cn-beijing.aliyuncs.com/deepflow-ce/grafana
+EOF
+helm install deepflow -n deepflow deepflow/deepflow --create-namespace \
+  -f values-custom.yaml
+```
+
+:::
 
 注意：
 - 我们建议将 helm 的 `--set` 参数内容保存一个独立的 yaml 文件中，参考[高级配置](./advanced-config/server-advanced-config/)章节。

@@ -82,11 +82,35 @@ deepflow-agent 同步 K8s 资源和 Label 信息时需要以下资源的 get/lis
 # 部署 DeepFlow
 
 使用 Helm 安装 DeepFlow：
+
+::: code-tabs#shell
+
+@tab Use Github and DockerHub
+
 ```bash
-helm repo add deepflow https://deepflowys.github.io/deepflow # use aliyun: helm repo add deepflow https://deepflow-ce.oss-cn-beijing.aliyuncs.com/chart/stable
+helm repo add deepflow https://deepflowys.github.io/deepflow
 helm repo update deepflow # use `helm repo update` when helm < 3.7.0
 helm install deepflow -n deepflow deepflow/deepflow --create-namespace
 ```
+
+@tab Use Aliyun
+
+```bash
+helm repo add deepflow https://deepflow-ce.oss-cn-beijing.aliyuncs.com/chart/stable
+helm repo update deepflow # use `helm repo update` when helm < 3.7.0
+cat << EOF > values-custom.yaml
+global:
+  image:
+      repository: registry.cn-beijing.aliyuncs.com/deepflow-ce
+grafana:
+  image:
+    repository: registry.cn-beijing.aliyuncs.com/deepflow-ce/grafana
+EOF
+helm install deepflow -n deepflow deepflow/deepflow --create-namespace \
+  -f values-custom.yaml
+```
+
+:::
 
 注意：
 - 使用 helm --set global.storageClass 可指定 storageClass
