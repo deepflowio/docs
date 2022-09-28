@@ -10,12 +10,17 @@ permalink: /auto-tracing/tracing-without-instrumentation
 本章将会以两个 Demo 应用为例，展示 DeepFlow 的 AutoTracing 能力。这两个 Demo 不依赖插入任何 Jaeger、OpenTelemetry、SkyWalking 等代码，完全基于 eBPF 采集的数据即可完成分布式追踪。
 
 ::: warning 当前限制
-基于 eBPF 的 AutoTracing 是一项探索中的创新工作，还有大量的问题等待我们去解答，包括：
-- 同步非阻塞调用（NIO，Non-blocking IO）场景下的追踪
-- 异步调用（AIO，Asynchronous IO）场景下的追踪
-- 协程调度（hybrid threading）场景下的追踪
-- 跨线程调用场景下的追踪
-欢迎你一起加入这项激动人心的探索！
+基于 eBPF 的 AutoTracing 是一项颠覆性创新，欢迎你一起加入这项激动人心的探索！当前 TODO 的工作包括：
+- 同步非阻塞调用（NIO，Non-blocking IO）场景，例如微服务跨线程处理请求
+  - [x] 接收请求、响应请求位于不同的线程
+  - [ ] 接收请求、向下游发送请求位于不同的线程
+  - [x] HAProxy/Envoy 网关跨线程处理请求
+- 异步调用（AIO，Asynchronous IO）场景下的追踪，例如通过消息队列通信的两个服务
+  - [ ] 服务 A 内线程 X 生产消息，经过内存消息队列后由另一个线程 Y 消费消息
+  - [ ] 服务 A 生产消息，经过消息队列（如 Kafka/Redis）后由服务 B 消费消息
+- 协程调度（hybrid threading）场景下的追踪，例如内核线程和用户态线程不是一一对应的场景
+  - [ ] Golang、Erlang 等协程/轻量级线程语言，跨协程处理请求
+  - [x] BFE（Golang 实现）网关跨协程处理请求
 :::
 
 ::: tip 说明
