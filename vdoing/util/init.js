@@ -206,6 +206,9 @@ export default () => {
 
     async function getGithubInfo () {
         const res = await fetch('https://api.github.com/repos/deepflowys/deepflow').then(response => response.json())
+        if (!res.stargazers_count) {
+            return false
+        }
         document.querySelectorAll(".github-stars").forEach(stars_counts => {
             stars_counts.innerHTML = res.stargazers_count;
             stars_counts.setAttribute("style", "display: flex");
