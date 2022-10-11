@@ -56,14 +56,27 @@ kubectl patch storageclass openebs-hostpath  -p '{"metadata": {"annotations":{"s
 
 ## deepflow-agent 权限需求
 
-deepflow-agent 要求所在容器节点的配置如下：
-- `selinux` = `Permissive` OR `disabled`
-
-deepflow-agent 作为 DaemonSet 部署时将会打开它的如下权限：
-- `hostNetwork`
-- `hostPID`
-- `privileged`
-- Write `/sys/kernel/debug`
+deepflow-agent 运行需要的权限如下：
+- 采集 K8s 信息需要的权限包括（必须）
+  - 内核权限：`SYS_ADMIN`、`SYS_PTRACE`
+  - 容器权限：`HOST_PID`
+- 采集 AF_PACKET 流量需要的权限包括（必须）
+  - 内核权限：`NET_RAW`、`NET_ADMIN`
+  - 容器权限：`HOST_NET`
+- 采集 AF_PACKET 流量需要的权限包括（可选，若不具备权限会打印 WARN 日志提醒 cBPF 性能会受到显著影响）
+  - 内核权限：`IPC_LOCK`（MAP_LOCKED、MAP_NORESERVE）
+- 采集 eBPF 数据需要的权限包括（必须）
+  - 内核权限：`SYS_ADMIN`、`SYS_RESOURCE`
+  - 系统权限：`SELINUX = disabled`
+- 采集 eBPF 数据需要的文件读写权限
+  - 文件读写权限：`/proc/sys/net/core/bpf_jit_enable` （可选，不具备且内容不符合预期时会显著降低性能，可提前设置好内容）
+    - 当该值为 1 时，deepflow-agent 不需要做任何动作（但会读取该值，若不具备读取权限会打印 WARN 日志提醒 eBPF 性能会受到显著影响）
+    - 当该值不为 1 时，deepflow-agent 会尝试修改为 1，若修改失败会打印 WARN 日志提醒 eBPF 性能会受到显著影响
+    - K8s 下 deepflow-agent DaemonSet 会默认开启一个特权 init container 将该值设置为 1 以保证 deepflow-agent 运行于非特权模式下，可关闭
+    - 为了避免赋予`写`权限并获得良好的 eBPF 性能，用户可提前将该值设置为 1
+  - 目录只读权限： `/sys/kernel/debug/` (必须，若不具备只读权限则无法开启 eBPF )
+    - 由于 eBPF kprobe、uprobe 类型探测点的 attach/detach 操作依赖于内核的 debug 子系统，因此 /sys/kernel/debug/ 需要只读权限  
+    - 由于该目录只能 root 用户访问，所以 deepflow-agent 只能以 root 用户运行
 
 deepflow-agent 同步 K8s 资源和 Label 信息时需要以下资源的 get/list/watch 权限：
 - `nodes`
