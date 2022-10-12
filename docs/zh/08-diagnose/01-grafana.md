@@ -7,9 +7,9 @@ permalink: /diagnose/grafana
 
 ## 开启 debug 模式
 
-grafana url 中增加 `debug=true` search 参数
+grafana url 中增加 `debug=true` search 参数，例如：
 
 ```url
-  http://your.grafana?debug=true
-  http://your.grafana?xx=xx&debug=true
+http://your.grafana?debug=true
+http://your.grafana?xx=xx&debug=true
 ```
