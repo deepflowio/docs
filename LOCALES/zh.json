@@ -13,5 +13,6 @@
     "server-integration": "Server 数据集成",
     "server-integration/query": "查询数据",
     "server-integration/export": "输出数据",
+    "diagnose": "故障诊断",
     "release-notes": "发行注记"
 }
