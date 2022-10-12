@@ -13,5 +13,6 @@
     "server-integration": "Server Integration",
     "server-integration/query": "Data Querier",
     "server-integration/export": "Data Exporter",
+    "diagnose": "Diagnose",
     "release-notes": "Release Notes"
 }
