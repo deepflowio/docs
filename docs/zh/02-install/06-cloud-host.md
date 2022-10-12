@@ -45,7 +45,7 @@ DeepFlow 目前支持如下公有云的资源信息同步（标记为 `TBD` 的�
 | Huawei Cloud     | 华为云           | huawei                   |
 | Microsoft Azure  | 微软云           | `TBD`                    |
 | QingCloud        | 青云             | qingcloud                |
-| Tencent Cloud    | 腾讯云           | `TBD`                    |
+| Tencent Cloud    | 腾讯云           | tencent                  |
 
 可通过 `deepflow-ctl domain example <domain_type>` 命令获取创建公有云 Domain 的配置文件模板。
 以阿里云为例：

@@ -53,7 +53,7 @@ helm install deepflow-agent -n deepflow deepflow/deepflow-agent --create-namespa
     --set deepflowServerNodeIPS={$DEEPFLOW_SERVER_NODE_IPS}
 ```
 
-因此上述部署过程中需要将 deepflow-agent 的 `deepflowServerNodeIps` 配置为 K8s 集群的一个或多个 Node IP。
+我们建议上述部署过程中将 deepflow-agent 的 `deepflowServerNodeIps` 配置为 K8s 集群的一个或多个相对固定的 Node IP。
 
 注意：
 - 若不同 K8s 集群的 CA 文件一样，部署时需要传入使用 `deepflow-ctl` 获取到的 `kubernetesClusterId`：
