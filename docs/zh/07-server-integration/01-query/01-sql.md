@@ -156,7 +156,7 @@ SELECT pod FROM `vtap_flow_port.1m` WHERE pod_cluster = "cluster1" AND time > 12
 
 注意：仅当 pod 中曾经有流量（且不使用 HostNetwork 时）才能在 `flow_metrics` 中查到数据。当我们在集成 Prometheus 或 Telegraf 数据以后，也可借用这其中恒定存在的指标来辅助获取 Tag 取值。例如，我们可使用 `ext_metrics` 中的 Prometheus 指标实现上述需求：
 ```SQL
-SELECT pod FROM `prometheus.kube_pod_start_time` WHERE pod_cluster = "a" GROUP BY pod
+SELECT pod FROM `prometheus.kube_pod_start_time` WHERE pod_cluster = "cluster1" GROUP BY pod
 ```
 
 ## 获取指定数据表中的 Metrics
