@@ -3,6 +3,33 @@ title: DeepFlow 6.1 Release Notes
 permalink: /release-notes/release-6.1
 ---
 
+# 6.1.4 [2022/10/12]
+
+## 新特性
+
+- AutoTagging
+  - 支持同步腾讯公有云的资源信息，并作为标签自动注入到观测数据中
+- AutoTracing
+  - 在无法运行 eBPF 的环境中支持关联应用 Span 和网络 Span，消除追踪盲点
+- SQL API
+  - show tags 新增返回 map 类型的字段，例如 labels、attributes、tags
+  - show tag values 新增 limit、offset、like 参数
+- 生产环境部署
+  - 支持使用托管的 ClickHouse 和 MySQL
+  - deepflow-agent 未完成注册时支持由 deepflow-server 下发配置
+- Grafana
+  - 新增 DeepFlow 自我监控的 Dashboard
+
+## 优化
+
+- SQL API
+  - OTel Span 中的指标数据支持通过 show metrics API 返回
+- 系统能力
+  - 支持不依赖 sidecar 完成 deepflow-server master 选举
+  - deepflow-server 支持向后兼容 deepflow-agent
+  - 默认与 deepflow-server 所在容器节点的 NTP 服务器同步
+  - 规范化进程的 -v 输出
+
 # 6.1.3 [2022/09/23]
 
 ## 应用
