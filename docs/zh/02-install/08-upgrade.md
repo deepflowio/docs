@@ -38,17 +38,7 @@ helm upgrade deepflow-agent -n deepflow deepflow/deepflow-agent -f values-custom
 
 ## 远程升级云服务器中的 Agent
 
-通过 deepflow-ctl 升级云服务器和传统服务器上部署的 DeepFlow Agent：
-
-```bash
-curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/agent/stable/linux/amd64/deepflow-agent.tar.gz
-tar -zxvf deepflow-agent.tar.gz -C /usr/sbin/
-deepflow-ctl agent list # get your cloud-host and legacy-host agent name
-for AGENT in $(deepflow-ctl agent list | grep -E " CHOST_[VB]M " | awk '{print $1}')
-  do 
-    deepflow-ctl agent-upgrade $AGENT --package=/usr/sbin/deepflow-agent
-  done
-```
+TODO
 
 # 获取最新 DeepFlow Grafana dashboard
 
