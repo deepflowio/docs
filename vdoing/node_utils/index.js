@@ -38,6 +38,14 @@ function createREADMEFileAndSetFrontmatterAndGetSideBar (sourceDir, themeConfig)
 
     sidebarData['/'] = en
 
+    // 新增企业版用户手册 放在数据集成后面 仅中文存在
+    sidebarData['/zh/'].splice((sidebarData['/zh/'].findIndex(item => item.title === 'Server 数据集成') || -1) + 1, 0, {
+        children: [],
+        collapsable: true,
+        path: 'https://deepflow.yunshan.net/cloud-help-docs/dashboard/overview/',
+        title: '企业版用户手册'
+    })
+
     return {
         sidebarData,
         simpledSidebarData: simplifySidebarData(sidebarData)
