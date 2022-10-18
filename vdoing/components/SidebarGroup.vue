@@ -27,6 +27,19 @@
       <span>{{ item.title }}</span>
     </router-link>
 
+    <a
+      class="sidebar-heading clickable"
+      :href="item.href"
+      v-else-if="item.href"
+    >
+      <span
+        class="arrow"
+        v-if="collapsable"
+        :class="open ? 'down' : 'right'"
+      ></span>
+      <span>{{ item.title }}</span>
+    </a>
+
     <p
       v-else
       class="sidebar-heading"

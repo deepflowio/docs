@@ -42,7 +42,7 @@ function createREADMEFileAndSetFrontmatterAndGetSideBar (sourceDir, themeConfig)
     sidebarData['/zh/'].splice((sidebarData['/zh/'].findIndex(item => item.title === 'Server 数据集成') || -1) + 1, 0, {
         children: [],
         collapsable: true,
-        path: 'https://deepflow.yunshan.net/cloud-help-docs/dashboard/overview/',
+        href: 'https://deepflow.yunshan.net/cloud-help-docs/dashboard/overview/',
         title: '企业版用户手册'
     })
 

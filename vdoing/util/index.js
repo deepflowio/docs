@@ -75,9 +75,9 @@ export function resolvePage (pages, rawPath, base) {
   }
 
   for (let i = 0; i < pages.length; i++) {
-    const { title, headers, collapsable, basePath, regularPath, path } = pages[i]
+    const { title, headers, collapsable, basePath, regularPath, path, href } = pages[i]
     pageMap.set(normalize(regularPath), {
-      title, headers, collapsable, basePath,
+      href, title, headers, collapsable, basePath,
       type: 'page',
       path: ensureExt(path)
     })
@@ -255,6 +255,7 @@ function resolveItem (item, pages, base, groupDepth = 1) {
     return {
       type: 'group',
       path: item.path && (base + item.path.substring(1)),
+      href: item.href,
       title: item.title,
       sidebarDepth: item.sidebarDepth,
       initialOpenGroupIndex: item.initialOpenGroupIndex,
