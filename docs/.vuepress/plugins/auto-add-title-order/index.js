@@ -27,7 +27,9 @@ module.exports = function (md, config) {
             cacheTitleOrder[leavel] = 1
         }
 
-        const currentLeavel = cacheTitleOrder.join('.') + '. ' // 1. 
+        const _cacheTitleOrder = cacheTitleOrder.filter(Boolean) // [null, 1]
+
+        const currentLeavel = _cacheTitleOrder.join('.') + (_cacheTitleOrder.length === 1 ? '. ' : ' ') // 1. 2.2
         const nextToken = tokens[idx + 1]
         nextToken.content = currentLeavel + nextToken.content
         nextToken.children[nextToken.children.length - 1].content = currentLeavel + nextToken.children[nextToken.children.length - 1].content
