@@ -59,6 +59,9 @@ function addSuffixAndCheckValidUrl (url = '', sidebar = {}, suffix = '/', { rela
     const totalPage = []
     Object.keys(sidebar).map(key => {
         sidebar[key].forEach(path => {
+            if(!path.new){
+                return false
+            }
             // 补全 / 后缀
             let newPath = path.new.endsWith(suffix) ? path.new : path.new + suffix
             // 去掉第一个 / 然后添加语言
