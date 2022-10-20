@@ -74,9 +74,13 @@ deepflow-agent 运行需要的权限如下：
     - 当该值不为 1 时，deepflow-agent 会尝试修改为 1，若修改失败会打印 WARN 日志提醒 eBPF 性能会受到显著影响
     - K8s 下 deepflow-agent DaemonSet 会默认开启一个特权 init container 将该值设置为 1 以保证 deepflow-agent 运行于非特权模式下，可关闭
     - 为了避免赋予`写`权限并获得良好的 eBPF 性能，用户可提前将该值设置为 1
-  - 目录只读权限： `/sys/kernel/debug/` (必须，若不具备只读权限则无法开启 eBPF )
+  - 目录只读权限：`/sys/kernel/debug/` (必须，若不具备只读权限则无法开启 eBPF )
     - 由于 eBPF kprobe、uprobe 类型探测点的 attach/detach 操作依赖于内核的 debug 子系统，因此 /sys/kernel/debug/ 需要只读权限  
     - 由于该目录只能 root 用户访问，所以 deepflow-agent 只能以 root 用户运行
+  - 目录只读权限：`/var/run/netns` (可选，若不具备则影响获取容器的网络命名空间性能 )
+    - deepflow-agent 会优先从这个目录获取容器的网络命名空间，如果目录不存在，则通过 `/proc/$pid/ns/net` 来获取容器的网络命名空间，此时有两个问题：
+        - 进程停止了，这个文件会消失
+        - 不同的 pid 可能对应同一个命名空间
 
 deepflow-agent 同步 K8s 资源和 Label 信息时需要以下资源的 get/list/watch 权限：
 - `nodes`
