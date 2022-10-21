@@ -15,7 +15,7 @@ DeepFlow 开源之前已经迭代到了 v6.1.0，2022 年 7 月计划发布的 v
   - [x] 支持对部分同步非阻塞调用（NIO，Non-blocking IO）场景下任意服务组成的分布式调用链进行追踪
   - [x] 支持内核线程调度（[kernel-level threading](https://en.wikipedia.org/wiki/Thread_(computing))）场景
   - [x] 支持解析请求中的 X-Request-ID 等字段对采用 NIO 模式的网关（如 Envoy）前后的调用链进行追踪
-  - [x] 集成 OpenTelemetry 追究，并与 eBPF/cBPF 追踪数据关联，实现无盲点的分布式追踪
+  - [x] 集成 OpenTelemetry 追踪，并与 eBPF/cBPF 追踪数据关联，实现无盲点的分布式追踪
 - AutoTagging & SmartEncoding
   - [x] 自动注入 K8s 资源标签、自定义 Label 标签
   - [x] 自动注入公有云资源标签
