@@ -12,7 +12,6 @@ permalink: /install/all-in-one
 ## 资源需求
 
 - 建议部署使用的虚拟机最低规格为 4C8G
-- 基于 eBPF 的 AutoTracing 能力要求 Linux Kernel 4.14+
 
 ## 部署 All-in-One K8s
 
