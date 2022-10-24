@@ -35,31 +35,32 @@ deepflow-agent 的 eBPF 能力对内核版本的要求：
 - 通过 eBPF 实现 AutoTracing
 
 deepflow-agent 运行权限的要求：
-- [必须] 当运行于 K8s 环境下，采集 K8s 信息需要的权限包括
-  - 内核权限：`SYS_ADMIN`、`SYS_PTRACE`
-  - 容器权限：`HOST_PID`
-- [必须] 采集 AF\_PACKET 流量需要的权限包括
-  - 内核权限：`NET_RAW`、`NET_ADMIN`
-  - 容器权限：`HOST_NET`
-- [建议] 采集 AF\_PACKET 流量需要的权限包括（不具备权限时 cBPF 性能会受到显著影响）
-  - 内核权限：`IPC_LOCK`（MAP\_LOCKED、MAP\_NORESERVE）
-- [必须] 采集 eBPF 数据需要的权限包括（必须）
-  - 内核权限：`SYS_ADMIN`、`SYS_RESOURCE`
-  - 系统权限：`SELINUX = disabled`
-- 采集 eBPF 数据需要的文件读写权限
-  - [必须] 目录只读权限：`/sys/kernel/debug/`（不具备读权限则无法开启 eBPF）
-    - 由于 eBPF kprobe、uprobe 类型探测点的 attach/detach 操作依赖于内核的 debug 子系统，因此 /sys/kernel/debug/ 需要读权限
-    - 由于该目录只能 root 用户访问，所以 deepflow-agent 只能以 root 用户运行
-  - [建议] 文件读写权限：`/proc/sys/net/core/bpf_jit_enable`（文件内容不等于 1 时 eBPF 性能会受到显著影响）
-    - 当该值为 1 时，deepflow-agent 会读取该值，若不具备读取权限会打印 WARN 日志提醒
-    - 当该值不为 1 时，deepflow-agent 会尝试修改为 1，若修改失败会打印 WARN 日志提醒
-    - 为了避免赋予`写`权限并获得良好的 eBPF 性能，用户可提前将该值设置为 1
-    - K8s 下 deepflow-agent DaemonSet 会默认开启一个特权 init container 将该值设置为 1 以保证 deepflow-agent 运行于非特权模式下
-  - [建议] 目录只读权限：`/var/run/netns`（不具备则影响获取容器网络命名空间的性能）
+- 当运行于 K8s 环境下，采集 K8s 信息需要的权限包括
+  - `[必须]` 容器权限：`HOST_PID`
+  - `[必须]` 内核权限：`SYS_ADMIN`、`SYS_PTRACE`
+  - `[建议]` 文件权限：`/var/run/netns` 目录只读权限
+    - 不具备该权限时，会影响获取容器网络命名空间的性能
     - deepflow-agent 会优先从这个目录获取容器的网络命名空间
     - 如果无法访问此目录则通过 `/proc/$pid/ns/net` 来获取容器的网络命名空间，此时有两个问题：
       - 进程停止了，这个文件会消失
       - 不同的 PID 可能对应同一个命名空间
+- 采集 AF\_PACKET 流量需要的权限包括
+  - `[必须]` 容器权限：`HOST_NET`
+  - `[必须]` 内核权限：`NET_RAW`、`NET_ADMIN`
+  - `[建议]` 内核权限：`IPC_LOCK`（包含 MAP\_LOCKED、MAP\_NORESERVE）
+    - 不具备该权限时 cBPF 性能会受到显著影响，且会打印 WARN 日志提醒
+- 采集 eBPF 数据需要的权限包括
+  - `[必须]` 系统权限：`SELINUX = disabled`
+  - `[必须]` 内核权限：`SYS_ADMIN`、`SYS_RESOURCE`
+  - `[必须]` 文件权限：`/sys/kernel/debug/` 目录只读权限
+    - 由于 kprobe、uprobe 类型探测点的 attach/detach 操作依赖于内核 debug 子系统，不具备该权限则无法开启 eBPF
+    - 同时，由于该目录只能由 root 用户访问，所以 deepflow-agent 进程`只能以 root 用户运行`
+  - `[建议]` 文件权限：`/proc/sys/net/core/bpf_jit_enable` 文件读写权限
+    - 该文件内容不等于 1 时 eBPF 性能会受到显著影响
+      - 当该值为 1 时，deepflow-agent 会读取该值，若不具备读取权限会打印 WARN 日志提醒
+      - 当该值不为 1 时，deepflow-agent 会尝试修改为 1，若修改失败会打印 WARN 日志提醒
+    - 如果希望在不赋予`写权限`的同时获得良好的 eBPF 性能，用户可提前将该文件内容设置为 1
+    - K8s 下 deepflow-agent DaemonSet 会默认开启一个特权 init container 将该值设置为 1，使得 deepflow-agent 可运行于非特权模式下
 
 deepflow-agent 调用 K8s apiserver 同步信息需要以下资源的 get/list/watch 权限：
 - `nodes`
