@@ -31,11 +31,33 @@ end
 
 ## 更新 deepflow-server 配置
 
+检查服务器所有的网段是否在以下网段列表中
+```yaml
+local_ip_ranges:
+- 10.0.0.0/8
+- 172.16.0.0/12
+- 192.168.0.0/16
+- 169.254.0.0/15
+- 224.0.0.0-240.255.255.255
+```
+若不在，需要在下面自定义配置文件内 `local_ip_ranges` 列表中添加缺失的服务器网段。
+
 修改 `values-custom.yaml` 自定义配置文件：
 ```yaml
 # add
-config:
-  tridentTypeForUnkonwVtap: 3
+configmap:
+  server.yaml:
+    controller:
+      genesis:
+        local_ip_ranges:
+        - 10.0.0.0/8
+        - 172.16.0.0/12
+        - 192.168.0.0/16
+        - 169.254.0.0/15
+        - 224.0.0.0-240.255.255.255
+        # - 7.8.0.0/16  # FIXME: your host all network cidr
+      trisolaris:
+        trident-type-for-unkonw-vtap: 3  # required
 ```
 
 更新 deepflow
@@ -88,7 +110,7 @@ deepflow-ctl agent-group-config create -f agent-group-config.yaml
 @tab rpm
 
 ```bash
-curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/rpm/agent/stable/linux/amd64/deepflow-agent-rpm.zip
+curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/rpm/agent/stable/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent-rpm.zip
 unzip deepflow-agent-rpm.zip
 yum -y localinstall x86_64/deepflow-agent-1.0*.rpm
 ```
@@ -96,7 +118,7 @@ yum -y localinstall x86_64/deepflow-agent-1.0*.rpm
 @tab deb
 
 ```bash
-curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/deb/agent/stable/linux/amd64/deepflow-agent-deb.zip
+curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/deb/agent/stable/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent-deb.zip
 unzip deepflow-agent-deb.zip
 dpkg -i x86_64/deepflow-agent-1.0*.systemd.deb
 ```
@@ -104,7 +126,7 @@ dpkg -i x86_64/deepflow-agent-1.0*.systemd.deb
 @tab binary file
 
 ```bash
-curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/agent/stable/linux/amd64/deepflow-agent.tar.gz
+curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/agent/stable/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent.tar.gz
 tar -zxvf deepflow-agent.tar.gz -C /usr/sbin/
 
 cat << EOF > /etc/systemd/system/deepflow-agent.service
