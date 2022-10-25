@@ -159,6 +159,12 @@ SELECT pod FROM `vtap_flow_port.1m` WHERE pod_cluster = 'cluster1' AND time > 12
 SELECT pod FROM `prometheus.kube_pod_start_time` WHERE pod_cluster = 'cluster1' GROUP BY pod
 ```
 
+在 Grafana 中，我们也可利用上述能力实现 Variable 候选项的联动过滤，例如我们使用一个自定义的 Variable $cluster 和内置的 Variable [`$__from、$__to`](https://grafana.com/docs/grafana/latest/dashboards/variables/add-template-variables/#__from-and-__to) 对另一个 Variable pod 进行联动过滤：
+```SQL
+// Add 5 minutes before and after the time range to avoid frequent changes of candidates
+SELECT pod FROM `vtap_flow_port.1m` WHERE pod_cluster = $cluster AND time >= ${__from:date:seconds}-500 AND time <= ${__to:date:seconds}+500 GROUP BY pod
+```
+
 ## 获取指定数据表中的 Metrics
 
 SQL 语句：
