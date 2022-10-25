@@ -65,6 +65,7 @@ export default ({
           if (typeof window === 'undefined') {
             return context
           }
+          context.name = window.location.pathname
           const from = getUrlParam(window.location.href, 'from') || sessionStorage.getItem("YS_COMMUNITY_DOCS_FROM") || ''
           from && sessionStorage.setItem("YS_COMMUNITY_DOCS_FROM", from)
           context.tags = context.tags || {}
