@@ -21,7 +21,7 @@ helm upgrade deepflow -n deepflow deepflow/deepflow -f values-custom.yaml
 下载最新的 deepflow-ctl:
 
 ```bash
-curl -o /usr/bin/deepflow-ctl https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/ctl/stable/linux/amd64/deepflow-ctl
+curl -o /usr/bin/deepflow-ctl https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/ctl/stable/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-ctl
 chmod a+x /usr/bin/deepflow-ctl
 ```
 
