@@ -38,6 +38,15 @@ export default ({
   router, // 当前应用的路由实例
   siteData // 站点元数据
 }) => {
+  router.options.routes = router.options.routes.map(item => {
+    if ('name' in item) {
+      return {
+        ...item,
+        name: item.path,
+      }
+    }
+    return item
+  })
   // 修复ISO8601时间格式为普通时间格式，以及添加作者信息
   siteData.pages.map(item => {
     const { frontmatter: { date, author } } = item
@@ -65,7 +74,6 @@ export default ({
           if (typeof window === 'undefined') {
             return context
           }
-          context.name = window.location.pathname
           const from = getUrlParam(window.location.href, 'from') || sessionStorage.getItem("YS_COMMUNITY_DOCS_FROM") || ''
           from && sessionStorage.setItem("YS_COMMUNITY_DOCS_FROM", from)
           context.tags = context.tags || {}
