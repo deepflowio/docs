@@ -32,21 +32,29 @@ Router.prototype.match = function match (raw, currentRoute, redirectedFrom) {
   return VueRouterMatch.call(this, raw, currentRoute, redirectedFrom)
 }
 
+const createRouter = (routes) =>
+  new Router({
+    mode: 'history',
+    routes: routes.map(item => {
+      if ('name' in item) {
+        return {
+          ...item,
+          name: item.path,
+        }
+      }
+      return item
+    })
+  })
+
 export default ({
   Vue, // VuePress 正在使用的 Vue 构造函数
   options, // 附加到根实例的一些选项
   router, // 当前应用的路由实例
   siteData // 站点元数据
 }) => {
-  router.options.routes = router.options.routes.map(item => {
-    if ('name' in item) {
-      return {
-        ...item,
-        name: item.path,
-      }
-    }
-    return item
-  })
+  // 用初始化的matcher替换当前router的matcher 为了修改name
+  router.matcher = createRouter(router.options.routes).matcher
+
   // 修复ISO8601时间格式为普通时间格式，以及添加作者信息
   siteData.pages.map(item => {
     const { frontmatter: { date, author } } = item
