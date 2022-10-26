@@ -108,12 +108,13 @@ function handleFileAndGetSideBar (sourceDir, files, currentFileName) {
         let permalink = matterData.permalink || getPermalink(filePath)
         sidebar.push([getPermalink1(filePath), title, permalink])
 
-        //
-        matterData.permalink = matterData.permalink || permalink
-
-        const newFileContent = jsonToYaml.stringify(matterData).replace(/\n\s{2}/g, "\n").replace(/"/g, "") + '---' + os.EOL + content;
-        // 把地址写入文件内
-        fs.writeFileSync(filePath, newFileContent);
+        if (!matterData.permalink && permalink) {
+            // 如果没有permalink 则需要回写到md中
+            matterData.permalink = permalink
+            const newFileContent = jsonToYaml.stringify(matterData).replace(/\n\s{2}/g, "\n").replace(/"/g, "") + '---' + os.EOL + content;
+            // 把地址写入文件内
+            fs.writeFileSync(filePath, newFileContent);
+        }
     })
 
     return {
