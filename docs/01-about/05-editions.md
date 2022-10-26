@@ -12,7 +12,7 @@ DeepFlow Community Edition is an open source version of a highly automated obser
 - AutoMetrics: Based on eBPF/BPF, automatic collection of application and network full-stack performance metrics
 - AutoTracing: Based on eBPF/BPF, automatically trace the distributed call chain of microservices
 - AutoLogging: Based on eBPF/BPF, automatically collect TCP/UDP flow log
-- AutoLogging: Based on eBPF/BPF, automatically collect access logs of applications such as HTTP1/2/S, Dubbo, MySQL, Redis, Kafka, MQTT, DNS
+- AutoLogging: Based on eBPF/BPF, automatically collect access logs of applications such as HTTP1/2, HTTPS (Golang/openssl), Dubbo, MySQL, PostgreSQL, Redis, Kafka, MQTT, DNS
 - Integration: Integrate indicator data such as Prometheus/Telegraf to solve the problem of data islands and high cardinality
 - Integration: Integrate tracking data such as OpenTelemetry/SkyWalking to achieve distributed tracking without blind spots
 - Integration: Integrate external log data sources such as Fluentd to solve the problem of high resource consumption of log storage

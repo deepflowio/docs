@@ -50,6 +50,14 @@ remote_write:
   - url: http://${DEEPFLOW_AGENT_SVC}/api/v1/prometheus
 ```
 
+## 配置 remote_read
+
+如果希望 Prometheus 从 DeepFlow 查询数据，需要配置 Prometheus 的 `remote_read`（请修改 `DEEPFLOW_SERVER_SVC`）：
+```yaml
+remote_read:
+  - url: http://${DEEPFLOW_SERVER_SVC}/api/v1/prom/read
+```
+
 # 配置 DeepFlow
 
 请参考[配置 DeepFlow](../tracing/opentelemetry/#配置-deepflow) 一节内容，完成 DeepFlow Agent 配置。

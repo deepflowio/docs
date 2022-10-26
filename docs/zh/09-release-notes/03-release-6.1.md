@@ -3,6 +3,43 @@ title: DeepFlow 6.1 Release Notes
 permalink: /release-notes/release-6.1
 ---
 
+# 6.1.5 [2022/10/26]
+
+## 新特性
+
+- AutoMetrics、AutoTracing、AutoLogging
+  - 支持采集 PostgreSQL 的性能指标及访问日志，并关联至分布式追踪中
+  - 支持采集使用 openssl 库的 HTTPS 性能指标和访问日志，并关联至分布式追踪中
+- Integration
+  - deepflow-server 支持为 Prometheus 提供 RemoteRead 接口
+  - deepflow-agent 支持跳过 otel-collector 直接接收 OpenTelemetry 数据
+  - Grafana Variable 的查询语句中支持使用自定义变量和内置变量，[详见文档](https://deepflow.yunshan.net/docs/zh/server-integration/query/sql/#使用-tag-自身名称过滤)，使用场景包括：
+    - 利用变量 pod\_cluster 的当前选择值过滤变量 pod 的取值范围
+    - 利用变量 ingress\_wildcard 的输入内容改变变量 ingress 的取值范围
+    - 利用内置变量 `$__from` 和 `$__to` 的当前取值提升变量取值范围的查询速度
+  - Grafana 中增加两个零侵扰的可观测性 Dashboard：K8s Ingresss、SQL Monitoring
+- SQL API
+  - `string_enum` 和 `int_enum` 类型的 Tag 支持利用 `Enum()` 函数将 Value 翻译为 Name，用于查询过滤和结果返回
+  - 支持 SELECT tags/attributes/labels 查询每一行数据的所有 tag.X/attribute.X/label.X 字段，无需指定具体的字段名
+- 管理
+  - 支持 ClickHouse 冷数据使用磁盘（作为对象存储的替代）
+  - 支持使用 `deepflow-ctl agent rebalance` 均衡 deepflow-agent 到新增和恢复的 deepflow-server
+
+## 优化
+
+- AutoLogging
+  - 梳理应用协议解析流程，降低[添加支持更多应用协议](https://github.com/deepflowys/deepflow/blob/main/docs/HOW_TO_SUPPORT_YOUR_PROTOCOL_CN.MD)的门槛
+- AutoTagging
+  - 增加 `deepflow-ctl cloud info` 命令调试从云平台 API 同步到的资源信息
+- SmartEncoding
+  - 循环复用已删除资源的 Tag 编码值，提升压缩率和查询速度
+- SQL API
+  - 优化 server\_port Tag 字段枚举值的 display\_name，包含对应的 int value 以避免含义不明
+- 管理
+  - deepflow-server 修改为使用 Deployment Controller 部署，**升级时请注意更新 helm chart**
+  - deepflow-agent 支持运行于非特权模式下，具体权限需求请[参考文档](https://deepflow.yunshan.net/docs/zh/install/overview/#运行权限及内核要求)
+  - 优化 Prometheus 指标与 DeepFlow Table 的映射关系，每个 Metrics 对应一个 Table
+
 # 6.1.4 [2022/10/12]
 
 ## 新特性

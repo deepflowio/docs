@@ -8,9 +8,9 @@ permalink: /about/milestone
 DeepFlow has been iterated to v6.1.0 before open source, and v6.1.1 planned to be released in July 2022 will be the first downloadable community version, which will have the following features:
 - AutoMetrics
   - [x] TCP network performance indicators based on BPF+AF\_PACKET
-  - [x] HTTP1/2, Dubbo, MySQL, Redis, Kafka, MQTT, DNS application protocol resolution capabilities based on BPF+AF\_PACKET
-  - [x] HTTP1/2, Dubbo, MySQL, Redis, Kafka, MQTT, DNS application protocol resolution capabilities based on eBPF tracepoint/kprobe
-  - [x] Golang application HTTPS protocol parsing capability based on eBPF USDT/uprobe
+  - [x] HTTP1/2, Dubbo, MySQL, PostgreSQL, Redis, Kafka, MQTT, DNS application protocol resolution capabilities based on BPF+AF\_PACKET
+  - [x] HTTP1/2, Dubbo, MySQL, PostgreSQL, Redis, Kafka, MQTT, DNS application protocol resolution capabilities based on eBPF tracepoint/kprobe
+  - [x] Golang and openssl application HTTPS protocol parsing capability based on eBPF USDT/uprobe
 - AutoTracing
   - [x] AutoTracing distributed link tracing capability based on eBPF
   - [x] Support to trace the distributed call chain composed of any service in all synchronous blocking call (BIO, Blocking IO) scenarios
@@ -30,9 +30,6 @@ DeepFlow has been iterated to v6.1.0 before open source, and v6.1.1 planned to b
   - [x] Use ClickHouse as storage engine
 
 There are many more exciting features of DeepFlow waiting for us to develop together with the community in the future, including:
-- AutoMetrics
-  - [ ] AutoMetrics capability based on BPF+Winpcap
-  - [ ] C/C++/Java/Golang and other applications based on eBPF USDT/uprobe HTTP2/HTTPS protocol parsing capability
 - AutoTracing
   - [ ] Support more synchronous non-blocking call (NIO, Non-blocking IO) scenarios
   - [ ] Support asynchronous call (AIO, Asynchronous IO) scenarios

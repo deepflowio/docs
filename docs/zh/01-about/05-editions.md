@@ -12,7 +12,7 @@ DeepFlow 社区版是一个开源版本，是一个高度自动化的可观测�
 - AutoMetrics：基于 eBPF/BPF，自动采集应用、网络全栈性能指标
 - AutoTracing：基于 eBPF/BPF，自动追踪微服务分布式调用链
 - AutoLogging：基于 eBPF/BPF，自动采集 TCP/UDP 流日志
-- AutoLogging：基于 eBPF/BPF，自动采集 HTTP1/2/S、Dubbo、MySQL、Redis、Kafka、MQTT、DNS 等应用的访问日志
+- AutoLogging：基于 eBPF/BPF，自动采集 HTTP1/2、HTTPS（Golang/openssl）、Dubbo、MySQL、PostgreSQL、Redis、Kafka、MQTT、DNS 等应用的访问日志
 - Integration：集成 Prometheus/Telegraf 等指标数据，解决数据孤岛和高基数问题
 - Integration：集成 OpenTelemetry/SkyWalking 等追踪数据，实现无盲点分布式追踪
 - Integration：集成 Fluentd 等日志数据源，解决日志存储的高资源消耗问题

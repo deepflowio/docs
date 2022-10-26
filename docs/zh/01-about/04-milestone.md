@@ -6,9 +6,9 @@ permalink: /about/milestone
 DeepFlow 开源之前已经迭代到了 v6.1.0，2022 年 7 月计划发布的 v6.1.1 将会是首个可下载使用的社区版，届时将具备如下特性：
 - AutoMetrics
   - [x] 基于 BPF+AF\_PACKET 的 TCP 网络性能指标
-  - [x] 基于 BPF+AF\_PACKET 的 HTTP1/2、Dubbo、MySQL、Redis、Kafka、MQTT、DNS 应用协议解析能力
-  - [x] 基于 eBPF tracepoint/kprobe 的 HTTP1/2、Dubbo、MySQL、Redis、Kafka、MQTT、DNS 应用协议解析能力
-  - [x] 基于 eBPF USDT/uprobe 的 Golang 应用 HTTPS 协议解析能力
+  - [x] 基于 BPF+AF\_PACKET 的 HTTP1/2、Dubbo、MySQL、PostgreSQL、Redis、Kafka、MQTT、DNS 应用协议解析能力
+  - [x] 基于 eBPF tracepoint/kprobe 的 HTTP1/2、Dubbo、MySQL、PostgreSQL、Redis、Kafka、MQTT、DNS 应用协议解析能力
+  - [x] 基于 eBPF USDT/uprobe 的 Golang/openssl 应用 HTTPS 协议解析能力
 - AutoTracing
   - [x] 基于 eBPF 的 AutoTracing 分布式链路追踪能力
   - [x] 支持对所有同步阻塞调用（BIO，Blocking IO）场景下任意服务组成的分布式调用链进行追踪
@@ -28,14 +28,11 @@ DeepFlow 开源之前已经迭代到了 v6.1.0，2022 年 7 月计划发布的 v
   - [x] 使用 ClickHouse 作为存储引擎
 
 DeepFlow未来还有很多激动人心的特性等待我们和社区一起开发，包括：
-- AutoMetrics
-  - [ ] 基于 BPF+Winpcap 的 AutoMetrics 能力
-  - [ ] 基于 eBPF USDT/uprobe 的 C/C++/Java/Golang 等应用 HTTP2/HTTPS 协议解析能力
 - AutoTracing
   - [ ] 支持更多同步非阻塞调用（NIO，Non-blocking IO）场景
   - [ ] 支持异步调用（AIO，Asynchronous IO）场景
   - [ ] 支持协程调度（hybrid threading）场景
-  - [ ] 增强和 OpenTelemetry 的集成能力，通过 eBPF 插入OTel Tracer API
+  - [ ] 增强和 OpenTelemetry 的集成能力，通过 eBPF 插入 OTel Tracer API
 - AutoTagging & SmartEncoding
   - [ ] 同步服务注册中心，自动注入服务和 API 属性信息
   - [ ] 非容器环境下自动同步并注入进程标签信息
