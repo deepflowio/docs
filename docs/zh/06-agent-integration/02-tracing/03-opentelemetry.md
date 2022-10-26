@@ -5,6 +5,7 @@ permalink: /agent-integration/tracing/opentelemetry
 
 # 数据流
 
+通过 otel-collector 发送至 deepflow-agent：
 ```mermaid
 flowchart TD
 
@@ -30,6 +31,32 @@ subgraph Host
 
   OTelSDK2 -->|traces| OTelAgent2
   OTelAgent2 -->|traces| DeepFlowAgent2
+  DeepFlowAgent2 -->|traces| DeepFlowServer
+end
+```
+
+直接发送至 deepflow-agent：
+```mermaid
+flowchart TD
+
+subgraph K8s-Cluster
+  subgraph AppPod
+    OTelSDK1["otel-sdk / otel-javaagent"]
+  end
+  DeepFlowAgent1["deepflow-agent (daemonset)"]
+  DeepFlowServer["deepflow-server (statefulset)"]
+
+  OTelSDK1 -->|traces| DeepFlowAgent1
+  DeepFlowAgent1 -->|traces| DeepFlowServer
+end
+
+subgraph Host
+  subgraph AppProcess
+    OTelSDK2["otel-sdk / otel-javaagent"]
+  end
+  DeepFlowAgent2[deepflow-agent]
+
+  OTelSDK2 -->|traces| DeepFlowAgent2
   DeepFlowAgent2 -->|traces| DeepFlowServer
 end
 ```

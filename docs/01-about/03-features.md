@@ -21,10 +21,10 @@ As can be seen from the way of data collection, DeepFlow can automatically colle
   - Linux, Windows, Android and other operating systems
   - Layer 7 gateways such as Envoy, Nginx, and HAProxy
   - Layer 4 gateways such as NLB and NATGW
-  - Databases such as MySQL and Redis
+  - Databases such as MySQL, PostgreSQL, and Redis
   - Message queues such as Kafka
 
-At present, DeepFlow has already supported the parsing of mainstream application protocols through eBPF, including HTTP 1/2/S, Dubbo, MySQL, Redis, Kafka, MQTT, DNS, and will expand the support of more application protocols in the future. Based on the AutoMetrics capability of DeepFlow, it can acquire application RED (Request, Error, Delay) indicators, network protocol stack throughput, delay, abnormal connection establishment, retransmission, zero window and other indicators with zero intrusion. DeepFlow Agent will maintain the session state of each TCP connection and each application protocol Request, which is called `Flow`. All raw performance indicator data is refined to Flow granularity, and additionally automatically aggregated into 1s and 1min indicator data. Through these metrics data, we can present performance data of any service, workload, and API, and draw a topology map of the call relationship between any service, `Universal Service Map`.
+At present, DeepFlow has already supported the parsing of mainstream application protocols through eBPF, including HTTP 1/2, HTTPS (Golang/openssl), Dubbo, MySQL, PostgreSQL, Redis, Kafka, MQTT, DNS, and will expand the support of more application protocols in the future. Based on the AutoMetrics capability of DeepFlow, it can acquire application RED (Request, Error, Delay) indicators, network protocol stack throughput, delay, abnormal connection establishment, retransmission, zero window and other indicators with zero intrusion. DeepFlow Agent will maintain the session state of each TCP connection and each application protocol Request, which is called `Flow`. All raw performance indicator data is refined to Flow granularity, and additionally automatically aggregated into 1s and 1min indicator data. Through these metrics data, we can present performance data of any service, workload, and API, and draw a topology map of the call relationship between any service, `Universal Service Map`.
 
 ![Universal Service Map](./imgs/universal-service-map.png)
 
