@@ -28,6 +28,7 @@ permalink: /install/overview
 deepflow-agent 的 eBPF 能力对内核版本的要求：
 - X86 体系架构：Linux Kernel 4.14+
   - 例外：使用 uprobe 采集 openssl 库的 TLS 应用数据要求 Linux Kernel 4.17+
+  - 在内核 `Linux 4.14` 下一个 `tracepoint` 不能被多个 eBPF program attach (即: 不能同时运行两个或多个agent), `Linux 4.15+` 不存在此问题
 - ARM64 体系架构：CentOS8 Linux Kernel 4.18，或社区 Linux Kernel 5.8+
 
 当内核版本无法满足要求时，受影响的功能有：
@@ -53,7 +54,6 @@ deepflow-agent 运行权限的要求：
   - `[必须]` 系统权限：`SELINUX = disabled`
   - `[必须]` 内核权限：`SYS_ADMIN`、`SYS_RESOURCE`
     - 在内核 `Linux 5.8+` 下可以不需要 `SYS_ADMIN`，使用 `BPF` 和 `PERFMON` 的组合替代
-    - 在内核 `Linux 4.14` 下一个 `tracepoint` 不能被多个eBPF program attach (即: 不能同时运行两个或多个agent), `Linux 4.15+` 不存在此问题
   - `[必须]` 文件权限：`/sys/kernel/debug/` 目录只读权限
     - 由于 kprobe、uprobe 类型探测点的 attach/detach 操作依赖于内核 debug 子系统，不具备该权限则无法开启 eBPF
     - 同时，由于该目录只能由 root 用户访问，所以 deepflow-agent 进程`只能以 root 用户运行`
