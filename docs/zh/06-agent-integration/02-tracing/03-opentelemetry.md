@@ -128,7 +128,7 @@ deepflow-ctl agent-group-config list
 
 若已有配置，将其导出至 yaml 文件中便于进行修改：
 ```bash
-deepflow-ctl agent-group-config list <your-agent-group-id> > your-agent-group-config.yaml
+deepflow-ctl agent-group-config list <your-agent-group-id> -o yaml > your-agent-group-config.yaml
 ```
 
 修改 yaml 文件，确认包含如下配置项：
