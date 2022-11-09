@@ -86,8 +86,9 @@ server:
 
 修改 deepflow-server 的 Service 类型为 LoadBalance 后，需要配置 agent-group-config 切换 deepflow-agent 请求的 deepflow-server 地址为 LoadBalance IP:
 ```yaml
-static_config:
-  analyzer-ip: "1.2.3.4"  # FIXME: Your LoadBalancer IP address
+proxy_controller_ip:  1.2.3.4  # FIXME: Your LoadBalancer IP address
+analyzer_ip: 1.2.3.4  # FIXME: Your LoadBalancer IP address
+proxy_controller_port: 30035 # The default is 30035
 analyzer_port: 30033 # The default is 30033
 ```
 注意：配置后会固定给采集器下发此 IP 作为数据传输 IP，并且采集器也会固定使用本地配置文件中的 controller-ips 请求 控制面 30035  端口获取配置信息。

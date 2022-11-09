@@ -38,7 +38,9 @@ deepflow-agent 的 eBPF 能力对内核版本的要求：
 deepflow-agent 运行权限的要求：
 - 当运行于 K8s 环境下，采集 K8s 信息需要的权限包括
   - `[必须]` 容器权限：`HOST_PID`
-  - `[必须]` 内核权限：`SYS_ADMIN`、`SYS_PTRACE`
+  - `[建议]` 内核权限：`SYS_ADMIN`
+    - 不具备该权限时使用解析 ARP/ICMPV6 包获取 rootns 下网卡名、Pod IP 和 Pod MAC 的映射关系，并打印 WARN 日志
+  - `[必须]` 内核权限：`SYS_PTRACE`
   - `[建议]` 文件权限：`/var/run/netns` 目录只读权限
     - 不具备该权限时，会影响获取容器网络命名空间的性能
     - deepflow-agent 会优先从这个目录获取容器的网络命名空间
@@ -52,8 +54,10 @@ deepflow-agent 运行权限的要求：
     - 不具备该权限时 cBPF 性能会受到显著影响，且会打印 WARN 日志提醒
 - 采集 eBPF 数据需要的权限包括
   - `[必须]` 系统权限：`SELINUX = disabled`
-  - `[必须]` 内核权限：`SYS_ADMIN`、`SYS_RESOURCE`
+  - `[建议]` 内核权限：`SYS_ADMIN`
     - 在内核 `Linux 5.8+` 下可以不需要 `SYS_ADMIN`，使用 `BPF` 和 `PERFMON` 的组合替代
+    - 使用 `SYS_ADMIN` 权限无内核 `Linux 5.8+` 版本依赖
+  - `[必须]` 内核权限：`SYS_RESOURCE`
   - `[必须]` 文件权限：`/sys/kernel/debug/` 目录只读权限
     - 由于 kprobe、uprobe 类型探测点的 attach/detach 操作依赖于内核 debug 子系统，不具备该权限则无法开启 eBPF
     - 同时，由于该目录只能由 root 用户访问，所以 deepflow-agent 进程`只能以 root 用户运行`
