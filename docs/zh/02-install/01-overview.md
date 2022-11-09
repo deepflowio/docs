@@ -81,3 +81,17 @@ deepflow-agent 调用 K8s apiserver 同步信息需要以下资源的 get/list/w
 - `statefulsets`
 - `ingresses`
 - `routes`
+
+另外关联 K8s 标签信息需要对 CNI 进行适配，目前 DeepFlow 已适配的 CNI 包括：
+- Flannel
+- Calico
+- Cilium
+- Multus
+- Open vSwitch
+- Weave
+- TKE GlobalRouter
+- TKE VPC-CNI
+- ACK Terway
+- QKE HostNIC
+- IPVlan
+- MACVlan [额外配置](./advanced-config/agent-advanced-config/#macvlan)
