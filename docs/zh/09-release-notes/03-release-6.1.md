@@ -3,6 +3,35 @@ title: DeepFlow 6.1 Release Notes
 permalink: /release-notes/release-6.1
 ---
 
+# 6.1.6 [2022/11/09]
+
+## 新特性
+
+- AutoLogging
+  - HTTP 协议增加 `attribute.http_user_agent` 和 `attribute.http_referer` 字段
+  - 增加 `attribute.rpc_service` 字段，取值为 Dubbo/gRPC 的 `ServiceName`
+  - 增加 `endpoint` 字段，取值为 Dubbo/gRPC 的 `ServiceName/MethodName`
+  - 支持将符合 gRPC 协议规范的 HTTP2 数据标记为 gRPC （而非 HTTP2）协议
+- AutoTagging
+  - 支持同步 AWS 公有云的资源信息，并作为标签自动注入到观测数据中
+  - 支持为公有云托管 K8s 集群的观测数据同时注入云资源和容器标签
+- 管理
+  - 支持配置 deepflow-agent 是否开启对各类应用协议的解析
+  - 支持配置 deepflow-agent 通过 eBPF uprobe 采集数据的 Golang/openssl 进程名正则表达式
+  - 支持 deepflow-agent standalone 模式，此时 Flow Log 和 Request Log 写入本地日志文件
+  - 支持 i18n，默认显示为英文
+
+## 优化
+
+- AutoLogging
+  - 匹配 SQL 关键词，降低 MySQL 和 PostgreSQL 协议识别的误报率
+- Grafana
+  - 在 Panel 的 Query Editor 中显示 SQL 查询语句，帮助开发者了解如何调用 API
+  - 优化 Distributed Tracing 火焰图中空字段信息的显示
+- 管理
+  - 优化 deepflow-server 和 clickhouse 之间的流量，优先写入同节点的 clickhouse Pod
+  - 支持压缩 deepflow-agent 接收的 OTel Span 数据，发送至 deepflow-server 时的带宽消耗可降低约 7 倍
+
 # 6.1.5 [2022/10/26]
 
 ## 新特性

@@ -39,7 +39,7 @@ DeepFlowServer -->|"get resource & label"| CloudAPI[cloud api service]
 DeepFlow 目前支持如下公有云的资源信息同步（标记为 `TBD` 的正在整理代码中）：
 | 云服务商（英文） | 云服务商（中文） | DeepFlow中使用的类型标识 |
 | ---------------- | ---------------- | ------------------------ |
-| AWS              | AWS              | `TBD`                    |
+| AWS              | AWS              | aws                      |
 | Aliyun           | 阿里云           | aliyun                   |
 | Baidu Cloud      | 百度云           | baidu\_bce               |
 | Huawei Cloud     | 华为云           | huawei                   |
