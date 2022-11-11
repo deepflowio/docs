@@ -124,9 +124,26 @@
               >登录</a
             >
           </li> -->
-          <li id="signup" class="sign-button color-nomal to-signup">
+          <!-- <li id="signup" class="sign-button color-nomal to-signup">
             立即体验
-          </li>
+          </li> -->
+          <div class="a-button-list-box">
+            <div class="a-button-list button-list">
+              <li class="sign-button">立即体验</li>
+              <ul class="a-button-dropdown-list">
+                <li id="experience-immediately">
+                  <a
+                    class="color-nomal"
+                    target="_blank"
+                    id="signin"
+                    href="/signup.html"
+                    >企业版体验</a
+                  >
+                </li>
+                <li id="demo" class="to-demo">社区版体验</li>
+              </ul>
+            </div>
+          </div>
         </ul>
         <div class="lang">
           <img :src="'/docs/img/lang.svg'" alt="" />
@@ -437,5 +454,38 @@ $navbar-horizontal-padding = 1.5rem;
     height 15px
   .github-stars
     padding: 0 5px
-  
+
+.a-button-list-box
+  .a-button-list
+    display: inline-block;
+    position: relative;
+    .a-button-dropdown-list
+      text-align: center;
+      display: none;
+      position: absolute;
+      top: 100%;
+      background-color: #fff;
+      border-radius: 2px;
+      box-shadow: 0 3px 6px -4px #0000001f, 0 6px 16px #00000014,
+        0 9px 28px 8px #0000000d;
+      width: 100%;
+      padding: 5px 0;
+      button
+        display: block;
+
+      li
+        line-height: 35px;
+        cursor: pointer;
+
+      li:hover
+          background-color: #f5f5f5;
+
+  .a-button-list.button-list
+        margin-right: 0
+
+  .a-button-list:hover
+      .a-button-dropdown-list
+        display: block;
+.color-nomal
+  color: #333333;
 </style>

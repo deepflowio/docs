@@ -1,14 +1,19 @@
 import ClipboardJS from 'clipboard'
 
 export default () => {
-    function addWebHeaderEvent () {
+    function addWebHeaderEvent() {
         document.querySelectorAll(".to-signup").forEach((element) => {
-            element.addEventListener("click", function () {
-                window.location.href = "/signup.html";
+            element.addEventListener("click", function() {
+                window.open('/signup.html', '_blank')
+            });
+        });
+        document.querySelectorAll(".to-demo").forEach((element) => {
+            element.addEventListener("click", function() {
+                window.open('https://ce-demo.deepflow.yunshan.net/', '_blank')
             });
         });
         document.querySelector('.feature-list').querySelectorAll('.feature-item').forEach(element => {
-            element.addEventListener('click', function () {
+            element.addEventListener('click', function() {
                 var name = element.getAttribute('data-name')
                 var href = '', target = ''
                 const isZH = window.location.href.indexOf('/zh/') > -1
@@ -38,11 +43,11 @@ export default () => {
     }
 
     // 跳转js
-    window.jumpByTag = function (root, name) {
+    window.jumpByTag = function(root, name) {
         //  window.location.href = root+'?tag='+encodeURIComponent(name)
     }
 
-    function IsMobile () {
+    function IsMobile() {
         var ua = navigator.userAgent;
         var ipad = ua.match(/(iPad).*OS\s([\d_]+)/),
             isIphone = ua.match(/(iPhone\sOS)\s([\d_]+)/),
@@ -52,9 +57,9 @@ export default () => {
     }
 
 
-    function addMobileHeaderEvent () {
+    function addMobileHeaderEvent() {
         document.querySelectorAll(".to-signup").forEach((element) => {
-            element.addEventListener("click", function () {
+            element.addEventListener("click", function() {
                 window.location.href = "/signup.html";
             });
         });
@@ -69,10 +74,10 @@ export default () => {
     }
 
 
-    function addModelEvent () {
+    function addModelEvent() {
         document
             .querySelector(".ys-model-masking")
-            .addEventListener("click", function () {
+            .addEventListener("click", function() {
                 document
                     .querySelector(".ys-model-contianer")
                     .classList.add("captcha-box");
@@ -83,11 +88,11 @@ export default () => {
 
         var btnCopy = new ClipboardJS("#copy-button", {
             // 通过target指定要复印的节点
-            target: function () {
+            target: function() {
                 return document.querySelector("#copy-content");
             },
         });
-        btnCopy.on("success", function (e) {
+        btnCopy.on("success", function(e) {
             e.clearSelection();
             // btnCopy.destroy();
             showToast();
@@ -95,12 +100,12 @@ export default () => {
     }
 
 
-    function addNavClick () {
+    function addNavClick() {
         let showNav = false;
         let timer;
         let lastOverflow
 
-        document.getElementById("nav").addEventListener("click", function () {
+        document.getElementById("nav").addEventListener("click", function() {
             if (timer) {
                 return false;
             }
@@ -125,7 +130,7 @@ export default () => {
         });
 
         document.querySelectorAll(".nav-link").forEach((element) => {
-            element.addEventListener("click", function () {
+            element.addEventListener("click", function() {
                 const name = element.getAttribute("data-name");
                 let href = "",
                     target = "";
@@ -157,7 +162,7 @@ export default () => {
 
     var timer;
     var timer1;
-    function showToast () {
+    function showToast() {
         // 展示成功
         var el = document.querySelector("#ys-toast");
         if (!el) {
@@ -181,7 +186,7 @@ export default () => {
         timer = setTimeout(hideToast, 2000);
     }
 
-    function hideToast () {
+    function hideToast() {
         var el = document.querySelector("#ys-toast");
         if (!el) {
             loadToast();
@@ -193,7 +198,7 @@ export default () => {
         }, 1000);
     }
 
-    window.addEventListener('load', function () {
+    window.addEventListener('load', function() {
         if (IsMobile()) {
             addMobileHeaderEvent();
             addModelEvent();
@@ -204,7 +209,7 @@ export default () => {
         getGithubInfo();
     })
 
-    async function getGithubInfo () {
+    async function getGithubInfo() {
         const res = await fetch('https://api.github.com/repos/deepflowys/deepflow').then(response => response.json())
         if (!res.stargazers_count) {
             return false
