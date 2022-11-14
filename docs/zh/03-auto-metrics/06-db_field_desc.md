@@ -102,7 +102,7 @@ l7_flow_log 数据库表存储按分钟粒度聚合的各种协议的请求日�
 | request_id            | 请求 ID  | Request ID                          | --     | -- |
 | response_status       | 响应状态 | --                                  | Status | 正常: Status=20; 客户端异常: Status=30/40/90; 服务端异常: Status=31/50/60/70/80/100 |
 | response_code         | 响应码   | --                                  | Status | -- |
-| response_exception    | 响应异常 | --                                  | Status | Status 对应的官方英文描述[参考 Dubbo 协议详解]((https://dubbo.apache.org/zh/blog/2018/10/05/dubbo-%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/) |
+| response_exception    | 响应异常 | --                                  | Status | Status 对应的官方英文描述[参考 Dubbo 协议详解](https://dubbo.apache.org/zh/blog/2018/10/05/dubbo-%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/) |
 | endpoint              | 端点     | Service name/Method name            | --     | -- |
 | trace_id              | TraceID  | Attachments 字段的 traceparent, sw8 | --     | 可配置 deepflow-agent 的 http_log_trace_id 修改匹配的 Attachments 字段，详细说明见 HTTP 协议描述 |      
 | span_id               | SpanID   | Attachments 字段的 traceparent, sw8 | --     | 对配置 deepflow-agent 的 http_log_trace_id 修改匹配的 Attachments 字段，详细说明见 HTTP 协议描述 |
