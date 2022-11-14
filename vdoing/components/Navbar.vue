@@ -476,6 +476,7 @@ $navbar-horizontal-padding = 1.5rem;
       li
         line-height: 35px;
         cursor: pointer;
+        font-size: 12px;
 
       li:hover
           background-color: #f5f5f5;
