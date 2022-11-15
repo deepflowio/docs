@@ -38,7 +38,7 @@ l7_flow_log 数据库表存储按分钟粒度聚合的各种协议的请求日�
   - `traceparent` Header 中的 `trace-id`
 - SpanID（span_id）只读取以下 HTTP Header 部分数据，其他 Header 读取全部数据：
   - `sw8`/`sw6` Header 中的 `segment ID-span ID`
-  - `uber-trace-id` Header 中的 `{parent-span-id}`
+  - `uber-trace-id` Header 中的 `{span-id}`
   - `traceparent` Header 中的 `parent-id`
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
