@@ -13,7 +13,7 @@ DeepFlow 支持监控传统服务器。注意 DeepFlow Server 必须运行在 K8
 flowchart LR
 
 subgraph K8s-Cluster
-  DeepFlowServer["deepflow-server (statefulset)"]
+  DeepFlowServer["deepflow-server (deployment)"]
 end
 
 subgraph Legacy-Host-1

@@ -15,7 +15,7 @@ flowchart TD
 
 subgraph VPC-1
   subgraph K8s-Cluster
-    DeepFlowServer["deepflow-server (statefulset)"]
+    DeepFlowServer["deepflow-server (deployment)"]
   end
 
   subgraph Cloud-Host-1

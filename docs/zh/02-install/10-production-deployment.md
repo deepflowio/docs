@@ -10,6 +10,10 @@ DeepFlow 生产环境部署建议。
 # 使用托管 MySQL
 
 在生产环境中建议使用托管的 MySQL 来保证可用性，建议使用 MySQL 8.0 及以上版本。
+需要提前创建如下 database 并授权账户：
+- deepflow
+- grafana
+
 `values-custom.yaml` 配置：
 ```yaml
 global:
@@ -26,6 +30,14 @@ mysql:
 # 使用托管 ClickHouse
 
 在生产环境中建议使用托管的 ClickHouse 来保证可用性，建议 ClickHouse 的版本至少为 21.8。
+需要提前创建如下 database 并授权账户：
+- deepflow_system
+- event
+- ext_metrics
+- flow_log
+- flow_metrics
+- flow_tag
+  
 `values-custom.yaml` 配置：
 ```yaml
 global:
@@ -36,7 +48,7 @@ global:
     ## External ClickHouse clusterName,The default value is 'default', query method:  'select cluster,host_address,port from system.clusters;'
     clusterName: default 
 
-    ## External ClickHouse storage policy name,The default value is 'default', query method: 'select policy_name from storage_policies;'
+    ## External ClickHouse storage policy name,The default value is 'default', query method: 'select policy_name from system.storage_policies;'
     storagePolicy: default 
     username: default ## External ClickHouse username
     password: password ## External ClickHouse Password
@@ -121,3 +133,45 @@ server:
 proxy_controller_port: 20035 # The deepflow-server controller listens on the port. The default port is 20035
 analyzer_port: 20033 # The deepflow-server ingester listens on the port. The default port is 20033
 ```
+
+# 接入已有的 Grafana
+
+## 下载安装插件：
+
+DeepFlow 支持接入已有的 Grafana，建议使用 9.0 及以上版本，支持的最低版本为 8.0，目前 DeepFlow 的插件目前正在做认证工作，在认证工作完成之前需要配置 Grafana，允许加载未认证插件：
+```ini
+[plugins]
+allow_loading_unsigned_plugins = deepflow-querier-datasource,deepflow-apptracing-panel,deepflow-topo-panel
+```
+
+下载插件安装包：
+```
+curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/pkg/grafana-plugin/stable/deepflow-gui-grafana.tar.gz
+```
+
+将下载好的插件解压至 Grafana 插件目录，例如 `/var/lib/grafana/plugins`，并重启 Grafana 加载插件：
+
+```bash
+tar -zxvf deepflow-gui-grafana.tar.gz -C /var/lib/grafana/plugins/
+```
+
+## 添加 DeepFlow Data source
+
+你可以在 Grafana Data sources 中找到 DeepFlow Querier， 并添加如下配置项：
+
+- `Request Url`：Grafana 访问 deepflow-server service querier 端口的 NodePort，执行如下命令可得到访问地址：
+  ```bash
+  echo "http://$(kubectl get nodes -o jsonpath="{.items[0].status.addresses[0].address}"):$(kubectl get --namespace deepflow -o jsonpath="{.spec.ports[0].nodePort}" services deepflow-server)"
+  ```
+
+- `API Token`： 无需填写
+
+- `Tracing Url`: Grafana 访问 deepflow-app service app 端口的 NodePort，执行如下命令可打开 NodePort 并得到访问地址：
+  ```bash
+  kubectl patch service  -n deepflow deepflow-app  -p '{"spec":{"type":"NodePort"}}'
+  echo "http://$(kubectl get nodes -o jsonpath="{.items[0].status.addresses[0].address}"):$(kubectl get --namespace deepflow -o jsonpath="{.spec.ports[0].nodePort}" services deepflow-app)"
+  ```
+
+## 导入 Dashboard
+
+点击进入刚刚添加的 DeepFlow Data source，切换至 `Dashboards` 页面，点击 dashboard 的 `Import` 即可导入 dashboard。

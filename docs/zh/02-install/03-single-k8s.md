@@ -20,7 +20,7 @@ subgraph K8s-Cluster
   APIServer["k8s apiserver"]
 
   subgraph DeepFlow Backend
-    DeepFlowServer["deepflow-server (statefulset)"]
+    DeepFlowServer["deepflow-server (deployment)"]
     ClickHouse["clickhouse (statefulset)"]
     MySQL["mysql (deployment)"]
     DeepFlowApp["deepflow-app (deployment)"]

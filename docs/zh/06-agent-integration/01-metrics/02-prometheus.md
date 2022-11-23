@@ -11,7 +11,7 @@ flowchart TD
 subgraph K8s-Cluster
   Prometheus["prometheus-server (deployment)"]
   DeepFlowAgent["deepflow-agent (daemonset)"]
-  DeepFlowServer["deepflow-server (statefulset)"]
+  DeepFlowServer["deepflow-server (deployment)"]
 
   Prometheus -->|metrics| DeepFlowAgent
   DeepFlowAgent -->|metrics| DeepFlowServer
