@@ -15,7 +15,7 @@ subgraph K8s-Cluster
   end
   OTelAgent1["otel-collector (agent mode, daemonset)"]
   DeepFlowAgent1["deepflow-agent (daemonset)"]
-  DeepFlowServer["deepflow-server (statefulset)"]
+  DeepFlowServer["deepflow-server (deployment)"]
 
   OTelSDK1 -->|traces| OTelAgent1
   OTelAgent1 -->|traces| DeepFlowAgent1
@@ -44,7 +44,7 @@ subgraph K8s-Cluster
     OTelSDK1["otel-sdk / otel-javaagent"]
   end
   DeepFlowAgent1["deepflow-agent (daemonset)"]
-  DeepFlowServer["deepflow-server (statefulset)"]
+  DeepFlowServer["deepflow-server (deployment)"]
 
   OTelSDK1 -->|traces| DeepFlowAgent1
   DeepFlowAgent1 -->|traces| DeepFlowServer
