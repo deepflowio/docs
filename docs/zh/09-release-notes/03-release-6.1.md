@@ -3,6 +3,32 @@ title: DeepFlow 6.1 Release Notes
 permalink: /release-notes/release-6.1
 ---
 
+# 6.1.7 [2022/11/23]
+
+## 新特性
+
+- Metrics
+  - 将 OTel 中的 `content_length` 等标记为 metrics，详细字段映射[参考文档](https://deepflow.yunshan.net/docs/zh/auto-metrics/db-field-desc/)
+  - Request Log 增加 `session_length` 指标量
+- Tracing
+  - 支持解析 Dubbo 协议中的 `sw8` 字段，提取 TraceID、SpanID
+- Event
+  - 自动生成云服务器、K8s Pod 的增、删、变更事件，并增加 Grafana Dashboard
+- Management
+  - 支持配置应用协议解析的端口范围以降低误报率，配置方法参考 [l7-protocol-ports 配置项](https://github.com/deepflowys/deepflow/blob/main/server/controller/model/vtap_group_config_example.go#L816)
+  - deepflow-agent 支持使用固定的负载均衡器 IP 地址请求 deepflow-server，配置方法参考 [proxy_controller_ip 和 analyzer_ip 字段](https://github.com/deepflowys/deepflow/blob/main/server/controller/model/vtap_group_config_example.go#L215)
+  - 支持在 agent-group-config 中指定 [tap-mode](https://github.com/deepflowys/deepflow/blob/main/server/controller/model/vtap_group_config_example.go#L127)，使得 deepflow-agent 可运行于 macvlan 等特殊 CNI 环境中
+  - 支持在 deepflow-agent.yaml 中配置 [kubernetes-cluster-name](https://github.com/deepflowys/deepflow/blob/main/agent/config/deepflow-agent.yaml#L27)，用于指定 K8s 集群名称
+
+## 优化
+
+- SQL API
+  - 当自动分组资源类型 `resource_glX_type` 为 IP 地址时，直接复用 `resource_glX_id` 表示子网 ID、`resource_glX` 表示 IP 地址
+- Management
+  - 降低使用托管 RDS 和 ClickHouse 时的数据库权限要求
+  - 自动均衡每个 deepflow-server 服务的 deepflow-agent 数量
+  - 使用 OpenTelemetry 监控 deepflow-server 内部的调用链
+
 # 6.1.6 [2022/11/09]
 
 ## 新特性
