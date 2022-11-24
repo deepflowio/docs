@@ -45,6 +45,8 @@ deepflow-ctl domain list $CLUSTER_NAME  # Get K8sClusterID
 
 使用 Helm 安装 deepflow-agent：
 
+::: code-tabs#shell
+
 @tab Use Github and DockerHub
 
 ```bash
@@ -78,6 +80,8 @@ helm repo update deepflow # use `helm repo update` when helm < 3.7.0
 helm install deepflow-agent -n deepflow deepflow/deepflow-agent --create-namespace \
   -f values-custom.yaml
 ```
+
+:::
 
 我们建议上述部署过程中将 deepflow-agent 的 `deepflowServerNodeIps` 配置为 K8s 集群的一个或多个相对固定的 Node IP。
 
