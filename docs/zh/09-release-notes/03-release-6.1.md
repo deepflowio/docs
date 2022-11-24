@@ -13,7 +13,7 @@ permalink: /release-notes/release-6.1
 - Tracing
   - 支持解析 Dubbo 协议中的 `sw8` 字段，提取 TraceID、SpanID
 - Event
-  - 自动生成云服务器、K8s Pod 的增、删、变更事件，并增加 Grafana Dashboard
+  - 自动生成云服务器、K8s Pod 的增、删、变更事件，并增加 [Grafana Dashboard](https://ce-demo.deepflow.yunshan.net/d/Event/event?orgId=1)
 - Management
   - 支持配置应用协议解析的端口范围以降低误报率，配置方法参考 [l7-protocol-ports 配置项](https://github.com/deepflowys/deepflow/blob/main/server/controller/model/vtap_group_config_example.go#L816)
   - deepflow-agent 支持使用固定的负载均衡器 IP 地址请求 deepflow-server，配置方法参考 [proxy_controller_ip 和 analyzer_ip 字段](https://github.com/deepflowys/deepflow/blob/main/server/controller/model/vtap_group_config_example.go#L215)
