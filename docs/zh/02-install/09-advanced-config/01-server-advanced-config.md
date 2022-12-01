@@ -68,7 +68,7 @@ helm upgrade deepflow -n deepflow -f values-custom.yaml deepflow/deepflow
   - deepflow-server controller 模块需要暴露的 NodePort 端口号，默认为30035，用于 agent 向 server 请求策略。
   - 如有冲突，修改此处后需要修改 `agent-group-config` 的 `proxy_controller_port`。
 - `global.nodePort.deepflowServerhealthCheck`
-  - deepflow-server controller 模块需要暴露的 HTTP NodePort 端口号，默认为30417。
+  - deepflow-server controller 模块暴露给 deepflow-ctl 的 HTTP NodePort 端口号，默认为30417。
   - 如有冲突，修改此处后使用 `deepflow-ctl` 命令需要指定 `--api-port` 参数。
 
 ## 依赖服务
