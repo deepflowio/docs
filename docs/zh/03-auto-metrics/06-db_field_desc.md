@@ -68,7 +68,7 @@ l7_flow_log 数据库表存储按分钟粒度聚合的各种协议的请求日�
 | -------------------|-------- | ------ | ----- | -- |
 | request_type       | 请求类型 | QTYPE  | --    | -- |
 | request_resource   | 请求资源 | QNAME  | --    | -- |
-| request_id         | 请求 ID  | ID     | --    | -- |
+| request_id         | 请求 ID  | ID     | ID    | -- |
 | response_status    | 响应状态 | --     | RCODE | 正常: RCODE=0x0; 客户端异常: RCODE=0x1/0x3; 服务端异常: RCODE!=0x0/0x1/0x3 |
 | response_code      | 响应码   | --     | RCODE | -- |
 | response_exception | 响应异常 | --     | RCODE | RCODE 对应的官方英文描述，[参考 RFC 2929 Section 2.3](https://www.rfc-editor.org/rfc/rfc2929#section-2.3) |
