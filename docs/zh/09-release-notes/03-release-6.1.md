@@ -3,6 +3,29 @@ title: DeepFlow 6.1 Release Notes
 permalink: /release-notes/release-6.1
 ---
 
+# 6.1.8.1 [TBD]
+
+# 6.1.8 [2022/12/09]
+
+## 新特性
+
+- AutoMetrics、AutoTracing、AutoLogging
+  - 新增支持 ProtobufRPC 协议簇，目前版本支持了 [KRPC](https://github.com/bruceran/krpc/blob/master/doc/develop.md) 协议
+- Management
+  - 为数据表增加 signal\_source 标签字段，表示信号源，目前支持进行区分的三种信号源为：Packet (cBPF)、eBPF、OTel
+  - deepflow-agent 支持运行于 K8s macvlan/ipvlan CNI 环境中，并自动计算 Pod 访问关系和性能指标，macvlan 环境的详细配置方法[参考文档](https://deepflow.yunshan.net/docs/zh/install/advanced-config/agent-advanced-config/#macvlan)
+  - 支持 deepflow-agent 运行于不具备 SYS\_ADMIN 权限的 K8s Pod 中，详细权限要求[参考文档](https://deepflow.yunshan.net/docs/zh/install/overview/#运行权限及内核要求)
+  - 支持配置 deepflow-agent 采集 eBPF Socket Data 的[最大长度](https://github.com/deepflowys/deepflow/blob/main/server/controller/model/agent_group_config_example.yaml#L252)，以提升采集性能
+  - 支持配置 deepflow-server 中向 ingester 模块同步的[资源信息](https://github.com/deepflowys/deepflow/blob/main/server/server.yaml#L28)，从而降低多 K8s 集群下 ingester 模块 AutoTagging 功能的资源消耗
+
+## 优化
+
+- Management
+  - 通过消息压缩和裁剪，降低 deepflow-agent 在 watch K8s apiserver 时的内存开销
+  - 通过 Pod 聚合的方式，优化 deepflow-server 计算 service Tag 时的内存消耗
+  - 通过内存预聚合的方式，优化 deepflow-server 对 flow\_tag 数据库的写入压力
+  - 托管 MySQL 服务支持使用非 root 用户连接
+
 # 6.1.7 [2022/11/23]
 
 ## 新特性
