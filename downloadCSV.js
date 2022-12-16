@@ -109,8 +109,8 @@ async function work(sourceDir) {
                     const CSVContentString = await downloadCSV(url)
                     const table = analysis(CSVContentString)
                     const tableString = createTable(table)
-                    const preIndex = fileContent.indexOf(matchs[a] - 1)
-                    const nextIndex = fileContent.indexOf(matchs[a] - 1 + matchs[a].length)
+                    const preIndex = fileContent.indexOf(matchs[a]) - 1
+                    const nextIndex = fileContent.indexOf(matchs[a]) + matchs[a].length
                     let totalString = ""
                     if (fileContent[preIndex] !== "\n") {
                         totalString += "\n\n"
