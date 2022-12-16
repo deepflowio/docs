@@ -27,9 +27,9 @@ function analysis(string) {
             tableContent: []
         }
     }
-    string = string.slice(1) // 去掉第一个#
-    const strings = string.split("\n").map(s => {
-        return s.split(",").map(s => s.trim())
+    string = string.slice(string.indexOf("#") + 1) // 去掉第一个#
+    const strings = string.split("\n").filter(s => s.startsWith("#")).map(s => {
+        return s.split(" ,").map(s => s.trim())
     }).filter(s => s.length !== 1)
     const tableHeader = strings[0]
     const tableContent = strings.slice(1)
