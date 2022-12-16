@@ -61,7 +61,7 @@ jobs:
       shell: bash
       run: |
         pnpm install
-        node .\downloadCSV.js
+        node downloadCSV.js
         pnpm run build
         node copy-file.js
 

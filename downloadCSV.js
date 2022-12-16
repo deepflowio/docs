@@ -64,20 +64,20 @@ function analysis(string) {
 
 function createTable(table) {
     const { tableHeader, tableContent } = table
-    let headerLength = tableHeader.length
+    const headerLength = tableHeader.length
 
     let tableString = "|"
-    let gelanString = "|"
+    let middleString = "|"
 
     tableHeader.forEach(element => {
         tableString += element
         tableString += "|"
-        gelanString += "-----------|"
+        middleString += "-----------|"
     });
 
-    gelanString += "\n"
+    middleString += "\n"
     tableString += "\n"
-    tableString += gelanString
+    tableString += middleString
 
     tableContent.forEach((element) => {
         let tr = "|"
