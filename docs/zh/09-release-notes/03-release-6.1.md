@@ -3,7 +3,20 @@ title: DeepFlow 6.1 Release Notes
 permalink: /release-notes/release-6.1
 ---
 
-# 6.1.8.1 [TBD]
+# 6.1.8.3 [2022/12/29]
+
+TBD (GA)
+
+# 6.1.8.2 [2022/12/22]
+
+TBD
+
+# 6.1.8.1 [2022/12/15]
+
+## 新特性
+
+- AutoMetrics
+  - 预聚合 eBPF Request Log，以补充 tap\_side = [客户端进程/服务端进程](https://deepflow.yunshan.net/docs/zh/auto-metrics/metrics-without-instrumentation/#统计位置说明) 的应用性能指标数据
 
 # 6.1.8 [2022/12/09]
 
