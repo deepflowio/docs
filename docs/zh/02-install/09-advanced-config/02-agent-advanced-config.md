@@ -71,6 +71,71 @@ deepflow-ctl agent-group-config update <Your-agnet-group-ID> -f your-agent-group
 
 ### MACVlan
 
-K8s 使用 macvlan CNI 时，在 rootns 下只能看到所有 POD 共用的一个虚拟网卡，此时需要对 deepflow-agent 进行额外的配置：
+K8s 使用 macvlan CNI 时，在 rootns 下只能看到所有 POD 共用的一个虚拟网卡，此时需要对deepflow-agent 进行额外的配置：
 
-TODO
+1. 创建 agent-group 和 agent-group-config：
+    ```bash
+    deepflow-ctl agent-group create macvlan
+    deepflow-ctl agent-group-config create macvlan
+    ```
+
+2. 获取 macvlan agent-group ID：
+    ```bash
+    deepflow-ctl agent-group list  | grep macvlan
+    ```
+
+3. 新建 agent-group-config 配置文件 `macvlan-agent-group-config.yaml`:
+    ```yaml
+    vtap_group_id: g-xxxxxx
+    ## Traffic Tap Mode
+    ## Default: 0, means local.
+    ## Options: 0, 1 (virtual mirror), 2 (physical mirror, aka. analyzer mode)
+    ## Note: Mirror mode is used when deepflow-agent cannot directly capture the
+    ##   traffic from the source. For example:
+    ##   - in the K8s macvlan environment, capture the Pod traffic through the Node NIC
+    ##   - in the Hyper-V environment, capture the VM traffic through the Hypervisor NIC
+    ##   - in the ESXi environment, capture traffic through VDS/VSS local SPAN
+    ##   - in the DPDK environment, capture traffic through DPDK ring buffer
+    ##   Use Analyzer mode when deepflow-agent captures traffic through physical switch
+    ##   mirroring.
+    tap_mode: 1
+    static_config:
+      ################
+      ## Dispatcher ##
+      ################
+      ## TAP NICs when tap_mode != 0
+      ## Note: The list of capture NICs when tap_mode is not equal to 0, in which
+      ##   case tap_interface_regex is invalid.
+      src-interfaces:
+      - eth0 ## The mother interface of macvlan, such as eth0.
+    ```
+
+4. 创建 agent-group-config：
+    ```bash
+    deepflow-ctl agent-group-config create -f macvlan-agent-group-config.yaml
+    ```
+
+5. 修改 deepflow-agent 的 agent-group：
+    ```bash
+    kubectl edit cm -n deepflow deepflow-agent
+    ```
+    添加配置：
+    ```yaml  
+    vtap-group-id-request: g-xxxxx
+    ```
+    停止 deepflow-agent：
+    ```bash
+    kubectl -n deepflow  patch daemonset deepflow-agent  -p '{"spec": {"template": {"spec": {"nodeSelector": {"non-existing": "true"}}}}}'
+    ```
+    通过deepflow-ctl 删除 macvlan 的 agent：
+    ```bash
+    deepflow-ctl agent delete <agent name>
+    ```
+    启动 deepflow-agent：
+    ```bash
+    kubectl -n deepflow  patch daemonset deepflow-agent --type json -p='[{"op": "remove", "path": "/spec/template/spec/nodeSelector/non-existing"}]'
+    ```
+    查看 deepflow agent list， 确保 agent 加入了 macvlan group：
+    ```bash
+    deepflow-ctl agent list
+    ```

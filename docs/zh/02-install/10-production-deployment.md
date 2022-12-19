@@ -7,6 +7,147 @@ permalink: /install/production-deployment/
 
 DeepFlow 生产环境部署建议。
 
+# 使用 LTS 版本 DeepFlow
+
+helm 增加 --version 6.1.8 参数安装升级 LTS 版本 DeepFlow Server 和 Agent：
+
+## 安装 LTS 版本 DeepFlow Server
+
+::: code-tabs#shell
+
+@tab Use Github and DockerHub
+
+```bash
+# helm repo add deepflow https://deepflowys.github.io/deepflow
+
+helm repo update deepflow # use `helm repo update` when helm < 3.7.0
+helm upgrade --install deepflow -n deepflow deepflow/deepflow --version 6.1.8 --create-namespace
+```
+
+@tab Use Aliyun
+
+```bash
+# helm repo add deepflow https://deepflow-ce.oss-cn-beijing.aliyuncs.com/chart/stable
+
+helm repo update deepflow # use `helm repo update` when helm < 3.7.0
+# cat << EOF > values-custom.yaml
+# global:
+#   image:
+#       repository: registry.cn-beijing.aliyuncs.com/deepflow-ce
+# grafana:
+#   image:
+#     repository: registry.cn-beijing.aliyuncs.com/deepflow-ce/grafana
+# EOF
+helm upgrade --install deepflow -n deepflow deepflow/deepflow --version 6.1.8 --create-namespace \
+  -f values-custom.yaml
+```
+
+:::
+
+## 安装 LTS 版本 DeepFlow Agent
+
+### K8s 环境
+
+::: code-tabs#shell
+
+@tab Use Github and DockerHub
+
+```bash
+# cat << EOF > values-custom.yaml
+# deepflowServerNodeIPS:
+# - 10.1.2.3  # FIXME: K8s Node IPs
+# - 10.4.5.6  # FIXME: K8s Node IPs
+# clusterNAME: k8s-1  # FIXME: name of the cluster in deepflow
+# EOF
+
+# helm repo add deepflow https://deepflowys.github.io/deepflow
+
+helm repo update deepflow # use `helm repo update` when helm < 3.7.0
+helm upgrade --install deepflow-agent -n deepflow deepflow/deepflow-agent --version 6.1.8 --create-namespace \
+    -f values-custom.yaml
+```
+
+@tab Use Aliyun
+
+```bash
+# cat << EOF > values-custom.yaml
+# image:
+#   repository: registry.cn-beijing.aliyuncs.com/deepflow-ce/deepflow-agent
+# deepflowServerNodeIPS:
+# - 10.1.2.3  # FIXME: K8s Node IPs
+# - 10.4.5.6  # FIXME: K8s Node IPs
+# clusterNAME: k8s-1  # FIXME: name of the cluster in deepflow
+# EOF
+
+# helm repo add deepflow https://deepflowys.github.io/deepflow
+
+helm repo update deepflow # use `helm repo update` when helm < 3.7.0
+helm upgrade --install deepflow-agent -n deepflow deepflow/deepflow-agent --version 6.1.8 --create-namespace \
+  -f values-custom.yaml
+```
+
+:::
+
+### 云主机环境
+
+切换 Agent 下载链接至 LTS 版本：
+
+::: code-tabs#shell
+
+@tab rpm
+
+```bash
+curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/rpm/agent/v6.1.8/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent-rpm.zip
+unzip deepflow-agent-rpm.zip
+yum -y localinstall x86_64/deepflow-agent-1.0*.rpm
+```
+
+@tab deb
+
+```bash
+curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/deb/agent/v6.1.8/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent-deb.zip
+unzip deepflow-agent-deb.zip
+dpkg -i x86_64/deepflow-agent-1.0*.systemd.deb
+```
+
+@tab binary file
+
+```bash
+curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/agent/v6.1.8/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent.tar.gz
+tar -zxvf deepflow-agent.tar.gz -C /usr/sbin/
+
+cat << EOF > /etc/systemd/system/deepflow-agent.service
+[Unit]
+Description=deepflow-agent.service
+After=syslog.target network-online.target
+
+[Service]
+Environment=GOTRACEBACK=single
+LimitCORE=1G
+ExecStart=/usr/sbin/deepflow-agent
+Restart=always
+RestartSec=10
+LimitNOFILE=1024:4096
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+systemctl daemon-reload
+```
+
+:::
+
+
+## 安装 LTS 版本 Cli
+
+切换 Cli 下载链接至 LTS 版本：
+
+```bash
+curl -o /usr/bin/deepflow-ctl https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/ctl/v6.1.8/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-ctl
+chmod a+x /usr/bin/deepflow-ctl
+```
+
 # 使用托管 MySQL
 
 在生产环境中建议使用托管的 MySQL 来保证可用性，建议使用 MySQL 8.0 及以上版本。
@@ -167,8 +308,14 @@ tar -zxvf deepflow-gui-grafana.tar.gz -C /var/lib/grafana/plugins/
 - `API Token`： 无需填写
 
 - `Tracing Url`: Grafana 访问 deepflow-app service app 端口的 NodePort，执行如下命令可打开 NodePort 并得到访问地址：
+  `values-custom.yaml` 配置：
+  ```yaml
+  app:
+    service:
+      type: NodePort
+  ```
   ```bash
-  kubectl patch service  -n deepflow deepflow-app  -p '{"spec":{"type":"NodePort"}}'
+  helm upgrade deepflow -n deepflow deepflow/deepflow -f values-custom.yaml
   echo "http://$(kubectl get nodes -o jsonpath="{.items[0].status.addresses[0].address}"):$(kubectl get --namespace deepflow -o jsonpath="{.spec.ports[0].nodePort}" services deepflow-app)"
   ```
 
