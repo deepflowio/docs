@@ -14,6 +14,8 @@ async function downloadCSV(url) {
         if (res.data.startsWith('#')) {
             return res.data
         } else {
+            console.log("res.code===", (res.code))
+            console.log("res.data===", JSON.stringify(res.data))
             return ""
         }
     })
@@ -28,7 +30,7 @@ function analysis(string) {
         }
     }
     string = string.slice(string.indexOf("#") + 1) // 去掉第一个#
-    const strings = string.split("\n").filter(s => s.startsWith("#")).map(s => {
+    const strings = string.split("\n").filter(s => !s.startsWith("#")).map(s => {
         return s.split(" ,").map(s => s.trim())
     }).filter(s => s.length !== 1)
     const tableHeader = strings[0]
@@ -62,7 +64,7 @@ function analysis(string) {
     // console.log(newstrings)
 }
 
-function createTable(table) {
+function createTable(table, url) {
     const { tableHeader, tableContent } = table
     const headerLength = tableHeader.length
 
@@ -85,6 +87,8 @@ function createTable(table) {
             if (index < headerLength) {
                 tr += e
                 tr += "|"
+            } else {
+                console.log("csvUrl:" + url + ",extraData:" + e)
             }
         })
         tr += "\n"
@@ -103,12 +107,13 @@ async function work(sourceDir) {
         if (!stat.isDirectory()) {
             let fileContent = fs.readFileSync(filePath, "utf8");
             const matchs = fileContent.match(csvListRxp)
+            console.log(`filePath:${filePath},matchs: ${matchs && matchs.toString()}`)
             if (matchs) {
                 for (let a = 0; a < matchs.length; a++) {
                     const [, name, url] = matchs[a].match(csvNameAndUrlRxp)
                     const CSVContentString = await downloadCSV(url)
                     const table = analysis(CSVContentString)
-                    const tableString = createTable(table)
+                    const tableString = createTable(table, url)
                     const preIndex = fileContent.indexOf(matchs[a]) - 1
                     const nextIndex = fileContent.indexOf(matchs[a]) + matchs[a].length
                     let totalString = ""
