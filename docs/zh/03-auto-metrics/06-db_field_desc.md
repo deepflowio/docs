@@ -6,8 +6,8 @@ permalink: /auto-metrics/db-field-desc
 # l7_flow_log 字段说明
 
 l7_flow_log 数据库表存储按分钟粒度聚合的各种协议的请求日志，由 Tag 和 Metrics 两大类字段组成：
-- Tag 字段：字段主要用于分组，过滤。详细字段描述，[参考 querier 组件的数据库字段描述](https://github.com/deepflowys/deepflow/blob/main/server/querier/db_descriptions/clickhouse/tag/flow_log/l7_flow_log.ch)
-- Metrics 字段：字段主要用于计算，[参考 querier 组件的数据库字段描述](https://github.com/deepflowys/deepflow/blob/main/server/querier/db_descriptions/clickhouse/metrics/flow_log/l7_flow_log.ch)
+- Tag 字段：字段主要用于分组，过滤，详细字段描述如下。[csv-querier 组件的数据库字段描述](https://raw.githubusercontent.com/deepflowys/deepflow/main/server/querier/db_descriptions/clickhouse/tag/flow_log/l7_flow_log.ch)
+- Metrics 字段：字段主要用于计算，详细字段描述如下。[csv-querier 组件的数据库字段描述](https://raw.githubusercontent.com/deepflowys/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_log/l7_flow_log.ch)
 
 ## HTTP 协议映射
 

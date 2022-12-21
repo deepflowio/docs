@@ -14,6 +14,8 @@ async function downloadCSV(url) {
         if (res.data.startsWith('#')) {
             return res.data
         } else {
+            console.log("res.code===", (res.code))
+            console.log("res.data===", JSON.stringify(res.data))
             return ""
         }
     })
@@ -28,7 +30,7 @@ function analysis(string) {
         }
     }
     string = string.slice(string.indexOf("#") + 1) // 去掉第一个#
-    const strings = string.split("\n").filter(s => s.startsWith("#")).map(s => {
+    const strings = string.split("\n").filter(s => !s.startsWith("#")).map(s => {
         return s.split(" ,").map(s => s.trim())
     }).filter(s => s.length !== 1)
     const tableHeader = strings[0]
@@ -62,7 +64,7 @@ function analysis(string) {
     // console.log(newstrings)
 }
 
-function createTable(table) {
+function createTable(table, url) {
     const { tableHeader, tableContent } = table
     const headerLength = tableHeader.length
 
@@ -85,15 +87,23 @@ function createTable(table) {
             if (index < headerLength) {
                 tr += e
                 tr += "|"
+            } else {
+                console.log("csvUrl:" + url + ",extraData:" + e)
             }
         })
+        if (headerLength > element.length) {
+            console.log("This row is missing data，csvUrl:" + url + ",element:" + element.toString())
+            tr += "|".repeat(headerLength - element.length)
+        }
         tr += "\n"
         tableString += tr
     })
 
     return tableString
 }
+const cacheMap = {
 
+}
 async function work(sourceDir) {
     let files = fs.readdirSync(sourceDir);
     files = files.filter(name => name !== ".vuepress")
@@ -103,12 +113,20 @@ async function work(sourceDir) {
         if (!stat.isDirectory()) {
             let fileContent = fs.readFileSync(filePath, "utf8");
             const matchs = fileContent.match(csvListRxp)
+            console.log(`filePath:${filePath},matchs: ${matchs && matchs.toString()}`)
             if (matchs) {
                 for (let a = 0; a < matchs.length; a++) {
                     const [, name, url] = matchs[a].match(csvNameAndUrlRxp)
-                    const CSVContentString = await downloadCSV(url)
-                    const table = analysis(CSVContentString)
-                    const tableString = createTable(table)
+                    let tableString
+                    if (url in cacheMap) {
+                        tableString = cacheMap[url]
+                    } else {
+                        const CSVContentString = await downloadCSV(url)
+                        const table = analysis(CSVContentString)
+                        tableString = createTable(table, url)
+                        cacheMap[url] = tableString
+                    }
+
                     const preIndex = fileContent.indexOf(matchs[a]) - 1
                     const nextIndex = fileContent.indexOf(matchs[a]) + matchs[a].length
                     let totalString = ""
@@ -117,14 +135,15 @@ async function work(sourceDir) {
                     } else if (fileContent[preIndex - 1] !== "\n") {
                         totalString += "\n"
                     }
-                    totalString += `**${name}**`
-                    totalString += "\n\n"
+                    // totalString += `**${name}**`
+                    // totalString += "\n\n"
                     totalString += tableString
                     if (fileContent[nextIndex] !== "\n") {
                         totalString += "\n\n"
                     } else if (fileContent[nextIndex + 1] !== "\n") {
                         totalString += "\n"
                     }
+
                     fileContent = fileContent.replace(matchs[a], totalString)
                 }
 
