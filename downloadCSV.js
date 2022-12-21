@@ -91,6 +91,10 @@ function createTable(table, url) {
                 console.log("csvUrl:" + url + ",extraData:" + e)
             }
         })
+        if (headerLength > element.length) {
+            console.log("This row is missing data，csvUrl:" + url + ",element:" + element.toString())
+            tr += "|".repeat(headerLength - element.length)
+        }
         tr += "\n"
         tableString += tr
     })
