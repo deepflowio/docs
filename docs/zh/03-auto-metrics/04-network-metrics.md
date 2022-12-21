@@ -7,8 +7,8 @@ permalink: /auto-metrics/network-metrics
 
 无需向应用中插入任何代码，DeepFlow 自动生成所有服务的网络性能指标：
 - 数据库表名：`flow_metrics.vtap_flow_port`
-- 自动注入的 Tag 列表：[IP、协议、端口、采集位置、云资源、K8s 资源](https://github.com/deepflowys/deepflow/blob/main/server/querier/db_descriptions/clickhouse/tag/flow_metrics/vtap_flow_port)、K8s 自定义 Label
-- Metrics 列表：[吞吐、负载、时延、TCP异常、重传、零窗](https://github.com/deepflowys/deepflow/blob/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/vtap_flow_port)
+- 自动注入的 Tag 列表：IP、协议、端口、采集位置、云资源、K8s 资源、K8s 自定义 Label[csv-IP、协议、端口、采集位置、云资源、K8s 资源](https://raw.githubusercontent.com/deepflowys/deepflow/main/server/querier/db_descriptions/clickhouse/tag/flow_metrics/vtap_flow_port)
+- Metrics 列表：吞吐、负载、时延、TCP异常、重传、零窗[csv-吞吐、负载、时延、TCP异常、重传、零窗](https://raw.githubusercontent.com/deepflowys/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/vtap_flow_port)
 
 基于上述数据可通过 Grafana 构建丰富的 Dashboard。我们在 Grafana 中预置了一个 `Network - K8s Pod` Dashboard，效果图如下：
 
@@ -20,8 +20,8 @@ permalink: /auto-metrics/network-metrics
 
 无需向应用中插入任何代码，DeepFlow 自动生成所有服务访问路径的网络性能指标：
 - 数据库表名：`flow_metrics.vtap_flow_edge_port`
-- 自动注入的 Tag 列表：[IP、协议、端口、采集位置、云资源、K8s 资源](https://github.com/deepflowys/deepflow/blob/main/server/querier/db_descriptions/clickhouse/tag/flow_metrics/vtap_flow_edge_port)、K8s 自定义 Label
-- Metrics 列表：[吞吐、负载、时延、TCP异常、重传、零窗](https://github.com/deepflowys/deepflow/blob/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/vtap_flow_edge_port)
+- 自动注入的 Tag 列表：IP、协议、端口、采集位置、云资源、K8s 资源、K8s 自定义 Label[csv-IP、协议、端口、采集位置、云资源、K8s 资源](https://raw.githubusercontent.com/deepflowys/deepflow/main/server/querier/db_descriptions/clickhouse/tag/flow_metrics/vtap_flow_edge_port)
+- Metrics 列表：吞吐、负载、时延、TCP异常、重传、零窗[csv-吞吐、负载、时延、TCP异常、重传、零窗](https://raw.githubusercontent.com/deepflowys/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/vtap_flow_edge_port)
 
 基于上述数据可通过 Grafana 构建丰富的 Dashboard。我们在 Grafana 中预置了一个 `Network - K8s Pod` Dashboard，效果图如下：
 
