@@ -97,7 +97,9 @@ function createTable(table, url) {
 
     return tableString
 }
+const cacheMap = {
 
+}
 async function work(sourceDir) {
     let files = fs.readdirSync(sourceDir);
     files = files.filter(name => name !== ".vuepress")
@@ -111,9 +113,16 @@ async function work(sourceDir) {
             if (matchs) {
                 for (let a = 0; a < matchs.length; a++) {
                     const [, name, url] = matchs[a].match(csvNameAndUrlRxp)
-                    const CSVContentString = await downloadCSV(url)
-                    const table = analysis(CSVContentString)
-                    const tableString = createTable(table, url)
+                    let tableString
+                    if (url in cacheMap) {
+                        tableString = cacheMap[url]
+                    } else {
+                        const CSVContentString = await downloadCSV(url)
+                        const table = analysis(CSVContentString)
+                        tableString = createTable(table, url)
+                        cacheMap[url] = tableString
+                    }
+
                     const preIndex = fileContent.indexOf(matchs[a]) - 1
                     const nextIndex = fileContent.indexOf(matchs[a]) + matchs[a].length
                     let totalString = ""
@@ -122,14 +131,15 @@ async function work(sourceDir) {
                     } else if (fileContent[preIndex - 1] !== "\n") {
                         totalString += "\n"
                     }
-                    totalString += `**${name}**`
-                    totalString += "\n\n"
+                    // totalString += `**${name}**`
+                    // totalString += "\n\n"
                     totalString += tableString
                     if (fileContent[nextIndex] !== "\n") {
                         totalString += "\n\n"
                     } else if (fileContent[nextIndex + 1] !== "\n") {
                         totalString += "\n"
                     }
+
                     fileContent = fileContent.replace(matchs[a], totalString)
                 }
 
