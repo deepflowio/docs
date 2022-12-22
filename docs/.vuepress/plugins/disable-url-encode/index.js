@@ -3,7 +3,7 @@
  ***************************************************/
 var mdurl = require("mdurl");
 
-function isNeedDecode (url, config) {
+function isNeedDecode(url, config) {
     config = config || "*";
 
     if (config === "*") {
@@ -22,19 +22,19 @@ function isNeedDecode (url, config) {
     return config.some(a => url.startsWith(a));
 }
 
-function decodeURL (url, config) {
+function decodeURL(url, config) {
     url = isNeedDecode(url, config) ? mdurl.decode(url) : url;
     return /^(\w+?:\/)?\.?\//.test(url) ? url : "./" + url;
 }
 
-function getUrlParam (string, name) {
+function getUrlParam(string, name) {
     return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(string) || [, ""])[1].replace(/\+/g, '%20')) || null
 }
 
 // The reason why the URL needs to use the upper level is because test After MD is packaged, the file will be marked as test/index HTML, so you need to add `../`. Except absolute path
 // 为什么url需要使用上一级，是因为test.md打包后文件会被打成test/index.html，故需要增加`../`。但绝对路径除外
-module.exports = function (md, config) {
-    md.renderer.rules.image = function (tokens, idx) {
+module.exports = function(md, config) {
+    md.renderer.rules.image = function(tokens, idx) {
         var token = tokens[idx];
         var srcIndex = token.attrIndex("src");
         var url = token.attrs[srcIndex][1];
@@ -50,10 +50,11 @@ module.exports = function (md, config) {
             h && (styleString += `height:${h}px`)
         }
 
-        if (align) {
-            return `<div style="text-align: ${align};margin:0"><img :src="'${url.startsWith('/') || url.startsWith('http') ? url : '../' + url}'" style="${styleString}" alt="${caption}" /></div>`
+        if (!align) {
+            align = "left"
         }
 
-        return `<img :src="'${url.startsWith('/') || url.startsWith('http')  ? url : '../' + url}'" style="${styleString}" alt="${caption}" />`
+        return `<div style="display: inline-block;text-align: ${align};margin:0"><img :src="'${url.startsWith('/') || url.startsWith('http') ? url : '../' + url}'" style="${styleString}" alt="${caption}" /><p style="text-align: center; color: #999;margin: 0;line-height: 21px;">${caption}</p></div>`
+        // return `<img :src="'${url.startsWith('/') || url.startsWith('http')  ? url : '../' + url}'" style="${styleString}" alt="${caption}" />`
     };
 };

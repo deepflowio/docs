@@ -30,9 +30,9 @@ function analysis(string) {
         }
     }
     string = string.slice(string.indexOf("#") + 1) // 去掉第一个#
-    const strings = string.split("\n").filter(s => !s.startsWith("#")).map(s => {
-        return s.split(" ,").map(s => s.trim())
-    }).filter(s => s.length !== 1)
+    const strings = string.split("\n").filter(s => !(s.startsWith("#") || s.trim() === "")).map(s => {
+        return s.split(",").map(s => s.trim())
+    })
     const tableHeader = strings[0]
     const tableContent = strings.slice(1)
     return {
@@ -117,6 +117,7 @@ async function work(sourceDir) {
             if (matchs) {
                 for (let a = 0; a < matchs.length; a++) {
                     const [, name, url] = matchs[a].match(csvNameAndUrlRxp)
+                    const files = url.split("/")
                     let tableString
                     if (url in cacheMap) {
                         tableString = cacheMap[url]
@@ -135,9 +136,13 @@ async function work(sourceDir) {
                     } else if (fileContent[preIndex - 1] !== "\n") {
                         totalString += "\n"
                     }
+                    totalString += `<div class="csv-box">`
+                    totalString += "\n\n"
                     // totalString += `**${name}**`
                     // totalString += "\n\n"
                     totalString += tableString
+                    totalString += `<p class="csv-url">generate from csv file: <a title="${url}" href="${url}" target="_blank">${files[files.length - 1]}</a></p>\n`
+                    totalString += `</div>`
                     if (fileContent[nextIndex] !== "\n") {
                         totalString += "\n\n"
                     } else if (fileContent[nextIndex + 1] !== "\n") {
