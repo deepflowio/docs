@@ -54,7 +54,7 @@ module.exports = function(md, config) {
             align = "left"
         }
 
-        return `<div style="text-align: ${align};margin:0"><img :src="'${url.startsWith('/') || url.startsWith('http') ? url : '../' + url}'" style="${styleString}" alt="${caption}" /><p style="text-align: center; color: #999;margin: 0;line-height: 21px;">${caption}</p></div>`
+        return `<div style="display: inline-block;text-align: ${align};margin:0"><img :src="'${url.startsWith('/') || url.startsWith('http') ? url : '../' + url}'" style="${styleString}" alt="${caption}" /><p style="text-align: center; color: #999;margin: 0;line-height: 21px;">${caption}</p></div>`
         // return `<img :src="'${url.startsWith('/') || url.startsWith('http')  ? url : '../' + url}'" style="${styleString}" alt="${caption}" />`
     };
 };
