@@ -132,3 +132,20 @@ yarn install
 :::
 
 ````
+
+11. 从 csv 文件地址中生成数据显示
+
+a. 如果地址错误，则不会生成csv数据
+
+b. 如果数据返回不是以`#`开头，也不会生成csv数据
+
+c. 最后csv内容需要以`,`分隔数据，否则无法解析显示
+
+d. 第一行`#`开头的是csv头部, 其余以`#`的行是注释，最后非空行的是csv内容
+
+```
+[csv-$csvTitle]($csvURL)
+
+eg:
+[csv-L7 Protocol List](https://raw.githubusercontent.com/deepflowys/deepflow/main/server/querier/db_descriptions/clickhouse/tag/enum/l7_protocol)
+```

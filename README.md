@@ -101,7 +101,6 @@ Duplicate footer definition [^second]
 If the footnote of the reference source cannot be found, [^third] will be displayed as it is
 
 [^first]: footnote
-
 [^second]: footnote text
 ```
 
@@ -133,3 +132,20 @@ yarn install
 :::
 
 ````
+
+11. Generate data display from csv file address
+
+a. If the address is wrong, no csv data will be generated
+
+b. If the data return does not start with '#', no csv data will be generated
+
+c. Finally, the csv content needs to be separated by ',', otherwise it cannot be parsed and displayed
+
+d. The first line # starts with the csv header, other comments that begin with #, the last non blank line is the csv content
+
+```
+[csv-$csvTitle]($csvURL)
+
+eg:
+[csv-L7 Protocol List](https://raw.githubusercontent.com/deepflowys/deepflow/main/server/querier/db_descriptions/clickhouse/tag/enum/l7_protocol)
+```
