@@ -22,7 +22,3 @@ permalink: /auto-tracing/tracing-without-instrumentation
   - [ ] Golang、Erlang 等协程/轻量级线程语言，跨协程处理请求
   - [x] BFE（Golang 实现）网关跨协程处理请求
 :::
-
-::: tip 说明
-目前我们以 Grafana Panel 展示 Trace 数据，发现非常受局限，下个版本将修改为通过 Grafana Tempo 展示。
-:::
