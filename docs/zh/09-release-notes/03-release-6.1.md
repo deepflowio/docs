@@ -3,13 +3,22 @@ title: DeepFlow 6.1 Release Notes
 permalink: /release-notes/release-6.1
 ---
 
-# 6.1.8.3 [2022/12/29]
+# 6.1.8.4 [2023/01/05]
 
 TBD (GA)
 
-# 6.1.8.2 [2022/12/22]
+# 6.1.8.3 [2022/12/29]
 
 TBD
+
+# 6.1.8.2 [2022/12/22]
+
+## 新特性
+
+- AutoMetrics、AutoTracing、AutoLogging
+  - 新增支持 SOFARPC 协议
+- Grafana
+  - 支持作为 Grafana Tempo 数据源，在 Tempo 页面展示 Tracing 数据
 
 # 6.1.8.1 [2022/12/15]
 
