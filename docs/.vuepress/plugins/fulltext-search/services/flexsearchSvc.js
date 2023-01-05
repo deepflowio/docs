@@ -40,36 +40,36 @@ export default {
     index = new FlexSearch(indexSettings)
     index.add(pages)
 
-    // const cyrillicPages = pages.filter(p => p.charsets.cyrillic)
-    // const cjkPages = pages.filter(p => p.charsets.cjk)
+    const cyrillicPages = pages.filter(p => p.charsets.cyrillic)
+    const cjkPages = pages.filter(p => p.charsets.cjk)
 
-    // if (cyrillicPages.length) {
-    //   cyrillicIndex = new FlexSearch({
-    //     ...indexSettings,
-    //     encode: 'icase',
-    //     split: /\s+/,
-    //     tokenize: 'forward',
-    //   })
-    //   cyrillicIndex.add(cyrillicPages)
-    // }
-    // if (cjkPages.length) {
-    //   cjkIndex = new FlexSearch({
-    //     ...indexSettings,
-    //     encode: false,
-    //     tokenize: function (str) {
-    //       const cjkWords = []
-    //       let m = null
-    //       do {
-    //         m = cjkRegex.exec(str)
-    //         if (m) {
-    //           cjkWords.push(m[0])
-    //         }
-    //       } while (m)
-    //       return cjkWords
-    //     },
-    //   })
-    //   cjkIndex.add(cjkPages)
-    // }
+    if (cyrillicPages.length) {
+      cyrillicIndex = new FlexSearch({
+        ...indexSettings,
+        encode: 'icase',
+        split: /\s+/,
+        tokenize: 'forward',
+      })
+      cyrillicIndex.add(cyrillicPages)
+    }
+    if (cjkPages.length) {
+      cjkIndex = new FlexSearch({
+        ...indexSettings,
+        encode: false,
+        tokenize: function (str) {
+          const cjkWords = []
+          let m = null
+          do {
+            m = cjkRegex.exec(str)
+            if (m) {
+              cjkWords.push(m[0])
+            }
+          } while (m)
+          return cjkWords
+        },
+      })
+      cjkIndex.add(cjkPages)
+    }
     pagesByPath = _.keyBy(pages, 'path')
   },
   async match (queryString, queryTerms, limit = 7) {
