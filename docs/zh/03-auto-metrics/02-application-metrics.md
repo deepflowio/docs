@@ -7,9 +7,9 @@ permalink: /auto-metrics/application-metrics
 
 无需向应用中插入任何代码，DeepFlow 自动生成所有服务的应用性能指标：
 - 数据库表名：`flow_metrics.vtap_app_port`
-- 自动注入的 Tag 列表：IP、协议、端口、采集位置、云资源、K8s 资源、K8s 自定义 Label，详细字段描述如下。[csv-IP、协议、端口、采集位置、云资源、K8s 资源](https://raw.githubusercontent.com/deepflowys/deepflow/main/server/querier/db_descriptions/clickhouse/tag/flow_metrics/vtap_app_port)
+- 自动注入的 Tag 列表：IP、协议、端口、采集位置、云资源、K8s 资源、K8s 自定义 Label，详细字段描述如下。[csv-IP、协议、端口、采集位置、云资源、K8s 资源](https://raw.githubusercontent.com/deepflowys/deepflow/main/server/querier/db_descriptions/clickhouse/tag/flow_metrics/vtap_app_port.ch)
   - 支持的应用协议列表：L7 Protocol List，详细字段描述如下。[csv-L7 Protocol List](https://raw.githubusercontent.com/deepflowys/deepflow/main/server/querier/db_descriptions/clickhouse/tag/enum/l7_protocol)
-- Metrics 列表：吞吐、时延、异常，详细字段描述如下。[csv-吞吐、时延、异常](https://raw.githubusercontent.com/deepflowys/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/vtap_app_port)
+- Metrics 列表：吞吐、时延、异常，详细字段描述如下。[csv-吞吐、时延、异常](https://raw.githubusercontent.com/deepflowys/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/vtap_app_port.ch)
 
 基于上述数据可通过 Grafana 构建丰富的 Dashboard。我们在 Grafana 中预置了一个 `Application - K8s Pod` Dashboard，效果图如下：
 
@@ -21,9 +21,9 @@ permalink: /auto-metrics/application-metrics
 
 无需向应用中插入任何代码，DeepFlow 自动生成所有服务访问路径的应用性能指标：
 - 数据库表名：`flow_metrics.vtap_app_edge_port`
-- 自动注入的 Tag 列表：IP、协议、端口、采集位置、云资源、K8s 资源、K8s 自定义 Label，详细字段描述如下。[csv-IP、协议、端口、采集位置、云资源、K8s 资源](https://raw.githubusercontent.com/deepflowys/deepflow/main/server/querier/db_descriptions/clickhouse/tag/flow_metrics/vtap_app_edge_port)
+- 自动注入的 Tag 列表：IP、协议、端口、采集位置、云资源、K8s 资源、K8s 自定义 Label，详细字段描述如下。[csv-IP、协议、端口、采集位置、云资源、K8s 资源](https://raw.githubusercontent.com/deepflowys/deepflow/main/server/querier/db_descriptions/clickhouse/tag/flow_metrics/vtap_app_edge_port.ch)
   - 支持的应用协议列表：L7 Protocol List，详细字段描述如下。[csv-L7 Protocol List](https://raw.githubusercontent.com/deepflowys/deepflow/main/server/querier/db_descriptions/clickhouse/tag/enum/l7_protocol)
-- Metrics 列表：吞吐、时延、异常，详细字段描述如下。[csv-吞吐、时延、异常](https://raw.githubusercontent.com/deepflowys/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/vtap_app_edge_port)
+- Metrics 列表：吞吐、时延、异常，详细字段描述如下。[csv-吞吐、时延、异常](https://raw.githubusercontent.com/deepflowys/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/vtap_app_edge_port.ch)
 
 基于上述数据可通过 Grafana 构建丰富的 Dashboard。我们在 Grafana 中预置了一个 `Application - K8s Pod` Dashboard，效果图如下：
 
