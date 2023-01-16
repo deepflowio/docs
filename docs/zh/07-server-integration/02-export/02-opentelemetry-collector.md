@@ -208,7 +208,7 @@ Service 应用级别信息，全部计入 span.attributes 内，这里包括应�
 | version    		| span.attributes 		| df.dubbo.version			| 自定义|
 | request_type     	| span.attributes 		| df.dubbo.request_type 	| 自定义|
 | request_resource  | span.attributes 		| df.dubbo.request_resource	| 自定义|
-| request_id     	| span.attributes 		| df.dubbo.request_id		| 自定义|
+| request_id     	| span.attributes 		| df.global.request_id		| 自定义|
 | response_status   | span.attributes 		| df.dubbo.response_status	| 自定义|
 | response_code    	| span.attributes 		| df.dubbo.response_code	| 自定义|
 | response_exception| span.event 		    | event.name				| 标准字段|
@@ -248,7 +248,7 @@ Service 应用级别信息，全部计入 span.attributes 内，这里包括应�
 | 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
 | :----       | :----       | :---- 	  | :-----  |
 | request_type     	| span.attributes 		| df.kafka.request_type 	| 自定义|
-| request_id     	| span.attributes 		| df.kafka.request_id		| 自定义|
+| request_id     	| span.attributes 		| df.global.request_id		| 自定义|
 | response_status   | span.attributes 		| df.kafka.response_status	| 自定义|
 | response_code    	| span.attributes 		| df.kafka.response_code	| 自定义|
 | response_exception| span.event 		    | event.name				| 标准字段|
