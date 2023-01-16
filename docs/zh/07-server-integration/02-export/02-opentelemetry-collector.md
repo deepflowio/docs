@@ -10,14 +10,14 @@ permalink: /server-integration/export/opentelemetry-collector
 # Span 简介
 
 在 DeepFlow 内，关于 Span 可以分类为：
-- 应用 Span：使用进程级别的 Trace 框架（Agent/SDK）产生的应用级别的 Span 数据，包括 应用自定义 Span, 中间件 Client 埋点 Span, 通讯框架等。 这里的 Trace 框架包括但不仅限于：Apache SkyWalking Agent，OpenTelemetry Java Agent 以及其他。
+- 应用 Span：使用进程级别的 Trace 框架（Agent/SDK）产生的应用级别的 Span 数据，包括 应用自定义 Span，中间件 Client 埋点 Span，通讯框架等。 这里的 Trace 框架包括但不仅限于：Apache SkyWalking Agent，OpenTelemetry Java Agent 以及其他。
 - 系统 Span：DeepFlow 通过 eBPF 零侵入采集的 Span，覆盖系统调用、应用函数（如 HTTPS）、API Gateway、服务网格 Sidecar。
 - 网络 Span：DeepFlow 通过 BPF 从网络流量中采集的 Span，覆盖 iptables/ipvs/OvS/LinuxBridge 等容器网络组件。
 
 
 # OTel 相关
 
-关于 [OTLP Proto ](https://github.com/open-telemetry/opentelemetry-proto/blob/main/opentelemetry/proto/trace/v1/trace.proto)可以在这里找到关于你想要的 找到，其中关于 [Trace 语义约定](https://github.com/open-telemetry/opentelemetry-specification/tree/main/specification/trace/semantic_conventions) 在这里可以看到，Trace 内部 [Resource 语义约定](https://github.com/open-telemetry/opentelemetry-specification/tree/main/specification/resource/semantic_conventions) 可以在这里看到。
+关于 [OTLP Proto ](https://github.com/open-telemetry/opentelemetry-proto/blob/main/opentelemetry/proto/trace/v1/trace.proto)可以在这里找到，其中关于 [Trace 语义约定](https://github.com/open-telemetry/opentelemetry-specification/tree/main/specification/trace/semantic_conventions) 在这里可以看到，Trace 内部 [Resource 语义约定](https://github.com/open-telemetry/opentelemetry-specification/tree/main/specification/resource/semantic_conventions) 可以在这里看到。
 
 
 # 对等转换
@@ -64,7 +64,7 @@ Service 应用级别信息，全部计入 span.attributes 内，这里包括应�
 | start_time  | span.start_time_unix_nano 	| span.start_time_unix_nano | 注意时间格式转换，会转换为符合 OTel 的时间 |
 | end_time    | span.end_time_unix_nano   	| span.end_time_unix_nano 	| 注意时间格式转换，会转换为符合 OTel 的时间 |
 | close_type  | resource.attributes 		| df.flow_info.close_type 	| |
-| status      | span.status 				| span.status 				| 原始取值：0:正常, 1:异常 ,2:不存在，3:服务端异常, 4:客户端异常 映射后会匹配到标准 OTel Status|
+| status      | span.status 				| span.status 				| 原始取值：0:正常，1:异常，2:不存在，3:服务端异常， 4:客户端异常 映射后会匹配到标准 OTel Status|
 | is_new_flow | resource.attributes 		| df.flow_info.is_new_flow  | 备注：|
 
 ### Capture Info	
@@ -73,18 +73,18 @@ Service 应用级别信息，全部计入 span.attributes 内，这里包括应�
 
 | 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
 | :----       | :----       | :---- 	  | :-----  |
-| signal_source     | resource.attributes 		| df.apture_info.signal_source 	| |
-| tap     			| resource.attributes 		| df.apture_info.tap 			| |
-| nat_source     	| resource.attributes 		| df.apture_info.nat_source 	| |
-| tap_port     		| resource.attributes 		| df.apture_info.tap_port 		| |
-| tap_port_name     | resource.attributes 		| df.apture_info.tap_port_name 	| |
-| tap_port_type     | resource.attributes 		| df.apture_info.tap_port_type 	| |
-| tap_side     		| resource.attributes 		| df.apture_info.tap_side 		| |
-| l2_end	     	| resource.attributes 		| df.apture_info.l2_end 		| |
-| l3_end     		| resource.attributes 		| df.apture_info.l3_end 		| |
-| has_pcap     		| resource.attributes 		| df.apture_info.has_pcap 		| |
-| nat_real_ip     	| resource.attributes 		| df.apture_info.nat_real_ip 	| |
-| nat_real_port     | resource.attributes 		| df.apture_info.nat_real_port 	| 备注：|
+| signal_source     | resource.attributes 		| df.capture_info.signal_source 	| |
+| tap     			| resource.attributes 		| df.capture_info.tap 			| |
+| nat_source     	| resource.attributes 		| df.capture_info.nat_source 	| |
+| tap_port     		| resource.attributes 		| df.capture_info.tap_port 		| |
+| tap_port_name     | resource.attributes 		| df.capture_info.tap_port_name 	| |
+| tap_port_type     | resource.attributes 		| df.capture_info.tap_port_type 	| |
+| tap_side     		| resource.attributes 		| df.capture_info.tap_side 		| |
+| l2_end	     	| resource.attributes 		| df.capture_info.l2_end 		| |
+| l3_end     		| resource.attributes 		| df.capture_info.l3_end 		| |
+| has_pcap     		| resource.attributes 		| df.capture_info.has_pcap 		| |
+| nat_real_ip     	| resource.attributes 		| df.capture_info.nat_real_ip 	| |
+| nat_real_port     | resource.attributes 		| df.capture_info.nat_real_port 	| 备注：|
 
 ### Tunnel Info	
 
