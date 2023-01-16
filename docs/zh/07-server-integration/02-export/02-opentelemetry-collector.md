@@ -20,9 +20,9 @@ permalink: /server-integration/export/opentelemetry-collector
 关于 [OTLP Proto ](https://github.com/open-telemetry/opentelemetry-proto/blob/main/opentelemetry/proto/trace/v1/trace.proto)可以在这里找到，其中关于 [Trace 语义约定](https://github.com/open-telemetry/opentelemetry-specification/tree/main/specification/trace/semantic_conventions) 在这里可以看到，Trace 内部 [Resource 语义约定](https://github.com/open-telemetry/opentelemetry-specification/tree/main/specification/resource/semantic_conventions) 可以在这里看到。
 
 
-# 对等转换
+# 通用字段对等转换
 
-在 Flow_log 中有套内部逻辑将所有数据按照层级进行分类，在这里的对等转换即为 将分层的 [Flow_Log](https://deepflow.yunshan.net/docs/zh/auto-metrics/flow-log/) 数据转换为标准的 OTel 格式数据。
+在 Flow_log 中有套内部逻辑将所有数据按照层级进行分类，在这里的对等转换即为 将分层的 [Flow_Log](https://deepflow.yunshan.net/docs/zh/auto-metrics/flow-log/) 通用字段转换到标准的 OTel 格式数据。
 
 ### Tracing Info
 
@@ -31,7 +31,6 @@ permalink: /server-integration/export/opentelemetry-collector
 | 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
 | :----       | :----       | :---- 	  | :-----  |
 | x_request_id    			| span.attributes 		| df.span.x_request_id				|  |
-| http_proxy_client     	| span.attributes 		| df.span.http_proxy_client 		|  |
 | syscall_trace_id_request  | span.attributes 		| df.span.syscall_trace_id_request	|  |
 | syscall_trace_id_response | span.attributes 		| df.span.syscall_thread_0			|  |
 | syscall_thread_0     		| span.attributes 		| df.span.syscall_thread_0			|  |
@@ -184,3 +183,111 @@ Service 应用级别信息，全部计入 span.attributes 内，这里包括应�
 | 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
 | :----       | :----       | :---- 	  | :-----  |
 | l7_protocol    	| resource.attributes 		| df.application.l7_protocol | 字段映射详细说明|
+
+
+# 已知协议对等转换
+
+这里对每种协议特殊字段映射到 OTLP 标准字段内做特殊补充（通用字段请从上面查找）。
+
+### DNS
+
+| 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
+| :----       | :----       | :---- 	  | :-----  |
+| request_type     	| span.attributes 		| df.dns.request_type   	| 自定义|
+| request_resource  | span.attributes 		| df.dns.request_resource	| 自定义|
+| request_id     	| span.attributes 		| df.global.request_id		| 自定义|
+| response_status   | span.attributes 		| df.dns.response_status	| 自定义|
+| response_code    	| span.attributes 		| df.dns.response_code		| 自定义|
+| response_exception| span.event 		    | event.name				| 标准字段|
+| response_result 	| span.attributes 		| df.dns.response_result	| 自定义|
+
+### Dubbo
+
+| 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
+| :----       | :----       | :---- 	  | :-----  |
+| version    		| span.attributes 		| df.dubbo.version			| 自定义|
+| request_type     	| span.attributes 		| df.dubbo.request_type 	| 自定义|
+| request_resource  | span.attributes 		| df.dubbo.request_resource	| 自定义|
+| request_id     	| span.attributes 		| df.dubbo.request_id		| 自定义|
+| response_status   | span.attributes 		| df.dubbo.response_status	| 自定义|
+| response_code    	| span.attributes 		| df.dubbo.response_code	| 自定义|
+| response_exception| span.event 		    | event.name				| 标准字段|
+| endpoint 			| 无 					| service.name/spans.name	| 标准字段|
+
+### Grpc
+
+| 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
+| :----       | :----       | :---- 	  | :-----  |
+| version    		| span.attributes 		| http.flavor			| 标准字段|
+| request_type     	| span.attributes 		| http.method 			| 标准字段|
+| request_domain   	| span.attributes 		| net.peer.name 		| 标准字段|
+| request_resource  | span.attributes 		| df.http.path			| 自定义|
+| request_id     	| span.attributes 		| df.global.request_id	| 自定义|
+| response_status   | span.attributes 		| http.status_code		| 标准字段|
+| response_code    	| span.attributes 		| http.status_code		| 标准字段|
+| response_exception| span.event 		    | event.name			| 标准字段|
+| endpoint 			| span.attributes 		| df.grpc.endpoint		| 自定义|
+| http_proxy_client | span.attributes 		| df.http.proxy_client	| 自定义|
+
+### HTTP
+
+| 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
+| :----       | :----       | :---- 	  | :-----  |
+| version    		| span.attributes 		| http.flavor			| 标准字段|
+| request_type     	| span.attributes 		| http.method 			| 标准字段|
+| request_domain   	| span.attributes 		| net.peer.name 		| 标准字段|
+| request_resource  | span.attributes 		| df.http.path			| 自定义|
+| request_id     	| span.attributes 		| df.global.request_id	| 自定义|
+| response_status   | span.attributes 		| http.status_code		| 标准字段|
+| response_code    	| span.attributes 		| http.status_code		| 标准字段|
+| response_exception| span.event 		    | event.name			| 标准字段|
+| http_proxy_client | span.attributes 		| df.http.proxy_client	| 自定义|
+
+### Kafka
+
+| 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
+| :----       | :----       | :---- 	  | :-----  |
+| request_type     	| span.attributes 		| df.kafka.request_type 	| 自定义|
+| request_id     	| span.attributes 		| df.kafka.request_id		| 自定义|
+| response_status   | span.attributes 		| df.kafka.response_status	| 自定义|
+| response_code    	| span.attributes 		| df.kafka.response_code	| 自定义|
+| response_exception| span.event 		    | event.name				| 标准字段|
+
+### MQTT
+
+| 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
+| :----       | :----       | :---- 	  | :-----  |
+| request_type     	| span.attributes 		| df.mqtt.request_type 		| 自定义|
+| request_resource  | span.attributes 		| df.mqtt.request_resource	| 自定义|
+| request_domain	| span.attributes 		| df.mqtt.request_domain	| 自定义|
+| response_code    	| span.attributes 		| df.mqtt.response_code		| 自定义|
+| response_status   | span.attributes 		| df.mqtt.response_status	| 自定义|
+
+### MySQL
+
+| 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
+| :----       | :----       | :---- 	  | :-----  |
+| request_type     	| span.attributes 		| df.mysql.request_type 	| 自定义|
+| request_resource  | span.attributes 		| df.mysql.request_resource	| 自定义|
+| response_status   | span.attributes 		| df.mysql.response_status	| 自定义|
+| response_code    	| span.attributes 		| df.mysql.response_code	| 自定义|
+| response_exception| span.event 		    | event.name				| 标准字段|
+
+### PostgreSQL
+
+| 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
+| :----       | :----       | :---- 	  | :-----  |
+| request_type     	| span.attributes 		| df.pg.request_type 	| 自定义|
+| request_resource  | span.attributes 		| df.pg.request_resource| 自定义|
+| response_status   | span.attributes 		| df.pg.response_status	| 自定义|
+| response_code    	| span.attributes 		| df.pg.response_code	| 自定义|
+| response_exception| span.event 		    | event.name			| 标准字段|
+
+### Redis
+
+| 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
+| :----       | :----       | :---- 	  | :-----  |
+| request_type     	| span.attributes 		| df.redis.request_type 	| 自定义|
+| request_resource  | span.attributes 		| df.redis.request_resource	| 自定义|
+| response_status   | span.attributes 		| df.redis.response_status	| 自定义|
+| response_exception| span.event 		    | event.name				| 标准字段|
