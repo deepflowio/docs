@@ -3,13 +3,20 @@ title: DeepFlow 6.1 Release Notes
 permalink: /release-notes/release-6.1
 ---
 
+# 6.1.8.5 [2023/01/12] LTS
+
+- Bugfix
+
 # 6.1.8.4 [2023/01/05]
 
-TBD (GA)
+## 新特性
+
+- Management
+  - 使用托管 MySQL 时支持指定 database 名称
 
 # 6.1.8.3 [2022/12/29]
 
-TBD
+- Bugfix
 
 # 6.1.8.2 [2022/12/22]
 
