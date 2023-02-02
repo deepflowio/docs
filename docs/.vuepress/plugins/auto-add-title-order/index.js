@@ -24,7 +24,9 @@ module.exports = function (md, config) {
             // 后面的清除掉
             cacheTitleOrder.splice(leavel + 1, cacheTitleOrder.length - leavel)
         } else {
-            cacheTitleOrder[leavel] = 1
+            do {
+                cacheTitleOrder[leavel--] = 1
+            } while (!cacheTitleOrder[leavel] && leavel >= 0)
         }
 
         const _cacheTitleOrder = cacheTitleOrder.filter(Boolean) // [null, 1]
