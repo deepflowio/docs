@@ -16,7 +16,7 @@ Although deepflow-agent can run in various environments, deepflow-server must ru
 
 ## Deploy The All-in-One K8s
 
-Use [sealos](https://github.com/labring/sealos)  to quickly install a K8s cluster：：
+Use [sealos](https://github.com/labring/sealos)  to quickly install a K8s cluster：
 
 ```bash
 # install sealos
