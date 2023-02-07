@@ -86,7 +86,7 @@ helm install deepflow -n deepflow deepflow/deepflow --create-namespace \
 :::
 
 notice：
-- We recommend that the contents of helm's '--set' parameters be saved in a separate yaml file, as described in the section [Advanced Configuration](#)章节。
+- We recommend that the contents of helm's '--set' parameters be saved in a separate yaml file, as described in the section Advanced Configuration。
 
 # Download deepflow-ctl
 
@@ -113,8 +113,8 @@ Grafana auth: admin:deepflow
 
 # The Next Step
 
-- [Microservice Panorama - Experience DeepFlow's AutoMetrics capability based on BPF](../auto-metrics/metrics-without-instrumentation/)
-- [Automatic Distributed Tracing - Experience DeepFlow's AutoTracing capability based on eBPF](../auto-tracing/tracing-without-instrumentation/)
-- [Eliminating Data Silos - Learn about AutoTagging and SmartEncoding capabilities for DeepFlow](../auto-tagging/elimilate-data-silos/)
-- [How DeepFlow handle high-cardinality - Integrate Promethes and other metrics data](../agent-integration/metrics/metrics-auto-tagging/)
-- [Distributed tracking without blind spots - Integrate tracing data such as OTel](../agent-integration/tracing/tracing-without-blind-spot/)
+- Microservice Panorama - Experience DeepFlow's AutoMetrics capability based on BPF
+- Automatic Distributed Tracing - Experience DeepFlow's AutoTracing capability based on eBPF
+- Eliminating Data Silos - Learn about AutoTagging and SmartEncoding capabilities for DeepFlow
+- How DeepFlow handle high-cardinality - Integrate Promethes and other metrics data
+- Distributed tracking without blind spots - Integrate tracing data such as OTel
