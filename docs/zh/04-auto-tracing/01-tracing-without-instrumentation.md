@@ -19,6 +19,8 @@ permalink: /auto-tracing/tracing-without-instrumentation
   - [ ] 服务 A 内线程 X 生产消息，经过内存消息队列后由另一个线程 Y 消费消息
   - [ ] 服务 A 生产消息，经过消息队列（如 Kafka/Redis）后由服务 B 消费消息
 - 协程调度（hybrid threading）场景下的追踪，例如内核线程和用户态线程不是一一对应的场景
-  - [ ] Golang、Erlang 等协程/轻量级线程语言，跨协程处理请求
+  - [x] Golang Goroutine：Goroutine A 接收客户端 a 的调用，并创建 Goroutine B/C/... 请求上游服务 b/c/...
+  - [ ] Golang Goroutine：有 Channel 参与的场景
   - [x] BFE（Golang 实现）网关跨协程处理请求
+  - [ ] Erlang 等协程或轻量级线程语言
 :::
