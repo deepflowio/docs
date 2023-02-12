@@ -220,3 +220,8 @@ API 调用方式：
 curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/query/" \
     --data-urlencode "sql=show metric function"
 ```
+
+# SQL 语法
+
+- 左值不支持空格、单引号、反引号
+- 右值中的单引号，需要使用转义符 `\` 进行转义
