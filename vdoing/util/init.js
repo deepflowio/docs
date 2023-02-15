@@ -210,7 +210,7 @@ export default () => {
     })
 
     async function getGithubInfo() {
-        const res = await fetch('https://api.github.com/repos/deepflowys/deepflow').then(response => response.json())
+        const res = await fetch('https://api.github.com/repos/deepflowio/deepflow').then(response => response.json())
         if (!res.stargazers_count) {
             return false
         }

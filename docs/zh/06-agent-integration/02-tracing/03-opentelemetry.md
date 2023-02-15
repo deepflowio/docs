@@ -71,7 +71,7 @@ end
 查看 [OpenTelemetry 文档](https://opentelemetry.io/docs/) 可了解相关背景知识。
 如果你的环境中还没有 OpenTelemetry，可以使用如下命令在 `open-telemetry` 命名空间中快速部署一个 otel-agent DaesmonSet：
 ```bash
-kubectl apply -n open-telemetry -f https://raw.githubusercontent.com/deepflowys/deepflow-demo/main/open-telemetry/open-telemetry.yaml
+kubectl apply -n open-telemetry -f https://raw.githubusercontent.com/deepflowio/deepflow-demo/main/open-telemetry/open-telemetry.yaml
 ```
 
 安装完毕之后，可以在环境里看到这样一个组件清单：
@@ -158,7 +158,7 @@ deepflow-ctl agent-group-config create -f your-agent-group-config.yaml
 
 使用如下命令可以一键部署这个 Demo：
 ```bash
-kubectl apply -n deepflow-otel-spring-demo -f https://raw.githubusercontent.com/deepflowys/deepflow-demo/main/DeepFlow-Otel-Spring-Demo/deepflow-otel-spring-demo.yaml
+kubectl apply -n deepflow-otel-spring-demo -f https://raw.githubusercontent.com/deepflowio/deepflow-demo/main/DeepFlow-Otel-Spring-Demo/deepflow-otel-spring-demo.yaml
 ```
 
 ## 查看追踪数据
@@ -552,7 +552,7 @@ classDef php fill:#4f5d95,color:white;
 
 使用如下命令可以一键部署这个 Demo：
 ```bash
-kubectl apply -n deepflow-otel-grpc-demo -f https://raw.githubusercontent.com/deepflowys/deepflow-demo/main/DeepFlow-Otel-Grpc-Demo/deepflow-otel-grpc-demo.yaml
+kubectl apply -n deepflow-otel-grpc-demo -f https://raw.githubusercontent.com/deepflowio/deepflow-demo/main/DeepFlow-Otel-Grpc-Demo/deepflow-otel-grpc-demo.yaml
 ```
 
 ## 查看追踪数据

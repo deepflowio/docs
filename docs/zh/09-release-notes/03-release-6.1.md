@@ -44,8 +44,8 @@ permalink: /release-notes/release-6.1
   - 为数据表增加 signal\_source 标签字段，表示信号源，目前支持进行区分的三种信号源为：Packet (cBPF)、eBPF、OTel
   - deepflow-agent 支持运行于 K8s macvlan/ipvlan CNI 环境中，并自动计算 Pod 访问关系和性能指标，macvlan 环境的详细配置方法[参考文档](https://deepflow.yunshan.net/docs/zh/install/advanced-config/agent-advanced-config/#macvlan)
   - 支持 deepflow-agent 运行于不具备 SYS\_ADMIN 权限的 K8s Pod 中，详细权限要求[参考文档](https://deepflow.yunshan.net/docs/zh/install/overview/#运行权限及内核要求)
-  - 支持配置 deepflow-agent 采集 eBPF Socket Data 的[最大长度](https://github.com/deepflowys/deepflow/blob/main/server/controller/model/agent_group_config_example.yaml#L252)，以提升采集性能
-  - 支持配置 deepflow-server 中向 ingester 模块同步的[资源信息](https://github.com/deepflowys/deepflow/blob/main/server/server.yaml#L28)，从而降低多 K8s 集群下 ingester 模块 AutoTagging 功能的资源消耗
+  - 支持配置 deepflow-agent 采集 eBPF Socket Data 的[最大长度](https://github.com/deepflowio/deepflow/blob/main/server/controller/model/agent_group_config_example.yaml#L252)，以提升采集性能
+  - 支持配置 deepflow-server 中向 ingester 模块同步的[资源信息](https://github.com/deepflowio/deepflow/blob/main/server/server.yaml#L28)，从而降低多 K8s 集群下 ingester 模块 AutoTagging 功能的资源消耗
 
 ## 优化
 
@@ -67,10 +67,10 @@ permalink: /release-notes/release-6.1
 - Event
   - 自动生成云服务器、K8s Pod 的增、删、变更事件，并增加 [Grafana Dashboard](https://ce-demo.deepflow.yunshan.net/d/Event/event?orgId=1)
 - Management
-  - 支持配置应用协议解析的端口范围以降低误报率，配置方法参考 [l7-protocol-ports 配置项](https://github.com/deepflowys/deepflow/blob/main/server/controller/model/vtap_group_config_example.go#L816)
-  - deepflow-agent 支持使用固定的负载均衡器 IP 地址请求 deepflow-server，配置方法参考 [proxy_controller_ip 和 analyzer_ip 字段](https://github.com/deepflowys/deepflow/blob/main/server/controller/model/vtap_group_config_example.go#L215)
-  - 支持在 agent-group-config 中指定 [tap-mode](https://github.com/deepflowys/deepflow/blob/main/server/controller/model/vtap_group_config_example.go#L127)，使得 deepflow-agent 可运行于 macvlan 等特殊 CNI 环境中
-  - 支持在 deepflow-agent.yaml 中配置 [kubernetes-cluster-name](https://github.com/deepflowys/deepflow/blob/main/agent/config/deepflow-agent.yaml#L27)，用于指定 K8s 集群名称
+  - 支持配置应用协议解析的端口范围以降低误报率，配置方法参考 [l7-protocol-ports 配置项](https://github.com/deepflowio/deepflow/blob/main/server/controller/model/vtap_group_config_example.go#L816)
+  - deepflow-agent 支持使用固定的负载均衡器 IP 地址请求 deepflow-server，配置方法参考 [proxy_controller_ip 和 analyzer_ip 字段](https://github.com/deepflowio/deepflow/blob/main/server/controller/model/vtap_group_config_example.go#L215)
+  - 支持在 agent-group-config 中指定 [tap-mode](https://github.com/deepflowio/deepflow/blob/main/server/controller/model/vtap_group_config_example.go#L127)，使得 deepflow-agent 可运行于 macvlan 等特殊 CNI 环境中
+  - 支持在 deepflow-agent.yaml 中配置 [kubernetes-cluster-name](https://github.com/deepflowio/deepflow/blob/main/agent/config/deepflow-agent.yaml#L27)，用于指定 K8s 集群名称
 
 ## 优化
 
@@ -135,7 +135,7 @@ permalink: /release-notes/release-6.1
 ## 优化
 
 - AutoLogging
-  - 梳理应用协议解析流程，降低[添加支持更多应用协议](https://github.com/deepflowys/deepflow/blob/main/docs/HOW_TO_SUPPORT_YOUR_PROTOCOL_CN.MD)的门槛
+  - 梳理应用协议解析流程，降低[添加支持更多应用协议](https://github.com/deepflowio/deepflow/blob/main/docs/HOW_TO_SUPPORT_YOUR_PROTOCOL_CN.MD)的门槛
 - AutoTagging
   - 增加 `deepflow-ctl cloud info` 命令调试从云平台 API 同步到的资源信息
 - SmartEncoding

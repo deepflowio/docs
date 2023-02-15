@@ -40,7 +40,7 @@ helm repo add influxdata https://helm.influxdata.com/
 helm upgrade --install telegraf influxdata/telegraf -n deepflow-telegraf-demo --create-namespace
 
 # switch from deployment to daemonset
-kubectl apply -f https://raw.githubusercontent.com/deepflowys/deepflow-demo/main/DeepFlow-Telegraf-Demo/deepflow-telegraf-demo.yaml
+kubectl apply -f https://raw.githubusercontent.com/deepflowio/deepflow-demo/main/DeepFlow-Telegraf-Demo/deepflow-telegraf-demo.yaml
 ```
 
 ## 配置 Telegraf 数据输出

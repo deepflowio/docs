@@ -147,5 +147,5 @@ d. 第一行`#`开头的是csv头部, 其余以`#`的行是注释，最后非空
 [csv-$csvTitle]($csvURL)
 
 eg:
-[csv-L7 Protocol List](https://raw.githubusercontent.com/deepflowys/deepflow/main/server/querier/db_descriptions/clickhouse/tag/enum/l7_protocol)
+[csv-L7 Protocol List](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/tag/enum/l7_protocol)
 ```

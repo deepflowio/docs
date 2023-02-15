@@ -57,7 +57,7 @@ deepflowServerNodeIPS:
 clusterNAME: k8s-1  # FIXME: name of the cluster in deepflow
 EOF
 
-helm repo add deepflow https://deepflowys.github.io/deepflow
+helm repo add deepflow https://deepflowio.github.io/deepflow
 helm repo update deepflow # use `helm repo update` when helm < 3.7.0
 helm install deepflow-agent -n deepflow deepflow/deepflow-agent --create-namespace \
     -f values-custom.yaml
