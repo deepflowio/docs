@@ -17,7 +17,7 @@ global:
   storageClass: "<your storageClass>"
   replicas: 1  ## replicas for deepflow-server and clickhouse
   image:
-    ## ghcr Image repository address: ghcr.io/deepflowys/deepflow-ce
+    ## ghcr Image repository address: ghcr.io/deepflowio/deepflow-ce
     ## Dockerhub Image repository address: deepflowce
     ## AliyunYun Image repository address: registry.cn-beijing.aliyuncs.com/deepflow-ce
     repository: registry.cn-beijing.aliyuncs.com/deepflow-ce ## change deepflow image registry to  aliyun
@@ -36,7 +36,7 @@ grafana:
 
 ## 修改 Server 配置文件
 
-参考 [server 配置文件](https://github.com/deepflowys/deepflow/blob/main/server/server.yaml)修改 values 中的对应字段即可,
+参考 [server 配置文件](https://github.com/deepflowio/deepflow/blob/main/server/server.yaml)修改 values 中的对应字段即可,
 例如修改日志级别:
 
 ```yaml

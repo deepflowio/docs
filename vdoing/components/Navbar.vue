@@ -34,7 +34,7 @@
         <div class="github flex">
           <a
             class="github-icon flex"
-            href="https://github.com/deepflowys/deepflow"
+            href="https://github.com/deepflowio/deepflow"
             target="_blank"
           >
             <img
@@ -44,7 +44,7 @@
           </a>
           <a
             class="github-stars"
-            href="https://github.com/deepflowys/deepflow"
+            href="https://github.com/deepflowio/deepflow"
             target="_blank"
           >
             ***
@@ -97,7 +97,7 @@
         <div class="github flex">
           <a
             class="github-icon flex"
-            href="https://github.com/deepflowys/deepflow"
+            href="https://github.com/deepflowio/deepflow"
             target="_blank"
           >
             <img
@@ -108,7 +108,7 @@
           </a>
           <a
             class="github-stars"
-            href="https://github.com/deepflowys/deepflow"
+            href="https://github.com/deepflowio/deepflow"
             target="_blank"
           >
             ***

@@ -63,7 +63,7 @@ kubectl patch storageclass openebs-hostpath  -p '{"metadata": {"annotations":{"s
 @tab Use Github and DockerHub
 
 ```bash
-helm repo add deepflow https://deepflowys.github.io/deepflow
+helm repo add deepflow https://deepflowio.github.io/deepflow
 helm repo update deepflow # use `helm repo update` when helm < 3.7.0
 helm install deepflow -n deepflow deepflow/deepflow --create-namespace
 ```

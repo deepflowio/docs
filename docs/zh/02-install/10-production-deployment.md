@@ -18,7 +18,7 @@ helm 增加 --version 6.1.8 参数安装升级 LTS 版本 DeepFlow Server 和 Ag
 @tab Use Github and DockerHub
 
 ```bash
-# helm repo add deepflow https://deepflowys.github.io/deepflow
+# helm repo add deepflow https://deepflowio.github.io/deepflow
 
 helm repo update deepflow # use `helm repo update` when helm < 3.7.0
 helm upgrade --install deepflow -n deepflow deepflow/deepflow --version 6.1.8 --create-namespace
@@ -60,7 +60,7 @@ helm upgrade --install deepflow -n deepflow deepflow/deepflow --version 6.1.8 --
 # clusterNAME: k8s-1  # FIXME: name of the cluster in deepflow
 # EOF
 
-# helm repo add deepflow https://deepflowys.github.io/deepflow
+# helm repo add deepflow https://deepflowio.github.io/deepflow
 
 helm repo update deepflow # use `helm repo update` when helm < 3.7.0
 helm upgrade --install deepflow-agent -n deepflow deepflow/deepflow-agent --version 6.1.8 --create-namespace \
@@ -79,7 +79,7 @@ helm upgrade --install deepflow-agent -n deepflow deepflow/deepflow-agent --vers
 # clusterNAME: k8s-1  # FIXME: name of the cluster in deepflow
 # EOF
 
-# helm repo add deepflow https://deepflowys.github.io/deepflow
+# helm repo add deepflow https://deepflowio.github.io/deepflow
 
 helm repo update deepflow # use `helm repo update` when helm < 3.7.0
 helm upgrade --install deepflow-agent -n deepflow deepflow/deepflow-agent --version 6.1.8 --create-namespace \

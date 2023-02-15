@@ -147,5 +147,5 @@ d. The first line # starts with the csv header, other comments that begin with #
 [csv-$csvTitle]($csvURL)
 
 eg:
-[csv-L7 Protocol List](https://raw.githubusercontent.com/deepflowys/deepflow/main/server/querier/db_descriptions/clickhouse/tag/enum/l7_protocol)
+[csv-L7 Protocol List](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/tag/enum/l7_protocol)
 ```
