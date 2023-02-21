@@ -56,6 +56,7 @@ remote_write:
 ```yaml
 remote_read:
   - url: http://${DEEPFLOW_SERVER_SVC}/api/v1/prom/read
+    read_recent: true
 ```
 
 # 配置 DeepFlow
