@@ -102,7 +102,7 @@ kubectl get cm -n open-telemetry otel-agent-conf -o custom-columns=DATA:.data | 
     grep -A 5 otlphttp:
 ```
 
-deepflow-agent 使用 NodePort 接收 trace，默认端口为 38086，将 otel-agent 的配置进行修改：
+deepflow-agent 使用 HostNetWork 监听端口接收 trace，默认端口为 38086，将 otel-agent 的配置进行修改：
 ```yaml
 otlphttp:
   traces_endpoint: "http://${HOST_IP}:38086/api/v1/otel/trace"

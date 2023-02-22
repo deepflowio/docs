@@ -36,16 +36,19 @@ vtap_group_id: <Your-agnet-group-ID>
 # write configurations here
 ```
 ### 创建 agent-group-config
+
 ```bash
 deepflow-ctl agent-group-config create -f your-agent-group-config.yaml
 ```
 
 ### 获取 agent-group-config 列表
+
 ```bash
 deepflow-ctl agent-group-config list
 ```
 
 ### 获取 agent-group-config 配置
+
 ```bash
 deepflow-ctl agent-group-config list <Your-agnet-group-ID> -o yaml
 ```
@@ -57,6 +60,7 @@ deepflow-ctl agent-group-config example
 ```
 
 ### 更新 agent-group-config 配置
+
 ```bash
 deepflow-ctl agent-group-config update -f your-agent-group-config.yaml
 ```
@@ -140,3 +144,39 @@ K8s 使用 macvlan CNI 时，在 rootns 下只能看到所有 POD 共用的一�
     ```bash
     deepflow-ctl agent list
     ```
+
+
+# 以进程形态部署 DeepFlow Agent
+
+当无法直接在 Kubernetes 集群中以 Daemonset 形式部署 DeepFlow Agent 时，但可在宿主机上直接部署二进制时，可使用该方法实现流量采集。
+
+- 以 deployment 形态部署一个 deepflow-agent
+  - 通过设置环境变量 ONLY_WATCH_K8S_RESOURCE，该 agent 仅实现对 K8s 资源的 list-watch 及上送控制器的功能
+  - 这个 agent 的其他所有功能均会自动关闭
+  - agent 请求 server 时告知自己在 watch_k8s，server 会将此信息更新到 MySQL 数据库中
+  - 用做 Watcher 的采集器将不会出现在采集器列表中
+
+- 在这个 K8s 集群中，以 Linux 进程的形态在所有 K8s Node 上运行一个 deepflow-agent，执行正常的 agent 功能
+  - 由于这些 agent 没有 IN_CONTAINER 环境变量，不会 list-watch K8s 资源
+  - 这些 agent 依然会获取 POD 的 IP 和 MAC
+  - 这些 agent 完成所有的数据采集功能
+  - server 向这些 agent 下发的采集器类型为 K8s
+
+## 部署方法
+
+### 部署 deployment 模式 DeepFlow Agent
+
+```bash
+cat << EOF > values-custom.yaml
+deployMode: process
+clusterNAME: process-example
+EOF
+helm install deepflow -n deepflow deepflow/deepflow-agent --create-namespace \
+  -f values-custom.yaml
+```
+部署后，将自动创建 Domain（对应此 K8s 集群），通过`deepflow-ctl domain list`中获取 `process-example` cluster 的 `kubernetes-cluster-id`，再继续下面的二进制安装
+
+### 部署二进制模式 DeepFlow Agent
+
+- 参考[传统服务器部署 DeepFlow Agent](../legacy-host/)，但无需创建 Domain
+- 修改 agent 配置文件 `/etc/deepflow-agent/deepflow-agent.yaml`，`kubernetes-cluster-id` 填写上一步获取的 ID
