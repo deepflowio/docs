@@ -152,4 +152,4 @@ jobs:
       if: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
       shell: bash
       run: |
-        kubectl set image -n deepservice-test deployment deepservice-docs deepservice-docs=${{ secrets.REGISTRY_ALIYUN_ADDR }}/deepservice/${{ env.IMAGE }}:${{ env.IMAGE_TAG_PREFIX }}-${{ github.run_id }}-${{ github.run_attempt }}
+        kubectl set image -n deepservice-test deployment deepservice-docs deepservice-docs=${{ secrets.REGISTRY_ALIYUN_ADDR }}/deepservice/${{ env.IMAGE }}:${{ env.IMAGE_TAG_PREFIX }}-${{ github.run_id }}-${{ github.run_attempt }} --kubeconfig=${{ secrets.DEEPFLOWIOKUBECONFIG}}
