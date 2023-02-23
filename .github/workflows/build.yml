@@ -144,7 +144,7 @@ jobs:
 
     - name: set kubeconfig
       shell: bash
-       run: |
+      run: |
        mkdir -p .kube
        echo ${{ secrets.DEEPFLOWIOKUBECONFIG}} >> .kube/config
 
