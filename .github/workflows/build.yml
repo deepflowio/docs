@@ -142,11 +142,11 @@ jobs:
         }' \
         ${{ secrets.FEISHU_ROBOT }}
 
-    - uses: aliyun/ack-set-context@v1
-      with:
-        access-key-id: "${{ secrets.ALIYUN_ACK_ACCESS_KEY_ID }}"
-        access-key-secret: "${{ secrets.ALIYUN_ACK_ACCESS_KEY_SECRET }}"
-        cluster-id: "${{ secrets.ALIYUN_ACK_CLUSTER_ID }}"
+    - name: set kubeconfig
+      shell: bash
+       run: |
+       mkdir -p .kube
+       echo ${{ secrets.DEEPFLOWIOKUBECONFIG}} >> .kube/config
 
     - name: update
       if: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main' && github.event.pull_request.merged == true }}
