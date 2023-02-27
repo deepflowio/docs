@@ -41,29 +41,31 @@ helm upgrade deepflow-agent -n deepflow deepflow/deepflow-agent -f values-custom
 通过 deepflow-ctl 升级云服务器和传统服务器上部署的 DeepFlow Agent：
 
 1. 下载最新的 deepflow-agent：
-    ```bash
-    curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/agent/stable/linux/amd64/deepflow-agent.tar.gz
-    tar -zxvf deepflow-agent.tar.gz -C /usr/sbin/
-    ```
+   ```bash
+   curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/agent/stable/linux/amd64/deepflow-agent.tar.gz
+   tar -zxvf deepflow-agent.tar.gz -C /usr/sbin/
+   ```
 
 2. 将本地二进制程序上传至 MySQL 数据库中保存：
-   `deepflow-ctl repo agent create --arch x86 --image /usr/sbin/deepflow-agent`
+   ```bash
+   deepflow-ctl repo agent create --arch x86 --image /usr/sbin/deepflow-agent
+   ```
+
    若多次上传相同文件名的二进制程序，则会进行覆盖；上传的二进制会进行压缩，压缩比约为 3.4。
 
 3. 查看仓库里的软件包：
-   `deepflow-ctl repo agent list`
+   ```bash
+   deepflow-ctl repo agent list
+   ```
 
 4. 执行升级：
-    ```bash
-    curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/agent/stable/linux/amd64/deepflow-agent.tar.gz
-    tar -zxvf deepflow-agent.tar.gz -C /usr/sbin/
-
-    deepflow-ctl agent list # get your cloud-host and legacy-host agent name
-    for AGENT in $(deepflow-ctl agent list | grep -E " CHOST_[VB]M " | awk '{print $1}')
-    do 
-        deepflow-ctl agent-upgrade $AGENT --image-name=deepflow-agent
-    done
-    ```
+   ```bash
+   deepflow-ctl agent list # get your cloud-host and legacy-host agent name
+   for AGENT in $(deepflow-ctl agent list | grep -E " CHOST_[VB]M " | awk '{print $1}')
+   do 
+     deepflow-ctl agent-upgrade $AGENT --image-name=deepflow-agent
+   done
+   ```
 
 # 获取最新 DeepFlow Grafana dashboard
 
