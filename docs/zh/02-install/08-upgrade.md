@@ -61,7 +61,7 @@ helm upgrade deepflow-agent -n deepflow deepflow/deepflow-agent -f values-custom
     deepflow-ctl agent list # get your cloud-host and legacy-host agent name
     for AGENT in $(deepflow-ctl agent list | grep -E " CHOST_[VB]M " | awk '{print $1}')
     do 
-        deepflow-ctl agent-upgrade $AGENT --package=/usr/sbin/deepflow-agent
+        deepflow-ctl agent-upgrade $AGENT --image-name=deepflow-agent
     done
     ```
 
