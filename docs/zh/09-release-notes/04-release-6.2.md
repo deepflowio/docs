@@ -3,14 +3,34 @@ title: DeepFlow 6.2 Release Notes
 permalink: /release-notes/release-6.2
 ---
 
-# 6.2.4 [TBD]
+# 6.2.5 [TBD]
 
 ## 新特性 (GA)
 
 - Universal Application Topology
   - **支持零插码自动展现进程粒度的全景应用拓扑** [FR-001-小米](https://github.com/deepflowio/deepflow/issues/1481)
+
+# 6.2.4 [2022/03/07]
+
+## 新特性（Alpha）
+
 - AutoTagging
   - 支持批量录入负载均衡器及其监听器的信息 [FR-022-小米](https://github.com/deepflowio/deepflow/issues/2406)
+
+## 新特性 (GA)
+
+- AutoTagging
+  - 自动继承父进程上标记的元数据 [FR-024-小米](https://github.com/deepflowio/deepflow/issues/2456)
+- SQL API
+  - 支持 SLIMIT 参数限制返回的 Series 数量
+
+## 优化
+
+- AutoTagging
+  - 进程粒度的应用拓扑适配端口复用的场景 [ISSUE-#2394](https://github.com/deepflowio/deepflow/issues/2394)
+- Management
+  - 支持配置 deepflow-agent list k8s-apiserver 的时间间隔
+  - 支持指定采集器所在环境的 Hostname
 
 # 6.2.3 [2022/02/21]
 
