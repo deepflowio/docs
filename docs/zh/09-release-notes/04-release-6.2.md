@@ -14,8 +14,11 @@ permalink: /release-notes/release-6.2
 
 ## 新特性（Alpha）
 
+- Integration
+  - 将 OpenTelemetry Span 数据预聚合为服务和路径指标
 - AutoTagging
   - 支持批量录入负载均衡器及其监听器的信息 [FR-022-小米](https://github.com/deepflowio/deepflow/issues/2406)
+  - 当无法按 Pod 分组时，auto\_service、auto\_instance（resource\_glX）优先按进程分组
 
 ## 新特性 (GA)
 
@@ -28,6 +31,7 @@ permalink: /release-notes/release-6.2
 
 - AutoTagging
   - 进程粒度的应用拓扑适配端口复用的场景 [ISSUE-#2394](https://github.com/deepflowio/deepflow/issues/2394)
+  - 字段改名：使用 auto\_instance 替代 resource\_gl0，使用 auto\_serivce 替代 resource\_gl2
 - Management
   - 支持配置 deepflow-agent list k8s-apiserver 的时间间隔
   - 支持指定采集器所在环境的 Hostname
