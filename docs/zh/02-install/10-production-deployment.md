@@ -178,6 +178,7 @@ mysql:
 - flow_log
 - flow_metrics
 - flow_tag
+- profile
   
 `values-custom.yaml` 配置：
 ```yaml
