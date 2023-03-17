@@ -51,7 +51,7 @@ permalink: /auto-metrics/metric-calc-desc
 
 ### 传输层 TCP 性能 (TCP Slow)
 
-[csv-传输层 TCP 性能](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/vtap_flow_port.ch?Category=L4 TCP Slow)
+[csv-传输层 TCP 性能](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/vtap_flow_port.ch?Category=TCP Slow)
 
 ### 传输层 TCP 异常 (TCP Error)
 
