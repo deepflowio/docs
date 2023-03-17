@@ -133,7 +133,7 @@ yarn install
 
 ````
 
-11. Generate data display from csv file address
+11. Generate data display from csv file address，here are some usage restrictions
 
 a. If the address is wrong, no csv data will be generated
 
@@ -148,4 +148,15 @@ d. The first line # starts with the csv header, other comments that begin with #
 
 eg:
 [csv-L7 Protocol List](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/tag/enum/l7_protocol)
+```
+
+12. Generate an upgraded version of the data display from the csv file address
+
+Compared to the previous version, this version mainly loads Category data on demand, not all data
+
+```
+[csv-$csvTitle]($csvURL?Category=xxx)
+
+eg:
+[csv-L7 Protocol List](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/vtap_app_port.ch?Category=Throuthput)
 ```

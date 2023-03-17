@@ -133,7 +133,7 @@ yarn install
 
 ````
 
-11. 从 csv 文件地址中生成数据显示
+11. 从 csv 文件地址中生成数据显示，以下是一些使用限制
 
 a. 如果地址错误，则不会生成csv数据
 
@@ -148,4 +148,15 @@ d. 第一行`#`开头的是csv头部, 其余以`#`的行是注释，最后非空
 
 eg:
 [csv-L7 Protocol List](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/tag/enum/l7_protocol)
+```
+
+12. 从 csv 文件地址中生成数据显示 升级版
+
+相对于上一个版本，此版本主要是按需加载Category的数据，不会加载全部的数据
+
+```
+[csv-$csvTitle]($csvURL?Category=xxx)
+
+eg:
+[csv-L7 Protocol List](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/vtap_app_port.ch?Category=Throuthput)
 ```
