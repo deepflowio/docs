@@ -17,15 +17,15 @@ permalink: /auto-metrics/metric-calc-desc
 
 ### 吞吐量（Throuthput）
 
-[csv-吞吐量](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/tag/flow_metrics/vtap_app_port.ch?Category=Throuthput)
+[csv-吞吐量](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/vtap_app_port.ch?Category=Throuthput)
 
 ### 时延（Delay）
 
-[csv-时延](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/tag/flow_metrics/vtap_app_port.ch?Category=Delay)
+[csv-时延](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/vtap_app_port.ch?Category=Delay)
 
 ### 异常（Error）
 
-[csv-异常](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/tag/flow_metrics/vtap_app_port.ch?Category=Error)
+[csv-异常](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/vtap_app_port.ch?Category=Error)
 
 ## 网络指标
 
@@ -33,11 +33,11 @@ permalink: /auto-metrics/metric-calc-desc
 
 ### 网络层吞吐量 (L3 Throughput)
 
-[csv-网络层吞吐](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/tag/flow_metrics/vtap_flow_port.ch?Category=L3 Throughput)
+[csv-网络层吞吐](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/vtap_flow_port.ch?Category=L3 Throughput)
 
 ### 传输层吞吐量（L4 Throughput）
 
-[csv-传输层吞吐量](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/tag/flow_metrics/vtap_flow_port.ch?Category=L4 Throughput)
+[csv-传输层吞吐量](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/vtap_flow_port.ch?Category=L4 Throughput)
 
 活跃连接计算逻辑：
 - 采集器以四元组（客户端 IP、服务端 IP、协议、服务端口）为单位统计原始活跃连接数，并进而计算出资源、路径对应的活跃连接数
@@ -51,11 +51,11 @@ permalink: /auto-metrics/metric-calc-desc
 
 ### 传输层 TCP 性能 (TCP Slow)
 
-[csv-传输层 TCP 性能](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/tag/flow_metrics/vtap_flow_port.ch?Category=L4 TCP Slow)
+[csv-传输层 TCP 性能](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/vtap_flow_port.ch?Category=L4 TCP Slow)
 
 ### 传输层 TCP 异常 (TCP Error)
 
-[csv-传输层 TCP 异常](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/tag/flow_metrics/vtap_flow_port.ch?Category=TCP Error)
+[csv-传输层 TCP 异常](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/vtap_flow_port.ch?Category=TCP Error)
 
 TCP 客户端建连异常
 
@@ -80,7 +80,7 @@ TCP 断连异常
 
 ### 传输层时延 (Delay)
 
-[csv-传输层时延](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/tag/flow_metrics/vtap_flow_port.ch?Category=Delay)
+[csv-传输层时延](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/vtap_flow_port.ch?Category=Delay)
 
 ![TCP 网络时延解剖](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023030364019bdd98b78.jpg)
 
@@ -95,13 +95,13 @@ TCP 断连异常
 
 ### 应用层指标（Application）
 
-[csv-应用层指标](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/tag/flow_metrics/vtap_flow_port.ch?Category=Application)  
+[csv-应用层指标](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/vtap_flow_port.ch?Category=Application)  
 
 ### 基数统计 (Cardinality)
 
 统计周期内，计数采集到的数据不重复的 tag 个数。例如查询所有访问 pod_1 的`客户端 IP 地址 (ip_0)`这个指标量，表达的含义则是访问 pod_1 所有流量里面不重复的客户端 IP 地址有多少个。
 
-[csv-基数统计](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/tag/flow_metrics/vtap_flow_port.ch?Category=Cardinality)  
+[csv-基数统计](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/vtap_flow_port.ch?Category=Cardinality)  
 
 # 算子
 
