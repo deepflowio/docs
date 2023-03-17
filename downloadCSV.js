@@ -101,9 +101,45 @@ function createTable(table, url) {
 
     return tableString
 }
-const cacheMap = {
+const mergeCHAndOrigin = (chTable, originTable, headers, {
+    key = 'Category',
+    value
+}) => {
+    const { tableHeader: chTableHeader, tableContent: chTableContent } = chTable
+    const { tableHeader: originTableHeader, tableContent: originTableContent } = originTable
+    if (!originTableHeader.includes(key)) {
+        return {
+            tableHeader: [],
+            tableContent: []
+        }
+    }
 
+    const keyIndex = originTableHeader.indexOf(key)
+    const filteredOrigin = originTableContent.filter(content => content[keyIndex] === value) // 读取到列
+    const keys = filteredOrigin.map(item => item[0]) // 读取到keys
+    const filteredCh = chTableContent.filter(item => keys.includes(item[0]))
+    let newTableContent = new Array(keys.length).fill(1)
+    newTableContent = newTableContent.map(() => ([]))
+    headers.forEach((header, index) => {
+        if (originTableHeader.includes(header)) {
+            const hIndex = originTableHeader.indexOf(header)
+            filteredOrigin.forEach((f, i) => {
+                newTableContent[i][index] = f[hIndex]
+            })
+        } else if (chTableHeader.includes(header)) {
+            const chIndex = chTableHeader.indexOf(header)
+            filteredCh.forEach((f, i) => {
+                newTableContent[i][index] = f[chIndex]
+            })
+        }
+    })
+    return {
+        tableHeader: headers,
+        tableContent: newTableContent
+    }
 }
+const categoryHeaders = ['Field', 'DisplayName', 'Unit', 'Type', 'Description']
+const cacheMap = {}
 async function work(sourceDir) {
     let files = fs.readdirSync(sourceDir);
     files = files.filter(name => name !== ".vuepress")
@@ -118,9 +154,23 @@ async function work(sourceDir) {
                 for (let a = 0; a < matchs.length; a++) {
                     const [, name, url] = matchs[a].match(csvNameAndUrlRxp)
                     const files = url.split("/")
+                    const isCategory = url.includes('Category=')
                     let tableString
                     if (url in cacheMap) {
                         tableString = cacheMap[url]
+                    } else if (isCategory) {
+                        const Category = url.split("?Category=")[1]
+                        const chURL = url.split("?")[0]
+                        const originURL = chURL.slice(0, -3)
+                        const chCSVContentString = await downloadCSV(chURL)
+                        const originCSVContentString = await downloadCSV(originURL)
+                        const chTable = analysis(chCSVContentString)
+                        const originTable = analysis(originCSVContentString)
+                        tableString = createTable(mergeCHAndOrigin(chTable, originTable, categoryHeaders, {
+                            key: 'Category',
+                            value: Category
+                        }), chURL)
+                        cacheMap[url] = tableString
                     } else {
                         const CSVContentString = await downloadCSV(url)
                         const table = analysis(CSVContentString)
