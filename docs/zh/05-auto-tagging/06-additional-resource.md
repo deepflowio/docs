@@ -1,6 +1,6 @@
 ---
 title: 手动注入
-permalink: /auto-tagging/additional-resource-tag
+permalink: /auto-tagging/additional-resource
 ---
 
 # 简介
@@ -67,7 +67,7 @@ PUT
 
 
 
-#### AZ 结构体
+AZ 结构体
 | 名称        | 类型   | 是否必填 | 说明        |
 | ----------- | ------ | -------- | ----------- |
 | name        | 字符串 | 是       |             |
@@ -75,7 +75,7 @@ PUT
 | domain_uuid | 字符串 | 是       | 云平台 UUID |
 
 
-#### VPC 结构体
+VPC 结构体
 | 名称        | 类型   | 是否必填 | 说明        |
 | ----------- | ------ | -------- | ----------- |
 | name        | 字符串 | 是       |             |
@@ -83,7 +83,7 @@ PUT
 | domain_uuid | 字符串 | 是       | 云平台 UUID |
 
 
-#### Subnet 结构体
+Subnet 结构体
 | 名称        | 类型       | 是否必填 | 说明                              |
 | ----------- | ---------- | -------- | --------------------------------- |
 | name        | 字符串     | 是       |                                   |
@@ -96,7 +96,7 @@ PUT
 | cidrs       | 字符串数组 | 是       | 例如：["x.x.x.x/x"]               |
 
 
-#### Host 结构体
+Host 结构体
 | 名称        | 类型                    | 是否必填 | 说明                                                               |
 | ----------- | ----------------------- | -------- | ------------------------------------------------------------------ |
 | name        | 字符串                  | 是       |                                                                    |
@@ -108,7 +108,7 @@ PUT
 | vinterfaces | Vinterface 1 结构体数组 | 否       | network interfaces                                                 |
 
 
-##### Vinterface 1 结构体
+Vinterface 1 结构体
 | 名称        | 类型       | 是否必填 | 说明                  |
 | ----------- | ---------- | -------- | --------------------- |
 | mac         | 字符串     | 是       | 例：xx:xx:xx:xx:xx:xx |
@@ -116,7 +116,7 @@ PUT
 | ips         | 字符串数组 | 否       | 例：["x.x.x.x"]       |
 
 
-#### Chost 结构体
+Chost 结构体
 | 名称        | 类型                    | 是否必填 | 说明                                                                                                                        |
 | ----------- | ----------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------- |
 | name        | 字符串                  | 是       |                                                                                                                             |
@@ -128,7 +128,7 @@ PUT
 | domain_uuid | 字符串                  | 是       | 云平台 UUID                                                                                                                 |
 | vinterfaces | Vinterface 2 结构体数组 | 否       | chost interfaces                                                                                                            |
 
-##### Vinterface 2 结构体
+Vinterface 2 结构体
 | 名称        | 类型       | 是否必填 | 说明                  |
 | ----------- | ---------- | -------- | --------------------- |
 | mac         | 字符串     | 是       | 例：xx:xx:xx:xx:xx:xx |
@@ -136,7 +136,7 @@ PUT
 | ips         | 字符串数组 | 是       | 例：["x.x.x.x"]       |
 
 
-#### CloudTag 结构体
+CloudTag 结构体
 | 名称          | 类型           | 是否必填 | 说明                                                     |
 | ------------- | -------------- | -------- | -------------------------------------------------------- |
 | resource_type | 字符串         | 是       | 可选：chost 和 pod_ns（pod namespace）                   |
@@ -144,13 +144,13 @@ PUT
 | domain_uuid   | 字符串         | 是       | 云平台 UUID，从 vm.domain 或 pod_namespace.domain 中获取 |
 | tags          | Tag 结构体数组 | 是       | 需要打标签的信息                                         |
 
-##### Tag 结构体
+Tag 结构体
 | 名称  | 类型   | 是否必填 | 说明                                                    |
 | ----- | ------ | -------- | ------------------------------------------------------- |
 | key   | 字符串 | 是       | 限制 255 字符，不支持空格、冒号、反引号、反斜杠、单引号 |
 | value | 字符串 | 是       | 限制 255 字符，不支持空格、冒号、反引号、反斜杠         |
 
-#### LB 结构体
+LB 结构体
 | 名称         | 类型                    | 是否必填 | 说明                                         |
 | ------------ | ----------------------- | -------- | -------------------------------------------- |
 | name         | 字符串                  | 是       |                                              |
@@ -160,19 +160,17 @@ PUT
 | vinterfaces  | Vinterface 2 结构体数组 | 否       | chost interfaces                             |
 | lb_listeners | LBListener 结构体数组   | 否       |                                              |
 
-
-
-##### LBListener 结构体
+ LBListener 结构体
 | 名称              | 类型                      | 是否必填 | 说明                         |
 | ----------------- | ------------------------- | -------- | ---------------------------- |
 | name              | 字符串                    | 否       | 若为空，则赋值 ${ip}-${port} |
-| protocol          | 字符串                    | 是       | 可选: TCP,  UDP             |
+| protocol          | 字符串                    | 是       | 可选: TCP,  UDP              |
 | ip                | 整型                      | 是       |                              |
 | port              | 字符串                    | 是       |                              |
 | lb_target_servers | LBTargetServer 结构体数组 | 否       |                              |
 
 
-###### LBTargetServer 结构体
+LBTargetServer 结构体
 | 名称 | 类型   | 是否必填 | 说明 |
 | ---- | ------ | -------- | ---- |
 | ip   | 字符串 | 是       |      |
@@ -210,13 +208,15 @@ PUT
 
 ## 请求示例
 
+### HTTP 请求方式
+
 ```shell
 curl -XPUT -H "Content-Type:application/json" \
 ${deepflow_server_node_ip}:${port}/v1/domain-additional-resources/ \
 -d@additional_resource.json
 ```
 
-参数文件 additional_resource.json
+参数文件 additional_resource.json （[参考 YAML 文件](https://github.com/deepflowio/deepflow/blob/main/cli/ctl/example/domain_additional_resource.yaml)）
 ```json
 {
     "azs": [
@@ -333,6 +333,28 @@ ${deepflow_server_node_ip}:${port}/v1/domain-additional-resources/ \
     ]
 }
 ```
+
+### deepflow-ctl 命令方式
+
+```shell
+# 查看 yaml 参数示例
+deepflow-ctl domain additional-resource example
+
+# 建立 additional-resource.yaml 文件
+deepflow-ctl domain additional-resource example > additional-resource.yaml
+
+# 添加对应的参数后执行命令
+deepflow-ctl domain additional-resource apply -f additional-resource.yaml
+```
+
+资源手动添加成功后，1 分钟后（取决于 server.yaml 配置文件的 resource_recorder_interval 字段）对应的数据库表就能查看到信息：
+- 可用区（表 az）
+- VPC（表 epc）
+- 子网（表 subnet）
+- 服务器（表 host_device）
+- 云服务器（表 vm）
+- 负载均衡器（表 lb、lb_listener 和 lb_target_server）
+- 命名空间（表 pod_namespace）
 
 ## 错误码
 错误码为返回值中 OPT_STATUS 字段的信息
