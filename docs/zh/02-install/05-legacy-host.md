@@ -165,6 +165,55 @@ systemctl enable deepflow-agent
 systemctl restart deepflow-agent
 ```
 
+**注意**：
+
+若 deepflow-agent 因缺少依赖库无法正常启动可下载静态链接编译的 deepflow-agent， 注意静态链接编译的 deepflow-agent 在多线程下有严重的性能问题：
+::: code-tabs#shell
+
+@tab rpm
+
+```bash
+curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/rpm/agent/stable/linux/static-link/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent-rpm.zip
+unzip deepflow-agent-rpm.zip
+yum -y localinstall x86_64/deepflow-agent-1.0*.rpm
+```
+
+@tab deb
+
+```bash
+curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/deb/agent/stable/linux/static-link/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent-deb.zip
+unzip deepflow-agent-deb.zip
+dpkg -i x86_64/deepflow-agent-1.0*.systemd.deb
+```
+
+@tab binary file
+
+```bash
+curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/agent/stable/linux/static-link/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent.tar.gz
+tar -zxvf deepflow-agent.tar.gz -C /usr/sbin/
+
+cat << EOF > /etc/systemd/system/deepflow-agent.service
+[Unit]
+Description=deepflow-agent.service
+After=syslog.target network-online.target
+
+[Service]
+Environment=GOTRACEBACK=single
+LimitCORE=1G
+ExecStart=/usr/sbin/deepflow-agent
+Restart=always
+RestartSec=10
+LimitNOFILE=1024:4096
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+systemctl daemon-reload
+```
+
+:::
+
 # 下一步
 
 - [微服务全景图 - 体验 DeepFlow 基于 BPF 的 AutoMetrics 能力](../auto-metrics/metrics-without-instrumentation/)
