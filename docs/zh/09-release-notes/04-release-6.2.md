@@ -3,14 +3,34 @@ title: DeepFlow 6.2 Release Notes
 permalink: /release-notes/release-6.2
 ---
 
-# 6.2.5 [TBD]
+# 6.2.5 [2023/03/21]
+
+## 新特性 (Alpha)
+
+- Universal Application Topology
+  - 增加`方向得分`指标，得分越高时客户端、服务端方向的准确性越高，得分为 255 时方向一定是正确的。
+- Querier API
+  - PromQL 查询 Prometheus 原生指标时，支持使用 DeepFlow AutoTagging 自动注入的标签
 
 ## 新特性 (GA)
 
 - Universal Application Topology
   - **支持零插码自动展现进程粒度的全景应用拓扑** [FR-001-小米](https://github.com/deepflowio/deepflow/issues/1481)
+- Integration
+  - 将 OpenTelemetry Span 数据预聚合为服务和路径指标
+- AutoTagging
+  - 当无法按 Pod 分组时，auto\_service、auto\_instance（resource\_glX）优先按进程分组
 
-# 6.2.4 [2022/03/07]
+## 优化
+
+- Management
+  - 支持配置小时粒度的数据存储时长
+  - 支持统一设置公有云账号下所有托管 K8s 集群的`额外对接路由接口`
+  - 提供两种 deepflow-agent 二进制包：动态链接、静态链接，前者依赖 glibc 动态链接库，后者在多线程下 malloc/free 锁竞争明显
+- Querier API
+  - 自定义类型的 Tag（k8s.label/cloud.tag/os.app）的 Category 统一为 map\_item
+
+# 6.2.4 [2023/03/07]
 
 ## 新特性（Alpha）
 
@@ -36,7 +56,7 @@ permalink: /release-notes/release-6.2
   - 支持配置 deepflow-agent list k8s-apiserver 的时间间隔
   - 支持指定采集器所在环境的 Hostname
 
-# 6.2.3 [2022/02/21]
+# 6.2.3 [2023/02/21]
 
 ## 新特性 (Alpha)
 
@@ -62,7 +82,7 @@ permalink: /release-notes/release-6.2
 - SQL API
   - 获取 enum 类型 Tag 字段的可选值时，返回取值对应的描述信息
 
-# 6.2.2 [2022/02/07]
+# 6.2.2 [2023/02/07]
 
 ## 新特性 (GA)
 
@@ -86,7 +106,7 @@ permalink: /release-notes/release-6.2
 - deepflow-server
   - UDP 流超时结束时，l4\_flow\_log 的 status 字段置为正常
 
-# 6.2.1 [2022/01/17]
+# 6.2.1 [2023/01/17]
 
 ## 新特性 (Alpha)
 
