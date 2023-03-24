@@ -20,6 +20,20 @@ permalink: /server-integration/export/opentelemetry-collector
 关于 [OTLP Proto ](https://github.com/open-telemetry/opentelemetry-proto/blob/main/opentelemetry/proto/trace/v1/trace.proto)可以在这里找到，其中关于 [Trace 语义约定](https://github.com/open-telemetry/opentelemetry-specification/tree/main/specification/trace/semantic_conventions) 在这里可以看到，Trace 内部 [Resource 语义约定](https://github.com/open-telemetry/opentelemetry-specification/tree/main/specification/resource/semantic_conventions) 可以在这里看到。
 
 
+# 配置相关
+
+```bash
+  ingester:
+    otlp-exporter:
+    	enabled: false
+    	addr: 127.0.0.1:4317 
+    	queue-count: 2  
+    	queue-size: 1000000 
+    	l7-enabled: true 
+    	otel-enabled: false
+```
+关于[详细配置](https://github.com/deepflowio/deepflow/blob/41681a7a8df830fced86e8ddba033132440a9dca/server/server.yaml#L473)。
+
 # 通用字段对等转换
 
 在 Flow_log 中有套内部逻辑将所有数据按照层级进行分类，在这里的对等转换即为 将分层的 [Flow_Log](https://deepflow.yunshan.net/docs/zh/auto-metrics/flow-log/) 通用字段转换到标准的 OTel 格式数据。
