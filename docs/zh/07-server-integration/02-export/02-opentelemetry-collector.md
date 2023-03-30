@@ -54,15 +54,15 @@ permalink: /server-integration/export/opentelemetry-collector
 
 ### Service Info
 
-Service 应用级别信息，全部计入 span.attributes 内，这里包括应用相关和进程以及线程相关，关于进程及线程相关若有特殊需求，请使用 OTel Processor 进行转换。
+Service 应用级别信息，全部计入 resource.attributes 内，这里包括应用相关和进程以及线程相关，关于进程及线程相关若有特殊需求，请使用 OTel Processor 进行转换。
 
 | 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
 | :----       | :----       | :---- 	  | :-----  |
-| service_name    			| span.attributes 		| df.span.service_name				| 当且仅当同时使用 Skywalking 才会使用到|
-| service_instance_id     	| span.attributes 		| df.span.service_instance_id 		| 当且仅当同时使用 Skywalking 才会使用到|
-| endpoint  				| span.attributes 		| df.span.endpoint					| 当且仅当同时使用 Skywalking 才会使用到|
-| process_id 				| span.attributes 		| df.span.process_id				| |
-| process_kname     		| span.attributes 		| df.span.process_kname				| 备注：|
+| service_name    			| resource.attributes 		| df.service_name				| 当且仅当同时使用 Skywalking 才会使用到|
+| service_instance_id     	| resource.attributes 		| df.service_instance_id 		| 当且仅当同时使用 Skywalking 才会使用到|
+| endpoint  				| resource.attributes 		| df.endpoint					| 当且仅当同时使用 Skywalking 才会使用到|
+| process_id 				| resource.attributes 		| df.process_id				| |
+| process_kname     		| resource.attributes 		| df.process_kname				| 备注：|
 
 
 ## Flow Info
