@@ -1,16 +1,14 @@
 <template>
   <div class="footer">
     <div class="footer mobile" :style="mobileBg">
-      <div class="footrigcon" v-if="lang==='zh'">
+      <div class="footrigcon" v-if="lang === 'zh'">
         <h4>产品</h4>
         <div class="lia">
           <a href="https://www.yunshan.net/products/deepflow.html"
             >DeepFlow Enterprise</a
           >
           <span></span>
-          <a href="http://cloud.deepflow.yunshan.net/"
-            >DeepFlow Cloud</a
-          >
+          <a href="http://cloud.deepflow.yunshan.net/">DeepFlow Cloud</a>
         </div>
         <h4>DeepFlow Enterprise 解决方案</h4>
         <div class="lia">
@@ -60,17 +58,7 @@
         </div>
       </div>
       <p class="copyright">
-        Copyright<sup>&copy;</sup> 2020 YUNSHAN Networks
-        <a target="_blank" href="https://beian.miit.gov.cn/">
-          | 京 ICP 备 14036633号-4
-        </a>
-        <a
-          target="_blank"
-          href="https://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802031005"
-        >
-          <img src="/images/mobile/beian.png" />
-          京公网安备 11010802031005号
-        </a>
+        Copyright© <span class="year">2022</span> YUNSHAN Networks
       </p>
     </div>
     <div class="links-container web">
@@ -150,13 +138,7 @@
           </li>
         </ul>
         <p class="foot-content">
-          Copyright© <span id="year">2022</span> YUNSHAN Networks | 京 ICP 备
-          14036633号-4 京公网安备
-          <a
-            target="_blank"
-            href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802031005"
-            >11010802031005号</a
-          >
+          Copyright© <span class="year">2022</span> YUNSHAN Networks
         </p>
       </div>
     </div>
@@ -266,6 +248,14 @@ export default {
     lang() {
       return this.$page.relativePath.indexOf("zh/") > -1 ? "zh" : "en";
     },
+  },
+  mounted() {
+    setTimeout(() => {
+      const year = new Date().getFullYear();
+      document.querySelectorAll(".year").forEach((dom) => {
+        dom.innerHTML = year;
+      });
+    }, 500);
   },
 };
 </script>
