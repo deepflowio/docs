@@ -216,6 +216,8 @@ curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/query/" \
     --data-urlencode "sql=${sql}"
 ```
 
+当`db=flow_metric`时，需要通过`--data-urlencode "data_precision=${data_precision}"`指定数据精度，`data_precision`的可选值为`1m`和`1s`。
+
 # SQL 查询函数
 
 ## Tag 支持的函数
