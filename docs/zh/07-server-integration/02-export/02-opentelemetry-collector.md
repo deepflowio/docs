@@ -58,11 +58,10 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 
 | 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
 | :----       | :----       | :---- 	  | :-----  |
-| service_name    			| resource.attributes 		| df.service_name				| 当且仅当同时使用 Skywalking 才会使用到|
-| service_instance_id     	| resource.attributes 		| df.service_instance_id 		| 当且仅当同时使用 Skywalking 才会使用到|
-| endpoint  				| resource.attributes 		| df.endpoint					| 当且仅当同时使用 Skywalking 才会使用到|
-| process_id 				| resource.attributes 		| df.process_id				| |
-| process_kname     		| resource.attributes 		| df.process_kname				| 备注：|
+| service_name    			| resource.attributes 		| service.name				| 当且仅当同时使用 Skywalking 才会使用到|
+| service_instance_id     	| resource.attributes 		| service.instance.id 		| 当且仅当同时使用 Skywalking 才会使用到|
+| process_id 				| resource.attributes 		| process.pid				| |
+| process_kname     		| resource.attributes 		| thread.name				| 备注：|
 
 
 ## Flow Info
