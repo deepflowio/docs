@@ -181,7 +181,14 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 
 # 已知协议对等转换
 
-这里对每种协议特殊字段映射到 OTLP 标准字段内做特殊补充（通用字段请从上面查找）。
+这里对每种协议特殊字段映射到 OTLP 标准字段内做特殊补充（通用字段请从上面查找）：
+
+### 额外字段
+
+| 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
+| :----       | :----       | :---- 	  | :-----  |
+| 无     	| resource.attributes 		| telemetry.sdk.name=deepflow   	| 自定义|
+| 无     	| resource.attributes 		| telemetry.sdk.version=${当前版本}   	| 自定义|
 
 ### DNS
 
@@ -235,6 +242,7 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 | response_code    	| span.attributes 		| http.status_code		| 标准字段|
 | response_exception| span.event 		    | event.name			| 标准字段|
 | http_proxy_client | span.attributes 		| df.http.proxy_client	| 自定义|
+| 无 | span.name 		| span.name= ${request_type} + ${request_source}	| 标准字段 中间空格|
 
 ### Kafka
 
@@ -262,10 +270,11 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 | :----       | :----       | :---- 	  | :-----  |
 | 无     	         | span.attributes 		 | db.system==mysql        | 自定义|
 | request_type     	| span.attributes 		| df.mysql.request_type 	| 自定义|
-| request_resource  | span.attributes 		| df.mysql.request_resource	| 自定义|
+| request_resource  | span.attributes 		| db.statemen           	| 标准字段|
 | response_status   | span.attributes 		| df.mysql.response_status	| 自定义|
 | response_code    	| span.attributes 		| df.mysql.response_code	| 自定义|
 | response_exception| span.event 		    | event.name				| 标准字段|
+| 无| span.name 		    | span.name=${C/R/U/D} + ${db} + ${table}			| 标准字段|
 
 ### PostgreSQL
 
@@ -273,10 +282,11 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 | :----       | :----       | :---- 	  | :-----  |
 | 无     	         | span.attributes 		 | db.system==postgresql        | 自定义|
 | request_type     	| span.attributes 		| df.pg.request_type 	| 自定义|
-| request_resource  | span.attributes 		| df.pg.request_resource| 自定义|
+| request_resource  | span.attributes 		| db.statemen| 标准字段|
 | response_status   | span.attributes 		| df.pg.response_status	| 自定义|
 | response_code    	| span.attributes 		| df.pg.response_code	| 自定义|
 | response_exception| span.event 		    | event.name			| 标准字段|
+| 无| span.name 		    | span.name=${C/R/U/D} + ${db} + ${table}			| 标准字段|
 
 ### Redis
 
@@ -287,3 +297,4 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 | request_resource  | span.attributes 		| df.redis.request_resource	| 自定义|
 | response_status   | span.attributes 		| df.redis.response_status	| 自定义|
 | response_exception| span.event 		    | event.name				| 标准字段|
+| 无| span.name 		    | span.name=${request_type}			| 标准字段|
