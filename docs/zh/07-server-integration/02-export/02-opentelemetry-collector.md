@@ -99,25 +99,6 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 | nat_real_ip     	| resource.attributes 		| df.capture_info.nat_real_ip 	| |
 | nat_real_port     | resource.attributes 		| df.capture_info.nat_real_port 	| 备注：|
 
-### Tunnel Info	
-
-包括字段：tunnel_tier，tunnel_type，tunnel_tx_id，tunnel_rx_id，tunnel_tx_ip_0，tunnel_tx_ip_1，tunnel_rx_ip_0，tunnel_rx_ip_1，tunnel_tx_mac_0，tunnel_tx_mac_1，tunnel_rx_mac_0，tunnel_rx_mac_1
-
-| 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
-| :----       | :----       | :---- 	  | :-----  |
-| tunnel_tier     	| resource.attributes 		| df.tunnel_info.tunnel_tier 		| |
-| tunnel_type     	| resource.attributes 		| df.tunnel_info.tunnel_type 		| |
-| tunnel_tx_id     	| resource.attributes 		| df.tunnel_info.tunnel_tx_id 		| |
-| tunnel_rx_id     	| resource.attributes 		| df.tunnel_info.tunnel_rx_id 		| |
-| tunnel_tx_ip_0    | resource.attributes 		| df.tunnel_info.tunnel_tx_ip_0 	| |
-| tunnel_tx_ip_1    | resource.attributes 		| df.tunnel_info.tunnel_tx_ip_1 	| |
-| tunnel_rx_ip_0    | resource.attributes 		| df.tunnel_info.tunnel_rx_ip_0 	| |
-| tunnel_rx_ip_1	| resource.attributes 		| df.tunnel_info.tunnel_rx_ip_1 	| |
-| tunnel_tx_mac_0   | resource.attributes 		| df.tunnel_info.tunnel_tx_mac_0 	| |
-| tunnel_tx_mac_1   | resource.attributes 		| df.tunnel_info.tunnel_tx_mac_1 	| |
-| tunnel_rx_mac_0   | resource.attributes 		| df.tunnel_info.tunnel_rx_mac_0 	| |
-| tunnel_rx_mac_1   | resource.attributes 		| df.tunnel_info.tunnel_rx_mac_1 	| 备注：|
-
 ### Universal Tag
 
 包括字段：region，az，host，chost，vpc，l2_vpc，subnet，router，dhcpgw，lb，lb_listener，natgw，pod_cluster，pod_ns，pod_node，pod_ingress，pod_service，pod_group，pod，service，resource_gl0_type，resource_gl0，resource_gl1_type，resource_gl1，resource_gl2_type，resource_gl2
@@ -252,7 +233,6 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 | request_domain   	| span.attributes 		| net.peer.name 		| 标准字段|
 | request_resource  | span.attributes 		| df.http.path			| 自定义|
 | request_id     	| span.attributes 		| df.global.request_id	| 自定义|
-| response_status   | span.attributes 		| http.status_code		| 标准字段|
 | response_code    	| span.attributes 		| http.status_code		| 标准字段|
 | response_exception| span.event 		    | event.name			| 标准字段|
 | http_proxy_client | span.attributes 		| df.http.proxy_client	| 自定义|
@@ -281,6 +261,7 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 
 | 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
 | :----       | :----       | :---- 	  | :-----  |
+| 无     	         | span.attributes 		 | db.system==mysql        | 自定义|
 | request_type     	| span.attributes 		| df.mysql.request_type 	| 自定义|
 | request_resource  | span.attributes 		| df.mysql.request_resource	| 自定义|
 | response_status   | span.attributes 		| df.mysql.response_status	| 自定义|
@@ -291,6 +272,7 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 
 | 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
 | :----       | :----       | :---- 	  | :-----  |
+| 无     	         | span.attributes 		 | db.system==postgresql        | 自定义|
 | request_type     	| span.attributes 		| df.pg.request_type 	| 自定义|
 | request_resource  | span.attributes 		| df.pg.request_resource| 自定义|
 | response_status   | span.attributes 		| df.pg.response_status	| 自定义|
@@ -301,6 +283,7 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 
 | 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
 | :----       | :----       | :---- 	  | :-----  |
+| 无     	         | span.attributes 		 | db.system==redis        | 自定义|
 | request_type     	| span.attributes 		| df.redis.request_type 	| 自定义|
 | request_resource  | span.attributes 		| df.redis.request_resource	| 自定义|
 | response_status   | span.attributes 		| df.redis.response_status	| 自定义|
