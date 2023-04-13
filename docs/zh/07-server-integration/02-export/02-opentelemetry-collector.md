@@ -187,8 +187,14 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 
 | 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
 | :----       | :----       | :---- 	  | :-----  |
-| 无     	| resource.attributes 		| telemetry.sdk.name=deepflow   	| 自定义|
-| 无     	| resource.attributes 		| telemetry.sdk.version=${当前版本}   	| 自定义|
+| 无     	         | resource.attributes 		| telemetry.sdk.name=deepflow   	  | 自定义|
+| 无     	         | resource.attributes 		| telemetry.sdk.version=${当前版本}  | 自定义|
+| chost_0/pod_node_0| span.attributes        | net.host.name  	                 | 标准，先获取chost_x，如果不存在再尝试获取 pod_node_x|
+| chost_1/pod_node_1| span.attributes        | net.peer.name  	                 | 标准，先获取chost_x，如果不存在再尝试获取 pod_node_x|
+| client_port     	| span.attributes        | net.host.port                     | 标准|
+| server_port     	| span.attributes        | net.peer.port                     | 标准|
+| ip_0     	        | span.attributes        | net.sock.host.addr                | 标准|
+| ip_1     	        | span.attributes        | net.sock.peer.addr                | 标准|
 
 ### DNS
 
