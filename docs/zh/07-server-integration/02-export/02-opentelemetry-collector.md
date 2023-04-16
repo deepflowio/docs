@@ -29,10 +29,10 @@ permalink: /server-integration/export/opentelemetry-collector
     	addr: 127.0.0.1:4317 
     	queue-count: 2  
     	queue-size: 1000000 
-    	l7-enabled: true 
-    	otel-enabled: false
+    	export-datas: [cbpf-net-span,ebpf-sys-span]
+    	export-data-types: [service_info,tracing_info,network_layer,flow_info,transport_layer,application_layer,metrics]
 ```
-关于[详细配置](https://github.com/deepflowio/deepflow/blob/41681a7a8df830fced86e8ddba033132440a9dca/server/server.yaml#L473)。
+关于[详细配置](https://github.com/deepflowio/deepflow/blob/main/server/server.yaml#L468)。
 
 # 通用字段对等转换
 
