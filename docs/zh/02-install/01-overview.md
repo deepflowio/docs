@@ -29,7 +29,10 @@ deepflow-agent 的 eBPF 能力对内核版本的要求：
 - X86 体系架构：Linux Kernel 4.14+
   - 例外：使用 uprobe 采集 openssl 库的 TLS 应用数据要求 Linux Kernel 4.17+
   - 在内核 `Linux 4.14` 下一个 `tracepoint` 不能被多个 eBPF program attach（即：不能同时运行两个或多个 agent），`Linux 4.15+` 不存在此问题
-- ARM64 体系架构：CentOS8 Linux Kernel 4.18，或社区 Linux Kernel 5.8+
+- ARM64 体系架构：
+  - 社区 Linux Kernel 5.8+
+  - CentOS8 Linux Kernel 4.18
+  - EulerOS Linux Kernel 5.10+
 
 当内核版本无法满足要求时，受影响的功能有：
 - 通过 eBPF uprobe 获取 HTTP2、HTTPS 应用数据
