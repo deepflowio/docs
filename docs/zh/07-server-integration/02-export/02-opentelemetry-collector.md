@@ -183,7 +183,7 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 | server_port     	| span.attributes        | net.peer.port                     | 标准|
 | ip_0     	        | span.attributes        | net.sock.host.addr                | 标准|
 | ip_1     	        | span.attributes        | net.sock.peer.addr                | 标准|
-| response_status   | span.status 				   | span.status 				               | 0:正常 -> Ok 1;服务端异常，客户端异常 -> Error; 不存在->Unset, 跳转文档|
+| response_status   | span.status 				   | span.status 				               | 0:正常 -> Ok 1;服务端异常，客户端异常 -> Error; 不存在->Unset|
 
 
 ### DNS
@@ -201,27 +201,30 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 
 | 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
 | :----       | :----       | :---- 	  | :-----  |
-| version    		| span.attributes 		| df.dubbo.version			| 自定义|
-| request_type     	| span.attributes 		| df.dubbo.request_type 	| 自定义|
-| request_resource  | span.attributes 		| df.dubbo.request_resource	| 自定义|
-| request_id     	| span.attributes 		| df.global.request_id		| 自定义|
-| response_code    	| span.attributes 		| df.dubbo.response_code	| 自定义|
-| response_exception| span.event 		    | event.name				| 标准字段|
-| endpoint 			| 无 					| service.name/spans.name	| 标准字段|
+| 无 | rpc.system	 	| rpc.system=apache_dubbo	| 标准字段|
+| 无 | rpc.service	 	| rpc.system=${request_resource}	| 标准字段|
+| 无 | rpc.method	 	| rpc.system=${request_type}	| 标准字段|
+| 无 | span.name 		| span.name= ${request_source} + "/" + ${request_type}	== ${endpoint}| 标准字段|
+| response_exception | span.event 		    | event.name				| 标准字段|
+| request_domain   	| span.attributes 		| df.request_domain | 不可获取为 neet.peer.name 作为额外字段即可|
+| version    		     | span.attributes 		| df.dubbo.version			| 自定义|
+| request_id     	   | span.attributes 		| df.global.request_id		| 自定义|
+| response_code    	| span.attributes 		| df.response_code	| 自定义|
+
 
 ### Grpc
 
 | 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
 | :----       | :----       | :---- 	  | :-----  |
+| 无 | rpc.system	 	| rpc.system=grpc	| 标准字段|
+| 无 | rpc.service	 	| rpc.system=${request_resource}	| 标准字段|
+| 无 | rpc.method	 	| rpc.system=${request_type}	| 标准字段|
+| 无 | span.name 		| span.name= ${request_source} + "/" + ${request_type}	== ${endpoint}| 标准字段|
+| response_exception | span.event 		    | event.name				| 标准字段|
 | version    		| span.attributes 		| http.flavor			| 标准字段|
-| request_type     	| span.attributes 		| http.method 			| 标准字段|
-| request_domain   	| span.attributes 		| net.peer.name 		| 标准字段|
-| request_resource  | span.attributes 		| df.http.path			| 自定义|
+| request_domain   	| span.attributes 		| df.request_domain 		| 不可获取为 neet.peer.name 作为额外字段即可|
 | request_id     	| span.attributes 		| df.global.request_id	| 自定义|
-| response_code    	| span.attributes 		| http.status_code		| 标准字段|
-| response_exception| span.event 		    | event.name			| 标准字段|
-| endpoint 			| span.attributes 		| df.grpc.endpoint		| 自定义|
-| http_proxy_client | span.attributes 		| df.http.proxy_client	| 自定义|
+
 
 ### HTTP
 
@@ -260,29 +263,33 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 | 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
 | :----       | :----       | :---- 	  | :-----  |
 | 无     	         | span.attributes 		 | db.system==mysql                         | 标准|
+| 无                | span.attributes 		 | db.operation=${C/R/U/D}			| 标准字段|
+| 无                | span.attributes 		 | db.statement=${request_resource}			| 标准字段|
 | request_type     	| span.attributes 		| df.mysql.request_type 	                 | 自定义: db.operation 定义的为 SQL 关键字|
-| request_resource  | span.attributes 		| db.statemen           	                 | 标准字段|
-| response_code    	| span.attributes 		| df.mysql.response_code	| 自定义|
 | response_exception| span.event 		      | event.name				| 标准字段|
-| 无                | span.attributes 		 | span.name=${C/R/U/D} + ${db} + ${table}			| 标准字段|
+| 无                | span.name 		 | span.name=${C/R/U/D} + ${db} + ${table}			| 标准字段|
+
 
 ### PostgreSQL
 
 | 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
 | :----       | :----       | :---- 	  | :-----  |
-| 无     	         | span.attributes 		 | db.system==postgresql        | 自定义|
-| request_type     	| span.attributes 		| df.pg.request_type 	| 自定义|
-| request_resource  | span.attributes 		| db.statemen| 标准字段|
-| response_code    	| span.attributes 		| df.pg.response_code	| 自定义|
-| response_exception| span.event 		    | event.name			| 标准字段|
-| 无| span.name 		    | span.name=${C/R/U/D} + ${db} + ${table}			| 标准字段|
+| 无     	         | span.attributes 		 | db.system==postgresql                         | 标准|
+| 无                | span.attributes 		 | db.operation=${C/R/U/D}			| 标准字段|
+| 无                | span.attributes 		 | db.statement=${request_resource}			| 标准字段|
+| request_type     	| span.attributes 		| df.mysql.request_type 	                 | 自定义: db.operation 定义的为 SQL 关键字|
+| response_exception| span.event 		      | event.name				| 标准字段|
+| 无                | span.name 		 | span.name=${C/R/U/D} + ${db} + ${table}			| 标准字段|
+
+
 
 ### Redis
 
 | 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
 | :----       | :----       | :---- 	  | :-----  |
 | 无     	         | span.attributes 		 | db.system==redis        | 自定义|
-| request_type     	| span.attributes 		| df.redis.request_type 	| 自定义|
-| request_resource  | span.attributes 		| df.redis.request_resource	| 自定义|
+| 无                | span.attributes 		 | db.operation=${request_type}			| 标准字段|
+| 无                | span.attributes 		 | db.statement=${request_resource}			| 标准字段|
 | response_exception| span.event 		    | event.name				| 标准字段|
-| 无| span.name 		    | span.name=${request_type}			| 标准字段|
+| 无                | span.name 		    | span.name=${request_type}			| 标准字段|
+
