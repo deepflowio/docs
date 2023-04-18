@@ -201,10 +201,10 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 
 | 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
 | :----       | :----       | :---- 	  | :-----  |
-| 无 | rpc.system	 	| rpc.system=apache_dubbo	| 标准字段|
-| 无 | rpc.service	 	| rpc.system=${request_resource}	| 标准字段|
-| 无 | rpc.method	 	| rpc.system=${request_type}	| 标准字段|
-| 无 | span.name 		| span.name= ${request_source} + "/" + ${request_type}	== ${endpoint}| 标准字段|
+| 无 | span.attributes	 	| rpc.system=apache_dubbo	| 标准字段|
+| 无 | span.attributes	 	| rpc.system=${request_resource}	| 标准字段|
+| 无 | span.attributes	 	| rpc.system=${request_type}	| 标准字段|
+| 无 | span.attributes 		| span.name= ${request_source} + "/" + ${request_type}	== ${endpoint}| 标准字段|
 | response_exception | span.event 		    | event.name				| 标准字段|
 | request_domain   	| span.attributes 		| df.request_domain | 不可获取为 neet.peer.name 作为额外字段即可|
 | version    		     | span.attributes 		| df.dubbo.version			| 自定义|
@@ -216,10 +216,10 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 
 | 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
 | :----       | :----       | :---- 	  | :-----  |
-| 无 | rpc.system	 	| rpc.system=grpc	| 标准字段|
-| 无 | rpc.service	 	| rpc.system=${request_resource}	| 标准字段|
-| 无 | rpc.method	 	| rpc.system=${request_type}	| 标准字段|
-| 无 | span.name 		| span.name= ${request_source} + "/" + ${request_type}	== ${endpoint}| 标准字段|
+| 无 | span.attributes	 	| rpc.system=grpc	| 标准字段|
+| 无 | span.attributes	 	| rpc.system=${request_resource}	| 标准字段|
+| 无 | span.attributes	 	| rpc.system=${request_type}	| 标准字段|
+| 无 | span.attributes 		| span.name= ${request_source} + "/" + ${request_type}	== ${endpoint}| 标准字段|
 | response_exception | span.event 		    | event.name				| 标准字段|
 | version    		| span.attributes 		| http.flavor			| 标准字段|
 | request_domain   	| span.attributes 		| df.request_domain 		| 不可获取为 neet.peer.name 作为额外字段即可|
@@ -244,19 +244,26 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 
 | 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
 | :----       | :----       | :---- 	  | :-----  |
+| 无     	         | span.attributes 		| messaging.system=kafka 	| 标准|
+| 无     	         | span.name 		      | span.name=${request_resource} 	| 标准|
 | request_type     	| span.attributes 		| df.kafka.request_type 	| 自定义|
 | request_id     	| span.attributes 		| df.global.request_id		| 自定义|
+| request_resource     	| span.attributes 		| df.global.request_resource		| 自定义|
 | response_code    	| span.attributes 		| df.kafka.response_code	| 自定义|
 | response_exception| span.event 		    | event.name				| 标准字段|
+
 
 ### MQTT
 
 | 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
 | :----       | :----       | :---- 	  | :-----  |
-| request_type     	| span.attributes 		| df.mqtt.request_type 		| 自定义|
-| request_resource  | span.attributes 		| df.mqtt.request_resource	| 自定义|
-| request_domain	| span.attributes 		| df.mqtt.request_domain	| 自定义|
-| response_code    	| span.attributes 		| df.mqtt.response_code		| 自定义|
+| 无     	         | span.attributes 		| messaging.system=mqtt 	| 标准|
+| 无     	         | span.name 		      | span.name=${request_resource} 	| 标准|
+| request_type     	| span.attributes 	 | df.mqtt.request_type 		| 自定义|
+| request_resource  | span.attributes 	 | df.mqtt.request_resource	| 自定义|
+  | request_domain	| span.attributes 	 | df.mqtt.request_domain	| 自定义|
+| response_code    	| span.attributes 	 | df.mqtt.response_code		| 自定义|
+| response_exception| span.event 		     | event.name				| 标准字段|
 
 ### MySQL
 
