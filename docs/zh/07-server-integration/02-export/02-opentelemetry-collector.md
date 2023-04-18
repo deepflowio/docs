@@ -58,9 +58,9 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 
 | 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
 | :----       | :----       | :---- 	  | :-----  |
-| service_name    			| resource.attributes 		| service.name				| 当且仅当同时使用 Skywalking 才会使用到|
-| service_instance_id     	| resource.attributes 		| service.instance.id 		| 当且仅当同时使用 Skywalking 才会使用到|
-| process_id 				| resource.attributes 		| process.pid				| |
+| app_service    			| resource.attributes 		| service.name				| 标准字段|
+| app_instance     	| resource.attributes 		| service.instance.id 		| 标准|
+| process_id 				| resource.attributes 		| process.pid				| 备注：|
 | process_kname     		| resource.attributes 		| thread.name				| 备注：|
 
 
@@ -75,9 +75,6 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 | flow_id     | resource.attributes 		| df.flow_info.flow_id 		| |
 | start_time  | span.start_time_unix_nano 	| span.start_time_unix_nano | 注意时间格式转换，会转换为符合 OTel 的时间 |
 | end_time    | span.end_time_unix_nano   	| span.end_time_unix_nano 	| 注意时间格式转换，会转换为符合 OTel 的时间 |
-| close_type  | resource.attributes 		| df.flow_info.close_type 	| |
-| status      | span.status 				| span.status 				| 原始取值：0:正常，1:异常，2:不存在，3:服务端异常， 4:客户端异常 映射后会匹配到标准 OTel Status|
-| is_new_flow | resource.attributes 		| df.flow_info.is_new_flow  | 备注：|
 
 ### Capture Info	
 
@@ -87,16 +84,12 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 | :----       | :----       | :---- 	  | :-----  |
 | signal_source     | resource.attributes 		| df.capture_info.signal_source 	| |
 | tap     			| resource.attributes 		| df.capture_info.tap 			| |
+| vtap     			| resource.attributes 		| df.capture_info.vtap 			| |
 | nat_source     	| resource.attributes 		| df.capture_info.nat_source 	| |
 | tap_port     		| resource.attributes 		| df.capture_info.tap_port 		| |
 | tap_port_name     | resource.attributes 		| df.capture_info.tap_port_name 	| |
 | tap_port_type     | resource.attributes 		| df.capture_info.tap_port_type 	| |
 | tap_side     		| resource.attributes 		| df.capture_info.tap_side 		| |
-| l2_end	     	| resource.attributes 		| df.capture_info.l2_end 		| |
-| l3_end     		| resource.attributes 		| df.capture_info.l3_end 		| |
-| has_pcap     		| resource.attributes 		| df.capture_info.has_pcap 		| |
-| nat_real_ip     	| resource.attributes 		| df.capture_info.nat_real_ip 	| |
-| nat_real_port     | resource.attributes 		| df.capture_info.nat_real_port 	| 备注：|
 
 ### Universal Tag
 
@@ -127,12 +120,10 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 | pod    				| resource.attributes   	| df.universal_tag.pod 					| 按照官方文档定义，这里本应是 k8s.pod.xxx 语义未明，如有需要可自行转换 |
 | pod_cluster    		| resource.attributes   	| df.universal_tag.pod_cluster 			| 按照官方文档定义，这里本应是 k8s.pod_cluster，如有需要可自行转换 |
 | service     			| resource.attributes 		| df.universal_tag.service 				| |
-| resource_gl0_type     | resource.attributes 		| df.universal_tag.resource_gl0_type 	| |
-| resource_gl0     		| resource.attributes 		| df.universal_tag.resource_gl0 		| |
-| resource_gl1_type     | resource.attributes 		| df.universal_tag.resource_gl1_type 	| |
-| resource_gl1     		| resource.attributes 		| df.universal_tag.resource_gl1 		| |
-| resource_gl2_type     | resource.attributes 		| df.universal_tag.resource_gl2_type 	| |
-| resource_gl2     		| resource.attributes 		| df.universal_tag.resource_gl2 		| 备注：|
+| auto_service     | resource.attributes 		| df.universal_tag.auto_service 	| |
+| auto_service_type | resource.attributes 		| df.universal_tag.auto_service_type 		| |
+| auto_instance    | resource.attributes 		| df.universal_tag.auto_instance 	| |
+| auto_instance_type     		| resource.attributes 		| df.universal_tag.auto_instance_type 		| |
 
 
 ### Custom Tag	
@@ -141,13 +132,6 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 | :----       | :----       | :---- 	  | :-----  |
 | k8s.labels.xxx     	| resource.attributes 		| df.custom_tag.k8s.labels.xxx 		| 备注：|
 
-### Data Link Layer
-
-| 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
-| :----       | :----       | :---- 	  | :-----  |
-| eth_type    	| resource.attributes 		| df.data_link.eth_type	| |
-| vlan     		| resource.attributes 		| df.data_link.vlan 	| |
-| mac     		| resource.attributes 		| df.data_link.mac		| 备注：|
 
 ### Network Layer
 
@@ -156,8 +140,7 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 | ip    		| resource.attributes 		| df.network.ip			| |
 | is_ipv4     	| resource.attributes 		| df.network.is_ipv4 	| |
 | is_internet   | resource.attributes 		| df.network.is_internet| |
-| province     	| resource.attributes 		| df.network.province	| |
-| protocol     	| resource.attributes 		| df.network.protocol	| 备注：|
+| protocol     	| resource.attributes.	 		| net.transport = ip_(小写后的${protocol})	|标准字段|
 
 ### Transport Layer
 
@@ -171,6 +154,9 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 | syn_ack_seq     	| resource.attributes 		| df.transport.syn_ack_seq			| |
 | last_keepalive_seq| resource.attributes 		| df.transport.last_keepalive_seq	| |
 | last_keepalive_ack| resource.attributes 		| df.transport.last_keepalive_ack	| 备注：|
+| req_tcp_seq     	| resource.attributes 		| df.transport.req_tcp_seq				| |
+| resp_tcp_seq     	| resource.attributes 		| df.transport.resp_tcp_seq			| |
+
 
 ### Application Layer
 
@@ -183,7 +169,9 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 
 这里对每种协议特殊字段映射到 OTLP 标准字段内做特殊补充（通用字段请从上面查找）：
 
-### 额外字段
+### 应用协议附加字段
+
+以下字段针对于各个应用层协议均适用：
 
 | 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
 | :----       | :----       | :---- 	  | :-----  |
@@ -195,6 +183,8 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 | server_port     	| span.attributes        | net.peer.port                     | 标准|
 | ip_0     	        | span.attributes        | net.sock.host.addr                | 标准|
 | ip_1     	        | span.attributes        | net.sock.peer.addr                | 标准|
+| response_status   | span.status 				   | span.status 				               | 0:正常 -> Ok 1;服务端异常，客户端异常 -> Error; 不存在->Unset, 跳转文档|
+
 
 ### DNS
 
@@ -203,7 +193,6 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 | request_type     	| span.attributes 		| df.dns.request_type   	| 自定义|
 | request_resource  | span.attributes 		| df.dns.request_resource	| 自定义|
 | request_id     	| span.attributes 		| df.global.request_id		| 自定义|
-| response_status   | span.attributes 		| df.dns.response_status	| 自定义|
 | response_code    	| span.attributes 		| df.dns.response_code		| 自定义|
 | response_exception| span.event 		    | event.name				| 标准字段|
 | response_result 	| span.attributes 		| df.dns.response_result	| 自定义|
@@ -216,7 +205,6 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 | request_type     	| span.attributes 		| df.dubbo.request_type 	| 自定义|
 | request_resource  | span.attributes 		| df.dubbo.request_resource	| 自定义|
 | request_id     	| span.attributes 		| df.global.request_id		| 自定义|
-| response_status   | span.attributes 		| df.dubbo.response_status	| 自定义|
 | response_code    	| span.attributes 		| df.dubbo.response_code	| 自定义|
 | response_exception| span.event 		    | event.name				| 标准字段|
 | endpoint 			| 无 					| service.name/spans.name	| 标准字段|
@@ -230,7 +218,6 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 | request_domain   	| span.attributes 		| net.peer.name 		| 标准字段|
 | request_resource  | span.attributes 		| df.http.path			| 自定义|
 | request_id     	| span.attributes 		| df.global.request_id	| 自定义|
-| response_status   | span.attributes 		| http.status_code		| 标准字段|
 | response_code    	| span.attributes 		| http.status_code		| 标准字段|
 | response_exception| span.event 		    | event.name			| 标准字段|
 | endpoint 			| span.attributes 		| df.grpc.endpoint		| 自定义|
@@ -256,7 +243,6 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 | :----       | :----       | :---- 	  | :-----  |
 | request_type     	| span.attributes 		| df.kafka.request_type 	| 自定义|
 | request_id     	| span.attributes 		| df.global.request_id		| 自定义|
-| response_status   | span.attributes 		| df.kafka.response_status	| 自定义|
 | response_code    	| span.attributes 		| df.kafka.response_code	| 自定义|
 | response_exception| span.event 		    | event.name				| 标准字段|
 
@@ -268,19 +254,17 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 | request_resource  | span.attributes 		| df.mqtt.request_resource	| 自定义|
 | request_domain	| span.attributes 		| df.mqtt.request_domain	| 自定义|
 | response_code    	| span.attributes 		| df.mqtt.response_code		| 自定义|
-| response_status   | span.attributes 		| df.mqtt.response_status	| 自定义|
 
 ### MySQL
 
 | 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
 | :----       | :----       | :---- 	  | :-----  |
-| 无     	         | span.attributes 		 | db.system==mysql        | 自定义|
-| request_type     	| span.attributes 		| df.mysql.request_type 	| 自定义|
-| request_resource  | span.attributes 		| db.statemen           	| 标准字段|
-| response_status   | span.attributes 		| df.mysql.response_status	| 自定义|
+| 无     	         | span.attributes 		 | db.system==mysql                         | 标准|
+| request_type     	| span.attributes 		| df.mysql.request_type 	                 | 自定义: db.operation 定义的为 SQL 关键字|
+| request_resource  | span.attributes 		| db.statemen           	                 | 标准字段|
 | response_code    	| span.attributes 		| df.mysql.response_code	| 自定义|
-| response_exception| span.event 		    | event.name				| 标准字段|
-| 无| span.name 		    | span.name=${C/R/U/D} + ${db} + ${table}			| 标准字段|
+| response_exception| span.event 		      | event.name				| 标准字段|
+| 无                | span.attributes 		 | span.name=${C/R/U/D} + ${db} + ${table}			| 标准字段|
 
 ### PostgreSQL
 
@@ -289,7 +273,6 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 | 无     	         | span.attributes 		 | db.system==postgresql        | 自定义|
 | request_type     	| span.attributes 		| df.pg.request_type 	| 自定义|
 | request_resource  | span.attributes 		| db.statemen| 标准字段|
-| response_status   | span.attributes 		| df.pg.response_status	| 自定义|
 | response_code    	| span.attributes 		| df.pg.response_code	| 自定义|
 | response_exception| span.event 		    | event.name			| 标准字段|
 | 无| span.name 		    | span.name=${C/R/U/D} + ${db} + ${table}			| 标准字段|
@@ -301,6 +284,5 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 | 无     	         | span.attributes 		 | db.system==redis        | 自定义|
 | request_type     	| span.attributes 		| df.redis.request_type 	| 自定义|
 | request_resource  | span.attributes 		| df.redis.request_resource	| 自定义|
-| response_status   | span.attributes 		| df.redis.response_status	| 自定义|
 | response_exception| span.event 		    | event.name				| 标准字段|
 | 无| span.name 		    | span.name=${request_type}			| 标准字段|
