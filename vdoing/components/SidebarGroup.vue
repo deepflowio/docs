@@ -58,7 +58,7 @@
       <SidebarLinks
         class="sidebar-group-items"
         :items="item.children"
-        v-if="open || !collapsable"
+        v-show="open || !collapsable"
         :sidebar-depth="item.sidebarDepth"
         :initial-open-group-index="item.initialOpenGroupIndex"
         :depth="depth + 1"
