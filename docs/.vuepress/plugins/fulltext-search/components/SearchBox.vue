@@ -55,8 +55,32 @@
 </template>
 
 <script>
-
 let flexsearchSvc = undefined;
+const DEEPFLOW_DOCS_SEARCHKEY = "DEEPFLOW-DOCS-SEARCHKEY";
+const scrollBySearcKey = (searchKey) => {
+  ["p", "td", "span"].some((label) => {
+    const dom = document
+      .evaluate(
+        ".//" + label + "[contains(., '" + searchKey + "')]",
+        document.querySelector(".content-wrapper"),
+        null,
+        XPathResult.ANY_TYPE
+      )
+      .iterateNext();
+    if (dom) {
+      dom.classList.add("anchor-tag");
+      setTimeout(() => {
+        dom.classList.remove("anchor-tag");
+      }, 1000);
+      dom.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+        inline: "center",
+      });
+      return true;
+    }
+  });
+};
 /* global SEARCH_MAX_SUGGESTIONS, SEARCH_PATHS, SEARCH_HOTKEYS */
 export default {
   name: "SearchBox",
@@ -95,6 +119,13 @@ export default {
   watch: {
     query() {
       this.getSuggestions();
+    },
+    $route() {
+      const searchKey = sessionStorage.getItem(DEEPFLOW_DOCS_SEARCHKEY);
+      if (searchKey) {
+        sessionStorage.removeItem(DEEPFLOW_DOCS_SEARCHKEY);
+        setTimeout(() => scrollBySearcKey(searchKey), 500);
+      }
     },
   },
   /* global OPTIONS */
@@ -208,7 +239,14 @@ export default {
       if (!this.showSuggestions) {
         return;
       }
-      if (this.suggestions[i].external) {
+      sessionStorage.setItem(
+        DEEPFLOW_DOCS_SEARCHKEY,
+        this.suggestions[i].contentDisplay.highlightedContent.slice(0, 50)
+      );
+      if (this.$route.path === this.suggestions[i].path) {
+        scrollBySearcKey(this.suggestions[i].contentDisplay.highlightedContent);
+        sessionStorage.removeItem(DEEPFLOW_DOCS_SEARCHKEY);
+      } else if (this.suggestions[i].external) {
         window.open(
           this.suggestions[i].path + this.suggestions[i].slug,
           "_blank"
@@ -371,4 +409,35 @@ function highlight(str, strHighlight) {
       width calc(100vw - 4rem)
     input:focus
       width 8rem
+</style>
+<style>
+.anchor-tag {
+  animation: anchor 1s 3;
+}
+
+@keyframes anchor {
+  from {
+    background-color: white;
+    border-color: rgba(#409eff, 0);
+    box-shadow: none;
+  }
+  to {
+    background-color: rgba(#409eff, 0.1);
+    border-color: #409eff;
+    box-shadow: 0 0 10px 5px #409eff;
+  }
+}
+
+@-webkit-keyframes anchor /*Safari and Chrome*/ {
+  from {
+    background-color: white;
+    border-color: rgba(#409eff, 0);
+    box-shadow: none;
+  }
+  to {
+    background-color: rgba(#409eff, 0.1);
+    border-color: #409eff;
+    box-shadow: 0 0 10px 5px #409eff;
+  }
+}
 </style>
