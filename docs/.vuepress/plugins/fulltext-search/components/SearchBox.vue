@@ -29,7 +29,7 @@
         @mousedown="go(i)"
         @mouseenter="focus(i)"
       >
-        <a :href="s.path + s.slug" @click.prevent>
+        <a :href="getHref(s)" @click.prevent>
           <div
             v-if="s.parentPageTitle"
             class="parent-page-title"
@@ -55,8 +55,8 @@
 </template>
 
 <script>
-
 let flexsearchSvc = undefined;
+const DEEPFLOW_DOCS_SEARCHKEY = "DEEPFLOW-DOCS-SEARCHKEY";
 /* global SEARCH_MAX_SUGGESTIONS, SEARCH_PATHS, SEARCH_HOTKEYS */
 export default {
   name: "SearchBox",
@@ -96,6 +96,33 @@ export default {
     query() {
       this.getSuggestions();
     },
+    $route() {
+      const searchKey = sessionStorage.getItem(DEEPFLOW_DOCS_SEARCHKEY);
+      if (searchKey) {
+        sessionStorage.removeItem(DEEPFLOW_DOCS_SEARCHKEY);
+        setTimeout(() => {
+          ["p", "td", "span"].some((label) => {
+            const dom = document
+              .evaluate(
+                "//" + label + "[contains(., '" + searchKey + "')]",
+                document,
+                null,
+                XPathResult.ANY_TYPE
+              )
+              .iterateNext();
+            if (dom) {
+              dom.classList.add("anchor-tag");
+              dom.scrollIntoView({
+                behavior: "smooth",
+                block: "center",
+                inline: "center",
+              });
+              return true;
+            }
+          });
+        }, 500);
+      }
+    },
   },
   /* global OPTIONS */
   mounted() {
@@ -125,6 +152,19 @@ export default {
     document.removeEventListener("keydown", this.onHotkey);
   },
   methods: {
+    getHref(s) {
+      let href = s.path;
+      if (s.slug) {
+        href += s.slug;
+      }
+      if (s.contentDisplay.highlightedContent) {
+        sessionStorage.setItem(
+          DEEPFLOW_DOCS_SEARCHKEY,
+          s.contentDisplay.highlightedContent.slice(0, 50)
+        );
+      }
+      return href;
+    },
     async getSuggestions() {
       if (!this.query || !this.queryTerms.length) {
         this.suggestions = [];
@@ -371,4 +411,35 @@ function highlight(str, strHighlight) {
       width calc(100vw - 4rem)
     input:focus
       width 8rem
+</style>
+<style>
+.anchor-tag {
+  animation: anchor 1s 3;
+}
+
+@keyframes anchor {
+  from {
+    background-color: white;
+    border-color: rgba(#409eff, 0);
+    box-shadow: none;
+  }
+  to {
+    background-color: rgba(#409eff, 0.1);
+    border-color: #409eff;
+    box-shadow: 0 0 10px 5px #409eff;
+  }
+}
+
+@-webkit-keyframes anchor /*Safari and Chrome*/ {
+  from {
+    background-color: white;
+    border-color: rgba(#409eff, 0);
+    box-shadow: none;
+  }
+  to {
+    background-color: rgba(#409eff, 0.1);
+    border-color: #409eff;
+    box-shadow: 0 0 10px 5px #409eff;
+  }
+}
 </style>
