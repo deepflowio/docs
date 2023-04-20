@@ -55,8 +55,82 @@
 </template>
 
 <script>
-
 let flexsearchSvc = undefined;
+const DEEPFLOW_DOCS_SEARCHKEY = "DEEPFLOW-DOCS-SEARCHKEY";
+const scrollBySearcKey = (searchKey) => {
+  if (!searchKey) {
+    // 没有内容则不要执行
+    return false;
+  }
+  searchKey = searchKey.split(" ，")[0];
+  ["p", "tr", "li", "h1", "h2", "h3", "td", "span"].find((label) => {
+    const dom = document
+      .evaluate(
+        ".//" + label + "[contains(., '" + searchKey + "')]",
+        document.querySelector(".content-wrapper"),
+        null,
+        XPathResult.ANY_TYPE
+      )
+      .iterateNext();
+    if (dom) {
+      dom.classList.add("anchor-tag");
+      setTimeout(() => {
+        dom.classList.remove("anchor-tag");
+      }, 1000);
+      dom.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+        inline: "center",
+      });
+      return true;
+    }
+  });
+};
+/** 增强搜索的内容后的定位
+ * 1. highlightedContent 长度超过100，截取前100
+ * 2. prefix + highlightedContent 长度超过100，截取后100
+ * 3. prefix + highlightedContent + suffix 长度超过100，截取前100
+ * @param {*} param0 返回4种 整体 前置 后置 本身
+ */
+const getSearchKey = ({ highlightedContent, prefix, suffix }) => {
+  const MAX_LENGTH = 100;
+  // 如果高亮内容大于50直接截至100
+  if (highlightedContent.length >= MAX_LENGTH) {
+    return highlightedContent.slice(0, MAX_LENGTH);
+  }
+  while (prefix.startsWith("\n")) {
+    prefix = prefix.replace(/^\n/g, "");
+  }
+  if (prefix.startsWith("   * ")) {
+    // 如果是 *
+    prefix = prefix.slice(5);
+  }
+  if (prefix.startsWith("...")) {
+    // 如果是...开头
+    prefix = prefix.slice(3);
+  }
+  while (prefix.endsWith("\n")) {
+    suffix = suffix.replace(/\n$/g, "");
+  }
+  if (suffix.endsWith("...")) {
+    // 如果是...结尾
+    suffix = suffix.slice(0, -3);
+  }
+  prefix = prefix.slice(1);
+  suffix = suffix.slice(0, -1);
+  // 空格的两侧存在中文，基本上是超链接，截取即可
+  const prefixs = prefix.split(/[\u4e00-\u9fa5]+\s+[\u4e00-\u9fa5]/);
+  prefix = prefixs[prefixs.length - 1];
+  suffix = suffix.split(/[\u4e00-\u9fa5]+\s+[\u4e00-\u9fa5]/)[0];
+  if (prefix.length + highlightedContent.length >= MAX_LENGTH) {
+    return (prefix + highlightedContent)
+      .slice(-MAX_LENGTH)
+      .replace(/\s\s+/g, " ");
+  }
+  return (prefix + highlightedContent + suffix)
+    .slice(0, MAX_LENGTH)
+    .replace(/\s\s+/g, " ");
+};
 /* global SEARCH_MAX_SUGGESTIONS, SEARCH_PATHS, SEARCH_HOTKEYS */
 export default {
   name: "SearchBox",
@@ -95,6 +169,13 @@ export default {
   watch: {
     query() {
       this.getSuggestions();
+    },
+    $route() {
+      const searchKey = sessionStorage.getItem(DEEPFLOW_DOCS_SEARCHKEY);
+      if (searchKey) {
+        sessionStorage.removeItem(DEEPFLOW_DOCS_SEARCHKEY);
+        setTimeout(() => scrollBySearcKey(searchKey), 500);
+      }
     },
   },
   /* global OPTIONS */
@@ -208,7 +289,17 @@ export default {
       if (!this.showSuggestions) {
         return;
       }
-      if (this.suggestions[i].external) {
+      // 执行2次，如果contentDisplay没有内容，则使用headingDisplay
+      const searchKey =
+        getSearchKey(this.suggestions[i].contentDisplay) ||
+        getSearchKey(this.suggestions[i].headingDisplay);
+      sessionStorage.setItem(DEEPFLOW_DOCS_SEARCHKEY, searchKey);
+      if (this.$route.path === this.suggestions[i].path) {
+        setTimeout(() => {
+          scrollBySearcKey(searchKey);
+        }, 100);
+        sessionStorage.removeItem(DEEPFLOW_DOCS_SEARCHKEY);
+      } else if (this.suggestions[i].external) {
         window.open(
           this.suggestions[i].path + this.suggestions[i].slug,
           "_blank"
@@ -371,4 +462,35 @@ function highlight(str, strHighlight) {
       width calc(100vw - 4rem)
     input:focus
       width 8rem
+</style>
+<style>
+.anchor-tag {
+  animation: anchor 1s 3;
+}
+
+@keyframes anchor {
+  from {
+    background-color: white;
+    border-color: rgba(#409eff, 0);
+    box-shadow: none;
+  }
+  to {
+    background-color: rgba(#409eff, 0.1);
+    border-color: #409eff;
+    box-shadow: 0 0 10px 5px #409eff;
+  }
+}
+
+@-webkit-keyframes anchor /*Safari and Chrome*/ {
+  from {
+    background-color: white;
+    border-color: rgba(#409eff, 0);
+    box-shadow: none;
+  }
+  to {
+    background-color: rgba(#409eff, 0.1);
+    border-color: #409eff;
+    box-shadow: 0 0 10px 5px #409eff;
+  }
+}
 </style>
