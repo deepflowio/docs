@@ -286,7 +286,7 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 | 无     	         | span.attributes 		 | db.system==postgresql                         | 标准|
 | 无                | span.attributes 		 | db.operation=${C/R/U/D}			| 标准字段|
 | 无                | span.attributes 		 | db.statement=${request_resource}			| 标准字段|
-| request_type     	| span.attributes 		| df.mysql.request_type 	                 | 自定义: db.operation 定义的为 SQL 关键字|
+| request_type     	| span.attributes 		| df.postgresql.request_type 	                 | 自定义: db.operation 定义的为 SQL 关键字|
 | response_exception| span.event 		      | event.name				| 标准字段|
 | 无                | span.name 		 | span.name=${C/R/U/D} + ${db} + ${table}			| 标准字段|
 
