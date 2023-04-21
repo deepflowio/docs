@@ -202,11 +202,11 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 | 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
 | :----       | :----       | :---- 	  | :-----  |
 | 无 | span.attributes	 	| rpc.system=apache_dubbo	| 标准字段|
-| 无 | span.attributes	 	| rpc.system=${request_resource}	| 标准字段|
-| 无 | span.attributes	 	| rpc.system=${request_type}	| 标准字段|
-| 无 | span.attributes 		| span.name= ${request_source} + "/" + ${request_type}	== ${endpoint}| 标准字段|
+| 无 | span.attributes	 	| rpc.service=${request_resource}	| 标准字段|
+| 无 | span.attributes	 	| rpc.method=${request_type}	| 标准字段|
+| 无 | span.attributes 		| span.name= ${request_source} + "/" + ${request_type}	== ${endpoint}| 标准字段 优先拼接|
 | response_exception | span.event 		    | event.name				| 标准字段|
-| request_domain   	| span.attributes 		| df.request_domain | 不可获取为 neet.peer.name 作为额外字段即可|
+| request_domain   	| span.attributes 		| df.dubbo.request_domain | 不可获取为 neet.peer.name 作为额外字段即可|
 | version    		     | span.attributes 		| df.dubbo.version			| 自定义|
 | request_id     	   | span.attributes 		| df.global.request_id		| 自定义|
 | response_code    	| span.attributes 		| df.response_code	| 自定义|
@@ -222,7 +222,7 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 | 无 | span.attributes 		| span.name= ${request_source} + "/" + ${request_type}	== ${endpoint}| 标准字段|
 | response_exception | span.event 		    | event.name				| 标准字段|
 | version    		| span.attributes 		| http.flavor			| 标准字段|
-| request_domain   	| span.attributes 		| df.request_domain 		| 不可获取为 neet.peer.name 作为额外字段即可|
+| request_domain   	| span.attributes 		| df.grpc.request_domain 		| 不可获取为 neet.peer.name 作为额外字段即可|
 | request_id     	| span.attributes 		| df.global.request_id	| 自定义|
 
 
@@ -245,10 +245,11 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 | 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
 | :----       | :----       | :---- 	  | :-----  |
 | 无     	         | span.attributes 		| messaging.system=kafka 	| 标准|
-| 无     	         | span.name 		      | span.name=${request_resource} 	| 标准|
+| 无     	         | span.name 		      | span.name=${request_type} 	| 非标准|
 | request_type     	| span.attributes 		| df.kafka.request_type 	| 自定义|
 | request_id     	| span.attributes 		| df.global.request_id		| 自定义|
 | request_resource     	| span.attributes 		| df.global.request_resource		| 自定义|
+| request_domain	| span.attributes 	   | df.kafka.request_domain	| 自定义|
 | response_code    	| span.attributes 		| df.kafka.response_code	| 自定义|
 | response_exception| span.event 		    | event.name				| 标准字段|
 
@@ -258,10 +259,11 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 | 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
 | :----       | :----       | :---- 	  | :-----  |
 | 无     	         | span.attributes 		| messaging.system=mqtt 	| 标准|
-| 无     	         | span.name 		      | span.name=${request_resource} 	| 标准|
+| 无     	         | span.attributes 		| messaging.operation=${request_type} 	| 标准 其中：PUBLISH -> publish, SUBSCRIBE -> process, 其余过滤丢弃|
+| 无     	         | span.name 		      | span.name=${request_resource} + " " + ${messaging.operation} 	| 标准。|
 | request_type     	| span.attributes 	 | df.mqtt.request_type 		| 自定义|
 | request_resource  | span.attributes 	 | df.mqtt.request_resource	| 自定义|
-  | request_domain	| span.attributes 	 | df.mqtt.request_domain	| 自定义|
+| request_domain	| span.attributes 	   | df.mqtt.request_domain	| 自定义|
 | response_code    	| span.attributes 	 | df.mqtt.response_code		| 自定义|
 | response_exception| span.event 		     | event.name				| 标准字段|
 
@@ -284,7 +286,7 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 | 无     	         | span.attributes 		 | db.system==postgresql                         | 标准|
 | 无                | span.attributes 		 | db.operation=${C/R/U/D}			| 标准字段|
 | 无                | span.attributes 		 | db.statement=${request_resource}			| 标准字段|
-| request_type     	| span.attributes 		| df.mysql.request_type 	                 | 自定义: db.operation 定义的为 SQL 关键字|
+| request_type     	| span.attributes 		| df.postgresql.request_type 	                 | 自定义: db.operation 定义的为 SQL 关键字|
 | response_exception| span.event 		      | event.name				| 标准字段|
 | 无                | span.name 		 | span.name=${C/R/U/D} + ${db} + ${table}			| 标准字段|
 
