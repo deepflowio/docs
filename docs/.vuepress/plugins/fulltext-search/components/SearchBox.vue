@@ -92,7 +92,7 @@ const scrollBySearcKey = (searchKey) => {
  * 3. prefix + highlightedContent + suffix 长度超过100，截取前100
  * @param {*} param0 返回4种 整体 前置 后置 本身
  */
-const getSearchKey = ({ highlightedContent, prefix, suffix }) => {
+const getSearchKey = ({ highlightedContent = "", prefix = "", suffix = "" }) => {
   const MAX_LENGTH = 100;
   // 如果高亮内容大于50直接截至100
   if (highlightedContent.length >= MAX_LENGTH) {
