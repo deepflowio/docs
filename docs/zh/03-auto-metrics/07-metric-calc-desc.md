@@ -15,9 +15,9 @@ permalink: /auto-metrics/metric-calc-desc
 
 以下描述的指标会在每个统计周期内都记录一个指标量，统计周期用户可以自定义，目前系统默认支持的为 1m（一分钟）和 1s（一秒）(这些数据 DeepFlow 平台统称为原始数据源)，如果在一个统计周期内，计算得到多个指标量时，最终会聚合记录为一个指标量，聚合的逻辑见后续`类型`的描述。
 
-### 吞吐量（Throuthput）
+### 吞吐量（Throughput）
 
-[csv-吞吐量](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/vtap_app_port.ch?Category=Throuthput)
+[csv-吞吐量](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/vtap_app_port.ch?Category=Throughput)
 
 ### 时延（Delay）
 
