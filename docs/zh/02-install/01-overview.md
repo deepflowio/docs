@@ -15,7 +15,7 @@ permalink: /install/overview
 
 # 在线 Demo 环境
 
-如果你现在没有合适的资源部署 DeepFlow，也可登录我们的[在线 Demo](https://ce-demo.deepflow.yunshan.net)（用户名/密码均为 `deepflow`），
+如果你现在没有合适的资源部署 DeepFlow，也可登录我们的[在线 Demo](https://ce-demo.deepflow.yunshan.net)，
 借助如下文档章节抢先体验 DeepFlow 的强大能力：
 - [微服务全景图 - 体验 DeepFlow 基于 BPF 的 AutoMetrics 能力](../auto-metrics/metrics-without-instrumentation/)
 - [自动分布式追踪 - 体验 DeepFlow 基于 eBPF 的 AutoTracing 能力](../auto-tracing/tracing-without-instrumentation/)
