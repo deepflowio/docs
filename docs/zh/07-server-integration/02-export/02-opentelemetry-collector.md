@@ -28,7 +28,7 @@ permalink: /server-integration/export/opentelemetry-collector
     	enabled: false
     	addr: 127.0.0.1:4317 
       export-datas: [cbpf-net-span,ebpf-sys-span]
-    	export-data-types: [service_info,tracing_info,network_layer,flow_info,transport_layer,application_layer,metrics]
+      export-data-types: [service_info,tracing_info,network_layer,flow_info,transport_layer,application_layer,metrics]
       export-custom-k8s-labels-regexp: 
       export-only-with-traceid: false
     	queue-count: 2  
