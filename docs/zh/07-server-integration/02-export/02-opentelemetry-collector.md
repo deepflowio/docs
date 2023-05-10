@@ -27,12 +27,18 @@ permalink: /server-integration/export/opentelemetry-collector
     otlp-exporter:
     	enabled: false
     	addr: 127.0.0.1:4317 
+      export-datas: [cbpf-net-span,ebpf-sys-span]
+    	export-data-types: [service_info,tracing_info,network_layer,flow_info,transport_layer,application_layer,metrics]
+      export-custom-k8s-labels-regexp: 
+      export-only-with-traceid: false
     	queue-count: 2  
     	queue-size: 1000000 
-    	export-datas: [cbpf-net-span,ebpf-sys-span]
-    	export-data-types: [service_info,tracing_info,network_layer,flow_info,transport_layer,application_layer,metrics]
+      grpc-headers: 
+        ${key1}: ${value1}
+        ${key2}: ${value2}
+    	
 ```
-关于[详细配置](https://github.com/deepflowio/deepflow/blob/main/server/server.yaml#L468)。
+关于[详细配置](https://github.com/deepflowio/deepflow/blob/main/server/server.yaml#L474)。
 
 # 通用字段对等转换
 
