@@ -60,11 +60,18 @@ helm upgrade deepflow-agent -n deepflow deepflow/deepflow-agent -f values-custom
 
 4. 执行升级：
    ```bash
-   deepflow-ctl agent list # get your cloud-host and legacy-host agent name
-   for AGENT in $(deepflow-ctl agent list | grep -E " CHOST_[VB]M " | awk '{print $1}')
-   do 
-     deepflow-ctl agent-upgrade $AGENT --image-name=deepflow-agent
-   done
+   OUTPUT=$(deepflow-ctl agent list | head -n 1)
+   if [[ $OUTPUT == "VTAP_ID"* ]]; then
+      for AGENT in $(deepflow-ctl agent list | grep -E " CHOST_[VB]M " | awk '{print $2}')
+      do 
+         deepflow-ctl agent-upgrade $AGENT --image-name=deepflow-agent
+      done
+   else
+      for AGENT in $(deepflow-ctl agent list | grep -E " CHOST_[VB]M " | awk '{print $1}')
+      do 
+         deepflow-ctl agent-upgrade $AGENT --image-name=deepflow-agent
+       done
+   fi
    ```
 
 # 获取最新 DeepFlow Grafana dashboard
