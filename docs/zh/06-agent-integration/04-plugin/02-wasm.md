@@ -12,7 +12,7 @@ Wasm 插件系统通过在固定的地方调用 Wasi Export Function 实现一�
 
 # Wasm 执行具体流程
 
-请参考 [Wasm 执行流程](https://deepflow.io/docs/zh/agent-integration/plguin/wasm-plugin-process)
+请参考 [Wasm 执行流程](./wasm-plugin-process)
 
 # Golang SDK 说明
 
