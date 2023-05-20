@@ -1,6 +1,6 @@
 ---
 title: Wasm plugin process
-permalink: /agent-integration/plguin/wasm-plugin-process
+permalink: /agent-integration/plugin/wasm-plugin-process
 ---
 
 # Wasm plugin 执行流程
