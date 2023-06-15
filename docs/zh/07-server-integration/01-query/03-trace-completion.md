@@ -19,12 +19,15 @@ permalink: /server-integration/query/trace-completion
 
 # API 说明
 
+获取服务端点端口号：
+```bash
+port=$(kubectl get --namespace deepflow -o jsonpath="{.spec.ports[0].nodePort}" services deepflow-app)
+```
+
 API 调用方式：
 ```bash
 curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/stats/querier/tracing-completion-by-external-app-spans" 
 ```
-
-注：开源版不支持此 API
 
 ## 入参说明
 
