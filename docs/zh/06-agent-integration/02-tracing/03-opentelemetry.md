@@ -112,6 +112,26 @@ otlphttp:
     enabled: true
 ```
 
+同时，为了确保 Span 发送侧的 IP 传递到 DeepFlow 中，需要增加如下配置：
+```yaml
+processors:
+  k8sattributes:
+  resource:
+    attributes:
+    - key: app.host.ip
+      from_attribute: k8s.pod.ip
+      action: insert
+```
+
+最后，在 service.pipeline 中，对 `traces` 一节增加：
+```yaml
+service:
+  pipelines:
+    traces:
+      processors: [k8sattributes, resource] # 确保 k8sattributes processor 先被处理
+      exporters: [otlphttp]
+```
+
 # 配置 DeepFlow
 
 接下来我们需要开启 deepflow-agent 的数据接收服务。

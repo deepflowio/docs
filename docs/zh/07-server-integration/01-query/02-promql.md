@@ -5,15 +5,14 @@ permalink: /server-integration/query/promql
 
 # 简介
 
-DeepFlow 从 v6.2.1 开始支持 PromQL，目前实现了如下 Prometheus API：
+DeepFlow 从 v6.2.1 开始支持 PromQL，目前实现了如下 Prometheus API，通过 HTTP 直接调用可参考 [Prometheus 接口定义](https://prometheus.io/docs/prometheus/latest/querying/api/#expression-queries)：
 
- Http Method | Path                                 | Description
--------------|--------------------------------------|----------------------
- GET/POST    | /prom/api/v1/query                   | 查询一个时间点的数据
- GET/POST    | /prom/api/v1/query_range             | 查询一个时间范围的数据
- GET         | /prom/api/v1/label/:labelName/values | 获取一个指标的所有标签
- GET/POST    | /prom/api/v1/series                  | 获取所有时序
-
+ Http Method | Path                                 | Prometheus API                    | Description
+-------------|--------------------------------------|-----------------------------------|----------------------
+ GET/POST    | /prom/api/v1/query                   | /api/v1/query                     | 查询一个时间点的数据
+ GET/POST    | /prom/api/v1/query_range             | /api/v1/query_range               | 查询一个时间范围的数据
+ GET         | /prom/api/v1/label/:labelName/values | /api/v1/label/<label_name>/values | 获取一个指标的所有标签
+ GET/POST    | /prom/api/v1/series                  | /api/v1/series                    | 获取所有时序
 
 ## DeepFlow 指标定义
 
