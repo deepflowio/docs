@@ -91,7 +91,9 @@ spec:
       targetPort: 11800
 ```
 
-最后，重启 otel-agent 完成应用更新：
+然后，检查应用中配置的 [SkyWalking OAP Server](https://skywalking.apache.org/docs/main/next/en/setup/backend/backend-setup/#requirements-and-default-settings) 的对接地址，并修改为 Otel Agent 的 Service 地址：`otel-agent.open-telemetry`，比如将环境变量 `SW_AGENT_COLLECTOR_BACKEND_SERVICES=oap-server:11800` 修改为 `SW_AGENT_COLLECTOR_BACKEND_SERVICES=otel-agent.open-telemetry:11800`。
+
+最后，重启 otel-agent 完成 otel-agent 更新：
 ```bash
 kubectl rollout restart -n open-telemetry daemonset/otel-agent
 ```
