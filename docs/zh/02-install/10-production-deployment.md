@@ -283,7 +283,7 @@ analyzer_port: 20033 # The deepflow-server ingester listens on the port. The def
 DeepFlow 支持接入已有的 Grafana，建议使用 9.0 及以上版本，支持的最低版本为 8.0，目前 DeepFlow 的插件目前正在做认证工作，在认证工作完成之前需要配置 Grafana，允许加载未认证插件：
 ```ini
 [plugins]
-allow_loading_unsigned_plugins = deepflow-querier-datasource,deepflow-apptracing-panel,deepflow-topo-panel
+allow_loading_unsigned_plugins = deepflow-querier-datasource,deepflow-apptracing-panel,deepflow-topo-panel,deepflowio-tracing-panel,deepflowio-deepflow-datasource,deepflowio-topo-panel
 ```
 
 下载插件安装包：
