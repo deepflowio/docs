@@ -137,7 +137,7 @@ app_spans 通常为 APM 中一个 Trace 的一部分应用 Span，DeepFlow 据�
 | deepflow_span_id | string | DeepFlow 重新计算的 Span ID |
 | deepflow_parent_span_id | string | DeepFlow 重新计算的父 Span ID |
 
-初次之外，API 还会为每个 Span 额外返回一些字段：
+除此之外，API 还会为每个 Span 额外返回一些字段：
 
 | 字段 | 类型 | 说明 | 备注 |
 | --- | --- | ------ | ---- |
