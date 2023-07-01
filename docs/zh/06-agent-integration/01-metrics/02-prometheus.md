@@ -61,7 +61,10 @@ remote_read:
 
 # 配置 DeepFlow
 
-请参考[配置 DeepFlow](../tracing/opentelemetry/#配置-deepflow) 一节内容，完成 DeepFlow Agent 配置。
+请参考[配置 DeepFlow](../tracing/opentelemetry/#配置-deepflow) 一节内容，并添加配置 `prometheus targets api` 地址（v6.2 及以前版本不需要配置），完成 DeepFlow Agent 配置。目的是将 prometheus activeTargets.labels 同步到 deepflow-server controller，以提升存储和查询性能。添加以下配置到采集组配置中（请修改 `PROMETHEUS_HTTP_API_ADDRESS`）:
+```yaml
+prometheus_http_api_address: ${PROMETHEUS_HTTP_API_ADDRESS} # 集成 Prometheus 指标时需填写此项，格式为 protocl://ip:port，例如 http://1.2.3.4:9090
+```
 
 # 查看 Prometheus 数据
 
