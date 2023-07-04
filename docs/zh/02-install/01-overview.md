@@ -33,6 +33,7 @@ deepflow-agent 的 eBPF 能力对内核版本的要求：
   - 社区 Linux Kernel 5.8+
   - CentOS8 Linux Kernel 4.18
   - EulerOS Linux Kernel 5.10+
+  - 银河麒麟（KylinOS）V10 SP3+ 4.19.90-52.25
 
 当内核版本无法满足要求时，受影响的功能有：
 - 通过 eBPF uprobe 获取 HTTP2、HTTPS 应用数据
