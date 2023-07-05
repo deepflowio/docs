@@ -42,7 +42,7 @@ permalink: /server-integration/export/opentelemetry-collector
 
 # 通用字段对等转换
 
-在 Flow_log 中有套内部逻辑将所有数据按照层级进行分类，在这里的对等转换即为 将分层的 [Flow_Log](https://deepflow.yunshan.net/docs/zh/auto-metrics/flow-log/) 通用字段转换到标准的 OTel 格式数据。
+在 Flow_log 中有套内部逻辑将所有数据按照层级进行分类，在这里的对等转换即为 将分层的 [Flow_Log](https://deepflow.io/docs/zh/auto-metrics/request-log/) 通用字段转换到标准的 OTel 格式数据。
 
 ### Tracing Info
 
