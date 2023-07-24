@@ -157,27 +157,27 @@ K8s 使用 macvlan CNI 时，在 rootns 下只能看到所有 POD 共用的一�
 
 采集器高级配置如下：
 
-    ```yaml
-    static-config:
-      kubernetes-resources:
-      - name: ingresses
-        disabled: true
-      - name: routes
-    ```
+```yaml
+static_config:
+  kubernetes-resources:
+  - name: ingresses
+    disabled: true
+  - name: routes
+```
 
 ClusterRole 配置增加：
 
-    ```yaml
-    rules:
-    - apiGroups:
-      - route.openshift.io
-      resources:
-      - routes
-      verbs:
-      - get
-      - list
-      - watch
-    ```
+```yaml
+rules:
+- apiGroups:
+  - route.openshift.io
+  resources:
+  - routes
+  verbs:
+  - get
+  - list
+  - watch
+```
 
 #### 平安 ServiceRule
 
@@ -185,25 +185,25 @@ ClusterRole 配置增加：
 
 采集器高级配置如下：
 
-    ```yaml
-    static-config:
-      kubernetes-resources:
-      - name: servicerules
-    ```
+```yaml
+static_config:
+  kubernetes-resources:
+  - name: servicerules
+```
 
 ClusterRole 配置增加：
 
-    ```yaml
-    rules:
-    - apiGroups:
-      - crd.pingan.org
-      resources:
-      - servicerules
-      verbs:
-      - get
-      - list
-      - watch
-    ```
+```yaml
+rules:
+- apiGroups:
+  - crd.pingan.org
+  resources:
+  - servicerules
+  verbs:
+  - get
+  - list
+  - watch
+```
 
 #### OpenKruise
 
@@ -211,32 +211,32 @@ ClusterRole 配置增加：
 
 采集器高级配置如下：
 
-    ```yaml
-    static-config:
-      kubernetes-resources:
-      - name: clonesets
-        group: apps.kruise.io
-      - name: statefulsets
-        group: apps
-      - name: statefulsets
-        group: apps.kruise.io
-    ```
+```yaml
+static_config:
+  kubernetes-resources:
+  - name: clonesets
+    group: apps.kruise.io
+  - name: statefulsets
+    group: apps
+  - name: statefulsets
+    group: apps.kruise.io
+```
 
 注意这里需要加上 Kubernetes 的 `apps/StatefulSet`。
 
 ClusterRole 配置增加：
 
-    ```yaml
-    - apiGroups:
-      - apps.kruise.io
-      resources:
-      - clonesets
-      - statefulsets
-      verbs:
-      - get
-      - list
-      - watch
-    ```
+```yaml
+- apiGroups:
+  - apps.kruise.io
+  resources:
+  - clonesets
+  - statefulsets
+  verbs:
+  - get
+  - list
+  - watch
+```
 
 # 以进程形态部署 DeepFlow Agent
 
