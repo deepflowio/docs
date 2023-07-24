@@ -156,9 +156,8 @@ K8s 使用 macvlan CNI 时，在 rootns 下只能看到所有 POD 共用的一�
 该场景需要关闭默认的 `Ingress` 资源获取，打开 `Route` 资源获取。
 
 采集器高级配置如下：
-
     ```yaml
-    static-config:
+    static_config:
       kubernetes-resources:
       - name: ingresses
         disabled: true
@@ -166,7 +165,6 @@ K8s 使用 macvlan CNI 时，在 rootns 下只能看到所有 POD 共用的一�
     ```
 
 ClusterRole 配置增加：
-
     ```yaml
     rules:
     - apiGroups:
@@ -184,15 +182,13 @@ ClusterRole 配置增加：
 该场景下需要从 API 获取 `ServiceRule` 资源。
 
 采集器高级配置如下：
-
     ```yaml
-    static-config:
+    static_config:
       kubernetes-resources:
       - name: servicerules
     ```
 
 ClusterRole 配置增加：
-
     ```yaml
     rules:
     - apiGroups:
@@ -210,9 +206,8 @@ ClusterRole 配置增加：
 该场景下需要从 API 获取 `CloneSet` 和 `apps.kruise.io/StatefulSet` 资源。
 
 采集器高级配置如下：
-
     ```yaml
-    static-config:
+    static_config:
       kubernetes-resources:
       - name: clonesets
         group: apps.kruise.io
@@ -225,7 +220,6 @@ ClusterRole 配置增加：
 注意这里需要加上 Kubernetes 的 `apps/StatefulSet`。
 
 ClusterRole 配置增加：
-
     ```yaml
     - apiGroups:
       - apps.kruise.io
