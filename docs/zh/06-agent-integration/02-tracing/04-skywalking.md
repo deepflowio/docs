@@ -50,12 +50,14 @@ OpenTelemetry 接收 SkyWalking 数据存在 Bug，最近我们在 [#11562](http
 
 ## 配置 OpenTelemetry 接收 SkyWalking 数据
 
-我们假设 OpenTelemetry 所在的命名空间为 `open-telemetry`，假设 otel-agent 使用的 ConfigMap 名为 `otel-agent-conf`，使用如下命令修改 otel-agent 配置：
+在[背景知识](#背景知识)一节中，安装好 OpenTelemetry 之后，我们可以使用如下步骤配置 OpenTelemetry 接收 SkyWalking 数据:
+
+假设 OpenTelemetry 所在的命名空间为 `open-telemetry`，假设 otel-agent 使用的 ConfigMap 名为 `otel-agent-conf`，使用如下命令修改 otel-agent 配置：
 ```bash
 kubectl -n open-telemetry edit cm otel-agent-conf
 ```
 
-在 `receivers` 和 `service.pipelines.traces` 两节中，增加如下内容：
+在 `receivers` 一节中，增加如下内容：
 ```yaml
 receivers:
   # add the following config
@@ -65,6 +67,10 @@ receivers:
         endpoint: 0.0.0.0:11800
       http:
         endpoint: 0.0.0.0:12800
+```
+
+在 ``service.pipelines.traces` 一节中，增加如下内容：
+```yaml
 service:
   pipelines:
     traces:
@@ -72,26 +78,16 @@ service:
       receivers: [skywalking]
 ```
 
-修改 otel-agent Service 配置：
-```bash
-kubectl -n open-telemetry edit service otel-agent
-```
+同时，确认 `otel-agent-conf` 中参照[配置 otel-agent](../02-tracing/03-opentelemetry.md/#配置-otel-agent) 一节的内容完成了对应的配置。
 
-增加以下配置：
-```yaml
-spec:
-  ports:
-    - name: sw-http
-      port: 12800
-      protocol: TCP
-      targetPort: 12800
-    - name: sw-grpc
-      port: 11800
-      protocol: TCP
-      targetPort: 11800
+接着，使用如下命令修改 otel-agent Service，开放对应端口：
+```bash
+kubectl -n open-telemetry patch service otel-agent -p '{"spec":{"ports":[{"name":"sw-http","port":12800,"protocol":"TCP","targetPort":12800},{"name":"sw-grpc","port":11800,"protocol":"TCP","targetPort":11800}]}}'
 ```
 
 然后，检查应用中配置的 [SkyWalking OAP Server](https://skywalking.apache.org/docs/main/next/en/setup/backend/backend-setup/#requirements-and-default-settings) 的对接地址，并修改为 Otel Agent 的 Service 地址：`otel-agent.open-telemetry`，比如将环境变量 `SW_AGENT_COLLECTOR_BACKEND_SERVICES=oap-server:11800` 修改为 `SW_AGENT_COLLECTOR_BACKEND_SERVICES=otel-agent.open-telemetry:11800`。
+
+当然，应用配置的上报地址可能有各种形式，请根据应用实际启动命令修改，对于 `Java` 应用而言，只需要确保能修改启动命令中注入的地址即可，如：`-Dskywalking.collector.backend_service=otel-agent.open-telemetry:11800`。
 
 最后，重启 otel-agent 完成 otel-agent 更新：
 ```bash
@@ -110,7 +106,7 @@ kubectl rollout restart -n open-telemetry daemonset/otel-agent
 
 ![Sping Boot Demo Architecture](./imgs/spring-boot-webshop-arch.png)
 
-使用如下命令可以一键部署这个 Demo：
+使用如下命令可以一键部署这个 Demo，这个 Demo 已经完成了上报地址的配置，不需要再对它做额外修改。
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/deepflowio/deepflow-demo/main/DeepFlow-Otel-SkyWalking-Demo/deepflow-otel-skywalking-demo.yaml
 ```
