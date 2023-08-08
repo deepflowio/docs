@@ -78,7 +78,7 @@ service:
       receivers: [skywalking]
 ```
 
-同时，确认 `otel-agent-conf` 中参照[配置 otel-agent](../02-tracing/03-opentelemetry.md/#配置-otel-agent) 一节的内容完成了对应的配置。
+同时，确认 `otel-agent-conf` 中参照[配置 otel-agent](../tracing/opentelemetry/#配置-otel-agent) 一节的内容完成了对应的配置。
 
 接着，使用如下命令修改 otel-agent Service，开放对应端口：
 ```bash
