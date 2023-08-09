@@ -4,7 +4,7 @@ const path = require('path')
 
 const TARGET_FILE = path.resolve('./docs/')
 const AIM_FILE = path.resolve('./dist/')
-const AIM_FILE_TYPE = ['.json', '.txt', '.png', '.jpg', '.jpeg', '.svg']
+const AIM_FILE_TYPE = ['.json', '.txt', '.png', '.jpg', '.jpeg', '.svg', '.mp4']
 const IGNORE_FILE = ['.vuepress']
 
 handleFile(TARGET_FILE)
