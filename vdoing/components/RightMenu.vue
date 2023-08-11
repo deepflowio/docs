@@ -54,6 +54,7 @@ export default {
 .right-menu-wrapper
   max-height calc(100vh - 3.6rem - 36px)
   width $rightMenuWidth
+  overflow-y: auto
   // float right
   // margin-right -($rightMenuWidth + 55px)
   // margin-top -($navbarHeight *2 + 1.5rem)
