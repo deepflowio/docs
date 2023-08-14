@@ -298,6 +298,69 @@ K8s 使用 macvlan CNI 时，在 rootns 下只能看到所有 POD 共用的一�
     deepflow-ctl agent list
     ```
 
+### 需要从 Kubernetes API 获取额外资源或 CRD 的情况
+
+这类场景需要进行以下操作：
+- 采集器高级配置中打开和关闭对应的资源
+- 配置 Kubernetes API 权限
+
+#### OpenShift
+
+该场景需要关闭默认的 `Ingress` 资源获取，打开 `Route` 资源获取。
+
+采集器高级配置如下：
+    ```yaml
+    static_config:
+      kubernetes-resources:
+      - name: ingresses
+        disabled: true
+      - name: routes
+    ```
+
+ClusterRole 配置增加：
+    ```yaml
+    rules:
+    - apiGroups:
+      - route.openshift.io
+      resources:
+      - routes
+      verbs:
+      - get
+      - list
+      - watch
+    ```
+
+#### OpenKruise
+
+该场景下需要从 API 获取 `CloneSet` 和 `apps.kruise.io/StatefulSet` 资源。
+
+采集器高级配置如下：
+    ```yaml
+    static_config:
+      kubernetes-resources:
+      - name: clonesets
+        group: apps.kruise.io
+      - name: statefulsets
+        group: apps
+      - name: statefulsets
+        group: apps.kruise.io
+    ```
+
+注意这里需要加上 Kubernetes 的 `apps/StatefulSet`。
+
+ClusterRole 配置增加：
+    ```yaml
+    - apiGroups:
+      - apps.kruise.io
+      resources:
+      - clonesets
+      - statefulsets
+      verbs:
+      - get
+      - list
+      - watch
+    ```
+
 # 以进程形态部署 DeepFlow Agent
 
 当无法直接在 Kubernetes 集群中以 Daemonset 形式部署 DeepFlow Agent 时，但可在宿主机上直接部署二进制时，可使用该方法实现流量采集。
