@@ -309,16 +309,15 @@ K8s 使用 macvlan CNI 时，在 rootns 下只能看到所有 POD 共用的一�
 该场景需要关闭默认的 `Ingress` 资源获取，打开 `Route` 资源获取。
 
 采集器高级配置如下：
-    ```yaml
+
     static_config:
       kubernetes-resources:
       - name: ingresses
         disabled: true
       - name: routes
-    ```
 
 ClusterRole 配置增加：
-    ```yaml
+
     rules:
     - apiGroups:
       - route.openshift.io
@@ -328,14 +327,13 @@ ClusterRole 配置增加：
       - get
       - list
       - watch
-    ```
 
 #### OpenKruise
 
 该场景下需要从 API 获取 `CloneSet` 和 `apps.kruise.io/StatefulSet` 资源。
 
 采集器高级配置如下：
-    ```yaml
+
     static_config:
       kubernetes-resources:
       - name: clonesets
@@ -344,12 +342,11 @@ ClusterRole 配置增加：
         group: apps
       - name: statefulsets
         group: apps.kruise.io
-    ```
 
 注意这里需要加上 Kubernetes 的 `apps/StatefulSet`。
 
 ClusterRole 配置增加：
-    ```yaml
+
     - apiGroups:
       - apps.kruise.io
       resources:
@@ -359,7 +356,6 @@ ClusterRole 配置增加：
       - get
       - list
       - watch
-    ```
 
 # 以进程形态部署 DeepFlow Agent
 
