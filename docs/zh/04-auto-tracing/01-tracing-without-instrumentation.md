@@ -26,6 +26,8 @@ permalink: /auto-tracing/tracing-without-instrumentation
 :::
 
 实际上，在现实业务场景中上述限制并不难解决，例如：
-- 在金融行业的应用中，一般都在请求头或请求体中注入了`交易流水号`，通过 DeepFlow Wasm Plugin 可提取该字段并当做 TraceID 来用
-- 如果整个 RPC 框架是统一的，稍作修改在 RPC Header 中注入用于追踪的随机 ID（远比插桩式分布式追踪轻量的修改），也可起到 TraceID 的作用
-- 业务上可能已经局部使用了插桩式的分布式追踪，DeepFlow 也可自动提取请求头中的 TraceID、SpanID，解决局部跨线程的问题
+- 在金融应用中，一般都在请求中注入了`交易流水号`，通过 DeepFlow Wasm Plugin 可提取该字段并作为 TraceID
+- 如果整个 RPC 框架是统一的，可在 RPC Header 中注入用于追踪的随机 ID（远比插桩式分布式追踪轻量的工作）
+- 业务上可能已经局部使用了插桩式的分布式追踪，DeepFlow 也可提取请求中的 TraceID，解决一部分跨线程的问题
+
+另外，这些看起来是`妥协`的解决方案在实战中非常管用，甚至能避开 eBPF 对内核 4.14+ 的要求，纯粹依靠 cBPF 的能力即可实现分布式追踪。
