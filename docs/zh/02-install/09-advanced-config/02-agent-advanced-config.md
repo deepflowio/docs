@@ -379,7 +379,8 @@ ClusterRole 配置增加：
 
 ```bash
 cat << EOF > values-custom.yaml
-deployMode: process
+deployComponent: 
+- "watcher"
 clusterNAME: process-example
 EOF
 helm install deepflow -n deepflow deepflow/deepflow-agent --create-namespace \
@@ -391,3 +392,31 @@ helm install deepflow -n deepflow deepflow/deepflow-agent --create-namespace \
 
 - 参考[传统服务器部署 DeepFlow Agent](../legacy-host/)，但无需创建 Domain
 - 修改 agent 配置文件 `/etc/deepflow-agent/deepflow-agent.yaml`，`kubernetes-cluster-id` 填写上一步获取的 ID
+
+# 在腾讯云 TKE Serverless 集群中以 SideCar 形态部署 DeepFlow Agent
+
+当无法直接在 Kubernetes 集群中以 Daemonset 形式部署 DeepFlow Agent 时，但可在宿主机上直接部署二进制时，可使用该方法实现流量采集。
+
+- 以 deployment 形态部署一个 deepflow-agent
+  - 通过设置环境变量 ONLY_WATCH_K8S_RESOURCE，该 agent 仅实现对 K8s 资源的 list-watch 及上送控制器的功能
+  - 这个 agent 的其他所有功能均会自动关闭
+  - agent 请求 server 时告知自己在 watch_k8s，server 会将此信息更新到 MySQL 数据库中
+  - 用做 Watcher 的采集器将不会出现在采集器列表中
+
+- 以 daemonset 部署 deepflow-agent 并注入 sidecar 
+
+## 部署方法
+
+### 部署 SideCar 模式 DeepFlow Agent
+
+```bash
+cat << EOF > values-custom.yaml
+deployComponent: 
+- "daemonset"
+- "watcher"
+tke_sidecar: true
+clusterNAME: process-example
+EOF
+helm install deepflow -n deepflow deepflow/deepflow-agent --create-namespace \
+  -f values-custom.yaml
+```
