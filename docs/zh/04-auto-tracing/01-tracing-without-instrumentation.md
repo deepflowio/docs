@@ -19,8 +19,13 @@ permalink: /auto-tracing/tracing-without-instrumentation
   - [ ] 服务 A 内线程 X 生产消息，经过内存消息队列后由另一个线程 Y 消费消息
   - [ ] 服务 A 生产消息，经过消息队列（如 Kafka/Redis）后由服务 B 消费消息
 - 协程调度（hybrid threading）场景下的追踪，例如内核线程和用户态线程不是一一对应的场景
+  - [x] BFE（Golang 实现）网关跨协程处理请求
   - [x] Golang Goroutine：Goroutine A 接收客户端 a 的调用，并创建 Goroutine B/C/... 请求上游服务 b/c/...
   - [ ] Golang Goroutine：有 Channel 参与的场景
-  - [x] BFE（Golang 实现）网关跨协程处理请求
   - [ ] Erlang 等协程或轻量级线程语言
 :::
+
+实际上，在现实业务场景中上述限制并不难解决，例如：
+- 在金融行业的应用中，一般都在请求头或请求体中注入了`交易流水号`，通过 DeepFlow Wasm Plugin 可提取该字段并当做 TraceID 来用
+- 如果整个 RPC 框架是统一的，稍作修改在 RPC Header 中注入用于追踪的随机 ID（远比插桩式分布式追踪轻量的修改），也可起到 TraceID 的作用
+- 业务上可能已经局部使用了插桩式的分布式追踪，DeepFlow 也可自动提取请求头中的 TraceID、SpanID，解决局部跨线程的问题
