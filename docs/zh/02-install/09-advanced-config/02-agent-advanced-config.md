@@ -417,6 +417,6 @@ deployComponent:
 tke_sidecar: true
 clusterNAME: process-example
 EOF
-helm install deepflow -n deepflow deepflow/deepflow-agent --create-namespace \
+helm install deepflow-agent -n deepflow deepflow/deepflow-agent --create-namespace \
   -f values-custom.yaml
 ```
