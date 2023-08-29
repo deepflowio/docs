@@ -299,6 +299,16 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 | 无                | span.name 		 | span.name=${C/R/U/D} + ${db} + ${table}			| 标准字段|
 
 
+### MongoDB
+
+| 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
+| :----       | :----       | :----     | :-----  |
+| 无                | span.attributes     | db.system==mongodb        | 自定义|
+| 无                | span.attributes     | db.operation=${request_type}     | 标准字段|
+| 无                | span.attributes     | db.statement=${request_resource}     | 标准字段|
+| response_exception| span.event        | event.name        | 标准字段|
+| 无                | span.name        | span.name=${request_type}     | 标准字段|
+
 
 ### Redis
 
