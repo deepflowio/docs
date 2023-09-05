@@ -45,7 +45,7 @@ func (p plugin) HookIn() []sdk.HookBitmap {
 
 // HookIn() 包含 HOOK_POINT_HTTP_REQ 时，http 请求解析完成返回之前会调用。
 // HttpReqCtx 包含了 BaseCtx 和已经解析出来的一些 http 头部
-func (p plugin) OnHttpReq(ctx *sdk.HttpReqCtx) sdk.HttpAction {
+func (p plugin) OnHttpReq(ctx *sdk.HttpReqCtx) sdk.Action {
     // baseCtx 包括一些 ip，port，4层协议，包方向等信息
     baseCtx := &ctx.BaseCtx
 
@@ -69,7 +69,7 @@ func (p plugin) OnHttpReq(ctx *sdk.HttpReqCtx) sdk.HttpAction {
     //...
 
     // 返回结果
-    return sdk.HttpActionAbortWithResult(trace, attr)
+    return sdk.HttpReqActionAbortWithResult(nil, trace, attr)
 }
 
 
@@ -78,7 +78,7 @@ func (p plugin) OnHttpReq(ctx *sdk.HttpReqCtx) sdk.HttpAction {
     HttpRespCtx 包含了 BaseCtx 和响应码
     其余处理基本和 OnHttpReq 一致
 */
-func (p plugin) OnHttpResp(ctx *sdk.HttpRespCtx) sdk.HttpAction {
+func (p plugin) OnHttpResp(ctx *sdk.HttpRespCtx) sdk.Action {
     return sdk.ActionNext()
 }
 
@@ -186,10 +186,8 @@ static_config:
   
 - tinygo 对于 go 的标准库和第三方库有一定的限制，并非任意 go 代码或库都可以使用，对于标准库，tinygo 支持的情况可以参考[tinygo package supported](https://tinygo.org/docs/reference/lang-support/stdlib/)。需要提醒的是，这里的列表仅供参考，Passes tests 显示 no 并非完全不能使用，例如 fmt.Sprintf() 可以使用但 fmt.Println() 就不能使用。
   
-- tinygo 对于反射的支持有限，基本上不能使用反射，并且依赖反射的 package 基本都不能使用，这表示所有的序列化相关的标准库(json xml ...)和绝大多数第三方序列化的库(yaml protobuf ...)都不能使用。目前经过验证可以使用的序列化第三方库有
-  - github.com/valyala/fastjson (json 解析库，不能直接映射到结构)
-  - github.com/knqyf263/go-plugin (protobuf 相关库)
-
+- 由于 go 1.21 版本开始支持 wasi，如果需要使用 builtin 的序列化相关的库（json，yaml，xml 等等） 需要使用 go 版本不低于 1.21 并且 tinygo 版本需要不低于 0.29。
+  
 - 从 Parser 返回的结构(L7ProtocolInfo, Trace, []KeyVal)会序列化到线性内存，目前对于每个结构的序列化申请的内存固定为 1 page (65536 bytes)，如果返回的结构太大会导致序列化失败。
 
 - agent 通过遍历所有支持的协议来判断一个流的应用层协议，目前的顺序是 HTTP -> Wasm Hook -> DNS -> ... ，Wasm 的优先级仅次于 HTTP，所以用户定义的协议判断和解析可以重写 agent 已有的协议判断和解析(HTTP/HTTP2 除外)，例如[这个例子](https://github.com/deepflowio/deepflow-wasm-go-sdk/blob/5393818adf94f2f9b296de82e20f614ba3b2336a/example/dns/dns.go)中，可以重写 DNS 解析，Agent 将不会执行默认的 DNS 解析逻辑。
