@@ -25,20 +25,20 @@ permalink: /server-integration/export/opentelemetry-collector
 ```bash
 ingester:
   exporters:
-    - name: test exporter
-      exporter_type: otlp-exporter
-      otlp-exporter:
-        enabled: true
-        addr: 127.0.0.1:4317 
-        export-datas: [cbpf-net-span,ebpf-sys-span]
-        export-data-types: [service_info,tracing_info,network_layer,flow_info,transport_layer,application_layer,metrics]
-        export-custom-k8s-labels-regexp: 
-        export-only-with-traceid: false
-        queue-count: 2  
-        queue-size: 1000000 
-        grpc-headers: 
-          ${key1}: ${value1}
-          ${key2}: ${value2}
+    enabled: true
+    export-datas: [cbpf-net-span,ebpf-sys-span]
+    export-data-types: [service_info,tracing_info,network_layer,flow_info,transport_layer,application_layer,metrics]
+    export-custom-k8s-labels-regexp:
+    export-only-with-traceid: false
+    otlp-exporter:
+      enabled: true
+      addr: 127.0.0.1:4317
+      queue-count: 4
+      queue-size: 1000000
+      export-batch-count: 32
+      grpc-headers:
+        ${key1}: ${value1}
+        ${key2}: ${value2}
 ```
 关于[详细配置](https://github.com/deepflowio/deepflow/blob/main/server/server.yaml#L474)。
 
@@ -66,10 +66,10 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 
 | 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
 | :----       | :----       | :---- 	  | :-----  |
-| app_service    			| resource.attributes 		| service.name				| 标准字段|
-| app_instance     	| resource.attributes 		| service.instance.id 		| 标准|
-| process_id 				| resource.attributes 		| process.pid				| 备注：|
-| process_kname     		| resource.attributes 		| thread.name				| 备注：|
+| auto_service          | resource.attributes 		| service.name				| 标准字段|
+| auto_instance     	| resource.attributes 		| service.instance.id       		| 标准|
+| process_id 	        | resource.attributes 		| process.pid				| 备注：|
+| process_kname         | resource.attributes 		| thread.name				| 备注：|
 
 
 ## Flow Info
