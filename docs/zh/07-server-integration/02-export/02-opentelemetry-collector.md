@@ -30,12 +30,16 @@ ingester:
     export-data-types: [service_info,tracing_info,network_layer,flow_info,transport_layer,application_layer,metrics]
     export-custom-k8s-labels-regexp:
     export-only-with-traceid: false
-    otlp-exporter:
-      enabled: true
+    otlp-exporters:
+    - enabled: true
       addr: 127.0.0.1:4317
       queue-count: 4
       queue-size: 1000000
       export-batch-count: 32
+      export-datas: [cbpf-net-span,ebpf-sys-span]
+      export-data-types: [service_info,tracing_info,network_layer,flow_info,transport_layer,application_layer,metrics]
+      export-custom-k8s-labels-regexp:
+      export-only-with-traceid: false
       grpc-headers:
         ${key1}: ${value1}
         ${key2}: ${value2}
