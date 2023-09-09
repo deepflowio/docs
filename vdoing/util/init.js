@@ -3,31 +3,31 @@ import ClipboardJS from 'clipboard'
 export default () => {
     function addWebHeaderEvent() {
         document.querySelectorAll(".to-signup").forEach((element) => {
-            element.addEventListener("click", function() {
+            element.addEventListener("click", function () {
                 window.open('/signup.html', '_blank')
             });
         });
         document.querySelectorAll(".to-demo").forEach((element) => {
-            element.addEventListener("click", function() {
+            element.addEventListener("click", function () {
                 window.open('https://ce-demo.deepflow.yunshan.net/', '_blank')
             });
         });
         document.querySelector('.feature-list').querySelectorAll('.feature-item').forEach(element => {
-            element.addEventListener('click', function() {
+            element.addEventListener('click', function () {
                 var name = element.getAttribute('data-name')
                 var href = '', target = ''
                 const isZH = window.location.href.indexOf('/zh/') > -1
                 switch (name) {
                     case 'deepflow-cloud':
-                        href = '/'
+                        href = isZH ? '/zh/' : '/'
                         target = '_self'
                         break;
-                    case 'community':
+                    case 'eBPF':
                         href = (isZH ? '/zh' : '') + '/community.html'
                         target = '_self'
                         break;
                     case 'blog':
-                        href = "/blog/"
+                        href = "/blog/" + (isZH ? 'zh/' : '');
                         target = '_self'
                         break;
                     case 'docs':
@@ -43,7 +43,7 @@ export default () => {
     }
 
     // 跳转js
-    window.jumpByTag = function(root, name) {
+    window.jumpByTag = function (root, name) {
         //  window.location.href = root+'?tag='+encodeURIComponent(name)
     }
 
@@ -59,7 +59,7 @@ export default () => {
 
     function addMobileHeaderEvent() {
         document.querySelectorAll(".to-signup").forEach((element) => {
-            element.addEventListener("click", function() {
+            element.addEventListener("click", function () {
                 window.location.href = "/signup.html";
             });
         });
@@ -77,7 +77,7 @@ export default () => {
     function addModelEvent() {
         document
             .querySelector(".ys-model-masking")
-            .addEventListener("click", function() {
+            .addEventListener("click", function () {
                 document
                     .querySelector(".ys-model-contianer")
                     .classList.add("captcha-box");
@@ -88,11 +88,11 @@ export default () => {
 
         var btnCopy = new ClipboardJS("#copy-button", {
             // 通过target指定要复印的节点
-            target: function() {
+            target: function () {
                 return document.querySelector("#copy-content");
             },
         });
-        btnCopy.on("success", function(e) {
+        btnCopy.on("success", function (e) {
             e.clearSelection();
             // btnCopy.destroy();
             showToast();
@@ -105,7 +105,7 @@ export default () => {
         let timer;
         let lastOverflow
 
-        document.getElementById("nav").addEventListener("click", function() {
+        document.getElementById("nav").addEventListener("click", function () {
             if (timer) {
                 return false;
             }
@@ -130,27 +130,27 @@ export default () => {
         });
 
         document.querySelectorAll(".nav-link").forEach((element) => {
-            element.addEventListener("click", function() {
+            element.addEventListener("click", function () {
                 const name = element.getAttribute("data-name");
                 let href = "",
                     target = "";
                 const isZH = window.location.href.indexOf('/zh/') > -1
                 switch (name) {
-                    case "deepflow-cloud":
-                        href = "/";
-                        target = "_self";
+                    case 'deepflow-cloud':
+                        href = isZH ? '/zh/' : '/'
+                        target = '_self'
                         break;
-                    case "community":
+                    case 'eBPF':
                         href = (isZH ? '/zh' : '') + '/community.html'
-                        target = "_self";
+                        target = '_self'
                         break;
-                    case "blog":
-                        href = "/blog/";
-                        target = "_self";
+                    case 'blog':
+                        href = "/blog/" + (isZH ? 'zh/' : '');
+                        target = '_self'
                         break;
-                    case "docs":
+                    case 'docs':
                         href = "/docs/" + (isZH ? 'zh/' : '');
-                        target = "_self";
+                        target = '_self'
                         break;
                     default:
                         return false
@@ -198,7 +198,7 @@ export default () => {
         }, 1000);
     }
 
-    window.addEventListener('load', function() {
+    window.addEventListener('load', function () {
         if (IsMobile()) {
             addMobileHeaderEvent();
             addModelEvent();
