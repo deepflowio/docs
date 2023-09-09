@@ -1,4 +1,6 @@
 import ClipboardJS from 'clipboard'
+const eBPFUrl = '/blog/035-deepflow-enabling-zero-code-observability-for-applications-by-webAssembly/'
+const eBPFZHUrl = '/blog/zh/035-deepflow-enabling-zero-code-observability-for-applications-by-webAssembly/'
 
 export default () => {
     function addWebHeaderEvent() {
@@ -23,7 +25,7 @@ export default () => {
                         target = '_self'
                         break;
                     case 'eBPF':
-                        href = (isZH ? '/zh' : '') + '/community.html'
+                        href = isZH ? eBPFZHUrl : eBPFUrl
                         target = '_self'
                         break;
                     case 'blog':
@@ -141,7 +143,7 @@ export default () => {
                         target = '_self'
                         break;
                     case 'eBPF':
-                        href = (isZH ? '/zh' : '') + '/community.html'
+                        href = isZH ? eBPFZHUrl : eBPFUrl
                         target = '_self'
                         break;
                     case 'blog':
