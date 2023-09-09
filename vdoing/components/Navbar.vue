@@ -1,11 +1,20 @@
 <template>
   <header class="navbar blur">
     <div class="logo-login-container mobile">
-      <div class="flex-y">
-        <img :src="'/docs/img/side.svg'" style="height: 1.625rem; margin-right: 0.7811rem"
-          @click="$emit('toggle-sidebar')" alt="" />
+      <div class="flex-y gap-10px">
+        <img :src="'/docs/img/side.svg'" style="height: 1.0625rem" @click="$emit('toggle-sidebar')" alt="" />
         <img class="logo-image" @click="linkToHome" :src="'/docs/img/logo.svg'" alt="logo" />
         <div class="blank"></div>
+        <div class="github flex">
+          <a class="github-icon flex" href="https://github.com/deepflowio/deepflow" target="_blank">
+            <img
+              src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjQwcHgiIGhlaWdodD0iNDBweCIgdmlld0JveD0iMTIgMTIgNDAgNDAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMTIgMTIgNDAgNDAiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxwYXRoIGZpbGw9IiMzMzMzMzMiIGQ9Ik0zMiAxMy40Yy0xMC41IDAtMTkgOC41LTE5IDE5YzAgOC40IDUuNSAxNS41IDEzIDE4YzEgMC4yIDEuMy0wLjQgMS4zLTAuOWMwLTAuNSAwLTEuNyAwLTMuMiBjLTUuMyAxLjEtNi40LTIuNi02LjQtMi42QzIwIDQxLjYgMTguOCA0MSAxOC44IDQxYy0xLjctMS4yIDAuMS0xLjEgMC4xLTEuMWMxLjkgMC4xIDIuOSAyIDIuOSAyYzEuNyAyLjkgNC41IDIuMSA1LjUgMS42IGMwLjItMS4yIDAuNy0yLjEgMS4yLTIuNmMtNC4yLTAuNS04LjctMi4xLTguNy05LjRjMC0yLjEgMC43LTMuNyAyLTUuMWMtMC4yLTAuNS0wLjgtMi40IDAuMi01YzAgMCAxLjYtMC41IDUuMiAyIGMxLjUtMC40IDMuMS0wLjcgNC44LTAuN2MxLjYgMCAzLjMgMC4yIDQuNyAwLjdjMy42LTIuNCA1LjItMiA1LjItMmMxIDIuNiAwLjQgNC42IDAuMiA1YzEuMiAxLjMgMiAzIDIgNS4xYzAgNy4zLTQuNSA4LjktOC43IDkuNCBjMC43IDAuNiAxLjMgMS43IDEuMyAzLjVjMCAyLjYgMCA0LjYgMCA1LjJjMCAwLjUgMC40IDEuMSAxLjMgMC45YzcuNS0yLjYgMTMtOS43IDEzLTE4LjFDNTEgMjEuOSA0Mi41IDEzLjQgMzIgMTMuNHoiLz48L3N2Zz4="
+              alt="github-icon" />
+          </a>
+          <a class="github-stars" href="https://github.com/deepflowio/deepflow" target="_blank">
+            ***
+          </a>
+        </div>
         <div class="lang">
           <img :src="'/docs/img/lang.svg'" alt="" />
           <div class="intl-options-wrapper">
@@ -17,23 +26,7 @@
             </ul>
           </div>
         </div>
-        <div class="github flex">
-          <a class="github-icon flex" href="https://github.com/deepflowio/deepflow" target="_blank">
-            <img
-              src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjQwcHgiIGhlaWdodD0iNDBweCIgdmlld0JveD0iMTIgMTIgNDAgNDAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMTIgMTIgNDAgNDAiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxwYXRoIGZpbGw9IiMzMzMzMzMiIGQ9Ik0zMiAxMy40Yy0xMC41IDAtMTkgOC41LTE5IDE5YzAgOC40IDUuNSAxNS41IDEzIDE4YzEgMC4yIDEuMy0wLjQgMS4zLTAuOWMwLTAuNSAwLTEuNyAwLTMuMiBjLTUuMyAxLjEtNi40LTIuNi02LjQtMi42QzIwIDQxLjYgMTguOCA0MSAxOC44IDQxYy0xLjctMS4yIDAuMS0xLjEgMC4xLTEuMWMxLjkgMC4xIDIuOSAyIDIuOSAyYzEuNyAyLjkgNC41IDIuMSA1LjUgMS42IGMwLjItMS4yIDAuNy0yLjEgMS4yLTIuNmMtNC4yLTAuNS04LjctMi4xLTguNy05LjRjMC0yLjEgMC43LTMuNyAyLTUuMWMtMC4yLTAuNS0wLjgtMi40IDAuMi01YzAgMCAxLjYtMC41IDUuMiAyIGMxLjUtMC40IDMuMS0wLjcgNC44LTAuN2MxLjYgMCAzLjMgMC4yIDQuNyAwLjdjMy42LTIuNCA1LjItMiA1LjItMmMxIDIuNiAwLjQgNC42IDAuMiA1YzEuMiAxLjMgMiAzIDIgNS4xYzAgNy4zLTQuNSA4LjktOC43IDkuNCBjMC43IDAuNiAxLjMgMS43IDEuMyAzLjVjMCAyLjYgMCA0LjYgMCA1LjJjMCAwLjUgMC40IDEuMSAxLjMgMC45YzcuNS0yLjYgMTMtOS43IDEzLTE4LjFDNTEgMjEuOSA0Mi41IDEzLjQgMzIgMTMuNHoiLz48L3N2Zz4="
-              alt="github-icon" />
-          </a>
-          <a class="github-stars" href="https://github.com/deepflowio/deepflow" target="_blank">
-            ***
-          </a>
-        </div>
         <ul class="button-list flex-y">
-          <!-- <li class="login-button">
-            <a id="signin-m" href="javascript:void(0)">登录</a>
-          </li> -->
-          <!-- <li id="signup-m" v-if="currentLang === 'zh'" class="to-signup sign-button color-nomal">
-            立即体验
-          </li> -->
           <li class="color-nomal nav-button" id="nav">
             <img :src="'/docs/img/nav.svg'" alt="nav.png" />
           </li>
@@ -395,8 +388,10 @@ $navbar-horizontal-padding = 1.5rem;
 
 .mobile .github
   margin-right: 0
-  margin-left 0.7811rem
+  line-height: 1
+  font-size: 0.24rem
   .github-icon
+    min-height: 1.3125rem;
     width: auto
     padding 0 5px
   img
@@ -404,6 +399,7 @@ $navbar-horizontal-padding = 1.5rem;
     height 15px
   .github-stars
     padding: 0 5px
+    min-height: 1.3125rem;
 
 .a-button-list-box
   .a-button-list
