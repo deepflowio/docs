@@ -172,59 +172,26 @@
           d="M512 85.333333c235.637333 0 426.666667 191.029333 426.666667 426.666667S747.637333 938.666667 512 938.666667 85.333333 747.637333 85.333333 512 276.362667 85.333333 512 85.333333z m182.613333 297.354667a32 32 0 0 0-45.258666 0.032L458.922667 573.44l-84.341334-83.989333a32 32 0 0 0-45.162666 45.344l106.986666 106.549333a32 32 0 0 0 45.226667-0.064l213.013333-213.333333a32 32 0 0 0-0.032-45.258667z"
           p-id="2148"
           fill="#67C23A"
-        ></path></svg
-      ><span>复制成功！</span>
+        ></path></svg><span>复制成功！</span>
     </div>
     <div class="nav-list mobile">
       <div class="masking"></div>
       <ul class="nav-list-box" style="height: 1px">
         <li class="nav-link" data-name="deepflow-cloud">
           {{ locales[lang].product }}
-          <!-- <span>产品</span> -->
-          <!-- <ul>
-            <li class="nav-link" data-name="deepflow-cloud">DeepFlow Cloud</li>
-          </ul> -->
         </li>
-        <li class="nav-link" data-name="community">
-          {{ locales[lang].openSource }}
-          <!-- <span>开源</span> -->
-          <!-- <ul>
-            <li class="nav-link" data-name="community">DeepFlow (Community)</li>
-          </ul> -->
+        <li class="nav-link" data-name="eBPF">
+          {{ locales[lang].eBPF }}
         </li>
         <li class="nav-link" data-name="docs">
           {{ locales[lang].docs }}
-          <!-- <span>学习</span> -->
-          <!-- <ul>
-            <li class="nav-link" data-name="docs">文档</li>
-          </ul> -->
         </li>
         <li class="nav-link" data-name="blog">
           {{ locales[lang].blog }}
-          <!-- <span>学习</span> -->
-          <!-- <ul>
-            <li class="nav-link" data-name="docs">博客</li>
-          </ul> -->
+         
         </li>
       </ul>
     </div>
-    <!-- <div class="icons" v-if="social && social.icons">
-      <a
-        :href="item.link"
-        :title="item.title"
-        :class="['iconfont', item.iconClass]"
-        v-for="(item, index) in social.icons"
-        :key="index"
-        target="_blank"
-      ></a>
-    </div> -->
-
-    <!--Vdoing主题遵循MIT协议，完全开源且免费。如果您对主题的修改并不大，希望您保留主题的链接。-->
-    <!-- <template v-if="footer">
-      Copyright © {{ footer.createYear }}-{{ new Date().getFullYear() }}
-      <span v-html="footer.copyrightInfo"></span>
-      <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=11010802031005">11010802031005号</a>
-    </template> -->
   </div>
 </template>
 

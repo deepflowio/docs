@@ -1,6 +1,7 @@
 export default {
     product: "产品",
     openSource: "开源",
+    eBPF: "eBPF",
     learn: "学习",
     deepflowCloud: "DeepFlow Cloud",
     deepflowEnter: "DeepFlow Enterprise",
