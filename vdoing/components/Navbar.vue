@@ -2,7 +2,7 @@
   <header class="navbar blur">
     <div class="logo-login-container mobile">
       <div class="flex-y gap-10px">
-        <img :src="'/docs/img/side.svg'" style="height: 1.0625rem" @click="$emit('toggle-sidebar')" alt="" />
+        <img :src="'/docs/img/nav.svg'" style="width: .875rem" @click="$emit('toggle-sidebar')" alt="" />
         <img class="logo-image" @click="linkToHome" :src="'/docs/img/logo.svg'" alt="logo" />
         <div class="blank"></div>
         <div class="github flex">

@@ -1,6 +1,6 @@
 import ClipboardJS from 'clipboard'
-const eBPFUrl = '/blog/035-deepflow-enabling-zero-code-observability-for-applications-by-webAssembly/'
-const eBPFZHUrl = '/blog/zh/035-deepflow-enabling-zero-code-observability-for-applications-by-webAssembly/'
+const eBPFUrl = '/blog/037-ebpf-the-key-technology-for-observability-en/'
+const eBPFZHUrl = '/blog/zh/036-ebpf-the-key-technology-for-observability-zh/'
 
 export default () => {
     function addWebHeaderEvent() {
@@ -223,6 +223,7 @@ export default () => {
         if (!res.stargazers_count) {
             return false
         }
+        localStorage.setItem(STARS_KEY, res.stargazers_count)
         document.querySelectorAll(".github-stars").forEach(stars_counts => {
             stars_counts.innerHTML = res.stargazers_count;
         });
