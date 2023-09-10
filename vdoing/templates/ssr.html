@@ -8,69 +8,60 @@
     {{{ userHeadTags }}} {{{ pageMeta }}} {{{ canonicalLink }}} {{{
     renderResourceHints() }}} {{{ renderStyles() }}}
     <script>
+      const ZOOM_KEY = 'YS_ZOOM_KEY'
+      function isMobile() {
+        return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      }
+      function initYsZoom() {
+        if (!window.YS_ZOOM) {
+          var html = document.getElementsByTagName("html")[0];
+          html.style.zoom = localStorage.getItem(ZOOM_KEY)
+          // 适配
+          var innerWidth = window.innerWidth;
+          var outerWidth = window.outerWidth;
+          if (outerWidth === 0) {
+            window.requestAnimationFrame(initZoom);
+            return false
+          } else if (innerWidth !== outerWidth && innerWidth - outerWidth > 20) {
+            // 发生了缩放
+            window.YS_ZOOM = innerWidth / Math.min(outerWidth, 1920);
+          } else if (innerWidth > 1920) {
+            window.YS_ZOOM = innerWidth / 1920;
+          } else if (innerWidth < 1600 && !isMobile()) {
+            window.YS_ZOOM = innerWidth / 1920;
+          } else {
+            window.YS_ZOOM = 1;
+          }
+          html.style.zoom = window.YS_ZOOM;
+          localStorage.setItem(ZOOM_KEY, window.YS_ZOOM)
+        }
+      }
+      function initFeatureList() {
+        if (window.YS_ZOOM) {
+          var featureList = document.getElementsByClassName('feature-list')[0];
+          if (featureList) {
+            var childrenLen = featureList && featureList.children.length;
+            var innerWidth = window.innerWidth;
+            var domWidth = innerWidth * 0.07;
+            domWidth = Math.max(domWidth, 130)
+            featureList.style.width = domWidth / window.YS_ZOOM * childrenLen + 'px'
+            if (innerWidth > 1920) {
+              featureList.style.fontSize = (innerWidth * 0.0083) / window.YS_ZOOM + "px";
+            }
+          }
+  
+        }
+      }
+      initYsZoom()
+      window.addEventListener("load", initFeatureList);
+    </script>
+    <script>
            window._YS_RENDER_IMAGE=function renderImage(svg,id,cb){var canvas=document.getElementById(id);var c=canvas.getContext("2d");var img=new Image();img.src="data:image/svg+xml;base64,"+window.btoa(window.unescape(window.encodeURIComponent(svg)));img.onload=function(){canvas.width=img.width;canvas.height=img.height;c.drawImage(img,0,0);cb(img)}};
     </script>
   </head>
-  <script>
-    var html = document.getElementsByTagName("html")[0];
-    // 适配
-    var innerWidth = window.innerWidth;
-    var outerWidth = window.outerWidth;
-    if (outerWidth === 0) {
-      window.YS_ZOOM =
-        window.sessionStorage.getItem("YS_DEEPFLOW_ZOOM") || innerWidth / 1920;
-      html.style.zoom = window.YS_ZOOM;
-    } else if (innerWidth !== outerWidth && innerWidth - outerWidth > 20) {
-      // 发生了缩放
-      window.YS_ZOOM = innerWidth / Math.min(outerWidth, 1920);
-      html.style.zoom = window.YS_ZOOM;
-    } else if (innerWidth > 1920) {
-      window.YS_ZOOM = innerWidth / 1920;
-      html.style.zoom = window.YS_ZOOM;
-    }
-  </script>
+  
   <body class="theme-mode-light">
     <!--vue-ssr-outlet-->
     {{{ renderScripts() }}}
   </body>
-  <script>
-    window.addEventListener("load", initZoom);
-
-    function initZoom() {
-      // 适配
-      var innerWidth = window.innerWidth;
-      var outerWidth = window.outerWidth;
-      if (outerWidth === 0) {
-        setTimeout(initZoom, 500);
-      } else if (innerWidth !== outerWidth && innerWidth - outerWidth > 20) {
-        // 发生了缩放
-        window.YS_ZOOM = innerWidth / Math.min(outerWidth, 1920);
-        window.sessionStorage.setItem("YS_DEEPFLOW_ZOOM", window.YS_ZOOM);
-      } else if (innerWidth > 1920) {
-        window.YS_ZOOM = innerWidth / 1920;
-        window.sessionStorage.setItem("YS_DEEPFLOW_ZOOM", window.YS_ZOOM);
-      }
-
-      if (
-        window.location.href.indexOf("/community.html") === -1 &&
-        window.YS_ZOOM
-      ) {
-        document.getElementsByTagName("html")[0].style.zoom = window.YS_ZOOM;
-        //
-        var featureList = document.getElementsByClassName("feature-list")[0];
-        if (featureList) {
-          var innerWidth = window.innerWidth;
-          var domWidth = innerWidth * 0.07;
-          domWidth = Math.max(domWidth, 130);
-          var childrenLen = featureList && featureList.children.length;
-          featureList.style.width =
-            (domWidth / window.YS_ZOOM) * childrenLen + "px";
-          if (innerWidth > 1920) {
-            featureList.style.fontSize =
-              (innerWidth * 0.0083) / window.YS_ZOOM + "px";
-          }
-        }
-      }
-    }
-  </script>
 </html>
