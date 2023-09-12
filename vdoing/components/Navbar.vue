@@ -127,7 +127,7 @@ export default {
         {
           prefix: "/zh/",
           type: "zh",
-          text: "中文",
+          text: "简体中文",
         },
         {
           prefix: "/",
