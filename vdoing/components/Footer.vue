@@ -183,7 +183,7 @@
         <li class="nav-link" data-name="eBPF">
           {{ locales[lang].eBPF }}
         </li>
-        <li class="nav-link" data-name="docs">
+        <li class="nav-link active" data-name="docs">
           {{ locales[lang].docs }}
         </li>
         <li class="nav-link" data-name="blog">
