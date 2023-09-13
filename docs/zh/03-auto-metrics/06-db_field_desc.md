@@ -180,6 +180,7 @@ l7_flow_log 数据库表存储按分钟粒度聚合的各种协议的请求日�
 | response_status    | 响应状态 | --           | `ERR` 报文的 ERROR CODE    | 正常：无`ERR` 报文; 客户端异常: ERROR CODE=2000-2999 或客户端发送的1-999; 服务端异常: ERROR CODE=1000-1999/3000-4000 或服务端发送的1-999 |
 | response_code      | 响应码   | --           | `ERR` 报文的 ERROR CODE    | -- |
 | response_exception | 响应异常 | --           | `ERR` 报文的 ERROR Message | -- |
+| trace_id           | TraceID | tracd_id     | -                         | 可以在 SQL 注释中注入 TraceID，例如 `/* your_trace_key： ffffffff */ SELECT col FROM tbl`，并在 http_log_trace_id 配置中加入 your_trace_key 即可提取出当前 SQL 的 trace_id |
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
