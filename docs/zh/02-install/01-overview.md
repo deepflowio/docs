@@ -65,6 +65,10 @@ deepflow-agent 运行权限的要求：
   - `[必须]` 文件权限：`/sys/kernel/debug/` 目录只读权限
     - 由于 kprobe、uprobe 类型探测点的 attach/detach 操作依赖于内核 debug 子系统，不具备该权限则无法开启 eBPF
     - 同时，由于该目录只能由 root 用户访问，所以 deepflow-agent 进程`只能以 root 用户运行`
+  - `[必须]` 确保文件 `/proc/sys/kernel/kptr_restrict` 内容不等于 2，否则 Continuous Profiler 将不能使用
+    - `kptr_restrict` 值为 2 时, 所有用户都无法读取内核符号地址，即使给予 `CAP_SYSLOG` 权限也无法读取内核地址
+    - agent 在启动时会检测内核符号地址，如果无法读取会打印 WARN 日志提醒
+    - 一般系统这个值默认为 1，如果这个值为 2 用户可提前将该文件内容设置为 1
   - `[建议]` 文件权限：`/proc/sys/net/core/bpf_jit_enable` 文件读写权限
     - 该文件内容不等于 1 时 eBPF 性能会受到显著影响
       - 当该值为 1 时，deepflow-agent 会读取该值，若不具备读取权限会打印 WARN 日志提醒
