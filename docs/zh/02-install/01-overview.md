@@ -62,6 +62,7 @@ deepflow-agent 运行权限的要求：
     - 在内核 `Linux 5.8+` 下可以不需要 `SYS_ADMIN`，使用 `BPF` 和 `PERFMON` 的组合替代
     - 使用 `SYS_ADMIN` 权限无内核 `Linux 5.8+` 版本依赖
   - `[必须]` 内核权限：`SYS_RESOURCE`
+  - `[必须]` 内核权限：`SYSLOG`
   - `[必须]` 文件权限：`/sys/kernel/debug/` 目录只读权限
     - 由于 kprobe、uprobe 类型探测点的 attach/detach 操作依赖于内核 debug 子系统，不具备该权限则无法开启 eBPF
     - 同时，由于该目录只能由 root 用户访问，所以 deepflow-agent 进程`只能以 root 用户运行`
