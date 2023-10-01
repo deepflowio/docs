@@ -4,8 +4,8 @@ home: true
 # 此文件很重要 切勿删除
 
 # 标题以及描述
-heroText: DeepFlow - 高度自动化的可观测性平台
-description: 避免手工插码，消除追踪盲点，简化平台维护。使用eBPF、OTel、WASM等技术，让观测更自动。
+heroText: DeepFlow - 即刻实现可观测性
+description: 深度使用 eBPF 和 Wasm 技术，实现零侵扰（Zero Code）和全栈（Full Stack）的可观测性，让云基础设施和云原生应用持续创新。
 
 # 按钮的链接以及文字
 actionLink: /zh/about/overview/
@@ -13,10 +13,10 @@ actionText: 马上阅读 →
 
 # 特性
 features:
- - title: 全栈
-   details: 基于eBPF的AutoMetrics，覆盖从应用到基础设施，精细至每个请求；云原生AutoTagging，自动注入数据标签。
- - title: 全链路
-   details: 基于eBPF的AutoTracing，自动追踪分布式链路，不遗漏任何一个调用；与OTel Span无缝关联，让追踪无盲点。
- - title: 高性能
-   details: 高性能的SmartEncoding标签注入机制，告别高基和采样焦虑；使用Rust实现的Agent，告别Golang内存焦虑。
+ - title: 服务全景图
+   details: 基于领先的 AutoMetrics 机制，利用 eBPF 和 Wasm 技术零侵扰绘制生产环境全景图，不遗漏任何服务。
+ - title: 分布式追踪
+   details: 基于领先的 AutoTracing 机制，利用 eBPF 和 Wasm 技术零侵扰实现分布式追踪，不留下任何追踪盲点。
+ - title: 持续性能剖析
+   details: 基于领先的 AutoProfiling 机制，利用 eBPF 技术以低于 1% 的开销零侵扰采集生产环境进程的性能剖析数据。
 ---

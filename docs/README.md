@@ -4,8 +4,8 @@ home: true
 # 此文件很重要 切勿删除
 
 # 标题以及描述
-heroText: DeepFlow - Observability with Automation
-description: Avoid manual instrumentation, eliminate tracing blind spots, simplify platform operation. Powered by eBPF, OTel, WASM, etc.
+heroText: DeepFlow - Instant Observability for Cloud-Native Applications
+description: Use eBPF and Wasm to achieve `Zero Code` and `Full Stack` observability, allowing continuous innovation in cloud infrastructure and cloud-native applications.
 
 # 按钮的链接以及文字
 actionLink: /about/overview/
@@ -13,10 +13,10 @@ actionText: Read now →
 
 # 特性
 features:
- - title: Any Stack
-   details: AutoMetrics, based on eBPF, covers from application to infrastructure, down to each request; cloud-native AutoTagging injects data tags automatically.
- - title: End to End
-   details: AutoTracing, based on eBPF, automatically traces distributed spans without missing any requests; seamlessly integration with OTel eliminates any blind spots.
- - title: High Performance
-   details: With SmartEncoding, a high-performance tag injection mechanism, no more sampling anxiety; with an agent implemented in Rust, no more memory anxiety.
+ - title: Universal Map
+   details: Based on the leading AutoMetrics mechanism, eBPF and Wasm are used to generate an universal map of the production environment with zero code instrumentation.
+ - title: Distributed Tracing
+   details: Based on the leading AutoTracing mechanism, eBPF and Wasm are used to implement distributed tracing with zero code instrumentation, leaving no tracing blind spots.
+ - title: Continuous Profiling
+   details: Based on the leading AutoProfiling mechanism, eBPF is used to collect profiling data of production processes with less than 1% overhead and zero code instrumentation.
 ---
