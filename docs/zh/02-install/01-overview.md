@@ -5,23 +5,23 @@ permalink: /install/overview
 
 本章介绍 DeepFlow 的部署方法。DeepFlow 可用于监控多个 K8s 上的容器应用、多个 VPC 中的云主机应用。本章的内容安排如下：
 - [all-in-one](./all-in-one/)：使用一台虚拟机快速体验 DeepFlow
-- [single-k8s](./single-k8s/)：部署 DeepFlow 监控一个 K8s 集群上的所有应用，所有观测数据将会自动注入`K8s 资源`和`K8s 自定义 Label`标签
+- [single-k8s](./single-k8s/)：部署 DeepFlow 监控一个 K8s 集群上的所有应用，所有观测数据将会自动注入`K8s 资源`和`K8s 自定义 Label` 标签
 - [multi-k8s](./multi-k8s/)：部署 DeepFlow 监控多个 K8s 集群上的所有应用
 - [legacy-host](./legacy-host/)：部署 DeepFlow 监控传统服务器上的所有应用
 - [cloud-host](./cloud-host/)：部署 DeepFlow 监控云服务器上的所有应用，所有观测数据将会自动注入`云资源`标签
-- [managed-k8s](./managed-k8s/)：部署 DeepFlow 监控云服务商托管 K8s 集群上的所有应用，所有观测数据将会自动注入`云资源`、`K8s 资源`、`K8s 自定义 Label`标签
+- [managed-k8s](./managed-k8s/)：部署 DeepFlow 监控云服务商托管 K8s 集群上的所有应用，所有观测数据将会自动注入`云资源`、`K8s 资源`、`K8s 自定义 Label` 标签
+- [serverless-pod](./serverless-pod/)：部署 DeepFlow 监控 Serverless Pod 内的所有应用
 - [upgrade](./upgrade/)：DeepFlow 升级
-- [advanced-config](./advanced-config/)：DeepFlow 高级配置
 
 # 在线 Demo 环境
 
 如果你现在没有合适的资源部署 DeepFlow，也可登录我们的[在线 Demo](https://ce-demo.deepflow.yunshan.net)，
 借助如下文档章节抢先体验 DeepFlow 的强大能力：
-- [微服务全景图 - 体验 DeepFlow 基于 BPF 的 AutoMetrics 能力](../auto-metrics/metrics-without-instrumentation/)
-- [自动分布式追踪 - 体验 DeepFlow 基于 eBPF 的 AutoTracing 能力](../auto-tracing/tracing-without-instrumentation/)
-- [消除数据孤岛 - 了解 DeepFlow 的 AutoTagging 和 SmartEncoding 能力](../auto-tagging/elimilate-data-silos/)
-- [告别高基烦恼 - 集成 Promethes 等指标数据](../agent-integration/metrics/metrics-auto-tagging/)
-- [无盲点分布式追踪 - 集成 OpenTelemetry 等追踪数据](../agent-integration/tracing/tracing-without-blind-spot/)
+- [服务全景图 - 体验 DeepFlow 的 AutoMetrics 能力](../features/universal-map/auto-metrics/)
+- [分布式追踪 - 体验 DeepFlow 的 AutoTracing 能力](../features/distributed-tracing/auto-tracing/)
+- [消除数据孤岛 - 了解 DeepFlow 的 AutoTagging 和 SmartEncoding 能力](../features/auto-tagging/elimilate-data-silos/)
+- [告别高基烦恼 - 集成 Promethes 等指标数据](../integration/input/metrics/metrics-auto-tagging/)
+- [全栈分布式追踪 - 集成 OpenTelemetry 等追踪数据](../integration/input/tracing/full-stack-distributed-tracing/)
 
 # 运行权限及内核要求
 
@@ -37,7 +37,7 @@ deepflow-agent 的 eBPF 能力对内核版本的要求：
 
 当内核版本无法满足要求时，受影响的功能有：
 - 通过 eBPF uprobe 获取 HTTP2、HTTPS 应用数据
-- 通过 eBPF 实现 AutoTracing
+- 通过 eBPF 实现 AutoTracing、AutoProfiling
 
 deepflow-agent 运行权限的要求：
 - 当运行于 K8s 环境下，采集 K8s 信息需要的权限包括
@@ -61,8 +61,7 @@ deepflow-agent 运行权限的要求：
   - `[建议]` 内核权限：`SYS_ADMIN`
     - 在内核 `Linux 5.8+` 下可以不需要 `SYS_ADMIN`，使用 `BPF` 和 `PERFMON` 的组合替代
     - 使用 `SYS_ADMIN` 权限无内核 `Linux 5.8+` 版本依赖
-  - `[必须]` 内核权限：`SYS_RESOURCE`
-  - `[必须]` 内核权限：`SYSLOG`
+  - `[必须]` 内核权限：`SYS_RESOURCE`、`SYSLOG`
   - `[必须]` 文件权限：`/sys/kernel/debug/` 目录只读权限
     - 由于 kprobe、uprobe 类型探测点的 attach/detach 操作依赖于内核 debug 子系统，不具备该权限则无法开启 eBPF
     - 同时，由于该目录只能由 root 用户访问，所以 deepflow-agent 进程`只能以 root 用户运行`
@@ -103,4 +102,4 @@ deepflow-agent 调用 K8s apiserver 同步信息需要以下资源的 get/list/w
 - ACK Terway
 - QKE HostNIC
 - IPVlan
-- MACVlan [额外配置](./advanced-config/agent-advanced-config/#macvlan)
+- MACVlan [额外配置](../best-practice/special-environment-deployment/#macvlan)
