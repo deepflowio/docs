@@ -144,13 +144,13 @@ app_spans 通常为 APM 中一个 Trace 的一部分应用 Span，DeepFlow 据�
 | \_ids | array | Span 对应的 DeepFlow 调用日志 |  |
 | related_ids | int | Span 关联的其他 DeepFlow 调用日志 |  |
 | flow_id | string | Span 对应的 DeepFlow 流日志，应用/系统 Span 无数据 |
-| l7_protocol | int | Span 的应用协议，对应 DeepFlow 的 [`l7_protocol` 字段说明](../../../universal-map/request-log/) |
+| l7_protocol | int | Span 的应用协议，对应 DeepFlow 的 [`l7_protocol` 字段说明](../../../features/universal-map/request-log/) |
 | l7_protocol_str | string | Span 的应用协议 |
 | request_type | string | Span 的请求类型  |
 | request_id | string | Span 的请求 ID  |
 | endpoint | string | Span 的请求端点 |
 | request_resource | string | Span 的请求资源 |
-| response_status | int | Span 的响应状态，对应 DeepFlow 的 [`response_status` 字段说明](../../../universal-map/request-log/) |
+| response_status | int | Span 的响应状态，对应 DeepFlow 的 [`response_status` 字段说明](../../../features/universal-map/request-log/) |
 | process_id | int | Span 所属的进程ID，仅系统 Span 有数据 |
 | app_service | string | Span 所属的服务，仅应用 Span 有数据 |
 | app_instance | string | Span 所属的实例，仅应用 Span 有数据 |
@@ -165,4 +165,4 @@ app_spans 通常为 APM 中一个 Trace 的一部分应用 Span，DeepFlow 据�
 
 注意：
 - 返回结果中 Span 的新父子关系，需要使用 `deepflow_span_id` 与 `deepflow_parent_span_id` 字段来构建
-- 应用插桩后向协议中注入的 TraceID/SpanID 可自动被 Agent 解析采集，默认已适配 OpenTelemetry、SkyWalking 的 Header 格式，如有自定义 Header 请修改 Agent 配置，具体参考 [Agent 高级配置](../../.../best-practice/agent-advanced-config/)
+- 应用插桩后向协议中注入的 TraceID/SpanID 可自动被 Agent 解析采集，默认已适配 OpenTelemetry、SkyWalking 的 Header 格式，如有自定义 Header 请修改 Agent 配置，具体参考 [Agent 高级配置](../../../best-practice/agent-advanced-config/)

@@ -1,5 +1,6 @@
 ---
 title: 概述
+permalink: /features/enterprise-features/universal-map/overview/
 ---
 
 # 概述
@@ -8,6 +9,6 @@ title: 概述
 
 DeepFlow 的全景图分为三大页面，接下来将详细介绍每个页面的使用与说明。
 
-* [业务定义](02-business_def.md)
-* [服务列表](03-service_list.md)
-* [服务拓扑](04-service_map.md)
+* [业务定义](./business-def/)
+* [服务列表](./service-list/)
+* [服务拓扑](./service-map/)

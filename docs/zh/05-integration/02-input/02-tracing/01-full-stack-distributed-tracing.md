@@ -17,7 +17,7 @@ DeepFlow 与 APM 的集成方法很多，分为如下四种：
   - 1. **调用 API**：DeepFlow 调用 APM 的 `Trace API`，获取 APM 中的 APP Span，配置方法参考[调用 APM Trace API](./apm-trace-api/)
   - 2. **导入数据**：DeepFlow 以 OTLP 协议接收 APM 导出的 APP Span，配置方法参考[导入 OpenTelemetry 数据](./opentelemetry/)和[导入 SkyWalking 数据](./skywalking/)
 - 由 APM 展示全栈分布式追踪结果
-  - 3. **提供 API**：APM 调用 DeepFlow 提供的 `Trace Compeletion API`，获取 DepeFlow 中的 SYS Span 和 NET Span，配置方法参考 [Trace Compeletion API](../../output/query/trace-compeletion/) 文档
+  - 3. **提供 API**：APM 调用 DeepFlow 提供的 `Trace Completion API`，获取 DepeFlow 中的 SYS Span 和 NET Span，配置方法参考 [Trace Completion API](../../output/query/trace-completion/) 文档
   - 4. **导出数据**：APM 以 OTLP 协议接收 DeepFlow 导出的 SYS Span 和 NET Span，配置方法参考 [OTLP Exporter](../../output/export/opentelemetry-exporter/) 文档
 
 上述四种方法中，方案 1 和 2 的工作量最低，只需配置即可；方案 3 的开发工作量也非常小，非常适合前期使用；方案 4 需要理解 SYS Span、NET Span 与 APP Span 的关联逻辑，开发工作量较大，适合对 DeepFlow 深入理解后使用。

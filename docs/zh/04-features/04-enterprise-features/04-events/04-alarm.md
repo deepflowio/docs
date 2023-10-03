@@ -1,5 +1,6 @@
 ---
 title: 告警
+permalink: /features/enterprise-features/events/alarm/
 ---
 
 # 告警
@@ -10,4 +11,4 @@ title: 告警
 
 ![4_1.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650bf3357d79c.png)
 
-- 可通过表格的`列选项`功能，添加要查看的事件信息，使用详情，请参阅【[应用 - 调用日志](../07-application/05-call_log.md)】章节
+- 可通过表格的`列选项`功能，添加要查看的事件信息，使用详情，请参阅【[应用 - 调用日志](../application/call-log/)】章节

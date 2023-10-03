@@ -65,7 +65,7 @@ permalink: /diagnose/FAQ
 
 3. 哪里可以跟踪 DeepFlow 的最新动态？
 
-   答：可在[发行注记](../release-notes/release-6.2/)中查看我们的最新发行概况或关注我们的最新[博客](https://deepflow.io/blog/)。
+   答：可在[发行注记](../release-notes/release-6.2-ce/)中查看我们的最新发行概况或关注我们的最新[博客](https://deepflow.io/blog/)。
 
 # 联系我们
 

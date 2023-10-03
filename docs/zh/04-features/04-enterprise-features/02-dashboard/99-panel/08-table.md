@@ -1,5 +1,6 @@
 ---
 title: 表格
+permalink: /features/enterprise-features/dashboard/panel/table/
 ---
 # 表格
 
@@ -9,9 +10,9 @@ title: 表格
 
 ![8_1.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023091965097c8f63754.png)
 
-- **① 修改指标量:** 子视图的基础操作，使用详情，请参阅【[流量拓扑 - 修改指标量](./02-topology.md)】章节
-- **② 设置:** 子视图的基础操作，使用详情，请参阅【[流量拓扑 - 设置](./02-topology.md)】章节
-- **③ 删除:** 为`视图`中的能力，使用详情，请参阅【[流量拓扑 - 总览介绍](./02-topology.md)】章节
+- **① 修改指标量:** 子视图的基础操作，使用详情，请参阅【[流量拓扑 - 修改指标量](./topology/)】章节
+- **② 设置:** 子视图的基础操作，使用详情，请参阅【[流量拓扑 - 设置](./topology/)】章节
+- **③ 删除:** 为`视图`中的能力，使用详情，请参阅【[流量拓扑 - 总览介绍](./topology/)】章节
 
 ## 列选择
 

@@ -1,5 +1,6 @@
 ---
 title: 概述
+permalink: /features/enterprise-features/events/event/
 ---
 
 # 概述
@@ -8,7 +9,7 @@ DeepFlow 事件模块用于记录系统中发生的事件。它可以帮助用�
 
 接下来将详细介绍每个页面的使用与说明。
 
-* [资源变更](02-resource_changes.md)
-* [文件读写](03-file_reading_and_writing.md)
-* [告警](04-alarm.md)
+* [资源变更](./resource-changes/)
+* [文件读写](./file-reading-and-writing/)
+* [告警](./alarm/)
   

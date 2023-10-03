@@ -1,5 +1,6 @@
 ---
 title: 视图列表
+permalink: /features/enterprise-features/dashboard/list/
 ---
 
 # 视图列表

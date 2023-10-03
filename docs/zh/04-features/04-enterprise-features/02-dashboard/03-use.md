@@ -1,5 +1,6 @@
 ---
 title: 视图详情
+permalink: /features/enterprise-features/dashboard/use/
 ---
 
 # 视图详情
@@ -23,6 +24,7 @@ title: 视图详情
 
 ## 时间选择器---
 title: 视图详情
+permalink: /features/enterprise-features/dashboard/use/
 ---
 
 # 视图详情
@@ -68,7 +70,7 @@ title: 视图详情
 ![3_3.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230918650821d24d1b8.png)
 
 - 设置全局数据表：快速切换视图内子视图查询数据引用的数据表
-- 管理模板变量：快速的改变子视图的搜索条件，使用详情，请参阅【[模板变量](05-variable_template.md)】章节
+- 管理模板变量：快速的改变子视图的搜索条件，使用详情，请参阅【[模板变量](./variable-template/)】章节
 - 开启/关闭Tip同步：开启后，可同时查看时序相关子视图，相同时间点时的数据信息
   - 时序相关子视图包含：折线图、趋势分析图
 - 新建模块：可对子视图按模块进行归纳放置，可按需收缩和展开模块，可在模块栏中修改名称或者删除模块

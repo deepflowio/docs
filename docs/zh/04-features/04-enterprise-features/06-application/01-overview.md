@@ -1,5 +1,6 @@
 ---
 title: 概述
+permalink: /features/enterprise-features/application/overview/
 ---
 
 # 概述
@@ -8,10 +9,10 @@ DeepFlow 应用模块支持实时监控服务的黄金指标、呈现服务调�
 
 DeepFlow 的应用分为六大页面，接下来将详细介绍每个页面的使用与说明。
 
-* [指标统计](./02-metrics_statistics.md)
-* [路径统计](./03-path_statistics.md)
-* [路径拓扑](./04-path_topology.md)
-* [调用日志](./05-call_log.md)
-* [调用链追踪](./06-call_chain_tracing.md)
-* [持续剖析](./07-continue_profile.md)
-* [右滑框](./08-right_sliding_box.md)
+* [指标统计](./service-list/)
+* [路径统计](./service-statistics/)
+* [路径拓扑](./path-topology/)
+* [调用日志](./call-log/)
+* [调用链追踪](./call-chain-tracing/)
+* [持续剖析](./continue-profile/)
+* [右滑框](./right-sliding-box/)

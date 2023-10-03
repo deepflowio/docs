@@ -47,7 +47,7 @@ kubectl apply -f https://raw.githubusercontent.com/deepflowio/deepflow-demo/main
 
 我们需要修改 Telegraf 的配置，使 Telegraf 将数据发送给 DeepFlow Agent。
 
-首先，我们需要确定 DeepFlow Agent 启动的数据监听服务的地址。在[安装 DeepFlow Agent](../../install/single-k8s/) 后，
+首先，我们需要确定 DeepFlow Agent 启动的数据监听服务的地址。在[安装 DeepFlow Agent](../../../install/single-k8s/) 后，
 会显示 DeepFlow Agent Service 地址，它的默认值是 `deepflow-agent.default`。
 如果你修改了它，请根据实际的服务名称与命名空间填写到配置中。
 

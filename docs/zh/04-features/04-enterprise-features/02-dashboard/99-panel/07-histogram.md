@@ -1,5 +1,6 @@
 ---
 title: 分布图
+permalink: /features/enterprise-features/dashboard/panel/histogram/
 ---
 # 分布图  
 
@@ -8,6 +9,6 @@ title: 分布图
 ![7_1.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230919650975509aeb6.png)
 
 - **① 查询区域:** 支持切换不同查询区域
-- **② 修改指标量:** 子视图的基础操作，使用详情，请参阅【[流量拓扑 - 修改指标量](./02-topology.md)】章节
-- **③ 设置:** 子视图的标准操作，使用详情，请参阅【[流量拓扑 - 设置](./02-topology.md)】章节
-- **④ 删除:** 为`视图`中的能力，使用详情，请参阅【[流量拓扑 - 总览介绍](./02-topology.md)】章节
+- **② 修改指标量:** 子视图的基础操作，使用详情，请参阅【[流量拓扑 - 修改指标量](./topology/)】章节
+- **③ 设置:** 子视图的标准操作，使用详情，请参阅【[流量拓扑 - 设置](./topology/)】章节
+- **④ 删除:** 为`视图`中的能力，使用详情，请参阅【[流量拓扑 - 总览介绍](./topology/)】章节

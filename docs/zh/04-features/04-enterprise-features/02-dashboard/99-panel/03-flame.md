@@ -1,5 +1,6 @@
 ---
 title: 调用链追踪
+permalink: /features/enterprise-features/dashboard/panel/flame/
 ---
 # 调用链追踪
 

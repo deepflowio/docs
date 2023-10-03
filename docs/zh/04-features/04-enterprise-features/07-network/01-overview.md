@@ -1,5 +1,6 @@
 ---
 title: 概述
+permalink: /features/enterprise-features/network/overview/
 ---
 
 # 概述
@@ -8,12 +9,12 @@ DeepFlow 网络模块拥有丰富的功能支持用户对网络中的路径流�
 
 接下来将详细介绍每个页面的使用与说明。
 
-* [服务统计](02-service_statistics.md)
-* [网络路径](03-network_path.md)
-* [网络拓扑](04-network_map.md)
-* [流日志](05-flow_log.md)
-* [NAT 追踪](06-NAT_traversal.md)
-* [资源盘点](07-resource_inventory.md)
-* [PCAP 策略](08-pacp_strategy.md)
-* [PCAP 下载](09-pcap_download.md)
-* [流量分发](10-traffic_distribution.md)
+* [服务统计](./service-statistics/)
+* [网络路径](./network-path/)
+* [网络拓扑](./network-map/)
+* [流日志](./flow-log/)
+* [NAT 追踪](./NAT-traversal/)
+* [资源盘点](./resource-inventory/)
+* [PCAP 策略](./pacp-strategy/)
+* [PCAP 下载](./pcap-download/)
+* [流量分发](./traffic-distribution/)

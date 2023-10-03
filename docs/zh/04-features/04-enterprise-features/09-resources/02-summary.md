@@ -1,5 +1,6 @@
 ---
 title: 摘要
+permalink: /features/enterprise-features/resources/summary/
 ---
 
 # 摘要

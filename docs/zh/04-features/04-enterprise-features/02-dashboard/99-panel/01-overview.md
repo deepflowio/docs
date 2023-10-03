@@ -1,5 +1,6 @@
 ---
 title: 概述
+permalink: /features/enterprise-features/dashboard/panel/overview/
 ---
 
 # 概述
@@ -8,11 +9,11 @@ title: 概述
 
 DeepFlow 支持使用多种子视图，接下来我们将向您介绍如何使用以下子视图。
 
-- [流量拓扑](02-topology.md)
-- [调用链追踪火焰图](03-flame.md)
-- [折线图](04-line.md)
-- [柱状图](05-bar.md)
-- [饼状图](06-pie.md)
-- [分布图](07-histogram.md)
-- [表格](08-table.md)
-- [趋势分析图](09-trend.md)
+- [流量拓扑](./topology/)
+- [调用链追踪火焰图](./flame/)
+- [折线图](./line/)
+- [柱状图](./bar/)
+- [饼状图](./pie/)
+- [分布图](./histogram/)
+- [表格](./table/)
+- [趋势分析图](./trend/)
