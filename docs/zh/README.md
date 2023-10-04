@@ -5,7 +5,7 @@ home: true
 
 # 标题以及描述
 heroText: DeepFlow - 即刻实现可观测性
-description: 深度使用 eBPF 和 Wasm 技术，实现零侵扰（Zero Code）和全栈（Full Stack）的可观测性，让云基础设施和云原生应用持续创新。
+description: 使用 eBPF 和 Wasm 技术，实现零侵扰（Zero Code）和全栈（Full Stack）的可观测性，让云基础设施和云原生应用持续创新。
 
 # 按钮的链接以及文字
 actionLink: /zh/about/overview/
