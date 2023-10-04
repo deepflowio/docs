@@ -1,10 +1,13 @@
 {
     "about": "About DeepFlow",
-    "install": "Install",
+    "ce-install": "Install (Community Edition)",
+    "ee-install": "Install (Enterprise Edition)",
     "best-practice": "Best Practice",
+    "best-practice/ee": "Enterprise Edition",
     "features": "Features",
     "features/universal-map": "Universal Map",
     "features/distributed-tracing": "Distributed Tracing",
+    "features/continuous-profiling": "Continuous Profiling",
     "features/auto-tagging": "AutoTagging",
     "integration": "Integration",
     "integration/process": "Process",
@@ -14,6 +17,8 @@
     "integration/output": "Output",
     "integration/output/query": "Query API",
     "integration/output/export": "Exporter",
+    "integration/ee": "Enterprise Edition",
     "diagnose": "Diagnose",
+    "diagnose/ee": "Enterprise Edition",
     "release-notes": "Release Notes"
 }
