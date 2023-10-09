@@ -52,7 +52,7 @@ permalink: /about/features
 
 DeepFlow 完全拥抱开源社区，除了能够利用 eBPF 技术零侵扰采集观测数据以外，DeepFlow 还支持集成主流的可观测性技术栈，例如支持作为 Prometheus、OpenTelemetry、SkyWalking、Pyroscope 等技术栈的存储后端，并提供 SQL、PromQL、OTLP Export 接口作为 Grafana、Prometheus、OpenTelemetry、SkyWalking 的数据源，使得开发者可以快速将其融入到自己的可观测性解决方案中。
 
-![DeepFlow 与主流可观测性技术栈的集成](https://deepflow.io/images/V3/V2-05-01.svg)
+![DeepFlow 与主流可观测性技术栈的集成](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202310096523b163cac67.png)
 
 当作为存储后端时，DeepFlow 并不只是简单的存储数据，利用独有的 AutoTagging 和 SmartEncoding 机制，高性能、自动化的为所有观测信号注入统一的属性标签，消除数据孤岛，并增强数据的下钻切分能力。
 
@@ -60,6 +60,6 @@ DeepFlow 完全拥抱开源社区，除了能够利用 eBPF 技术零侵扰采�
 
 与之对比的是，DeepFlow Server 依然使用 Golang 实现，使得我们能获得更高的迭代速度。得益于我们在 Golang 版本 Agent 的深厚积累，我们重写的高性能 map、高性能 pool 均达到了十倍性能的提升，能够显著降低 Server 的资源消耗。一个每秒写入 1M Span 的生产环境中 Server 消耗的资源一般为业务自身消耗的 1%。
 
-![DeepFlow 中的 SmartEncoding](https://deepflow.io/images/V3/V2-06-01.svg)
+![DeepFlow 中的 SmartEncoding](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202310096523b164952a5.png)
 
 与观测数据直接相关的性能优化体现在 SmartEncoding 机制上。Agent 通过信息同步获取到字符串格式的标签，汇总到 Server 上。Server 通过对所有的标签进行编码，为所有的数据统一注入 Int 类型的标签并存储到数据库中，与此同时 Grafana 可以直接以字符串格式的标签进行过滤和分组查询。这一编码机制可将标签写入的性能提升 10 倍，极大的降低了数据存储的资源开销。除此之外，Server 还会将 K8s 标签以元数据的方式与观测数据分离存储，无需在每一行观测数据中都存储所有的标签，进一步将资源消耗降低一半。最后，这样的编码机制也能减少数据查询时的磁盘扫描量，提升搜索性能。
