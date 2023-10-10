@@ -135,7 +135,6 @@ export default {
 .page.content-layout-container
   position relative
   width: 100%
-  min-width: 960px;
   box-sizing: border-box;
   padding-left: 24px;
   padding-right: 24px;
@@ -149,6 +148,7 @@ export default {
     justify-content: space-between
     background-color: transparent
     align-items: flex-start
+    padding 0
     @media (max-width $MQMobile)
       margin-top 0
       padding 0

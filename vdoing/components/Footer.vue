@@ -62,7 +62,7 @@
       </p>
     </div>
     <div class="links-container web">
-      <div class="links-container-box width1200">
+      <div class="links-container-box">
         <ul class="links-list" v-if="lang === 'zh'">
           <li class="links-item">
             <span class="links-title">产品</span>

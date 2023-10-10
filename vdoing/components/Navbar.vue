@@ -141,22 +141,6 @@ export default {
 
   mounted() {
     initHead();
-    // 执行zoom
-    if (window.YS_ZOOM) {
-      var featureList = document.getElementsByClassName("feature-list")[0];
-      if (featureList) {
-        var childrenLen = featureList && featureList.children.length;
-        var innerWidth = window.innerWidth;
-        var domWidth = innerWidth * 0.07;
-        domWidth = Math.max(domWidth, 130);
-        featureList.style.width =
-          (domWidth / window.YS_ZOOM) * childrenLen + "px";
-        if (innerWidth > 1920) {
-          featureList.style.fontSize =
-            (innerWidth * 0.0083) / window.YS_ZOOM + "px";
-        }
-      }
-    }
 
     document.querySelectorAll(".lang-a").forEach((element) => {
       const type = element.getAttribute("data-type");
