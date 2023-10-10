@@ -38,6 +38,7 @@
         <div class="log-image-box">
           <img class="logo-image" @click="linkToHome" :src="'/docs/img/logo.svg'" alt="logo" />
         </div>
+        <div class="blank"></div>
         <ul class="feature-list font-nomal flex-y">
           <li class="feature-item" data-name="deepflow-cloud">
             <span>{{ locales[currentLang].product }}</span>
@@ -52,6 +53,7 @@
             <span>{{ locales[currentLang].blog }}</span>
           </li>
         </ul>
+        <div class="blank"></div>
 
         <SearchBox v-if="$site.themeConfig.search !== false &&
           $page.frontmatter.search !== false
