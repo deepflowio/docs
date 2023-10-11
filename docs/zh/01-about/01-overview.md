@@ -44,7 +44,7 @@ DeepFlow 是[云杉网络](https://yunshan.net)开发的一款**可观测性**�
 
 **第二，全栈能力解决故障定界难的问题**。eBPF 的能力覆盖了从内核到用户程序的每一个层面，因此我们得以跟踪一个请求从应用程序出发，经过系统调用、网络传输、网关服务、安全服务，到达数据库服务或对端微服务的全栈路径，**提供充足的中立观测数据，快速完成故障的定界**。
 
-关于这方面更详细的分析，请参考我们的文章[《eBPF 是实现可观测性的关键技术》](https://deepflow.io/ebpf-the-key-technology-to-observability-zh/)。
+关于这方面更详细的分析，请参考我们的文章[《eBPF 是实现可观测性的关键技术》](https://deepflow.io/zh/ebpf-the-key-technology-to-observability/)。
 
 需要强调的是，这并不意味着 DeepFlow 只使用 eBPF 技术。相反，DeepFlow 支持无缝集成流行的可观测性技术栈，例如它可作为 Prometheus、OpenTelemetry、SkyWalking、Pyroscope 等观测信号的的存储后端。
 
