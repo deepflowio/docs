@@ -1,6 +1,6 @@
 import ClipboardJS from 'clipboard'
-const eBPFUrl = '/ebpf-the-key-technology-to-observability-en/'
-const eBPFZHUrl = '/ebpf-the-key-technology-to-observability-zh/'
+const eBPFUrl = '/ebpf-the-key-technology-to-observability/'
+const eBPFZHUrl = '/zh/ebpf-the-key-technology-to-observability/'
 
 export default () => {
     function addWebHeaderEvent() {
