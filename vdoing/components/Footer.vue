@@ -1,5 +1,5 @@
 <template>
-  <div class="footer">
+  <footer class="footer">
     <div class="footer mobile" :style="mobileBg">
       <div class="footrigcon" v-if="lang === 'zh'">
         <h4>产品</h4>
@@ -192,7 +192,7 @@
         </li>
       </ul>
     </div>
-  </div>
+  </footer>
 </template>
 
 <script>
