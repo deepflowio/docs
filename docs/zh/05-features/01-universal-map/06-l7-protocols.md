@@ -301,10 +301,11 @@ TODO
 
 | 名称                | 中文    | Request                     | Response             | 描述 |
 | -------------------| ------- | --------------------------- | -------------------- | -- |
-| request_type       | 请求类型 | payload 的第一个单词         | --                   | -- |
-| request_resource   | 请求资源 | payload 第一个单词后的字符串 | --                   | -- |
-| response_status    | 响应状态 | --                           | `ERR`报文            | 正常：无 `ERR` 报文; 客户端异常: 无; 服务端异常: 全部 `ERR` 报文 |
-| response_exception | 响应异常 | --                           | `ERR` 报文的 payload | -- |
+| request_type       | 请求类型 | payload 的第一个单词         | --                   | Mongo报文中的OpCode字段 |
+| request_resource   | 请求资源 | payload 第一个单词后的字符串 | --                   | Mongo报文中的Section BodyDocument字段 |
+| response_code      | 响应异常 | --                           | `ERR` 报文的 payload | Mongo报文中Section BodyDocument里的code字段 |
+| response_status    | 响应状态 | --                           | `ERR` 报文的 payload | 正常：无 `ERR` 报文; 客户端异常: 无; 服务端异常: 全部 `ERR` 报文 |
+| response_exception | 响应异常 | --                           | `ERR` 报文的 payload | Mongo报文中Section BodyDocument里的errmsg字段 |
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
@@ -471,3 +472,4 @@ TODO
 | message.uncompressed_size                       | --            | span.attribute.message.uncompressed_size                       | -- |
 | messaging.message_payload_size_bytes            | --            | span.attribute.messaging.message_payload_size_bytes            | -- |
 | messaging.message_payload_compressed_size_bytes | --            | span.attribute.messaging.message_payload_compressed_size_bytes | -- |
+
