@@ -31,14 +31,14 @@ permalink: /guide/ee-tenant/universal-map/service-map/
 
 - **① 切换分组**：可按 * 、auto_service、auto_instance 三个维度查看调用拓扑
 - **② 名称**：当前被点击的`服务`或者`路径`名称，对应下层 TAB 查看的对象。
-- **③ 节点**：参考[流量拓扑](../02-dashboard/99-panel/02-topology.md)介绍
-- **④ 路径**：参考[流量拓扑](../02-dashboard/99-panel/02-topology.md)介绍
+- **③ 节点**：参考[流量拓扑](../dashboard/panel/topology/)介绍
+- **④ 路径**：参考[流量拓扑](../dashboard/panel/topology/)介绍
 
 ### 知识图谱
 
 ![03-知识图谱](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202310196530f3f435c6d.png)
 
-参考[应用-右滑框-知识图谱](../06-application/08-right-sliding-box.md)介绍
+参考[应用-右滑框-知识图谱](../application/right-sliding-box/)介绍
 
 ### 应用性能
 
@@ -75,4 +75,4 @@ TAB 由吞吐、时延、异常、性能四个曲线图及下方的服务端口�
 
 ![06-事件](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202310196530f3fcdb8b4.png)
 
-参考[应用-右滑框-事件](../06-application/08-right-sliding-box.md)介绍
+参考[应用-右滑框-事件](../application/right-sliding-box/)介绍
