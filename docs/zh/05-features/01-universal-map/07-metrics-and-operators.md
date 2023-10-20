@@ -71,7 +71,7 @@ TCP 传输异常
 
 TCP 断连异常
 
-![TCP 断连异常](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023102065322b5849f52.png)
+![TCP 断连异常](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202310206532388b33760.jpg)
 
 传输 TCP 连接超时
 
