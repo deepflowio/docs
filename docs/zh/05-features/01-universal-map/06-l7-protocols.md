@@ -304,7 +304,7 @@ TODO
 | request_type       | 请求类型 | payload 的第一个单词         | --                   | Mongo报文中的OpCode字段 |
 | request_resource   | 请求资源 | payload 第一个单词后的字符串 | --                   | Mongo报文中的Section BodyDocument字段 |
 | response_code      | 响应异常 | --                           | `ERR` 报文的 payload | Mongo报文中Section BodyDocument里的code字段 |
-| response_status    | 响应状态 | --                           | `ERR` 报文的 payload | 正常：无 `ERR` 报文; 客户端异常: 无; 服务端异常: 全部 `ERR` 报文 |
+| response_status    | 响应状态 | --                           | `ERR` 报文的 payload | 正常：无 `ERR` 报文; 客户端异常: 全部 `ERR` 报文; 服务端异常: 无 |
 | response_exception | 响应异常 | --                           | `ERR` 报文的 payload | Mongo报文中Section BodyDocument里的errmsg字段 |
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
