@@ -19,6 +19,7 @@
     "guide/ee-tenant/universal-map": "全景图",
     "guide/ee-tenant/application": "应用",
     "guide/ee-tenant/network": "网络",
+    "guide/ee-tenant/infra": "基础设施",
     "guide/ee-tenant/alert": "告警",
     "guide/ee-tenant/resources": "资源",
     "guide/ee-admin": "管理员页面",
