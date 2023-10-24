@@ -54,7 +54,7 @@ export default {
   }
 }
 
-function renderLink(h, to, text, active) {
+function renderLink(h, to='', text, active) {
   return h('router-link', {
     props: {
       to,
