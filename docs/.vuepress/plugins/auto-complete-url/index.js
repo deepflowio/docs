@@ -1,4 +1,5 @@
 // 自动补全相对路径
+const ignoreFileSuffix = ['.pcap']
 module.exports = function (md, config) {
     const original = md.renderer.rules.link_open
     md.renderer.rules.link_open = (tokens, idx, options, env, self) => {
@@ -14,8 +15,9 @@ module.exports = function (md, config) {
                  * 1. 不是https/http
                  * 2. 不是#开头
                  * 3. 不是/开头
+                 * 4. 非ignoreFileSuffix忽略的文件后缀
                  */
-                if (!isExternal && !href.startsWith('#') && !href.startsWith('/')) {
+                if (!isExternal && !href.startsWith('#') && !href.startsWith('/') && !ignoreFileSuffix.some(etx => href.endsWith(etx))) {
                     // 需要去掉目录的序号 01-about=>about
                     const relativePaths = relativePath.split('/').map(key => {
                         const pth = key.split('-')
