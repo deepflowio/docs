@@ -59,24 +59,23 @@ permalink: /features/universal-map/metrics-and-operators
 
 TCP 客户端建连异常
 
-![TCP 客户端建连异常](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023031764140f2adf916.png)
+![TCP 客户端建连异常](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023102065322b5a0876b.png)
 
 TCP 服务端建连异常
 
-![ TCP 服务端建连异常](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023031764140f29db7e2.png)
+![ TCP 服务端建连异常](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023102065322b597dff6.png)
 
 TCP 传输异常
 
-![TCP传输异常](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023031764140f2adcc35.png)
+![TCP传输异常](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023102065322b5796c4c.png)
 
 TCP 断连异常
 
-![TCP 断连异常](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023031764140f3e9b26f.png)
+![TCP 断连异常](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202310206532388b33760.jpg)
 
 传输 TCP 连接超时
-- 现象：连接未关闭，但长时间无数据传输
-- 原因：主机离线或应用异常
-- 检查：检查主机或应用健康状态
+
+![ TCP 连接超时](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023102065322b56ccae8.png)
 
 ### 传输层时延 (Delay)
 
