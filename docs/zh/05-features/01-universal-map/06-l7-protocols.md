@@ -336,6 +336,7 @@ TODO
 | response_status    | 响应状态 | --              | error_code | 正常: error_code=0; 客户端异常: 无; 服务端异常: error_code!=0 |
 | response_code      | 响应码   | --              | error_code | 目前仅解析 Fetch 一个命令类型的响应码 |
 | response_exception | 响应异常 | --              | error_code | error_code 对应的[官方英文描述](http://kafka.apache.org/protocol#protocol_error_codes) |
+| trace_id           | TraceID  | sw8             | --         | 不可配置 |
 
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
