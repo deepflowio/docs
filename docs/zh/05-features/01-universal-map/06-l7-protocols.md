@@ -363,6 +363,7 @@ TODO
 | -------------------| ------- | --------------- | ---------- | -- |
 | request_type       | 请求类型 | request_api_key | --         | -- |
 | request_id         | 请求 ID  | correlation_id  | --         | -- |
+| request_resource   | 请求资源 | topic_name      | --         | 仅支持Fetch和Produce类型 |
 | response_status    | 响应状态 | --              | error_code | 正常: error_code=0; 客户端异常: 无; 服务端异常: error_code!=0 |
 | response_code      | 响应码   | --              | error_code | 目前仅解析 Fetch 一个命令类型的响应码 |
 | response_exception | 响应异常 | --              | error_code | error_code 对应的[官方英文描述](http://kafka.apache.org/protocol#protocol_error_codes) |
