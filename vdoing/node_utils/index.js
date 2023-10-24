@@ -77,6 +77,9 @@ function handleFileAndGetSideBar (sourceDir, files, currentFileName) {
             const fullFile = path.sep + 'docs' + path.sep
             // 需要截取docs目录后面那一串
             const itemStr = longestMatch(filePath.slice(cwd.length + fullFile.length))
+            if(res.sidebar.length && hasReadme){
+                res.sidebar.push([getPermalink1(readmePath), itemStr, directoryPath]) 
+            }
             res.sidebar.length && sidebar.push({
                 title: itemStr,
                 collapsable: true,
