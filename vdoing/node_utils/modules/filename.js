@@ -53,6 +53,10 @@ function getPermalink (filePath = '') {
   filePath = filePath.slice(cwd.length+1)
   filePath = filePath.split(path.sep)
 
+  if (['docs'].includes(filePath[0])) {
+    filePath.shift()
+  }
+
   if (['zh'].includes(filePath[0])) {
     filePath.shift()
   }
