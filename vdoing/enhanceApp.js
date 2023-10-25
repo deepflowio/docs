@@ -1,8 +1,6 @@
 // 解决代码选项卡无法加载的问题
 import Vue from 'vue'
 import Router from 'vue-router'
-import * as Sentry from "@sentry/vue";
-import { BrowserTracing } from "@sentry/tracing";
 import CodeBlock from "@theme/global-components/CodeBlock.vue"
 import CodeGroup from "@theme/global-components/CodeGroup.vue"
 // Register the Vue global component
@@ -69,35 +67,6 @@ export default ({
       }
     }
   })
-
-  // 暂时只需要线上数据
-  getEnv() === 'production' && Sentry.init({
-    Vue,
-    dsn: "https://eb2402a29dcf400cb100ea34d0538e3f@deepflow.yunshan.net/sentry/8",
-    integrations: [
-      new BrowserTracing({
-        routingInstrumentation: Sentry.vueRouterInstrumentation(router),
-        tracingOrigins: ["localhost", "deepflow.yunshan.net", /^\//],
-        beforeNavigate: context => {
-          if (typeof window === 'undefined') {
-            return context
-          }
-          const from = getUrlParam(window.location.href, 'from') || sessionStorage.getItem("YS_COMMUNITY_DOCS_FROM") || ''
-          from && sessionStorage.setItem("YS_COMMUNITY_DOCS_FROM", from)
-          context.tags = context.tags || {}
-          context.tags.from = context.tags.from || from || 'default'
-          // 增加来源tag处理，只有pagload需要处理
-          context.op === 'pageload' && (context.tags.referrer = referrerTransform(window.document.referrer))
-          return context
-        },
-      }),
-    ],
-    environment: 'production',
-    // Set tracesSampleRate to 1.0 to capture 100%
-    // of transactions for performance monitoring.
-    // We recommend adjusting this value in production
-    tracesSampleRate: 1.0,
-  });
 }
 
 /**
