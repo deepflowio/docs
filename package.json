@@ -25,8 +25,6 @@
     "yamljs": "^0.3.0"
   },
   "dependencies": {
-    "@sentry/tracing": "^7.6.0",
-    "@sentry/vue": "^7.6.0",
     "@vuepress/shared-utils": "^1.9.7",
     "axios": "^1.2.1",
     "better-scroll": "^2.4.2",
