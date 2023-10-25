@@ -56,7 +56,7 @@ function handleFileAndGetSideBar (sourceDir, files, currentFileName) {
         const stat = fs.statSync(filePath);
         if (stat.isDirectory()) {
             const readmePath = filePath + path.sep + "README.md";
-            const hasReadme = fs.existsSync(readmePath)
+            const hasReadme = fs.existsSync(readmePath) && !readmePath.includes('zh'+ path.sep + "README.md")
             // 如果存在README 则需要读取内容的Permalink
             let directoryPath = null
             if (hasReadme) {
@@ -66,6 +66,8 @@ function handleFileAndGetSideBar (sourceDir, files, currentFileName) {
                 if(!directoryPath){
                     directoryPath = getPermalink(filePath)
                 }
+                // 需要改动下readme的内容
+                fs.writeFileSync(readmePath,`---\npermalink: ${directoryPath}\n---\n`+ fileContent);
             }
             // 如果是文件夹 则进行递归
             const res = handleFileAndGetSideBar(filePath, fs.readdirSync(filePath), item)
