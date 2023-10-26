@@ -65,9 +65,10 @@ function handleFileAndGetSideBar (sourceDir, files, currentFileName) {
                 directoryPath = matterData.permalink
                 if(!directoryPath){
                     directoryPath = getPermalink(filePath)
+                    // 不存在permalink
+                    // 需要改动下readme的内容
+                    fs.writeFileSync(readmePath,`---\npermalink: ${directoryPath}\n---\n`+ fileContent);
                 }
-                // 需要改动下readme的内容
-                fs.writeFileSync(readmePath,`---\npermalink: ${directoryPath}\n---\n`+ fileContent);
             }
             // 如果是文件夹 则进行递归
             const res = handleFileAndGetSideBar(filePath, fs.readdirSync(filePath), item)
