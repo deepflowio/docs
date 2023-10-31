@@ -1,7 +1,7 @@
 ---
 title: 报表
-permalink: /guide/ee-tenant/report-forms/report-forms/
----
+permalink: /guide/ee-tenant/report/report/
+--
 
 # 报表
 
