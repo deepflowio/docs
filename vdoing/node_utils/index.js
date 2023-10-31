@@ -80,9 +80,9 @@ function handleFileAndGetSideBar (sourceDir, files, currentFileName) {
             const fullFile = path.sep + 'docs' + path.sep
             // 需要截取docs目录后面那一串
             const itemStr = longestMatch(filePath.slice(cwd.length + fullFile.length))
-            if(res.sidebar.length && hasReadme && directoryPath){
-                res.sidebar.push([getPermalink1(readmePath), itemStr, directoryPath]) 
-            }
+            // if(res.sidebar.length && hasReadme && directoryPath){
+            //     res.sidebar.push([getPermalink1(readmePath), itemStr, directoryPath]) 
+            // }
             res.sidebar.length && sidebar.push({
                 title: itemStr,
                 collapsable: true,
@@ -98,8 +98,14 @@ function handleFileAndGetSideBar (sourceDir, files, currentFileName) {
 
         const fileContent = fs.readFileSync(filePath, "utf8");
         const { data: matterData, content } = matter(fileContent, {});
-        let title = matterData.title || item.split('.md')[0]
+        // 需要截取docs目录后面那一串
+        let title = matterData.title
 
+        if (!title) {
+            const fullFile = path.sep + "docs" + path.sep;
+            title = longestMatch(filePath.slice(cwd.length + fullFile.length).split(".md")[0]);
+        }
+       
         // 首先检测下 title 是否存在
         if (!title) {
             throw new Error("文件：" + filePath + "的title 属性缺失")
@@ -142,20 +148,29 @@ function longestMatch (filePath) {
         current = 0
     }
 
-    const itemArr = filePath.split(path.sep).slice(current).map(path => {
+    let itemArr = filePath.split(path.sep).slice(current).map(path => {
         const pth = path.split('-')
         if (pth.length > 1) {
             pth.shift()
         }
         return pth.join('-')
-    }).map((item, index, _this) => {
-        const str = _this.slice(0, index + 1).join('/')
-        // 先从根路径寻找全路径，然后再找本身翻译，最后返回自身
-        return LOCALES[lang][str] || LOCALES[lang][item] || item
+    // }).map((item, index, _this) => {
+    //     const str = _this.slice(0, index + 1).join('/')
+    //     // 先从根路径寻找全路径，然后再找本身翻译，最后返回自身
+    //     return LOCALES[lang][str] || LOCALES[lang][item] || item
     })
 
+    let oldName = itemArr[itemArr.length - 1];
+    while (itemArr.length) {
+        const item = itemArr.join('/')
+        if (item in LOCALES[lang]) {
+            return LOCALES[lang][item];
+        }
+        itemArr = itemArr.slice(1);
+    }
+
     // 返回最后一项元素
-    return itemArr[itemArr.length - 1]
+    return oldName;
 }
 
 // 简化sidebarData数据
