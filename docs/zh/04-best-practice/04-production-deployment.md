@@ -250,9 +250,9 @@ mysql:
   service:
     type: NodePort
 ```
-如果想复用NodePort分配的端口，需要部署两次，在第二次部署前将第一次分配的端口填入`global.externalMySQL.port`。
+如果想复用 NodePort 分配的端口，需要部署两次，在第二次部署前将第一次分配的端口填入 `global.externalMySQL.port`。
 
-由于Clickhouse会保存MySql的连接方式，所以修改MySql连接后需要删除Clickhouse所有数据库并重启deepflow-server以重置数据库。
+由于 Clickhouse 会保存 MySql 的连接方式，所以修改 MySql 连接后需要删除 Clickhouse 所有数据库并重启 deepflow-server 以重置数据库。
 
 # 优化 deepflow-agent 到 deepflow-server 的流量路径
 
