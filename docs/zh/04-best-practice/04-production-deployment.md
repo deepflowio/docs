@@ -213,6 +213,8 @@ DeepFlow 会将 ClickHouse 的 IP:Port 信息写入一个 Service 的 Endpoint �
 因 ClickHouse 需要请求 MySQL，使用托管 Clickhosue 的同时建议使用托管 Mysql。
 
 如果只使用托管 ClickHouse 而不使用托管 MySQL，建议打开 MySQL 的 NodePort，并配置 `global.externalMySQL` 为 NodePort 访问地址。
+
+
 `values-custom.yaml` 配置：
 ```yaml
 global:
