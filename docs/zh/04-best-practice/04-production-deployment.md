@@ -211,7 +211,50 @@ clickhouse:
 DeepFlow 会将 ClickHouse 的 IP:Port 信息写入一个 Service 的 Endpoint 中，deepflow-server 的 controller 和 ingester 通过 `list&watch` 这个 Service 的 Endpoint 来获取 ClickHouse 地址列表，其中 controller 连接所有的 ClickHouse 进行创建库、表结构等操作，ingester 通过对所有 deepflow-server pod 名称和 Endpoint 的 IP 进行排序，依次对应 deepflow-server 和 ClickHouse，并进行创建库、表结构和写入观测数据，querier 通过访问这个 Service 来查询观测数据。
 
 因 ClickHouse 需要请求 MySQL，使用托管 Clickhosue 的同时建议使用托管 Mysql。
+
 如果只使用托管 ClickHouse 而不使用托管 MySQL，建议打开 MySQL 的 NodePort，并配置 `global.externalMySQL` 为 NodePort 访问地址。
+
+
+`values-custom.yaml` 配置：
+```yaml
+global:
+  externalClickHouse:
+    enabled: true  ## Enable external ClickHouse
+    type: ep
+
+    ## External ClickHouse clusterName,The default value is 'default', query method:  'select cluster,host_address,port from system.clusters;'
+    clusterName: default
+
+    ## External ClickHouse storage policy name,The default value is 'default', query method: 'select policy_name from system.storage_policies;'
+    storagePolicy: default
+    username: default ## External ClickHouse username
+    password: password ## External ClickHouse Password
+
+    ## External ClickHouse IP address and port list, DeepFlow writes IP and port information to an svc endpoint, deepflow-server obtains ClickHouse's IP:Port through get&wath&list endpoint.
+    ## deepflow-server needs to access the real IP address of ClickHouse, the port is connected using tcp-port, usually 9000, and query IP:Port through 'select host_address,port from system.clusters;'.
+    hosts:
+    - ip: 10.1.2.3
+      port: 9000
+    - ip: 10.1.2.4
+      port: 9000
+    - ip: 10.1.2.5
+      port: 9000
+  externalMySQL:
+    enabled: true
+    ip: xx.xx.xx.xx  ## External Mysql IP address, Need to allow deepflow-server and clickhouse access
+    port: 30123  ## External Mysql port
+    username: root  ## External Mysql username
+    password: deepflow
+clickhouse:
+  enabled: false ## Close ClickHouse deployment
+
+mysql:
+  service:
+    type: NodePort
+```
+如果想复用 NodePort 分配的端口，需要部署两次，在第二次部署前将第一次分配的端口填入 `global.externalMySQL.port`。
+
+由于 Clickhouse 会保存 MySql 的连接方式，所以修改 MySql 连接后需要删除 Clickhouse 所有数据库并重启 deepflow-server 以重置数据库。
 
 # 优化 deepflow-agent 到 deepflow-server 的流量路径
 
