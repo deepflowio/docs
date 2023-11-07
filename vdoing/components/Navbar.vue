@@ -198,7 +198,8 @@ export default {
   methods: {
     linkToHome() {
       const currentLang = this.currentLang;
-      this.$router.push(currentLang === "en" ? "/" : `/${currentLang}`);
+      // this.$router.push(currentLang === "en" ? "/" : `/${currentLang}`);
+      window.location.href = currentLang === "en" ? "/" : `/${currentLang}`
     },
   },
 };
