@@ -1,4 +1,5 @@
 import ClipboardJS from 'clipboard'
+import config from '../config.js'
 const eBPFUrl = '/ebpf-the-key-technology-to-observability/'
 const eBPFZHUrl = '/zh/ebpf-the-key-technology-to-observability/'
 
@@ -19,6 +20,8 @@ export default () => {
                 var name = element.getAttribute('data-name')
                 var href = '', target = ''
                 const isZH = window.location.href.indexOf('/zh/') > -1
+                const isHome = window.location.href.includes("deepflow.io")
+                let domain = (isHome ? '' : 'https://deepflow.io')
                 switch (name) {
                     case 'deepflow-cloud':
                         href = isZH ? '/zh/' : '/'
@@ -33,13 +36,15 @@ export default () => {
                         target = '_self'
                         break;
                     case 'docs':
-                        href = "/docs/" + (isZH ? 'zh/' : '');
+                        domain = ''
+                        href = config.base + (isZH ? 'zh/' : '');
                         target = '_self'
                         break;
                     default:
                         break;
                 }
-                window.open(href, target)
+                
+                window.open(domain + href, target)
             })
         })
     }
@@ -137,6 +142,8 @@ export default () => {
                 let href = "",
                     target = "";
                 const isZH = window.location.href.indexOf('/zh/') > -1
+                const isHome = window.location.href.includes("deepflow.io")
+                let domain = (isHome ? '' : 'https://deepflow.io')
                 switch (name) {
                     case 'deepflow-cloud':
                         href = isZH ? '/zh/' : '/'
@@ -151,13 +158,14 @@ export default () => {
                         target = '_self'
                         break;
                     case 'docs':
-                        href = "/docs/" + (isZH ? 'zh/' : '');
+                        domain = ''
+                        href = config.base + (isZH ? 'zh/' : '');
                         target = '_self'
                         break;
                     default:
                         return false
                 }
-                window.open(href, target);
+                window.open(domain + href, target);
             });
         });
     }
