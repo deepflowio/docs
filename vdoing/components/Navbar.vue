@@ -2,8 +2,8 @@
   <header class="navbar blur">
     <div class="logo-login-container mobile">
       <div class="flex-y gap-10px">
-        <img :src="'https://deepflow.io/docs/img/nav.svg'" style="width: .875rem" @click="$emit('toggle-sidebar')" alt="" />
-        <img class="logo-image" @click="linkToHome" :src="'https://deepflow.io/docs/img/logo.svg'" alt="logo" />
+        <img :src="NavSvg" style="width: .875rem" @click="$emit('toggle-sidebar')" alt="" />
+        <img class="logo-image" @click="linkToHome" :src="LogoSvg" alt="logo" />
         <div class="blank"></div>
         <div class="github flex">
           <a class="github-icon flex" href="https://github.com/deepflowio/deepflow" target="_blank">
@@ -16,7 +16,7 @@
           </a>
         </div>
         <div class="lang">
-          <img :src="'https://deepflow.io/docs/img/lang.svg'" alt="" />
+          <img :src="LangSvg" alt="" />
           <div class="intl-options-wrapper">
             <ul class="intl-options">
               <li v-for="item in langList" :key="item.prefix">
@@ -28,7 +28,7 @@
         </div>
         <ul class="button-list flex-y">
           <li class="color-nomal nav-button" id="nav">
-            <img :src="'https://deepflow.io/docs/img/lang.svg'" alt="nav.png" />
+            <img :src="LangSvg" alt="nav.png" />
           </li>
         </ul>
       </div>
@@ -36,7 +36,7 @@
     <div class="logo-login-container web">
       <div class="flex-y">
         <div class="log-image-box">
-          <img class="logo-image" @click="linkToHome" :src="'https://deepflow.io/docs/img/logo.svg'" alt="logo" />
+          <img class="logo-image" @click="linkToHome" :src="LogoSvg" alt="logo" />
         </div>
         <div class="blank"></div>
         <ul class="feature-list font-nomal flex-y">
@@ -95,7 +95,7 @@
           </div>
         </ul>
         <div class="lang">
-          <img :src="'https://deepflow.io/docs/img/lang.svg'" alt="" />
+          <img :src="LangSvg" alt="" />
           <div class="intl-options-wrapper">
             <ul class="intl-options">
               <li v-for="item in langList" :key="item.prefix">
@@ -118,12 +118,18 @@ import SidebarButton from "@theme/components/SidebarButton.vue";
 import NavLinks from "@theme/components/NavLinks.vue";
 import locales from "./../locales/index";
 import { initHead, unbind } from "./../util/header";
+import LangSvg from './../assets/images/lang.svg'
+import LogoSvg from './../assets/images/logo.svg'
+import NavSvg from './../assets/images/nav.svg'
 
 export default {
   components: { SidebarButton, NavLinks, SearchBox },
 
   data() {
     return {
+      LangSvg,
+      LogoSvg,
+      NavSvg,
       linksWrapMaxWidth: null,
       langList: [
         {
