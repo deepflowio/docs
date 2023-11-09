@@ -2,16 +2,30 @@
   <header class="navbar blur">
     <div class="logo-login-container mobile">
       <div class="flex-y gap-10px">
-        <img :src="NavSvg" style="width: .875rem" @click="$emit('toggle-sidebar')" alt="" />
+        <img
+          :src="NavSvg"
+          style="width: 0.875rem"
+          @click="$emit('toggle-sidebar')"
+          alt=""
+        />
         <img class="logo-image" @click="linkToHome" :src="LogoSvg" alt="logo" />
         <div class="blank"></div>
         <div class="github flex">
-          <a class="github-icon flex" href="https://github.com/deepflowio/deepflow" target="_blank">
+          <a
+            class="github-icon flex"
+            href="https://github.com/deepflowio/deepflow"
+            target="_blank"
+          >
             <img
               src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjQwcHgiIGhlaWdodD0iNDBweCIgdmlld0JveD0iMTIgMTIgNDAgNDAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMTIgMTIgNDAgNDAiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxwYXRoIGZpbGw9IiMzMzMzMzMiIGQ9Ik0zMiAxMy40Yy0xMC41IDAtMTkgOC41LTE5IDE5YzAgOC40IDUuNSAxNS41IDEzIDE4YzEgMC4yIDEuMy0wLjQgMS4zLTAuOWMwLTAuNSAwLTEuNyAwLTMuMiBjLTUuMyAxLjEtNi40LTIuNi02LjQtMi42QzIwIDQxLjYgMTguOCA0MSAxOC44IDQxYy0xLjctMS4yIDAuMS0xLjEgMC4xLTEuMWMxLjkgMC4xIDIuOSAyIDIuOSAyYzEuNyAyLjkgNC41IDIuMSA1LjUgMS42IGMwLjItMS4yIDAuNy0yLjEgMS4yLTIuNmMtNC4yLTAuNS04LjctMi4xLTguNy05LjRjMC0yLjEgMC43LTMuNyAyLTUuMWMtMC4yLTAuNS0wLjgtMi40IDAuMi01YzAgMCAxLjYtMC41IDUuMiAyIGMxLjUtMC40IDMuMS0wLjcgNC44LTAuN2MxLjYgMCAzLjMgMC4yIDQuNyAwLjdjMy42LTIuNCA1LjItMiA1LjItMmMxIDIuNiAwLjQgNC42IDAuMiA1YzEuMiAxLjMgMiAzIDIgNS4xYzAgNy4zLTQuNSA4LjktOC43IDkuNCBjMC43IDAuNiAxLjMgMS43IDEuMyAzLjVjMCAyLjYgMCA0LjYgMCA1LjJjMCAwLjUgMC40IDEuMSAxLjMgMC45YzcuNS0yLjYgMTMtOS43IDEzLTE4LjFDNTEgMjEuOSA0Mi41IDEzLjQgMzIgMTMuNHoiLz48L3N2Zz4="
-              alt="github-icon" />
+              alt="github-icon"
+            />
           </a>
-          <a class="github-stars" href="https://github.com/deepflowio/deepflow" target="_blank">
+          <a
+            class="github-stars"
+            href="https://github.com/deepflowio/deepflow"
+            target="_blank"
+          >
             ***
           </a>
         </div>
@@ -20,8 +34,13 @@
           <div class="intl-options-wrapper">
             <ul class="intl-options">
               <li v-for="item in langList" :key="item.prefix">
-                <a :class="['lang-a', currentLang === item.type ? 'active' : '']" href="javascript:void(0)"
-                  :data-prefix="item.prefix" :data-type="item.type">{{ item.text }}</a>
+                <a
+                  :class="['lang-a', currentLang === item.type ? 'active' : '']"
+                  href="javascript:void(0)"
+                  :data-prefix="item.prefix"
+                  :data-type="item.type"
+                  >{{ item.text }}</a
+                >
               </li>
             </ul>
           </div>
@@ -36,7 +55,12 @@
     <div class="logo-login-container web">
       <div class="flex-y">
         <div class="log-image-box">
-          <img class="logo-image" @click="linkToHome" :src="LogoSvg" alt="logo" />
+          <img
+            class="logo-image"
+            @click="linkToHome"
+            :src="LogoSvg"
+            alt="logo"
+          />
         </div>
         <div class="blank"></div>
         <ul class="feature-list font-nomal flex-y">
@@ -55,17 +79,29 @@
         </ul>
         <div class="blank"></div>
 
-        <SearchBox v-if="$site.themeConfig.search !== false &&
-          $page.frontmatter.search !== false
-          " />
+        <SearchBox
+          v-if="
+            $site.themeConfig.search !== false &&
+            $page.frontmatter.search !== false
+          "
+        />
         <div class="github flex">
-          <a class="github-icon flex" href="https://github.com/deepflowio/deepflow" target="_blank">
+          <a
+            class="github-icon flex"
+            href="https://github.com/deepflowio/deepflow"
+            target="_blank"
+          >
             <img
               src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8xIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjQwcHgiIGhlaWdodD0iNDBweCIgdmlld0JveD0iMTIgMTIgNDAgNDAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMTIgMTIgNDAgNDAiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxwYXRoIGZpbGw9IiMzMzMzMzMiIGQ9Ik0zMiAxMy40Yy0xMC41IDAtMTkgOC41LTE5IDE5YzAgOC40IDUuNSAxNS41IDEzIDE4YzEgMC4yIDEuMy0wLjQgMS4zLTAuOWMwLTAuNSAwLTEuNyAwLTMuMiBjLTUuMyAxLjEtNi40LTIuNi02LjQtMi42QzIwIDQxLjYgMTguOCA0MSAxOC44IDQxYy0xLjctMS4yIDAuMS0xLjEgMC4xLTEuMWMxLjkgMC4xIDIuOSAyIDIuOSAyYzEuNyAyLjkgNC41IDIuMSA1LjUgMS42IGMwLjItMS4yIDAuNy0yLjEgMS4yLTIuNmMtNC4yLTAuNS04LjctMi4xLTguNy05LjRjMC0yLjEgMC43LTMuNyAyLTUuMWMtMC4yLTAuNS0wLjgtMi40IDAuMi01YzAgMCAxLjYtMC41IDUuMiAyIGMxLjUtMC40IDMuMS0wLjcgNC44LTAuN2MxLjYgMCAzLjMgMC4yIDQuNyAwLjdjMy42LTIuNCA1LjItMiA1LjItMmMxIDIuNiAwLjQgNC42IDAuMiA1YzEuMiAxLjMgMiAzIDIgNS4xYzAgNy4zLTQuNSA4LjktOC43IDkuNCBjMC43IDAuNiAxLjMgMS43IDEuMyAzLjVjMCAyLjYgMCA0LjYgMCA1LjJjMCAwLjUgMC40IDEuMSAxLjMgMC45YzcuNS0yLjYgMTMtOS43IDEzLTE4LjFDNTEgMjEuOSA0Mi41IDEzLjQgMzIgMTMuNHoiLz48L3N2Zz4="
-              alt="github-icon" />
+              alt="github-icon"
+            />
             <span>Star</span>
           </a>
-          <a class="github-stars" href="https://github.com/deepflowio/deepflow" target="_blank">
+          <a
+            class="github-stars"
+            href="https://github.com/deepflowio/deepflow"
+            target="_blank"
+          >
             ***
           </a>
         </div>
@@ -87,7 +123,13 @@
               <li class="sign-button">立即体验</li>
               <ul class="a-button-dropdown-list">
                 <li id="experience-immediately">
-                  <a class="color-nomal" target="_blank" id="signin" href="/signup.html">企业版体验</a>
+                  <a
+                    class="color-nomal"
+                    target="_blank"
+                    id="signin"
+                    href="/signup.html"
+                    >企业版体验</a
+                  >
                 </li>
                 <li id="demo" class="to-demo">社区版体验</li>
               </ul>
@@ -99,8 +141,13 @@
           <div class="intl-options-wrapper">
             <ul class="intl-options">
               <li v-for="item in langList" :key="item.prefix">
-                <a :class="['lang-a', currentLang === item.type ? 'active' : '']" href="javascript:void(0)"
-                  :data-prefix="item.prefix" :data-type="item.type">{{ item.text }}</a>
+                <a
+                  :class="['lang-a', currentLang === item.type ? 'active' : '']"
+                  href="javascript:void(0)"
+                  :data-prefix="item.prefix"
+                  :data-type="item.type"
+                  >{{ item.text }}</a
+                >
               </li>
             </ul>
           </div>
@@ -118,9 +165,10 @@ import SidebarButton from "@theme/components/SidebarButton.vue";
 import NavLinks from "@theme/components/NavLinks.vue";
 import locales from "./../locales/index";
 import { initHead, unbind } from "./../util/header";
-import LangSvg from './../assets/images/lang.svg'
-import LogoSvg from './../assets/images/logo.svg'
-import NavSvg from './../assets/images/nav.svg'
+import LangSvg from "./../assets/images/lang.svg";
+import LogoSvg from "./../assets/images/logo.svg";
+import NavSvg from "./../assets/images/nav.svg";
+import config from "./../config.js";
 
 export default {
   components: { SidebarButton, NavLinks, SearchBox },
@@ -163,14 +211,14 @@ export default {
         let href2 = "";
         if (currentLang === "en") {
           // 如果当前是英文
-          [href1, href2] = window.location.href.split("/docs/");
-          href1 = href1 + "/docs";
+          [href1, href2] = window.location.href.split(config.base);
+          href1 = href1 + config.base.slice(0, -1);
         } else {
           [href1, href2] = window.location.href.split("/" + currentLang + "/");
         }
-        href2 = href2 || ''
+        href2 = href2 || "";
         // window.location.href = href1 + prefix + href2;
-        this.$router.push("/" + (href1 + prefix + href2).split("/docs/")[1]);
+        this.$router.push("/" + (href1 + prefix + href2).split(config.base)[1]);
       });
     });
 
@@ -205,7 +253,7 @@ export default {
     linkToHome() {
       const currentLang = this.currentLang;
       // this.$router.push(currentLang === "en" ? "/" : `/${currentLang}`);
-      window.location.href = currentLang === "en" ? "/" : `/${currentLang}`
+      window.location.href = currentLang === "en" ? "/" : `/${currentLang}`;
     },
   },
 };
