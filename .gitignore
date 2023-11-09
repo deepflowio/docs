@@ -2,9 +2,6 @@
 package-lock.json
 node_modules
 
-# pnpm
-pnpm-lock.yaml
-
 # vscode
 .vscode
 
