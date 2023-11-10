@@ -56,7 +56,6 @@ helm upgrade deepflow -n deepflow -f values-custom.yaml deepflow/deepflow
 - `global.hostNetwork`: 是否使用 Host Network，默认为 `false`，CNI 网络不可用或者采集流量非常大的环境可以使用 Host Network。
 - `global.dnsPolicy`: DeepFlow 组件 DNS 策略，默认为 `dnsPolicy`，使用 Host Network 时需要改为 `ClusterFirstWithHostNet`。
 - `global.clusterDomain`: 集群域名，默认为 `cluster.local`，如果你的环境有自定义配置，需要修改此处，如果未修改会影响多 server 环境下的 server 之间互相访问。
-- `global.replicas`: deepflow-server 和 clickhouse 的副本数量。由于 deepflow-server 需要向相同副本号的 clickhouse 写入数据，需要保证 deepflow-server 和 clickhouse 有相同的副本数量。
 - `global.allInOneLocalStorage`: All-in-One 部署并使用本地 HostPath 存储时打开，默认值为 `false`，数据默认存储在 `/opt/deepflow-mysql`、`/opt/deepflow-clickhouse`。
 
 ## 服务端口
