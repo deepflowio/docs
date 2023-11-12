@@ -15,7 +15,7 @@ DeepFlow 企业版拥有更多的软件组件，以提供更加完善的数据�
 
 DeepFlow 的名称来自于我们对实现可观测性的认知：**对每一次应用调用（Flow）的深度（Deep）洞察**。DeepFlow 中的所有可观测性数据都是以调用为核心组织的：原始的调用日志、聚合生成的应用性能指标和服务全景图、关联生成的分布式追踪火焰图，以及在每一个调用生命周期内的网络性能指标、文件读写性能指标、函数调用栈性能剖析等。我们认识到这些可观测性数据在采集和关联上的困难，使用 eBPF 技术实现了零侵扰（Zero Code）的数据采集，并利用智能编码（SmartEncoding）机制实现了所有数据的全栈（Full Stack）关联。
 
-![DeepFlow 基于 eBPF 技术实现零侵扰的全栈数据采集](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023091164febaf0c68bc.png)
+![DeepFlow 基于 eBPF 技术实现零侵扰的全栈数据采集](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202311046546371f08829.png)
 
 除了能够利用 eBPF 技术零侵扰采集观测数据以外，DeepFlow 还支持集成主流的可观测性技术栈，例如支持作为 Prometheus、OpenTelemetry、SkyWalking、Pyroscope 等技术栈的存储后端，并提供 SQL、PromQL、OTLP Export 能力作为 Grafana、Prometheus、OpenTelemetry、SkyWalking 的数据源，使得开发者可以快速将其融入到自己的可观测性解决方案中。当作为存储后端时，DeepFlow 并不只是简单的存储数据，利用领先的 AutoTagging 和 SmartEncoding 机制，高性能、自动化的为所有观测信号注入统一的属性标签，消除数据孤岛，并增强数据的下钻切分能力。
 
