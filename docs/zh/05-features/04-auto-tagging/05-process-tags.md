@@ -1,11 +1,13 @@
 ---
-title: 进程信息标签
+title: 可选的进程信息标签
 permalink: /features/auto-tagging/process-tags
 ---
 
 # 注入进程信息标签
 
 默认情况下，DeepFlow 采集的所有观测数据中，auto\_instance 标签的最细粒度为 IP 地址所属的容器 Pod 或云服务器等资源。当希望为数据注入进程粒度的标签信息时，需要开启 Agent 的进程信息同步功能。
+
+此功能一般用于 Agent 运行于云服务器（而非 K8s Node）的场景。
 
 # 所有配置项的 Yaml 文档
 

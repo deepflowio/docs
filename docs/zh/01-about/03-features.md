@@ -16,7 +16,7 @@ permalink: /about/features
 
 **全景图直接体现出了 eBPF 零侵扰的优势，对比 APM 有限的覆盖能力，所有的服务都能出现在全景图中**。但 eBPF 获取的调用日志不能直接用于拓扑展现，DeepFlow 为所有的数据注入了丰富的标签，包括云资源属性、K8s 资源属性、自定义 K8s 标签等。通过这些标签可以快速过滤出指定业务的全景图，并且可以按不同标签分组展示，例如 K8s Pod、K8s Deployment、K8s Service、自定义标签等。**全景图不仅描述了服务之间的调用关系，还展现了调用路径上的全栈性能指标**，例如下图右侧为两个 K8s 服务的进程在相互访问时的逐跳时延变化。我们可以很快的发现性能瓶颈到底位于业务进程、容器网络、K8s 网络、KVM 网络还是 Underlay 网络。充足的中立观测数据是快速定界的必要条件。
 
-![DeepFlow 的全景图对比 APM Agent 获取的拓扑图](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023091164fec16f9c9ad.png)
+![DeepFlow 的全景图对比 APM Agent 获取的拓扑图](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023110465463725dd5ff.png)
 
 目前，DeepFlow 已经内置支持解析主流应用协议，包括 HTTP 1/2、HTTPS（Golang/openssl）、Dubbo、gRPC、SOFARPC、FastCGI、MySQL、PostgreSQL、Redis、MongoDB、Kafka、MQTT、DNS，未来还将扩展更多应用协议的支持。
 

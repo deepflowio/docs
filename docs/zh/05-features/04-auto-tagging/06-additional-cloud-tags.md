@@ -5,7 +5,7 @@ permalink: /features/auto-tagging/additional-cloud-tags
 
 # 简介
 
-DeepFlow 除了能够主动调用云服务商的 API 以同步资源信息以外，还提供了一个 `domain-additional-resource` 的声明式接口以允许外部推送云资源信息。这种方式适用于 DeepFlow 缺乏内置支持的云服务商，以及私有云场景。
+DeepFlow 除了能够主动调用（拉取）云服务商、K8s apiserver 的 API 以同步资源信息以外，还提供了一个 `domain-additional-resource` 的声明式接口以允许外部服务推送额外的资源信息。这种方式适用于同步 DeepFlow 尚未支持的公有云资源、使用 DeepFlow 社区版同步私有云资源、以及同步 CMDB 中的业务标签等场景。
 
 使用该 API 可推送的资源信息包括：
 - 可用区
@@ -13,6 +13,7 @@ DeepFlow 除了能够主动调用云服务商的 API 以同步资源信息以外
 - 子网
 - 服务器
 - 云服务器
+- 自定义业务标签
 - 负载均衡器
 
 使用该 API 可推送的自定义标签包括：
@@ -43,15 +44,15 @@ PUT
 
 ### body
 
-| 名称       | 类型                | 是否必填 | 说明                        |
-| ---------- | ------------------- | -------- | --------------------------- |
-| azs        | AZ 结构体数组       | 否       | availability zone（可用区） |
-| vpcs       | VPC 结构体数组      | 否       | virtual private cloud       |
-| subnets    | Subnet 结构体数组   | 否       | 子网                        |
-| hosts      | Host 结构体数组     | 否       | 服务器                      |
-| chosts     | Chost 结构体数组    | 否       | 云服务器                    |
-| cloud_tags | CloudTag 结构体数组 | 否       |                             |
-| lbs        | LB 结构体数组       | 否       | load balance                |
+| 名称       | 类型                | 是否必填 | 说明                                                         |
+| ---------- | ------------------- | -------- | ------------------------------------------------------------ |
+| azs        | AZ 结构体数组       | 否       | Availability Zone（可用区）                                  |
+| vpcs       | VPC 结构体数组      | 否       | Virtual Private Cloud                                        |
+| subnets    | Subnet 结构体数组   | 否       | 子网                                                         |
+| hosts      | Host 结构体数组     | 否       | 服务器                                                       |
+| chosts     | Chost 结构体数组    | 否       | 云服务器                                                     |
+| cloud_tags | CloudTag 结构体数组 | 否       | 一般用于注入业务标签，详见[注入 CMDB 中的标签](./cmdb-tags/) |
+| lbs        | LB 结构体数组       | 否       | Load Balancer                                                |
 
 
 AZ 结构体
@@ -123,13 +124,8 @@ Vinterface 2 结构体
 | ips         | 字符串数组 | 是       | 例：["x.x.x.x"]       |
 
 
-CloudTag 结构体
-| 名称          | 类型           | 是否必填 | 说明                                                     |
-| ------------- | -------------- | -------- | -------------------------------------------------------- |
-| resource_type | 字符串         | 是       | 可选：chost 和 pod_ns（pod namespace）                   |
-| resource_name | 字符串         | 是       | 资源名，从 vm.name 或 pod_namespace.name 中获取          |
-| domain_uuid   | 字符串         | 是       | 云平台 UUID，从 vm.domain 或 pod_namespace.domain 中获取 |
-| tags          | Tag 结构体数组 | 是       | 需要打标签的信息                                         |
+CloudTag 结构体：详见[注入 CMDB 中的标签](./cmdb-tags/)。
+
 
 Tag 结构体
 | 名称  | 类型   | 是否必填 | 说明                                                    |

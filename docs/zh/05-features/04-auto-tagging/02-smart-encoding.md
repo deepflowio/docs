@@ -5,7 +5,7 @@ permalink: /features/auto-tagging/smart-encoding
 
 DeepFlow 为所有观测数据自动注入资源、服务和业务标签。在一个典型的生产环境中，需要为一条数据自动注入的标签数可能多达 100+ 个。这些标签为后端存储带来了很大的压力，DeepFlow 领先的 SmartEncoding 机制创新的解决了此问题，使得性能开销显著降低。
 
-![DeepFlow 中的 SmartEncoding](https://deepflow.io/images/V3/V2-06-01.svg)
+![DeepFlow 中的 SmartEncoding](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202310096523b164952a5.png)
 
 SmartEncoding 依赖于对各类标签数据的编码和关联。首先 Agent 获取到字符串格式的标签并汇总到 Server 上，接下来 Server 会对所有的标签进行编码。在此之后，对观测数据的 SmartEncoding 过程包含三个阶段：
 - 采集阶段：Agent 为每一条观测数据自动注入 VPC（Integer）、IP、PID 标签

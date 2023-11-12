@@ -1,5 +1,5 @@
 ---
-title: K8s 资源信息注入
+title: 基础资源标签
 permalink: /features/auto-tagging/meta-tags
 ---
 
