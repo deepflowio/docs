@@ -1,5 +1,5 @@
 ---
-title: 注入 CMDB 中的业务标签
+title: CMDB 中的业务标签
 permalink: /features/auto-tagging/cmdb-tags
 ---
 
