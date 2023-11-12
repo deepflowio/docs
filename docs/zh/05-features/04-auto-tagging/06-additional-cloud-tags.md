@@ -51,7 +51,7 @@ PUT
 | subnets    | Subnet 结构体数组   | 否       | 子网                                                         |
 | hosts      | Host 结构体数组     | 否       | 服务器                                                       |
 | chosts     | Chost 结构体数组    | 否       | 云服务器                                                     |
-| cloud_tags | CloudTag 结构体数组 | 否       | 一般用于注入业务标签，详见[注入 CMDB 中的标签](./cmdb-tags/) |
+| cloud_tags | CloudTag 结构体数组 | 否       | 一般用于注入业务标签，详见 [CMDB 中的业务标签](./cmdb-tags/) |
 | lbs        | LB 结构体数组       | 否       | Load Balancer                                                |
 
 
@@ -124,7 +124,7 @@ Vinterface 2 结构体
 | ips         | 字符串数组 | 是       | 例：["x.x.x.x"]       |
 
 
-CloudTag 结构体：详见[注入 CMDB 中的标签](./cmdb-tags/)。
+CloudTag 结构体：详见 [CMDB 中的业务标签](./cmdb-tags/)。
 
 
 Tag 结构体
