@@ -3,7 +3,36 @@ title: 特殊环境部署
 permalink: /best-practice/special-environment-deployment/
 ---
 
-# 特殊 CNI
+# 特殊的 K8s CNI
+
+在常见 K8s 环境中，DeepFlow Agent 可以采集到全栈观测信号，如下图左上角所示：
+- 同一个 Node 上的两个 Pod 互访时，可采集到 eBPF Syscall 和 cBPF Pod NIC 两种位置的数据
+- 不同的 Node 上的两个 Pod 互访时，可采集到 eBPF Syscall、cBPF Pod NIC 以及 cBPF Node NIC 三种位置的数据
+
+![不同 K8s CNI 下的数据采集能力（Pod 与 Pod 通信场景）](http://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/yunshan-ticket/png/d2b5ca33bd970f64a6301fa75ae2eb22_20231114002715.png)
+
+但是，在某些 CNI 下，由于流量路径的特殊性，DeepFlow Agent 采集到的数据会有差异：
+- 在 Cilium CNI 环境中（上图右上角）：
+  - Cilium [使用 XDP](https://docs.cilium.io/en/stable/network/ebpf/intro/) 将网络绕过了 TCP/IP 协议栈，导致名为 lxc-xxx 的 Pod NIC 上只能看到单向流量
+  - 同一个 Node 上的两个 Pod 互访时，可采集到 eBPF Syscall 一种位置的数据
+  - 不同的 Node 上的两个 Pod 互访时，可采集到 eBPF Syscall 和 cBPF Node NIC 两种位置的数据，后者采集自 Node eth0
+- 在 MACVlan CNI 环境中（上图左下角）：
+  - 使用 MACVlan 子接口而非 Veth-Pair + Bridge，此时在 Root Netns 中没有对应的 Pod NIC，但是能在 Node eth0 上看到所有 Pod 的所有流量
+  - 此时，DeepFlow Agent 可参照下文配置 `tap_mode = 1 (virtual mirror)`，将 Node NIC 上的流量`等同于视为`是在 Pod NIC 上采集到的
+  - 同一个 Node 上的两个 Pod 互访时，可采集到 eBPF Syscall 和 cBPF Pod NIC 两种位置的数据，后者采集自 Node eth0
+    - 不过，由于 eth0 上只有一份通信流量，因此客户端、服务端共享一份 cBPF Pod NIC 位置的数据
+  - 不同的 Node 上的两个 Pod 互访时，可采集到 eBPF Syscall 和 cBPF Pod NIC 两种位置的数据，后者采集自 Node eth0
+- 在 IPVlan CNI 环境中（上图右下角）：
+  - 使用 IPVlan 子接口而非 Veth-Pair + Bridge，此时在 Root Netns 中没有对应的 Pod NIC，且仅能在 Node eth0 上看到 Pod 进出 Node 的流量
+  - 同一个 Node 上的两个 Pod 互访时，可采集到 eBPF Syscall 一种位置的数据
+  - 不同的 Node 上的两个 Pod 互访时，可采集到 eBPF Syscall 和 cBPF Node NIC 两种位置的数据，后者采集自 Node eth0
+
+另外，eBPF XDP 还可以与 IPVlan 混合使用（例如[阿里云的 Terway CNI](https://developer.aliyun.com/article/1221415)），此时的流量采集能力等同于 Cilium 或 IPVlan。
+
+一些参考资料：
+- [Bridge vs Macvlan](https://hicu.be/bridge-vs-macvlan)
+- [Macvlan vs Ipvlan](https://hicu.be/macvlan-vs-ipvlan)
+- [Packet Walk(s) In Kubernetes](https://events19.linuxfoundation.org/wp-content/uploads/2018/07/Packet_Walks_In_Kubernetes-v4.pdf)
 
 ## MACVlan
 
@@ -76,6 +105,14 @@ K8s 使用 macvlan CNI 时，在 rootns 下只能看到所有 POD 共用的一�
     deepflow-ctl agent list
     ```
 
+## IPVlan
+
+唯一需要注意的是，采集器的 tap_interface_regex 只需配置为 Node NIC 列表。
+
+## Cilium eBPF
+
+唯一需要注意的是，采集器的 tap_interface_regex 只需配置为 Node NIC 列表。
+
 # 特殊 K8s 资源或 CRD
 
 这类场景需要进行以下操作：
@@ -141,7 +178,7 @@ ClusterRole 配置增加：
 
 # 受限的 Agent 运行权限
 
-## 无 Daemonset 部署权限
+## 无 K8s Daemonset 部署权限
 
 当没有在 Kubernetes 集群中运行 Daemonset 的权限、但可在 K8s Node 上直接运行普通进程时，可使用该方法实现 Agent 部署。
 
