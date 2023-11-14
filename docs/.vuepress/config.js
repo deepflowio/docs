@@ -15,7 +15,7 @@ module.exports = ({
     '/zh/': {
       lang: 'zh-CN',
       title: 'DeepFlow 文档',
-      description: '避免手工插码，消除追踪盲点，简化平台维护。使用eBPF、OTel、WASM等技术，让观测更自动。'
+      description: '使用 eBPF 和 Wasm 技术，实现零侵扰（Zero Code）和全栈（Full Stack）的可观测性，让云基础设施和云原生应用持续创新。'
     },
   },
   shouldPrefetch: false,
