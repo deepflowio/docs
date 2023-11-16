@@ -18,7 +18,7 @@ subgraph DeepFlow
   end
   DeepFlowServer["deepflow-server (deployment)"]
   DeepFlowApp["deepflow-app (deployment)"]
-  GUI["deepflow-grafana/deepflow-web (deployment)"]
+  GUI["grafana/deepflow-web (deployment)"]
 
   DeepFlowAgent -->|SysSpan/NetSpan| DeepFlowServer
   DeepFlowServer -.->|Traces Api| DeepFlowApp
