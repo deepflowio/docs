@@ -18,9 +18,11 @@ subgraph DeepFlow
   end
   DeepFlowServer["deepflow-server (deployment)"]
   DeepFlowApp["deepflow-app (deployment)"]
+  GUI["deepflow-grafana/deepflow-web (deployment)"]
 
-  DeepFlowAgent -->|traces| DeepFlowServer
-  DeepFlowServer -->|traces| DeepFlowApp
+  DeepFlowAgent -->|SysSpan/NetSpan(push)| DeepFlowServer
+  DeepFlowServer -.->|Traces(api)| DeepFlowApp
+  DeepFlowApp -.->|Traces(api)| GUI
 end
 
 subgraph APM
@@ -29,8 +31,8 @@ subgraph APM
   end
   APMStorage["skywalking-oap (deployment)"]
 
-  APMAgent -->|traces| APMStorage
-  APMStorage -->|traces| DeepFlowServer
+  APMAgent -->|AppSpan(push)| APMStorage
+  APMStorage -.->|Traces(api)| DeepFlowServer
 end
 
 ```
