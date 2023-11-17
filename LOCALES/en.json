@@ -20,5 +20,20 @@
     "integration/ee": "Enterprise Edition",
     "diagnose": "Diagnose",
     "diagnose/ee": "Enterprise Edition",
-    "release-notes": "Release Notes"
+    "release-notes": "Release Notes",
+    "guide": "User Guide (Enterprise Edition)",
+    "guide/ee-tenant": "Tenant",
+    "guide/ee-tenant/query": "Data Query",
+    "guide/ee-tenant/dashboard": "Dashboard",
+    "guide/ee-tenant/dashboard/panel": "Panel",
+    "guide/ee-tenant/metrics": "Metrics",
+    "guide/ee-tenant/events": "Events",
+    "guide/ee-tenant/universal-map": "Universal Map",
+    "guide/ee-tenant/application": "Application",
+    "guide/ee-tenant/network": "Network",
+    "guide/ee-tenant/infra": "Infrastructure",
+    "guide/ee-tenant/alert": "Alert",
+    "guide/ee-tenant/resources": "Resources",
+    "guide/ee-tenant/report": "Report",
+    "guide/ee-admin": "Administrator"
 }
