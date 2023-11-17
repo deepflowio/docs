@@ -135,6 +135,6 @@ D:\repos\docs\docs\zh\05-features\01-universal-map\06-l7-protocols_b.md#@@#85b56
 D:\repos\docs\docs\zh\05-features\01-universal-map\06-l7-protocols_d.md#@@#114319f07ea38b2904df57f34a0507a4
 D:\repos\docs\docs\zh\05-features\01-universal-map\06-l7-protocols_e.md#@@#86ef7a9f96e317f3fdbbfc61fdbf5975
 D:\repos\docs\docs\zh\05-features\01-universal-map\06-l7-protocols_f.md#@@#62c05d9a2489b45deb39a2d7ee915945
-D:\repos\docs\docs\zh\05-features\04-auto-tagging\01-elimilate-data-silos.md#@@#aa0ad8185fc53fb3c92b752de949a0d1
+D:\repos\docs\docs\zh\05-features\04-auto-tagging\01-eliminate-data-silos.md#@@#aa0ad8185fc53fb3c92b752de949a0d1
 D:\repos\docs\docs\zh\07-integration\02-input\02-tracing\04-opentelemetry_a.md#@@#68f55502f81af7c49eb4aaca90703537
 D:\repos\docs\docs\zh\07-integration\02-input\02-tracing\04-opentelemetry_b.md#@@#18ac5a32a781ccc4d259eee61f95a5a6
