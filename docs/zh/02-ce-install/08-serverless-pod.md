@@ -33,7 +33,7 @@ deployComponent:
 - "daemonset"
 - "watcher"
 tke_sidecar: true
-clusterNAME: process-example
+clusterNAME: your-cluster-name
 EOF
 
 helm install deepflow-agent -n deepflow deepflow/deepflow-agent --create-namespace \

@@ -28,11 +28,41 @@ DeepFlowServer -->|"get cloud resource & label"| CloudAPI[cloud api service]
 
 # 配置 DeepFlow Server
 
-TODO
+本地创建一个 YAML 文件 `your-managed-k8s.yaml`：
+```yaml
+# 名称
+name: sub-domain-test
+# 所属云平台的名称 [必填]
+domain_name: examle-domain-name
+config:
+  # 集群所属 VPC UUID [必填]，可以通过 `deepflow-ctl vpc list` 查询
+  vpc_uuid: xxxxx-xxxx-xxxx-xxxx-xxxx
+  # POD 子网 IPv4 地址最大掩码 [选填]
+  #pod_net_ipv4_cidr_max_mask: 16
+  # POD 子网 IPv6 地址最大掩码 [选填]
+  #pod_net_ipv6_cidr_max_mask: 64
+  # 输入正则表达式，指定需要额外对接路由接口 [选填]
+  #port_name_regex: ^(cni|flannel|vxlan.calico|tunl|en[ospx])
+```
+
+创建托管集群：
+```bash
+deepflow-ctl subdomain create -f your-managed-k8s.yaml
+```
+
+查询 DeepFlow Server 生成的托管集群 ClusterID：
+```bash
+deepflow-ctl subdomain list
+```
 
 # 部署 DeepFlow Agent
 
-TODO
+使用生成的 ClusterID 部署 DeepFlow Agent：
+```bash
+echo "deepflowK8sClusterID: "fffffff"  # FIXME: Generate by `deepflow-ctl  subdomain list`" >> values-custom.yaml
+helm upgrade deepflow-agent -n deepflow deepflow/deepflow-agent  \
+    -f values-custom.yaml
+```
 
 # 下一步
 
