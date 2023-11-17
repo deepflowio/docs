@@ -60,6 +60,7 @@ jobs:
     - name: Node build
       shell: bash
       run: |
+        node copy-file.js ./docs/zh ./translate/translated false
         mv translate/translated/* ./docs
         rm -rf ./docs/map.txt
         pnpm install
