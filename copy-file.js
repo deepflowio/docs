@@ -2,10 +2,17 @@
 const fs = require('fs')
 const path = require('path')
 
-const TARGET_FILE = path.resolve('./docs/')
-const AIM_FILE = path.resolve('./dist/')
 const AIM_FILE_TYPE = ['.json', '.txt', '.png', '.jpg', '.jpeg', '.svg']
 const IGNORE_FILE = ['.vuepress']
+
+// 第3个参数 源文件夹
+const sourceFolder = process.argv[2] || "./docs/";
+// 第四个参数 目标文件夹
+const destinationFolder = process.argv[3] || "./dist/";
+// 第五个参数 是否需要禁止序号 编译前是有序号的，编译后是没有序号的
+const disabledCorrect = process.argv[4] || 'true'
+const TARGET_FILE = path.resolve(sourceFolder);
+const AIM_FILE = path.resolve(destinationFolder);
 
 handleFile(TARGET_FILE)
 
@@ -33,7 +40,9 @@ function handleFile (targetFile, urlPrefix = '') {
 }
 
 function reWriteFile (urlPrefix, filePath, item) {
-  urlPrefix = correctUrl(urlPrefix)
+  if (disabledCorrect === 'true') {
+    urlPrefix = correctUrl(urlPrefix)
+  }
 
   // 首先要创建文件夹
   mkdirFile(urlPrefix)
