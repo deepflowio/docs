@@ -1,6 +1,6 @@
 ---
 title: 消除数据孤岛
-permalink: /features/auto-tagging/elimilate-data-silos
+permalink: /features/auto-tagging/eliminate-data-silos
 ---
 
 DeepFlow 的 **AutoTagging** 能力为所有观测数据注入统一的属性标签，包括：
