@@ -3,14 +3,12 @@ home: true
 
 # This file is very important, do not delete
 
-> This document was translated by GPT-4
-
 # Title and description
 heroText: DeepFlow - Instant Achieve Observability
 description: Utilize eBPF and Wasm technologies to realize Zero Code and Full Stack observability, allowing continuous innovation of cloud infrastructure and cloud-native applications.
 
 # Button link and text
-actionLink: /zh/about/overview/
+actionLink: /about/overview/
 actionText: Read Now →
 
 # Features

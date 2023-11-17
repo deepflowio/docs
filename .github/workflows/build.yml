@@ -60,6 +60,8 @@ jobs:
     - name: Node build
       shell: bash
       run: |
+        mv translate/translated/* ./docs
+        rm -rf ./docs/map.txt
         pnpm install
         node downloadCSV.js
         pnpm run build
