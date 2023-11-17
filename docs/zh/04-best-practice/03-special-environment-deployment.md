@@ -199,13 +199,13 @@ ClusterRole 配置增加：
 cat << EOF > values-custom.yaml
 deployComponent:
 - "watcher"
-clusterNAME: process-example
+clusterNAME: your-cluster-name
 EOF
 
 helm install deepflow -n deepflow deepflow/deepflow-agent --create-namespace \
   -f values-custom.yaml
 ```
-部署后，将自动创建 Domain（对应此 K8s 集群），通过`deepflow-ctl domain list`中获取 `process-example` cluster 的 `kubernetes-cluster-id`，再继续下面的操作。
+部署后，将自动创建 Domain（对应此 K8s 集群），通过`deepflow-ctl domain list`中获取 `your-cluster-name` cluster 的 `kubernetes-cluster-id`，再继续下面的操作。
 
 ### 部署普通进程形式的 DeepFlow Agent
 
