@@ -197,6 +197,15 @@ export default {
 
   mounted() {
     initHead();
+    const jumpEd = sessionStorage.getItem("YS_JUMP_ZH");
+    if (
+      !jumpEd &&
+      config.firstEntryAutoJumpZh &&
+      window.location.pathname === config.base
+    ) {
+      this.$router.push("/zh");
+    }
+    sessionStorage.setItem("YS_JUMP_ZH", 1);
 
     document.querySelectorAll(".lang-a").forEach((element) => {
       const type = element.getAttribute("data-type");
