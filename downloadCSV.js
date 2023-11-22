@@ -152,9 +152,11 @@ async function work(sourceDir) {
             console.log(`filePath:${filePath},matchs: ${matchs && matchs.toString()}`)
             if (matchs) {
                 for (let a = 0; a < matchs.length; a++) {
-                    const [, name, url] = matchs[a].match(csvNameAndUrlRxp)
-                    const files = url.split("/")
+                    let [, name, url] = matchs[a].match(csvNameAndUrlRxp)
                     const isCategory = url.includes('Category=')
+                    // 英文版使用 .en 中文版使用 .ch
+                    url = filePath.includes('/zh/')? url: url.replace(/.ch$/, '.en')
+                    const files = url.split("/")
                     let tableString
                     if (url in cacheMap) {
                         tableString = cacheMap[url]
