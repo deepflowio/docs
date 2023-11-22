@@ -200,10 +200,10 @@ export default {
     const jumpEd = sessionStorage.getItem("YS_JUMP_ZH");
     if (
       !jumpEd &&
-      config.firstEntryAutoJumpZh &&
+      config.firstEntryAutoJumpZhUrl &&
       window.location.pathname === config.base
     ) {
-      this.$router.push("/zh");
+      this.$router.push(config.firstEntryAutoJumpZhUrl);
     }
     sessionStorage.setItem("YS_JUMP_ZH", 1);
 
