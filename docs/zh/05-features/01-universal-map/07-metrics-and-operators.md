@@ -110,21 +110,22 @@ TCP 断连异常
 
 ## 聚合算子
 
-| 算子 | 适用的指标类型 | 描述 |
-| ---- | ------------ | ---- |
-| Avg  | 所有类型 | 平均值 |
-| Sum  | 除 Percentage 以外的所有类型| 加和值 |
-| Max  | 所有类型 | 最大值 |
-| Min  | 所有类型 | 最小值 |
-| Percentile  | 所有类型 | 估算百分位数 |
-| PercentileExact | 所有类型 | 精准百分位数 |
-| Spread | 所有类型 | 绝对跨度，统计周期内，Max 减去 Min |
-| Rspread | 所有类型 | 相对跨度，统计周期内，Max 除以 Min |
-| Stddev | 所有类型 | 标准差 |
-| Apdex | Delay 类型 | 时延满意度 |
-| Last | 所有类型 | 最新值 |
-| Uniq | Cardinality 类型 | 估算基数统计 |
-| UniqExact | Cardinality 类型 | 精准基数统计 |
+| 算子            | 英文名                        | 适用的指标类型   | 描述 |
+| --------------- | ----------------------------- | ---------------- | ---- |
+| Avg             | Average                       | 所有类型         | 平均值（用于 Counter/Gauge 指标时不会忽略零值）|
+| AAvg            | Arithmetic Average            | 所有类型         | 算数平均值（先求每个时间点的均值，再求均值的平均）|
+| Sum             | Sum                           | Counter 类型     | 加和值 |
+| Max             | Maximum                       | 所有类型         | 最大值 |
+| Min             | Minimum                       | 所有类型         | 最小值 |
+| Percentile      | Estimated Percentile          | 所有类型         | 估算百分位数 |
+| PercentileExact | Exact Percentile              | 所有类型         | 精准百分位数 |
+| Spread          | Spread                        | 所有类型         | 绝对跨度，统计周期内，Max 减去 Min |
+| Rspread         | Relative Spread               | 所有类型         | 相对跨度，统计周期内，Max 除以 Min |
+| Stddev          | Standard Deviation            | 所有类型         | 标准差 |
+| Apdex           | Application Performance Index | Delay 类型       | 时延满意度 |
+| Last            | Last                          | 所有类型         | 最新值 |
+| Uniq            | Estimated Uniq                | Cardinality 类型 | 估算基数统计 |
+| UniqExact       | Exact Uniq                    | Cardinality 类型 | 精准基数统计 |
 
 ## 二级算子
 
@@ -139,22 +140,38 @@ TCP 断连异常
 ## Counter/Gauge 类指标
 
 - flow_metric 的数据表
-  - 先使用`Sum`根据`data_precision`进行聚合
-  - 再根据选择的具体算子调用`ClickHouse`的函数进行计算
+  - `Sum`算子
+    - 计算查询时间范围内所有数据的`Sum`
+  - `Avg`算子
+    - 计算查询时间范围内所有数据的`Sum`，并除以`interval/data_precision`
+  - 其他算子
+    - 先使用`Sum`根据`data_precision`进行聚合
+    - 再根据选择的具体算子调用`ClickHouse`的函数进行计算
 - flow_log 的数据表
   - 根据选择的具体算子调用`ClickHouse`的函数进行计算
+- 额外说明
+  - `Min`算子对无数据或数据为`null`的时间点进行`fill 0`
 
 ## Quotient/Percentage 类指标
 
 - flow_metric 的数据表
-  - 先使用`Sum(x)/Sum(y)`根据`data_precision`进行聚合
-  - 再根据选择的具体算子调用`ClickHouse`的函数进行计算
+  - `Avg`算子
+    - 计算查询时间范围内所有数据的`Sum(x)/Sum(y)`
+  - 其他算子
+    - 先使用`Sum(x)/Sum(y)`根据`data_precision`进行聚合
+    - 再根据选择的具体算子调用`ClickHouse`的函数进行计算
 - flow_log 的数据表
   - 根据选择的具体算子调用`ClickHouse`的函数`func(x/y)`进行计算
+- 额外说明
+  - `Percentage`类指标量的`Min`算子对无数据的时间点进行`fill 0`
+  - 计算`Sum(x)/Sum(y)`时，忽略分母为`0/null`或分子为`null`的点
 
-## Delay 类指标
+## Delay/BoundedGauge 类指标
 
 - flow_metric 的数据表
   - 根据选择的具体算子调用`ClickHouse`的函数进行计算
 - flow_log 的数据表
   - 根据选择的具体算子调用`ClickHouse`的函数进行计算
+- 额外说明
+  - `BoundedGauge`类指标的`Min`算子对无数据或数据为`null`的时间点进行`fill 0`
+  - `Delay`类指标忽略 0 的点，认为 0 是无意义的时延值
