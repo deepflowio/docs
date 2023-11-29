@@ -77,9 +77,6 @@ cat << EOF > values-custom.yaml
 global:
   image:
       repository: registry.cn-beijing.aliyuncs.com/deepflow-ce
-grafana:
-  image:
-    repository: registry.cn-beijing.aliyuncs.com/deepflow-ce/grafana
 EOF
 helm install deepflow -n deepflow deepflow/deepflow --create-namespace \
   -f values-custom.yaml
