@@ -139,7 +139,7 @@ TCP 断连异常
 
 ## Counter/Gauge 类指标
 
-- flow_metric 的数据表
+- flow_metrics 的数据表
   - `Sum`算子
     - 计算查询时间范围内所有数据的`Sum`
   - `Avg`算子
@@ -147,8 +147,14 @@ TCP 断连异常
   - 其他算子
     - 先使用`Sum`根据`data_precision`进行聚合
     - 再根据选择的具体算子调用`ClickHouse`的函数进行计算
+  - 当被迫（由于同语句中其他指标量的需要）使用两层`SQL`计算时
+    - `Sum/Avg`算子
+      - 先使用`Sum`根据`data_precision`进行聚合
+      - 再根据选择的具体算子调用`ClickHouse`的函数进行计算
 - flow_log 的数据表
   - 根据选择的具体算子调用`ClickHouse`的函数进行计算
+- prometheus/ext_metrics/deepflow_system 的数据表
+  - 与 flow_metrics 数据表一致
 - 额外说明
   - `Min`算子对无数据或数据为`null`的时间点进行`fill 0`
 
@@ -160,6 +166,10 @@ TCP 断连异常
   - 其他算子
     - 先使用`Sum(x)/Sum(y)`根据`data_precision`进行聚合
     - 再根据选择的具体算子调用`ClickHouse`的函数进行计算
+  - 当被迫（由于同语句中其他指标量的需要）使用两层`SQL`计算时
+    - `Avg`算子
+      - 先使用`Sum(x)/Sum(y)`根据`data_precision`进行聚合
+      - 再根据选择的具体算子调用`ClickHouse`的函数进行计算
 - flow_log 的数据表
   - 根据选择的具体算子调用`ClickHouse`的函数`func(x/y)`进行计算
 - 额外说明
@@ -170,8 +180,27 @@ TCP 断连异常
 
 - flow_metric 的数据表
   - 根据选择的具体算子调用`ClickHouse`的函数进行计算
+  - 当被迫（由于同语句中其他指标量的需要）使用两层`SQL`计算时
+    - `Avg/Min/Max`算子
+      - 两层均根据选择的具体算子调用`ClickHouse`的函数进行计算
+    - `Spread/Rspread`算子
+      - 先使用`Max`和`Min`根据`data_precision`进行聚合
+      - 再根据选择的具体算子调用`ClickHouse`的函数进行计算
+    - 其他算子
+      - 先使用`groupArray`进行聚合
+      - 再根据选择的具体算子调用`ClickHouse`的函数进行计算
 - flow_log 的数据表
   - 根据选择的具体算子调用`ClickHouse`的函数进行计算
 - 额外说明
   - `BoundedGauge`类指标的`Min`算子对无数据或数据为`null`的时间点进行`fill 0`
   - `Delay`类指标忽略 0 的点，认为 0 是无意义的时延值
+
+## 不同数据库/表的 data_precision
+
+| 数据库          | data_precision | 备注                                                            |
+| --------------- |  ------------- | --------------------------------------------------------------- |
+| flow_metrics    | 1s/1m          | 默认支持 1s、1m，可聚合为 1h、1d                                |
+| flow_log        | 1s             | 实际上没有`data_precision`的概念，其取值仅为方便计算            |
+| prometheus      | 15s            | 可通过`server.yaml`的`data_source_prometheus_interval`字段修改  |
+| ext_metrics     | 15s            | 可通过`server.yaml`的`data_source_ext_metrics_interval`字段修改 |
+| deepflow_system | 10s            |                                                                 |
