@@ -51,7 +51,7 @@ ingester:
 
 # 快速实践 demo
 
-- 搭建一个 RemoteWrite 接收端，可参考 Prometheus 的这个[demo](https://github.com/prometheus/prometheus/tree/main/documentation/examples/remote_storage/example_write_adapter)
+- 搭建一个 RemoteWrite 接收端，可参考 Prometheus 的这个 [demo](https://github.com/prometheus/prometheus/tree/main/documentation/examples/remote_storage/example_write_adapter)
 
 - 添加配置
 
