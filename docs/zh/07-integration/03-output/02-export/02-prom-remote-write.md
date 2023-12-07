@@ -7,7 +7,7 @@ permalink: /integration/output/export/prometheus-remote-write
 
 通过 Prometheus Remote Write 的方式，可以将 DeepFlow 的生成的指标导出到外部的平台。结合 Prometheus 的生态继续使用，比如可以通过 Prometheus 查看指标，配置告警等能力
 
-# Metrics简介
+# Metrics 简介
 
 在 DeepFlow 内，关于 Metric 可以分为两种
 
@@ -15,14 +15,14 @@ permalink: /integration/output/export/prometheus-remote-write
 
 - 网络性能指标：[具体可参考](../../../05-features/01-universal-map/04-network-metrics.md)
 
-当前导出的指标，主要是应用性能指标，对应到 clickhouse 里是`flow_metrics.vtap_app_edge_port`表数据，其它方式后续再迭代增加，作为可配置的方式
+当前导出的指标，主要是应用性能指标，对应到 clickhouse 里是 `flow_metrics.vtap_app_edge_port` 表数据，其它方式后续再迭代增加，作为可配置的方式
 
 # Prometheus Remote Write
 
 协议格式可参考 Prometheus 的 pb 文件定义：https://github.com/prometheus/prometheus/blob/main/prompb/remote.proto
 
 
-# DeepFlow Server配置指引
+# DeepFlow Server 配置指引
 
 在 Server 的配置下，增加如下配置，即可开启指标导出
 
@@ -49,9 +49,9 @@ ingester:
 
 
 
-# 快速实践demo
+# 快速实践 demo
 
-- 搭建一个 RemoteWrit 接收端，可参考 Prometheus 的这个[demo](https://github.com/prometheus/prometheus/tree/main/documentation/examples/remote_storage/example_write_adapter)
+- 搭建一个 RemoteWrite 接收端，可参考 Prometheus 的这个[demo](https://github.com/prometheus/prometheus/tree/main/documentation/examples/remote_storage/example_write_adapter)
 
 - 添加配置
 
