@@ -11,9 +11,9 @@ permalink: /integration/output/export/prometheus-remote-write
 
 在 DeepFlow 内，关于 Metric 可以分为两种
 
-- 应用性能指标：[具体可参考](../../../05-features/01-universal-map/02-application-metrics.md)
+- 应用性能指标：[具体可参考](../../../features/universal-map/application-metrics/)
 
-- 网络性能指标：[具体可参考](../../../05-features/01-universal-map/04-network-metrics.md)
+- 网络性能指标：[具体可参考](../../../features/universal-map/network-metrics/)
 
 当前导出的指标，主要是应用性能指标，对应到 clickhouse 里是 `flow_metrics.vtap_app_edge_port` 表数据，其它方式后续再迭代增加，作为可配置的方式
 
@@ -39,13 +39,13 @@ ingester:
 
 |     字段   |    类型    |   必选   |  描述  |
 |-----------|------------|--------|--------|
-| enabled       | bool  | 是 | 是否开启，默认:false |
-| endpoint      | string| 是 | 远端接收地址，remote write接收地址|
-| metrics-filter| list | 是 | 导出类型，目前仅支持app一种，代表导出应用性能指标 |
-| headers       | map  | 否 | 远端HTTP请求的头部字段，比如有效验需求的，可以在这里补充token等信息|
-| batch-size    | int  | 否 | 批次大小，当达到这个数值，成批的发送。默认值: 2048|
-| flush-timeout | int  | 否 | 刷新间隔，当达到这个时间，则直接发送。单位: 秒，默认值: 5|
-| concurrency   | int  | 否 | 并发发送数，默认值: 2|
+| enabled       | bool  | 是 | 是否开启，默认： false |
+| endpoint      | string| 是 | 远端接收地址，remote write 接收地址|
+| metrics-filter| list | 是 | 导出类型，目前仅支持 app 一种，代表导出应用性能指标 |
+| headers       | map  | 否 | 远端 HTTP 请求的头部字段，比如有效验需求的，可以在这里补充 token 等信息 |
+| batch-size    | int  | 否 | 批次大小，当达到这个数值，成批的发送。默认值： 2048 |
+| flush-timeout | int  | 否 | 刷新间隔，当达到这个时间，则直接发送。单位: 秒，默认值： 5 |
+| concurrency   | int  | 否 | 并发发送数，默认值： 2|
 
 
 
