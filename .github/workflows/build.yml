@@ -5,11 +5,11 @@ name: Build CI
 
 on:
   push:
-    branches: 
-      - main
-  pull_request:
-    branches:
-      - main
+    paths:
+      - '**'
+    pull_request:
+      branches:
+        - main
   workflow_dispatch:
     inputs:
       ref:
@@ -72,6 +72,7 @@ jobs:
       uses: docker/setup-buildx-action@v1
 
     - name: Log in to ALIYUN Docker Registry
+      if: ${{ github.repository	== 'deepflowio/docs'}}
       uses: docker/login-action@v2
       with:
         registry: "${{ secrets.REGISTRY_ALIYUN_ADDR }}"
@@ -84,7 +85,7 @@ jobs:
     #     more $GITHUB_EVENT_PATH
         
     - name: set env
-      if: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main' }}
+      if: ${{ github.event_name == 'pull_request' && github.repository	== 'deepflowio/docs' && github.event.pull_request.base.ref == 'main' }}
       run: |
         echo "IMAGE_TAG_PREFIX=${{ github.event.pull_request.head.ref }}"|sed 's|main|latest|' >> $GITHUB_ENV
 
@@ -94,6 +95,7 @@ jobs:
         echo "IMAGE_TAG_PREFIX=${{ github.ref_name }}"|sed 's|main|latest|' >> $GITHUB_ENV
         
     - name: Build and push docs image
+      if: ${{ github.repository	== 'deepflowio/docs'}}
       uses: docker/build-push-action@v2
       with:
         context: .
@@ -118,6 +120,7 @@ jobs:
     
     - name: info
       shell: bash
+      if: ${{ github.repository	== 'deepflowio/docs'}}
       run: |
         curl -X POST -H "Content-Type: application/json"   -d  \
         '{"msg_type":"interactive","card":
@@ -145,19 +148,20 @@ jobs:
         }' \
         ${{ secrets.FEISHU_ROBOT }}
     - name: set kubeconfig
+      if: ${{ github.repository	== 'deepflowio/docs'}}
       shell: bash
       run: |
         mkdir -p ~/.kube
         echo "${{ secrets.DEEPFLOWIOKUBECONFIG}}" >> ~/.kube/config
 
     - name: update
-      if: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main' && github.event.pull_request.merged == true }}
+      if: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main' &&  github.repository	== 'deepflowio/docs' && github.event.pull_request.merged == true }}
       shell: bash
       run: |
         kubectl set image -n deepservice-test deployment deepservice-docs deepservice-docs=${{ secrets.REGISTRY_ALIYUN_ADDR }}/deepservice/${{ env.IMAGE }}:${{ env.IMAGE_TAG_PREFIX }}-${{ github.run_id }}-${{ github.run_attempt }} 
 
     - name: update
-      if: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
+      if: ${{ github.event_name == 'push' && github.ref_name == 'main' &&  github.repository	== 'deepflowio/docs' }}
       shell: bash
       run: |
         kubectl set image -n deepservice-test deployment deepservice-docs deepservice-docs=${{ secrets.REGISTRY_ALIYUN_ADDR }}/deepservice/${{ env.IMAGE }}:${{ env.IMAGE_TAG_PREFIX }}-${{ github.run_id }}-${{ github.run_attempt }}

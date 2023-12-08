@@ -5,8 +5,6 @@ permalink: /best-practice/server-advanced-config/
 
 # 简介
 
-
-1111
 DeepFlow Server 高级配置。
 
 ## 自定义部署参数
