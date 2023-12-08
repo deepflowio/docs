@@ -17,4 +17,3 @@ DeepFlow 网络模块拥有丰富的功能支持用户对网络中的路径流�
 * [资源盘点](./resource-inventory/)
 * [PCAP 策略](./pacp-strategy/)
 * [PCAP 下载](./pcap-download/)
-* [流量分发](./traffic-distribution/)
