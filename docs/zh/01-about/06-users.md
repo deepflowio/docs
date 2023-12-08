@@ -7,8 +7,9 @@ permalink: /about/users
 
 | 行业   | 用户      | 来源   | 标题                                               | 链接               |
 | ------ | --------- | ------ | -------------------------------------------------- | ------------------ |
-| 电商   | 政采云    | Meetup  | 政采云可观测性建设实践                                 | [文章](https://mp.weixin.qq.com/s/P_r1LQ3HerYNBYPZPClc2g), [PPT](http://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/yunshan-ticket/pdf/7698944121a1ce331c35428be49c2975_20230921103323.pdf), [Video](https://www.bilibili.com/video/BV1Sw411e7zC) |
-| 电商   | 微拍堂    | Meetup |                                                    | [文章](#), [PPT](http://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/yunshan-ticket/pdf/ab5c0568c000db0d0669c8c6a59c3551_20230921103335.pdf), [Video](https://www.bilibili.com/video/BV1zH4y1S7zG) |
+| 运营商   | 中国移动    | Meetup  | 中国移动磐基PaaS平台基于eBPF的应用可观测性建设实践     | [文章](https://mp.weixin.qq.com/s/ACS4AXFUk0uCXAsVTBi2SQ) |
+| 电商   | 政采云    | Meetup  | 政采云可观测性建设实践                           | [文章](https://mp.weixin.qq.com/s/P_r1LQ3HerYNBYPZPClc2g), [PPT](http://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/yunshan-ticket/pdf/7698944121a1ce331c35428be49c2975_20230921103323.pdf), [Video](https://www.bilibili.com/video/BV1Sw411e7zC) |
+| 电商   | 微拍堂    | Meetup | 微拍堂基于 DeepFlow 建设零侵扰的可观测平台        | [文章](https://mp.weixin.qq.com/s/P1tsmFW_9poIScxXCdOlLg), [PPT](http://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/yunshan-ticket/pdf/ab5c0568c000db0d0669c8c6a59c3551_20230921103335.pdf), [Video](https://www.bilibili.com/video/BV1zH4y1S7zG) |
 | 银行   | 光大银行  | 文章   | 浅谈分布式系统的性能调优 - Overlay 层数据包分析    | [文章](https://mp.weixin.qq.com/s/aXwH6IIjCwZYHHqtqP2NSQ) |
 | 银行   | 民生银行  | 文章   | 云原生可观测性解决方案助力民生银行 IT 系统安全运维 | [文章](https://mp.weixin.qq.com/s/rcCSDZfauhDdRD32hf5oxw) |
 | 游戏   | 趣丸科技  | 文章   | 完整指南：如何编译、打包和部署二次开发的 DeepFlow  | [文章](https://mp.weixin.qq.com/s/-jWYq2rTRaTueuN0sAb3lA) |
