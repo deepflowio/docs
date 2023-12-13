@@ -20,6 +20,7 @@ package main
 
 import (
 	"github.com/deepflowio/deepflow-wasm-go-sdk/sdk"
+	_ "github.com/wasilibs/nottinygc" // 将 nottinygc 作为 TinyGo 编译 WASI 的一个替代内存分配器，默认的内存分配器在数据量大的场景会有性能问题
 )
 
 // 定义结构，需要实现 sdk.Parser 接口
@@ -156,7 +157,8 @@ func main() {
 使用下面的命令编译得到 Wasm 程序
 
 ```sh
-tinygo  build -o wasm.wasm  -target wasi  -panic=trap -scheduler=none -no-debug ./main.go
+# 使用 nottinygc 替换 TinyGo 原来的内存分配器需要增加编译参数：-gc=custom 和 -tags=custommalloc
+tinygo build -o wasm.wasm -gc=custom -tags=custommalloc -target=wasi -panic=trap -scheduler=none -no-debug ./main.go
 ```
 
 ## 上传插件

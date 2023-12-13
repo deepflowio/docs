@@ -90,7 +90,7 @@ jobs:
         echo "IMAGE_TAG_PREFIX=${{ github.event.pull_request.head.ref }}"|sed 's|main|latest|' >> $GITHUB_ENV
 
     - name: set env
-      if: ${{ github.event_name == 'push' && github.repository	== 'deepflowio/docs' && github.ref_name == 'main' }}
+      if: ${{ github.event_name == 'push' && github.repository	== 'deepflowio/docs'}}
       run: |
         echo "IMAGE_TAG_PREFIX=${{ github.ref_name }}"|sed 's|main|latest|' >> $GITHUB_ENV
         
