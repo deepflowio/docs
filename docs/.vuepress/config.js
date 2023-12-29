@@ -1,21 +1,23 @@
 const { resolve } = require("path");
-const json5 = require('json5')
+const json5 = require("json5");
 const dayjs = require("dayjs");
 
-module.exports = ({
+module.exports = {
   theme: resolve(__dirname, "../../vdoing"), // 使用本地主题包
-  dest: 'dist',
+  dest: "dist",
 
   locales: {
     "/": {
       lang: "en-US",
-      title: "DeepFlow Docs",
-      description: 'Avoid manual instrumentation, eliminate tracing blind spots, simplify platform operation. Powered by eBPF, OTel, WASM, etc.'
+      title: "Instant Observability for Cloud-Native Applications",
+      description:
+        "Utilize eBPF and Wasm technologies to realize Zero Code and Full Stack observability, allowing continuous innovation of cloud infrastructure and cloud-native applications.",
     },
-    '/zh/': {
-      lang: 'zh-CN',
-      title: 'DeepFlow 文档',
-      description: '使用 eBPF 和 Wasm 技术，实现零侵扰（Zero Code）和全栈（Full Stack）的可观测性，让云基础设施和云原生应用持续创新。'
+    "/zh/": {
+      lang: "zh-CN",
+      title: "即刻实现可观测性，加速云原生应用持续创新",
+      description:
+        "使用 eBPF 和 Wasm 技术，实现零侵扰（Zero Code）和全栈（Full Stack）的可观测性，让云基础设施和云原生应用持续创新。",
     },
   },
   shouldPrefetch: false,
@@ -45,8 +47,7 @@ module.exports = ({
     // 页脚信息
     footer: {
       createYear: 2014, // 博客创建年份
-      copyrightInfo:
-        ' YUNSHAN Networks | 京 ICP 备 14036633号-4 京公网安备 ', // 博客版权信息，支持a标签或换行标签</br>
+      copyrightInfo: " YUNSHAN Networks | 京 ICP 备 14036633号-4 京公网安备 ", // 博客版权信息，支持a标签或换行标签</br>
     },
 
     // 扩展自动生成frontmatter。（当md文件的frontmatter不存在相应的字段时将自动添加。不会覆盖已有的数据。）
@@ -62,22 +63,26 @@ module.exports = ({
   // 插件配置
   plugins: [
     require("./plugins/fulltext-search/index.js"),
-    [require("./plugins/one-click-copy/index.js"), {
-      en: {
-        copyMessage: "Copied successfully!",
-        toolTipMessage: "Copy to clipboard"
+    require("./plugins/vuepress-keyword/index.js"),
+    [
+      require("./plugins/one-click-copy/index.js"),
+      {
+        en: {
+          copyMessage: "Copied successfully!",
+          toolTipMessage: "Copy to clipboard",
+        },
+        zh: {
+          copyMessage: "复制成功",
+          toolTipMessage: "复制代码",
+        },
       },
-      zh: {
-        copyMessage: "复制成功",
-        toolTipMessage: "复制代码"
-      }
-    }],
+    ],
     [
       require("./plugins/vuepress-plugin-zooming/index.js"), // 放大图片
       {
         selector: ".theme-vdoing-content img:not(.no-zoom)", // 排除class是no-zoom的图片
         options: {
-          bgColor: "rgba(0,0,0,0.6)"
+          bgColor: "rgba(0,0,0,0.6)",
         },
       },
     ],
@@ -101,11 +106,11 @@ module.exports = ({
   markdown: {
     lineNumbers: true,
     extractHeaders: ["h1", "h2", "h3", "h4", "h5", "h6"], // 提取标题到侧边栏的级别，默认['h2', 'h3']
-    chainMarkdown: md => {
-      md.plugin('ys-todo').use(require("./plugins/todo/index")).end();
+    chainMarkdown: (md) => {
+      md.plugin("ys-todo").use(require("./plugins/todo/index")).end();
     },
     extendMarkdown: (md) => {
-      md.use(require('./plugins/code-tabs/index'));
+      md.use(require("./plugins/code-tabs/index"));
       md.use(require("./plugins/disable-url-encode/index"));
       md.use(require("./plugins/auto-complete-url/index"));
       md.use(require("./plugins/auto-add-title-order/index"));
@@ -121,12 +126,12 @@ module.exports = ({
       rules: [
         {
           test: /\.json$/,
-          type: 'json',
+          type: "json",
           parser: {
-            parse: json5.parse
-          }
-        }
-      ]
-    }
-  }
-});
+            parse: json5.parse,
+          },
+        },
+      ],
+    },
+  },
+};
