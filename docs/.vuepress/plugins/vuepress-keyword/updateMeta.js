@@ -44,7 +44,7 @@ export default {
       // description needs special attention as it has too many entries
       return unionBy(
         [{ name: "description", content: this.$description }],
-        [{ name: "Keyworks", content: getKeyword(this.$lang) }],
+        [{ name: "Keywords", content: getKeyword(this.$lang) }],
         pageMeta,
         this.siteMeta,
         metaIdentifier
