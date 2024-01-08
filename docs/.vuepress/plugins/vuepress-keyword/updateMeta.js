@@ -153,6 +153,6 @@ function renderPageMeta(meta) {
 
 function getKeyword(lang) {
   return lang === "zh-CN"
-    ? "可观测性，Observability，eBPF，Wasm，云原生，分布式追踪，Distributed Tracing，持续剖析，Continuous Profiling"
+    ? "云原生,可观测性,零侵扰采集,全栈可观测,全链路追踪,分布式追踪,服务全景图、eBPF,Wasm,DeepFlow可观测性平台"
     : "Observability, eBPF, Wasm, Cloud-Native, Distributed Tracing, Continuous Profiling";
 }

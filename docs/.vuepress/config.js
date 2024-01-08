@@ -15,9 +15,9 @@ module.exports = {
     },
     "/zh/": {
       lang: "zh-CN",
-      title: "即刻实现可观测性，加速云原生应用持续创新",
+      title: "云原生-可观测性-零侵扰采集-全栈可观测-分布式追踪-eBPF-Wasm-DeepFlow可观测性平台",
       description:
-        "使用 eBPF 和 Wasm 技术，实现零侵扰（Zero Code）和全栈（Full Stack）的可观测性，让云基础设施和云原生应用持续创新。",
+        "DeepFlow 是云杉网络开发的一款可观测性产品，旨在为复杂的云基础设施及云原生应用提供深度可观测性。DeepFlow 基于 eBPF 实现了应用性能指标、分布式追踪、持续性能剖析等观测信号的零侵扰（Zero Code）采集，并结合智能标签（SmartEncoding）技术实现了所有观测信号的全栈（Full Stack）关联和高效存取。使用 DeepFlow，可以让云原生应用自动具有深度可观测性，从而消除开发者不断插桩的沉重负担，并为 DevOps/SRE 团队提供从代码到基础设施的监控及诊断能力。",
     },
   },
   shouldPrefetch: false,
