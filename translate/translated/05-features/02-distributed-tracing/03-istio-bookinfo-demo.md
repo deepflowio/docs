@@ -41,7 +41,7 @@ EOF
 
 The Demo we're using is derived from [this GitHub repository](https://github.com/istio/istio/tree/master/samples/bookinfo), and its application architecture is as follows:
 
-![Bookinfo Application with Istio](https://istio.io/latest/docs/examples/bookinfo/withistio.svg)
+![Bookinfo Application with Istio](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/yunshan-ticket/svg/e7e48d8a0700e87de42f72b0d8f9df19_20240112174222.svg)
 
 You can quickly deploy the Demo in K8s with the following command:
 
