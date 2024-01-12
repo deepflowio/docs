@@ -37,7 +37,7 @@ EOF
 
 我们使用的 Demo 源自[这个 GitHub 仓库](https://github.com/istio/istio/tree/master/samples/bookinfo)，它的应用架构如下：
 
-![Bookinfo Application with Istio](https://istio.io/latest/docs/examples/bookinfo/withistio.svg)
+![Bookinfo Application with Istio](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/yunshan-ticket/svg/e7e48d8a0700e87de42f72b0d8f9df19_20240112174222.svg)
 
 使用如下命令可在 K8s 中快速部署 Demo：
 ```bash
