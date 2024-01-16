@@ -453,6 +453,33 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 | client_error_ratio | 客户端异常比例 | --           | --           | 客户端异常 / 响应 |
 | server_error_ratio | 服务端异常比例 | --           | --           | 服务端异常 / 响应 |
 
+### OpenWire
+
+通过解析 [OpenWire](https://activemq.apache.org/openwire)（即 [ActiveMQ](https://activemq.apache.org/protocols) 的默认协议） 协议，将 OpenWire Request / Response 的字段映射到 l7_flow_log 对应字段中，映射关系如下表：
+
+**Tag 字段映射表格，以下表格只包含存在映射关系的字段**
+
+| 名称              | 中文    | Request         | Response   | 描述 |
+| -----------------| ------- | --------------- | ---------- | -- |
+| request_type     | 请求类型 | OpenWireCommand | -- | -- |
+| request_domain   | 请求域名 | client_id       | -- | -- |
+| request_resource | 请求资源 | topic           | -- | -- |
+| endpoint         | 端点    | connection_id   | -- | -- |
+
+**Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
+
+| 名称              | 中文    | Request         | Response   | 描述 |
+| -----------------| ------- | --------------- | ---------- | -- |
+| request            | 请求           | --           | --           | Request 个数 |
+| response           | 响应           | --           |              | Response 个数 |
+| log_count          | 日志总量       | --           | --           | -- |
+| error              | 异常           | --           | --           | 客户端异常 + 服务端异常 |
+| client_error       | 客户端异常     | -- | --  | -- |
+| server_error       | 服务端异常     | -- | --  | -- |
+| error_ratio        | 异常比例      | --           | --           | 异常 / 响应 |
+| client_error_ratio | 客户端异常比例 | --           | --           | 客户端异常 / 响应 |
+| server_error_ratio | 服务端异常比例 | --           | --           | 服务端异常 / 响应 |
+
 ## 网络协议簇
 
 ### DNS
