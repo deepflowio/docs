@@ -5,15 +5,17 @@ permalink: /ce-install/all-in-one
 
 # 简介
 
-虽然 deepflow-agent 可运行于各种环境中，但 deepflow-server 必须运行在 K8s 之上。本章我们从一个 All-in-One K8s 集群出发，介绍如何部署一个 DeepFlow 的体验环境。
+为了方便安装部署，我们为 deepflow-server 提供了 Kubernetes 和 Docker Compose 两种部署方式。本章我们从一个 All-in-One DeepFlow 出发，介绍如何部署一个 DeepFlow 的体验环境。
 
-# 准备工作
+# 使用 Kubernetes 部署
 
-## 资源需求
+## 准备工作
+
+### 资源需求
 
 - 建议部署使用的虚拟机最低规格为 4C8G
 
-## 部署 All-in-One K8s
+### 部署 All-in-One K8s
 
 使用 [sealos](https://github.com/labring/sealos) 快速部署一个 K8s 集群：
 ```bash
@@ -30,7 +32,7 @@ sealos run labring/kubernetes:v1.24.0 labring/calico:v3.22.1 --masters $IP_ADDR 
 kubectl taint node node-role.kubernetes.io/master- node-role.kubernetes.io/control-plane- --all
 ```
 
-## 安装 Helm
+### 安装 Helm
 
 DeepFlow 使用 [Helm](https://helm.sh/) 进行部署，安装方法为：
 ```bash
@@ -44,7 +46,7 @@ chmod 700 get_helm.sh
 sealos run labring/helm:v3.8.2
 ```
 
-# 部署 All-in-One DeepFlow
+## 部署 All-in-One DeepFlow
 
 使用 Helm 安装 All-in-One DeepFlow：
 
@@ -83,15 +85,7 @@ helm install deepflow -n deepflow deepflow/deepflow --create-namespace \
 注意：
 - 我们建议将 helm 的 `--set` 参数内容保存一个独立的 yaml 文件中，参考[高级配置](../best-practice/server-advanced-config/)章节。
 
-# 下载 deepflow-ctl
-
-deepflow-ctl 是管理 DeepFlow 的一个命令行工具，建议下载至 deepflow-server 所在的 K8s Node 上，用于后续使用：
-```bash
-curl -o /usr/bin/deepflow-ctl https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/ctl/stable/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-ctl
-chmod a+x /usr/bin/deepflow-ctl
-```
-
-# 访问 Grafana 页面
+## 访问 Grafana 页面
 
 执行 helm 部署 DeepFlow 时输出的内容提示了获取访问 Grafana 的 URL 和密码的命令，输出示例：
 ```bash
@@ -104,6 +98,65 @@ echo -e "Grafana URL: http://$NODE_IP:$NODE_PORT  \nGrafana auth: admin:deepflow
 ```text
 Grafana URL: http://10.1.2.3:31999
 Grafana auth: admin:deepflow
+```
+
+# 使用 Docker Compose 部署
+
+## 准备工作
+
+### 资源需求
+
+- 建议部署使用的虚拟机最低规格为 4C8G
+
+### 部署 Docker
+
+参考 [Docker](https://docs.docker.com/engine/install/) 文档部署 Docker：
+```bash
+curl -fsSL https://get.docker.com -o install-docker.sh
+sudo sh install-docker.sh
+```
+
+### 部署 Docker Compose
+
+参考 [Docker Compose](https://docs.docker.com/compose/install/) 文档部署 Docker：
+```bash
+DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
+mkdir -p $DOCKER_CONFIG/cli-plugins
+curl -SL https://github.com/docker/compose/releases/download/v2.24.0/docker-compose-linux-x86_64 -o $DOCKER_CONFIG/cli-plugins/docker-compose
+chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
+```
+
+## 部署 All-in-One DeepFlow
+
+设置环境变量 DOCKER_HOST_IP 为本机物理网卡 IP
+```bash
+unset DOCKER_HOST_IP
+DOCKER_HOST_IP="10.1.2.3"  # FIXME: Deploy the environment machine IP
+```
+下载并安装  All-in-One DeepFlow
+```bash
+wget  https://deepflow-ce.oss-cn-beijing.aliyuncs.com/pkg/docker-compose/stable/linux/deepflow-docker-compose.tar
+tar -zxf deepflow-docker-compose.tar 
+sed -i "s|FIX_ME_ALLINONE_HOST_IP|$DOCKER_HOST_IP|g" deepflow-docker-compose/docker-compose.yaml
+docker-compose -f deepflow-docker-compose/docker-compose.yaml up -d
+```
+
+## 部署 DeepFlow Agent
+
+参考 [监控传统服务器](./legacy-host) 为该服务器部署 deepflow-agent。
+
+## 访问 Grafana 页面
+
+使用 Docke Compose 部署的 DeepFlow Grafana 端口为 3000，用户密码为 admin:deepflow。
+
+例如机器 IP 为 10.2.3.4， 则 Grafana 访问 URL 为 http://10.1.2.3:3000
+
+# 下载 deepflow-ctl
+
+deepflow-ctl 是管理 DeepFlow 的一个命令行工具，建议下载至 deepflow-server 所在的 K8s Node 上，用于后续使用：
+```bash
+curl -o /usr/bin/deepflow-ctl https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/ctl/stable/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-ctl
+chmod a+x /usr/bin/deepflow-ctl
 ```
 
 # 下一步
