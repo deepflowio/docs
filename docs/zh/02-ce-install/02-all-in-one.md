@@ -151,6 +151,10 @@ docker-compose -f deepflow-docker-compose/docker-compose.yaml up -d
 
 例如机器 IP 为 10.2.3.4， 则 Grafana 访问 URL 为 http://10.1.2.3:3000
 
+## 注意：
+- 该部署模式下 deepflow-server、clickhouse 均不支持水平扩展。
+- 由于 deepflow-server 的一些能力依赖 Kubernetes，docker-compose 部署模式下无法监控云服务器，可参考 [监控传统服务器](./legacy-host) 对云主机进行监控。
+
 # 下载 deepflow-ctl
 
 deepflow-ctl 是管理 DeepFlow 的一个命令行工具，建议下载至 deepflow-server 所在的 K8s Node 上，用于后续使用：
