@@ -149,7 +149,7 @@ docker-compose -f deepflow-docker-compose/docker-compose.yaml up -d
 
 使用 Docke Compose 部署的 DeepFlow Grafana 端口为 3000，用户密码为 admin:deepflow。
 
-例如机器 IP 为 10.2.3.4， 则 Grafana 访问 URL 为 http://10.1.2.3:3000
+例如机器 IP 为 10.1.2.3， 则 Grafana 访问 URL 为 http://10.1.2.3:3000
 
 ## 限制
 
