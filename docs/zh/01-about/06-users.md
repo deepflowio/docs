@@ -12,9 +12,10 @@ permalink: /about/users
 
 | 行业   | 用户      | 来源   | 标题                                               | 链接               |
 | ------ | --------- | ------ | -------------------------------------------------- | ------------------ |
-| 银行   | 民生银行  | Meetup | 民生银行云原生业务的eBPF可观测性建设实践           | 文章, [PPT](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/yunshan-ticket/pdf/ebae4e2d4d0ea71c28228c5e0dbb8f23_20231225162831.pdf), [Video](https://www.bilibili.com/video/BV1ag4y1C7DD/) |
-| 游戏   | 腾讯 IEG  | Meetup | 消灭盲点！腾讯游戏真·全栈观测实践                  | 文章, [PPT](http://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/yunshan-ticket/pdf/580f8117457f0e2bbc2f3818f7d42300_20231225162841.pdf), [Video](https://www.bilibili.com/video/BV1ku4y1K7PF/) |
+| 银行   | 民生银行  | Meetup | 民生银行云原生业务的eBPF可观测性建设实践           | 文章, [PPT](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/yunshan-ticket/pdf/ebae4e2d4d0ea71c28228c5e0dbb8f23_20231225162831.pdf), [Video](https://www.bilibili.com/video/BV1ag4y1C7DD) |
+| 游戏   | 腾讯 IEG  | Meetup | 消灭盲点！腾讯游戏真·全栈观测实践                  | 文章, [PPT](http://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/yunshan-ticket/pdf/580f8117457f0e2bbc2f3818f7d42300_20231225162841.pdf), [Video](https://www.bilibili.com/video/BV1ku4y1K7PF) |
 | 运营商 | 中国移动  | Meetup  | 中国移动磐基PaaS平台基于eBPF的应用可观测性建设实践| [文章](https://mp.weixin.qq.com/s/ACS4AXFUk0uCXAsVTBi2SQ) |
+| 个人   | 郑志聪    | Meetup  | DeepFlow 扩展协议解析实践                         | [文章](https://mp.weixin.qq.com/s/GvUwamT-1VYHZQW34JBdow), [PPT](http://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/yunshan-ticket/pdf/50259d1f763207ff241a31b17231b871_20231201173751.pdf), [Video](https://www.bilibili.com/video/BV1pc411q7WH) |
 | 电商   | 政采云    | Meetup  | 政采云可观测性建设实践                            | [文章](https://mp.weixin.qq.com/s/P_r1LQ3HerYNBYPZPClc2g), [PPT](http://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/yunshan-ticket/pdf/7698944121a1ce331c35428be49c2975_20230921103323.pdf), [Video](https://www.bilibili.com/video/BV1Sw411e7zC) |
 | 电商   | 微拍堂    | Meetup | 微拍堂基于 DeepFlow 建设零侵扰的可观测平台         | [文章](https://mp.weixin.qq.com/s/P1tsmFW_9poIScxXCdOlLg), [PPT](http://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/yunshan-ticket/pdf/ab5c0568c000db0d0669c8c6a59c3551_20230921103335.pdf), [Video](https://www.bilibili.com/video/BV1zH4y1S7zG) |
 | 银行   | 光大银行  | 文章   | 浅谈分布式系统的性能调优 - Overlay 层数据包分析    | [文章](https://mp.weixin.qq.com/s/aXwH6IIjCwZYHHqtqP2NSQ) |
