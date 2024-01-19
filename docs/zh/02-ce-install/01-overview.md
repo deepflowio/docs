@@ -25,19 +25,32 @@ permalink: /ce-install/overview
 
 # 运行权限及内核要求
 
-deepflow-agent 的 eBPF 能力对内核版本的要求：
-- X86 体系架构：Linux Kernel 4.14+
-  - 例外：使用 uprobe 采集 openssl 库的 TLS 应用数据要求 Linux Kernel 4.17+
-  - 在内核 `Linux 4.14` 下一个 `tracepoint` 不能被多个 eBPF program attach（即：不能同时运行两个或多个 agent），`Linux 4.15+` 不存在此问题
-- ARM64 体系架构：
-  - 社区 Linux Kernel 5.8+
-  - CentOS8 Linux Kernel 4.18
-  - EulerOS Linux Kernel 5.10+
-  - 银河麒麟（KylinOS）V10 SP3+ 4.19.90-52.25
+DeepFlow 中的 eBPF 能力（AutoTracing、AutoProfiling）对内核版本的要求如下：
+| 体系架构 | 发行版                | 内核版本          | kprobe | Golang uprobe | OpenSSL uprobe | perf |
+| -------- | --------------------- | ----------------- | ------ | ------------- | -------------- | ---- |
+| X86      | CentOS 7.9            | 3.10.0 **[1]**    | Y      | Y **[2]**     | Y **[2]**      | Y    |
+|          | RedHat 7.6            | 3.10.0 **[1]**    | Y      | Y **[2]**     | Y **[2]**      | Y    |
+|          | \*                    | 4.9-4.13          |        |               |                | Y    |
+|          | \*                    | 4.14 **[3]**      | Y      | Y **[2]**     |                | Y    |
+|          | \*                    | 4.15              | Y      | Y **[2]**     |                | Y    |
+|          | \*                    | 4.16              | Y      | Y             |                | Y    |
+|          | \*                    | 4.17+             | Y      | Y             | Y              | Y    |
+| ARM      | CentOS 8              | 4.18              | Y      | Y             | Y              | Y    |
+|          | EulerOS               | 5.10+             | Y      | Y             | Y              | Y    |
+|          | 麒麟 KylinOS V10 SP3+ | 4.19.90-52.25+    | Y      | Y             | Y              | Y    |
+|          | 其他发行版            | 5.8+              | Y      | Y             | Y              | Y    |
 
-当内核版本无法满足要求时，受影响的功能有：
-- 通过 eBPF uprobe 获取 HTTP2、HTTPS 应用数据
-- 通过 eBPF 实现 AutoTracing、AutoProfiling
+对内核版本的额外说明：
+- [1]: CentOS 7.9、RedHat 7.6 向 3.10 内核中[移植了一部分 eBPF 能力](https://www.redhat.com/en/blog/introduction-ebpf-red-hat-enterprise-linux-7)
+  - 在这两个发行版中，DeepFlow 支持的详细内核版本如下（[依赖的 Hook 点](https://github.com/deepflowio/deepflow/blob/main/agent/src/ebpf/docs/probes-and-maps.md)）：
+    - 3.10.0-957.el7.x86_64
+    - 3.10.0-1062.el7.x86_64
+    - 3.10.0-1127.el7.x86_64
+    - 3.10.0-1160.el7.x86_64
+  - 注意 RedHat 的申明：
+    > The eBPF in Red Hat Enterprise Linux 7.6 is provided as Tech Preview and thus doesn't come with full support and is not suitable for deployment in production. It is provided with the primary goal to gain wider exposure, and potentially move to full support in the future. eBPF in Red Hat Enterprise Linux 7.6 is enabled only for tracing purposes, which allows attaching eBPF programs to probes, tracepoints and perf events.
+- [2]: 容器内部的 Golang/OpenSSL 进程不支持
+- [3]: 在内核 4.14 版本中，一个 `tracepoint` 不能被多个 eBPF program attach（如：不能同时运行两个或多个 deepflow-agent），其他版本不存在此问题
 
 deepflow-agent 运行权限的要求：
 - 当运行于 K8s 环境下，采集 K8s 信息需要的权限包括
