@@ -286,7 +286,19 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 | response_status    | 响应状态 | --           | `ERR` 报文的 ERROR CODE    | 正常：无`ERR` 报文; 客户端异常: ERROR CODE=2000-2999 或客户端发送的1-999; 服务端异常: ERROR CODE=1000-1999/3000-4000 或服务端发送的1-999 |
 | response_code      | 响应码   | --           | `ERR` 报文的 ERROR CODE    | -- |
 | response_exception | 响应异常 | --           | `ERR` 报文的 ERROR Message | -- |
-| trace_id           | TraceID | tracd_id     | -                         | 可以在 SQL 注释中注入 TraceID，例如 `/* your_trace_key： ffffffff */ SELECT col FROM tbl`，并在 http_log_trace_id 配置中加入 your_trace_key 即可提取出当前 SQL 的 trace_id |
+| trace_id           | TraceID  | tracd_id     | -                          | 提取在 SQL 语句的注释中注入的 TraceID **[1]** |
+
+`[1]`: 当应用在 SQL 语句的注释中注入 TraceID 时 DeepFlow 支持提取并用于跨线程的分布式追踪。DeepFlow 支持提取几乎任意位置的 SQL 注释（但必须出现在 AF_PACKET 获取到的首包中，或者 eBPF 获取到的第一个 Socket Data 中）：
+```sql
+/* your_trace_key: 648840f6-7f92-468b-b298-d38f05c541d4 */ SELECT col FROM tbl
+SELECT /* your_trace_key: 648840f6-7f92-468b-b298-d38f05c541d4 */ col FROM tbl
+SELECT col FROM tbl # your_trace_key: 648840f6-7f92-468b-b298-d38f05c541d4
+SELECT col FROM tbl -- your_trace_key: 648840f6-7f92-468b-b298-d38f05c541d4
+```
+虽然如此，我们**强烈建议您在 SQL 语句头部添加注释**，以降低 SQL 解析的性能开销。上面的示例中，`your_trace_key` 取决于 Agent 配置项中 `http_log_trace_id` 的值。注意目前仅支持按照该配置项中的第一个值提取，例如当 `http_log_trace_id = traceparent, sw8` 时，DeepFlow 能够从如下的 SQL 语句中提取 TraceID `648840f6-7f92-468b-b298-d38f05c541d4`：
+```sql
+/* traceparent: 648840f6-7f92-468b-b298-d38f05c541d4 */ SELECT col FROM tbl
+```
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
