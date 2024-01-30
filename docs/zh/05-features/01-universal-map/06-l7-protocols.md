@@ -135,8 +135,8 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 | response_code         | 响应码   | --                                  | Status | -- |
 | response_exception    | 响应异常 | --                                  | Status | Status 对应的官方英文描述[参考 Dubbo 协议详解](https://dubbo.apache.org/zh/blog/2018/10/05/dubbo-%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/) |
 | endpoint              | 端点     | Service name/Method name            | --     | -- |
-| trace_id              | TraceID  | Attachments 字段的 traceparent, sw8 | --     | 可配置 deepflow-agent 的 http_log_trace_id 修改匹配的 Attachments 字段，详细说明见 HTTP 协议描述 |
-| span_id               | SpanID   | Attachments 字段的 traceparent, sw8 | --     | 对配置 deepflow-agent 的 http_log_trace_id 修改匹配的 Attachments 字段，详细说明见 HTTP 协议描述 |
+| trace_id              | TraceID  | traceparent, sw8 | traceparent, sw8 | 可配置 deepflow-agent 的 http_log_trace_id 修改匹配的 Attachments 字段，详细说明见 HTTP 协议描述 |
+| span_id               | SpanID   | traceparent, sw8 | traceparent, sw8 | 可配置 deepflow-agent 的 http_log_trace_id 修改匹配的 Attachments 字段，详细说明见 HTTP 协议描述 |
 | attribute.rpc_service | --       | Service name                        | --     | -- |
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
@@ -199,6 +199,7 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 | server_error_ratio | 服务端异常比例 | --             | --             | 服务端异常 / 响应 |
 
 ### SOFARPC
+
 通过解析 [SofaRPC](https://blog.51cto.com/throwable/4896897) 协议，将 FastCGI Request / Response 的字段映射到 l7_flow_log 对应字段中，映射关系如下表：
 
 **Tag 字段映射表格，以下表格只包含存在映射关系的字段**
@@ -213,7 +214,7 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 | response_code      | 响应码   | --                                  | resp_code  | 客户端异常：Status Code = 8; 服务端异常：Status Code ！= 0 |
 | endpoint           | 端点    | request_type/request_resource        | --         | -- |
 | trace_id           | TraceID | header 中的 rpc_trace_context.sofaTraceId 或 new_rpc_trace_context 或 com.alipay.sofa.rpc.core.request.SofaRequest 类的 sofaTraceId 字段 | -- | -- |
-| span_id            | SpanID  |  header 中的 new_rpc_trace_context | -- | -- |
+| span_id            | SpanID  | header 中的 new_rpc_trace_context | -- | -- |
 | x_request_id       | -- | -- | -- | -- |
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
@@ -417,7 +418,8 @@ SELECT col FROM tbl -- your_trace_key: 648840f6-7f92-468b-b298-d38f05c541d4
 | response_status    | 响应状态 | --              | error_code | 正常: error_code=0; 客户端异常: 无; 服务端异常: error_code!=0 |
 | response_code      | 响应码   | --              | error_code | 目前仅解析 Fetch 一个命令类型的响应码 |
 | response_exception | 响应异常 | --              | error_code | error_code 对应的[官方英文描述](http://kafka.apache.org/protocol#protocol_error_codes) |
-| trace_id           | TraceID  | sw8或traceparent | --         | 提取首个 Record 对应的 Header |
+| trace_id           | TraceID  | traceparent, sw8 | traceparent, sw8 | 提取首个 Record 对应的 Header |
+| span_id            | SpanID   | traceparent, sw8 | traceparent, sw8 | 提取首个 Record 对应的 Header |
 
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
