@@ -477,6 +477,8 @@ SELECT col FROM tbl -- your_trace_key: 648840f6-7f92-468b-b298-d38f05c541d4
 | request_domain   | 请求域名 | exchange                     | --         | -- |
 | request_resource | 请求资源 | routing_key                  | --         | -- |
 | endpoint         | 端点    | queue                        | --          | -- |
+| trace_id         | TraceID | traceparent, sw8	           | traceparent, sw8 | Content Header 中的自定义字段 |
+| span_id          | SpanID  | traceparent, sw8            | traceparent, sw8 | Content Header 中的自定义字段 |
 
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
