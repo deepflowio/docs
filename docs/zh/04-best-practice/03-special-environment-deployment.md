@@ -105,6 +105,10 @@ K8s 使用 macvlan CNI 时，在 rootns 下只能看到所有 POD 共用的一�
     deepflow-ctl agent list
     ```
 
+## 华为 CCE Turbo
+
+参考 MACVlan 配置
+
 ## IPVlan
 
 唯一需要注意的是，采集器的 tap_interface_regex 只需配置为 Node NIC 列表。
