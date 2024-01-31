@@ -11,6 +11,22 @@ permalink: /features/distributed-tracing/auto-tracing
 
 本章将会以两个 Demo 应用为例，展示 DeepFlow 的 AutoTracing 能力。这两个 Demo 不依赖插入任何 Jaeger、OpenTelemetry、SkyWalking 等代码，完全基于 eBPF 采集的数据即可完成分布式追踪。
 
+# X-Request-ID
+
+几乎所有网关都支持向 HTTP Header 中注入一个随机的唯一 ID，用于跟踪一个调用。这个行为的原理是：客户端请求网关时，网关生成一个随机 ID（一般名为 X-Request-ID），并将其注入到网关向 Upstream 发送的 HTTP Header 中，在收到 Upstream 的响应之后，网关会将同样的随机 ID 注入到向客户端发送的响应中。从原理中可以看到，这个信息的注入不需要业务侧做任何的修改，DeepFlow 也能利用这个信息实现网关前后调用链的零侵扰追踪。
+
+几乎所有的网关都支持此类随机 ID 的自动注入，例如：
+- [Envoy: X-Request-ID](https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_conn_man/headers#x-request-id)
+- [Nginx: X-Request-ID](https://www.nginx.com/blog/application-tracing-nginx-plus/)
+- [HAProxy: X-Request-ID](https://stackoverflow.com/questions/46531909/setting-a-unique-http-request-id-with-haproxys-http-request-set-header)
+- [BFE: X-Bfe-Log-Id](https://www.bfe-networks.net/en_us/modules/mod_logid/mod_logid/)
+- [腾讯云 CLB: Stgw-request-id](https://cloud.tencent.com/document/product/214/15171)
+- [百度云 BLB: X-BLB-Request-Id](https://cloud.baidu.com/doc/BLB/s/gkk3kb8ic)
+
+由于不同网关注入的随机 ID 名称不同，DeepFlow 支持通过 Agent 配置中的 `http_log_x_request_id` 来指定需要解析的字段名，改配置的默认值为 `X-Request-ID`。
+
+另外，实际上消息队列中也不乏类似的信息存在，例如 [ActiveMQ 中的 CorrelationID](https://activemq.apache.org/how-should-i-implement-request-response-with-jms)。
+
 # 当前限制
 
 基于 eBPF 的 AutoTracing 是一项颠覆性创新，欢迎你一起加入这项激动人心的探索！当前 TODO 的工作包括：
