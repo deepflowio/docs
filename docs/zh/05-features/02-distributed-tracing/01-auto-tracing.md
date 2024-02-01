@@ -23,9 +23,11 @@ permalink: /features/distributed-tracing/auto-tracing
 - [腾讯云 CLB: Stgw-request-id](https://cloud.tencent.com/document/product/214/15171)
 - [百度云 BLB: X-BLB-Request-Id](https://cloud.baidu.com/doc/BLB/s/gkk3kb8ic)
 
-由于不同网关注入的随机 ID 名称不同，DeepFlow 支持通过 Agent 配置中的 `http_log_x_request_id` 来指定需要解析的字段名，改配置的默认值为 `X-Request-ID`。
+由于不同网关注入的随机 ID 名称不同，DeepFlow 支持通过 Agent 配置中的 `http_log_x_request_id` 来指定需要解析的字段名，该配置的默认值为 `X-Request-ID`，且支持填写多个字段名。
 
-另外，实际上消息队列中也不乏类似的信息存在，例如 [ActiveMQ 中的 CorrelationID](https://activemq.apache.org/how-should-i-implement-request-response-with-jms)。
+另外，实际上消息队列中也不乏类似的信息存在，例如：
+- [Kafka 在 Request-Response 通信场景下的 CorrelationID](https://cwiki.apache.org/confluence/display/KAFKA/A+Guide+To+The+Kafka+Protocol#AGuideToTheKafkaProtocol-CommonRequestandResponseStructure)
+- [ActiveMQ 中的 CorrelationID](https://activemq.apache.org/how-should-i-implement-request-response-with-jms)
 
 # 当前限制
 

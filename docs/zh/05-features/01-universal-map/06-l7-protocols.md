@@ -33,31 +33,33 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 
 **Tag 字段映射表格，以下表格只包含存在映射关系的字段**
 
-| 名称                      |中文             | Request Header  | Response Header |  描述 |
-| ------------------------- | -------------- | ---------------- | ----------- | -- |
-| version                   | 协议版本        | 首行的 Version   | --          | -- |
-| request_type              | 请求类型        | 首行的 Method    | --          | -- |
-| request_domain            | 请求域名        | Host             | --          | -- |
-| request_resource          | 请求资源        | Path             | --          | -- |
-| request_id                | 请求 ID         | Stream ID        | --          | 仅针对 HTTP2 |
-| response_status           | 响应状态        | --               | Status Code | 客户端异常：Status Code=4xx; 服务端异常：Status Code=5xx |
-| response_code             | 响应码          | --               | Status Code | -- |
-| response_exception        | 响应异常        | --               | Status Code | Status Code 对应的官方英文描述，[参考维基百科List of HTTP status codes](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)|
-| trace_id                  | TraceID         | traceparent, sw8 | traceparent, sw8          | 可配置 deepflow-agent 的 http_log_trace_id 修改匹配的 Header，详细描述见后续说明 |
-| span_id                   | SpanID          | traceparent, sw8 | traceparent, sw8          | 可配置 deepflow-agent 的 http_log_span_id 修改匹配的 Header，详细描述见后续说明 |
-| http_proxy_client         | HTTP 代理客户端  | X-Forwarded-For  | --          | 可配置 deepflow-agent 的 http_log_proxy_client 修改匹配的 Header |
-| x_request_id              | X-Request-ID    | X-Request-ID     | X-Request-ID          | 可配置 deepflow-agent 的 http_log_x_request_id 修改匹配的 Header |
-| attribute.http_user_agent | --              | User-Agent       | --          | -- |
-| attribute.http_referer    | --              | Referer          | --          | -- |
+| 类别  | 名称                      | 中文            | Request Header   | Response Header  | 描述 |
+| ----- | ------------------------- | --------------- | ---------------- | ---------------- | ---- |
+| Req.  | version                   | 协议版本        | 首行的 Version   | --               | --   |
+|       | request_type              | 请求类型        | 首行的 Method    | --               | --   |
+|       | request_domain            | 请求域名        | Host             | --               | --   |
+|       | request_resource          | 请求资源        | Path             | --               | --   |
+|       | request_id                | 请求 ID         | --               | --               | --   |
+|       | endpoint                  | 端点            | Path             | --               | Agent 的 `http-endpoint-extraction` 配置项可定义提取规则 |
+| Resp. | response_code             | 响应码          | --               | Status Code      | --   |
+|       | response_status           | 响应状态        | --               | Status Code      | 正常: 1XX/2XX/3XX; 客户端异常: 4XX; 服务端异常: 5XX |
+|       | response_exception        | 响应异常        | --               | Status Code      | Status Code 的描述，参考 [List of HTTP status codes](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes) |
+|       | response_result           | 响应结果        | --               | --               | --   |
+| Trace | trace_id                  | TraceID         | traceparent, sw8 | traceparent, sw8 | Agent 的 `http_log_trace_id` 配置项可定义提取的 Header 名称 |
+|       | span_id                   | SpanID          | traceparent, sw8 | traceparent, sw8 | Agent 的 `http_log_span_id` 配置项可定义提取的 Header 名称 |
+|       | x_request_id              | X-Request-ID    | X-Request-ID     | X-Request-ID     | Agent 的 `http_log_x_request_id` 配置项可定义提取的 Header 名称 |
+|       | http_proxy_client         | HTTP 代理客户端 | X-Forwarded-For  | --               | Agent 的 `http_log_proxy_client` 配置项可定义提取的 Header 名称 |
+| Misc  | attribute.http_user_agent | --              | User-Agent       | --               | --   |
+|       | attribute.http_referer    | --              | Referer          | --               | --   |
 
-- TraceID（trace_id）只读取以下 HTTP Header 部分数据，其他 Header 读取全部数据：
-  - `sw8`/`sw6` Header 中的 `trace ID`
-  - `uber-trace-id` Header 中的 `{trace-id}`
-  - `traceparent` Header 中的 `trace-id`
-- SpanID（span_id）只读取以下 HTTP Header 部分数据，其他 Header 读取全部数据：
-  - `sw8`/`sw6` Header 中的 `segment ID-span ID`
-  - `uber-trace-id` Header 中的 `{span-id}`
-  - `traceparent` Header 中的 `parent-id`
+- TraceID 只截取以下 HTTP Header 的部分值，其他自定义 Header 读取全部值：
+  - `traceparent` Header 中的 `trace-id` 部分
+  - `sw8`/`sw6` Header 中的 `trace ID` 部分
+  - `uber-trace-id` Header 中的 `{trace-id}` 部分
+- SpanID 只截取以下 HTTP Header 的部分值，其他自定义 Header 读取全部值：
+  - `traceparent` Header 中的 `parent-id` 部分
+  - `sw8`/`sw6` Header 中的 `segment ID-span ID` 部分
+  - `uber-trace-id` Header 中的 `{span-id}` 部分
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
@@ -82,23 +84,24 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 
 **Tag 字段映射表格，以下表格只包含存在映射关系的字段**
 
-| 名称                       | 中文         | HTTP2 Request Header |  HTTP2 Response Header | 描述 |
-| ------------------------- | ------------ | ---------------- | --------------- | -- |
-| version                   | 协议版本      | Version          | --              | -- |
-| request_type              | 请求类型      | Method           | --              | -- |
-| request_domain            | 请求域名      | Host / Authority | --              | -- |
-| request_resource          | 请求资源      | Path             | --              | -- |
-| request_id                | 请求 ID       | Stream ID        | --              | -- |
-| response_status           | 响应状态      | --               | Status Code     | 客户端异常：Status Code=4xx; 服务端异常：Status Code=5xx |
-| response_code             | 响应码        | --               | Status Code     | -- |
-| response_exception        | 响应异常      | --               | Status Code     | Status Code 对应的官方英文描述[参考维基百科List of HTTP status codes](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)|
-| endpoint                  | 端点          | Path             | --              | -- |
-| trace_id                  | TraceID       | traceparent, sw8 | raceparent, sw8 | 可配置 deepflow-agent 的 http_log_trace_id 修改匹配的 Header，详细说明见HTTP协议描述 |
-| span_id                   | SpanID        | traceparent, sw8 | raceparent, sw8 | 可配置 deepflow-agent 的 http_log_span_id 修改匹配的 Header，详细说明见HTTP协议描述 |
-| http_proxy_client         | HTTP 代理客户  | X-Forwarded-For  | X-Forwarded-For | 可配置 deepflow-agent 的 http_log_proxy_client 修改匹配的 Header |
-| x_request_id              | X-Request-ID  | X-Request-ID     | X-Request-ID    | 可配置 deepflow-agent 的 http_log_x_request_id 修改匹配的 Header |
-| attribute.http_user_agent | --            | User-Agent       | --              | -- |
-| attribute.http_referer    | --            | Referer          | --              | -- |
+| 类别  | 名称                      | 中文            | Request Header    | Response Header  | 描述 |
+| ----- | ------------------------- | --------------- | ----------------- | ---------------- | ---- |
+| Req.  | version                   | 协议版本        | Version           | --               | --   |
+|       | request_type              | 请求类型        | Method            | --               | --   |
+|       | request_domain            | 请求域名        | Host 或 Authority | --               | --   |
+|       | request_resource          | 请求资源        | Path              | --               | --   |
+|       | request_id                | 请求 ID         | Stream ID         | --               | --   |
+|       | endpoint                  | 端点            | Path              | --               | --   |
+| Resp. | response_code             | 响应码          | --                | Status Code      | --   |
+|       | response_status           | 响应状态        | --                | Status Code      | 正常: 1XX/2XX/3XX; 客户端异常: 4XX; 服务端异常: 5XX |
+|       | response_exception        | 响应异常        | --                | Status Code      | Status Code 的描述，参考 [List of HTTP status codes](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes) |
+|       | response_result           | 响应结果        | --                | --               | --   |
+| Trace | trace_id                  | TraceID         | traceparent, sw8  | traceparent, sw8 | Agent 的 `http_log_trace_id` 配置项可定义提取的 Header 名称 |
+|       | span_id                   | SpanID          | traceparent, sw8  | traceparent, sw8 | Agent 的 `http_log_span_id` 配置项可定义提取的 Header 名称 |
+|       | x_request_id              | X-Request-ID    | X-Request-ID      | X-Request-ID     | Agent 的 `http_log_x_request_id` 配置项可定义提取的 Header 名称 |
+|       | http_proxy_client         | HTTP 代理客户端 | X-Forwarded-For   | --               | Agent 的 `http_log_proxy_client` 配置项可定义提取的 Header 名称 |
+| Misc  | attribute.http_user_agent | --              | User-Agent        | --               | --   |
+|       | attribute.http_referer    | --              | Referer           | --               | --   |
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
@@ -125,19 +128,22 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 
 **Tag 字段映射表格，以下表格只包含存在映射关系的字段**
 
-| 名称                  | 中文     | Request                             | Response | 描述 |
-| --------------------  |-------- | ----------------------------------- | ----- | -- |
-| version               | 协议版本 | Version                             | --     | -- |
-| request_type          | 请求类型 | Method name                         | --     | -- |
-| request_resource      | 请求资源 | Service name                        | --     | -- |
-| request_id            | 请求 ID  | Request ID                          | --     | -- |
-| response_status       | 响应状态 | --                                  | Status | 正常: Status=20; 客户端异常: Status=30/40/90; 服务端异常: Status=31/50/60/70/80/100 |
-| response_code         | 响应码   | --                                  | Status | -- |
-| response_exception    | 响应异常 | --                                  | Status | Status 对应的官方英文描述[参考 Dubbo 协议详解](https://dubbo.apache.org/zh/blog/2018/10/05/dubbo-%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/) |
-| endpoint              | 端点     | Service name/Method name            | --     | -- |
-| trace_id              | TraceID  | traceparent, sw8 | traceparent, sw8 | 可配置 deepflow-agent 的 http_log_trace_id 修改匹配的 Attachments 字段，详细说明见 HTTP 协议描述 |
-| span_id               | SpanID   | traceparent, sw8 | traceparent, sw8 | 可配置 deepflow-agent 的 http_log_trace_id 修改匹配的 Attachments 字段，详细说明见 HTTP 协议描述 |
-| attribute.rpc_service | --       | Service name                        | --     | -- |
+| 类别  | 名称                  | 中文         | Request Header            | Response Header  | 描述 |
+| ----- | --------------------  |------------- | ------------------------- | ---------------- | ---- |
+| Req.  | version               | 协议版本     | version                   | --               | --   |
+|       | request_type          | 请求类型     | Method-Name               | --               | --   |
+|       | request_domain        | 请求域名     | --                        | --               | --   |
+|       | request_resource      | 请求资源     | Service-Name              | --               | --   |
+|       | request_id            | 请求 ID      | Request-ID                | --               | --   |
+|       | endpoint              | 端点         | Service-Name/Method-Name  | --               | --   |
+| Resp. | response_code         | 响应码       | --                        | Status           | --   |
+|       | response_status       | 响应状态     | --                        | Status           | 正常: 20; 客户端异常: 30/40/90; 服务端异常: 31/50/60/70/80/100 |
+|       | response_exception    | 响应异常     | --                        | Status           | Status 的描述，参考 [Dubbo 协议详解](https://dubbo.apache.org/zh/blog/2018/10/05/dubbo-%E5%8D%8F%E8%AE%AE%E8%AF%A6%E8%A7%A3/) |
+|       | response_result       | 响应结果     | --                        | --               | --   |
+| Trace | trace_id              | TraceID      | traceparent, sw8          | traceparent, sw8 | Agent 的 `http_log_trace_id` 配置项可定义提取的 Header 名称 |
+|       | span_id               | SpanID       | traceparent, sw8          | traceparent, sw8 | Agent 的 `http_log_span_id` 配置项可定义提取的 Header 名称 |
+|       | x_request_id          | X-Request-ID | --                        | --               | --   |
+| Misc  | attribute.rpc_service | --           | Service-Name              | --               | --   |
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
@@ -162,24 +168,25 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 
 **Tag 字段映射表格，以下表格只包含存在映射关系的字段**
 
-| 名称                       | 中文         | HTTP2 Request Header |  HTTP2 Response Header | 描述 |
-| ------------------------- | ------------ | ---------------- | --------------- | -- |
-| version                   | 协议版本      | Version          | --              | -- |
-| request_type              | 请求类型      | Method           | --              | -- |
-| request_domain            | 请求域名      | Host / Authority | --              | -- |
-| request_resource          | 请求资源      | Service-Name     | --              | -- |
-| request_id                | 请求 ID       | Stream ID        | --              | -- |
-| response_status           | 响应状态      | --               | Status Code     | 客户端异常：Status Code=4xx; 服务端异常：Status Code=5xx |
-| response_code             | 响应码        | --               | Status Code     | -- |
-| response_exception        | 响应异常      | --               | Status Code     | Status Code 对应的官方英文描述[参考维基百科List of HTTP status codes](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)|
-| endpoint                  | 端点          | Path             | --              | -- |
-| trace_id                  | TraceID       | traceparent, sw8 | raceparent, sw8 | 可配置 deepflow-agent 的 http_log_trace_id 修改匹配的 Header，详细说明见HTTP协议描述 |
-| span_id                   | SpanID        | traceparent, sw8 | raceparent, sw8 | 可配置 deepflow-agent 的 http_log_span_id 修改匹配的 Header，详细说明见HTTP协议描述 |
-| http_proxy_client         | HTTP 代理客户  | X-Forwarded-For  | X-Forwarded-For | 可配置 deepflow-agent 的 http_log_proxy_client 修改匹配的 Header |
-| x_request_id              | X-Request-ID  | X-Request-ID     | X-Request-ID    | 可配置 deepflow-agent 的 http_log_x_request_id 修改匹配的 Header |
-| attribute.rpc_service     | --            | Service-Name     | --              | -- |
-| attribute.http_user_agent | --            | User-Agent       | --              | -- |
-| attribute.http_referer    | --            | Referer          | --              | -- |
+| 类别  | 名称                      | 中文            | Request Header    | Response Header  | 描述 |
+| ----- | ------------------------- | --------------- | ----------------- | ---------------- | ---- |
+| Req.  | version                   | 协议版本        | Version           | --               | --   |
+|       | request_type              | 请求类型        | Method            | --               | --   |
+|       | request_domain            | 请求域名        | Host 或 Authority | --               | --   |
+|       | request_resource          | 请求资源        | Service-Name      | --               | --   |
+|       | request_id                | 请求 ID         | Stream ID         | --               | --   |
+|       | endpoint                  | 端点            | Path              | --               | --   |
+| Resp. | response_code             | 响应码          | --                | Status Code      | --   |
+|       | response_status           | 响应状态        | --                | Status Code      | 正常: 1XX/2XX/3XX; 客户端异常: 4XX; 服务端异常: 5XX |
+|       | response_exception        | 响应异常        | --                | Status Code      | Status Code 的描述，参考 [List of HTTP status codes](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes) |
+|       | response_result           | 响应结果        | --                | --               | --   |
+| Trace | trace_id                  | TraceID         | traceparent, sw8  | traceparent, sw8 | Agent 的 `http_log_trace_id` 配置项可定义提取的 Header 名称 |
+|       | span_id                   | SpanID          | traceparent, sw8  | traceparent, sw8 | Agent 的 `http_log_span_id` 配置项可定义提取的 Header 名称 |
+|       | x_request_id              | X-Request-ID    | X-Request-ID      | X-Request-ID     | Agent 的 `http_log_x_request_id` 配置项可定义提取的 Header 名称 |
+|       | http_proxy_client         | HTTP 代理客户端 | X-Forwarded-For   | --               | Agent 的 `http_log_proxy_client` 配置项可定义提取的 Header 名称 |
+| Misc  | attribute.http_user_agent | --              | User-Agent        | --               | --   |
+|       | attribute.http_referer    | --              | Referer           | --               | --   |
+|       | attribute.rpc_service     | --              | Service-Name      | --               | --   |
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
@@ -200,22 +207,31 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 
 ### SOFARPC
 
-通过解析 [SofaRPC](https://blog.51cto.com/throwable/4896897) 协议，将 FastCGI Request / Response 的字段映射到 l7_flow_log 对应字段中，映射关系如下表：
+通过解析 [SOFARPC](https://blog.51cto.com/throwable/4896897) 协议，将 SOFARPC Request / Response 的字段映射到 l7_flow_log 对应字段中，映射关系如下表：
 
 **Tag 字段映射表格，以下表格只包含存在映射关系的字段**
 
-| 名称                | 中文    | Request                     | Response             | 描述 |
-| -------------------| ------- | --------------------------- | -------------------- | -- |
-| request_type       | 请求类型 | header 中的 sofa_head_method_name 或 com.alipay.sofa.rpc.core.request.SofaRequest 类的 methodName 字段 | -- | -- |
-| request_resource   | 请求资源 | header 中的 sofa_head_target_service 或 com.alipay.sofa.rpc.core.request.SofaRequest 的 targetServiceUniqueName 字段 | -- | -- |
-| request_domain     | 请求域名 | --                                   | --         | -- |
-| request_id         | 请求 ID | req_id                               | --        | -- |
-| response_status    | 响应状态 | --                                   | resp_code  | 客户端异常：Status Code = 8; 服务端异常：Status Code ！= 0 |
-| response_code      | 响应码   | --                                  | resp_code  | 客户端异常：Status Code = 8; 服务端异常：Status Code ！= 0 |
-| endpoint           | 端点    | request_type/request_resource        | --         | -- |
-| trace_id           | TraceID | header 中的 rpc_trace_context.sofaTraceId 或 new_rpc_trace_context 或 com.alipay.sofa.rpc.core.request.SofaRequest 类的 sofaTraceId 字段 | -- | -- |
-| span_id            | SpanID  | header 中的 new_rpc_trace_context | -- | -- |
-| x_request_id       | -- | -- | -- | -- |
+| 类别  | 名称               | 中文         | Request Header                  | Response Header  | 描述 |
+| ----- | ------------------ | ------------ | ------------------------------- | ---------------- | ---- |
+| Req.  | version            | 协议版本     | --                              | --               | --   |
+|       | request_type       | 请求类型     | method_name 等 [1]              | --               | --   |
+|       | request_domain     | 请求域名     | --                              | --               | --   |
+|       | request_resource   | 请求资源     | target_service 等 [2]           | --               | --   |
+|       | request_id         | 请求 ID      | req_id                          | --               | --   |
+|       | endpoint           | 端点         | $request_type/$request_resource | --               | --   |
+| Resp. | response_code      | 响应码       | --                              | resp_code        | --   |
+|       | response_status    | 响应状态     | --                              | resp_code        | 正常: 0; 客户端异常: 8; 服务端异常: 其他 |
+|       | response_exception | 响应异常     | --                              | --               | --   |
+|       | response_result    | 响应结果     | --                              | --               | --   |
+| Trace | trace_id           | TraceID      | sofaTraceId 等 [3]              | --               | --   |
+|       | span_id            | SpanID       | trace_context 等 [4]            | --               | --   |
+|       | x_request_id       | X-Request-ID | --                              | --               | --   |
+| Misc  | --                 | --           | --                              | --               | --   |
+
+- [1] Request header 中的 sofa_head_method_name，或者 com.alipay.sofa.rpc.core.request.SofaRequest 类的 methodName 字段。
+- [2] Request header 中的 sofa_head_target_service，或者 com.alipay.sofa.rpc.core.request.SofaRequest 的 targetServiceUniqueName 字段。
+- [3] Request header 中的 rpc_trace_context.sofaTraceId，或者 new_rpc_trace_context，或者 com.alipay.sofa.rpc.core.request.SofaRequest 类的 sofaTraceId 字段。
+- [4] Request header 中的 new_rpc_trace_context 字段。
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
@@ -240,19 +256,22 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 
 **Tag 字段映射表格，以下表格只包含存在映射关系的字段**
 
-| 名称                | 中文    | Request                     | Response             | 描述 |
-| -------------------| ------- | --------------------------- | -------------------- | -- |
-| request_type       | 请求类型 | PARAM 中的 REQUEST_METHOD    | --                   | -- |
-| request_resource   | 请求资源 | PARAM 中的 REQUEST_URI       | --                   | -- |
-| request_domain     | 请求域名 | PARAM 中的 HTTP_HOST         | --                   | -- |
-| request_id         | 请求 ID | request id                   | --                   | -- |
-| response_status    | 响应状态 | --                           | Status Code     | 客户端异常：Status Code=4xx; 服务端异常：Status Code=5xx |
-| response_code      | 响应码   |  STDOUT 中的 Status，默认 200 | Status Code     | -- |文; 客户端异常: 无; 服务端异常: 全部 `ERR` 报文 |
-| endpoint           | 端点    | PARAM 中的 SERVER_ADDR        | --              | -- |
-| trace_id           | TraceID | traceparent, sw8 | traceparent, sw8 | 可配置 deepflow-agent 的 http_log_trace_id 修改匹配的 Header，详细说明见HTTP协议描述 |
-| span_id            | SpanID  | traceparent, sw8 | traceparent, sw8 | 可配置 deepflow-agent 的 http_log_span_id 修改匹配的 Header，详细说明见HTTP协议描述 |
-| x_request_id       | X-Request-ID | X-Request-ID | X-Request-ID    | 可配置 deepflow-agent 的 http_log_x_request_id 修改匹配的 Header |
-
+| 类别  | 名称               | 中文         | Request Header             | Response Header  | 描述 |
+| ----- | ------------------ | ------------ | -------------------------- | ---------------- | ---- |
+| Req.  | version            | 协议版本     | --                         | --               | --   |
+|       | request_type       | 请求类型     | PARAM 中的 REQUEST_METHOD  | --               | --   |
+|       | request_domain     | 请求域名     | PARAM 中的 HTTP_HOST       | --               | --   |
+|       | request_resource   | 请求资源     | PARAM 中的 REQUEST_URI     | --               | --   |
+|       | request_id         | 请求 ID      | Request ID                 | --               | --   |
+|       | endpoint           | 端点         | PARAM 中的 SERVER_ADDR     | --               | --   |
+| Resp. | response_code      | 响应码       | --                         | Status Code      | STDOUT 中的 Status，默认 200 |
+|       | response_status    | 响应状态     | --                         | Status Code      | 正常: 1XX/2XX/3XX; 客户端异常: 4XX; 服务端异常: 5XX |
+|       | response_exception | 响应异常     | --                         | --               | --   |
+|       | response_result    | 响应结果     | --                         | --               | --   |
+| Trace | trace_id           | TraceID      | traceparent, sw8           | traceparent, sw8 | Agent 的 `http_log_trace_id` 配置项可定义提取的 Header 名称 |
+|       | span_id            | SpanID       | traceparent, sw8           | traceparent, sw8 | Agent 的 `http_log_span_id` 配置项可定义提取的 Header 名称 |
+|       | x_request_id       | X-Request-ID | X-Request-ID               | X-Request-ID     | Agent 的 `http_log_x_request_id` 配置项可定义提取的 Header 名称 |
+| Misc  | --                 | --           | --                         | --               | --   |
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
@@ -279,27 +298,36 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 
 **Tag 字段映射表格，以下表格只包含存在映射关系的字段**
 
-| 名称                | 中文    | Request          | Response       | 描述 |
-| ------------------ | ------- | ---------------- | --------------- | -- |
-| request_type       | 请求类型 | Command      | --                         | 目前支持解析 COM_QUERY, COM_QUIT, COM_INIT_DB, COM_FIELD_LIST, COM_STMT_PREPARE, COM_STMT_EXECUTE, COM_STMT_FETCH, COM_STMT_CLOSE |
-| request_resource   | 请求资源 | Statement    | --                         | -- |
-| request_id         | 请求ID   | Statement ID | Statement ID               | 目前从COM_STMT_PREPARE对应的响应和COM_STMT_EXECUTE类型的请求中提取 |
-| response_status    | 响应状态 | --           | `ERR` 报文的 ERROR CODE    | 正常：无`ERR` 报文; 客户端异常: ERROR CODE=2000-2999 或客户端发送的1-999; 服务端异常: ERROR CODE=1000-1999/3000-4000 或服务端发送的1-999 |
-| response_code      | 响应码   | --           | `ERR` 报文的 ERROR CODE    | -- |
-| response_exception | 响应异常 | --           | `ERR` 报文的 ERROR Message | -- |
-| trace_id           | TraceID  | tracd_id     | -                          | 提取在 SQL 语句的注释中注入的 TraceID **[1]** |
+| 类别  | 名称                      | 中文            | Request Header | Response Header | 描述 |
+| ----- | ------------------------- | --------------- | -------------- | --------------- | ---- |
+| Req.  | version                   | 协议版本        | --             | --              | --   |
+|       | request_type              | 请求类型        | Command        | --              | 支持解析的命令详见 [1] |
+|       | request_domain            | 请求域名        | --             | --              | --   |
+|       | request_resource          | 请求资源        | Statement      | --              | --   |
+|       | request_id                | 请求 ID         | Statement ID   | Statement ID    | 从 `COM_STMT_PREPARE` 响应、`COM_STMT_EXECUTE` 请求中提取 |
+|       | endpoint                  | 端点            | --             | --              | --   |
+| Resp. | response_code             | 响应码          | --             | Error Code      | --   |
+|       | response_status           | 响应状态        | --             | Error Code      | 正常: 非 `ERR` 消息; 客户端异常/服务端异常详见 [2] |
+|       | response_exception        | 响应异常        | --             | Error Message   | --   |
+|       | response_result           | 响应结果        | --             | --              | --   |
+| Trace | trace_id                  | TraceID         | SQL Comments   | --              | 注释中的 TraceID 支持提取，提取及配置方法详见 [3] |
+|       | span_id                   | SpanID          | --             | --              | --   |
+|       | x_request_id              | X-Request-ID    | --             | --              | --   |
+| Misc  | --                        | --              | --             | --              | --   |
 
-`[1]`: 当应用在 SQL 语句的注释中注入 TraceID 时 DeepFlow 支持提取并用于跨线程的分布式追踪。DeepFlow 支持提取几乎任意位置的 SQL 注释（但必须出现在 AF_PACKET 获取到的首包中，或者 eBPF 获取到的第一个 Socket Data 中）：
-```sql
-/* your_trace_key: 648840f6-7f92-468b-b298-d38f05c541d4 */ SELECT col FROM tbl
-SELECT /* your_trace_key: 648840f6-7f92-468b-b298-d38f05c541d4 */ col FROM tbl
-SELECT col FROM tbl # your_trace_key: 648840f6-7f92-468b-b298-d38f05c541d4
-SELECT col FROM tbl -- your_trace_key: 648840f6-7f92-468b-b298-d38f05c541d4
-```
-虽然如此，我们**强烈建议您在 SQL 语句头部添加注释**，以降低 SQL 解析的性能开销。上面的示例中，`your_trace_key` 取决于 Agent 配置项中 `http_log_trace_id` 的值。注意目前仅支持按照该配置项中的第一个值提取，例如当 `http_log_trace_id = traceparent, sw8` 时，DeepFlow 能够从如下的 SQL 语句中提取 TraceID `648840f6-7f92-468b-b298-d38f05c541d4`：
-```sql
-/* traceparent: 648840f6-7f92-468b-b298-d38f05c541d4 */ SELECT col FROM tbl
-```
+- [1] 目前支持解析的命令：`COM_QUERY`、`COM_QUIT`、`COM_INIT_DB`、`COM_FIELD_LIST`、`COM_STMT_PREPARE`、`COM_STMT_EXECUTE`、`COM_STMT_FETCH`、`COM_STMT_CLOSE`。
+- [2] 客户端异常：Error Code=2000-2999，或客户端发送 1-999；服务端异常：Error Code=1000-1999/3000-4000，或服务端发送 1-999。
+- [3] 当应用在 SQL 语句的注释中注入 TraceID 时 DeepFlow 支持提取并用于跨线程的分布式追踪。DeepFlow 支持提取几乎任意位置的 SQL 注释（但必须出现在 AF_PACKET 获取到的首包中，或者 eBPF 获取到的第一个 Socket Data 中）：
+  ```sql
+  /* your_trace_key: 648840f6-7f92-468b-b298-d38f05c541d4 */ SELECT col FROM tbl
+  SELECT /* your_trace_key: 648840f6-7f92-468b-b298-d38f05c541d4 */ col FROM tbl
+  SELECT col FROM tbl # your_trace_key: 648840f6-7f92-468b-b298-d38f05c541d4
+  SELECT col FROM tbl -- your_trace_key: 648840f6-7f92-468b-b298-d38f05c541d4
+  ```
+  虽然如此，我们**强烈建议您在 SQL 语句头部添加注释**，以降低 SQL 解析的性能开销。上面的示例中，`your_trace_key` 取决于 Agent 配置项中 `http_log_trace_id` 的值。注意目前仅支持按照该配置项中的第一个值提取，例如当 `http_log_trace_id = traceparent, sw8` 时，DeepFlow 能够从如下的 SQL 语句中提取 TraceID `648840f6-7f92-468b-b298-d38f05c541d4`：
+  ```sql
+  /* traceparent: 648840f6-7f92-468b-b298-d38f05c541d4 */ SELECT col FROM tbl
+  ```
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
@@ -322,13 +350,26 @@ SELECT col FROM tbl -- your_trace_key: 648840f6-7f92-468b-b298-d38f05c541d4
 
 **Tag 字段映射表格，以下表格只包含存在映射关系的字段**
 
-| 名称                | 中文    | Request                     | Response                    | 描述 |
-| ------------------ | ------- | --------------------------- | ---------------------------- | -- |
-| request_type       | 请求类型 | `regular` 报文的 `char tag` | --                           | -- |
-| request_resource   | 请求资源 | `regular` 报文的 `payload`  | --                           | -- |
-| response_status    | 响应状态 | --                          | Error Code                   | 正常：无 `error return` 类型的报文; 客户端异常: Error Code=03/0A/0B/0F/0L/0P/20/22/23/26/2F/34/3D/3F/42; 服务端异常: Error Code=08/09/0Z/21/24/25/27/28/2B/2D/38/39/3B/40/44/53/54/55/57/5/72/F0/HV/P0/XX  |
-| response_exception | 响应异常 | --                          | Error Code                   | Error Code 对应的[官方英文描述](https://www.postgresql.org/docs/10/errcodes-appendix.html) |
-| response_result    | 响应结果 | --                          | `error return` 报文的 `code` | -- |
+| 类别  | 名称               | 中文         | Request Header             | Response Header  | 描述 |
+| ----- | ------------------ | ------------ | -------------------------- | ---------------- | ---- |
+| Req.  | version            | 协议版本     | --                         | --               | --   |
+|       | request_type       | 请求类型     | char tag                   | --               | 仅 `regular` 消息 |
+|       | request_domain     | 请求域名     | --                         | --               | --   |
+|       | request_resource   | 请求资源     | payload                    | --               | 仅 `regular` 消息 |
+|       | request_id         | 请求 ID      | --                         | --               | --   |
+|       | endpoint           | 端点         | --                         | --               | --   |
+| Resp. | response_code      | 响应码       | --                         | --               | --   |
+|       | response_status    | 响应状态     | --                         | Error Code       | 正常: 非 `error return` 消息; 客户端异常/服务端异常详见 [1] |
+|       | response_exception | 响应异常     | --                         | Error Code       | Error Code 的[英文描述](https://www.postgresql.org/docs/10/errcodes-appendix.html) |
+|       | response_result    | 响应结果     | --                         | Error Code       | 仅 `error return` 消息 |
+| Trace | trace_id           | TraceID      | --                         | --               | --   |
+|       | span_id            | SpanID       | --                         | --               | --   |
+|       | x_request_id       | X-Request-ID | --                         | --               | --   |
+| Misc  | --                 | --           | --                         | --               | --   |
+
+- [1] 错误码分类
+  - 客户端异常：Error Code=03/0A/0B/0F/0L/0P/20/22/23/26/2F/34/3D/3F/42
+  - 服务端异常：Error Code=08/09/0Z/21/24/25/27/28/2B/2D/38/39/3B/40/44/53/54/55/57/5/72/F0/HV/P0/XX
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
@@ -353,12 +394,22 @@ SELECT col FROM tbl -- your_trace_key: 648840f6-7f92-468b-b298-d38f05c541d4
 
 **Tag 字段映射表格，以下表格只包含存在映射关系的字段**
 
-| 名称                | 中文    | Request                     | Response             | 描述 |
-| -------------------| ------- | --------------------------- | -------------------- | -- |
-| request_type       | 请求类型 | payload 的第一个单词         | --                   | -- |
-| request_resource   | 请求资源 | payload 第一个单词后的字符串 | --                   | -- |
-| response_status    | 响应状态 | --                           | `ERR`报文            | 正常：无 `ERR` 报文; 客户端异常: 无; 服务端异常: 全部 `ERR` 报文 |
-| response_exception | 响应异常 | --                           | `ERR` 报文的 payload | -- |
+| 类别  | 名称               | 中文         | Request Header   | Response Header  | 描述 |
+| ----- | ------------------ | ------------ | ---------------- | ---------------- | ---- |
+| Req.  | version            | 协议版本     | --               | --               | --   |
+|       | request_type       | 请求类型     | Payload 首个单词 | --               | --   |
+|       | request_domain     | 请求域名     | --               | --               | --   |
+|       | request_resource   | 请求资源     | Payload 余下字符 | --               | --   |
+|       | request_id         | 请求 ID      | --               | --               | --   |
+|       | endpoint           | 端点         | --               | --               | --   |
+| Resp. | response_code      | 响应码       | --               | --               | --   |
+|       | response_status    | 响应状态     | --               | ERR 消息         | 正常: 无 `ERR` 消息; 服务端异常: ERR 消息 |
+|       | response_exception | 响应异常     | --               | ERR 消息 Payload | --   |
+|       | response_result    | 响应结果     | --               | --               | --   |
+| Trace | trace_id           | TraceID      | --               | --               | --   |
+|       | span_id            | SpanID       | --               | --               | --   |
+|       | x_request_id       | X-Request-ID | --               | --               | --   |
+| Misc  | --                 | --           | --               | --               | --   |
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
@@ -369,8 +420,8 @@ SELECT col FROM tbl -- your_trace_key: 648840f6-7f92-468b-b298-d38f05c541d4
 | sql_affected_rows  | SQL影响行数    | --                    | `command complete` 报文的 Affected Rows | -- |
 | log_count          | 日志总量       | --                    | --                                      | -- |
 | error              | 异常           | --                    | --                                      | 客户端异常 + 服务端异常 |
-| client_error       | 客户端异常     | --                    | --                                       | -- |
-| server_error       | 服务端异常     | --                    | `ERR`报文                                | 参考 Tag 字段`response_code`的说明 |
+| client_error       | 客户端异常     | --                    | --                                      | -- |
+| server_error       | 服务端异常     | --                    | `ERR`报文                               | 参考 Tag 字段`response_code`的说明 |
 | error_ratio        | 异常比例       | --                    | --                                      | 异常 / 响应 |
 | client_error_ratio | 客户端异常比例 | --                    | --                                      | 客户端异常 / 响应 |
 | server_error_ratio | 服务端异常比例 | --                    | --                                      | 服务端异常 / 响应 |
@@ -381,13 +432,22 @@ SELECT col FROM tbl -- your_trace_key: 648840f6-7f92-468b-b298-d38f05c541d4
 
 **Tag 字段映射表格，以下表格只包含存在映射关系的字段**
 
-| 名称                | 中文    | Request                     | Response             | 描述 |
-| -------------------| ------- | --------------------------- | -------------------- | -- |
-| request_type       | 请求类型 | payload 的第一个单词         | --                   | Mongo报文中的OpCode字段 |
-| request_resource   | 请求资源 | payload 第一个单词后的字符串 | --                   | Mongo报文中的Section BodyDocument字段 |
-| response_code      | 响应异常 | --                           | `ERR` 报文的 payload | Mongo报文中Section BodyDocument里的code字段 |
-| response_status    | 响应状态 | --                           | `ERR` 报文的 payload | 正常：无 `ERR` 报文; 客户端异常: 全部 `ERR` 报文; 服务端异常: 无 |
-| response_exception | 响应异常 | --                           | `ERR` 报文的 payload | Mongo报文中Section BodyDocument里的errmsg字段 |
+| 类别  | 名称               | 中文         | Request Header | Response Header        | 描述 |
+| ----- | ------------------ | ------------ | -------------- | ---------------------- | ---- |
+| Req.  | version            | 协议版本     | --             | --                     | --   |
+|       | request_type       | 请求类型     | OpCode         | --                     | --   |
+|       | request_domain     | 请求域名     | --             | --                     | --   |
+|       | request_resource   | 请求资源     | BodyDocument   | --                     | --   |
+|       | request_id         | 请求 ID      | --             | --                     | --   |
+|       | endpoint           | 端点         | --             | --                     | --   |
+| Resp. | response_code      | 响应码       | --             | BodyDocument 的 Code   | --   |
+|       | response_status    | 响应状态     | --             | BodyDocument 的 Code   | 根据 Code 判断 |
+|       | response_exception | 响应异常     | --             | BodyDocument 的 errmsg | --   |
+|       | response_result    | 响应结果     | --             | --                     | --   |
+| Trace | trace_id           | TraceID      | --             | --                     | --   |
+|       | span_id            | SpanID       | --             | --                     | --   |
+|       | x_request_id       | X-Request-ID | --             | --                     | --   |
+| Misc  | --                 | --           | --             | --                     | --   |
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
@@ -410,17 +470,22 @@ SELECT col FROM tbl -- your_trace_key: 648840f6-7f92-468b-b298-d38f05c541d4
 
 **Tag 字段映射表格，以下表格只包含存在映射关系的字段**
 
-| 名称                | 中文    | Request         | Response   | 描述 |
-| -------------------| ------- | --------------- | ---------- | -- |
-| request_type       | 请求类型 | request_api_key | --         | -- |
-| request_id         | 请求 ID  | correlation_id  | --         | -- |
-| request_resource   | 请求资源 | topic_name      | --         | 仅支持Fetch和Produce类型 |
-| response_status    | 响应状态 | --              | error_code | 正常: error_code=0; 客户端异常: 无; 服务端异常: error_code!=0 |
-| response_code      | 响应码   | --              | error_code | 目前仅解析 Fetch 一个命令类型的响应码 |
-| response_exception | 响应异常 | --              | error_code | error_code 对应的[官方英文描述](http://kafka.apache.org/protocol#protocol_error_codes) |
-| trace_id           | TraceID  | traceparent, sw8 | traceparent, sw8 | 提取首个 Record 对应的 Header |
-| span_id            | SpanID   | traceparent, sw8 | traceparent, sw8 | 提取首个 Record 对应的 Header |
-
+| 类别  | 名称               | 中文         | Request Header   | Response Header        | 描述 |
+| ----- | ------------------ | ------------ | ---------------- | ---------------------- | ---- |
+| Req.  | version            | 协议版本     | --               | --                     | --   |
+|       | request_type       | 请求类型     | request_api_key  | --                     | --   |
+|       | request_domain     | 请求域名     | --               | --                     | --   |
+|       | request_resource   | 请求资源     | topic_name       | --                     | 仅 Fetch 和 Produce 消息 |
+|       | request_id         | 请求 ID      | correlation_id   | --                     | --   |
+|       | endpoint           | 端点         | topic_name       | --                     | 仅 Fetch 和 Produce 消息 |
+| Resp. | response_code      | 响应码       | --               | error_code             | 仅 Fetch 消息获取了响应码 |
+|       | response_status    | 响应状态     | --               | error_code             | 正常: error_code=0; 服务端异常: error_code!=0 |
+|       | response_exception | 响应异常     | --               | error_code             | error_code 的[英文描述](http://kafka.apache.org/protocol#protocol_error_codes) |
+|       | response_result    | 响应结果     | --               | --                     | --   |
+| Trace | trace_id           | TraceID      | traceparent, sw8 | traceparent, sw8       | 从首个 Record 的对应 Header 字段中提取 |
+|       | span_id            | SpanID       | traceparent, sw8 | traceparent, sw8       | 从首个 Record 的对应 Header 字段中提取 |
+|       | x_request_id       | X-Request-ID | correlation_id   | correlation_id         | 参考：[使用 CorrelationID 关联 Req-Resp 通信场景](https://cwiki.apache.org/confluence/display/KAFKA/A+Guide+To+The+Kafka+Protocol#AGuideToTheKafkaProtocol-CommonRequestandResponseStructure) |
+| Misc  | --                 | --           | --               | --                     | --   |
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
@@ -453,6 +518,23 @@ SELECT col FROM tbl -- your_trace_key: 648840f6-7f92-468b-b298-d38f05c541d4
 | response_status  | 响应状态 | --              | `connect_ack` 报文返回的 code | 正常: code=0; 客户端异常: code=1/2/4/5; 服务端异常: error_code=3 |
 | response_code    | 响应码   | --              | `connect_ack` 报文返回的 code | -- |
 
+| 类别  | 名称               | 中文         | Request Header   | Response Header        | 描述 |
+| ----- | ------------------ | ------------ | ---------------- | ---------------------- | ---- |
+| Req.  | version            | 协议版本     | --               | --                     | --   |
+|       | request_type       | 请求类型     | PacketKind       | --                     | --   |
+|       | request_domain     | 请求域名     | client_id        | --                     | --   |
+|       | request_resource   | 请求资源     | topic            | --                     | --   |
+|       | request_id         | 请求 ID      | --               | --                     | --   |
+|       | endpoint           | 端点         | --               | --                     | --   |
+| Resp. | response_code      | 响应码       | --               | code                   | 仅 `connect_ack` 消息获取了 code |
+|       | response_status    | 响应状态     | --               | code                   | 正常: code=0; 客户端异常: code=1/2/4/5; 服务端异常: code=3 |
+|       | response_exception | 响应异常     | --               | --                     | --   |
+|       | response_result    | 响应结果     | --               | --                     | --   |
+| Trace | trace_id           | TraceID      | --               | --                     | --   |
+|       | span_id            | SpanID       | --               | --                     | --   |
+|       | x_request_id       | X-Request-ID | --               | --                     | --   |
+| Misc  | --                 | --           | --               | --                     | --   |
+
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
 | 名称              | 中文    | Request         | Response   | 描述 |
@@ -473,15 +555,22 @@ SELECT col FROM tbl -- your_trace_key: 648840f6-7f92-468b-b298-d38f05c541d4
 
 **Tag 字段映射表格，以下表格只包含存在映射关系的字段**
 
-| 名称              | 中文    | Request                      | Response   | 描述 |
-| -----------------| ------- | ---------------------------- | ---------- | -- |
-| request_type     | 请求类型 | class_type 拼接上 method_type | --         | -- |
-| request_domain   | 请求域名 | exchange                     | --         | -- |
-| request_resource | 请求资源 | routing_key                  | --         | -- |
-| endpoint         | 端点    | queue                        | --          | -- |
-| trace_id         | TraceID | traceparent, sw8	           | traceparent, sw8 | Content Header 中的自定义字段 |
-| span_id          | SpanID  | traceparent, sw8            | traceparent, sw8 | Content Header 中的自定义字段 |
-
+| 类别  | 名称               | 中文         | Request Header                | Response Header        | 描述 |
+| ----- | ------------------ | ------------ | ----------------------------- | ---------------------- | ---- |
+| Req.  | version            | 协议版本     | version                       | --                     | 0-9-1 |
+|       | request_type       | 请求类型     | class_id.method_id            | --                     | 例如: Channel.OpenOK |
+|       | request_domain     | 请求域名     | vhost                         | --                     | --   |
+|       | request_resource   | 请求资源     | exchange.routing_key 或 queue | --                     | --   |
+|       | request_id         | 请求 ID      | --                            | --                     | --   |
+|       | endpoint           | 端点         | exchange.routing_key 或 queue | --                     | --   |
+| Resp. | response_code      | 响应码       | --                            | method_id              | OpenOK |
+|       | response_status    | 响应状态     | --                            | --                     | 均视为正常 |
+|       | response_exception | 响应异常     | --                            | --                     | --   |
+|       | response_result    | 响应结果     | --                            | --                     | --   |
+| Trace | trace_id           | TraceID      | traceparent, sw8              | traceparent, sw8       | Content Header 中的自定义字段 |
+|       | span_id            | SpanID       | traceparent, sw8              | traceparent, sw8       | Content Header 中的自定义字段 |
+|       | x_request_id       | X-Request-ID | --                            | --                     | --   |
+| Misc  | --                 | --           | --                            | --                     | --   |
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
@@ -510,6 +599,23 @@ SELECT col FROM tbl -- your_trace_key: 648840f6-7f92-468b-b298-d38f05c541d4
 | request_resource | 请求资源 | topic           | -- | -- |
 | endpoint         | 端点    | connection_id   | -- | -- |
 
+| 类别  | 名称               | 中文         | Request Header   | Response Header  | 描述 |
+| ----- | ------------------ | ------------ | ---------------- | ---------------- | ---- |
+| Req.  | version            | 协议版本     | version          | --               | --   |
+|       | request_type       | 请求类型     | OpenWireCommand  | --               | --   |
+|       | request_domain     | 请求域名     | broker_url       | --               | --   |
+|       | request_resource   | 请求资源     | topic            | --               | --   |
+|       | request_id         | 请求 ID      | command_id       | --               | --   |
+|       | endpoint           | 端点         | topic            | --               | --   |
+| Resp. | response_code      | 响应码       | --               | --               | --   |
+|       | response_status    | 响应状态     | --               | --               | 正常: 无 error message; 服务端异常: 有 error message |
+|       | response_exception | 响应异常     | --               | error message    | --   |
+|       | response_result    | 响应结果     | --               | --               | --   |
+| Trace | trace_id           | TraceID      | traceparent, sw8 | traceparent, sw8 | --   |
+|       | span_id            | SpanID       | traceparent, sw8 | traceparent, sw8 | --   |
+|       | x_request_id       | X-Request-ID | correlation_id   | correlation_id   | 参考：[ActiveMQ 中的 CorrelationID](https://activemq.apache.org/how-should-i-implement-request-response-with-jms) |
+| Misc  | --                 | --           | --               | --               | --   |
+
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
 | 名称              | 中文    | Request         | Response   | 描述 |
@@ -532,15 +638,22 @@ SELECT col FROM tbl -- your_trace_key: 648840f6-7f92-468b-b298-d38f05c541d4
 
 **Tag 字段映射表格，以下表格只包含存在映射关系的字段**
 
-| 名称 | 中文         | Request | Response | 描述 |
-| -------------------|-------- | ------ | ----- | -- |
-| request_type       | 请求类型 | QTYPE  | --    | -- |
-| request_resource   | 请求资源 | QNAME  | --    | -- |
-| request_id         | 请求 ID  | ID     | ID    | -- |
-| response_status    | 响应状态 | --     | RCODE | 正常: RCODE=0x0; 客户端异常: RCODE=0x1/0x3; 服务端异常: RCODE!=0x0/0x1/0x3 |
-| response_code      | 响应码   | --     | RCODE | -- |
-| response_exception | 响应异常 | --     | RCODE | RCODE 对应的官方英文描述，[参考 RFC 2929 Section 2.3](https://www.rfc-editor.org/rfc/rfc2929#section-2.3) |
-| response_result    | 响应结果 | --     | RDATA | -- |
+| 类别  | 名称               | 中文         | Request Header   | Response Header  | 描述 |
+| ----- | ------------------ | ------------ | ---------------- | ---------------- | ---- |
+| Req.  | version            | 协议版本     | --               | --               | --   |
+|       | request_type       | 请求类型     | QTYPE            | --               | --   |
+|       | request_domain     | 请求域名     | --               | --               | --   |
+|       | request_resource   | 请求资源     | QNAME            | --               | --   |
+|       | request_id         | 请求 ID      | ID               | ID               | --   |
+|       | endpoint           | 端点         | --               | --               | --   |
+| Resp. | response_code      | 响应码       | --               | RCODE            | --   |
+|       | response_status    | 响应状态     | --               | RCODE            | 正常: RCODE=0x0; 客户端异常: RCODE=0x1/0x3; 服务端异常: 其他 |
+|       | response_exception | 响应异常     | --               | RCODE            | RCODE 的描述，参考 [RFC 2929 Section 2.3](https://www.rfc-editor.org/rfc/rfc2929#section-2.3) |
+|       | response_result    | 响应结果     | --               | RDATA            | --   |
+| Trace | trace_id           | TraceID      | --               | --               | --   |
+|       | span_id            | SpanID       | --               | --               | --   |
+|       | x_request_id       | X-Request-ID | --               | --               | --   |
+| Misc  | --                 | --           | --               | --               | --   |
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
