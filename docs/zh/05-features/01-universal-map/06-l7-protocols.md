@@ -49,7 +49,7 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 |       | span_id                   | SpanID          | traceparent, sw8 | traceparent, sw8 | Agent 的 `http_log_span_id` 配置项可定义提取的 Header 名称 |
 |       | x_request_id              | X-Request-ID    | X-Request-ID     | X-Request-ID     | Agent 的 `http_log_x_request_id` 配置项可定义提取的 Header 名称 |
 |       | http_proxy_client         | HTTP 代理客户端 | X-Forwarded-For  | --               | Agent 的 `http_log_proxy_client` 配置项可定义提取的 Header 名称 |
-| Misc  | attribute.http_user_agent | --              | User-Agent       | --               | --   |
+| Misc. | attribute.http_user_agent | --              | User-Agent       | --               | --   |
 |       | attribute.http_referer    | --              | Referer          | --               | --   |
 
 - TraceID 只截取以下 HTTP Header 的部分值，其他自定义 Header 读取全部值：
@@ -100,7 +100,7 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 |       | span_id                   | SpanID          | traceparent, sw8  | traceparent, sw8 | Agent 的 `http_log_span_id` 配置项可定义提取的 Header 名称 |
 |       | x_request_id              | X-Request-ID    | X-Request-ID      | X-Request-ID     | Agent 的 `http_log_x_request_id` 配置项可定义提取的 Header 名称 |
 |       | http_proxy_client         | HTTP 代理客户端 | X-Forwarded-For   | --               | Agent 的 `http_log_proxy_client` 配置项可定义提取的 Header 名称 |
-| Misc  | attribute.http_user_agent | --              | User-Agent        | --               | --   |
+| Misc. | attribute.http_user_agent | --              | User-Agent        | --               | --   |
 |       | attribute.http_referer    | --              | Referer           | --               | --   |
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
@@ -143,7 +143,7 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 | Trace | trace_id              | TraceID      | traceparent, sw8          | traceparent, sw8 | Agent 的 `http_log_trace_id` 配置项可定义提取的 Header 名称 |
 |       | span_id               | SpanID       | traceparent, sw8          | traceparent, sw8 | Agent 的 `http_log_span_id` 配置项可定义提取的 Header 名称 |
 |       | x_request_id          | X-Request-ID | --                        | --               | --   |
-| Misc  | attribute.rpc_service | --           | Service-Name              | --               | --   |
+| Misc. | attribute.rpc_service | --           | Service-Name              | --               | --   |
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
@@ -184,7 +184,7 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 |       | span_id                   | SpanID          | traceparent, sw8  | traceparent, sw8 | Agent 的 `http_log_span_id` 配置项可定义提取的 Header 名称 |
 |       | x_request_id              | X-Request-ID    | X-Request-ID      | X-Request-ID     | Agent 的 `http_log_x_request_id` 配置项可定义提取的 Header 名称 |
 |       | http_proxy_client         | HTTP 代理客户端 | X-Forwarded-For   | --               | Agent 的 `http_log_proxy_client` 配置项可定义提取的 Header 名称 |
-| Misc  | attribute.http_user_agent | --              | User-Agent        | --               | --   |
+| Misc. | attribute.http_user_agent | --              | User-Agent        | --               | --   |
 |       | attribute.http_referer    | --              | Referer           | --               | --   |
 |       | attribute.rpc_service     | --              | Service-Name      | --               | --   |
 
@@ -226,7 +226,7 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 | Trace | trace_id           | TraceID      | sofaTraceId 等 [3]              | --               | --   |
 |       | span_id            | SpanID       | trace_context 等 [4]            | --               | --   |
 |       | x_request_id       | X-Request-ID | --                              | --               | --   |
-| Misc  | --                 | --           | --                              | --               | --   |
+| Misc. | --                 | --           | --                              | --               | --   |
 
 - [1] Request header 中的 sofa_head_method_name，或者 com.alipay.sofa.rpc.core.request.SofaRequest 类的 methodName 字段。
 - [2] Request header 中的 sofa_head_target_service，或者 com.alipay.sofa.rpc.core.request.SofaRequest 的 targetServiceUniqueName 字段。
@@ -271,7 +271,7 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 | Trace | trace_id           | TraceID      | traceparent, sw8           | traceparent, sw8 | Agent 的 `http_log_trace_id` 配置项可定义提取的 Header 名称 |
 |       | span_id            | SpanID       | traceparent, sw8           | traceparent, sw8 | Agent 的 `http_log_span_id` 配置项可定义提取的 Header 名称 |
 |       | x_request_id       | X-Request-ID | X-Request-ID               | X-Request-ID     | Agent 的 `http_log_x_request_id` 配置项可定义提取的 Header 名称 |
-| Misc  | --                 | --           | --                         | --               | --   |
+| Misc. | --                 | --           | --                         | --               | --   |
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
@@ -313,7 +313,7 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 | Trace | trace_id                  | TraceID         | SQL Comments   | --              | 注释中的 TraceID 支持提取，提取及配置方法详见 [3] |
 |       | span_id                   | SpanID          | --             | --              | --   |
 |       | x_request_id              | X-Request-ID    | --             | --              | --   |
-| Misc  | --                        | --              | --             | --              | --   |
+| Misc. | --                        | --              | --             | --              | --   |
 
 - [1] 目前支持解析的命令：`COM_QUERY`、`COM_QUIT`、`COM_INIT_DB`、`COM_FIELD_LIST`、`COM_STMT_PREPARE`、`COM_STMT_EXECUTE`、`COM_STMT_FETCH`、`COM_STMT_CLOSE`。
 - [2] 客户端异常：Error Code=2000-2999，或客户端发送 1-999；服务端异常：Error Code=1000-1999/3000-4000，或服务端发送 1-999。
@@ -365,7 +365,7 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 | Trace | trace_id           | TraceID      | --                         | --               | --   |
 |       | span_id            | SpanID       | --                         | --               | --   |
 |       | x_request_id       | X-Request-ID | --                         | --               | --   |
-| Misc  | --                 | --           | --                         | --               | --   |
+| Misc. | --                 | --           | --                         | --               | --   |
 
 - [1] 错误码分类
   - 客户端异常：Error Code=03/0A/0B/0F/0L/0P/20/22/23/26/2F/34/3D/3F/42
@@ -409,7 +409,7 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 | Trace | trace_id           | TraceID      | --               | --               | --   |
 |       | span_id            | SpanID       | --               | --               | --   |
 |       | x_request_id       | X-Request-ID | --               | --               | --   |
-| Misc  | --                 | --           | --               | --               | --   |
+| Misc. | --                 | --           | --               | --               | --   |
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
@@ -447,7 +447,7 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 | Trace | trace_id           | TraceID      | --             | --                     | --   |
 |       | span_id            | SpanID       | --             | --                     | --   |
 |       | x_request_id       | X-Request-ID | --             | --                     | --   |
-| Misc  | --                 | --           | --             | --                     | --   |
+| Misc. | --                 | --           | --             | --                     | --   |
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
@@ -485,7 +485,7 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 | Trace | trace_id           | TraceID      | traceparent, sw8 | traceparent, sw8       | 从首个 Record 的对应 Header 字段中提取 |
 |       | span_id            | SpanID       | traceparent, sw8 | traceparent, sw8       | 从首个 Record 的对应 Header 字段中提取 |
 |       | x_request_id       | X-Request-ID | correlation_id   | correlation_id         | 参考：[使用 CorrelationID 关联 Req-Resp 通信场景](https://cwiki.apache.org/confluence/display/KAFKA/A+Guide+To+The+Kafka+Protocol#AGuideToTheKafkaProtocol-CommonRequestandResponseStructure) |
-| Misc  | --                 | --           | --               | --                     | --   |
+| Misc. | --                 | --           | --               | --                     | --   |
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
@@ -533,7 +533,7 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 | Trace | trace_id           | TraceID      | --               | --                     | --   |
 |       | span_id            | SpanID       | --               | --                     | --   |
 |       | x_request_id       | X-Request-ID | --               | --                     | --   |
-| Misc  | --                 | --           | --               | --                     | --   |
+| Misc. | --                 | --           | --               | --                     | --   |
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
@@ -570,7 +570,7 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 | Trace | trace_id           | TraceID      | traceparent, sw8              | traceparent, sw8       | Content Header 中的自定义字段 |
 |       | span_id            | SpanID       | traceparent, sw8              | traceparent, sw8       | Content Header 中的自定义字段 |
 |       | x_request_id       | X-Request-ID | --                            | --                     | --   |
-| Misc  | --                 | --           | --                            | --                     | --   |
+| Misc. | --                 | --           | --                            | --                     | --   |
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
@@ -614,7 +614,7 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 | Trace | trace_id           | TraceID      | traceparent, sw8 | traceparent, sw8 | --   |
 |       | span_id            | SpanID       | traceparent, sw8 | traceparent, sw8 | --   |
 |       | x_request_id       | X-Request-ID | correlation_id   | correlation_id   | 参考：[ActiveMQ 中的 CorrelationID](https://activemq.apache.org/how-should-i-implement-request-response-with-jms) |
-| Misc  | --                 | --           | --               | --               | --   |
+| Misc. | --                 | --           | --               | --               | --   |
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
@@ -653,7 +653,7 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 | Trace | trace_id           | TraceID      | --               | --               | --   |
 |       | span_id            | SpanID       | --               | --               | --   |
 |       | x_request_id       | X-Request-ID | --               | --               | --   |
-| Misc  | --                 | --           | --               | --               | --   |
+| Misc. | --                 | --           | --               | --               | --   |
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
@@ -680,7 +680,7 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 | start_time          | 开始时间     | span.start_time_unix_nano | -- |
 | end_time            | 结束时间     | span.end_time_unix_nano   | -- |
 | protocol            | 网络协议     | span.attribute.net.transport | 映射到对应的枚举值 |
-| attributes          | Attributes   | resource./span.attributes | -- |
+| attributes          | Misc.butes   | resource./span.attributes | -- |
 | ip                  | IP 地址      | span.attribute.app.host.ip/attribute.net.peer.ip | 详细说明见后面段落 |
 | l7_protocol         | 应用协议     | span.attribute.http.scheme/db.system/rpc.system/messaging.system/messaging.protocol | 映射到对应的枚举值 |
 | l7_protocol_str     | 应用协议     | span.attribute.http.scheme/db.system/rpc.system/messaging.system/messaging.protocol | -- |
