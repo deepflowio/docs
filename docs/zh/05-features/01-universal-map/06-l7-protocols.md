@@ -324,9 +324,9 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
   SELECT col FROM tbl # your_trace_key: 648840f6-7f92-468b-b298-d38f05c541d4
   SELECT col FROM tbl -- your_trace_key: 648840f6-7f92-468b-b298-d38f05c541d4
   ```
-  虽然如此，我们**强烈建议您在 SQL 语句头部添加注释**，以降低 SQL 解析的性能开销。上面的示例中，`your_trace_key` 取决于 Agent 配置项中 `http_log_trace_id` 的值。注意目前仅支持按照该配置项中的第一个值提取，例如当 `http_log_trace_id = traceparent, sw8` 时，DeepFlow 能够从如下的 SQL 语句中提取 TraceID `648840f6-7f92-468b-b298-d38f05c541d4`：
+  虽然如此，我们**强烈建议您在 SQL 语句头部添加注释**，以降低 SQL 解析的性能开销。上面的示例中，`your_trace_key` 取决于 Agent 配置项中 `http_log_trace_id` 的值（但请注意如果使用 traceparent 或 sw8，请遵循 [OpenTelemetry](https://www.w3.org/TR/trace-context/#traceparent-header-field-values) 或 [SkyWalking](https://skywalking.apache.org/docs/main/next/en/api/x-process-propagation-headers-v3/) 的协议规范）。注意目前仅支持按照该配置项中的第一个值提取，例如当 `http_log_trace_id = traceparent, sw8` 时，DeepFlow 能够从如下的 SQL 语句中提取 TraceID `00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01`：
   ```sql
-  /* traceparent: 648840f6-7f92-468b-b298-d38f05c541d4 */ SELECT col FROM tbl
+  /* traceparent: 00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01 */ SELECT col FROM tbl
   ```
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
