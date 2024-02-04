@@ -630,6 +630,44 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 | client_error_ratio | 客户端异常比例 | --           | --           | 客户端异常 / 响应 |
 | server_error_ratio | 服务端异常比例 | --           | --           | 服务端异常 / 响应 |
 
+### NATS
+
+通过解析 [NATS](https://docs.nats.io/reference/reference-protocols/nats-protocol) 协议，将 NATS Request / Response 的字段映射到 l7_flow_log 对应字段中，映射关系如下表：
+
+**Tag 字段映射表格，以下表格只包含存在映射关系的字段**
+
+
+| 类别  | 名称                | 中文          | Request Header   | Response Header  | 描述 |
+| ----- | ------------------ | ------------ | ---------------- | ---------------- | ---- |
+| Req.  | version            | 协议版本      | version          | --               | 使用 INFO 中的 version |
+|       | request_type       | 请求类型      | NatsMessage      | --               | 如 INFO, SUB, PUB, MSG |
+|       | request_domain     | 请求域名      | server_name      | --               | 使用 INFO 中的 server_name |
+|       | request_resource   | 请求资源      | subject          | --               | --   |
+|       | request_id         | 请求 ID      | --               | --               | --   |
+|       | endpoint           | 端点         | endpoint         | --               | 使用 subject 的第一个 token 作为 endpoint，即第一个 `.` 之前的部分 |
+| Resp. | response_code      | 响应码        | --               | --               | --   |
+|       | response_status    | 响应状态      | --               | --               | 均视为正常 |
+|       | response_exception | 响应异常      | --               | --               | --   |
+|       | response_result    | 响应结果      | --               | --               | --   |
+| Trace | trace_id           | TraceID      | traceparent, sw8 | traceparent, sw8 | 在 HMSG, HPUB 中的 NATS headers 提取   |
+|       | span_id            | SpanID       | traceparent, sw8 | traceparent, sw8 | 在 HMSG, HPUB 中的 NATS headers 提取   |
+|       | x_request_id       | X-Request-ID | --               | --               | --   |
+| Misc. | --                 | --           | --               | --               | --   |
+
+**Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
+
+| 名称              | 中文    | Request         | Response   | 描述 |
+| -----------------| ------- | --------------- | ---------- | -- |
+| request            | 请求          | --           | --           | Request 个数 |
+| response           | 响应          | --           |              | Response 个数 |
+| log_count          | 日志总量      | --           | --           | -- |
+| error              | 异常          | --           | --           | 客户端异常 + 服务端异常 |
+| client_error       | 客户端异常     | -- | --  | -- |
+| server_error       | 服务端异常     | -- | --  | -- |
+| error_ratio        | 异常比例      | --           | --           | 异常 / 响应 |
+| client_error_ratio | 客户端异常比例 | --           | --           | 客户端异常 / 响应 |
+| server_error_ratio | 服务端异常比例 | --           | --           | 服务端异常 / 响应 |
+
 ## 网络协议簇
 
 ### DNS
