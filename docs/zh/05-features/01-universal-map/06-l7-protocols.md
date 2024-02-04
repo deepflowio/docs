@@ -510,14 +510,6 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 
 **Tag 字段映射表格，以下表格只包含存在映射关系的字段**
 
-| 名称              | 中文    | Request         | Response   | 描述 |
-| -----------------| ------- | --------------- | ---------- | -- |
-| request_type     | 请求类型 | PacketKind      | -- | -- |
-| request_domain   | 请求域名 | client_id       | -- | -- |
-| request_resource | 请求资源 | topic           | -- | -- |
-| response_status  | 响应状态 | --              | `connect_ack` 报文返回的 code | 正常: code=0; 客户端异常: code=1/2/4/5; 服务端异常: error_code=3 |
-| response_code    | 响应码   | --              | `connect_ack` 报文返回的 code | -- |
-
 | 类别  | 名称               | 中文         | Request Header   | Response Header        | 描述 |
 | ----- | ------------------ | ------------ | ---------------- | ---------------------- | ---- |
 | Req.  | version            | 协议版本     | --               | --                     | --   |
@@ -592,13 +584,6 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 
 **Tag 字段映射表格，以下表格只包含存在映射关系的字段**
 
-| 名称              | 中文    | Request         | Response   | 描述 |
-| -----------------| ------- | --------------- | ---------- | -- |
-| request_type     | 请求类型 | OpenWireCommand | -- | -- |
-| request_domain   | 请求域名 | client_id       | -- | -- |
-| request_resource | 请求资源 | topic           | -- | -- |
-| endpoint         | 端点    | connection_id   | -- | -- |
-
 | 类别  | 名称               | 中文         | Request Header   | Response Header  | 描述 |
 | ----- | ------------------ | ------------ | ---------------- | ---------------- | ---- |
 | Req.  | version            | 协议版本     | version          | --               | --   |
@@ -643,8 +628,8 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 |       | request_type       | 请求类型      | NatsMessage      | --               | 如 INFO, SUB, PUB, MSG |
 |       | request_domain     | 请求域名      | server_name      | --               | 使用 INFO 中的 server_name |
 |       | request_resource   | 请求资源      | subject          | --               | --   |
-|       | request_id         | 请求 ID      | --               | --               | --   |
-|       | endpoint           | 端点         | endpoint         | --               | 使用 subject 的第一个 token 作为 endpoint，即第一个 `.` 之前的部分 |
+|       | request_id         | 请求 ID       | --               | --               | --   |
+|       | endpoint           | 端点          | subject          | --               | 仅 subject 第一个 `.` 之前的部分 |
 | Resp. | response_code      | 响应码        | --               | --               | --   |
 |       | response_status    | 响应状态      | --               | --               | 均视为正常 |
 |       | response_exception | 响应异常      | --               | --               | --   |
