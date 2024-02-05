@@ -118,7 +118,7 @@ sudo sh install-docker.sh
 
 ### 部署 Docker Compose
 
-参考 [Docker Compose](https://docs.docker.com/compose/install/) 文档部署 Docker：
+参考 [Docker Compose](https://docs.docker.com/compose/install/linux/#install-the-plugin-manually) 文档部署 Docker：
 ```bash
 DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
 mkdir -p $DOCKER_CONFIG/cli-plugins
@@ -138,7 +138,7 @@ DOCKER_HOST_IP="10.1.2.3"  # FIXME: Deploy the environment machine IP
 wget  https://deepflow-ce.oss-cn-beijing.aliyuncs.com/pkg/docker-compose/stable/linux/deepflow-docker-compose.tar
 tar -zxf deepflow-docker-compose.tar 
 sed -i "s|FIX_ME_ALLINONE_HOST_IP|$DOCKER_HOST_IP|g" deepflow-docker-compose/docker-compose.yaml
-docker-compose -f deepflow-docker-compose/docker-compose.yaml up -d
+docker compose -f deepflow-docker-compose/docker-compose.yaml up -d
 ```
 
 ## 部署 DeepFlow Agent
