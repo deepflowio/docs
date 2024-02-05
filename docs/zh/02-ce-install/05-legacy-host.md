@@ -185,7 +185,7 @@ services:
     network_mode: "host"
 EOF
 
-docker-compose -f deepflow-agent-docker-compose.yaml up -d
+docker compose -f deepflow-agent-docker-compose.yaml up -d
 ```
 
 :::
