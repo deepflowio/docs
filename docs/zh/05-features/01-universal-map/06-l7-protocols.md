@@ -311,20 +311,20 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 |       | response_exception        | 响应异常        | --             | Error Message   | --   |
 |       | response_result           | 响应结果        | --             | --              | --   |
 | Trace | trace_id                  | TraceID         | SQL Comments   | --              | 注释中的 TraceID 支持提取，提取及配置方法详见 [3] |
-|       | span_id                   | SpanID          | --             | --              | --   |
+|       | span_id                   | SpanID          | SQL Comments   | --              | 注释中的 TraceID 支持提取，提取及配置方法详见 [3] |
 |       | x_request_id              | X-Request-ID    | --             | --              | --   |
 | Misc. | --                        | --              | --             | --              | --   |
 
 - [1] 目前支持解析的命令：`COM_QUERY`、`COM_QUIT`、`COM_INIT_DB`、`COM_FIELD_LIST`、`COM_STMT_PREPARE`、`COM_STMT_EXECUTE`、`COM_STMT_FETCH`、`COM_STMT_CLOSE`。
 - [2] 客户端异常：Error Code=2000-2999，或客户端发送 1-999；服务端异常：Error Code=1000-1999/3000-4000，或服务端发送 1-999。
-- [3] 当应用在 SQL 语句的注释中注入 TraceID 时 DeepFlow 支持提取并用于跨线程的分布式追踪。DeepFlow 支持提取几乎任意位置的 SQL 注释（但必须出现在 AF_PACKET 获取到的首包中，或者 eBPF 获取到的第一个 Socket Data 中）：
+- [3] 当应用在 SQL 语句的注释中注入 TraceID（或复合的 TraceID + SpanID）时，DeepFlow 支持提取并用于跨线程的分布式追踪。DeepFlow 支持提取几乎任意位置的 SQL 注释（但必须出现在 AF_PACKET 获取到的首包中，或者 eBPF 获取到的第一个 Socket Data 中）：
   ```sql
   /* your_trace_key: 648840f6-7f92-468b-b298-d38f05c541d4 */ SELECT col FROM tbl
   SELECT /* your_trace_key: 648840f6-7f92-468b-b298-d38f05c541d4 */ col FROM tbl
   SELECT col FROM tbl # your_trace_key: 648840f6-7f92-468b-b298-d38f05c541d4
   SELECT col FROM tbl -- your_trace_key: 648840f6-7f92-468b-b298-d38f05c541d4
   ```
-  虽然如此，我们**强烈建议您在 SQL 语句头部添加注释**，以降低 SQL 解析的性能开销。上面的示例中，`your_trace_key` 取决于 Agent 配置项中 `http_log_trace_id` 的值（但请注意如果使用 traceparent 或 sw8，请遵循 [OpenTelemetry](https://www.w3.org/TR/trace-context/#traceparent-header-field-values) 或 [SkyWalking](https://skywalking.apache.org/docs/main/next/en/api/x-process-propagation-headers-v3/) 的协议规范）。注意目前仅支持按照该配置项中的第一个值提取，例如当 `http_log_trace_id = traceparent, sw8` 时，DeepFlow 能够从如下的 SQL 语句中提取 TraceID `00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01`：
+  虽然如此，我们**强烈建议您在 SQL 语句头部添加注释**，以降低 SQL 解析的性能开销。上面的示例中，`your_trace_key` 取决于 Agent 配置项中 `http_log_trace_id` 的值（但请注意如果使用 traceparent / sw8 / uber-trace-id，请遵循 [OpenTelemetry](https://www.w3.org/TR/trace-context/#traceparent-header-field-values) / [SkyWalking](https://skywalking.apache.org/docs/main/next/en/api/x-process-propagation-headers-v3/) / [Jaeger](https://www.jaegertracing.io/docs/1.54/client-libraries/#tracespan-identity) 的协议规范）。例如当 `http_log_trace_id = traceparent, sw8` 时，DeepFlow 能够从 `00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01` 中提取符合 OpenTelemetry 规范的 TraceID 和 SpanID：
   ```sql
   /* traceparent: 00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01 */ SELECT col FROM tbl
   ```

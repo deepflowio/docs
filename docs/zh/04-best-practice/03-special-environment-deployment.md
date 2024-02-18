@@ -1,5 +1,5 @@
 ---
-title: 特殊环境部署
+title: 特殊环境 Agent 部署
 permalink: /best-practice/special-environment-deployment/
 ---
 
@@ -16,7 +16,7 @@ permalink: /best-practice/special-environment-deployment/
   - Cilium [使用 XDP](https://docs.cilium.io/en/stable/network/ebpf/intro/) 将网络绕过了 TCP/IP 协议栈，导致名为 lxc-xxx 的 Pod NIC 上只能看到单向流量
   - 同一个 Node 上的两个 Pod 互访时，可采集到 eBPF Syscall 一种位置的数据
   - 不同的 Node 上的两个 Pod 互访时，可采集到 eBPF Syscall 和 cBPF Node NIC 两种位置的数据，后者采集自 Node eth0
-- 在 MACVlan CNI 环境中（上图左下角）：
+- 在 MACVlan、[华为云 CCE Turbo](https://support.huaweicloud.com/usermanual-cce/cce_10_0284.html) 等 CNI 环境中（上图左下角）：
   - 使用 MACVlan 子接口而非 Veth-Pair + Bridge，此时在 Root Netns 中没有对应的 Pod NIC，但是能在 Node eth0 上看到所有 Pod 的所有流量
   - 此时，DeepFlow Agent 可参照下文配置 `tap_mode = 1 (virtual mirror)`，将 Node NIC 上的流量`等同于视为`是在 Pod NIC 上采集到的
   - 同一个 Node 上的两个 Pod 互访时，可采集到 eBPF Syscall 和 cBPF Pod NIC 两种位置的数据，后者采集自 Node eth0
@@ -105,9 +105,9 @@ K8s 使用 macvlan CNI 时，在 rootns 下只能看到所有 POD 共用的一�
     deepflow-ctl agent list
     ```
 
-## 华为 CCE Turbo
+## 华为云 CCE Turbo
 
-参考 MACVlan 配置
+参考 MACVlan 配置方法即可。
 
 ## IPVlan
 
