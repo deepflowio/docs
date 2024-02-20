@@ -130,8 +130,6 @@ services:
     image: registry.cn-hongkong.aliyuncs.com/deepflow-ce/deepflow-agent:stable
     container_name: deepflow-agent
     restart: always
-    environment:
-      IN_CONTAINER:
     cap_add:
       - SYS_ADMIN
       - SYS_RESOURCE
