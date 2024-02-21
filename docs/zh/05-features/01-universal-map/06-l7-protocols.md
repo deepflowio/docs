@@ -263,7 +263,7 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 |       | request_domain     | 请求域名     | PARAM 中的 HTTP_HOST       | --               | --   |
 |       | request_resource   | 请求资源     | PARAM 中的 REQUEST_URI     | --               | --   |
 |       | request_id         | 请求 ID      | Request ID                 | --               | --   |
-|       | endpoint           | 端点         | PARAM 中的 SERVER_ADDR     | --               | --   |
+|       | endpoint           | 端点         | PARAM 中的 DOCUMENT_URI    | --               | --   |
 | Resp. | response_code      | 响应码       | --                         | Status Code      | STDOUT 中的 Status，默认 200 |
 |       | response_status    | 响应状态     | --                         | Status Code      | 正常: 1XX/2XX/3XX; 客户端异常: 4XX; 服务端异常: 5XX |
 |       | response_exception | 响应异常     | --                         | --               | --   |
@@ -517,7 +517,7 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 |       | request_domain     | 请求域名     | client_id        | --                     | --   |
 |       | request_resource   | 请求资源     | topic            | --                     | --   |
 |       | request_id         | 请求 ID      | --               | --                     | --   |
-|       | endpoint           | 端点         | --               | --                     | --   |
+|       | endpoint           | 端点         | topic            | --                     | --   |
 | Resp. | response_code      | 响应码       | --               | code                   | 仅 `connect_ack` 消息获取了 code |
 |       | response_status    | 响应状态     | --               | code                   | 正常: code=0; 客户端异常: code=1/2/4/5; 服务端异常: code=3 |
 |       | response_exception | 响应异常     | --               | --                     | --   |
@@ -665,10 +665,10 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 | ----- | ------------------ | ------------ | ---------------- | ---------------- | ---- |
 | Req.  | version            | 协议版本     | --               | --               | --   |
 |       | request_type       | 请求类型     | QTYPE            | --               | --   |
-|       | request_domain     | 请求域名     | --               | --               | --   |
+|       | request_domain     | 请求域名     | QNAME            | --               | 仅在查询 IPv4 或 IPv6 地址时有值 |
 |       | request_resource   | 请求资源     | QNAME            | --               | --   |
 |       | request_id         | 请求 ID      | ID               | ID               | --   |
-|       | endpoint           | 端点         | --               | --               | --   |
+|       | endpoint           | 端点         | QNAME            | --               | --   |
 | Resp. | response_code      | 响应码       | --               | RCODE            | --   |
 |       | response_status    | 响应状态     | --               | RCODE            | 正常: RCODE=0x0; 客户端异常: RCODE=0x1/0x3; 服务端异常: 其他 |
 |       | response_exception | 响应异常     | --               | RCODE            | RCODE 的描述，参考 [RFC 2929 Section 2.3](https://www.rfc-editor.org/rfc/rfc2929#section-2.3) |
