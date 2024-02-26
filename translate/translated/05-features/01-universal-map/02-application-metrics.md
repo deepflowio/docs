@@ -7,19 +7,19 @@ permalink: /features/universal-map/application-metrics
 
 # Service List
 
-With no code insertion required in your application, DeepFlow generates application performance metrics for all services automatically. The table name in the database: `flow_metrics.vtap_app_port`.
+With no code insertion required in your application, DeepFlow generates application performance metrics for all services automatically. The table name in the database: `flow_metrics.application`.
 
 ## Tags
 
 List of automatically injected tags: IP, protocol, port, collection location, cloud resources, K8s resources, K8s custom labels, with detailed field descriptions provided in the link below.
 
-[csv-IP, protocol, port, collection location, cloud resources, K8s resources](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/tag/flow_metrics/vtap_app_port.ch)
+[csv-IP, protocol, port, collection location, cloud resources, K8s resources](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/tag/flow_metrics/application.ch)
 
 ## Metrics
 
 List of metrics: throughput, latency, anomalies, with detailed field descriptions provided below.
 
-[csv-throughput, latency, anomalies](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/vtap_app_port.ch)
+[csv-throughput, latency, anomalies](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/application.ch)
 
 ## Grafana Dashboard
 
@@ -31,19 +31,19 @@ You can also visit [DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d
 
 # Universal Service Map
 
-DeepFlow automatically generates the full-stack access path and application performance metrics for all services without requiring any code to be inserted into your application. The database table name: `flow_metrics.vtap_app_edge_port`.
+DeepFlow automatically generates the full-stack access path and application performance metrics for all services without requiring any code to be inserted into your application. The database table name: `flow_metrics.application_map`.
 
 ## Tags
 
 List of automatically injected tags: IP, protocol, port, collection location, cloud resources, K8s resources, K8s custom labels, with detailed field descriptions provided in the link below.
 
-[csv-IP, protocol, port, collection location, cloud resources, K8s resources](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/tag/flow_metrics/vtap_app_edge_port.ch)
+[csv-IP, protocol, port, collection location, cloud resources, K8s resources](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/tag/flow_metrics/application_map.ch)
 
 ## Metrics
 
 List of metrics: throughput, latency, anomalies, with detailed field descriptions provided below.
 
-[csv-throughput, latency, anomalies](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/vtap_app_edge_port.ch)
+[csv-throughput, latency, anomalies](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/application_map.ch)
 
 ## Grafana Dashboard
 

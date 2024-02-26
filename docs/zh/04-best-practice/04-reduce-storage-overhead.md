@@ -51,15 +51,15 @@ ORDER BY size DESC
 │ flow_log        │ l7_flow_log_local                        │ 16.58 GiB    │ 3.15 GiB     │  47231817 │ 377.02479955408023 │   71.69953315579623 │
 │ flow_log        │ l4_flow_log_local                        │ 4.84 GiB     │ 1.51 GiB     │  10487780 │ 495.46614078479905 │  154.46138525026268 │
 │ profile         │ in_process_local                         │ 2.24 GiB     │ 349.19 MiB   │  10325238 │  233.1437255974148 │   35.46215912892274 │
-│ flow_metrics    │ vtap_flow_edge_port.1s_local             │ 1.95 GiB     │ 261.58 MiB   │   5267001 │ 398.20784256543715 │   52.07621016210174 │
-│ flow_metrics    │ vtap_flow_port.1s_local                  │ 1.01 GiB     │ 159.70 MiB   │   3027870 │ 357.85661273436443 │   55.30619544432225 │
-│ flow_metrics    │ vtap_app_port.1s_local                   │ 932.36 MiB   │ 129.11 MiB   │   8225431 │ 118.85691983799998 │  16.459093876053426 │
+│ flow_metrics    │ network_map.1s_local             │ 1.95 GiB     │ 261.58 MiB   │   5267001 │ 398.20784256543715 │   52.07621016210174 │
+│ flow_metrics    │ network.1s_local                  │ 1.01 GiB     │ 159.70 MiB   │   3027870 │ 357.85661273436443 │   55.30619544432225 │
+│ flow_metrics    │ application.1s_local                   │ 932.36 MiB   │ 129.11 MiB   │   8225431 │ 118.85691983799998 │  16.459093876053426 │
 │ deepflow_system │ deepflow_system_local                    │ 1.55 GiB     │ 117.64 MiB   │  18478240 │  89.79716217561845 │   6.675736920832287 │
-│ flow_metrics    │ vtap_app_edge_port.1s_local              │ 691.41 MiB   │ 65.07 MiB    │   4128212 │  175.6193790435181 │   16.52821560520632 │
-│ flow_metrics    │ vtap_flow_edge_port.1m_local             │ 331.22 MiB   │ 57.66 MiB    │    818085 │  424.5371263377277 │   73.90728347298875 │
-│ flow_metrics    │ vtap_app_edge_port.1m_local              │ 228.35 MiB   │ 28.72 MiB    │   1435956 │ 166.75001462440352 │  20.973729000052927 │
-│ flow_metrics    │ vtap_flow_port.1m_local                  │ 121.96 MiB   │ 27.08 MiB    │    328060 │  389.8104432116076 │   86.55356946899957 │
-│ flow_metrics    │ vtap_app_port.1m_local                   │ 97.90 MiB    │ 16.84 MiB    │    870320 │ 117.95215897600882 │  20.283444020590128 │
+│ flow_metrics    │ application_map.1s_local              │ 691.41 MiB   │ 65.07 MiB    │   4128212 │  175.6193790435181 │   16.52821560520632 │
+│ flow_metrics    │ network_map.1m_local             │ 331.22 MiB   │ 57.66 MiB    │    818085 │  424.5371263377277 │   73.90728347298875 │
+│ flow_metrics    │ application_map.1m_local              │ 228.35 MiB   │ 28.72 MiB    │   1435956 │ 166.75001462440352 │  20.973729000052927 │
+│ flow_metrics    │ network.1m_local                  │ 121.96 MiB   │ 27.08 MiB    │    328060 │  389.8104432116076 │   86.55356946899957 │
+│ flow_metrics    │ application.1m_local                   │ 97.90 MiB    │ 16.84 MiB    │    870320 │ 117.95215897600882 │  20.283444020590128 │
 │ event           │ perf_event_local                         │ 2.84 MiB     │ 1.24 MiB     │     16543 │  180.1239194825606 │   78.70126337423683 │
 └─────────────────┴──────────────────────────────────────────┴──────────────┴──────────────┴───────────┴────────────────────┴─────────────────────┘
 ```

@@ -146,12 +146,12 @@ API 调用方式和输出示例同上。
 
 有时候我们希望使用 Tag 进行关联过滤，减少候选项取值范围。这个时候我们可以选择查询某个数据表，对 Tag1 进行过滤的同时对 Tag2 进行聚合。例如，我们希望查询所有 `pod_cluster="cluster1"` 中的 `pod` 名称：
 ```SQL
-SELECT pod FROM `vtap_flow_port.1m` WHERE pod_cluster = 'cluster1' GROUP BY pod
+SELECT pod FROM `network.1m` WHERE pod_cluster = 'cluster1' GROUP BY pod
 ```
 
-以上语句会利用 `flow_metrics` 数据库中的 `vtap_flow_port.1m` 表中的 `pod_cluster` 字段对 `pod` 的候选项进行过滤和分组。当然我们也可通过查询 DeepFlow 中的任意表来实现此需求，但应尽量避免使用数据量很大的表。另外，我们也可在 SQL 中加入时间等其他维度来加速查找：
+以上语句会利用 `flow_metrics` 数据库中的 `network.1m` 表中的 `pod_cluster` 字段对 `pod` 的候选项进行过滤和分组。当然我们也可通过查询 DeepFlow 中的任意表来实现此需求，但应尽量避免使用数据量很大的表。另外，我们也可在 SQL 中加入时间等其他维度来加速查找：
 ```SQL
-SELECT pod FROM `vtap_flow_port.1m` WHERE pod_cluster = 'cluster1' AND time > 1234567890 GROUP BY pod
+SELECT pod FROM `network.1m` WHERE pod_cluster = 'cluster1' AND time > 1234567890 GROUP BY pod
 ```
 
 注意：仅当 pod 中曾经有流量（且不使用 HostNetwork 时）才能在 `flow_metrics` 中查到数据。当我们在集成 Prometheus 或 Telegraf 数据以后，也可借用这其中恒定存在的指标来辅助获取 Tag 取值。例如，我们可使用 `ext_metrics` 中的 Prometheus 指标实现上述需求：
@@ -168,7 +168,7 @@ SELECT pod FROM `prometheus.kube_pod_start_time` WHERE pod_cluster = 'cluster1' 
   ```
   ```SQL
   // Add 5 minutes before and after the time range to avoid frequent changes of candidates
-  SELECT pod_id as `value`, pod as `display_name` FROM `vtap_flow_port.1m` WHERE pod_cluster IN ($cluster) AND time >= ${__from:date:seconds}-500 AND time <= ${__to:date:seconds}+500 GROUP BY `value`
+  SELECT pod_id as `value`, pod as `display_name` FROM `network.1m` WHERE pod_cluster IN ($cluster) AND time >= ${__from:date:seconds}-500 AND time <= ${__to:date:seconds}+500 GROUP BY `value`
   ```
 
 - cluster 的值为 name 时, 使用 `${cluster:singlequote}`:
@@ -178,7 +178,7 @@ SELECT pod FROM `prometheus.kube_pod_start_time` WHERE pod_cluster = 'cluster1' 
   result: 'deepflow-a', 'deepflow-b'
   ```
   ```SQL
-  SELECT pod as `value`, pod as `display_name` FROM `vtap_flow_port.1m` WHERE pod_cluster IN (${cluster:singlequote}) AND  time >= ${__from:date:seconds}-500 AND time <= ${__to:date:seconds}+500 GROUP BY `value`
+  SELECT pod as `value`, pod as `display_name` FROM `network.1m` WHERE pod_cluster IN (${cluster:singlequote}) AND  time >= ${__from:date:seconds}-500 AND time <= ${__to:date:seconds}+500 GROUP BY `value`
   ```
 
 

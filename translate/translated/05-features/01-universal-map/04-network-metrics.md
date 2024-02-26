@@ -8,19 +8,19 @@ permalink: /features/universal-map/network-metrics
 # Service List
 
 Without any need for code insertion into applications, DeepFlow automatically generates network performance metrics for all services.
-Database table name: `flow_metrics.vtap_flow_port`.
+Database table name: `flow_metrics.network`.
 
 ## Tags
 
 A list of automatically injected tags: IP, protocol, port, sampling location, cloud resources, K8s resources, K8s custom labels, detailed field description as follows.
 
-[csv-IP, protocol, port, sampling location, cloud resources, K8s resources](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/tag/flow_metrics/vtap_flow_port.ch)
+[csv-IP, protocol, port, sampling location, cloud resources, K8s resources](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/tag/flow_metrics/network.ch)
 
 ## Metrics
 
 Metrics list: throughput, load, delay, TCP abnormal, retransmission, zero window, detailed field description as follows.
 
-[csv-throughput, load, delay, TCP abnormal, retransmission, zero window](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/vtap_flow_port.ch)
+[csv-throughput, load, delay, TCP abnormal, retransmission, zero window](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/network.ch)
 
 ## Grafana Dashboard
 
@@ -33,19 +33,19 @@ You can also visit [DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d
 # Universal Service Map
 
 Without any need for code insertion into applications, DeepFlow automatically generates all service stack access paths and network performance metrics.
-Database table name: `flow_metrics.vtap_flow_edge_port`.
+Database table name: `flow_metrics.network_map`.
 
 ## Tags
 
 A list of automatically injected tags: IP, protocol, port, sampling location, cloud resources, K8s resources, K8s custom labels, detailed field description as follows.
 
-[csv-IP, protocol, port, sampling location, cloud resources, K8s resources](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/tag/flow_metrics/vtap_flow_edge_port.ch)
+[csv-IP, protocol, port, sampling location, cloud resources, K8s resources](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/tag/flow_metrics/network_map.ch)
 
 ## Metrics
 
 Metrics list: throughput, load, delay, TCP abnormal, retransmission, zero window, detailed field description as follows.
 
-[csv-throughput, load, delay, TCP abnormal, retransmission, zero window](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/vtap_flow_edge_port.ch)
+[csv-throughput, load, delay, TCP abnormal, retransmission, zero window](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/network_map.ch)
 
 ## Grafana Dashboard
 
