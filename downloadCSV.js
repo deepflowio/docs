@@ -9,6 +9,13 @@ const FILE_PATH = "./docs"
 const csvListRxp = /\[csv-(.*)]\((.*)\)/g
 const csvNameAndUrlRxp = /\[csv-(.*)]\((.*)\)/
 
+// 第3个参数 环境
+let branch = process.argv[2] || "main"; // main v6.4
+// 除了固定的分支以外，其余都尽量使用main分支
+if(!/^v[0-9]+\.[0-9]+$/.test(branch)){
+    branch = 'main'
+}
+
 async function downloadCSV(url) {
     return github.get(url).then(res => {
         if (res.data.startsWith('#')) {
@@ -18,6 +25,8 @@ async function downloadCSV(url) {
             console.log("res.data===", JSON.stringify(res.data))
             return ""
         }
+    }).catch(err=>{
+        return ""
     })
 }
 
@@ -153,6 +162,7 @@ async function work(sourceDir) {
             if (matchs) {
                 for (let a = 0; a < matchs.length; a++) {
                     let [, name, url] = matchs[a].match(csvNameAndUrlRxp)
+                    url = url.replace(/main/, branch)
                     const isCategory = url.includes('Category=')
                     // 英文版使用 .en 中文版使用 .ch
                     url = filePath.includes('/zh/')? url: url.replace(/.ch$/, '.en')
