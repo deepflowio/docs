@@ -15,7 +15,7 @@ permalink: /integration/output/export/prometheus-remote-write
 
 - 网络性能指标：[具体可参考](../../../features/universal-map/network-metrics/)
 
-当前导出的指标，主要是应用性能指标，对应到 clickhouse 里是 `flow_metrics.vtap_app_edge_port` 表数据，其它方式后续再迭代增加，作为可配置的方式
+当前导出的指标，主要是应用性能指标，对应到 clickhouse 里是 `flow_metrics.application_map` 表数据，其它方式后续再迭代增加，作为可配置的方式
 
 # Prometheus Remote Write
 

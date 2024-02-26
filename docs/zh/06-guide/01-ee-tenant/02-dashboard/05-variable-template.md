@@ -49,7 +49,7 @@ permalink: /guide/ee-tenant/dashboard/variable-template/
   - ⑤ ：勾选`多选`，则可切换为`多选`模式
   - ⑤ ：勾选`全选`，则候选项中出现`全选`，即选中当前模板变量全部的取值
 
-下拉选择类型的模板变量，仅能被 `name` 和 `type` 相同的 `Tag` 引用。例如取值来自 `flow_metrics.vtap_flow_port`数据表的 `chost` 这个 `Tag`，则引用的时候只能被`chost` 引用。模板变量会以下拉框候选项出现在搜索条件中，选择模板变量，则成功引用了模板变量。
+下拉选择类型的模板变量，仅能被 `name` 和 `type` 相同的 `Tag` 引用。例如取值来自 `flow_metrics.network`数据表的 `chost` 这个 `Tag`，则引用的时候只能被`chost` 引用。模板变量会以下拉框候选项出现在搜索条件中，选择模板变量，则成功引用了模板变量。
 
 ![5_6.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023091865082713aca9a.png)
 

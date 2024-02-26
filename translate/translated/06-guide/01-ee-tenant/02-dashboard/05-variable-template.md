@@ -52,7 +52,7 @@ The dropdown selection type of template variables changes search conditions thro
   - ⑤: Check `Multiple Selections`, then switch to `Multiple Selections` mode.
   - ⑤: Check `Select All`, then the option `Select All` will appear in the candidate list, which means to select all values of the current template variable.
 
-The dropdown selection type of template variables can only be referenced by `Tags` with the same `name` and `type`. For example, if the value is derived from the `Tag` named `chost` in the `flow_metrics.vtap_flow_port` data table, it can only be referenced by `chost` when cited. The template variable will appear in the search condition as a dropdown list candidate, and if you choose the template variable, you have successfully referenced the template variable.
+The dropdown selection type of template variables can only be referenced by `Tags` with the same `name` and `type`. For example, if the value is derived from the `Tag` named `chost` in the `flow_metrics.network` data table, it can only be referenced by `chost` when cited. The template variable will appear in the search condition as a dropdown list candidate, and if you choose the template variable, you have successfully referenced the template variable.
 
 ![5_6.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023091865082713aca9a.png)
 

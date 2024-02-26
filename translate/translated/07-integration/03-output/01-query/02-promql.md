@@ -28,8 +28,8 @@ When DeepFlow's metrics are provided for PromQL queries, the metric name is cons
 
 For example:
 
-- `flow_metrics__vtap_app_port__request__1m`: Represents the query of the application layer request count aggregated every minute.
-- `flow_metrics__vtap_flow_port__tcp_timeout__1s`: Represents the query of the network layer Tcp timeout count aggregated every second.
+- `flow_metrics__application__request__1m`: Represents the query of the application layer request count aggregated every minute.
+- `flow_metrics__network__tcp_timeout__1s`: Represents the query of the network layer Tcp timeout count aggregated every second.
 - `flow_log__l7_flow_log__error`: Represents the query of the number of exceptions at the application layer.
 
 ## Known Limitations
@@ -64,13 +64,13 @@ sum(flow_log__l7_flow_log__server_error{response_code="500"}) by(auto_service_1,
 - Use an evaluation interval of 10s to query the trend of TCP connection latency in the past 5 minutes by service grouping:
 
 ```
-rate(sum(flow_metrics__vtap_flow_edge_port__rtt__1s)by(auto_service_1)[5m:10s])
+rate(sum(flow_metrics__network_map__rtt__1s)by(auto_service_1)[5m:10s])
 ```
 
 - Based on a 1m evaluation interval, query the trend of average application latency over the past 10 minutes by service grouping:
 
 ```
-avg_over_time(avg(flow_metrics__vtap_app_port__rrt__1m)by(auto_service)[10m:1m])
+avg_over_time(avg(flow_metrics__application__rrt__1m)by(auto_service)[10m:1m])
 ```
 
 # Implement Prometheus Alerts Based on DeepFlow Metrics
@@ -84,7 +84,7 @@ groups:
   - name: requestMonitoring
     rules:
       - alert: requestDelayAlert
-        expr: avg(flow_metrics__vtap_app_port__rrt__1m)by(l7_protocol, auto_service, auto_instance) / 10^6 > 1
+        expr: avg(flow_metrics__application__rrt__1m)by(l7_protocol, auto_service, auto_instance) / 10^6 > 1
         for: 1m
         annotations:
           summary: 'High Request Latenry'

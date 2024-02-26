@@ -25,8 +25,8 @@ DeepFlow 的指标对外提供 PromQL 查询时，指标名称遵循 `${database
  `ext_metrics` (通过 Prometheus RemoteWrite 写入的数据) | `ext_metrics__metrics__prometheus_{metric}`
 
 比如：
-- `flow_metrics__vtap_app_port__request__1m`：表示查询按每分钟粒度聚合的应用层请求数
-- `flow_metrics__vtap_flow_port__tcp_timeout__1s`：表示查询按每秒粒度聚合的网络层 Tcp 超时数
+- `flow_metrics__application__request__1m`：表示查询按每分钟粒度聚合的应用层请求数
+- `flow_metrics__network__tcp_timeout__1s`：表示查询按每秒粒度聚合的网络层 Tcp 超时数
 - `flow_log__l7_flow_log__error`：表示查询应用层的异常数
 
 ## 已知限制
@@ -54,11 +54,11 @@ sum(flow_log__l7_flow_log__server_error{response_code="500"}) by(auto_service_1,
 ```
 - 基于 10s 的评估间隔，按服务分组查询过去5分钟内的 TCP 建连时延变化趋势：
 ```
-rate(sum(flow_metrics__vtap_flow_edge_port__rtt__1s)by(auto_service_1)[5m:10s])
+rate(sum(flow_metrics__network_map__rtt__1s)by(auto_service_1)[5m:10s])
 ```
 - 基于 1m 的评估间隔，按服务分组查询过去10分钟内平均应用时延趋势：
 ```
-avg_over_time(avg(flow_metrics__vtap_app_port__rrt__1m)by(auto_service)[10m:1m])
+avg_over_time(avg(flow_metrics__application__rrt__1m)by(auto_service)[10m:1m])
 ```
 
 # 基于 DeepFlow 指标实现 Prometheus 告警
@@ -70,7 +70,7 @@ groups:
 - name: requestMonitoring
   rules:
   - alert: requestDelayAlert
-    expr: avg(flow_metrics__vtap_app_port__rrt__1m)by(l7_protocol, auto_service, auto_instance) / 10^6 > 1
+    expr: avg(flow_metrics__application__rrt__1m)by(l7_protocol, auto_service, auto_instance) / 10^6 > 1
     for: 1m
     annotations:
       summary: "High Request Latenry"

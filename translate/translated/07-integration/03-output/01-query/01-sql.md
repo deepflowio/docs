@@ -146,13 +146,13 @@ The API call method and output examples are the same as above.
 Sometimes, we want to use tags for associated filtering to reduce the scope of potential value options. In this case, we can choose to query a data table, filter on Tag1 while aggregating on Tag2. For example, if we want to query the name of all `pods` in `pod_cluster="cluster1"`:
 
 ```SQL
-SELECT pod FROM `vtap_flow_port.1m` WHERE pod_cluster = 'cluster1' GROUP BY pod
+SELECT pod FROM `network.1m` WHERE pod_cluster = 'cluster1' GROUP BY pod
 ```
 
-The above statement will utilize the `pod_cluster` field in the `vtap_flow_port.1m` table in the `flow_metrics` database to filter and group `pod` candidate items. Of course, we can also meet this requirement by querying any table in DeepFlow, but we should try to avoid using tables with a large amount of data. Additionally, we can speed up the search by adding other dimensions such as time to the SQL:
+The above statement will utilize the `pod_cluster` field in the `network.1m` table in the `flow_metrics` database to filter and group `pod` candidate items. Of course, we can also meet this requirement by querying any table in DeepFlow, but we should try to avoid using tables with a large amount of data. Additionally, we can speed up the search by adding other dimensions such as time to the SQL:
 
 ```SQL
-SELECT pod FROM `vtap_flow_port.1m` WHERE pod_cluster = 'cluster1' AND time > 1234567890 GROUP BY pod
+SELECT pod FROM `network.1m` WHERE pod_cluster = 'cluster1' AND time > 1234567890 GROUP BY pod
 ```
 
 Note: data can only be found in `flow_metrics` if there has ever been flow in the pod (and HostNetwork is not used). After integrating Prometheus or Telegraf data, we can also use the consistently present indicators therein to help obtain tag values. For example, we can use the Prometheus indicators in `ext_metrics` to meet the above requirement:
@@ -172,7 +172,7 @@ In Grafana, we can also leverage the above capability to implement linkage filte
 
   ```SQL
   // Add 5 minutes before and after the time range to avoid frequent changes of candidates
-  SELECT pod_id as `value`, pod as `display_name` FROM `vtap_flow_port.1m` WHERE pod_cluster IN ($cluster) AND time >= ${__from:date:seconds}-500 AND time <= ${__to:date:seconds}+500 GROUP BY `value`
+  SELECT pod_id as `value`, pod as `display_name` FROM `network.1m` WHERE pod_cluster IN ($cluster) AND time >= ${__from:date:seconds}-500 AND time <= ${__to:date:seconds}+500 GROUP BY `value`
   ```
 
 - when the value of cluster is name, use `${cluster:singlequote}`:
@@ -183,7 +183,7 @@ In Grafana, we can also leverage the above capability to implement linkage filte
   ```
 
   ```SQL
-  SELECT pod as `value`, pod as `display_name` FROM `vtap_flow_port.1m` WHERE pod_cluster IN (${cluster:singlequote}) AND  time >= ${__from:date:seconds}-500 AND time <= ${__to:date:seconds}+500 GROUP BY `value`
+  SELECT pod as `value`, pod as `display_name` FROM `network.1m` WHERE pod_cluster IN (${cluster:singlequote}) AND  time >= ${__from:date:seconds}-500 AND time <= ${__to:date:seconds}+500 GROUP BY `value`
   ```
 
 ## Get Metrics from a Specified Data Table
