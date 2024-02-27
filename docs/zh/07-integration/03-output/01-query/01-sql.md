@@ -223,8 +223,8 @@ curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/query/" \
 ## Tag 支持的函数
 
 - enum
-  - 说明：`enum(tap_side)` 将枚举字段转化为值
-  - 示例：`SELECT enum(tap_side) ...`、`... WHERE enum(tap_side) = 'xxx' ...`
+  - 说明：`enum(observation_point)` 将枚举字段转化为值
+  - 示例：`SELECT enum(observation_point) ...`、`... WHERE enum(observation_point) = 'xxx' ...`
   - 注意：仅`string_enum`、`int_enum`类型的Tag支持
 
 ## Metrics 支持的函数

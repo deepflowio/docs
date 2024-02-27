@@ -36,7 +36,7 @@ permalink: /guide/ee-tenant/query/path-search/
 - 搜索标签：pod_ns = gcp-microservices-demo
 - 路径：服务内
 - 主分组：auto_service
-- 次分组：tap_side
+- 次分组：observation_point
 
 ![4-查询结果](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f8b00145.png)
 
@@ -48,7 +48,7 @@ permalink: /guide/ee-tenant/query/path-search/
 - 搜索标签：pod_ns = gcp-microservices-demo，pod_service = productpageservice
 - 路径：服务内，服务外，广域网
 - 主分组：auto_service
-- 次分组：tap_side
+- 次分组：observation_point
 
 ![5-查询结果](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f8b659a4.png)
 
@@ -60,12 +60,12 @@ permalink: /guide/ee-tenant/query/path-search/
 - 方向：客户端
 - 搜索标签：pod_service = finaxxx，l7_protocol = MySQL
 - 主分组：auto_service
-- 次分组：tap_side
+- 次分组：observation_point
 ----------------------------------------
 - 方向：服务端
 - 搜索标签：ip = 8.x.x.x（为云外 MySQL 的地址）
 - 主分组：auto_service
-- 次分组：tap_side
+- 次分组：observation_point
 
 ![6-查询结果](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f8c96f16.png)
 
@@ -77,7 +77,7 @@ permalink: /guide/ee-tenant/query/path-search/
 - 搜索标签：pod_group = recommendationservice，pod_group = productcatalogservice
 - 路径：服务内
 - 主分组：auto_service
-- 次分组：tap_side
+- 次分组：observation_point
 
 ![7-查询结果](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f8d313a2.png)
 
@@ -89,11 +89,11 @@ permalink: /guide/ee-tenant/query/path-search/
 - 搜索标签：request_domain : hotels.travel-agency:8000
 - 路径：服务内，服务外，广域网
 - 主分组：auto_service
-- 次分组：tap_side，request_domain
+- 次分组：observation_point，request_domain
 
 ![8-查询结果](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f8de4a50.png)
 
-## 查看访问某云服务器的流量 TOP 5 的其他资源 
+## 查看访问某云服务器的流量 TOP 5 的其他资源
 
 - 功能页面：网络-网络路径
 - 数据表：指标（分钟级）
@@ -101,13 +101,13 @@ permalink: /guide/ee-tenant/query/path-search/
 - 方向：客户端
 - 搜索标签：chost != cn-zhxxx
 - 主分组：auto_service
-- 次分组：tap_side
+- 次分组：observation_point
 
 -----------------------------
 - 方向：服务端
 - 搜索标签：chost = cn-zhxxx
 - 主分组：chost
-- 次分组：tap_side
+- 次分组：observation_point
 
 ![9-查询结果](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f8eb246e.png)
 
@@ -119,13 +119,13 @@ permalink: /guide/ee-tenant/query/path-search/
 - 方向：客户端
 - 搜索标签：is_internet = 是
 - 主分组：auto_service
-- 次分组：tap_side
+- 次分组：observation_point
 
 -----------------------------
 - 方向：服务端
 - 搜索标签：chost = cn-zhxx，server_port = 80
 - 主分组：chost
-- 次分组：tap_side，server_port
+- 次分组：observation_point，server_port
 
 ![10-查询结果](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f8f9ac67.png)
 
@@ -137,12 +137,12 @@ permalink: /guide/ee-tenant/query/path-search/
 - 方向：客户端
 - 搜索标签：pod = nginx-xxxx
 - 主分组：pod
-- 次分组：tap_side
+- 次分组：observation_point
 
 ------------------------------
 - 方向：服务端
 - 搜索标签：pod = bohriu-xxxx
 - 主分组：pod
-- 次分组：tap_side
+- 次分组：observation_point
 
 ![11-查询结果](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f9054a2e.png)
