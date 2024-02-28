@@ -170,11 +170,10 @@ deepflow-ctl plugin create  --type wasm --image wasm.wasm --name wasm
 
 ## 加载插件
 
-在 static_config 中添加
+在配置中添加
 ```
-static_config:
-  wasm-plugins:
-    - wasm // 对应 deepflow-ctl 上传插件的名称
+wasm-plugins:
+  - wasm // 对应 deepflow-ctl 上传插件的名称
 ```
 
 # 相关问题和限制
