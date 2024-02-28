@@ -88,22 +88,22 @@ Service 应用级别信息，全部计入 resource.attributes 内，这里包括
 
 ### Capture Info
 
-包括字段：signal_source，tap，nat_source，tap_port，tap_port_name，tap_port_type，tap_side，l2_end	，l3_end，has_pcap，nat_real_ip，nat_real_port
+包括字段：signal_source，agent，nat_source，capture_nic，capture_nic_name，capture_nic_type，observation_point，l2_end，l3_end，has_pcap，nat_real_ip，nat_real_port
 
 | 原始字段名   | 映射后的位置 | 映射后的名称 | 备注说明 |
 | :----       | :----       | :---- 	  | :-----  |
 | signal_source     | resource.attributes 		| df.capture_info.signal_source 	| |
-| tap     			| resource.attributes 		| df.capture_info.tap 			| |
-| vtap     			| resource.attributes 		| df.capture_info.vtap 			| |
+| agent     			| resource.attributes 		| df.capture_info.agent 			| |
 | nat_source     	| resource.attributes 		| df.capture_info.nat_source 	| |
-| tap_port     		| resource.attributes 		| df.capture_info.tap_port 		| |
-| tap_port_name     | resource.attributes 		| df.capture_info.tap_port_name 	| |
-| tap_port_type     | resource.attributes 		| df.capture_info.tap_port_type 	| |
-| tap_side     		| resource.attributes 		| df.capture_info.tap_side 		| |
+| capture_nic     		| resource.attributes 		| df.capture_info.capture_nic 		| |
+| capture_nic_name     | resource.attributes 		| df.capture_info.capture_nic_name 	| |
+| capture_nic_type     | resource.attributes 		| df.capture_info.capture_nic_type	| |
+| observation_point | resource.attributes 		| df.capture_info.observation_point| |
+
 
 ### Universal Tag
 
-包括字段：region，az，host，chost，vpc，l2_vpc，subnet，router，dhcpgw，lb，lb_listener，natgw，pod_cluster，pod_ns，pod_node，pod_ingress，pod_service，pod_group，pod，service，resource_gl0_type，resource_gl0，resource_gl1_type，resource_gl1，resource_gl2_type，resource_gl2
+包括字段：region，az，host，chost，vpc，l2_vpc，subnet，router，dhcpgw，lb，lb_listener，natgw，pod_cluster，pod_ns，pod_node，pod_ingress，pod_service，pod_group，pod，service，auto_servic，auto_service_type，auto_instance，auto_instance_type
 
 如有需要，请使用 OTel Processor 进行格式转换即可。
 
