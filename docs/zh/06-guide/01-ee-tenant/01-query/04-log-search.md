@@ -43,14 +43,14 @@ permalink: /guide/ee-tenant/query/log-search/
 - 搜索标签：pod = insurances-v1-d895774d6-26wf7，client_port = 46168，protocol = TCP
 - 路径：服务内
 - 主分组：pod
-- 次分组：tap_side
+- 次分组：observation_point
 - 方向：客户端
 ------------------------------
 - 服务集合：S2
 - 搜索标签：pod = mysqldb-v1-5cc78df8d-fwrn4，server_port = 3306
 - 路径：服务内
 - 主分组：pod
-- 次分组：tap_side
+- 次分组：observation_point
 - 方向：服务端
 
 ![4-查询结果](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f601adf9.png)

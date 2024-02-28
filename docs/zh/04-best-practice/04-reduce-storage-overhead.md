@@ -118,32 +118,32 @@ ORDER BY `行数` DESC
 └────────────┴──────────┴────────────────────────────┴────────────────────────────────┘
 ```
 
-查看 `l7_flow_log` 表中不同统计位置（`tap_side`）的行数，评估是否关闭某些统计位置处采集的调用日志：
+查看 `l7_flow_log` 表中不同观测点（`observation_point`）的行数，评估是否关闭某些观测点处采集的调用日志：
 ```sql
-SELECT tap_side, dictGet(flow_tag.string_enum_map, 'name', ('tap_side', tap_side)) AS "统计位置", count(0) AS "行数" FROM flow_log.l7_flow_log WHERE time>now()-86400 GROUP BY tap_side ORDER BY "行数" DESC;
+SELECT observation_point, dictGet(flow_tag.string_enum_map, 'name', ('observation_point', observation_point)) AS "观测点", count(0) AS "行数" FROM flow_log.l7_flow_log WHERE time>now()-86400 GROUP BY observation_point ORDER BY "行数" DESC;
 
 SELECT
-    tap_side,
-    dictGet(flow_tag.string_enum_map, 'name', ('tap_side', tap_side)) AS `统计位置`,
+    observation_point,
+    dictGet(flow_tag.string_enum_map, 'name', ('observation_point', observation_point)) AS `观测点`,
     count(0) AS `行数`
 FROM flow_log.l7_flow_log
 WHERE time > (now() - 86400)
-GROUP BY tap_side
+GROUP BY observation_point
 ORDER BY `行数` DESC
 
-┌─tap_side─┬─统计位置───────┬─────行数─┐
-│ c        │ 客户端网卡     │ 15034372 │
-│ s        │ 服务端网卡     │  9343403 │
-│ c-p      │ 客户端进程     │  9179406 │
-│ s-p      │ 服务端进程     │  5723075 │
-│ rest     │ 其他网卡       │  3170534 │
-│ s-nd     │ 服务端容器节点 │  2796958 │
-│ c-nd     │ 客户端容器节点 │  2334083 │
-│ local    │ 本机网卡       │  1365403 │
-│ s-app    │ 服务端应用     │    89280 │
-│ app      │ 应用           │    80079 │
-│ s-gw     │ 网关到服务端   │       11 │
-└──────────┴────────────────┴──────────┘
+┌─observation_point─┬─观测点─────────┬─────行数─┐
+│ c                 │ 客户端网卡     │ 15034372 │
+│ s                 │ 服务端网卡     │  9343403 │
+│ c-p               │ 客户端进程     │  9179406 │
+│ s-p               │ 服务端进程     │  5723075 │
+│ rest              │ 其他网卡       │  3170534 │
+│ s-nd              │ 服务端容器节点 │  2796958 │
+│ c-nd              │ 客户端容器节点 │  2334083 │
+│ local             │ 本机网卡       │  1365403 │
+│ s-app             │ 服务端应用     │    89280 │
+│ app               │ 应用           │    80079 │
+│ s-gw              │ 网关到服务端   │       11 │
+└───────────────────┴────────────────┴──────────┘
 ```
 
 根据某个字段的值，区分统计空间消耗。例如：查看 `event.perf_event` 表中不同 duration 的数据行数：
@@ -182,15 +182,15 @@ deepflow-server 为所有的数据表都提供了保存时长的设置能力，�
 我们首先关注绿色的配置项，调整这些配置能帮助我们对数据的精细程度进行取舍，从而降低存储压力。
 
 对于流日志 `flow_log.l4_flow_log`：
-- 设置 `l4_log_ignore_tap_sides`，可丢弃部分统计位置（`tap_side`）处采集的流日志。如下图所示，以 K8s 容器环境为例，DeepFlow 默认会采集虚拟网卡和物理网卡上的流日志。当 Pod1 访问 Pod3 时，我们会在沿途的四个网卡上采集到同一股流量的四条流日志。例如我们可以设置此配置项为 c-nd 和 s-nd，来丢弃物理网卡上采集的流日志。关于统计位置的详细描述可参考[文档](../features/universal-map/auto-metrics/#统计位置说明)。
-- 设置 `l4_log_tap_types`，可丢弃部分`采集点`处采集的流日志。当我们让 Agent 处理物理交换机的镜像流量（企业版功能）时，可以通过设置此配置项来控制丢弃指定镜像位置的流日志。特别地，将此配置项设置为 `[-1]` 时，将完全关闭流日志数据。
+- 设置 `l4_log_ignore_tap_sides`，可丢弃部分观测点（`observation_point`）处采集的流日志。如下图所示，以 K8s 容器环境为例，DeepFlow 默认会采集虚拟网卡和物理网卡上的流日志。当 Pod1 访问 Pod3 时，我们会在沿途的四个网卡上采集到同一股流量的四条流日志。例如我们可以设置此配置项为 c-nd 和 s-nd，来丢弃物理网卡上采集的流日志。关于观测点的详细描述可参考[文档](../features/universal-map/auto-metrics/#观测点说明)。
+- 设置 `l4_log_tap_types`，可丢弃部分`网络位置`处采集的流日志。当我们让 Agent 处理物理交换机的镜像流量（企业版功能）时，可以通过设置此配置项来控制丢弃指定镜像位置的流日志。特别地，将此配置项设置为 `[-1]` 时，将完全关闭流日志数据。
 
-![数据的统计位置（tap-side）](http://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/yunshan-ticket/png/d2b5ca33bd970f64a6301fa75ae2eb22_20231226212513.png)
+![数据的观测点（observation_point）](http://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/yunshan-ticket/png/d2b5ca33bd970f64a6301fa75ae2eb22_20231226212513.png)
 
 对于调用日志 `flow_log.l7_flow_log`：
 - 设置 `obfuscate-enabled-protocols`，可对调用日志的 `request_resource` 字段进行脱敏，将其中的变量替换为 `?`。目前支持对 MySQL、PostgreSQL、Redis 协议进行脱敏。由于脱敏后的字段长度会有明显的降低，因此也就能降低存储开销。注意脱敏会增加 deepflow-agent 的 CPU 开销。
-- 设置 `l7_log_ignore_tap_sides`，可丢弃部分统计位置（`tap_side`）处采集的调用日志。以 K8s 容器环境为例，DeepFlow 默认会采集应用进程、虚拟网卡和物理网卡上的调用日志。上图中当 Pod1 访问 Pod3 时，我们会在沿途的两个进程、四个网卡上采集到同一股流量的六条调用日志。例如我们可以设置此配置项为 c-nd 和 s-nd，来丢弃物理网卡上采集的调用日志。
-- 设置 `l7_log_tap_types`，可丢弃部分`采集点`处采集的调用日志。当我们让 Agent 处理物理交换机的镜像流量（企业版功能）时，可以通过设置此配置项来控制丢弃指定镜像位置的调用日志。特别地，将此配置项设置为 `[-1]` 时，将完全关闭调用日志数据，同时也关闭了分布式追踪功能。
+- 设置 `l7_log_ignore_tap_sides`，可丢弃部分观测点（`observation_point`）处采集的调用日志。以 K8s 容器环境为例，DeepFlow 默认会采集应用进程、虚拟网卡和物理网卡上的调用日志。上图中当 Pod1 访问 Pod3 时，我们会在沿途的两个进程、四个网卡上采集到同一股流量的六条调用日志。例如我们可以设置此配置项为 c-nd 和 s-nd，来丢弃物理网卡上采集的调用日志。
+- 设置 `l7_log_tap_types`，可丢弃部分`网络位置`处采集的调用日志。当我们让 Agent 处理物理交换机的镜像流量（企业版功能）时，可以通过设置此配置项来控制丢弃指定镜像位置的调用日志。特别地，将此配置项设置为 `[-1]` 时，将完全关闭调用日志数据，同时也关闭了分布式追踪功能。
 
 调整流日志和调用日志的上述配置项，并不会影响指标数据 `flow_metrics` 的准确性。而对于指标数据，虽然消耗的存储空间并不大，但我们也暴露了一些配置项：
 - 设置 `http-endpoint-extration`，可控制如何生成 HTTP 协议的 endpoint 字段。对于 RPC（例如 gRPC/Dubbo 等）协议，endpoint 字段是明确的，通常能从头部直接获取。但 HTTP URI 中究竟哪部分可作为 endpoint 通常是一个难题。默认情况下对于所有的 URI 我们提取前两段作为 endpoint。但 `2` 对于某些 API 可能过短，对另一些 API 又过长，此时可以调整此配置项，避免生成爆炸的 endpoint 字段值，也避免生成的 endpoint 无法提供足够的信息量。
@@ -211,8 +211,8 @@ deepflow-server 为所有的数据表都提供了保存时长的设置能力，�
 - 设置 `l7-protocol-ports`，可设置特定应用协议尝试解析的端口号列表。默认情况下 DNS 仅解析 53、5353 两个端口的流量，TLS 仅解析 443 端口的流量，其他所有应用协议解析 1-65535 全端口流量。这个配置项对特征不明显的协议非常有效，例如当你非常清楚环境中 Redis 协议的所有通信端口号时，设置该配置项能避免误解析，从而也就能避免存储由于误解析生成的脏数据。
 
 对于指标数据 `flow_metrics`：
-- 设置 `l4_performance_enabled`，可关闭对高级网络性能指标的计算和存储。高级网络性能指标包括 `vtap_flow_*` 表中的时延、性能、异常指标（即吞吐类以外的所有指标），具体指标列表详见[文档](../features/universal-map/metrics-and-operators/#网络性能指标)。
-- 设置 `l7_metrics_enabled`，可关闭对应用性能指标的计算和存储。应用性能指标对应 `vtap_app_*` 表。
+- 设置 `l4_performance_enabled`，可关闭对高级网络性能指标的计算和存储。高级网络性能指标包括 `network_*` 表中的时延、性能、异常指标（即吞吐类以外的所有指标），具体指标列表详见[文档](../features/universal-map/metrics-and-operators/#网络性能指标)。
+- 设置 `l7_metrics_enabled`，可关闭对应用性能指标的计算和存储。应用性能指标对应 `application_*` 表。
 
 对于性能事件 `event.perf_event`：
 - 设置 `io-event-collect-mode`，可调整采集的文件读写事件范围。设置为 0 完全关闭采集，设置为 1 仅采集在 Request 生命周期内发生的文件读写，设置为 2 采集所有文件读写。默认值为 1，聚焦于监控文件读写对 Request 性能的影响。
