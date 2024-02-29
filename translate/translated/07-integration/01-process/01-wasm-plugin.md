@@ -171,12 +171,11 @@ deepflow-ctl plugin create  --type wasm --image wasm.wasm --name wasm
 
 ## Load Plugin
 
-Add to static_config
+Add to config
 
 ```
-static_config:
-  wasm-plugins:
-    - wasm // Corresponding to the name of uploaded plugin in deepflow-ctl
+wasm-plugins:
+  - wasm // Corresponding to the name of uploaded plugin in deepflow-ctl
 ```
 
 # Related Issues and Limitations
