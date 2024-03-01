@@ -564,6 +564,8 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 |       | x_request_id       | X-Request-ID | --                            | --                     | --   |
 | Misc. | --                 | --           | --                            | --                     | --   |
 
+注意：受限于协议特征，目前仅支持识别在 agent 启动后建立连接的 AMQP 协议。
+
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
 | 名称                | 中文          | Request        | Response   | 描述 |
