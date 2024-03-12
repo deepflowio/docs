@@ -32,6 +32,8 @@
     "flexsearch": "^0.6.23",
     "good-storage": "^1.1.1",
     "json5": "^2.2.1",
+    "lodash": "^4.17.21",
+    "markdown-it": "^14.0.0",
     "mermaid": "8.14.0"
   }
 }
