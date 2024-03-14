@@ -36,7 +36,7 @@ deepflow-ctl agent-group list your-agent-group
 Refer to the agent's default configuration above, select the part you want to modify, create a `your-agent-group-config.yaml` file and fill in the agent configuration parameters. Note that it must include `vtap_group_id`:
 
 ```yaml
-vtap_group_id: <Your-agnet-group-ID>
+vtap_group_id: <Your-agent-group-ID>
 # write configurations here
 ```
 
@@ -55,7 +55,7 @@ deepflow-ctl agent-group-config list
 ### Get agent-group-config configuration
 
 ```bash
-deepflow-ctl agent-group-config list <Your-agnet-group-ID> -o yaml
+deepflow-ctl agent-group-config list <Your-agent-group-ID> -o yaml
 ```
 
 ### Get all configurations and their default values of agent-group-config
