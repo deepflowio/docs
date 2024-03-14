@@ -2,7 +2,7 @@
 const fs = require('fs')
 const path = require('path')
 
-const AIM_FILE_TYPE = ['.json', '.txt', '.png', '.jpg', '.jpeg', '.svg']
+const AIM_FILE_TYPE = ['.json', '.txt', '.png', '.jpg', '.jpeg', '.svg', 'webp']
 const IGNORE_FILE = ['.vuepress']
 
 // 第3个参数 源文件夹
