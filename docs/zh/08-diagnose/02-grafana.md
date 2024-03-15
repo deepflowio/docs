@@ -1,40 +1,40 @@
 ---
-title: Grafana 查询慢
+title: Grafana 相关问题
 permalink: /diagnose/grafana
 ---
 
-# 慢查询
+# Dashboard 面板找不到 kubernetes 资源
+> 具体表现如下图所示: 在与 Pod 相关的面板中，缺少或丢失某些 Pod 或 namespace （可能丢了一两个，也有可能丢了很多）
 
-## 开启 debug 模式
+<img src="./imgs/grafana_not_found_k8s_resources.png">
 
-grafana url 中增加 `debug=true` search 参数，例如：
-
-```url
-http://your.grafana?debug=true
-http://your.grafana?xx=xx&debug=true
+**Step 1. 检查集群内 deepflow-agent 状态**
+```
+  ## deepflow server 端查看 agent 运行状态，NORMAL 为正常
+  deepflow-ctl agent list
 ```
 
-## 查看 querier 耗时
+**Step 2. 通过添加变量，输出 agent debug 日志**
+<img src="./imgs/deepflow_agent_debug_log.png">
 
-按 F12 键唤出调试页面，下图以Chrome为例说明排查方法：
+```
+  ## agent pod 添加环境变量:
+  ## 运行后日志中 grep replicasets，查看日志信息为 DEBUG 中，展示的每查询一页 (kubernetes-api-list-limit) 所需时间总和是否 > 5min
+      - name: RUST_LOG
+        value=info,deepflow_agent::platform::kubernetes::resource_watcher=debug
+```
 
-![浏览器查看](./imgs/grafana_api_networks.png)
+如果日志输出过多，不便查看时，可直接通过 DeepFlow System - DeepFlow Agent 面板查看同步数据
+<img src="./imgs/deepflow_agent_sync_k8s_resources.png">
 
-- 点击 Network 标签，可以查看API耗时的详细情况
-  - 观察 Time 列，可以查看到API的整体耗时
-  - 观察 Waterfall，可以直观的看到耗时久的API，水平绿柱（或蓝柱）越长则耗时越久
-  - 鼠标悬停瀑布图的某个水平柱上，可显示详情，一般关注 Wating 和 Content Download 两项
-    - 前者一般可表示服务端API耗时
-    - 后者表示从API首个回复包到最后一个包的时间，通常可结合表格中的`Size`列，内容越大传输越耗时
+**Step 3. 同步资源过多解决方案**
+> 如 Step 2 所述，deepflow-agent 默认每次同步 1000 条 k8s 资源信息，而 k8s 默认 continue 令牌过期时间为 5min，超出此时间会导致同步中断
+> continue 令牌作用:
+> - https://kubernetes.io/zh-cn/docs/reference/kubernetes-api/common-parameters/common-parameters/#continue
+> - https://kubernetes.io/zh-cn/docs/reference/using-api/api-concepts/#retrieving-large-results-sets-in-chunks
 
-注意：要先打开F12调试框，再刷新页面才能查看到API调用信息。一般可以在打开F12后切换一下菜单，然后点击上图中左上角第二行、第二列的清除图标，然后再切回需要排查问题的菜单来查看。
-
-## 查看 ClickHouse 耗时
-
-在 Network 标签页中，点击具体的API，可以在 Preview 标签中看到 ClickHouse 中 SQL 语句的执行时间
-
-![浏览器查看](./imgs/querier_debug_info.png)
-
-- 查看 debug 字段，可以看到以下内容：
-  - sql 表示在 ClickHouse 中执行的具体 SQL 语句
-  - query_time 表示 SQL 语句本身的执行时间
+解决方案:
+  - 方案一：调大单页查询量（kubernetes-api-list-limit）
+  https://github.com/deepflowio/deepflow/blob/main/server/controller/model/agent_group_config_example.yaml#L468
+  - 方案二：调大 continue 令牌过期时间（--etcd-compaction-interval）
+  https://stackoverflow.com/questions/63664353/how-to-modify-default-expired-time-of-continue-token-in-kubernetes
