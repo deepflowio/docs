@@ -124,7 +124,7 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 
 ### Dubbo
 
-通过解析 [Dubbo](https://dubbo.apache.org/en/docs3-v2/java-sdk/reference-manual/protocol/overview/) 协议，将 Dubbo Request / Response 的字段映射到 l7_flow_log 对应字段中，映射关系如下表：
+支持 Hessian2 和 Kryo 两种序列化算法, 通过解析 [Dubbo](https://dubbo.apache.org/en/docs3-v2/java-sdk/reference-manual/protocol/overview/) 协议，将 Dubbo Request / Response 的字段映射到 l7_flow_log 对应字段中，映射关系如下表：
 
 **Tag 字段映射表格，以下表格只包含存在映射关系的字段**
 
