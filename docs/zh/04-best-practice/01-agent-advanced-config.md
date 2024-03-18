@@ -30,7 +30,7 @@ deepflow-ctl agent-group list your-agent-group
 
 参考上述 agent 默认配置，摘取其中你想修改的部分，创建一个 `your-agent-group-config.yaml` 文件并填写 agent 配置参数，注意必须包含 `vtap_group_id`：
 ```yaml
-vtap_group_id: <Your-agnet-group-ID>
+vtap_group_id: <Your-agent-group-ID>
 # write configurations here
 ```
 ### 创建 agent-group-config
@@ -48,7 +48,7 @@ deepflow-ctl agent-group-config list
 ### 获取 agent-group-config 配置
 
 ```bash
-deepflow-ctl agent-group-config list <Your-agnet-group-ID> -o yaml
+deepflow-ctl agent-group-config list <Your-agent-group-ID> -o yaml
 ```
 
 ### 获取 agent-group-config 所有配置及其默认值
