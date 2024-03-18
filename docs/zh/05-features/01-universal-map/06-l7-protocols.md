@@ -45,21 +45,21 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 |       | response_status           | 响应状态        | --               | Status Code      | 正常: 1XX/2XX/3XX; 客户端异常: 4XX; 服务端异常: 5XX |
 |       | response_exception        | 响应异常        | --               | Status Code      | Status Code 的描述，参考 [List of HTTP status codes](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes) |
 |       | response_result           | 响应结果        | --               | --               | --   |
-| Trace | trace_id                  | TraceID         | traceparent, sw8 | traceparent, sw8 | Agent 的 `http_log_trace_id` 配置项可定义提取的 Header 名称 |
-|       | span_id                   | SpanID          | traceparent, sw8 | traceparent, sw8 | Agent 的 `http_log_span_id` 配置项可定义提取的 Header 名称 |
+| Trace | trace_id                  | TraceID         | traceparent, sw8 [1] | traceparent, sw8 | Agent 的 `http_log_trace_id` 配置项可定义提取的 Header 名称 |
+|       | span_id                   | SpanID          | traceparent, sw8 [2] | traceparent, sw8 | Agent 的 `http_log_span_id` 配置项可定义提取的 Header 名称 |
 |       | x_request_id              | X-Request-ID    | X-Request-ID     | X-Request-ID     | Agent 的 `http_log_x_request_id` 配置项可定义提取的 Header 名称 |
 |       | http_proxy_client         | HTTP 代理客户端 | X-Forwarded-For  | --               | Agent 的 `http_log_proxy_client` 配置项可定义提取的 Header 名称 |
-| Misc. | attribute.http_user_agent | --              | User-Agent       | --               | --   |
-|       | attribute.http_referer    | --              | Referer          | --               | --   |
+| Misc. | attribute.x               | --             | x | x | 支持采集自定义头部字段 [3] |
 
-- TraceID 只截取以下 HTTP Header 的部分值，其他自定义 Header 读取全部值：
+- [1] TraceID 只截取以下 HTTP Header 的部分值，其他自定义 Header 读取全部值：
   - `traceparent` Header 中的 `trace-id` 部分
   - `sw8`/`sw6` Header 中的 `trace ID` 部分
   - `uber-trace-id` Header 中的 `{trace-id}` 部分
-- SpanID 只截取以下 HTTP Header 的部分值，其他自定义 Header 读取全部值：
+- [2] SpanID 只截取以下 HTTP Header 的部分值，其他自定义 Header 读取全部值：
   - `traceparent` Header 中的 `parent-id` 部分
   - `sw8`/`sw6` Header 中的 `segment ID-span ID` 部分
   - `uber-trace-id` Header 中的 `{span-id}` 部分
+- [3] 可通过采集器配置中的 static_config.l7-protocol-advanced-features.extra-log-fields 定义需要额外采集的协议头字段，例如在配置中添加 User-Agent、Cookie 时调用日志中可查看到 attribute.user-agent 和 attribute.cookie 字段。
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
@@ -100,8 +100,9 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 |       | span_id                   | SpanID          | traceparent, sw8  | traceparent, sw8 | Agent 的 `http_log_span_id` 配置项可定义提取的 Header 名称 |
 |       | x_request_id              | X-Request-ID    | X-Request-ID      | X-Request-ID     | Agent 的 `http_log_x_request_id` 配置项可定义提取的 Header 名称 |
 |       | http_proxy_client         | HTTP 代理客户端 | X-Forwarded-For   | --               | Agent 的 `http_log_proxy_client` 配置项可定义提取的 Header 名称 |
-| Misc. | attribute.http_user_agent | --              | User-Agent        | --               | --   |
-|       | attribute.http_referer    | --              | Referer           | --               | --   |
+| Misc. | attribute.x               | --             | x | x | 支持采集自定义头部字段 [3] |
+
+- [1] 可通过采集器配置中的 static_config.l7-protocol-advanced-features.extra-log-fields 定义需要额外采集的协议头字段，例如在配置中添加 User-Agent、Cookie 时调用日志中可查看到 attribute.user-agent 和 attribute.cookie 字段。
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
@@ -184,9 +185,10 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 |       | span_id                   | SpanID          | traceparent, sw8  | traceparent, sw8 | Agent 的 `http_log_span_id` 配置项可定义提取的 Header 名称 |
 |       | x_request_id              | X-Request-ID    | X-Request-ID      | X-Request-ID     | Agent 的 `http_log_x_request_id` 配置项可定义提取的 Header 名称 |
 |       | http_proxy_client         | HTTP 代理客户端 | X-Forwarded-For   | --               | Agent 的 `http_log_proxy_client` 配置项可定义提取的 Header 名称 |
-| Misc. | attribute.http_user_agent | --              | User-Agent        | --               | --   |
-|       | attribute.http_referer    | --              | Referer           | --               | --   |
-|       | attribute.rpc_service     | --              | Service-Name      | --               | --   |
+| Misc. | attribute.rpc_service     | --              | Service-Name      | --               | --   |
+| Misc. | attribute.x               | --             | x | x | 支持采集自定义头部字段 [3] |
+
+- [1] 可通过采集器配置中的 static_config.l7-protocol-advanced-features.extra-log-fields 定义需要额外采集的协议头字段，例如在配置中添加 User-Agent、Cookie 时调用日志中可查看到 attribute.user-agent 和 attribute.cookie 字段。
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
