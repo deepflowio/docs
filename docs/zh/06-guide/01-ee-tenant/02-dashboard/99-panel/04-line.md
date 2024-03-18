@@ -10,9 +10,7 @@ permalink: /guide/ee-tenant/dashboard/panel/line/
 - 普通折线图: 展示查询的全部数据随时间的变化
 - TOP N 折线图: 先将查询的数据，按分组取 TOP N，然后再展示取得的 TOP N 服务或资源的数据随时间的变化
 
-## 折线图
-
-### 总览介绍
+## 总览介绍
 
 ![04-line_1.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031165eedc04a05e1.png)
 
@@ -21,7 +19,7 @@ permalink: /guide/ee-tenant/dashboard/panel/line/
 - **③ 设置:** 图表的基础操作，使用详情，请参阅【设置】章节
 - **④ 删除:** 图表的基础操作，使用详情，请参阅【[流量拓扑 - 总览介绍](./02-topology.md)】章节
 
-### 设置
+## 设置
 
 用户可点击`设置`按钮来对图表操作。
 
@@ -32,7 +30,7 @@ permalink: /guide/ee-tenant/dashboard/panel/line/
 - **下载CSV数据:** 图表的基础操作，使用详情，请参阅【[流量拓扑 - 设置](./02-topology.md)】章节
 - **查看API:** 图表的基础操作，使用详情，请参阅【[流量拓扑 - 设置](./02-topology.md)】章节
 
-### 编辑
+## 编辑
 
 折线图编辑框由三部分组成，分别为`① 图表`、`② 搜索条件`、`③ 样式与设置`。
 
