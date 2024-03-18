@@ -10,10 +10,10 @@ permalink: /guide/ee-tenant/dashboard/panel/stat/
 
 ![09-stat_1.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031865f7e22138b9b.png)
 
-- **① 查询区域:** 图表的基础操作，使用详情，请参阅【[流量拓扑 - 总览介绍](./02-topology.md)】章节
-- **② 修改指标量:** 图表的基础操作，使用详情，请参阅【[流量拓扑 - 修改指标量](./02-topology.md)】章节
+- **① 查询区域:** 图表的基础操作，使用详情，请参阅【[流量拓扑 - 总览介绍](./topology/)】章节
+- **② 修改指标量:** 图表的基础操作，使用详情，请参阅【[流量拓扑 - 修改指标量](./topology/)】章节
 - **③ 设置:** 图表的基础操作，使用详情，请参阅【设置】章节
-- **④ 删除:** 图表的基础操作，使用详情，请参阅【[流量拓扑 - 总览介绍](./02-topology.md)】章节
+- **④ 删除:** 图表的基础操作，使用详情，请参阅【[流量拓扑 - 总览介绍](./topology/)】章节
 
 ## 设置
 
@@ -22,7 +22,7 @@ permalink: /guide/ee-tenant/dashboard/panel/stat/
 ![09-stat_2.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031865f7e4051ebe2.png)
 
 - **① 图表:** 图表根据`② 搜索条件`、`③ 样式与设置`进行绘制
-- **② 搜索条件:** 搜索条件的使用，请参阅【[搜索](../03-query/01-overview.md)】章节
+- **② 搜索条件:** 搜索条件的使用，请参阅【[搜索](../../query/overview/)】章节
 - **③ 样式与设置:** 对图表进行样式、颜色等设置
   - **样式:** 有丰富的功能支持对图表进行样式设置
     - **标题:** 支持修改图表名称
