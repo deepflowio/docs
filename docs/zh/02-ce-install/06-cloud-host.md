@@ -150,6 +150,7 @@ services:
       - /etc/deepflow-agent.yaml:/etc/deepflow-agent/deepflow-agent.yaml:ro
       - /sys/kernel/debug:/sys/kernel/debug:ro
     network_mode: "host"
+    pid: "host"
 EOF
 
 docker compose -f deepflow-agent-docker-compose.yaml up -d
