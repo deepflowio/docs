@@ -5,7 +5,7 @@ permalink: /guide/ee-tenant/query/service-search/
 
 # 服务搜索框
 
-应用-指标统计、网络-服务统计、网络-资源盘点都使用的是`服务搜索框`。
+应用-资源统计、网络-资源统计、网络-资源盘点都使用的是`资源搜索框`。
 
 ![1-服务搜索框](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa530137.png)
 
