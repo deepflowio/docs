@@ -9,7 +9,7 @@ DeepFlow 是一个高度自动化的可观测性平台，提供了应用和网�
 
 DeepFlow 的搜索框可分为四大类，本章节将详细解析每种类型的搜索框及其常见应用场景。
 
-* [服务搜索框](./service-search/)
+* [资源搜索框](./service-search/)
 * [路径搜索框](./path-search/)
 * [日志搜索框](./log-search/)
 * [指标搜索框](./metric-search/)
