@@ -9,7 +9,7 @@ permalink: /guide/ee-tenant/query/path-search/
 
 ![路径搜索框](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024032065faac6eb6f17.png)
  
-- **①/②/③/④/⑦**：详细的操作使用说明可参考[服务搜索框](./service-search/) 
+- **①/②/③/④/⑦**：详细的操作使用说明可参考[资源搜索框](./service-search/) 
 - **⑤ 搜索模式**：可切换`精简模式`、`单向路径`、`双向路径`三种种模式，配合`路径过滤`能力，查询所需路径的数据
   - 精简搜索：输入的`搜索标签`，将作为`客户端`及`服务端`的条件进行查询。使用详情，请参阅【精简模式】章节
   - 单向路径：输入的`搜索标签`，将作为对应的`客户端`或`服务端`的条件进行查询。使用详情，请参阅【单向路径】章节
@@ -21,7 +21,7 @@ permalink: /guide/ee-tenant/query/path-search/
 ![精简模式](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024032065fab1ff0d41a.png)
 
 路径搜索框可切换`精简模式`、`单向路径`、`双向路径`三种种模式，配合`路径过滤`能力，查询所需路径的数据。
-- **①/②/③/④**：详细的操作使用说明可参考[服务搜索框](./service-search/) 
+- **①/②/③/④**：详细的操作使用说明可参考[资源搜索框](./service-search/) 
 - **⑤ 搜索模式**：点击可切换到`精简搜索`或`路径搜索`两种模式 
 - **⑤ 路径过滤**：支持选择查询的路径，并支持查询三种类型的路径，仅在`精简搜索`模式下支持
   - 服务内路径：服务或者资源之间的路径
@@ -32,7 +32,7 @@ permalink: /guide/ee-tenant/query/path-search/
 
 ![单向路径](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024032065fab3eccc2de.png)
  
-- **①/②/③/④**：详细的操作使用说明可参考[服务搜索框](./service-search/) 
+- **①/②/③/④**：详细的操作使用说明可参考[资源搜索框](./service-search/) 
 - **⑤ 搜索模式**：可切换搜索模式。使用详情，请参阅【路径搜索框】章节  
 - **⑥ 交换方向**：点击可快速交换`客户端`与`服务端`的搜索条件，仅在`单向路径`模式下支持 
 
@@ -40,7 +40,7 @@ permalink: /guide/ee-tenant/query/path-search/
 
 ![双向路径](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024032065fab5961fd4e.png)
  
-- **①/②/③/④**：详细的操作使用说明可参考[服务搜索框](./service-search/) 
+- **①/②/③/④**：详细的操作使用说明可参考[资源搜索框](./service-search/) 
 - **⑤ 搜索模式**：可切换搜索模式。使用详情，请参阅【路径搜索框】章节 
 
 # 应用场景
