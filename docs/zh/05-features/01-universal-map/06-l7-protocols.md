@@ -59,7 +59,7 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
   - `traceparent` Header 中的 `parent-id` 部分
   - `sw8`/`sw6` Header 中的 `segment ID-span ID` 部分
   - `uber-trace-id` Header 中的 `{span-id}` 部分
-- [3] 可通过采集器配置中的 static_config.l7-protocol-advanced-features.extra-log-fields 定义需要额外采集的协议头字段，例如在配置中添加 User-Agent、Cookie 时调用日志中可查看到 attribute.user-agent 和 attribute.cookie 字段。
+- [3] 可通过采集器配置中的 static_config.l7-protocol-advanced-features.extra-log-fields 定义需要额外采集的协议头字段，例如在配置中添加 User-Agent、Cookie 时调用日志中可查看到 attribute.user_agent 和 attribute.cookie 字段。
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
@@ -102,7 +102,7 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 |       | http_proxy_client         | HTTP 代理客户端 | X-Forwarded-For   | --               | Agent 的 `http_log_proxy_client` 配置项可定义提取的 Header 名称 |
 | Misc. | attribute.x               | --             | x | x | 支持采集自定义头部字段 [3] |
 
-- [1] 可通过采集器配置中的 static_config.l7-protocol-advanced-features.extra-log-fields 定义需要额外采集的协议头字段，例如在配置中添加 User-Agent、Cookie 时调用日志中可查看到 attribute.user-agent 和 attribute.cookie 字段。
+- [1] 可通过采集器配置中的 static_config.l7-protocol-advanced-features.extra-log-fields 定义需要额外采集的协议头字段，例如在配置中添加 User-Agent、Cookie 时调用日志中可查看到 attribute.user_agent 和 attribute.cookie 字段。
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
@@ -188,7 +188,7 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 | Misc. | attribute.rpc_service     | --              | Service-Name      | --               | --   |
 | Misc. | attribute.x               | --             | x | x | 支持采集自定义头部字段 [3] |
 
-- [1] 可通过采集器配置中的 static_config.l7-protocol-advanced-features.extra-log-fields 定义需要额外采集的协议头字段，例如在配置中添加 User-Agent、Cookie 时调用日志中可查看到 attribute.user-agent 和 attribute.cookie 字段。
+- [1] 可通过采集器配置中的 static_config.l7-protocol-advanced-features.extra-log-fields 定义需要额外采集的协议头字段，例如在配置中添加 User-Agent、Cookie 时调用日志中可查看到 attribute.user_agent 和 attribute.cookie 字段。
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
