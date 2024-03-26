@@ -59,11 +59,11 @@ permalink: /features/universal-map/metrics-and-operators
 
 TCP 客户端建连异常
 
-![TCP 客户端建连异常](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023102065322b5a0876b.png)
+![TCP 客户端建连异常](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024032666028569e59b9.jpg)
 
 TCP 服务端建连异常
 
-![ TCP 服务端建连异常](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023102065322b597dff6.png)
+![ TCP 服务端建连异常](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240326660285689dbfc.jpg)
 
 TCP 传输异常
 
