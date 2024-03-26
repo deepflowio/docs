@@ -331,6 +331,10 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
   /* traceparent: 00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01 */ SELECT col FROM tbl
   ```
 
+注意，以下为单向消息，会被直接保存为 type=session 的调用日志：
+- COM_STMT_CLOSE
+- COM_QUIT
+
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
 | 名称               | 中文            | Request | Response             | 描述        |
@@ -568,6 +572,21 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 
 注意：受限于协议特征，目前仅支持识别在 agent 启动后建立连接的 AMQP 协议。
 
+另外，以下为单向消息，会被直接保存为 type=session 的调用日志：
+- Connection.Blocked (`s->c`)
+- Connection.Unblocked (`s->c`)
+- Basic.Return (`s->c`)
+- Basic.Ack (`both`)
+- Basic.Nack (`both`)
+- Basic.Reject (`c->s`)
+- Basic.RecoverAsync (`c->s`)
+- Content-Header (`both`)
+- Content-Body (`both`)
+- Protocol-Header (`c->s`)
+而如下消息可能有、也可能没有 ACK，DeepFlow 统一忽略他们的响应（因为 ACK 中没有关键信息，由于不会稳定 ACK 也无需计算时延）：
+- Basic.Publish (`c->s`)
+- Basic.Deliver (`s->c`)
+
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
 | 名称                | 中文          | Request        | Response   | 描述 |
@@ -625,7 +644,6 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 
 **Tag 字段映射表格，以下表格只包含存在映射关系的字段**
 
-
 | 类别  | 名称                | 中文          | Request Header   | Response Header  | 描述 |
 | ----- | ------------------ | ------------ | ---------------- | ---------------- | ---- |
 | Req.  | version            | 协议版本      | version          | --               | 使用 INFO 中的 version |
@@ -642,6 +660,60 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 |       | span_id            | SpanID       | traceparent, sw8 | traceparent, sw8 | 在 HMSG, HPUB 中的 NATS headers 提取   |
 |       | x_request_id       | X-Request-ID | --               | --               | --   |
 | Misc. | --                 | --           | --               | --               | --   |
+
+注意，除了 Info/Connect、Ping/Pong 这两组消息以外，其他消息均为单向消息，会被直接保存为 type=session 的调用日志：
+
+
+**Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
+
+| 名称              | 中文    | Request         | Response   | 描述 |
+| -----------------| ------- | --------------- | ---------- | -- |
+| request            | 请求          | --           | --           | Request 个数 |
+| response           | 响应          | --           |              | Response 个数 |
+| log_count          | 日志总量      | --           | --           | -- |
+| error              | 异常          | --           | --           | 客户端异常 + 服务端异常 |
+| client_error       | 客户端异常     | -- | --  | -- |
+| server_error       | 服务端异常     | -- | --  | -- |
+| error_ratio        | 异常比例      | --           | --           | 异常 / 响应 |
+| client_error_ratio | 客户端异常比例 | --           | --           | 客户端异常 / 响应 |
+| server_error_ratio | 服务端异常比例 | --           | --           | 服务端异常 / 响应 |
+
+### Pulsar
+
+通过解析 [Pulsar](https://pulsar.apache.org/docs/3.2.x/client-libraries-python/) 协议，将 Pulsar Request / Response 的字段映射到 l7_flow_log 对应字段中，映射关系如下表：
+
+**Tag 字段映射表格，以下表格只包含存在映射关系的字段**
+
+| 类别  | 名称                | 中文          | Request Header   | Response Header  | 描述 |
+| ----- | ------------------ | ------------ | ---------------- | ---------------- | ---- |
+| Req.  | version            | 协议版本      | protocol_version | --               | 取 CommandConnect 和 CommandConnected 中的小者 |
+|       | request_type       | 请求类型      | command          | --               | --   |
+|       | request_domain     | 请求域名      | proxy_to_broker_url | --            | 在 CommandConnect 中 |
+|       | request_resource   | 请求资源      | topic            | --               | 取协议 topic 最后一个 / 之后的内容 |
+|       | request_id         | 请求 ID       | sequence_id      | --               | 在 MessageMetadata 中 |
+|       | endpoint           | 端点          | topic            | --               | --   |
+| Resp. | response_code      | 响应码        | --              | code              | --   |
+|       | response_status    | 响应状态      | --              | status            | --   |
+|       | response_exception | 响应异常      | --              | exception         | --   |
+|       | response_result    | 响应结果      | --              | --                | --   |
+| Trace | trace_id           | TraceID      | traceparent, sw8 | traceparent, sw8 | 在 HMSG, HPUB 中的 NATS headers 提取   |
+|       | span_id            | SpanID       | traceparent, sw8 | traceparent, sw8 | 在 HMSG, HPUB 中的 NATS headers 提取   |
+|       | x_request_id       | X-Request-ID | x_request_id     | x_request_id     | --   |
+| Misc. | --                 | --           | --               | --               | --   |
+
+注意，以下为单向消息，会被直接保存为 type=session 的调用日志：
+- Ack
+- Flow
+- Message
+- RedeliverUnacknowledgedMessages
+- ReachedEndOfTopic
+- ActiveConsumerChange
+- AckResponse
+- WatchTopicList
+- WatchTopicListSuccess
+- WatchTopicUpdate
+- WatchTopicListClose
+- TopicMigrated
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
