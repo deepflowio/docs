@@ -7,6 +7,7 @@ permalink: /about/users
 
 | 行业   | 用户      | 来源   | 标题                                                | 链接               |
 | ------ | --------- | ------ | --------------------------------------------------- | ------------------ |
+| 游戏   | 腾讯 IEG  | 文章   | 腾讯游戏基于 DeepFlow 的零侵扰可观测性进阶实战 | [文章](https://mp.weixin.qq.com/s/6v5jPLSMD1SZJITIKvHpWA) |
 | 电信   | 中国移动  | 文章   | 开箱即用的 eBPF 可观测性：中国移动磐基 PaaS 平台案例 | [文章](https://mp.weixin.qq.com/s/Byb_PJ7hlUAeTotAamgqRA) |
 | 银行   | 某国有银行| 文章   | DeepFlow 零侵扰实现分布式数据库 TDSQL 的全链路可观测性 | [文章](https://mp.weixin.qq.com/s/IJntZDqBpLOWP2-JGY6Hmw) |
 | 电信   | 中国移动  | 文章   | DeepFlow 元数据数据库 PostgreSQL 改造实践           | [文章](https://mp.weixin.qq.com/s/1_8939kNHZjqrABB9nlzBg) |
