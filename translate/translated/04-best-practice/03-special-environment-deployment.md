@@ -28,6 +28,18 @@ When K8s uses the macvlan CNI, only one virtual network card shared by all PODs 
 
    ```yaml
    vtap_group_id: g-xxxxxx
+   ## Regular Expression for TAP (Traffic Access Point)
+   ## Length: [0, 65535]
+   ## Default:
+   ##   Localhost:   lo
+   ##   Common NIC:  eth.*|en[osipx].*
+   ##   QEMU VM NIC: tap.*
+   ##   Flannel:     veth.*
+   ##   Calico:      cali.*
+   ##   Cilium:      lxc.*
+   ##   Kube-OVN:    [0-9a-f]+_h$
+   ## Note: Regular expression of NIC name for collecting traffic
+   tap_interface_regex: eth0
    ## Traffic Tap Mode
    ## Default: 0, means local.
    ## Options: 0, 1 (virtual mirror), 2 (physical mirror, aka. analyzer mode)
@@ -40,15 +52,6 @@ When K8s uses the macvlan CNI, only one virtual network card shared by all PODs 
    ##   Use Analyzer mode when deepflow-agent captures traffic through physical switch
    ##   mirroring.
    tap_mode: 1
-   static_config:
-     ################
-     ## Dispatcher ##
-     ################
-     ## TAP NICs when tap_mode != 0
-     ## Note: The list of capture NICs when tap_mode is not equal to 0, in which
-     ##   case tap_interface_regex is invalid.
-     src-interfaces:
-       - eth0 ## The mother interface of macvlan, such as eth0.
    ```
 
 4. Create an agent-group-config:
