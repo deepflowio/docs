@@ -516,22 +516,25 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 
 **Tag 字段映射表格，以下表格只包含存在映射关系的字段**
 
-| 类别  | 名称               | 中文         | Request Header   | Response Header        | 描述 |
-| ----- | ------------------ | ------------ | ---------------- | ---------------------- | ---- |
-| Req.  | version            | 协议版本     | --               | --                     | --   |
-|       | request_type       | 请求类型     | request_api_key  | --                     | --   |
-|       | request_domain     | 请求域名     | --               | --                     | --   |
-|       | request_resource   | 请求资源     | topic_name       | --                     | 仅 Fetch 和 Produce 消息 |
-|       | request_id         | 请求 ID      | correlation_id   | correlation_id         | --   |
-|       | endpoint           | 端点         | topic_name       | --                     | 仅 Fetch 和 Produce 消息 |
-| Resp. | response_code      | 响应码       | --               | error_code             | 仅 Fetch 消息获取了响应码 |
-|       | response_status    | 响应状态     | --               | error_code             | 正常: error_code=0; 服务端异常: error_code!=0 |
-|       | response_exception | 响应异常     | --               | error_code             | error_code 的[英文描述](http://kafka.apache.org/protocol#protocol_error_codes) |
-|       | response_result    | 响应结果     | --               | --                     | --   |
-| Trace | trace_id           | TraceID      | traceparent, sw8 | traceparent, sw8       | 从首个 Record 的对应 Header 字段中提取 |
-|       | span_id            | SpanID       | traceparent, sw8 | traceparent, sw8       | 从首个 Record 的对应 Header 字段中提取 |
-|       | x_request_id       | X-Request-ID | correlation_id   | correlation_id         | 参考：[使用 CorrelationID 关联 Req-Resp 通信场景](https://cwiki.apache.org/confluence/display/KAFKA/A+Guide+To+The+Kafka+Protocol#AGuideToTheKafkaProtocol-CommonRequestandResponseStructure) |
-| Misc. | --                 | --           | --               | --                     | --   |
+| 类别  | 名称               | 中文         | Request Header            | Response Header           | 描述 |
+| ----- | ------------------ | ------------ | ------------------------- | ------------------------- | ---- |
+| Req.  | version            | 协议版本     | request_api_version       | request_api_key           | --  |
+|       | request_type       | 请求类型     | request_api_key           | request_api_version       | 支持的 [API Key 列表](https://kafka.apache.org/protocol.html#protocol_api_keys) |
+|       | request_domain     | 请求域名     | topic                     | topic                     | 仅 Produce、Fetch 消息，取第一个对应字段 |
+|       | request_resource   | 请求资源     | $topic-$partition:$offset | $topic-$partition:$offset | 仅 Produce、Fetch 消息，取第一个对应字段 [1][2] |
+|       | request_id         | 请求 ID      | correlation_id            | correlation_id            | 参考：[使用 CorrelationID 关联 Req-Resp 通信场景](https://cwiki.apache.org/confluence/display/KAFKA/A+Guide+To+The+Kafka+Protocol#AGuideToTheKafkaProtocol-CommonRequestandResponseStructure) |
+|       | endpoint           | 端点         | $topic-$partition         | $topic-$partition         | 仅 Produce、Fetch 消息，取第一个对应字段 |
+| Resp. | response_code      | 响应码       | --                        | error_code                | 仅 Produce、Fetch、JoinGroup、LeaveGroup、SyncGroup 消息 |
+|       | response_status    | 响应状态     | --                        | error_code                | 正常: error_code=0; 服务端异常: error_code!=0 |
+|       | response_exception | 响应异常     | --                        | error_code                | error_code 的[英文描述](http://kafka.apache.org/protocol#protocol_error_codes) |
+|       | response_result    | 响应结果     | --                        | --                        | --   |
+| Trace | trace_id           | TraceID      | traceparent, sw8          | traceparent, sw8          | 从首个 Record 的对应 Header 字段中提取 |
+|       | span_id            | SpanID       | traceparent, sw8          | traceparent, sw8          | 从首个 Record 的对应 Header 字段中提取 |
+|       | x_request_id       | X-Request-ID | correlation_id            | correlation_id            | 参考：[使用 CorrelationID 关联 Req-Resp 通信场景](https://cwiki.apache.org/confluence/display/KAFKA/A+Guide+To+The+Kafka+Protocol#AGuideToTheKafkaProtocol-CommonRequestandResponseStructure) |
+| Misc. | attribute.group_id | --           | group_id                  | group_id                  | 仅 JoinGroup、LeaveGroup、SyncGroup 消息 |
+
+- [1] 表中所有 partition 对应 Kafka 协议中的 partition id 或 partition index。
+- [2] Produce 的 offset 取自 Response 中的 base_offset，Fetch 的 offset 取自 Request 中的 fetch_offset。
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
