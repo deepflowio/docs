@@ -2,6 +2,8 @@
     "about": "About DeepFlow",
     "ce-install": "Install (Community Edition)",
     "ee-install": "Install (Enterprise Edition)",
+    "ee-install/tenant": "Tenant",
+    "ee-install/admin": "Administrator",
     "best-practice": "Best Practice",
     "best-practice/ee": "Enterprise Edition",
     "features": "Features",

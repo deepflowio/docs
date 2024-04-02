@@ -2,6 +2,8 @@
     "about": "关于 DeepFlow",
     "ce-install": "安装社区版",
     "ee-install": "安装企业版",
+    "ee-install/tenant": "租户",
+    "ee-install/admin": "管理员",
     "best-practice": "最佳实践",
     "best-practice/ee": "企业版生产部署",
     "features": "核心特性",
