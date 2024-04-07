@@ -730,7 +730,7 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 |       | request_type       | 请求类型      | command          | --               | --   |
 |       | request_domain     | 请求域名      | proxy_to_broker_url | --            | 在 CommandConnect 中 |
 |       | request_resource   | 请求资源      | topic            | --               | 取协议 topic 最后一个 / 之后的内容 |
-|       | request_id         | 请求 ID       | sequence_id      | --               | 在 MessageMetadata 中 |
+|       | request_id         | 请求 ID       | request_id      | --               | 对于 Send/SendError/SendReceipt，由于命令无 request_id，另取 producer_id 和 sequence_id 的低 16 位拼接作为请求 ID |
 |       | endpoint           | 端点          | topic            | --               | --   |
 | Resp. | response_code      | 响应码        | --              | code              | --   |
 |       | response_status    | 响应状态      | --              | status            | --   |
