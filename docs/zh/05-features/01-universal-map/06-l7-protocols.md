@@ -653,7 +653,7 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 |       | request_type       | 请求类型     | OpenWireCommand  | --               | --   |
 |       | request_domain     | 请求域名     | broker_url       | --               | --   |
 |       | request_resource   | 请求资源     | topic            | --               | --   |
-|       | request_id         | 请求 ID      | command_id       | --               | --   |
+|       | request_id         | 请求 ID      | command_id       | correlation_id(注意与下方 x_request_id 对应的 correlation_id 字段区分，为两个不同的字段)  | 当 request 的 response_required 为 true 时，对应 response 的 correlation_id 字段与 request 的 request_id 应当一致|
 |       | endpoint           | 端点         | topic            | --               | --   |
 | Resp. | response_code      | 响应码       | --               | --               | --   |
 |       | response_status    | 响应状态     | --               | --               | 正常: 无 error message; 服务端异常: 有 error message |
