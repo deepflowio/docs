@@ -90,7 +90,7 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 |       | request_type              | 请求类型        | Method            | --               | --   |
 |       | request_domain            | 请求域名        | Host 或 Authority | --               | --   |
 |       | request_resource          | 请求资源        | Path              | --               | --   |
-|       | request_id                | 请求 ID         | Stream ID         | --               | --   |
+|       | request_id                | 请求 ID         | Stream ID         | Stream ID        | --   |
 |       | endpoint                  | 端点            | Path              | --               | --   |
 | Resp. | response_code             | 响应码          | --                | Status Code      | --   |
 |       | response_status           | 响应状态        | --                | Status Code      | 正常: 1XX/2XX/3XX; 客户端异常: 4XX; 服务端异常: 5XX |
@@ -135,7 +135,7 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 |       | request_type          | 请求类型     | Method-Name               | --               | --   |
 |       | request_domain        | 请求域名     | --                        | --               | --   |
 |       | request_resource      | 请求资源     | Service-Name              | --               | --   |
-|       | request_id            | 请求 ID      | Request-ID                | --               | --   |
+|       | request_id            | 请求 ID      | Request-ID                | Request-ID       | --   |
 |       | endpoint              | 端点         | Service-Name/Method-Name  | --               | --   |
 | Resp. | response_code         | 响应码       | --                        | Status           | --   |
 |       | response_status       | 响应状态     | --                        | Status           | 正常: 20; 客户端异常: 30/40/90; 服务端异常: 31/50/60/70/80/100 |
@@ -175,7 +175,7 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 |       | request_type              | 请求类型        | Method            | --               | --   |
 |       | request_domain            | 请求域名        | Host 或 Authority | --               | --   |
 |       | request_resource          | 请求资源        | Service-Name      | --               | --   |
-|       | request_id                | 请求 ID         | Stream ID         | --               | --   |
+|       | request_id                | 请求 ID         | Stream ID         | Stream ID        | --   |
 |       | endpoint                  | 端点            | Path              | --               | --   |
 | Resp. | response_code             | 响应码          | --                | Status Code      | --   |
 |       | response_status           | 响应状态        | --                | Status Code      | 正常: 1XX/2XX/3XX; 客户端异常: 4XX; 服务端异常: 5XX |
@@ -219,7 +219,7 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 |       | request_type       | 请求类型     | method_name 等 [1]              | --               | --   |
 |       | request_domain     | 请求域名     | --                              | --               | --   |
 |       | request_resource   | 请求资源     | target_service 等 [2]           | --               | --   |
-|       | request_id         | 请求 ID      | req_id                          | --               | --   |
+|       | request_id         | 请求 ID      | req_id                          | req_id           | --   |
 |       | endpoint           | 端点         | $request_type/$request_resource | --               | --   |
 | Resp. | response_code      | 响应码       | --                              | resp_code        | --   |
 |       | response_status    | 响应状态     | --                              | resp_code        | 正常: 0; 客户端异常: 8; 服务端异常: 其他 |
@@ -264,7 +264,7 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 |       | request_type       | 请求类型     | PARAM 中的 REQUEST_METHOD  | --               | --   |
 |       | request_domain     | 请求域名     | PARAM 中的 HTTP_HOST       | --               | --   |
 |       | request_resource   | 请求资源     | PARAM 中的 REQUEST_URI     | --               | --   |
-|       | request_id         | 请求 ID      | Request ID                 | --               | --   |
+|       | request_id         | 请求 ID      | Request ID                 | Request ID       | --   |
 |       | endpoint           | 端点         | PARAM 中的 DOCUMENT_URI    | --               | --   |
 | Resp. | response_code      | 响应码       | --                         | Status Code      | STDOUT 中的 Status，默认 200 |
 |       | response_status    | 响应状态     | --                         | Status Code      | 正常: 1XX/2XX/3XX; 客户端异常: 4XX; 服务端异常: 5XX |
@@ -522,7 +522,7 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 |       | request_type       | 请求类型     | request_api_key  | --                     | --   |
 |       | request_domain     | 请求域名     | --               | --                     | --   |
 |       | request_resource   | 请求资源     | topic_name       | --                     | 仅 Fetch 和 Produce 消息 |
-|       | request_id         | 请求 ID      | correlation_id   | --                     | --   |
+|       | request_id         | 请求 ID      | correlation_id   | correlation_id         | --   |
 |       | endpoint           | 端点         | topic_name       | --                     | 仅 Fetch 和 Produce 消息 |
 | Resp. | response_code      | 响应码       | --               | error_code             | 仅 Fetch 消息获取了响应码 |
 |       | response_status    | 响应状态     | --               | error_code             | 正常: error_code=0; 服务端异常: error_code!=0 |
