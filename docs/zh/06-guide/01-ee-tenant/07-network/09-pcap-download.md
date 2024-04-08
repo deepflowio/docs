@@ -9,7 +9,7 @@ PCAP下载以列表和趋势分析图形式展示了一定时间范围内所开�
 
 ## 总览介绍
 
-![9_1.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650ac82daa46d.png)
+![总览介绍](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650ac82daa46d.png)
 
 - **① PCAP 策略下拉框**：下拉框展示所有的 PCAP 策略，可进行策略选择
   - 不选择则表示展示所有 PCAP 策略下的数据

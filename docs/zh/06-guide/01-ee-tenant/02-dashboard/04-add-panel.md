@@ -11,12 +11,12 @@ permalink: /guide/ee-tenant/dashboard/add-panel/
 
 **第一步**：进入到需要添加子视图的功能模块页面中，比如点击`① 应用-服务`进入`服务总览`页面
 
-![4_1.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230918650824ebccb7c.png)
+![第一步](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230918650824ebccb7c.png)
 
 **第二步**: 选择需要加入视图的子视图，点击子视图中的`② 设置`按钮，选择`③ 添加到视图`选项
 
-![4_2.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230918650824ed30950.png)
+![第二步](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230918650824ed30950.png)
 
 **第三步**: 确认子视图的`④ 名称`以及选择当前子视图需要加入的`⑤ 视图`，点击`⑥ 确认`后，则成功添加到对应视图了
 
-![4_3.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230918650824edae26e.png)
+![第三步](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230918650824edae26e.png)

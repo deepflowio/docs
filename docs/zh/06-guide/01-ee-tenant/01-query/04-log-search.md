@@ -9,7 +9,7 @@ permalink: /guide/ee-tenant/query/log-search/
 
 `日志搜索框`相比`路径搜索框`仅少了`分组`能力，详细的操作使用说明可参考[路径搜索框](./path-search/)
 
-![1-日志搜索框](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f5e7a6cd.png)
+![00-日志搜索框](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f5e7a6cd.png)
 
 # 应用场景
 
@@ -22,7 +22,7 @@ permalink: /guide/ee-tenant/query/log-search/
 - 路径：服务内、服务外、广域网
 - 方向：双方向
 
-![2-查询结果](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f61ad6e0.png)
+![01-查询结果](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f61ad6e0.png)
 
 ## 查看某服务的 MySQL 调用
 
@@ -33,7 +33,7 @@ permalink: /guide/ee-tenant/query/log-search/
 - 路径：服务内、服务外、广域网
 - 方向：双方向
 
-![3-查询结果](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f60c6540.png)
+![02-查询结果](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f60c6540.png)
 
 ## 查看某五元组的流日志
 
@@ -43,17 +43,17 @@ permalink: /guide/ee-tenant/query/log-search/
 - 搜索标签：pod = insurances-v1-d895774d6-26wf7，client_port = 46168，protocol = TCP
 - 路径：服务内
 - 主分组：pod
-- 次分组：tap_side
+- 次分组：observation_point
 - 方向：客户端
 ------------------------------
 - 服务集合：S2
 - 搜索标签：pod = mysqldb-v1-5cc78df8d-fwrn4，server_port = 3306
 - 路径：服务内
 - 主分组：pod
-- 次分组：tap_side
+- 次分组：observation_point
 - 方向：服务端
 
-![4-查询结果](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f601adf9.png)
+![03-查询结果](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f601adf9.png)
 
 ## 查看某 POD 存在建连异常的流日志
 
@@ -64,4 +64,4 @@ permalink: /guide/ee-tenant/query/log-search/
 - 路径：服务内、服务外、广域网
 - 方向：双方向
 
-![5-查询结果](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f5f68325.png)
+![04-查询结果](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f5f68325.png)

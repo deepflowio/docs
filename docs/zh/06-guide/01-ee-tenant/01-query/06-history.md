@@ -11,14 +11,14 @@ permalink: /guide/ee-tenant/query/history/
 
 ## 基础介绍
 
-![6_1.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230922650d6263c60c9.png)
+![00-基础介绍](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230922650d6263c60c9.png)
 
 - **① 搜索快照下拉框:** 以下拉框的形式展示当前页面的所有保存的搜索条件，同时支持对搜索快照进行管理，使用详细说明，请参阅【搜索快照下拉框】
 - **② 保存搜索条件:** 点击后可对当前页面中搜索条件、时间等信息进行保存，使用详情，请参阅【保存搜索条件】
 
 ## 搜索快照下拉框
 
-![6_2.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230922650d626419381.png)
+![01-下拉框](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230922650d626419381.png)
 
 搜索快照栏，由搜索栏，下拉框、描述框三部分组成。
 
@@ -31,13 +31,13 @@ permalink: /guide/ee-tenant/query/history/
 
 ## 保存搜索条件
 
-![6_3.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230922650d6264dba0a.png)
+![02-保存搜索条件](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230922650d6264dba0a.png)
 
 用户可将当前页面中的搜索条件进行保存，点击`保存`图标，对该保存进行名称、描述的编辑，同时支持记忆搜索的时间范围，以及记忆子视图的配置。
 
 ## 管理搜索快照
 
-![6_4.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230922650d6265ca207.png)
+![03-管理搜索快照](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230922650d6265ca207.png)
 
 - **① 标星:** 标星将搜索快照标记为重要关注，在下拉栏以及表格中优先显示，帮助用户更快地找到搜索快照
   - 再次点击，则取消标星

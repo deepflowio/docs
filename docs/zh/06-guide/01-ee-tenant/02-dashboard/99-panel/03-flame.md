@@ -10,11 +10,11 @@ DeepFlow 通过`调用链追踪`将一次调用涉及到的应用 Span、系统 
 
 对`调用链追踪`功能页面中的一个调用发起`追踪`操作，然后通过右滑框的形式展现，此图为链路调用追踪的展示方式，如下图所示。
 
-``` 
+```
 注: 调用链追踪的火焰图和拓扑图暂时不支持加入视图
 ```
 
-![3_1.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202309196509588519859.png)
+![00-总览](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202309196509588519859.png)
 
 调用追踪右滑框分三部分：头部信息、数据可视化、调用信息数据列表
 
@@ -24,7 +24,7 @@ DeepFlow 通过`调用链追踪`将一次调用涉及到的应用 Span、系统 
 
 ### 火焰图
 
-![3_2.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023091965095885c540d.png)
+![01-火焰图](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023091965095885c540d.png)
 
 火焰图由多个`条状 bar`组成，每个`条状 bar`代表一个 Span，x 轴以时间为维度，y 轴以调用堆栈深度为维度，按 Span 调用的顺序从上到下进行展示，下面将进行详细的介绍:
 
@@ -38,7 +38,7 @@ DeepFlow 通过`调用链追踪`将一次调用涉及到的应用 Span、系统 
     - N: 网络 Span，通过 BPF 从网络流量中采集的 Span，覆盖 iptables、ipvs、OvS、LinuxBridge 等容器网络组件
   - 调用信息: 不同 Span 展示的`调用信息`略有不同
     - 应用 Span 和系统 Span：`应用协议`、`请求类型`、`请求资源`
-    - 网络 Span：`路径统计位置`
+    - 网络 Span：`观测点`
   - 执行时间: Span 从开始到结束消耗的所有时间
 - **操作:** 支持`悬停`与`点击`
   - 悬停: 悬停到 Span，以 TIP 的形式展示`调用信息`+`实例信息`+`执行时间`
@@ -49,7 +49,7 @@ DeepFlow 通过`调用链追踪`将一次调用涉及到的应用 Span、系统 
 
 ### 调用拓扑图
 
-![3_3.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023091965095886aa8de.png)
+![02-调用拓扑图](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023091965095886aa8de.png)
 
 调用拓扑图将数据进行有序结构化展示，数据以服务聚合为节点，每个节点之间用水平竖的折线将 Span 之间的父子关系展示出其请求调用关系，下面将进行详细的介绍:
 - **节点:** 对应到火焰图中服务列表的服务，将同一个服务下的一个或者多个 Span 聚合为一个节点，并展示该服务在调用链中所用耗时
@@ -58,4 +58,4 @@ DeepFlow 通过`调用链追踪`将一次调用涉及到的应用 Span、系统 
   - 自身耗时：服务所对应的一个或多个 Span 的耗时总和
 - **路径:** 对应火焰图中的`父Span`到`子Span`的关系进行拓扑路径绘制
 - **操作:** 支持`悬停`与`点击`，使用详情，请参阅【火焰图】章节
-  
+
