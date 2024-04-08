@@ -90,3 +90,11 @@ permalink: /guide/ee-tenant/dashboard/variable-template/
 模板变量引用成功后，则可在视图的顶部改变模板变量的值，来快速切换视图的数据了。
 
 ![5_13.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023091865082719abddf.png)
+
+## 从 URL 设置选中的模板变量值
+
+::: warning Warning
+该功能不是对外的标准功能，对外提供需要单独验证功能。
+:::
+
+新建一个名字叫 `变量名称` 的变量，子视图引用模板变量。然后在URL里添加 &template={"value":[2,3,4]}，子视图中就会使用对应的变量。
