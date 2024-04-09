@@ -57,25 +57,13 @@ permalink: /features/universal-map/metrics-and-operators
 
 [csv-传输层 TCP 异常](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/network.ch?Category=TCP Error)
 
-TCP 客户端建连异常
+#### TCP 建连异常
 
-![TCP 客户端建连异常](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024032666028569e59b9.jpg)
+![TCP 建连异常](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202404096614fad3219cc.png)
 
-TCP 服务端建连异常
+#### TCP 传输异常
 
-![ TCP 服务端建连异常](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240326660285689dbfc.jpg)
-
-TCP 传输异常
-
-![TCP传输异常](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023102065322b5796c4c.png)
-
-TCP 断连异常
-
-![TCP 断连异常](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202310206532388b33760.jpg)
-
-传输 TCP 连接超时
-
-![ TCP 连接超时](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023102065322b56ccae8.png)
+![TCP 传输异常](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202404096614fad3219cc.png)
 
 ### 传输层时延 (Delay)
 
