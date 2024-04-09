@@ -665,7 +665,7 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 | Misc. | --                 | --           | --               | --               | --   |
 
 - [1] 注意与下方 x_request_id 对应的 correlation_id 字段区分，为两个不同的字段
-- [2] 当 request 的 response_required 为 true 时，对应 response 的 correlation_id 字段与 request 的 request_id 应当一致
+- [2] 当 request 的 response_required 为 true 时，对应 response 的 correlation_id 字段与 request 的 command_id 应当一致
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
