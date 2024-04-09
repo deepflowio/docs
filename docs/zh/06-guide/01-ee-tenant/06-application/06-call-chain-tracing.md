@@ -9,7 +9,7 @@ permalink: /guide/ee-tenant/application/call-chain-tracing/
 
 ## 总览介绍
 
-![6_1.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650aa718393da.png)
+![总览介绍](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650aa718393da.png)
 
 - **① 时间选择器**：支持时间过滤查询，使用详情，请参阅【[视图详情 - 时间选择器](../dashboard/use/)】章节
 - **② 搜索快照**：支持将搜索条件保存为快照，使用详情，请参阅【[查询 - 搜索快照](../query/history/)】章节

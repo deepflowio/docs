@@ -11,7 +11,7 @@ permalink: /guide/ee-tenant/resources/network-services/
 
 安全组为云计算中的一种虚拟网络安全机制，可控制云实例的出入口流量，从而保护云实例以及云网络的安全。
 
-![06-network_services.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202304266448d05507924.png)
+![01-安全组](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202304266448d05507924.png)
 
 - 全部安全组规则：支持查看所有安全组规则，包含方向、IP 类型、协议类型、本地端口范围、远端端口范围等信息，同时支持导出CSV
 - 操作

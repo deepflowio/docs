@@ -38,5 +38,6 @@
     "guide/ee-tenant/alert": "Alert",
     "guide/ee-tenant/resources": "Resources",
     "guide/ee-tenant/report": "Report",
+    "guide/ee-tenant/configuration": "Configuration",
     "guide/ee-admin": "Administrator"
 }

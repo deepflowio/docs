@@ -23,7 +23,7 @@ permalink: /guide/ee-tenant/resources/container-resources/
 
 Ingress 是在 K8s 集群中公开 HTTP 和 HTTPS 服务的一种方式，通过在集群中创建一个 API 对象来实现此功能，该 API 对象将公网流量路由到相应的服务上。
 
-![08-container_resources_3.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202304266448dfd092f9a.png)
+![01-Ingress](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202304266448dfd092f9a.png)
 
 - 全部转发规则：支持查看并下载所有的转发规则，列表内容包括协议类型、域名、路径、服务、服务PORT、所属Ingress
 - 操作：
@@ -34,7 +34,7 @@ Ingress 是在 K8s 集群中公开 HTTP 和 HTTPS 服务的一种方式，通过
 
 容器服务是一种基于云计算的服务，可以将应用程序和服务打包为一个或多个容器，并将其部署到云上，以便在任何地方运行，从而简化了应用程序的部署和管理过程。
 
-![08-container_resources_4.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202304266448e6b382c9a.png)
+![02-容器服务](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202304266448e6b382c9a.png)
 
 - 全部端口映射：支持查看并下载所有容器内部的应用程序端口映射到主机（节点）的端口，展示了协议类型、节点 PORT、服务 PORT、容器 PORT、所属服务，同时支持下载
 - 操作

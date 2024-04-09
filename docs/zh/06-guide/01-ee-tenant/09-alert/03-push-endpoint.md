@@ -13,7 +13,7 @@ permalink: /guide/ee-tenant/alert/push-endpoint/
 
 将告警信息发送到指定的邮件地址，可通过查看邮件来及时了解告警信息。
 
-![03-push_endpoint.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230428644b76b451e05.png)
+![Email 推送](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230428644b76b451e05.png)
 
 - 新建 Email 推送：填写相关信息成功建立后，可在[折线图](../dashboard/panel/line/)中使用
 - 列表
@@ -25,7 +25,7 @@ permalink: /guide/ee-tenant/alert/push-endpoint/
 
 HTTP 推送通过 HTTP 协议向指定的 URL 地址推送数据。
 
-![03-push_endpoint_1.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230428644b7a5c0c7bd.png)
+![HTTP 推送](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230428644b7a5c0c7bd.png)
 
 - 页面按钮使用，可参考【Email 推送】章节
 

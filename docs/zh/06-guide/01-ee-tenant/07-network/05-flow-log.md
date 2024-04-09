@@ -9,7 +9,7 @@ permalink: /guide/ee-tenant/network/flow-log/
 
 ## 总览介绍
 
-![5_1.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650ac4d20944c.png)
+![总览介绍](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650ac4d20944c.png)
 
 - 页面按钮功能，使用详情，请参阅【[应用 - 调用日志](../application/call-log/)】章节
 
