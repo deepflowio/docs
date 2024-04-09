@@ -9,7 +9,7 @@ permalink: /guide/ee-tenant/application/call-log/
 
 ## 总览介绍
 
-![5_1.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650aa3c59797f.png)
+![总览介绍](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240403660cbbf9e6ac2.png)
 
 - **① 时间选择器**：支持时间过滤查询，使用详情，请参阅【[视图详情 - 时间选择器](../dashboard/use/)】章节
 - **② 搜索快照**：支持将搜索条件保存为快照，使用详情，请参阅【[查询 - 搜索快照](../query/history/)】章节
@@ -23,4 +23,5 @@ permalink: /guide/ee-tenant/application/call-log/
 - **⑥ 区域查询**：支持快速切换查询区域数据
 - **表格操作**：
   - 点击行：点击表格的数据，可快速进入右滑框查看对应应用服务的相关信息，使用详情，请参阅【[右滑框](./right-sliding-box/)】章节
+  - ⑦ 复制：表格内容复制功能，点击后可选择要复制的内容格式，配置详情，请参阅【[表格](../dashboard/panel/table/)】章节
   

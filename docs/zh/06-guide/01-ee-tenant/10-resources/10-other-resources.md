@@ -19,7 +19,7 @@ permalink: /guide/ee-tenant/resources/other-resources/
 
 物理链路是指连接网络设备的物理线路，物理链路对网络传输的稳定性、速度和可靠性有着重要的影响。
 
-![09-process_resources_2.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202304266449023482d95.png)
+![01-物理链路](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202304266449023482d95.png)
 
 - 查看拓扑：以拓扑图的形式展示了当前列表中所有的物理链路的逻辑依赖关系
 - 页面按钮使用，可参考[资源池-区域](./network-resources/)章节描述
@@ -28,4 +28,4 @@ permalink: /guide/ee-tenant/resources/other-resources/
 
 图例以图标的形式表示相关资源。以列表的形式展示所有的图例，支持新建、修改图例。
 
-![10-other_resources.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202304266449034569faf.png)
+![02-图例](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202304266449034569faf.png)

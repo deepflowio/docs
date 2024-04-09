@@ -9,7 +9,7 @@ PCAP 策略支持设置网络数据包抓取时的策略或规则。策略支持
 
 ## 总览介绍
 
-![8_1.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650ac6b204ac3.png)
+![总览介绍](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650ac6b204ac3.png)
 
 - **① 新建**：支持新建 PCAP 策略。使用详情，请参阅【新建策略】章节描述
 - **② 开启/禁用**：选择开启或禁用当前 PCAP 策略，开启后进行数据过滤抓取
@@ -19,7 +19,7 @@ PCAP 策略支持设置网络数据包抓取时的策略或规则。策略支持
 
 ### 新建策略
 
-![8_2.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650ac6b31a676.png)
+![新建策略](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650ac6b31a676.png)
 
 - 名称：必填，PCAP 策略的名称
 - 网络位置：必填，选择要捕获数据的网络位置

@@ -5,11 +5,11 @@ permalink: /guide/ee-tenant/application/service-statistics/
 
 # 路径统计
 
-路径统计页面在指标统计页面的基础上，展示了请求应用的客户端与服务端，能从更多维度更灵活的来分析应用性能指标，可以了解服务请求速率、响应时间和异常比例等指标信息，有助于定位系统瓶颈和优化系统性能。
+路径统计页面在资源统计页面的基础上，展示了请求应用的客户端与服务端，能从更多维度更灵活的来分析应用性能指标，可以了解服务请求速率、响应时间和异常比例等指标信息，有助于定位系统瓶颈和优化系统性能。
 
 ## 总览介绍
 
-![3_1.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650a6ba9e6900.png)
+![总览介绍](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650a6ba9e6900.png)
 
 - **① 时间选择器**：支持时间过滤查询，使用详情，请参阅【[视图详情-时间选择器](../dashboard/use/)】章节
 - **② 搜索快照**：支持将搜索条件保存为快照，使用详情，请参阅【[查询-搜索快照](../query/history/)】章节

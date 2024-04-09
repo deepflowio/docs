@@ -13,7 +13,7 @@ permalink: /guide/ee-tenant/resources/resource-pool/
 
 云平台展示了云计算环境的云平台中的资源池和相关的服务信息数据，并且支持新建云平台、配置同步间隔、修改等功能。页面以表格的形式展示所添加各个云平台的数据信息，如类型、区域数量、可用区数量、附属容器集群、资源同步控制器、状态等信息。
 
-![03-resource_pool.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230424644643e1209c0.png)
+![01-云平台](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230424644643e1209c0.png)
 
 - **① 操作按钮**：
   - 新建云平台：支持对已对接的云平台进行新建
@@ -31,7 +31,7 @@ permalink: /guide/ee-tenant/resources/resource-pool/
 
 区域展示了云平台中数据中心存在的地理位置，可查看区域的相关信息，如可用区、VPC、子网、云服务器、POD的数量，并且支持自新建、修改、导出等功能。
 
-![03-resource_pool_1.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230424644650cec4b7f.png)
+![02-区域](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230424644650cec4b7f.png)
 
 - **① 操作按钮**：
   - 新建区域：支持新建新建区域
@@ -47,6 +47,6 @@ permalink: /guide/ee-tenant/resources/resource-pool/
 
 可用区展示了云平台中的数据中心信息，可用区所在的区域、云平台，云服务器数量，POD 数量，支持新建、修改、导出等功能。
 
-![03-resource_pool_2.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230425644783b74e992.png)
+![03-可用区](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230425644783b74e992.png)
 
 - 页面按钮使用，可参考【区域】章节描述

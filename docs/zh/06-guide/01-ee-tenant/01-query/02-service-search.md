@@ -5,9 +5,9 @@ permalink: /guide/ee-tenant/query/service-search/
 
 # 服务搜索框
 
-应用-指标统计、网络-服务统计、网络-资源盘点都使用的是`服务搜索框`。
+应用-资源统计、网络-资源统计、网络-资源盘点都使用的是`资源搜索框`。
 
-![1-服务搜索框](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa530137.png)
+![01-服务搜索框](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa530137.png)
 
 - **① 搜索条件输入框**：支持中英文联想输入，支持数据表中的 Tag 作为搜索条件
 - **② 切换主分组**：资源分组，对应功能界面的`资源`
@@ -17,11 +17,11 @@ permalink: /guide/ee-tenant/query/service-search/
 
 `搜索条件输入框`，每一个完整的搜索条件称之为一个`搜索标签`，接下来详细说明下`搜索标签`的如何管理。
 
-![2-搜索标签](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa57a56f.png)
+![02-搜索标签](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa57a56f.png)
 
-![3-操作符](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa702aed.png)
+![03-操作符](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa702aed.png)
 
-![4-候选项](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c50ecc63c1.png)
+![04-候选项](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c50ecc63c1.png)
 
 - **① Tag 名称**：支持查询数据表中的 Tag，详细描述可查看`数据库字段`
   - 支持中英文联想
@@ -37,7 +37,7 @@ permalink: /guide/ee-tenant/query/service-search/
   - 正则匹配：对应`~`、`!~`操作符，字符串正则匹配
 - **③ Tag 值**：筛选或者直接输入需要过滤的值
   - NULL：空值，一般配合`!=`使用，为过滤`全部`的语义
-  - ⑦ 表格过滤：当筛选候选项出现重名的情况时或者需要多选时，可通过`表格过滤`精准资源
+  - **⑦ 表格过滤**：当筛选候选项出现重名的情况时或者需要多选时，可通过`表格过滤`精准资源
 - **④ 禁用**：禁用当前`搜索标签`对应的搜索条件
 - **⑤ 修改**：修改当前`搜索标签`对应的搜索条件
 - **⑥ 删除**：删除当前`搜索标签`
@@ -51,7 +51,7 @@ permalink: /guide/ee-tenant/query/service-search/
 - 主分组：auto_service
 - 次分组：--
 
-![5-查询结果](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa039078.png)
+![05-查询结果](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa039078.png)
 
 ## 查看某个命名空间某个工作负载的性能
 
@@ -60,7 +60,7 @@ permalink: /guide/ee-tenant/query/service-search/
 - 主分组：auto_service
 - 次分组：--
 
-![6-查询结果](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa17b7c6.png)
+![06-查询结果](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa17b7c6.png)
 
 ## 查看流量 TOP 5 的云服务器
 
@@ -69,7 +69,7 @@ permalink: /guide/ee-tenant/query/service-search/
 - 主分组：chost
 - 次分组：--
 
-![7-查询结果](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa2642e9.png)
+![07-查询结果](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa2642e9.png)
 
 ## 查看某云服务器流量 TOP 5 服务端口
 
@@ -78,7 +78,7 @@ permalink: /guide/ee-tenant/query/service-search/
 - 主分组：chost
 - 次分组：server_port
 
-![8-查询结果](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa2adfda.png)
+![08-查询结果](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa2adfda.png)
 
 ## 查看某个云服务器某个端口的网络性能
 
@@ -87,4 +87,4 @@ permalink: /guide/ee-tenant/query/service-search/
 - 主分组：chost
 - 次分组：server_port
 
-![9-查询结果](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa44b491.png)
+![09-查询结果](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa44b491.png)

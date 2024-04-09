@@ -11,7 +11,7 @@ permalink: /guide/ee-tenant/resources/computing-resources/
 
 云服务器支持用户部署和运行各种应用程序，云服务器页面中可查看相关信息。
 
-![04-computing_resources.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202304256447a5dd95922.png)
+![云服务器](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202304256447a5dd95922.png)
 
 - **① 操作按钮**：
   - 新建云服务器：支持新建云服务器

@@ -9,7 +9,7 @@ permalink: /guide/ee-tenant/network/resource-inventory/
 
 ## 总览介绍
 
-![7_1.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650ac6b17b985.png)
+![总览介绍](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650ac6b17b985.png)
 
 - 页面按钮功能，使用详情，请参阅【[应用 - 调用日志](../application/call-log/)】章节
   
