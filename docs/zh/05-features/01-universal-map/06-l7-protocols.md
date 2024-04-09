@@ -653,7 +653,7 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 |       | request_type       | 请求类型     | OpenWireCommand  | --               | --   |
 |       | request_domain     | 请求域名     | broker_url       | --               | --   |
 |       | request_resource   | 请求资源     | topic            | --               | --   |
-|       | request_id         | 请求 ID      | command_id       | --               | --   |
+|       | request_id         | 请求 ID      | command_id       | correlation_id [1]  | 请求与响应的对应关系详见 [2] |
 |       | endpoint           | 端点         | topic            | --               | --   |
 | Resp. | response_code      | 响应码       | --               | --               | --   |
 |       | response_status    | 响应状态     | --               | --               | 正常: 无 error message; 服务端异常: 有 error message |
@@ -663,6 +663,9 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 |       | span_id            | SpanID       | traceparent, sw8 | traceparent, sw8 | --   |
 |       | x_request_id       | X-Request-ID | correlation_id   | correlation_id   | 参考：[ActiveMQ 中的 CorrelationID](https://activemq.apache.org/how-should-i-implement-request-response-with-jms) |
 | Misc. | --                 | --           | --               | --               | --   |
+
+- [1] 注意与下方 x_request_id 对应的 correlation_id 字段区分，为两个不同的字段
+- [2] 当 request 的 response_required 为 true 时，对应 response 的 correlation_id 字段与 request 的 command_id 应当一致
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
