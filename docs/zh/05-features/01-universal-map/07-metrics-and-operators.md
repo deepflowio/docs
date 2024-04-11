@@ -59,11 +59,11 @@ permalink: /features/universal-map/metrics-and-operators
 
 #### TCP 建连异常
 
-![TCP 建连异常](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024040966150abd1e0ea.png)
+![TCP 建连异常](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240411661782557f7bc.png)
 
 #### TCP 传输异常
 
-![TCP 传输异常](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024040966150abc97dda.png)
+![TCP 传输异常](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202404116617825667233.png)
 
 ### 传输层时延 (Delay)
 
