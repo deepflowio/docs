@@ -49,7 +49,7 @@ permalink: /guide/ee-tenant/dashboard/use/
 ![02-设置](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031165eec3a58224c.png)
 
 - 设置全局数据表：快速切换视图内图表查询数据引用的数据表
-- 管理模板变量：快速的改变图表的搜索条件，使用详情，请参阅【[模板变量](05-variable_template.md)】章节
+- 管理模板变量：快速的改变图表的搜索条件，使用详情，请参阅【[模板变量](./variable-template/)】章节
 - 开启/关闭Tip同步：开启后，可同时查看时序相关图表，相同时间点时的数据信息
   - 时序相关图表包含：折线图、趋势分析图
 - 新建模块：可对图表按模块进行归纳放置，可按需收缩和展开模块，可在模块栏中修改名称或者删除模块
