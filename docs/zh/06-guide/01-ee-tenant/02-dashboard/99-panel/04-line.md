@@ -23,7 +23,7 @@ permalink: /guide/ee-tenant/dashboard/panel/line/
 
 用户可点击`设置`按钮来对图表操作。
 
-![01-设置](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031165eedcfdc8b0e.png)
+![01-设置](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240415661cc68097aa9.png)
 
 - **编辑:** 可以对图表进行修改编辑，如修改搜索条件、名称、更改保存视图位置、打开图表原功能页面等，使用详情，请参阅【编辑】章节
 - **复制:** 为`视图`中的能力，支持在视图中对图表进行复制
