@@ -74,6 +74,32 @@ helm upgrade deepflow-agent -n deepflow deepflow/deepflow-agent -f values-custom
    fi
    ```
 
+## 远程升级 K8s 的 Agent
+
+远程升级 Agent 可以在批量升级多个集群时，减少操作步骤，提升升级速度。
+
+K8s 远程升级使用 deepflow-agent 在集群中对其所在命名空间的 daemonset、configmap 修改权限，修改自身 daemonset 参数进行远程升级。
+
+添加 deepflow-agent 需要升级的镜像。命令中的 --version-image 需要指向与 K8s image 相同版本的 deepflow-agent 二进制文件，以便 deepflow-ctl 获取该镜像的版本信息。请确保待升级的 K8s 集群能够正确的拉取 --k8s-image 对应的镜像。
+
+```bash
+deepflow-ctl repo agent create --arch x86 \
+   --version-image /root/deepflow-agent \
+   --k8s-image registry.cn-beijing.aliyuncs.com/deepflow-ce/deepflowio-agent:latest
+```
+
+执行 deepflow-agent 的远程升级命令。一个集群中的 agent 只需要指定一个 agent 即可对整个集群的 agent 进行升级。
+
+```bash
+deepflow-ctl agent-upgrade <AGENT_NAME> \
+   --image-name="kube.registry.local:5000/deepflow-agent:v6.4.4594"
+```
+
+- 【注意】当前版本暂时不支持验证镜像可拉取及可用性, 使用之前请确保镜像可拉取、可运行、版本正确
+- 【注意】一个 K8s 集群中仅需挑选一个 deepflow-agent 触发升级，它会自修改 daemonset 的配置，使得所有 deepflow-agent 都得到升级
+- 【注意】请做好手动介入修正镜像（由于镜像不可拉取/不可运行等原因）的准备
+
+
 # 获取最新 DeepFlow Grafana dashboard
 
 检查 Grafana 的 init container `init-grafana-ds-dh` 的镜像是否为 `latest`, 镜像拉取策略是否为 `Always`:
