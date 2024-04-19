@@ -774,7 +774,7 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 
 ### ZMTP
 
-通过解析 [ZMTP](https://rfc.zeromq.org/spec/23/) 协议，将 ZMTP Request / Response 的字段映射到 l7_flow_log 对应字段中，映射关系如下表：
+通过解析 [ZMTP](https://rfc.zeromq.org/spec/23/) 协议（即 ZeroMQ 使用的消息传输协议），将 ZMTP Request / Response 的字段映射到 l7_flow_log 对应字段中，映射关系如下表：
 
 **Tag 字段映射表格，以下表格只包含存在映射关系的字段**
 
@@ -782,12 +782,15 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 | ----- | ------------------ | ------------ | ---------------- | ---------------- | ---- |
 | Req.  | version            | 协议版本     | version          | --               | --   |
 |       | request_type       | 请求类型     | frame_type       | --               | --   |
-|       | request_domain     | 请求域名     | subscription     | --               | 仅当 socket 类型为 PUB/SUB |
-|       | request_resource   | 请求资源     | subscription     | --               | 仅当 socket 类型为 PUB/SUB |
+|       | request_domain     | 请求域名     | subscription     | --               | 仅当 socket 类型为 PUB/SUB/XPUB/XSUB |
+|       | request_resource   | 请求资源     | subscription     | --               | 仅当 socket 类型为 PUB/SUB/XPUB/XSUB |
 | Resp. | response_code      | 响应码       | --               | --               | --   |
 |       | response_status    | 响应状态     | --               | --               | 正常: 无 error message; 异常: 有 error message |
 |       | response_exception | 响应异常     | --               | error message    | --   |
 | Misc. | --                 | --           | --               | --              | --   |
+
+- ZMTP 协议中，仅当一端 socket 为 REQ/REP 时，请求消息必须等待上一次请求得到响应后才能发起，请求与响应将聚合为一个会话
+- 其余类型目前仅识别为单向消息，会被直接保存为 type=session 的调用日志
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
