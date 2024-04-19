@@ -11,7 +11,7 @@ permalink: /features/auto-tagging/process-tags
 
 # 所有配置项的 Yaml 文档
 
-具体来讲涉及到如下 agent group config（[最新的 Yaml 文档参考 GitHub](https://github.com/deepflowio/deepflow/blob/main/server/controller/model/agent_group_config_example.yaml)）：
+具体来讲涉及到如下 agent group config（[最新的 Yaml 文档参考 GitHub](https://github.com/deepflowio/deepflow/blob/main/server/agent_config/example.yaml)）：
 ```yaml
 static_config:
   ####################

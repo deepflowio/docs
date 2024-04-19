@@ -35,6 +35,6 @@ permalink: /diagnose/grafana
 
 解决方案:
   - 方案一：调大单页查询量（kubernetes-api-list-limit）
-  https://github.com/deepflowio/deepflow/blob/main/server/controller/model/agent_group_config_example.yaml#L468
+  https://github.com/deepflowio/deepflow/blob/main/server/agent_config/example.yaml#L468
   - 方案二：调大 continue 令牌过期时间（--etcd-compaction-interval）
   https://stackoverflow.com/questions/63664353/how-to-modify-default-expired-time-of-continue-token-in-kubernetes
