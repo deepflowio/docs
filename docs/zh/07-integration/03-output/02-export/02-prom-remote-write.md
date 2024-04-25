@@ -45,7 +45,7 @@ ingester:
 | headers       | map  | 否 | 远端 HTTP 请求的头部字段，比如有效验需求的，可以在这里补充 token 等信息 |
 | batch-size    | int  | 否 | 批次大小，当达到这个数值，成批的发送。默认值： 2048 |
 | flush-timeout | int  | 否 | 刷新间隔，当达到这个时间，则直接发送。单位: 秒，默认值： 5 |
-| concurrency   | int  | 否 | 并发发送数，默认值： 2|
+| queue-count   | int  | 否 | 并发发送数，默认值： 2|
 
 
 
