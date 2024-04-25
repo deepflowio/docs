@@ -22,27 +22,40 @@ permalink: /integration/output/export/opentelemetry-exporter
 ```yaml
 ingester:
   exporters:
+  - protocol: opentelemetry
     enabled: true
-    export-datas: [cbpf-net-span,ebpf-sys-span]
-    export-data-types: [service_info,tracing_info,network_layer,flow_info,transport_layer,application_layer,metrics]
-    export-custom-k8s-labels-regexp:
-    export-only-with-traceid: false
-    otlp-exporters:
-    - enabled: true
-      addr: 127.0.0.1:4317
-      queue-count: 4
-      queue-size: 1000000
-      export-batch-count: 32
-      export-datas: [cbpf-net-span,ebpf-sys-span]
-      export-data-types: [service_info,tracing_info,network_layer,flow_info,transport_layer,application_layer,metrics]
-      export-custom-k8s-labels-regexp:
-      export-only-with-traceid: false
-      grpc-headers:
-        ${key1}: ${value1}
-        ${key2}: ${value2}
+    endpoints: [127.0.0.1:4317]  # only support protocol grpc
+    data-sources:
+    - flow_log.l7_flow_log # only support 'flow_log.l7_flow_log'
+    queue-count: 4
+    queue-size: 100000
+    batch-size: 32
+    flush-timeout: 10
+    tag-filters:
+    export-fields:
+    - $tag
+    - $metrics
+    - $k8s.label
+    extra-headers:
+      key1: value1
+      key2: value2
+    export-empty-tag: false
+    export-empty-metrics_disabled: false
+    enum-translate-to-name-disabled: false
+    universal-tag-translate-to-name-disabled: false
 ```
+# 详细参数说明
 
-关于[详细配置](https://github.com/deepflowio/deepflow/blob/main/server/server.yaml#L474)。
+|     字段   |    类型    |   必选   |  描述  |
+|-----------|------------|--------|--------|
+| protocol  | string     | 是 | 固定值 `opentelemetry` |
+| data-sources| string    | 是 | 仅支持 `flow_log.l7_flow_log` |
+| endpoints      | string| 是 | 远端接收地址, 仅支持 gRPC 协议, 随机选择一个可发送成功的|
+| batch-size    | int  | 否 | 批次大小，当达到这个数值，成批的发送。默认值： 32 |
+| extra-headers  | map  | 否 | 远端 gRPC 请求的头部字段，比如有效验需求的，可以在这里补充 token 等信息 |
+| export-fields | strings | 是 | 建议配置: [$tag, $metrics, $k8s.label] |
+
+[详细配置参考](./exporter-config/)
 
 # 通用字段对等转换
 
