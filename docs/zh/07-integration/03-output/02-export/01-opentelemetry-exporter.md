@@ -49,8 +49,8 @@ ingester:
 |     字段   |    类型    |   必选   |  描述  |
 |-----------|------------|--------|--------|
 | protocol  | string     | 是 | 固定值 `opentelemetry` |
-| data-sources| string    | 是 | 仅支持 `flow_log.l7_flow_log` |
-| endpoints      | string| 是 | 远端接收地址, 仅支持 gRPC 协议, 随机选择一个可发送成功的|
+| data-sources| strings    | 是 | 仅支持 `flow_log.l7_flow_log` |
+| endpoints      | strings | 是 | 远端接收地址, 仅支持 gRPC 协议, 随机选择一个可发送成功的|
 | batch-size    | int  | 否 | 批次大小，当达到这个数值，成批的发送。默认值： 32 |
 | extra-headers  | map  | 否 | 远端 gRPC 请求的头部字段，比如有效验需求的，可以在这里补充 token 等信息 |
 | export-fields | strings | 是 | 建议配置: [$tag, $metrics, $k8s.label] |

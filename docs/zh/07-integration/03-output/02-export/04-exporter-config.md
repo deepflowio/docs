@@ -67,6 +67,7 @@ ingester:
 | enum-translate-to-name-disabled | bool | 否 | 对于枚举类型的ID值是否翻译为字符串发送。 默认值: false，表示翻译 |
 | universal-tag-translate-to-name-disabled | bool | 否 | 对于universal-tag类型的资源ID值是否翻译为资源名称发送。 默认值: false，表示翻译 |
 | sasl          | struct | 否  | Kafka 协议使用. 连接 Kafka 认证方式, 目前仅支持 'SASL_SSL' 的 'PLAIN' 方式 |
+| topic         | string | 否  | Kafka 协议使用. 主题名, 若为空, 则取默认值为 `deepflow.$data-source`, 如 `deepflow.flow_log.l7_flow_log` |
 
 - tag-filters（作用相当于 SQL 语句中的 WHERE，所有的 protocol 都支持，样例见下面的 yaml）
   - `field-name` 仅支持 ClickHouse 中的原始 Tag 字段名
