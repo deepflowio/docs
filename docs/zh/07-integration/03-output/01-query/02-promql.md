@@ -14,6 +14,39 @@ DeepFlow 从 v6.2.1 开始支持 PromQL，目前实现了如下 Prometheus API�
  GET         | /prom/api/v1/label/:labelName/values | /api/v1/label/<label_name>/values | 获取一个指标的所有标签
  GET/POST    | /prom/api/v1/series                  | /api/v1/series                    | 获取所有时序
 
+
+## 调用方式
+
+在 DeepFlow 里可通过如下方式调用 API：
+
+获取服务端点端口号：
+```bash
+port=$(kubectl get --namespace deepflow -o jsonpath="{.spec.ports[0].nodePort}" services deepflow-server)
+```
+
+API 调用方式示例：
+
+Instant Query:
+```bash
+time=$((`date +%s`))
+
+curl -XPOST "http://${deepflow_server_node_ip}:${port}/prom/api/v1/query" \
+--data-urlencode "query=sum(flow_log__l7_flow_log__server_error) by(request_resource, response_code)" \
+--data-urlencode "time=${time}"
+```
+
+Range Query:
+```bash
+end=$((`date +%s`))
+start=$((end-600))
+
+curl -XPOST "http://${deepflow_server_node_ip}:${port}/prom/api/v1/query_range" \
+--data-urlencode "query=sum(flow_log__l7_flow_log__server_error) by(request_resource, response_code)" \
+--data-urlencode "start=${start}" \
+--data-urlencode "end=${end}" \
+--data-urlencode "step=60s"
+```
+
 ## DeepFlow 指标定义
 
 DeepFlow 的指标对外提供 PromQL 查询时，指标名称遵循 `${database}__${table}__${metric}__${data_precision}` 的方式构造，可以通过 [AutoMetrics 指标类型](../../../features/universal-map/auto-metrics/#%E6%8C%87%E6%A0%87%E7%B1%BB%E5%9E%8B) 的定义中，获取需要查询的目标数据源，具体规则如下：
@@ -22,7 +55,7 @@ DeepFlow 的指标对外提供 PromQL 查询时，指标名称遵循 `${database
 ------------------------------------------------------|----------------------------------------------
  `flow_log`                                           | `{db}__{table}__{metric}`
  `flow_metrics` (data_precision 取值为`1m`/`1s`)       | `{db}__{table}__{metric}__{data_precision}`
- `ext_metrics` (通过 Prometheus RemoteWrite 写入的数据) | `ext_metrics__metrics__prometheus_{metric}`
+ `prometheus` (通过 Prometheus RemoteWrite 写入的数据)  | `prometheus__samples__{metric}`
 
 比如：
 - `flow_metrics__application__request__1m`：表示查询按每分钟粒度聚合的应用层请求数
