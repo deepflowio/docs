@@ -26,7 +26,8 @@ end
 
 # 部署 deepflow-agent
 
-以 daemonset 部署 deepflow-agent 并注入 sidecar：
+以 daemonset 部署 deepflow-agent 并注入 sidecar:
+注: 配置中的`clusterNAME`对应`deepflow-ctl domain list`展示的`domain name`
 ```bash
 cat << EOF > values-custom.yaml
 deployComponent:
