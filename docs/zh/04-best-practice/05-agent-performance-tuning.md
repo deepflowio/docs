@@ -57,13 +57,14 @@ permalink: /best-practice/agent-performance-tuning/
 
 ## 降低哈希表尺寸
 
-收益较低，一般不建议调整。
+除了 `flow`.`flow-count-limit` 以外，其他配置项的收益较低，一般不建议调整。
 
 | 配置项 | 作用 | 说明 |
 | ------ | ---- | ---- |
+| **$** `flow`.`flow-count-limit` | `l4_flow_log` 哈希表的总大小 | 默认 64Kx2（cBPF 和 eBPF 各一个表），每个条目大约 1500B，即默认最大占用 192MB |
+| `flow`.`flow-slots-size` | `l4_flow_log` 哈希表的哈希槽大小 | 用于网络流聚合 |
 | `fast-path-map-size` | AutoTagging 快表尺寸 | 默认会根据 `max_memory` 自动调整 |
 | `toa-lru-cache-size` | TOA（TCP Option Address）的 LRU 尺寸 | 默认 64K |
-| `flow`.`flow-slots-size` | `l4_flow_log` 哈希表的哈希槽大小 | 用于网络流聚合 |
 
 # 降低 CPU 开销
 
