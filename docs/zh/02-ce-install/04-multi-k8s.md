@@ -32,10 +32,10 @@ DeepFlow 使用 K8s 的 CA 文件 MD5 值区分不同的集群，请在不同 K8
 
 假如你的不同 K8s 集群使用了相同的 CA 文件，在多个集群中部署 deepflow-agent 之前，需要利用 `deepflow-ctl domain create` 获取一个 `K8sClusterID`：
 
-注: 多套 K8s 集群的 CA 文件相同，这并不常见，但我们依然建议通过手动对接的方式，把其他 k8s 集群 deepflow-agent 对接到 deepflow-server 集群，手动对接的优势是，可以自定义 Grafana 面板中展示的 k8s 集群名称，操作如下:
+注: 多套 K8s 集群的 CA 文件相同，这种情况并不常见。尽管如此，我们仍建议通过手动方式将其他 K8s 集群的 deepflow-agent 对接到 deepflow-server 集群。手动对接的优势在于，可以自定义 Grafana 面板中展示的 K8s 集群名称。具体操作步骤如下：
 
 ```bash
-## 通过 deepflow-ctl domain create -f custom-domain.yaml 来创建下面自定义的 cluster domain
+## 通过 deepflow-ctl domain create -f custom-domain.yaml 来创建下面自定义的 K8s cluster domain
 
 # 名称 (自定义集群名称即可，例如 beijing-prod-k8s)
 name: $CLUSTER_NAME
@@ -70,10 +70,10 @@ deepflow-ctl domain list $CLUSTER_NAME
 ```bash
 cat << EOF > values-custom.yaml
 deepflowServerNodeIPS:
-- 10.1.2.3  # 注: 对应 deepflow-server 集群的 NODE IP(deepflow-server service 为 NodePort)
-- 10.4.5.6  # 注: 如果 deepflow-server 使用 lb, 此处可直接写 lb 地址
-clusterNAME: $CLUSTER_NAME  # 注: 此处为上面创建的 k8s domain name
-deepflowK8sClusterID:       # 注: 此处为 k8s domain name 的 ID
+- 10.1.2.3  # 注: 对应 deepflow-server 集群的 NODE IP (deepflow-server service 为 NodePort)
+- 10.4.5.6  # 注: 如果 deepflow-server 为 LoadBalancer 类型的服务, 此处可填写 LoadBalancer 的 VIP
+clusterNAME: $CLUSTER_NAME  # 注: 此处为上面创建的 K8s cluster domain
+deepflowK8sClusterID:       # 注: 此处为 K8s cluster domain 的 ID
 EOF
 
 helm repo add deepflow https://deepflowio.github.io/deepflow
@@ -90,9 +90,9 @@ image:
   repository: registry.cn-beijing.aliyuncs.com/deepflow-ce/deepflow-agent
 deepflowServerNodeIPS:
 - 10.1.2.3  # 注: 对应 deepflow-server 集群的 NODE IP(deepflow-server service 为 NodePort)
-- 10.4.5.6  # 注: 如果 deepflow-server 使用 lb, 此处可直接写 lb 地址
-clusterNAME: $CLUSTER_NAME  # 注: 此处为上面创建的 k8s domain name
-deepflowK8sClusterID:       # 注: 此处为 k8s domain name 的 ID
+- 10.4.5.6  # 注: 如果 deepflow-server 为 LoadBalancer 类型的服务, 此处可填写 LoadBalancer 的 VIP
+clusterNAME: $CLUSTER_NAME  # 注: 此处为上面创建的 K8s cluster domain
+deepflowK8sClusterID:       # 注: 此处为 K8s cluster domain 的 ID
 EOF
 
 helm repo add deepflow https://deepflow-ce.oss-cn-beijing.aliyuncs.com/chart/stable
@@ -103,7 +103,7 @@ helm install deepflow-agent -n deepflow deepflow/deepflow-agent --create-namespa
 
 :::
 
-我们建议上述部署过程中将 deepflow-agent 的 `deepflowServerNodeIps` 配置为 K8s 集群的一个或多个相对固定的 Node IP。
+我们建议上述部署过程中将 deepflow-agent 的 `deepflowServerNodeIPS` 配置为 K8s 集群的一个或多个相对固定的 Node IP。
 
 
 # 下一步
