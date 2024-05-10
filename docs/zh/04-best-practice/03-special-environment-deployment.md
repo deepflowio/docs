@@ -219,8 +219,264 @@ helm install deepflow -n deepflow deepflow/deepflow-agent --create-namespace \
 - 参考[传统服务器部署 DeepFlow Agent](../ce-install/legacy-host/)，但无需创建 Domain
 - 修改 agent 配置文件 `/etc/deepflow-agent/deepflow-agent.yaml`，`kubernetes-cluster-id` 填写上一步获取的集群 ID
 
-## 不允许请求 apiserver
+## 不允许 Daemonset 请求 apiserver
 
 默认情况下 DeepFlow Agent 在 K8s 中以 Daemonset 方式运行。但有些情况下为了保护 apiserver 避免过载，Daemonset 不允许对 apiserver 请求。此时也可使用本文中「无 Daemonset 部署权限」的类似方式进行部署：
 - 部署一个 deepflow-agent deployment，仅负责 list-watch apiserver、同步 K8s 资源信息
 - 部署一个 deepflow-agent daemonset，任何 Pod 都不会 list-watch apiserver
+
+## 不允许 deepflow-agent 请求 apiserver
+
+server 进行 K8s 资源同步，需要依靠 agent 通过 gRPC 接口上报调用 K8s API 获取的资源信息。
+
+### gRPC 消息接口
+
+- API 接口
+  ```protobuf
+  rpc KubernetesAPISync(KubernetesAPISyncRequest) returns (KubernetesAPISyncResponse) {}
+  ```
+  - [具体代码](https://github.com/deepflowio/deepflow/blob/main/message/trident.proto#L15)
+- agent 上报消息的结构体说明
+  ```protobuf
+  message KubernetesAPISyncRequest {
+      optional string cluster_id = 1;  // K8s 集群标识；必填字段
+      optional uint64 version = 2;  // 上报内容的版本号，当 K8s 资源信息变化时，版本号需要变化；必填字段
+      optional string error_msg = 3;  // 调用 K8s API 的异常信息；必填字段
+      optional string source_ip = 5;  // Agent IP；必填字段
+      repeated common.KubernetesAPIInfo entries = 10;  // K8s API 返回的具体资源内容；必填字段
+  }
+
+  message KubernetesAPIInfo {
+     // 资源类型，当前支持的资源类型有：
+     // - *v1.Node
+     // - *v1.Namespace
+     // - *v1.Deployment
+     // - *v1.StatefulSet
+     // - *v1.DaemonSet
+     // - *v1.ReplicationController
+     // - *v1.ReplicaSet
+     // - *v1.Pod
+     // - *v1.Service
+     // - *v1beta1.Ingress
+     optional string type = 1;
+     // 具体资源信息(json格式)，使用 zlib 压缩后发送
+     optional bytes compressed_info = 3;
+  }
+  ```
+- server 回复消息的结构体说明
+  ```protobuf
+  message KubernetesAPISyncResponse {
+      optional uint64 version = 1;  // 本地保存的 K8s 资源信息的版本号
+  }
+  ```
+- 关于资源上报的额外说明
+  - 必须上报的资源
+    - `*v1.Node`
+    - `*v1.Namespace`
+    - `*v1.Pod`
+    - `*v1.Deployment`、`*v1.StatefulSet`、`*v1.DaemonSet`、`*v1.ReplicationController`、`*v1.ReplicaSet`：根据 POD 所属的工作负载按照上报即可
+  - 可选上报的资源
+    - `*v1.Service`
+    - `*v1beta1.Ingress`
+
+### `*v1.Node`的必要字段
+
+```json
+{
+    "metadata": {
+        "uid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // 唯一标识
+        "name": "xxxx", // Node 名称
+        ...
+    },
+    "status": {
+        "addresses": [
+            {
+                "address": "x.x.x.x", // Node IP
+                "type": "InternalIP"
+            },
+            ...
+        ],
+        "conditions": [
+            {
+                "reason": "KubeletReady", // 用于判断 Node 状态
+                "status": "True", // 用于判断 Node 状态
+            }
+        ],
+        ...
+    },
+    "spec": {
+        "podCIDR": "x.x.x.x/x" // 用于获取 POD Cidr
+    },
+    ...
+}
+```
+
+### `*v1.Namespace`的必要字段
+
+```json
+{
+    "metadata": {
+        "uid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // 唯一标识
+        "name": "xxxx", // 名称
+        ...
+    },
+    ...
+}
+```
+
+### `*v1.Deployment/*v1.StatefulSet/*v1.DaemonSet/*v1.ReplicationController`的必要字段
+
+```json
+{
+    "metadata": {
+        "uid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // 唯一标识
+        "name": "xxxx", // 名称
+        "namespace": "xxxx", // namespace 名称
+        "labels": { // labels
+            "xxxx": "xxxx"
+        }
+        ...
+    },
+    "spec": {
+        "replicas": 1,
+    }
+    ...
+}
+```
+
+### `*v1.ReplicaSet`的必要字段
+
+```json
+{
+    "metadata": {
+        "uid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // 唯一标识
+        "name": "xxxx", // 名称
+        "namespace": "xxxx", // namespace 名称
+        "labels": { // labels
+            "xxxx": "xxxx",
+            ...
+        },
+        "ownerReferences": { // 所属工作负载信息
+            "name": "xxxx",
+            "uid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+            ...
+        }
+        ...
+    },
+    "spec": {
+        "replicas": 1,
+    }
+    ...
+}
+```
+
+### `*v1.Pod`的必要字段
+
+```json
+{
+    "metadata": {
+        "uid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // 唯一标识
+        "name": "xxxx", // 名称
+        "namespace": "xxxx", // namespace 名称
+        "labels": { // labels
+            "xxxx": "xxxx",
+            ...
+        },
+        "ownerReferences": [{ // 所属工作负载信息
+            "name": "xxxx",
+            "uid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+            "kind": "xxxx", // 工作负载类型
+            // 目前支持：DaemonSet/Deployment/ReplicaSet/StatefulSet/ReplicationController
+            ...
+        }],
+        "creationTimestamp": "2024-04-29T10:02:38Z", // 创建时间
+        "generate_name": "xxxx", // 仅 StatefulSet 的 POD 需要获取
+        ...
+    },
+    "status": {
+        "hostIP": "x.x.x.x", // Node IP
+        "podIP": "x.x.x.x" // self IP
+        "conditions" : [ // POD 状态
+            {
+                "type": "xxxx",
+                "status": "xxxx",
+                ...
+            },
+            ...
+        ],
+        "containerStatuses" : [
+            {
+                "containerID":"containerd://xxxxxxxxxxxx...", // POD 中的 container 表示
+            },
+        ],
+    }
+    ...
+}
+```
+
+### `*v1.Service`的必要字段
+
+```json
+{
+    "metadata": {
+        "uid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // 唯一标识
+        "name": "xxxx", // 名称
+        "namespace": "xxxx", // namespace 名称
+        "labels": { // labels
+            "xxxx": "xxxx",
+            ...
+        },
+        ...
+    },
+    "spec": {
+        "clusterIP": "x.x.x.x",
+        "ports": [
+            {
+                "name": "xxxx",
+                "nodePort": xxxx,
+                "port": xxxx,
+                "protocol": "xxxx",
+                "targetPort": xxxx
+            }
+        ],
+        "selector": { // selector 中是 label 信息，service 通过 selector 中的 label 与 POD 关联
+            "xxxx": "xxxx",
+        },
+        "type": "xxxx" // 支持 NodePort 和 ClusterIP
+    }
+}
+```
+
+### `*v1beta1.Ingress`的必要字段
+
+```json
+{
+    "metadata": {
+        "name": "xxxx", // 名称
+        "namespace": "xxxx", // namespace 名称
+        "uid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" // 唯一标识
+    },
+    "spec": {
+        "rules": [ // 转发规则
+            {
+                "host": "", // 域名
+                "http": { // 目前仅支持 http 协议
+                    "paths": [
+                        {
+                            "path": "", // 路径
+                            "backend": {  // 后端服务信息
+                                "service": {
+                                    "name": "",
+                                    "port": {
+                                        "number": xxxx
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}
+```
