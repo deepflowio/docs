@@ -44,7 +44,6 @@ local_ip_ranges:
 
 修改 `values-custom.yaml` 自定义配置文件：
 ```yaml
-# 例如，主机 IP 为 100.42.32.213，把对应主机网段添加进配置即可
 configmap:
   server.yaml:
     controller:
@@ -55,7 +54,7 @@ configmap:
         - 192.168.0.0/16
         - 169.254.0.0/15
         - 224.0.0.0-240.255.255.255
-        - 100.42.32.0/24  # 注：此处为 100.42.32.213 的网段
+        - 100.42.32.0/24  # FIXME: 例如，主机 IP 为 100.42.32.213，把对应主机网段添加进配置即可
       trisolaris:
         trident-type-for-unkonw-vtap: 3  # required
 ```
@@ -94,8 +93,8 @@ deepflow-ctl agent-group list $AGENT_GROUP # Get agent-group ID
 
 创建采集器组配置文件 `agent-group-config.yaml`：
 ```yaml
-vtap_group_id: g-ffffff # 注: 此处填写内容为查询到的 agent-group ID
-platform_enabled: 1     # 注: 开启后，deepflow-agent 会把服务器上的网络信息同步到 deepflow-server
+vtap_group_id: g-ffffff # FIXME: 此处填写内容为查询到的 agent-group ID
+platform_enabled: 1     # FIXME: 开启后，deepflow-agent 会把服务器上的网络信息同步到 deepflow-server
 ```
 
 创建采集器组配置：

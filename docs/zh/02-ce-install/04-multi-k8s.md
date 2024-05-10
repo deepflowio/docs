@@ -38,21 +38,21 @@ DeepFlow 使用 K8s 的 CA 文件 MD5 值区分不同的集群，请在不同 K8
 ## 通过 deepflow-ctl domain create -f custom-domain.yaml 来创建下面自定义的 K8s cluster domain
 
 # 名称 (自定义集群名称即可，例如 beijing-prod-k8s)
-name: $CLUSTER_NAME
+name: $CLUSTER_NAME  # FIXME
 # 云平台类型
 type: kubernetes
 config:
-  # 所属区域标识 ()
-  region_uuid: ffffffff-ffff-ffff-ffff-ffffffffffff
-  # 资源同步控制器 (这里不建议指定，默认即可)
-  # controller_ip: 127.0.0.1
-  # POD 子网 IPv4 地址最大掩码
+  ## 所属区域标识 (使用此默认值，或通过 uuidgen 命令生成)
+  #region_uuid: ffffffff-ffff-ffff-ffff-ffffffffffff
+  ## 资源同步控制器 (这里不建议指定，默认即可)
+  #controller_ip: 127.0.0.1
+  ## POD 子网 IPv4 地址最大掩码
   pod_net_ipv4_cidr_max_mask: 16
-  # POD 子网 IPv6 地址最大掩码
+  ## POD 子网 IPv6 地址最大掩码
   pod_net_ipv6_cidr_max_mask: 64
-  # 额外对接路由接口
+  ## 额外对接路由接口
   node_port_name_regex: ^(cni|flannel|vxlan.calico|tunl|en[ospx])
-  # 同步间隔, 单位:秒, 输入限制: 最小1,最大86400, 默认60
+  ## 同步间隔, 单位:秒, 输入限制: 最小1,最大86400, 默认60
   sync_timer: 60
 
 ## 查看创建后的 domain 具体信息:

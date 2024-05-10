@@ -225,24 +225,32 @@ helm install deepflow -n deepflow deepflow/deepflow-agent --create-namespace \
 - 部署一个 deepflow-agent deployment，仅负责 list-watch apiserver、同步 K8s 资源信息
 - 部署一个 deepflow-agent daemonset，任何 Pod 都不会 list-watch apiserver
 
-## 非 root 用户启动 deepflow-agent
+## 使用非 root 用户运行 deepflow-agent
 
 本次示例中，普通用户名为 deepflow，进程存放在 /usr/sbin/deepflow-agent，通过 deepflow 用户启动 deepflow-agent 时，须先通过 root 用户添加权限：
 
 ```bash
-## 添加权限
+## 使用 root 用户添加 deepflow-agent 的运行权限
 setcap cap_sys_ptrace,cap_net_raw,cap_net_admin,cap_ipc_lock,cap_sys_admin=eip /usr/sbin/deepflow-agent
 mkdir /sys/fs/cgroup/cpu/deepflow-agent
 mkdir /sys/fs/cgroup/memory/deepflow-agent
 chown -R deepflow:deepflow /sys/fs/cgroup/cpu/deepflow-agent
 chown -R deepflow:deepflow /sys/fs/cgroup/memory/deepflow-agent
+chown -R deepflow:deepflow /usr/sbin/deepflow-agent
+chown -R deepflow:deepflow /usr/sbin/deepflow-agent
 ```
 
-如何删除普通用户对于 deepflow-agent 的权限:
+卸载 deepflow-agent 时删除对应权限：
 
 ```bash
-## 删除权限
+## 使用 root 用户删除 deepflow-agent 的运行权限
 setcap -r /usr/sbin/deepflow-agent
 rmdir /sys/fs/cgroup/cpu/deepflow-agent
 rmdir /sys/fs/cgroup/memory/deepflow-agent
+```
+
+使用非 root 用户运行 deepflow-agent
+
+```bash
+/usr/sbin/deepflow-agent -f /etc/deepflow-agent.yaml
 ```
