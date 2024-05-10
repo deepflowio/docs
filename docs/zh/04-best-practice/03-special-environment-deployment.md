@@ -296,7 +296,7 @@ message KubernetesAPISyncResponse {
 }
 ```
 
-### 对 `KubernetesAPIInfo` 的说明
+### 对 KubernetesAPIInfo 的说明
 
 注意：deepflow-server 要求某些 K8s 资源类型必须上报包括：
 - `*v1.Node`
@@ -310,7 +310,7 @@ message KubernetesAPISyncResponse {
 
 下面我们依次介绍各类资源在上报时必须要携带的字段信息，各个字段的值类型可参考 `kubectl get XXX -o json` 命令的输出。
 
-#### `*v1.Node` 的必要字段
+#### *v1.Node 的必要字段
 
 ```json
 {
@@ -338,7 +338,7 @@ message KubernetesAPISyncResponse {
 }
 ```
 
-#### `*v1.Namespace` 的必要字段
+#### *v1.Namespace 的必要字段
 
 ```json
 {
@@ -349,7 +349,7 @@ message KubernetesAPISyncResponse {
 }
 ```
 
-#### `*v1.Deployment/StatefulSet/DaemonSet/ReplicationController` 的必要字段
+#### *v1.Deployment/StatefulSet/DaemonSet/ReplicationController 的必要字段
 
 ```json
 {
@@ -367,7 +367,7 @@ message KubernetesAPISyncResponse {
 }
 ```
 
-#### `*v1.ReplicaSet` 的必要字段
+#### *v1.ReplicaSet 的必要字段
 
 ```json
 {
@@ -389,7 +389,7 @@ message KubernetesAPISyncResponse {
 }
 ```
 
-#### `*v1.Pod` 的必要字段
+#### *v1.Pod 的必要字段
 
 ```json
 {
@@ -430,7 +430,7 @@ message KubernetesAPISyncResponse {
 }
 ```
 
-#### `*v1.Service` 的必要字段
+#### *v1.Service 的必要字段
 
 ```json
 {
@@ -461,7 +461,7 @@ message KubernetesAPISyncResponse {
 }
 ```
 
-#### `*v1beta1.Ingress` 的必要字段
+#### *v1beta1.Ingress 的必要字段
 
 ```json
 {
