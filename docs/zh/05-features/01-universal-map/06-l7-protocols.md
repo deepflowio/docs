@@ -359,13 +359,14 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 
 - [1] 目前支持解析的命令：`COM_QUERY`、`COM_QUIT`、`COM_INIT_DB`、`COM_FIELD_LIST`、`COM_STMT_PREPARE`、`COM_STMT_EXECUTE`、`COM_STMT_FETCH`、`COM_STMT_CLOSE`。
 - [2] 客户端异常：Error Code=2000-2999，或客户端发送 1-999；服务端异常：Error Code=1000-1999/3000-4000，或服务端发送 1-999。
-- [3] 当应用在 SQL 语句的注释中注入 TraceID（或复合的 TraceID + SpanID）时，DeepFlow 支持提取并用于跨线程的分布式追踪。DeepFlow 支持提取几乎任意位置的 SQL 注释（但必须出现在 AF_PACKET 获取到的首包中，或者 eBPF 获取到的第一个 Socket Data 中）：
+- [3] 当应用在 SQL 语句的注释中注入 TraceID（或复合的 TraceID + SpanID）时，DeepFlow 支持提取并用于跨线程的分布式追踪。DeepFlow 支持提取几乎任意位置的 SQL 注释（但必须出现在 AF_PACKET 获取到的首包中，或者 eBPF 获取到的第一个 Socket Data 中）；注释中的键值对可以用冒号 `:` 和空格 ` ` 分割，也可以用等号 `=` 和逗号 `,` 分割，但注意字段中**不能**包含冒号或等号。
 - [4] 提取 `COM_STMT_EXECUTE` 中的参数不能开启采集器高级配置 `obfuscate-enabled-protocols`; 参数会使用` , `拼接赋值给 `request_resource`; 当流量出现乱序、丢包、重传、截断等会导致参数解析错误。
   ```sql
   /* your_trace_key: 648840f6-7f92-468b-b298-d38f05c541d4 */ SELECT col FROM tbl
   SELECT /* your_trace_key: 648840f6-7f92-468b-b298-d38f05c541d4 */ col FROM tbl
   SELECT col FROM tbl # your_trace_key: 648840f6-7f92-468b-b298-d38f05c541d4
   SELECT col FROM tbl -- your_trace_key: 648840f6-7f92-468b-b298-d38f05c541d4
+  SELECT col FROM tbl # your_trace_key=648840f6-7f92-468b-b298-d38f05c541d4
   ```
   虽然如此，我们**强烈建议您在 SQL 语句头部添加注释**，以降低 SQL 解析的性能开销。上面的示例中，`your_trace_key` 取决于 Agent 配置项中 `http_log_trace_id` 的值（但请注意如果使用 traceparent / sw8 / uber-trace-id，请遵循 [OpenTelemetry](https://www.w3.org/TR/trace-context/#traceparent-header-field-values) / [SkyWalking](https://skywalking.apache.org/docs/main/next/en/api/x-process-propagation-headers-v3/) / [Jaeger](https://www.jaegertracing.io/docs/1.54/client-libraries/#tracespan-identity) 的协议规范）。例如当 `http_log_trace_id = traceparent, sw8` 时，DeepFlow 能够从 `00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01` 中提取符合 OpenTelemetry 规范的 TraceID 和 SpanID：
   ```sql
