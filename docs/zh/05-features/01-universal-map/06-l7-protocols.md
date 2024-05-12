@@ -360,7 +360,7 @@ Metrics 字段：字段主要用于计算，详细字段描述如下。
 - [1] 目前支持解析的命令：`COM_QUERY`、`COM_QUIT`、`COM_INIT_DB`、`COM_FIELD_LIST`、`COM_STMT_PREPARE`、`COM_STMT_EXECUTE`、`COM_STMT_FETCH`、`COM_STMT_CLOSE`。
 - [2] 客户端异常：Error Code=2000-2999，或客户端发送 1-999；服务端异常：Error Code=1000-1999/3000-4000，或服务端发送 1-999。
 - [3] 当应用在 SQL 语句的注释中注入 TraceID（或复合的 TraceID + SpanID）时，DeepFlow 支持提取并用于跨线程的分布式追踪。DeepFlow 支持提取几乎任意位置的 SQL 注释（但必须出现在 AF_PACKET 获取到的首包中，或者 eBPF 获取到的第一个 Socket Data 中）；注释中的键值对可以用冒号 `:` 和空格 ` ` 分割，也可以用等号 `=` 和逗号 `,` 分割，但注意字段中**不能**包含冒号或等号。
-- [4] 提取 `COM_STMT_EXECUTE` 中的参数不能开启采集器高级配置 `obfuscate-enabled-protocols`; 参数会使用` , `拼接赋值给 `request_resource`; 当流量出现乱序、丢包、重传、截断等会导致参数解析错误。
+- [4] 提取 `COM_STMT_EXECUTE` 中的参数不能开启采集器高级配置 `obfuscate-enabled-protocols`; 参数会使用**空格+逗号+空格**（例如 `123 , abc`）拼接赋值给 `request_resource`; 当流量出现乱序、丢包、重传、截断等会导致参数解析错误。
   ```sql
   /* your_trace_key: 648840f6-7f92-468b-b298-d38f05c541d4 */ SELECT col FROM tbl
   SELECT /* your_trace_key: 648840f6-7f92-468b-b298-d38f05c541d4 */ col FROM tbl
