@@ -15,7 +15,7 @@ permalink: /integration/output/export/opentelemetry-exporter
 
 # OTel 相关
 
-关于 [OTLP Proto](https://github.com/open-telemetry/opentelemetry-proto/blob/main/opentelemetry/proto/trace/v1/trace.proto) 可以在这里找到，其中关于 [Trace 语义约定](https://github.com/open-telemetry/opentelemetry-specification/tree/main/specification/trace/semantic_conventions) 在这里可以看到，Trace 内部 [Resource 语义约定](https://github.com/open-telemetry/opentelemetry-specification/tree/main/specification/resource/semantic_conventions)可以在这里看到。
+关于 [OTLP Proto](https://github.com/open-telemetry/opentelemetry-proto/blob/v1.3.1/opentelemetry/proto/trace/v1/trace.proto) 可以在这里找到，其中关于 [Trace 语义约定](https://github.com/open-telemetry/semantic-conventions/blob/v1.25.0/docs/general/trace.md) 在这里可以看到，Trace 内部 [Resource 语义约定](https://github.com/open-telemetry/semantic-conventions/tree/v1.25.0/docs/resource)可以在这里看到。
 
 # 配置相关
 
