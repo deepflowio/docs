@@ -54,7 +54,7 @@ configmap:
         - 192.168.0.0/16
         - 169.254.0.0/15
         - 224.0.0.0-240.255.255.255
-        - 100.42.32.0/24  # FIXME: 例如，主机 IP 为 100.42.32.213，把对应主机网段添加进配置即可
+        - 100.42.32.0/24  # FIXME: For example, if the host IP is 100.42.32.213, just add the corresponding host network segment to the configuration.
       trisolaris:
         trident-type-for-unkonw-vtap: 3  # required
 ```
@@ -93,8 +93,8 @@ deepflow-ctl agent-group list $AGENT_GROUP # Get agent-group ID
 
 创建采集器组配置文件 `agent-group-config.yaml`：
 ```yaml
-vtap_group_id: g-ffffff # FIXME: 此处填写内容为查询到的 agent-group ID
-platform_enabled: 1     # FIXME: 开启后，deepflow-agent 会把服务器上的网络信息同步到 deepflow-server
+vtap_group_id: g-ffffff # FIXME: The content filled here is the queried agent-group ID
+platform_enabled: 1     # FIXME: When enabled, deepflow-agent will synchronize the network information on the server to deepflow-server
 ```
 
 创建采集器组配置：

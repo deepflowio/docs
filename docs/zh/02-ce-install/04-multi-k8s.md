@@ -35,27 +35,27 @@ DeepFlow 使用 K8s 的 CA 文件 MD5 值区分不同的集群，请在不同 K8
 注: 多套 K8s 集群的 CA 文件相同，这种情况并不常见。尽管如此，我们仍建议通过手动方式将其他 K8s 集群的 deepflow-agent 对接到 deepflow-server 集群。手动对接的优势在于，可以自定义 Grafana 面板中展示的 K8s 集群名称。具体操作步骤如下：
 
 ```bash
-## 通过 deepflow-ctl domain create -f custom-domain.yaml 来创建下面自定义的 K8s cluster domain
+## Use "deepflow-ctl domain create -f custom-domain.yaml" to create the following customized K8s cluster domain
 
-# 名称 (自定义集群名称即可，例如 beijing-prod-k8s)
+## Name (just customize the cluster name, such as beijing-prod-k8s)
 name: $CLUSTER_NAME  # FIXME
-# 云平台类型
+## Cloud platform type
 type: kubernetes
-config:
-  ## 所属区域标识 (使用此默认值，或通过 uuidgen 命令生成)
+#config:
+  ## Region identification (default configuration must be used, the community version does not support multiple regions)
   #region_uuid: ffffffff-ffff-ffff-ffff-ffffffffffff
-  ## 资源同步控制器 (这里不建议指定，默认即可)
+  ## Resource synchronization controller (it is not recommended to specify it here, the default is sufficient)
   #controller_ip: 127.0.0.1
-  ## POD 子网 IPv4 地址最大掩码
-  pod_net_ipv4_cidr_max_mask: 16
-  ## POD 子网 IPv6 地址最大掩码
-  pod_net_ipv6_cidr_max_mask: 64
-  ## 额外对接路由接口
-  node_port_name_regex: ^(cni|flannel|vxlan.calico|tunl|en[ospx])
-  ## 同步间隔, 单位:秒, 输入限制: 最小1,最大86400, 默认60
-  sync_timer: 60
+  ## Maximum mask of the POD subnet IPv4 address (no need to specify here, the agent as a watcher will automatically report the k8s cluster corresponding information)
+  #pod_net_ipv4_cidr_max_mask: 16
+  ## Maximum mask of the POD subnet IPv6 address (no need to specify here, the agent as a watcher will automatically report the k8s cluster corresponding information)
+  #pod_net_ipv6_cidr_max_mask: 64
+  ## Match matching network port names through regular expressions
+  #node_port_name_regex: ^(cni|flannel|vxlan.calico|tunl|en[ospx])
+  ## Synchronization interval, unit: seconds, input limit: minimum 1, maximum 86400, default 60 seconds
+  #sync_timer: 60
 
-## 查看创建后的 domain 具体信息:
+## View the specific information of the created domain (save the NAME / ID column contents):
 deepflow-ctl domain list $CLUSTER_NAME
 ```
 
@@ -70,10 +70,12 @@ deepflow-ctl domain list $CLUSTER_NAME
 ```bash
 cat << EOF > values-custom.yaml
 deepflowServerNodeIPS:
-- 10.1.2.3  # 注: 对应 deepflow-server 集群的 NODE IP (deepflow-server service 为 NodePort)
-- 10.4.5.6  # 注: 如果 deepflow-server 为 LoadBalancer 类型的服务, 此处可填写 LoadBalancer 的 VIP
-clusterNAME: $CLUSTER_NAME  # 注: 此处为上面创建的 K8s cluster domain
-deepflowK8sClusterID:       # 注: 此处为 K8s cluster domain 的 ID
+# Note: If deepflow-server uses service type is NodePort, you can fill in the host IP of the server here.
+# Note: If deepflow-server uses service type is LoadBalancer, you can fill in the VIP of LoadBalancer here.
+- 10.1.2.3  # FIXME
+- 10.4.5.6  # FIXME
+clusterNAME: $CLUSTER_NAME  # FIXME: Fill in the created $CLUSTER_NAME here
+deepflowK8sClusterID:       # FIXME: Fill in the created $CLUSTER_NAME ID here
 EOF
 
 helm repo add deepflow https://deepflowio.github.io/deepflow
@@ -89,10 +91,12 @@ cat << EOF > values-custom.yaml
 image:
   repository: registry.cn-beijing.aliyuncs.com/deepflow-ce/deepflow-agent
 deepflowServerNodeIPS:
-- 10.1.2.3  # 注: 对应 deepflow-server 集群的 NODE IP(deepflow-server service 为 NodePort)
-- 10.4.5.6  # 注: 如果 deepflow-server 为 LoadBalancer 类型的服务, 此处可填写 LoadBalancer 的 VIP
-clusterNAME: $CLUSTER_NAME  # 注: 此处为上面创建的 K8s cluster domain
-deepflowK8sClusterID:       # 注: 此处为 K8s cluster domain 的 ID
+# Note: If deepflow-server uses service type is NodePort, you can fill in the host IP of the server here.
+# Note: If deepflow-server uses service type is LoadBalancer, you can fill in the VIP of LoadBalancer here.
+- 10.1.2.3  # FIXME
+- 10.4.5.6  # FIXME
+clusterNAME: $CLUSTER_NAME  # FIXME: Fill in the created $CLUSTER_NAME here
+deepflowK8sClusterID:       # FIXME: Fill in the created $CLUSTER_NAME ID here
 EOF
 
 helm repo add deepflow https://deepflow-ce.oss-cn-beijing.aliyuncs.com/chart/stable

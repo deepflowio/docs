@@ -34,7 +34,7 @@ deployComponent:
 - "daemonset"
 - "watcher"
 tke_sidecar: true
-clusterNAME: your-cluster-name  # 注：对应 deepflow-ctl domain list 获取的 domain name
+clusterNAME: your-cluster-name  # Note: Corresponds to the domain name obtained by deepflow-ctl domain list
 EOF
 
 helm install deepflow-agent -n deepflow deepflow/deepflow-agent --create-namespace \
