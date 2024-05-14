@@ -14,13 +14,13 @@ DeepFlow 通过`调用链追踪`将一次调用涉及到的应用 Span、系统 
 注: 调用链追踪的火焰图和拓扑图暂时不支持加入视图
 ```
 
-![00-总览](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202309196509588519859.png)
+![00-总览](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024051466431461b3f38.png)
 
 调用追踪右滑框分三部分：头部信息、数据可视化、调用信息数据列表
 
 - **① 头部信息:** 展示链路的基本信息，如客户端，服务端，开始请求时间，持续时间，请求类型，请求资源等
 - **① 数据可视化:** 调用追踪 Span 数据以火焰图方式展示或调用追踪的服务以拓扑图的方式展示
-- **② 调用信息数据列表:** 展示每个调用信息数据详情
+- **② 调用信息数据列表:** 展示调用的关联信息
 
 ### 火焰图
 
@@ -58,6 +58,43 @@ DeepFlow 通过`调用链追踪`将一次调用涉及到的应用 Span、系统 
   - 自身耗时：服务所对应的一个或多个 Span 的耗时总和
 - **路径:** 对应火焰图中的`父Span`到`子Span`的关系进行拓扑路径绘制
 - **操作:** 支持`悬停`与`点击`，使用详情，请参阅【火焰图】章节
+
+### 下方 Tab
+
+#### 调用详情
+
+通过列表的形式展示火焰图中 Span 的详情信息，点击火焰图的 Span 则对应的调用详情会在列表高亮；反之，点击列表中的行则能高亮对应的 Span。
+
+![调用详情](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202405146643145809589.png)
+
+#### IO 事件
+
+点击火焰图中系统 Span 时，如果系统 Span 对应的进程存在 IO 读写事件时，则可以查看对应的 IO 事件。通过 IO 事件 Tab 可快速的查看 Span 对于文件读写消耗的时间。
+
+![IO 事件](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202405146643145f4f784.png)
+
+**① 第一行:** 叠加下面所有线程的 IO 事件块，重叠越多，颜色越重。
+**② 线程行:** 展示每个线程的 IO 事件，每一个块对应一个事件，块的长度根据 IO 事件的开始时间与结束时间计算而来
+  - Tip：由`文件名称`+`IO 事件类型`+`事件持续时间`组成
+**③ 详情信息:** 展示 IO 事件的详情
+
+#### 流日志
+
+点击火焰图中网络 Span 时，分析调用日志对应时间段流日志的时延数据。
+
+![流日志](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202405146643145d06086.png)
+
+**① 状态行:** 确定观测点、流持续时间以及流日志状态
+**② 时延:** 可分析网络相关时延，包含 TCP 建连时延、TLS 建连时延、平均数据时延、平均系统时延、平均客户端等待时延。时延的计算方式可参考`指标示意图`
+
+#### Span 溯源
+
+当需要分析火焰图中的 Span 为什么存在时，可使用 Span 溯源功能。点击火焰图中 Span 时，通过列表的形式展示与其他 Span 的关联关系。DeepFlow 的分布式追踪是根据一系列 ID 来计算完成的，包含 TraceID、SpanID、ParentSpanID、请求 X-Request-ID、响应 X-Request-ID、请求 Syscall TraceID、响应 Syscall TraceID、请求 TCP Seq 号、响应 TCP Seq 号，当 ID 存在关联关系时，Span 之间就能关联显示在一张火焰图中，其中 ID 的关联关系在列表中会通过紫色标注出来。
+
+![Span 溯源](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024051466431459e1b6e.png)
+
+**① 被点击 Span:** 火焰图被点击 Span
+**① 关联 Span:** 与被点击 Span 存在关联关系的 Span
 
 ### 火焰图快速理解
 
