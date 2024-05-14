@@ -91,7 +91,7 @@ deepflow-ctl agent-group create $AGENT_GROUP
 deepflow-ctl agent-group list $AGENT_GROUP # Get agent-group ID
 ```
 
-创建采集器组配置文件 `agent-group-config.yaml`，指定`组ID`并开启`platform_enabled`让 deepflow-agent 将服务器的网络信息同步至 deepflow-server 
+创建采集器组配置文件 `agent-group-config.yaml`，指定 `vtap_group_id` 并开启 `platform_enabled` 让 deepflow-agent 将服务器的网络信息同步至 deepflow-server 
 ```yaml
 vtap_group_id: g-ffffff # FIXME
 platform_enabled: 1
