@@ -110,7 +110,7 @@ API 返回结果示例：
   "DESCRIPTION": "",
   "result": [
     {
-      "profile_location_str": "root",
+      "profile_location_str": "deepflow-agent",
       "node_id": "",
       "parent_node_id": "-1",
       "self_value": 0,
@@ -149,7 +149,7 @@ API 返回结果说明：
   - `[k] function_name`：Linux 内核函数
   - `[l] function_name`：动态链接库中的函数
   - `function_name`：表示应用程序的业务函数
-  - `root`：火焰图最顶层的节点，不是一个真实的函数名
+  - `app_service`：火焰图最顶层的节点，不是一个真实的函数名
   - 除此之外，当函数名未成功翻译时，可能显示为如下几种形式之一
     - `[/tmp/perf-29887.map]`：方括号中为进程号 29887 的 Java 进程符号文件名，函数地址未能在该文件中找到。Java 进程符号文件会自动周期性生成，此时一般由于该符号文件生成时该函数尚未加载导致。
     - `[/lib/ld-musl-x86_64.so.1]`：方括号中为动态链接库的文件路径（带有 `so`），函数地址属于该文件但未能成功翻译，一般是符号表被裁剪导致。
@@ -162,7 +162,7 @@ API 返回结果说明：
 
 使用 API 的返回结果，可以绘制**指定进程**的 OnCPU 火焰图。DeepFlow 企业版中的展示效果图如下：
 
-![企业版中的进程火焰图](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024022165d5650fe38b3.png)
+![企业版中的进程火焰图](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202405146642dfa9701ce.jpg)
 
 当请求参数携带 `"app_service": "Total"` 时，能够获取到名为 `Total` 的特殊进程的 OnCPU Profile。它表示的是一台主机上所有进程的 Profile 数据，用于快速定位瓶颈进程或线程。此时的返回结果示例：
 ```json
@@ -171,7 +171,7 @@ API 返回结果说明：
   "DESCRIPTION": "",
   "result": [
     {
-      "profile_location_str": "root",
+      "profile_location_str": "Total",
       "node_id": "",
       "parent_node_id": "-1",
       "self_value": 0,
@@ -198,10 +198,10 @@ API 返回结果说明：
 ```
 
 上述返回结果中 **profile_location_str** 的补充说明如下：
-- `root`：火焰图最顶层的节点，不是一个真实的进程或线程名
+- `app_service`：火焰图最顶层的节点，不是一个真实的进程或线程名
 - `[p] name`：一个进程的名称
 - `[t] name`：一个线程的名称，它的父节点是一个 `[p] name` 类型的节点，表示这个线程所属的进程
 
 使用 API 的返回结果，可以绘制**指定主机**的 OnCPU 火焰图。DeepFlow 企业版中的展示效果图如下（火焰图只有三层）：
 
-![企业版中的主机火焰图](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024022165d5650eb848d.png)
+![企业版中的主机火焰图](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202405146642dfab0d31a.jpg)
