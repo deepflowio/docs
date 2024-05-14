@@ -5,20 +5,56 @@ permalink: /features/continuous-profiling/auto-profiling
 
 # AutoProfiling
 
-通过 eBPF 获取应用程序的函数调用栈快照，DeepFlow 可绘制任意进程的 CPU Profile，帮助开发者快速定位函数性能瓶颈。**函数调用栈中除了包含业务函数以外，还可展现动态链接库、内核系统调用函数的耗时情况**。除此之外，DeepFlow 在采集函数调用栈时生成了唯一标识，可用于与调用日志相关联，实现分布式追踪和函数性能剖析的联动。
+通过 eBPF 获取应用程序的函数调用栈快照，DeepFlow 可绘制任意进程的 CPU Profiling，帮助开发者快速定位函数性能瓶颈。**函数调用栈中除了包含业务函数以外，还可展现动态链接库、内核系统调用函数的耗时情况**。除此之外，DeepFlow 在采集函数调用栈时生成了唯一标识，可用于与调用日志相关联，实现分布式追踪和函数性能剖析的联动。
 
-![DeepFlow 中的 CPU Profile 和 Network Profile](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023091064fc9ac3060c3.png)
+![DeepFlow 中的 CPU Profiling 和 Network Profiling](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023091064fc9ac3060c3.png)
 
-# 配置方法
+# 支持能力
 
-eBPF OnCPU Profile 是默认开启的，但你需要通过修改 `static_config.ebpf.on-cpu-profile.regex` 来指定需要开启的进程列表。默认情况下 DeepFlow 将开启 deepflow-agent 和 deepflow-server 的 OnCPU Profile。目前该功能支持的进程语言有：
+支持的 Profiling 数据类型：
+- OnCPU
+- OffCPU `仅企业版`
+
+支持的进程语言：
 - 编译为 ELF 格式可执行文件的语言：Golang、Rust、C/C++
 - 使用 JVM 虚拟机的语言：Java
 
-Agent 支持的配置参数如下：
+获取 Profiling 数据需满足两个前提条件：
+- 进程需要开启 Frame Pointer（帧指针寄存器）
+  - 编译 C/C++：`gcc -fno-omit-frame-pointer`
+  - 编译 Rust：`RUSTFLAGS="-C force-frame-pointers=yes"`
+  - 编译 Golang：默认开启，无需额外编译参数
+  - 运行 Java：`-XX:+PreserveFramePointer`
+- 对于编译型语言的进程，编译时需要注意保留符号表
+
+# 功能开启方法
+
+## eBPF OnCPU Profiling
+
+eBPF OnCPU Profiling 是默认开启的，但你需要通过修改 `static_config.ebpf.on-cpu-profile.regex` 来指定需要开启的进程列表。默认情况下仅对进程名以 `deepflow-` 开头的进程开启。Agent 支持的配置参数如下：
 ```yaml
 static_config:
   ebpf:
+
+    ## Java compliant update latency time
+    ## Default: 600s. Range: [5, 3600]s
+    ## Note:
+    ##   When deepflow-agent finds that an unresolved function name appears in the function call stack
+    ##   of a Java process, it will trigger the regeneration of the symbol file of the process.
+    ##   Because Java utilizes the Just-In-Time (JIT) compilation mechanism, to obtain more symbols for
+    ##   Java processes, the regeneration will be deferred for a period of time.
+    #java-symbol-file-refresh-defer-interval: 600s
+
+    ## Maximum size limit for Java symbol file.
+    ## Default: 10. Range: [2, 100]
+    ## Note:
+    ##   Which means it falls within the interval of 2Mi to 100Mi. If the configuration value is outside
+    ##   this range, the default value of 10(10Mi), will be used.
+    ##   All Java symbol files are stored in the '/tmp' directory mounted by the deepflow-agent. To prevent
+    ##   excessive occupation of host node space due to large Java symbol files, a maximum size limit is set
+    ##   for each generated Java symbol file.
+    #java-symbol-file-max-space-limit: 10
+
     ## on-cpu profile configuration
     on-cpu-profile:
       ## eBPF on-cpu Profile Switch
@@ -42,38 +78,66 @@ static_config:
       ## Sampling process name
       ## Default: ^deepflow-.*
       regex: ^deepflow-.*
-
-      ## When deepflow-agent finds that an unresolved function name appears in the function call stack
-      ## of a Java process, it will trigger the regeneration of the symbol file of the process.
-      ## Because Java utilizes the Just-In-Time (JIT) compilation mechanism, to obtain more symbols for
-      ## Java processes, the regeneration will be deferred for a period of time.
-      ## Default: 600s. Range: [5, 3600]s
-      ## The unit of measurement used is seconds.
-      java-symbol-file-refresh-defer-interval: 600s
 ```
 
 上述配置的含义如下：
 - **disabled**：默认为 False，表示功能开启。
 - **frequency**：采样频率，默认 99 约表示 10ms 采样周期。不建议设置为 10 的整数倍，避免和程序运行或调度的时钟同频。
 - **cpu**：默认为 0，表示一台主机上采集的数据不区分 CPU，当设置为 1 时数据将按 CPU ID 聚合。
-- **regex**：开启 OnCPU Profile 的进程名正则表达式
+- **regex**：开启 OnCPU Profiling 的进程名正则表达式。
 - **java-symbol-file-refresh-default-interval**：Java 符号表的刷新间隔，避免高频刷新
+- **java-symbol-file-max-space-limit**：避免 Java 符号表占用过大的 `/tmp` 空间
 
-成功获取 Profile 数据需满足两个前提条件：
-- 进程需要开启 Frame Pointer（帧指针寄存器）
-  - 编译 C/C++：`gcc -fno-omit-frame-pointer`
-  - 编译 Rust：`RUSTFLAGS="-C force-frame-pointers=yes"`
-  - 编译 Golang：默认开启，无需额外编译参数
-  - 运行 Java：`-XX:+PreserveFramePointer`
-- 对于编译型语言的进程，编译时需要注意保留符号表
+## eBPF OffCPU Profiling
 
-# 结果查看
+eBPF OffCPU Profiling 是默认关闭的，Agent 支持的配置参数如下：
+```yaml
+static_config:
+  ebpf:
+
+    ## Off-cpu profile configuration, Enterprise Edition Only.
+    #off-cpu-profile:
+      ## eBPF off-cpu Profile Switch
+      ## Default: true
+      #disabled: true
+
+      ## Sampling process name
+      ## Default: ^deepflow-.*
+      #regex: ^deepflow-.*
+
+      ## Configure the minimum blocking event time
+      ## Default: 50us. Range: [1, 2^32-1)us
+      ## Note:
+      ##   Scheduler events are still high-frequency events, as their rate may exceed 1 million events
+      ##   per second, so caution should still be exercised.
+      ##   If overhead remains an issue, you can configure the 'minblock' tunable parameter here.
+      ##   If the off-CPU time is less than the value configured in this item, the data will be discarded.
+      ##   If your goal is to trace longer blocking events, increasing this parameter can filter out shorter
+      ##   blocking events, further reducing overhead. Additionally, we will not collect events with a block
+      ##   time exceeding 1 hour.
+      #minblock: 50us
+```
+
+上述配置的含义如下：
+- **disabled**：默认为 True，表示功能关闭。
+- **regex**：开启 OffCPU Profiling 的进程名正则表达式。
+- **minblock**：使用持续时间限制采集的 OffCPU 事件，避免采集过多导致主机负载过高。
+
+另外，下面两个 OnCPU 的配置项也对 OffCPU 生效：
+- **java-symbol-file-refresh-default-interval**
+- **java-symbol-file-max-space-limit**
+
+# 调用 API 获取 Profiling 数据
 
 ::: warning
-eBPF Profile 数据目前无法在 Grafana 上展现，仅可在企业版页面中查看。
+eBPF Profiling 数据目前无法在 Grafana 上展现，仅可在企业版页面中查看。
 :::
 
-但是，社区版中 Profile 数据已经存储于 ClickHouse 的 `profile.in_process` 表中了，可通过调用 deepflow-server 的如下 API 查询：
+但是，社区版中 Profiling 数据已经存储于 ClickHouse 的 `profile.in_process` 表中了，可通过调用 deepflow-server 的 API 查询数据。
+
+## 获取指定进程的 Profiling 数据
+
+Profiling 数据查询 API 示例：
 ```bash
 # 确认 deepflow-server 的监听 IP 和端口
 deepflow_server_node_ip=FIXME # 注意修改
@@ -94,8 +158,8 @@ curl -X POST http://${deepflow_server_node_ip}:$port/v1/profile/ProfileTracing \
 
 API 请求参数说明：
 - **app_service**：进程名
-- **profile_language_type**：获取 eBPF Profile 数据时使用 `eBPF`
-- **profile_event_type**：对于 eBPF Profile 数据，目前仅支持 `on-cpu`
+- **profile_language_type**：获取 eBPF Profiling 数据时使用 `eBPF`
+- **profile_event_type**：对于 eBPF OnCPU Profiling 数据赋值为 `on-cpu` 即可
 - **tag_filter**：当进程名冲突时，可使用其他 Tag 过滤
   - 例如 `"tag_filter": "pod_cluster='prod-cluster' AND pod_ns='app'"`
 - **time_start**、**time_end**：时间范围
@@ -160,11 +224,17 @@ API 返回结果说明：
 - **total_value**：该函数的 CPU 执行时长，单位是微秒（us）。
 - **self_value**：该函数作为叶子节点（最底层函数）的 CPU `净`执行时长，单位是微秒（us）。
 
-使用 API 的返回结果，可以绘制**指定进程**的 OnCPU 火焰图。DeepFlow 企业版中的展示效果图如下：
+使用 API 的返回结果，可以绘制**指定进程**的 CPU 火焰图。DeepFlow 企业版中的展示效果图如下：
 
 ![企业版中的进程火焰图](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202405146642dfa9701ce.jpg)
 
-当请求参数携带 `"app_service": "Total"` 时，能够获取到名为 `Total` 的特殊进程的 OnCPU Profile。它表示的是一台主机上所有进程的 Profile 数据，用于快速定位瓶颈进程或线程。此时的返回结果示例：
+## 获取指云服务器的整体 Profiling 数据
+
+::: tip
+当前仅 OnCPU Profiling 支持查询云服务器的整体数据。
+:::
+
+当请求参数携带 `"app_service": "Total"` 时，能够获取到名为 `Total` 的特殊进程的 OnCPU Profiling。它表示的是一台主机上所有进程的 Profiling 数据，用于快速定位瓶颈进程或线程。此时的返回结果示例：
 ```json
 {
   "OPT_STATUS": "SUCCESS",
