@@ -26,7 +26,7 @@ end
 
 # 部署 deepflow-agent
 
-以 daemonset 部署 deepflow-agent 并注入 sidecar：
+更改 value 文件，以 daemonset 部署 deepflow-agent 并注入 sidecar，并通过`deepflow-ctl domain list`获取`clusterNAME`
 
 ```bash
 cat << EOF > values-custom.yaml
@@ -34,7 +34,7 @@ deployComponent:
 - "daemonset"
 - "watcher"
 tke_sidecar: true
-clusterNAME: your-cluster-name  # FIXME: Enter the domain name obtained from the "deepflow-ctl domain list" command.
+clusterNAME: your-cluster-name  # FIXME: domain name
 EOF
 
 helm install deepflow-agent -n deepflow deepflow/deepflow-agent --create-namespace \

@@ -32,11 +32,9 @@ DeepFlow 使用 K8s 的 CA 文件 MD5 值区分不同的集群，请在不同 K8
 
 假如你的不同 K8s 集群使用了相同的 CA 文件，在多个集群中部署 deepflow-agent 之前，需要利用 `deepflow-ctl domain create` 获取一个 `K8sClusterID`：
 
-注: 多套 K8s 集群的 CA 文件相同，这种情况并不常见。尽管如此，我们仍建议通过手动方式将其他 K8s 集群的 deepflow-agent 对接到 deepflow-server 集群。手动对接的优势在于，可以自定义 Grafana 面板中展示的 K8s 集群名称。具体操作步骤如下：
+注: 多套 K8s 集群的 CA 文件相同，这种情况并不常见。尽管如此，我们仍建议通过手动方式将其他 K8s 集群的 deepflow-agent 对接到 deepflow-server 集群。手动对接的优势在于，可以自定义 Grafana 面板中展示的 K8s 集群名称。可通过`deepflow-ctl domain create -f custom-domain.yaml`创建自定义 K8s cluster domain：
 
 ```bash
-## Create the custom K8s cluster domain below using "deepflow-ctl domain create -f custom-domain.yaml"
-
 # Name (you can customize the cluster name, for example, beijing-prod-k8s)
 name: $CLUSTER_NAME  # FIXME
 # Type of cloud platform
@@ -61,8 +59,7 @@ deepflow-ctl domain list $CLUSTER_NAME
 
 # 部署 deepflow-agent
 
-使用 Helm 安装 deepflow-agent:
-
+使用 Helm 安装 deepflow-agent，如果 deepflow-server 使用的 svc 是默认的 NodePort 类型，则`deepflowServerNodeIPS`下直接填写 deepflow-server Node IP；如果 deepflow-server 使用的 svc 是 [LoadBalancer](../04-best-practice/06-production-deployment.md/#优化deepflow-agent到deepflow-server的流量路径) 类型，则直接填写 LoadBalancer VIP 即可
 ::: code-tabs#shell
 
 @tab Use Github and DockerHub
@@ -70,12 +67,10 @@ deepflow-ctl domain list $CLUSTER_NAME
 ```bash
 cat << EOF > values-custom.yaml
 deepflowServerNodeIPS:
-# Note: If the deepflow-server service type is NodePort, you should enter the host IP of the server here.
-# Note: If the deepflow-server service type is LoadBalancer, you should enter the VIP of the LoadBalancer here.
 - 10.1.2.3  # FIXME
 - 10.4.5.6  # FIXME
-clusterNAME: $CLUSTER_NAME  # FIXME: Enter the created $CLUSTER_NAME here
-deepflowK8sClusterID:       # FIXME: Enter the created $CLUSTER_NAME ID here
+clusterNAME: $CLUSTER_NAME  # FIXME: $CLUSTER_NAME
+deepflowK8sClusterID:       # FIXME: $CLUSTER_NAME ID
 EOF
 
 helm repo add deepflow https://deepflowio.github.io/deepflow
@@ -91,12 +86,10 @@ cat << EOF > values-custom.yaml
 image:
   repository: registry.cn-beijing.aliyuncs.com/deepflow-ce/deepflow-agent
 deepflowServerNodeIPS:
-# Note: If the deepflow-server service type is NodePort, you should enter the host IP of the server here.
-# Note: If the deepflow-server service type is LoadBalancer, you should enter the VIP of the LoadBalancer here.
 - 10.1.2.3  # FIXME
 - 10.4.5.6  # FIXME
-clusterNAME: $CLUSTER_NAME  # FIXME: Enter the created $CLUSTER_NAME here
-deepflowK8sClusterID:       # FIXME: Enter the created $CLUSTER_NAME ID here
+clusterNAME: $CLUSTER_NAME  # FIXME: $CLUSTER_NAME
+deepflowK8sClusterID:       # FIXME: $CLUSTER_NAME ID
 EOF
 
 helm repo add deepflow https://deepflow-ce.oss-cn-beijing.aliyuncs.com/chart/stable
