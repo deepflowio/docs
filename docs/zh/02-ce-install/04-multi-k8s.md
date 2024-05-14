@@ -35,27 +35,27 @@ DeepFlow 使用 K8s 的 CA 文件 MD5 值区分不同的集群，请在不同 K8
 注: 多套 K8s 集群的 CA 文件相同，这种情况并不常见。尽管如此，我们仍建议通过手动方式将其他 K8s 集群的 deepflow-agent 对接到 deepflow-server 集群。手动对接的优势在于，可以自定义 Grafana 面板中展示的 K8s 集群名称。具体操作步骤如下：
 
 ```bash
-## Use "deepflow-ctl domain create -f custom-domain.yaml" to create the following customized K8s cluster domain
+## Create the custom K8s cluster domain below using "deepflow-ctl domain create -f custom-domain.yaml"
 
-## Name (just customize the cluster name, such as beijing-prod-k8s)
+# Name (you can customize the cluster name, for example, beijing-prod-k8s)
 name: $CLUSTER_NAME  # FIXME
-## Cloud platform type
+# Type of cloud platform
 type: kubernetes
-#config:
-  ## Region identification (default configuration must be used, the community version does not support multiple regions)
+config:
+  ## Regional identifier (must use this default valued)
   #region_uuid: ffffffff-ffff-ffff-ffff-ffffffffffff
-  ## Resource synchronization controller (it is not recommended to specify it here, the default is sufficient)
+  ## Resource synchronization controller (it is recommended to use the default setting here)
   #controller_ip: 127.0.0.1
-  ## Maximum mask of the POD subnet IPv4 address (no need to specify here, the agent as a watcher will automatically report the k8s cluster corresponding information)
+  ## Maximum mask for POD subnet IPv4 addresses
   #pod_net_ipv4_cidr_max_mask: 16
-  ## Maximum mask of the POD subnet IPv6 address (no need to specify here, the agent as a watcher will automatically report the k8s cluster corresponding information)
+  ## Maximum mask for POD subnet IPv6 addresses
   #pod_net_ipv6_cidr_max_mask: 64
-  ## Match matching network port names through regular expressions
+  ## Additional routing interface connection
   #node_port_name_regex: ^(cni|flannel|vxlan.calico|tunl|en[ospx])
-  ## Synchronization interval, unit: seconds, input limit: minimum 1, maximum 86400, default 60 seconds
+  ## Synchronization interval, in seconds: minimum 1, maximum 86400, default 60
   #sync_timer: 60
 
-## View the specific information of the created domain (save the NAME / ID column contents):
+## View the specific information of the domain created:
 deepflow-ctl domain list $CLUSTER_NAME
 ```
 
@@ -70,12 +70,12 @@ deepflow-ctl domain list $CLUSTER_NAME
 ```bash
 cat << EOF > values-custom.yaml
 deepflowServerNodeIPS:
-# Note: If deepflow-server uses service type is NodePort, you can fill in the host IP of the server here.
-# Note: If deepflow-server uses service type is LoadBalancer, you can fill in the VIP of LoadBalancer here.
+# Note: If the deepflow-server service type is NodePort, you should enter the host IP of the server here.
+# Note: If the deepflow-server service type is LoadBalancer, you should enter the VIP of the LoadBalancer here.
 - 10.1.2.3  # FIXME
 - 10.4.5.6  # FIXME
-clusterNAME: $CLUSTER_NAME  # FIXME: Fill in the created $CLUSTER_NAME here
-deepflowK8sClusterID:       # FIXME: Fill in the created $CLUSTER_NAME ID here
+clusterNAME: $CLUSTER_NAME  # FIXME: Enter the created $CLUSTER_NAME here
+deepflowK8sClusterID:       # FIXME: Enter the created $CLUSTER_NAME ID here
 EOF
 
 helm repo add deepflow https://deepflowio.github.io/deepflow
@@ -91,12 +91,12 @@ cat << EOF > values-custom.yaml
 image:
   repository: registry.cn-beijing.aliyuncs.com/deepflow-ce/deepflow-agent
 deepflowServerNodeIPS:
-# Note: If deepflow-server uses service type is NodePort, you can fill in the host IP of the server here.
-# Note: If deepflow-server uses service type is LoadBalancer, you can fill in the VIP of LoadBalancer here.
+# Note: If the deepflow-server service type is NodePort, you should enter the host IP of the server here.
+# Note: If the deepflow-server service type is LoadBalancer, you should enter the VIP of the LoadBalancer here.
 - 10.1.2.3  # FIXME
 - 10.4.5.6  # FIXME
-clusterNAME: $CLUSTER_NAME  # FIXME: Fill in the created $CLUSTER_NAME here
-deepflowK8sClusterID:       # FIXME: Fill in the created $CLUSTER_NAME ID here
+clusterNAME: $CLUSTER_NAME  # FIXME: Enter the created $CLUSTER_NAME here
+deepflowK8sClusterID:       # FIXME: Enter the created $CLUSTER_NAME ID here
 EOF
 
 helm repo add deepflow https://deepflow-ce.oss-cn-beijing.aliyuncs.com/chart/stable

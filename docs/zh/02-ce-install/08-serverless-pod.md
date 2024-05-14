@@ -34,7 +34,7 @@ deployComponent:
 - "daemonset"
 - "watcher"
 tke_sidecar: true
-clusterNAME: your-cluster-name  # Note: Corresponds to the domain name obtained by deepflow-ctl domain list
+clusterNAME: your-cluster-name  # FIXME: Enter the domain name obtained from the "deepflow-ctl domain list" command.
 EOF
 
 helm install deepflow-agent -n deepflow deepflow/deepflow-agent --create-namespace \

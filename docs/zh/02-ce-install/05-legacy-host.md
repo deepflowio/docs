@@ -54,7 +54,7 @@ configmap:
         - 192.168.0.0/16
         - 169.254.0.0/15
         - 224.0.0.0-240.255.255.255
-        - 100.42.32.0/24  # FIXME: For example, if the host IP is 100.42.32.213, just add the corresponding host network segment to the configuration.
+        - 100.42.32.0/24  # FIXME: For example, if the host IP is 100.42.32.213, simply add the corresponding host network segment to the configuration.
       trisolaris:
         trident-type-for-unkonw-vtap: 3  # required
 ```
@@ -93,8 +93,8 @@ deepflow-ctl agent-group list $AGENT_GROUP # Get agent-group ID
 
 创建采集器组配置文件 `agent-group-config.yaml`：
 ```yaml
-vtap_group_id: g-ffffff # FIXME: The content filled here is the queried agent-group ID
-platform_enabled: 1     # FIXME: When enabled, deepflow-agent will synchronize the network information on the server to deepflow-server
+vtap_group_id: g-ffffff # FIXME: Enter the agent-group ID retrieved from the query here.
+platform_enabled: 1     # FIXME: When enabled, the deepflow-agent will synchronize the server's network information with the deepflow-server.
 ```
 
 创建采集器组配置：
