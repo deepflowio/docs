@@ -9,7 +9,7 @@ permalink: /features/continuous-profiling/auto-profiling
 
 ![DeepFlow 中的 CPU Profiling 和 Network Profiling](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023091064fc9ac3060c3.png)
 
-# 支持能力
+# 能力和限制
 
 支持的 Profiling 数据类型：
 - OnCPU
@@ -90,7 +90,7 @@ static_config:
 
 ## eBPF OffCPU Profiling
 
-eBPF OffCPU Profiling 是默认关闭的，Agent 支持的配置参数如下：
+eBPF OffCPU Profiling（仅企业版）是默认开启的，但你需要通过修改 `static_config.ebpf.off-cpu-profile.regex` 来指定需要开启的进程列表。默认情况下仅对进程名以 `deepflow-` 开头的进程开启。Agent 支持的配置参数如下：
 ```yaml
 static_config:
   ebpf:
@@ -98,16 +98,27 @@ static_config:
     ## Off-cpu profile configuration, Enterprise Edition Only.
     #off-cpu-profile:
       ## eBPF off-cpu Profile Switch
-      ## Default: true
-      #disabled: true
+      ## Default: false
+      #disabled: false
 
-      ## Sampling process name
+      ## Off-cpu trace process name
       ## Default: ^deepflow-.*
       #regex: ^deepflow-.*
 
+      ## Whether to obtain the value of CPUID and decide whether to participate in aggregation.
+      ## Set to 1:
+      ##    Obtain the value of CPUID and will be included in the aggregation of stack trace data.
+      ## Set to 0:
+      ##    It will not be included in the aggregation. Any other value is considered invalid,
+      ##    the CPU value for stack trace data reporting is a special value (CPU_INVALID:0xfff)
+      ##    used to indicate that it is an invalid value.
+      ## Default: 0
+      #cpu: 0
+
       ## Configure the minimum blocking event time
-      ## Default: 50us. Range: [1, 2^32-1)us
+      ## Default: 50us. Range: [0, 2^32-1)us
       ## Note:
+      ##   If set to 0, there will be no minimum value limitation.
       ##   Scheduler events are still high-frequency events, as their rate may exceed 1 million events
       ##   per second, so caution should still be exercised.
       ##   If overhead remains an issue, you can configure the 'minblock' tunable parameter here.
@@ -119,15 +130,16 @@ static_config:
 ```
 
 上述配置的含义如下：
-- **disabled**：默认为 True，表示功能关闭。
+- **disabled**：默认为 False，表示功能开启。
 - **regex**：开启 OffCPU Profiling 的进程名正则表达式。
+- **cpu**：默认为 0，表示一台主机上采集的数据不区分 CPU，当设置为 1 时数据将按 CPU ID 聚合。
 - **minblock**：使用持续时间限制采集的 OffCPU 事件，避免采集过多导致主机负载过高。
 
-另外，下面两个 OnCPU 的配置项也对 OffCPU 生效：
+另外，下面两个 OnCPU 的配置项同时也对 OffCPU 有效：
 - **java-symbol-file-refresh-default-interval**
 - **java-symbol-file-max-space-limit**
 
-# 调用 API 获取 Profiling 数据
+# Profiling 数据获取 API
 
 ::: warning
 eBPF Profiling 数据目前无法在 Grafana 上展现，仅可在企业版页面中查看。
@@ -228,13 +240,13 @@ API 返回结果说明：
 
 ![企业版中的进程火焰图](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202405146642dfa9701ce.jpg)
 
-## 获取指云服务器的整体 Profiling 数据
+## 获取指定主机的 Profiling 数据
 
 ::: tip
-当前仅 OnCPU Profiling 支持查询云服务器的整体数据。
+当前仅 OnCPU Profiling 支持查询主机的整体数据。
 :::
 
-当请求参数携带 `"app_service": "Total"` 时，能够获取到名为 `Total` 的特殊进程的 OnCPU Profiling。它表示的是一台主机上所有进程的 Profiling 数据，用于快速定位瓶颈进程或线程。此时的返回结果示例：
+当请求参数携带 `"app_service": "Total"` 时，能够获取到名为 `Total` 的特殊 OnCPU Profiling 数据，它是一台主机上所有进程的、精细到线程粒度的 Profiling。可用于当 OnCPU `regex` 未配置某个进程时，能够快速定位瓶颈进程和线程。此时的返回结果示例：
 ```json
 {
   "OPT_STATUS": "SUCCESS",
@@ -268,7 +280,7 @@ API 返回结果说明：
 ```
 
 上述返回结果中 **profile_location_str** 的补充说明如下：
-- `app_service`：火焰图最顶层的节点，名字固定为 Total
+- `$app_service`：火焰图最顶层的节点，名字固定为 Total
 - `[p] name`：一个进程的名称
 - `[t] name`：一个线程的名称，它的父节点是一个 `[p] name` 类型的节点，表示这个线程所属的进程
 
