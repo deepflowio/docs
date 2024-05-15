@@ -1,27 +1,33 @@
 ---
-title: 服务搜索框
+title: 资源搜索框
 permalink: /guide/ee-tenant/query/service-search/
 ---
 
-# 服务搜索框
+# 资源搜索框
 
 应用-资源统计、网络-资源统计、网络-资源盘点都使用的是`资源搜索框`。
 
-![01-服务搜索框](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa530137.png)
+![01-资源搜索框](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202405156644257f66c64.png)
+
+- **① 搜索快照**：参考[搜索快照](./history/)章节说明
+- **② 搜索输入形式**：可切换搜索输入的形式，目前有自由搜索、容器搜索、进程搜索。详细见后续章节描述
+
+## 自由搜索
+
+![02-自由搜索](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202405156644260e09259.png)
 
 - **① 搜索条件输入框**：支持中英文联想输入，支持数据表中的 Tag 作为搜索条件
-- **② 切换主分组**：资源分组，对应功能界面的`资源`
-- **③ 切换次分组**：其他分组，对应功能界面的`分组属性`
-- **④ 清空搜索条件**：清空`搜索条件输入框`及`主次分组`恢复到默认值
-- **⑤ 保存搜索条件**：保存当前界面输入的搜索条件
+- **② 清空搜索条件**：清空`搜索条件输入框`
+- **③ 切换主分组**：资源分组，对应功能界面的`资源`
+- **④ 切换次分组**：其他分组，对应功能界面的`分组属性`
 
 `搜索条件输入框`，每一个完整的搜索条件称之为一个`搜索标签`，接下来详细说明下`搜索标签`的如何管理。
 
-![02-搜索标签](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa57a56f.png)
+![03-搜索标签](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa57a56f.png)
 
-![03-操作符](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa702aed.png)
+![04-操作符](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa702aed.png)
 
-![04-候选项](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c50ecc63c1.png)
+![05-候选项](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c50ecc63c1.png)
 
 - **① Tag 名称**：支持查询数据表中的 Tag，详细描述可查看`数据库字段`
   - 支持中英文联想
@@ -41,6 +47,23 @@ permalink: /guide/ee-tenant/query/service-search/
 - **④ 禁用**：禁用当前`搜索标签`对应的搜索条件
 - **⑤ 修改**：修改当前`搜索标签`对应的搜索条件
 - **⑥ 删除**：删除当前`搜索标签`
+
+## 容器搜索
+
+容器搜索形式将容器场景下常用的资源 Tag 固定为下拉框形式，以方便快速过滤容器资源。
+
+![06-容器搜索](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240515664425a2b3c16.png)
+
+- **① 容器资源下拉框**：点击下拉框则可快速选择需要过滤的容器资源，后面下拉框的选项可与前面的选择联动。
+- **② 搜索条件输入框**：详见上述`自由搜索`章节的描述
+- **③ 收缩搜索条件输入框**：点击可快速收缩`搜索条件输入框`
+- **④ 切换分组**：可快速切换容器资源 Tag
+
+## 进程搜索
+
+进程搜索形式与容器搜索类似，主要是将进程相关的常用 Tag 固定为下拉框形式，以便快速过滤进程资源。
+
+![07-进程搜索](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240515664426411eea4.png)
 
 # 应用场景
 

@@ -219,7 +219,7 @@ helm install deepflow -n deepflow deepflow/deepflow-agent --create-namespace \
 - 参考[传统服务器部署 DeepFlow Agent](../ce-install/legacy-host/)，但无需创建 Domain
 - 修改 agent 配置文件 `/etc/deepflow-agent/deepflow-agent.yaml`，`kubernetes-cluster-id` 填写上一步获取的集群 ID
 
-## 不允许请求 apiserver
+## 不允许 Daemonset 请求 apiserver
 
 默认情况下 DeepFlow Agent 在 K8s 中以 Daemonset 方式运行。但有些情况下为了保护 apiserver 避免过载，Daemonset 不允许对 apiserver 请求。此时也可使用本文中「无 Daemonset 部署权限」的类似方式进行部署：
 - 部署一个 deepflow-agent deployment，仅负责 list-watch apiserver、同步 K8s 资源信息
@@ -253,4 +253,274 @@ rmdir /sys/fs/cgroup/memory/deepflow-agent
 
 ```bash
 /usr/sbin/deepflow-agent -f /etc/deepflow-agent.yaml
+
+
+## 不允许 deepflow-agent 请求 apiserver
+
+deepflow-server 依赖 deepflow-agent 上报的 K8s 资源信息来实现 AutoTagging 能力，当你的环境不允许 deepflow-agent 直接 Watch K8s apiserver 时，你可以自己实现一个专门用于同步 K8s 资源的 pseudo-deepflow-gent。这个 pseudo-deepflow-agent 需要实现的功能包括：
+- 周期性的 List-Watch K8s apiserver 以获取最新的 K8s 资源信息
+- 调用 deepflow-server 的 gRPC 接口上报 K8s 资源信息
+
+### gRPC 接口
+
+上报 K8s 资源信息的接口为（[GitHub 代码链接](https://github.com/deepflowio/deepflow/blob/main/message/trident.proto#L15)）：
+```protobuf
+rpc KubernetesAPISync(KubernetesAPISyncRequest) returns (KubernetesAPISyncResponse) {}
+```
+
+pseudo-deepflow-agent 上报消息的结构体说明（GitHub 代码链接同上）：
+```protobuf
+message KubernetesAPISyncRequest {
+    // 如无特殊说明，以下字段均必须携带。
+
+    // K8s 集群标识。
+    // 请使用同一个 K8s 集群中 deepflow-agent.yaml 所配置的值。
+    optional string cluster_id = 1;
+
+    // 资源信息的版本号。
+    // 当 K8s 资源信息发生变化时，请确保此版本号也要进行改变，通常可使用 Linux Epoch。
+    // 当 K8s 资源信息没有变化时，携带上一次的版本号，此时 entries 无需传输。
+    // 即使资源信息没有变化，也要周期性请求 deepflow-server，保证两次请求间隔不要超过 24 小时。
+    optional uint64 version = 2;
+
+    // 异常信息。
+    // 当调用 K8s API 异常，或者发生其他错误时，可通过此字段告知 deepflow-server。
+    // 当存在 error_msg 时，建议携带上一次请求使用的 version 和 entries 字段。
+    optional string error_msg = 3;
+
+    // Source IP 地址。
+    // 通常可填写为 pseudo-deepflow-agent 请求 gRPC 时使用的客户端 IP 地址。
+    // 使用有代表性、区分性的 source_ip 能够方便查阅 deepflow-server 日志，定位请求者。
+    optional string source_ip = 5;
+
+    // 各类 K8s 资源的所有信息。
+    // 请注意需要包括所有类型的所有资源，未出现的资源将会被 deepflow-server 认为已删除。
+    repeated common.KubernetesAPIInfo entries = 10;
+}
+
+message KubernetesAPIInfo {
+    // K8s 资源类型，当前支持的资源类型有：
+    // - *v1.Node
+    // - *v1.Namespace
+    // - *v1.Deployment
+    // - *v1.StatefulSet
+    // - *v1.DaemonSet
+    // - *v1.ReplicationController
+    // - *v1.ReplicaSet
+    // - *v1.Pod
+    // - *v1.Service
+    // - *v1beta1.Ingress
+    optional string type = 1;
+
+    // 该类型的资源列表。
+    // 注意：请使用 JSON 序列化，之后使用 zlib 进行压缩，传输压缩后的字节流即可。
+    optional bytes compressed_info = 3;
+}
+```
+
+deepflow-server 回复消息的结构体说明（GitHub 代码链接同上）：
+```protobuf
+message KubernetesAPISyncResponse {
+    // deepflow-server 已经接受的资源信息版本号，通常等于最近一次请求中的 version。
+    optional uint64 version = 1;
+}
+```
+
+### 对 KubernetesAPIInfo 的说明
+
+注意：deepflow-server 要求某些 K8s 资源类型必须上报包括：
+- `*v1.Node`
+- `*v1.Namespace`
+- `*v1.Pod`
+- `*v1.Deployment`、`*v1.StatefulSet`、`*v1.DaemonSet`、`*v1.ReplicationController`、`*v1.ReplicaSet`：根据 Pod 的工作负载类型按需上报即可
+
+除此之外的其他资源可以不上报：
+- `*v1.Service`
+- `*v1beta1.Ingress`
+
+下面我们依次介绍各类资源在上报时必须要携带的字段信息，各个字段的值类型可参考 `kubectl get XXX -o json` 命令的输出。
+
+#### *v1.Node 的必要字段
+
+```json
+{
+    "metadata": {
+        "uid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // 唯一标识
+        "name": "xxxx"                                 // 名称
+    },
+    "status": {
+        "addresses": [
+            {
+                "address": "x.x.x.x", // Node IP
+                "type": "InternalIP"
+            }
+        ],
+        "conditions": [
+            {
+                "reason": "KubeletReady", // 用于判断 Node 状态
+                "status": "True"          // 用于判断 Node 状态
+            }
+        ]
+    },
+    "spec": {
+        "podCIDR": "x.x.x.x/x" // 用于获取该 Node 使用的 POD Cidr
+    }
+}
+```
+
+#### *v1.Namespace 的必要字段
+
+```json
+{
+    "metadata": {
+        "uid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // 唯一标识
+        "name": "xxxx"                                 // 名称
+    }
+}
+```
+
+#### *v1.Deployment/StatefulSet/DaemonSet/ReplicationController 的必要字段
+
+```json
+{
+    "metadata": {
+        "uid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // 唯一标识
+        "name": "xxxx",                                // 名称
+        "namespace": "xxxx",                           // 所属 namespace 的名称
+        "labels": {                                    // labels，可以上传空字典
+            "key1": "value1"
+        }
+    },
+    "spec": {
+        "replicas": 1
+    }
+}
+```
+
+#### *v1.ReplicaSet 的必要字段
+
+```json
+{
+    "metadata": {
+        "uid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // 唯一标识
+        "name": "xxxx",                                // 名称
+        "namespace": "xxxx",                           // 所属 namespace 的名称
+        "labels": {                                    // labels，可以上传空字典
+            "key1": "value1"
+        },
+        "ownerReferences": {                           // 所属工作负载信息
+            "name": "xxxx",
+            "uid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+        }
+    },
+    "spec": {
+        "replicas": 1
+    }
+}
+```
+
+#### *v1.Pod 的必要字段
+
+```json
+{
+    "metadata": {
+        "uid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // 唯一标识
+        "name": "xxxx",                                // 名称
+        "namespace": "xxxx",                           // 所属 namespace 的名称
+        "labels": {                                    // labels，当不上报 *v1.Service 资源时可以上传空字典
+            "key1": "value1"
+        },
+        "ownerReferences": [                           // 所属工作负载信息
+            {
+                // 工作负载类型
+                // 目前支持：DaemonSet/Deployment/ReplicaSet/StatefulSet/ReplicationController
+                "kind": "xxxx",
+                "name": "xxxx",
+                "uid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+            }
+        ],
+        "creationTimestamp": "2024-04-29T10:02:38Z",   // 创建时间
+        "generate_name": "xxxx"                        // 仅 StatefulSet 的 Pod 需要携带
+    },
+    "status": {
+        "hostIP": "x.x.x.x", // Node IP
+        "podIP": "x.x.x.x",  // Pod IP
+        "conditions" : [     // POD 状态
+            {
+                "type": "xxxx",
+                "status": "xxxx"
+            }
+        ],
+        "containerStatuses" : [
+            {
+                "containerID": "containerd://xxxxxxxxxxxx...", // POD 中的 container 标识
+            }
+        ]
+    }
+}
+```
+
+#### *v1.Service 的必要字段
+
+```json
+{
+    "metadata": {
+        "uid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // 唯一标识
+        "name": "xxxx",                                // 名称
+        "namespace": "xxxx",                           // 所属 namespace 的名称
+        "labels": {                                    // labels，可以上传空字典
+            "key1": "value1"
+        }
+    },
+    "spec": {
+        "clusterIP": "x.x.x.x",
+        "ports": [
+            {
+                "name": "xxxx",
+                "nodePort": xxxx,
+                "port": xxxx,
+                "protocol": "xxxx",
+                "targetPort": xxxx
+            }
+        ],
+        "selector": { // selector 中是 label 信息，service 通过 selector 中的 label 与 Pod 关联
+            "key": "value"
+        },
+        "type": "xxxx" // 当前支持 NodePort 和 ClusterIP
+    }
+}
+```
+
+#### *v1beta1.Ingress 的必要字段
+
+```json
+{
+    "metadata": {
+        "uid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // 唯一标识
+        "name": "xxxx",                                // 名称
+        "namespace": "xxxx"                            // 所属 namespace 的名称
+    },
+    "spec": {
+        "rules": [ // 转发规则
+            {
+                "host": "", // 域名
+                "http": {   // 目前仅支持 http 协议
+                    "paths": [
+                        {
+                            "path": "",   // 路径
+                            "backend": {  // 后端服务信息
+                                "service": {
+                                    "name": "",
+                                    "port": {
+                                        "number": xxxx
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}
 ```
