@@ -238,8 +238,11 @@ API 返回结果说明：
     - `[unknown] 0x0000000003932388`：除上述所有情况以外，当某个地址无法成功翻译为函数名时显示如此。特别地，当火焰图第三层函数地址（一般是线程的入口函数）未能翻译为函数名时，显示为 `[unknown start_thread?]`。
 - **node_id**：该函数节点在火焰图中的唯一标识
 - **parent_node_id**：该函数的父节点在火焰图中的唯一标识
-- **total_value**：该函数的 CPU 执行时长，单位是微秒（us）。
-- **self_value**：该函数作为叶子节点（最底层函数）的 CPU `净`执行时长，单位是微秒（us）。
+- **total_value**：该函数的 CPU 时长，单位是微秒（us）。
+  - OnCPU Profiling：此值表示函数花费 CPU 的时长
+  - OffCPU Profiling：此值表示函数等待 CPU 的时长
+- **self_value**：该函数作为叶子节点（最底层函数）的 CPU `净`时长，单位是微秒（us）。
+  - OnCPU 和 OffCPU 的差异同上
 
 使用 API 的返回结果，可以绘制**指定进程**的 CPU 火焰图。DeepFlow 企业版中的展示效果图如下：
 
