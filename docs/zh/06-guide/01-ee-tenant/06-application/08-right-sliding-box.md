@@ -97,7 +97,7 @@ permalink: /guide/ee-tenant/application/right-sliding-box/
 
 - 操作按钮：
   - 查看流日志：仅支信号源为 `Packet` 的日志查看流日志详细信息，使用详情，请参阅【流日志详情】章节
-  - 调用链追踪：支持信号源为 `eBPF` 或 `OTel` 的日志发起调用链追踪，使用详情，请参阅[调用链追踪](../02-dashboard/99-panel/guide/ee-tenant/dashboard/panel/flame/)描述
+  - 调用链追踪：支持信号源为 `eBPF` 或 `OTel` 的日志发起调用链追踪，使用详情，请参阅[调用链追踪](../dashboard/panel/flame/)描述
 - 对于标签的搜索、过滤等`操作`部分，使用详情，请参阅【知识图谱】章节
 
 ## 网络指标

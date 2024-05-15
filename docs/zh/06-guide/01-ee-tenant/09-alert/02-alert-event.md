@@ -5,11 +5,10 @@ permalink: /guide/ee-tenant/alert/alert-event/
 
 # 告警事件
 
-告警事件页面中以图表的方式将告警策略数据进行可视化，可从多维度对告警事件进行分析。
+告警事件对告警策略名称、告警对象、事件等级、监控对象、监控指标等多个维度进行搜索过滤。
 
-![告警事件](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230428644b440666e6f.png)
+![告警事件.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240515664485ff20e01.png)
 
-- 事件列表：展示告警策略生效后获取到的事件信息
+- 事件列表：跟进搜索条件，展示所匹配的告警事件
   - 操作
-    - 查看详情：以弹框的形式展示对应告警事件的详细信息
-    - 删除：删除告警事件
+    - 双击表格行：以弹框的形式展示对应告警事件的详细信息 
