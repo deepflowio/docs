@@ -246,7 +246,7 @@ chown -R deepflow:deepflow /usr/sbin/deepflow-agent
 /usr/sbin/deepflow-agent -f /etc/deepflow-agent.yaml
 ```
 
-卸载 deepflow-agent 时删除对应权限：
+若希望卸载 deepflow-agent，注意删除对应的权限：
 
 ```bash
 ## Use the root user to revoke execution permissions from the deepflow-agent
