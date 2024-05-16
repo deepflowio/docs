@@ -31,20 +31,35 @@ end
 DeepFlow 使用 K8s 的 CA 文件 MD5 值区分不同的集群，请在不同 K8s 集群的 Pod 中查看 `/run/secrets/kubernetes.io/serviceaccount/ca.crt` 文件，确保不同集群的 CA 文件不同。
 
 假如你的不同 K8s 集群使用了相同的 CA 文件，在多个集群中部署 deepflow-agent 之前，需要利用 `deepflow-ctl domain create` 获取一个 `K8sClusterID`：
+
+注: 多套 K8s 集群的 CA 文件相同，这种情况并不常见。尽管如此，我们仍建议通过手动方式将其他 K8s 集群的 deepflow-agent 对接到 deepflow-server 集群。手动对接的优势在于，可以自定义 Grafana 面板中展示的 K8s 集群名称。可通过`deepflow-ctl domain create -f custom-domain.yaml`创建自定义 K8s cluster domain：
+
 ```bash
-unset CLUSTER_NAME
-CLUSTER_NAME="k8s-1"  # FIXME: K8s cluster name
-cat << EOF | deepflow-ctl domain create -f -
-name: $CLUSTER_NAME
+# Name (you can customize the cluster name, for example, beijing-prod-k8s)
+name: $CLUSTER_NAME  # FIXME
+# Type of cloud platform
 type: kubernetes
-EOF
-deepflow-ctl domain list $CLUSTER_NAME  # Get K8sClusterID
+config:
+  ## Regional identifier (must use this default valued)
+  #region_uuid: ffffffff-ffff-ffff-ffff-ffffffffffff
+  ## Resource synchronization controller (it is recommended to use the default setting here)
+  #controller_ip: 127.0.0.1
+  ## Maximum mask for POD subnet IPv4 addresses
+  #pod_net_ipv4_cidr_max_mask: 16
+  ## Maximum mask for POD subnet IPv6 addresses
+  #pod_net_ipv6_cidr_max_mask: 64
+  ## Additional routing interface connection
+  #node_port_name_regex: ^(cni|flannel|vxlan.calico|tunl|en[ospx])
+  ## Synchronization interval, in seconds: minimum 1, maximum 86400, default 60
+  #sync_timer: 60
+
+## View the specific information of the domain created:
+deepflow-ctl domain list $CLUSTER_NAME
 ```
 
 # 部署 deepflow-agent
 
-使用 Helm 安装 deepflow-agent：
-
+使用 Helm 安装 deepflow-agent，如果 deepflow-server 使用的 service 是默认的 NodePort 类型，则`deepflowServerNodeIPS`下直接填写 deepflow-server Node IP；如果 [deepflow-server 使用的 service 是 LoadBalancer 类型](../04-best-practice/06-production-deployment.md/#优化deepflow-agent到deepflow-server的流量路径)，则直接填写 LoadBalancer VIP 即可
 ::: code-tabs#shell
 
 @tab Use Github and DockerHub
@@ -52,9 +67,10 @@ deepflow-ctl domain list $CLUSTER_NAME  # Get K8sClusterID
 ```bash
 cat << EOF > values-custom.yaml
 deepflowServerNodeIPS:
-- 10.1.2.3  # FIXME: K8s Node IPs
-- 10.4.5.6  # FIXME: K8s Node IPs
-clusterNAME: k8s-1  # FIXME: name of the cluster in deepflow
+- 10.1.2.3  # FIXME
+- 10.4.5.6  # FIXME
+clusterNAME: $CLUSTER_NAME  # FIXME: $CLUSTER_NAME
+deepflowK8sClusterID:       # FIXME: $CLUSTER_NAME ID
 EOF
 
 helm repo add deepflow https://deepflowio.github.io/deepflow
@@ -70,9 +86,10 @@ cat << EOF > values-custom.yaml
 image:
   repository: registry.cn-beijing.aliyuncs.com/deepflow-ce/deepflow-agent
 deepflowServerNodeIPS:
-- 10.1.2.3  # FIXME: K8s Node IPs
-- 10.4.5.6  # FIXME: K8s Node IPs
-clusterNAME: k8s-1  # FIXME: name of the cluster in deepflow
+- 10.1.2.3  # FIXME
+- 10.4.5.6  # FIXME
+clusterNAME: $CLUSTER_NAME  # FIXME: $CLUSTER_NAME
+deepflowK8sClusterID:       # FIXME: $CLUSTER_NAME ID
 EOF
 
 helm repo add deepflow https://deepflow-ce.oss-cn-beijing.aliyuncs.com/chart/stable
@@ -83,16 +100,8 @@ helm install deepflow-agent -n deepflow deepflow/deepflow-agent --create-namespa
 
 :::
 
-我们建议上述部署过程中将 deepflow-agent 的 `deepflowServerNodeIps` 配置为 K8s 集群的一个或多个相对固定的 Node IP。
+我们建议上述部署过程中将 deepflow-agent 的 `deepflowServerNodeIPS` 配置为 K8s 集群的一个或多个相对固定的 Node IP。
 
-**注意**：
-
-若不同 K8s 集群的 CA 文件一样，部署时需要传入使用 `deepflow-ctl` 获取到的 `kubernetesClusterId`：
-```bash
-echo "deepflowK8sClusterID: "fffffff"  # FIXME: Generate by `deepflow-ctl  domain create`" >> values-custom.yaml
-helm upgrade deepflow-agent -n deepflow deepflow/deepflow-agent  \
-    -f values-custom.yaml
-```
 
 # 下一步
 

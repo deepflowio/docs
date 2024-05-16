@@ -225,6 +225,36 @@ helm install deepflow -n deepflow deepflow/deepflow-agent --create-namespace \
 - 部署一个 deepflow-agent deployment，仅负责 list-watch apiserver、同步 K8s 资源信息
 - 部署一个 deepflow-agent daemonset，任何 Pod 都不会 list-watch apiserver
 
+## 使用非 root 用户运行 deepflow-agent
+
+本次示例中，普通用户名为 deepflow，进程存放在 /usr/sbin/deepflow-agent，通过 deepflow 用户启动 deepflow-agent 时，须先通过 root 用户添加权限：
+
+```bash
+## Use the root user to grant execution permissions to the deepflow-agent
+setcap cap_sys_ptrace,cap_net_raw,cap_net_admin,cap_ipc_lock,cap_sys_admin=eip /usr/sbin/deepflow-agent
+mkdir /sys/fs/cgroup/cpu/deepflow-agent
+mkdir /sys/fs/cgroup/memory/deepflow-agent
+chown -R deepflow:deepflow /sys/fs/cgroup/cpu/deepflow-agent
+chown -R deepflow:deepflow /sys/fs/cgroup/memory/deepflow-agent
+chown -R deepflow:deepflow /usr/sbin/deepflow-agent
+chown -R deepflow:deepflow /usr/sbin/deepflow-agent
+```
+
+使用非 root 用户运行 deepflow-agent：
+
+```bash
+/usr/sbin/deepflow-agent -f /etc/deepflow-agent.yaml
+```
+
+若希望卸载 deepflow-agent，注意删除对应的权限：
+
+```bash
+## Use the root user to revoke execution permissions from the deepflow-agent
+setcap -r /usr/sbin/deepflow-agent
+rmdir /sys/fs/cgroup/cpu/deepflow-agent
+rmdir /sys/fs/cgroup/memory/deepflow-agent
+```
+
 ## 不允许 deepflow-agent 请求 apiserver
 
 deepflow-server 依赖 deepflow-agent 上报的 K8s 资源信息来实现 AutoTagging 能力，当你的环境不允许 deepflow-agent 直接 Watch K8s apiserver 时，你可以自己实现一个专门用于同步 K8s 资源的 pseudo-deepflow-gent。这个 pseudo-deepflow-agent 需要实现的功能包括：
