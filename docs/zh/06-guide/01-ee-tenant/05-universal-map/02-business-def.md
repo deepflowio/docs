@@ -21,7 +21,7 @@ permalink: /guide/ee-tenant/universal-map/business-def/
 
 ## 业务列表
 
-![01-业务列表](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024040766125694e7933.png)
+![01-业务列表](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202405166645a9c6679b3.png)
 
 - **① 新建业务**：支持新建业务。使用详情，请参阅【新建业务】章节
 - **② 名称**：点击可以进入`业务详情页面`。使用详情，请参阅【业务详情页】章节
@@ -29,11 +29,7 @@ permalink: /guide/ee-tenant/universal-map/business-def/
 - **④ 服务拓扑**：点击后跳转到`服务拓扑`页面，以瀑布拓扑的形式查看当前业务
 - **⑤ 服务列表**：点击后跳转到`服务列表`页面
 - **⑥ 编辑**：编辑业务
-- **⑦ 分享**：选择分享权限与分享账号，可将当前业务进行分享
-  - 分享权限：只读或读写
-    - 读写：支持修改编辑，不支持删除操作
-    - 只读：仅支持查看
-- **⑧ 删除**：删除业务
+- **⑦ 删除**：删除业务
 
 ### 新建业务
 
@@ -93,7 +89,8 @@ permalink: /guide/ee-tenant/universal-map/business-def/
 - 名称：必填，服务组名称同一个业务中不可重名
 - 类型：分为`自动分组`及`自定义`两种类型
   - 自定义：用户自定义，可自主选择`服务`加入
-  - 自动分组：根据`过滤条件`按`auto_service`自动识别的一组服务所属的服务组
+  - 自动分组：根据`过滤条件`设置的分组自动识别的一组服务所属的服务组
+    - 分组：可根据 auto_service 或者[自定义自动分组标签](../../../features/auto-tagging/custom-tags)进行分组
     - `方向`、`过滤条件`使用说明，请参阅【服务】章节
 - 指标阈值
 
@@ -107,6 +104,6 @@ permalink: /guide/ee-tenant/universal-map/business-def/
 ![08-新建路径](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024040766124e4a3bd2a.png)
 
 - 名称：必填，路径名称
-- 客户端：单选，候选项为`全部`、`自定义服务及自动分组`类型的服务组 
-- 服务端：单选，候选项为`全部`、`自定义服务及自动分组`类型的服务组
+- 客户端：多选，候选项为`全部`、`自定义服务及自动分组`类型的服务组 
+- 服务端：多选，候选项为`全部`、`自定义服务及自动分组`类型的服务组
 - 全部：表示选择所有的自定义服务/自动分组类型的服务组
