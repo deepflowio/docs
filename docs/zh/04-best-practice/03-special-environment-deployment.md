@@ -240,6 +240,12 @@ chown -R deepflow:deepflow /usr/sbin/deepflow-agent
 chown -R deepflow:deepflow /usr/sbin/deepflow-agent
 ```
 
+使用非 root 用户运行 deepflow-agent
+
+```bash
+/usr/sbin/deepflow-agent -f /etc/deepflow-agent.yaml
+```
+
 卸载 deepflow-agent 时删除对应权限：
 
 ```bash
@@ -248,12 +254,6 @@ setcap -r /usr/sbin/deepflow-agent
 rmdir /sys/fs/cgroup/cpu/deepflow-agent
 rmdir /sys/fs/cgroup/memory/deepflow-agent
 ```
-
-使用非 root 用户运行 deepflow-agent
-
-```bash
-/usr/sbin/deepflow-agent -f /etc/deepflow-agent.yaml
-
 
 ## 不允许 deepflow-agent 请求 apiserver
 
