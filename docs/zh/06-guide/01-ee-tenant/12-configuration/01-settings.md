@@ -15,7 +15,7 @@ permalink: /guide/ee-tenant/configuration/settings/
 
 搜索框配置仅作用于【事件】、【应用】、【网络】下的页面。
 
-![搜索框配置](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024051566448af39de2f.png)
+![搜索框配置](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202405166645a4bfcef96.png)
 
 - 跟随系统设置：选中则表示配置与默认系统配置一致，若自行调整设置，取消勾选即可
 - **页面首次加载**：页面初次加载时，是否查询数据 
