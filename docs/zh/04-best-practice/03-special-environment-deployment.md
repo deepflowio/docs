@@ -240,7 +240,7 @@ chown -R deepflow:deepflow /usr/sbin/deepflow-agent
 chown -R deepflow:deepflow /usr/sbin/deepflow-agent
 ```
 
-使用非 root 用户运行 deepflow-agent
+使用非 root 用户运行 deepflow-agent：
 
 ```bash
 /usr/sbin/deepflow-agent -f /etc/deepflow-agent.yaml
