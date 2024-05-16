@@ -60,8 +60,8 @@ permalink: /guide/ee-tenant/query/log-search/
 - 功能页面：网络-流日志
 -----------------------------
 - 服务集合：S1
-- 搜索标签：pod = frontend-97cc49c74-qs6wh，close_type = 建连-服务端 SYN 结束，close_type = 建连-客户端 SYN 结束，close_type = 建连-客户端端口复用，close_type = 建连-服务端直接重置，close_type = 建连-服务端其他重置
+- 搜索标签：pod = frontend-97cc49c74-qs6wh，close_type = 建连-客户端 ACK 缺失，close_type = 建连-服务端 SYN 缺失，close_type = 建连-客户端端口复用，close_type = 建连-服务端直接重置，close_type = 建连-服务端其他重置
 - 路径：服务内、服务外、广域网
 - 方向：双方向
 
-![04-查询结果](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f5f68325.png)
+![04-查询结果](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202405166645b087b6e86.png)
