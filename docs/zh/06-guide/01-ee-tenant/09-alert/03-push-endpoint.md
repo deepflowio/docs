@@ -24,7 +24,8 @@ permalink: /guide/ee-tenant/alert/push-endpoint/
 
 ![新建 Email 推送](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202405166645b62681d2f.png)
 
-- 邮箱：
+- 邮箱：填写要推送的邮箱地址
+- 推送标题：选填，支持填写邮件标题
 - 其它填写字段，请参阅【新建 Kafka 推送】章节
 
 ## HTTP 推送
