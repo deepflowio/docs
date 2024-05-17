@@ -183,7 +183,7 @@ ClusterRole 配置增加：
   - watch
 ```
 
-# 受限的 Agent 运行权限
+# K8s 运行 Agent 权限受限
 
 ## 无 K8s Daemonset 部署权限
 
@@ -224,36 +224,6 @@ helm install deepflow -n deepflow deepflow/deepflow-agent --create-namespace \
 默认情况下 DeepFlow Agent 在 K8s 中以 Daemonset 方式运行。但有些情况下为了保护 apiserver 避免过载，Daemonset 不允许对 apiserver 请求。此时也可使用本文中「无 Daemonset 部署权限」的类似方式进行部署：
 - 部署一个 deepflow-agent deployment，仅负责 list-watch apiserver、同步 K8s 资源信息
 - 部署一个 deepflow-agent daemonset，任何 Pod 都不会 list-watch apiserver
-
-## 使用非 root 用户运行 deepflow-agent
-
-本次示例中，普通用户名为 deepflow，进程存放在 /usr/sbin/deepflow-agent，通过 deepflow 用户启动 deepflow-agent 时，须先通过 root 用户添加权限：
-
-```bash
-## Use the root user to grant execution permissions to the deepflow-agent
-setcap cap_sys_ptrace,cap_net_raw,cap_net_admin,cap_ipc_lock,cap_sys_admin=eip /usr/sbin/deepflow-agent
-mkdir /sys/fs/cgroup/cpu/deepflow-agent
-mkdir /sys/fs/cgroup/memory/deepflow-agent
-chown -R deepflow:deepflow /sys/fs/cgroup/cpu/deepflow-agent
-chown -R deepflow:deepflow /sys/fs/cgroup/memory/deepflow-agent
-chown -R deepflow:deepflow /usr/sbin/deepflow-agent
-chown -R deepflow:deepflow /usr/sbin/deepflow-agent
-```
-
-使用非 root 用户运行 deepflow-agent：
-
-```bash
-/usr/sbin/deepflow-agent -f /etc/deepflow-agent.yaml
-```
-
-若希望卸载 deepflow-agent，注意删除对应的权限：
-
-```bash
-## Use the root user to revoke execution permissions from the deepflow-agent
-setcap -r /usr/sbin/deepflow-agent
-rmdir /sys/fs/cgroup/cpu/deepflow-agent
-rmdir /sys/fs/cgroup/memory/deepflow-agent
-```
 
 ## 不允许 deepflow-agent 请求 apiserver
 
@@ -523,4 +493,32 @@ message KubernetesAPISyncResponse {
         ]
     }
 }
+```
+
+# 云服务器运行 Agent 权限受限
+
+## 使用非 root 用户运行 deepflow-agent
+
+假设我们希望使用普通用户 deepflow 来运行安装于 /usr/sbin/deepflow-agent 的 Agent，我们必须先通过 root 用户添加 deepflow 所需的权限：
+```bash
+## Use the root user to grant execution permissions to the deepflow-agent
+setcap cap_sys_ptrace,cap_net_raw,cap_net_admin,cap_ipc_lock,cap_sys_admin=eip /usr/sbin/deepflow-agent
+mkdir /sys/fs/cgroup/cpu/deepflow-agent
+mkdir /sys/fs/cgroup/memory/deepflow-agent
+chown -R deepflow:deepflow /sys/fs/cgroup/cpu/deepflow-agent
+chown -R deepflow:deepflow /sys/fs/cgroup/memory/deepflow-agent
+chown -R deepflow:deepflow /usr/sbin/deepflow-agent
+```
+
+使用非 root 用户运行 deepflow-agent，例如：
+```bash
+systemctl start deepflow-agent
+```
+
+若希望卸载 deepflow-agent，注意删除对应的权限：
+```bash
+## Use the root user to revoke execution permissions from the deepflow-agent
+setcap -r /usr/sbin/deepflow-agent
+rmdir /sys/fs/cgroup/cpu/deepflow-agent
+rmdir /sys/fs/cgroup/memory/deepflow-agent
 ```
