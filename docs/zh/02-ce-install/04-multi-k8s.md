@@ -59,7 +59,7 @@ deepflow-ctl domain list $CLUSTER_NAME
 
 # 部署 deepflow-agent
 
-使用 Helm 安装 deepflow-agent，如果 deepflow-server 使用的 service 是默认的 NodePort 类型，则`deepflowServerNodeIPS`下直接填写 deepflow-server Node IP；如果 [deepflow-server 使用的 service 是 LoadBalancer 类型](../best-practice/production-deployment/#优化deepflow-agent到deepflow-server的流量路径)，则直接填写 LoadBalancer VIP 即可
+使用 Helm 安装 deepflow-agent，如果 deepflow-server 使用的 service 是默认的 NodePort 类型，则`deepflowServerNodeIPS`下直接填写 deepflow-server Node IP；如果 [deepflow-server 使用的 service 是 LoadBalancer 类型](../best-practice/production-deployment/#优化-deepflow-agent-到-deepflow-server-的流量路径)，则直接填写 LoadBalancer VIP 即可
 
 ::: code-tabs#shell
 
