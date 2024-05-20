@@ -7,7 +7,7 @@ permalink: /guide/ee-tenant/query/service-search/
 
 应用-资源统计、网络-资源统计、网络-资源盘点都使用的是`资源搜索框`。
 
-![01-资源搜索框](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202405156644257f66c64.png)
+![01-资源搜索框](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240520664ac73e1e086.png)
 
 - **① 搜索快照**：参考[搜索快照](./history/)章节说明
 - **② 搜索输入形式**：可切换搜索输入的形式，目前有自由搜索、容器搜索、进程搜索。详细见后续章节描述
