@@ -12,11 +12,12 @@ permalink: /guide/ee-tenant/dashboard/panel/line/
 
 ## 总览介绍
 
-![00-总览](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240520664ac8c98579c.png) 
+![00-总览](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240520664b0fd1d1069.png)
 
-- **① 修改指标量:** 图表的基础操作，使用详情，请参阅【[流量拓扑](./topology/)】章节
-- **② 设置:** 图表的基础操作，使用详情，请参阅【设置】章节
-- **③ 删除:** 图表的基础操作，使用详情，请参阅【[流量拓扑 - 总览介绍](./topology/)】章节
+- **① 查询区域:** 图表的基础操作，使用详情，请参阅【[流量拓扑 - 修改指标量](./topology/)】章节
+- **② 修改指标量:** 图表的基础操作，使用详情，请参阅【[流量拓扑](./topology/)】章节
+- **③ 设置:** 图表的基础操作，使用详情，请参阅【设置】章节
+- **④ 删除:** 图表的基础操作，使用详情，请参阅【[流量拓扑 - 总览介绍](./topology/)】章节
 
 ### 设置
 
