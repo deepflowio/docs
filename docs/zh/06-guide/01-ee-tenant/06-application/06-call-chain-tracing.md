@@ -9,7 +9,7 @@ permalink: /guide/ee-tenant/application/call-chain-tracing/
 
 ## 总览介绍
 
-![总览介绍](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650aa718393da.png)
+![总览介绍](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024051566442db5b7387.png)
 
 - **① 时间选择器**：支持时间过滤查询，使用详情，请参阅【[视图详情 - 时间选择器](../dashboard/use/)】章节
 - **② 搜索快照**：支持将搜索条件保存为快照，使用详情，请参阅【[查询 - 搜索快照](../query/history/)】章节
@@ -22,4 +22,4 @@ permalink: /guide/ee-tenant/application/call-chain-tracing/
 - **⑤ 左侧快速过滤**：可快速过滤数据，使用详情，请参阅【[查询 - 左侧快速过滤](../query/left-quick-filter/)】章节
 - **⑥ 区域查询**：支持快速切换查询区域数据
 - **应用追踪表格**：展示一定时间内服务或资源间的调用信息，如客户端、服务端、请求资源、请求类型、请求域名等，使用详情，请参阅【[表格](../dashboard/panel/table/)】章节
-  - **操作:** 点击`追踪`按钮，可进入右滑框中查看由该请求追踪出来的的整个调用生命周期，使用详情，请参阅【[右滑框 - 调用链追踪](./right-sliding-box/)】章节
+  - **操作:** 点击列表行，可进入右滑框中查看由该请求追踪出来的的整个调用生命周期，使用详情，请参阅【[右滑框 - 调用链追踪](./right-sliding-box/)】章节

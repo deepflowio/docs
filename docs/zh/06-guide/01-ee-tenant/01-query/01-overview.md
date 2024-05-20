@@ -13,5 +13,13 @@ DeepFlow 的搜索框可分为四大类，本章节将详细解析每种类型�
 * [路径搜索框](./path-search/)
 * [日志搜索框](./log-search/)
 * [指标搜索框](./metric-search/)
-* [快照搜索](./history/)
+
+DeepFlow 在定义搜索框的基础上，还增加了快速搜索能力及搜索相关配置。
+
+* [搜索快照](./history/)
 * [左侧快速过滤](./left-quick-filter/)
+* [搜索框配置](../configuration/settings/)
+
+
+
+

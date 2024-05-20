@@ -7,7 +7,7 @@ permalink: /guide/ee-tenant/metrics/metrics-viewing/
 
 指标页面中可选择查看在一定时间内的指标数据信息状态。
 
-![1_1.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650bb6c5e5970.png)
+![总览](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240514664334ae9febc.png)
 
 - 使用：
   - 搜索栏过滤条件后，可按需添加要查询的指标

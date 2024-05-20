@@ -5,13 +5,17 @@ permalink: /guide/ee-tenant/configuration/settings/
 
 # 设置
 
-支持对搜索框的方式使用进行配置。
+设置模块支持编辑偏好设置、查看平台信息等。
 
-## 搜索框配置
+## 偏好设置
+
+支持对页面中的搜索框的使用偏好进行配置。
+
+### 搜索框配置
 
 搜索框配置仅作用于【事件】、【应用】、【网络】下的页面。
 
-![搜索框配置](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031965f92e8a20260.png)
+![搜索框配置](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202405166645a4bfcef96.png)
 
 - 跟随系统设置：选中则表示配置与默认系统配置一致，若自行调整设置，取消勾选即可
 - **页面首次加载**：页面初次加载时，是否查询数据 
@@ -28,3 +32,9 @@ permalink: /guide/ee-tenant/configuration/settings/
   - 自由搜索：使用详情，请参阅【[资源搜索框](../query/service-search/)】
   - 容器搜索：使用详情，请参阅【[资源搜索框](../query/service-search/)】
   - 进程搜索：`默认系统设置项`，使用详情，请参阅【[资源搜索框](../query/service-search/)】
+
+  ## 平台信息
+
+平台信息可查看当前系统的版本号、反馈邮箱、厂商信息等。
+
+  ![平台信息](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202405166645829f09cbb.png)

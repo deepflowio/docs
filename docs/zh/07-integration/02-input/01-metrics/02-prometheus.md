@@ -78,3 +78,8 @@ Prometheus 原有的标签可通过 tag.XXX 引用，指标值通过 value 引�
 使用 Grafana，选择 `DeepFlow` 数据源进行搜索时的展现图下图：
 
 ![Prometheus 数据集成](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20231003651c19e6684d1.png)
+
+# 注意事项
+
+1. 通过 DeepFlow 数据源计算 `Derivative` 算子时，要求必须选择外层算子（如 `Avg`）。
+2. 计算 `Derivative` 算子时，由于计算过程是先对同一指标的多个时序计算 `Derivative` 算子，再计算外层算子，因此在查询间隔小于数据采集间隔时，使用形如 now-xx 的相对时间查询时，如果同一指标的多个时序在持续写入新数据，多次查询的结果可能会不一致。

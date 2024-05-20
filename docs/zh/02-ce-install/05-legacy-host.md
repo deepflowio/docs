@@ -40,11 +40,10 @@ local_ip_ranges:
 - 169.254.0.0/15
 - 224.0.0.0-240.255.255.255
 ```
-若不在，需要在下面自定义配置文件内 `local_ip_ranges` 列表中添加缺失的服务器网段。
+若不在，需要在下面自定义配置文件内 `local_ip_ranges` 列表中添加缺失的服务器网段。例如：主机 IP 为 100.42.32.213，则需要把对应的 100.42.32.0/24 网段加入配置
 
 修改 `values-custom.yaml` 自定义配置文件：
 ```yaml
-# add
 configmap:
   server.yaml:
     controller:
@@ -55,7 +54,7 @@ configmap:
         - 192.168.0.0/16
         - 169.254.0.0/15
         - 224.0.0.0-240.255.255.255
-        # - 7.8.0.0/16  # FIXME: your host all network cidr
+        - 100.42.32.0/24  # FIXME
       trisolaris:
         trident-type-for-unkonw-vtap: 3  # required
 ```
@@ -68,6 +67,8 @@ kubectl delete pods -n deepflow -l app=deepflow -l component=deepflow-server
 ```
 
 ## 创建 Host Domain
+
+就像监控多个 K8s 集群时，需要创建 K8s domain 一样，此处也需要创建一个专门用于同步服务器的 domain
 
 ```bash
 unset DOMAIN_NAME
@@ -90,9 +91,9 @@ deepflow-ctl agent-group create $AGENT_GROUP
 deepflow-ctl agent-group list $AGENT_GROUP # Get agent-group ID
 ```
 
-创建采集器组配置文件 `agent-group-config.yaml`：
+创建采集器组配置文件 `agent-group-config.yaml`，指定 `vtap_group_id` 并开启 `platform_enabled` 让 deepflow-agent 将服务器的网络信息同步至 deepflow-server 
 ```yaml
-vtap_group_id: g-ffffff # FIXME: agent-group ID
+vtap_group_id: g-ffffff # FIXME
 platform_enabled: 1
 ```
 
@@ -169,17 +170,10 @@ services:
       - NET_RAW
       - IPC_LOCK
       - SYSLOG
-    deploy:
-      resources:
-        limits:
-          cpus: '1'
-          memory: 768M
-        reservations:
-          cpus: '1'
-          memory: 768M
     volumes:
       - /etc/deepflow-agent.yaml:/etc/deepflow-agent/deepflow-agent.yaml:ro
       - /sys/kernel/debug:/sys/kernel/debug:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     network_mode: "host"
     pid: "host"
 EOF

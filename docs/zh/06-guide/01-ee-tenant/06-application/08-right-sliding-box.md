@@ -13,7 +13,7 @@ permalink: /guide/ee-tenant/application/right-sliding-box/
 
 知识图谱通过列表和拓扑两种形式，展示被点击数据的对象关联的所有 Tag。
 
-![01-知识图谱](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650ab0460298a.png)
+![知识图谱](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650ab0460298a.png)
 
 - **知识列表**：以键值对的形式展示被点击数据的对象关联的所有 Tag，并按`Universal Tag（资源标签）`、`Custom Tag（自定义标签）`、`others（其他）`类别进行分类
   - 注：如果点击的`调用系列页面`的数据，则将对类别区分 Client 与 Server
@@ -25,21 +25,41 @@ permalink: /guide/ee-tenant/application/right-sliding-box/
       - 复制内容粘贴至搜索栏，搜索栏可转换成搜索标签，搜索标签使用详情，请参阅【[服务搜索框](../query/service-search/)】章节
 - **知识图谱**：以星型结构拓扑展示 Tag 的关系，点击节点可展示关联节点
 
-## 流量关系
+## 访问关系
 
-流量关系通过表格的形式展示被点击数据的对象的上下游指标量。
+访问关系上方通过表格的形式展示被点击数据的对象的上下游指标量，点击列表行则下方利用 DeepFlow 自研流追踪的算法，将`访问数据`在虚拟网络或物理网络经过的观测点追踪出来。
 
-![02-流量关系](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650ab045004ce.png)
+![流量关系](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024051566445fad66aac.png)
 
-- 点击下拉框可选择要查看的对象，如果点击的`调用系列页面`的数据，则会存在两个对象
-- 勾选`客户端`或`服务端`，可选择当前对象作为`客户端`或`服务端`时的指标量
-- 点击右上角的时间组件可对数据进行时间过滤
+- **① 下拉框:** 点击下拉框可选择需要查看访问关系的对象，如果点击的`路径数据页面`的数据，则会存在两个对象
+- **② 角色:** 勾选`作为客户端`或`作为服务端`，可选择当前对象作为`客户端`或`服务端`时的指标量
+
+![虚拟-链路拓扑](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024051566445fae1d9bb.png)
+
+链路拓扑按`访问数据`流经的观测点，从左到右排序，例如`访问数据`将经过客户端应用 -> 客户端进程 -> 客户端网卡 -> ... -> 服务端网卡 -> 服务端进程 -> 服务端应用
+- 注：拓扑图上每个`节点`表达的是相同观测点的聚合信息
+- 悬停：可查看指标量信息
+
+![虚拟-详情表格](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024051566445fafcb207.png)
+
+详情表格展示`访问数据`每个观测点的详细信息，包含观测点所属资源、数据采集的位置信息、隧道信息及指标详情
+- 点击行将通过右滑框的形式，展示被点击的观测点的详细信息
+
+![虚拟-柱状图](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240515664460986c6da.png)
+
+柱状图展示的数据与链路拓扑一致，为方便更直观的比较数据的大小，将拓扑图的展示形式切换为柱状图的形式。
+- **① 时延差异:** 例如上图展示的是访问数据的响应时延在各个观测点的指标量，其中柱之间的差异非常直观的表达了从`客户端容器节点`到`服务端容器节点`相较其他位置存在明显的时延瓶颈。
+
+![物理拓扑](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024051566445fb6e1309.png)
+
+当`访问数据`流经了`物理网络`时，将以物理拓扑的形式展示其在各个物理采集点上采集的指标量大小。
+- `节点`的数据都是从对应`网络位置`获取，如当前`访问数据`在对应`网络位置`未采集到数据，则显示为空
 
 ## 应用指标
 
 应用指标通过概览图的形式展示一段时间内应用指标量的聚合值，同时，支持添加多个折线图，展示在一段时间内应用指标量的变化趋势。
 
-![03-应用指标](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650ab046aa9e5.png)
+![应用指标](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650ab046aa9e5.png)
 
 - **指标曲线**
   - 指标名称：点击后可下拉选择要展示的指标折线图
@@ -52,7 +72,7 @@ permalink: /guide/ee-tenant/application/right-sliding-box/
 
 端点列表展示了`端点`分组的指标量。
 
-![04-端点列表](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650ab2c994c59.png)
+![端点列表](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024051566445f9f99c90.png)
 
 - 点击表格的数据行，即可进入`调用日志`页面查看该`端点`的调用日志信息，使用详情，请参阅【调用日志】章节
 - 点击右上角的时间组件可对数据进行时间过滤
@@ -61,7 +81,7 @@ permalink: /guide/ee-tenant/application/right-sliding-box/
 
 调用日志通过趋势分析图和表格的形式展示被点击数据的详细调用日志。
 
-![05-调用日志](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650ab2c948e98.png)
+![调用日志](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650ab2c948e98.png)
 
 - 趋势分析图：展示在一定的时间范围内日志采集情况，将数据可视化用户可在趋势分析图上选取任意时间段，以放大查看该时间段内的日志情况
 - 日志详情表格：以表格形式展示了日志信息，如客户端、服务端、应用协议、请求类型、请求域名等，可根据趋势分析图进行动态展示，使用详情，请参阅【[表格](../dashboard/panel/table/)】章节
@@ -69,23 +89,22 @@ permalink: /guide/ee-tenant/application/right-sliding-box/
 - 点趋势分析图右上角的图标，可通过新页面的形式打开`调用日志`页面，可进行自定义搜索
 - 点击右上角的时间组件可对数据进行时间过滤
 
-## 调用追踪
+## 调用日志详情
 
-`调用追踪`通过表格的形式展示被点击数据可被追踪的调用日志，仅支持 eBPF 采集的数据或者通过 OpenTelemetry 协议传输给 DeepFlow 的调用发起追踪。
+调用日志详情在页面上方显示了请求数据的客户端到服务端之间的响应时延、应用协议、请求类型、请求资源，响应状态。在基础信息下方的两个按钮根据日志数据的来源进行不同操作。在按钮下方为该日志中的所对应的 Tag 和 Metrics，均以键值对的形式进行展示，方便用户快速获取信息。
 
-![06-调用追踪](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650ab2ca014f3.png)
+![调用日志详情](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650ab59c80b81.png)
 
-- 趋势分析图：展示在一定的时间范围内调用日志采集情况，将数据可视化用户可在趋势分析图上选取任意时间段，以放大查看该时间段内的日志情况
-- 日志详情表格：以表格形式展示调用日志信息，如客户端、服务端、应用协议、请求类型、请求域名等，可根据趋势分析图进行动态展示。使用详情，请参阅【[表格](../dashboard/panel/table/)】章节
-  - 点击`操作`按钮，对此调用发起追踪，进入调用链追踪详情页面。使用详情，请参阅【调用链追踪详情】章节
-- 点趋势分析图右上角的图标，可通过新页面的形式打开`调用链追踪`页面，可进行自定义搜索
-- 点击右上角的时间组件可对数据进行时间过滤
+- 操作按钮：
+  - 查看流日志：仅支信号源为 `Packet` 的日志查看流日志详细信息，使用详情，请参阅【流日志详情】章节
+  - 调用链追踪：支持信号源为 `eBPF` 或 `OTel` 的日志发起调用链追踪，使用详情，请参阅[调用链追踪](../dashboard/panel/flame/)描述
+- 对于标签的搜索、过滤等`操作`部分，使用详情，请参阅【知识图谱】章节
 
 ## 网络指标
 
 网络指标展示了一段时间内网络指标量的聚合值，通过折线图的形式展示网络指标量的一段时间内变化趋势。
 
-![07-网络指标](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650ab47494a85.png)
+![网络指标](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650ab47494a85.png)
 
 - 指标名称：点击后可下拉选择要展示的指标折线图
 - 聚合函数：支持对选中的指标进行函数计算
@@ -94,26 +113,11 @@ permalink: /guide/ee-tenant/application/right-sliding-box/
 - 折线图的使用详情，请参阅【[折线图](../dashboard/panel/line/)】章节
 - 点击右上角的时间组件可对数据进行时间过滤
 
-## 网络路径
-
-网络路径利用 DeepFlow 自研流追踪的算法，可将`网络流`或`应用调用`在虚拟网络或物理网络经过的观测点都追踪出来。
-- 注：如果`网络流`传输过程中发生过 NAT ，则需要使用` NAT 追踪`功能；如果`应用调用`调用过程中发生了调用转换，则需要使用`调用链追踪`功能
-
-![08-网络路径](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650ab475b0353.png)
-
-- 虚拟网络：由拓扑图与表格的形式展示虚拟网络追踪的详情数据
-  - 拓扑图按`网络流`或`应用调用`流经的位置顺序，从左到右排序，例如`应用调用`将经过客户端应用 -> 客户端进程 -> 客户端网卡 -> ... -> 服务端网卡 -> 服务端进程 -> 服务端应用
-    - 注：拓扑图上每个`节点`表达的是相同观测点的聚合信息
-    - 悬停：可查看指标量信息
-    - 点击：点击`节点`将表格中当前观测点的关联的行高亮；点击`线`将表格中线两端的观测点关联的行高亮
-  - 表格展示每个观测点的详细信息，包含观测点所属资源、数据采集的位置信息、隧道信息及指标详情
-    - 点击行将通过右滑框的形式，展示被点击的观测点的详细信息
-
 ## 流日志
 
 流日志是按分钟粒度记录每一条流的详细信息，通过趋势分析图及表格的形式展示被点击数据的流日志。
 
-![09-流日志](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240403660cbef482a14.png)
+![流日志](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240403660cbef482a14.png)
 
 - 趋势分析图：展示在一定的时间范围内流日志采集情况，将数据可视化,用户可在趋势分析图上选取任意时间段，以放大查看该时间段内的日志情况 
 - 日志详情表格：以表格形式展示流日志信息，如客户端、服务端、应用协议、请求类型、请求域名等，可根据趋势分析图进行动态展示。使用详情，请参阅【[表格](../dashboard/panel/table/)】章节
@@ -122,50 +126,11 @@ permalink: /guide/ee-tenant/application/right-sliding-box/
 - 点趋势分析图右上角的图标，可通过新页面的形式打开`流日志`页面
 - 点击右上角的时间组件可对数据进行时间过滤
 
-## NAT追踪
-
-NAT 追踪可对任意 TCP 四元组或五元组发起追踪，利用 DeepFlow 自研算法自动追踪 NAT 前后流量。NAT 追踪页面通过表格的形式展示被点击数据的四元组所对应的指标量，点击`追踪`则可对四元组发起追踪。
-
-![10-NAT追踪](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650ab59bad70a.png)
-
-- 点击表格数据行，即可通过右滑框的形式查看该数据的详情信息，使用详情，请参阅【[网络指标](../dashboard/panel/table/)】章节
-  - 点击`操作`按钮，可对该数据进行追踪，使用详情，请参阅【NAT追踪详情】章节
-- 点右上角的图标，可通过新页面的形式打开`NAT 追踪`页面，可进行自定义搜索
-- 点击右上角的时间组件可对数据进行时间过滤
-
-## 事件
-
-事件通过趋势分析图和表格展示被点击数据的对象的事件信息。
-
-![11-事件](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650ab59b36286.png)
-
-## 调用日志详情
-
-调用日志详情在页面上方显示了请求数据的客户端到服务端之间的响应时延、应用协议、请求类型、请求资源，响应状态。在基础信息下方的两个按钮根据日志数据的来源进行不同操作。在按钮下方为该日志中的所对应的 Tag 和 Metrics，均以键值对的形式进行展示，方便用户快速获取信息。
-
-![12-调用日志详情](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650ab59c80b81.png)
-
-- 操作按钮：
-  - 查看流日志：仅支信号源为 `Packet` 的日志查看流日志详细信息，使用详情，请参阅【流日志详情】章节
-  - 调用链追踪：支持信号源为 `eBPF` 或 `OTel` 的日志发起调用链追踪，使用详情，请参阅【调用链追踪详情】章节
-- 对于标签的搜索、过滤等`操作`部分，使用详情，请参阅【知识图谱】章节
-
-## 调用链追踪详情
-
-调用链追踪详情分为三大部分，上方头部如入口调用的详细信息（即根 Span）；中间为火焰图，展示了请求调用的整个生命周期；下方为每个 Span 的详细信息表格。
-
-![13-调用链追踪详情](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240403660ccaa5395e3.png)
-
-- 火焰图使用详情，请参阅【[火焰图](../dashboard/panel/flame/)】章节
-- 调用详情：展示火焰图中被点击 Span 的调用日志，点击后可进入`调用日志详情`页面中进行查看，使用详情，请参阅【调用日志详情】章节
-- IO 事件：仅`系统 Span`存在 IO 读写事件时，可查看其对应的 IO 事件
-- Span 溯源：展示与火焰图中被点击 Span 关联的 Span 的信息，通过颜色标识存在关联的字段
-
 ## 流日志详情
 
 流日志详情进一步展示流日志的信息，对于协议为 `TCP` 的日志可以进行 TCP 时序追图追踪，以及 NAT 追踪。
 
-![14-流日志详情](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240403660cf395cfbd9.png)
+![流日志详情](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240403660cf395cfbd9.png)
 
 - 操作按钮：
   - TCP 时序图：展示 TCP 每个包头的详细信息，可以清晰地了解 TCP 连接的建立、数据传输和连接关闭的过程。使用详情，请参阅【TCP时序图分析】章节
@@ -174,17 +139,39 @@ NAT 追踪可对任意 TCP 四元组或五元组发起追踪，利用 DeepFlow �
   - 调用日志：显示当前调用日志信息，请查看下图【14-调用日志】
 - 对于`操作`部分，请参阅【知识图谱】章节
 
-![15-调用日志](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240403660cf4122132c.png)
+![调用日志](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240403660cf4122132c.png)
 
 - 由调用趋势分析图与调用日志表格组成
   - 趋势分析图：展示了一定时间段内，请求调用数量
   - 调用日志表格：展示该调用日志详细信息，点击表格行可进入`调用日志详情`页面，查看更多信息
 
+## TCP时序图
+
+TCP 时序图通过趋势分析图和表格的形式展示了 TCP 每个包头的详细信息，包含TCP 连接建立、数据传输和连接关闭的过程中时间戳、方向、Flag、Seq、Ack等详细的信息，用于更进一步分析和诊断网络通信中的问题。
+
+![17-TCP时序图](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650aba4f61574.png)
+
+- 点击右上角的时间组件可对数据进行时间过滤
+- 时序表格
+  - 时间、Seq、Ack 都可以在列表头点击按钮，切换相对值与绝对值
+  - 间隔时间为当前行与上一行的时间差
+  - PCAP 下载：当前查看的流如果能匹配到 PCAP 策略时，则支持下载 PCAP 文件
+
+## NAT追踪
+
+NAT 追踪可对任意 TCP 四元组或五元组发起追踪，利用 DeepFlow 自研算法自动追踪 NAT 前后流量。NAT 追踪页面通过表格的形式展示被点击数据的四元组所对应的指标量，点击`追踪`则可对四元组发起追踪。
+
+![NAT追踪](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650ab59bad70a.png)
+
+- 点击表格数据行，可对该数据进行追踪，使用详情，请参阅【NAT追踪详情】章节
+- 点右上角的图标，可通过新页面的形式打开`NAT 追踪`页面，可进行自定义搜索
+- 点击右上角的时间组件可对数据进行时间过滤
+
 ## NAT追踪详情
 
 NAT追踪详情分为三大部分，上方头部为该发起追踪流的相关信息；左侧为追踪到的网络拓扑，由虚拟网络拓扑及物理网络拓扑组成；右侧为对应的流量拓扑。
 
-![16-NAT追踪详情](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650aba4daabc0.png)
+![NAT追踪详情](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650aba4daabc0.png)
 
 - 流量拓扑：通过`自由拓扑`的形式展示追踪的全部流量，点击`线`可查看对应路径的详细信息
 - 网络拓扑：通过`瀑布拓扑`的形式展示追踪的流量所在的观测点
@@ -204,14 +191,22 @@ NAT追踪详情分为三大部分，上方头部为该发起追踪流的相关�
     - 匹配算法度：支持调整 NAT 追踪算法的参数
 - 点击左上角的时间组件可对数据进行时间过滤
 
-## TCP时序图
+## 资源变更事件
 
-TCP 时序图通过趋势分析图和表格的形式展示了 TCP 每个包头的详细信息，包含TCP 连接建立、数据传输和连接关闭的过程中时间戳、方向、Flag、Seq、Ack等详细的信息，用于更进一步分析和诊断网络通信中的问题。
+通过趋势分析图和表格展示被点击数据对象的资源变更事件。
 
-![17-TCP时序图](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650aba4f61574.png)
+![资源变更事件](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024051566445fa11ff96.png)
 
-- 点击右上角的时间组件可对数据进行时间过滤
-- 时序表格
-  - 时间、Seq、Ack 都可以在列表头点击按钮，切换相对值与绝对值
-  - 间隔时间为当前行与上一行的时间差
-  - PCAP 下载：当前查看的流如果能匹配到 PCAP 策略时，则支持下载 PCAP 文件
+## 文件读写事件
+
+通过趋势分析图和表格展示被点击数据对象的文件读写事件。
+
+![文件读写事件](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024051566445fa2b14d2.png)
+
+
+
+
+
+
+
+

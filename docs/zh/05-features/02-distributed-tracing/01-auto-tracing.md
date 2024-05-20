@@ -7,7 +7,7 @@ permalink: /features/distributed-tracing/auto-tracing
 
 以往我们一般通过 SDK、字节码增强或手动埋点方式主动插入追踪代码，这给应用开发者带来了沉重的负担，他们需要适配各种开发语言和 RPC 框架。当业务使用非 Java 语言实现时，即使 Tracer 可以通过 SDK 进行封装以降低侵入性，也还会存在 SDK 更新导致应用需要重新发布的问题。另一方面，在云原生环境下手动插码的方式迎来了更多的挑战，任何一个应用调用需要穿越从微服务、Sidecar、iptables/ipvs 容器网络、虚拟机 vsiwtch、云网络、NFV网关等复杂的路径，可观测性建设应该能覆盖云原生环境下从应用到基础设施的全栈，但这并不能通过向业务代码中插入追踪代码来实现。
 
-基于 eBPF，DeepFlow 创新的实现了零侵扰的分布式追踪。DeepFlow 将 eBPF Event、BPF Packet、Thread ID、Coroutine ID、Request 到达时序、TCP 发送时序进行关联，实现了高度自动化的分布式追踪（**AutoTracing**）。目前 AutoTracing 支持**所有同线程调用**场景和**部分跨线程调用**（通过解析协议头和 MySQL Comment 中的 X-Request-ID、TraceID/SpanID）场景，支持**所有内核线程调度**（[Kernel Threads](https://en.wikipedia.org/wiki/Thread_(computing))）场景和**部分用户态线程调度**（User Threads，例如 Golang Goroutine）场景，在这些场景下支持对任意服务的分布式调用链进行追踪。
+基于 eBPF，DeepFlow 创新的实现了零侵扰的分布式追踪，即**无需生成、无需注入、无需传播 TraceID 即可实现分布式追踪**。DeepFlow 将 eBPF Event、BPF Packet、Thread ID、Coroutine ID、Request 到达时序、TCP 发送时序进行关联，实现了高度自动化的分布式追踪（**AutoTracing**）。目前 AutoTracing 支持**所有同线程调用**场景和**部分跨线程调用**（通过解析协议头和 MySQL Comment 中的 X-Request-ID、TraceID/SpanID）场景，支持**所有内核线程调度**（[Kernel Threads](https://en.wikipedia.org/wiki/Thread_(computing))）场景和**部分用户态线程调度**（User Threads，例如 Golang Goroutine）场景，在这些场景下支持对任意服务的分布式调用链进行零侵扰追踪。
 
 本章将会以两个 Demo 应用为例，展示 DeepFlow 的 AutoTracing 能力。这两个 Demo 不依赖插入任何 Jaeger、OpenTelemetry、SkyWalking 等代码，完全基于 eBPF 采集的数据即可完成分布式追踪。
 
