@@ -436,4 +436,9 @@ ai:
      请提供有效信息，我无法回答
    ```
 
+   
+# 在 grafana 中使用
+AI模型解读功能(alpha版)目前可以在 `DeepFlow Topo Panel` 和 `DeepFlow Tracing Panel` 中使用
 
+<img src="./imgs/topo-panel-with-ask-gpt.png">
+<img src="./imgs/tracing-panel-with-ask-gpt.png">
