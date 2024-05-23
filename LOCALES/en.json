@@ -17,6 +17,7 @@
     "integration/input/metrics": "Metrics Collector",
     "integration/input/tracing": "Tracing Collector",
     "integration/input/profile": "Profile Collector",
+    "integration/input/log": "Log Collector",
     "integration/output": "Output",
     "integration/output/query": "Query API",
     "integration/output/export": "Exporter",

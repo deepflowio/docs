@@ -33,6 +33,7 @@
     "integration/input/metrics": "导入 Metrics",
     "integration/input/tracing": "导入 Tracing",
     "integration/input/profile": "导入 Profile",
+    "integration/input/log": "导入 Log",
     "integration/output": "数据输出",
     "integration/output/query": "查询 API",
     "integration/output/export": "导出输出",
