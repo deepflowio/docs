@@ -31,6 +31,7 @@ OffCPU Profiling 功能**仅会**采集如下调用栈：
 - 让出 CPU 时进程状态**等于**`TASK_INTERRUPTIBLE`（可中断睡眠）或`TASK_UNINTERRUPTIBLE`（不可中断睡眠）的调用栈
 - 0 号进程（Idle 进程）**以外**的调用栈
 - 含有**至少一个**用户态函数的调用栈
+- 等待 CPU 的时间**不超过** 1 小时的调用栈
 
 # 功能开启方法
 
