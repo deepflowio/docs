@@ -25,8 +25,8 @@ async function downloadCSV(url) {
             console.log("res.data===", JSON.stringify(res.data))
             return ""
         }
-    }).catch(err=>{
-        return ""
+    }) .catch((err) => {
+      throw new Error(`当前csv地址: ${url} 错误，请检查后重新提交`);
     })
 }
 
