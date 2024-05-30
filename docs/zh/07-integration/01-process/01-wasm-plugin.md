@@ -6,8 +6,9 @@ permalink: /integration/process/wasm-plugin
 # 关于 Wasm 插件系统
 
 Wasm 插件系统通过在固定的地方调用 Wasi Export Function 实现一些用户自定义的功能，目前已经实现的功能有：
-- 自定义协议的解析，例子可以参考[这里](https://github.com/deepflowio/deepflow-wasm-go-sdk/blob/5393818adf94f2f9b296de82e20f614ba3b2336a/example/dns/dns.go)
-- HTTPv1 协议增强，例子可以参考[这里](https://github.com/deepflowio/deepflow-wasm-go-sdk/blob/5393818adf94f2f9b296de82e20f614ba3b2336a/example/http/http.go)
+- 自定义协议的解析，例子可以参考[这里](https://github.com/deepflowio/deepflow-wasm-go-sdk/blob/main/example/dns/dns.go)
+- HTTPv1 协议增强，例子可以参考[这里](https://github.com/deepflowio/deepflow-wasm-go-sdk/blob/main/example/http/http.go)
+- Dubbo 协议增强，例子可以参考[这里](https://github.com/deepflowio/deepflow-wasm-go-sdk/blob/main/example/dubbo/dubbo.go)
 
 关于 Wasm Plugin 的开发你也可以参考这篇博客文章：[使用 DeepFlow Wasm 插件实现业务可观测性](https://deepflow.io/blog/035-deepflow-enabling-zero-code-observability-for-applications-by-webAssembly/)。
 
