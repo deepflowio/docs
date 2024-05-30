@@ -78,7 +78,7 @@ cat << EOF > deepflow-agent-docker-compose.yaml
 version: '3.2'
 services:
   deepflow-agent:
-    image: registry.cn-hongkong.aliyuncs.com/deepflow-ce/deepflow-agent:stable
+    image: hub.deepflow.yunshan.net/public/deepflow-agent:v6.4
     container_name: deepflow-agent
     restart: always
     cap_add:
