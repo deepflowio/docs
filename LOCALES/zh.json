@@ -15,7 +15,7 @@
     "guide/ee-tenant": "租户页面",
     "guide/ee-tenant/query": "数据搜索",
     "guide/ee-tenant/dashboard": "视图",
-    "guide/ee-tenant/dashboard/panel": "子视图",
+    "guide/ee-tenant/dashboard/panel": "图表",
     "guide/ee-tenant/metrics": "指标",
     "guide/ee-tenant/events": "事件",
     "guide/ee-tenant/universal-map": "全景图",
