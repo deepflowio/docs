@@ -68,8 +68,7 @@ transforms:
            } else {
              level_tags = parse_regex(.message, r'[\s\[](?<level>INFO|WARN|WARNING|DEBUG|ERROR|TRACE|FATAL)[\s\]]') ?? {}
                 .level = level_tags.level
-             }
-           }
+             } 
         }
 
         if !exists(._df_log_type) {
