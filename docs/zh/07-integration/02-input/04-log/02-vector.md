@@ -13,6 +13,7 @@ subgraph K8s-Cluster
     Stdout["log to stdout"]
   end
   
+  LogFile["Log Files"]
   K8sLog["kubernetes logs (file)"]
   Vector["vector (daemonset)"]
   DeepFlowAgent["deepflow-agent (daemonset)"]
@@ -20,6 +21,7 @@ subgraph K8s-Cluster
 
   Stdout -->|log| K8sLog
   K8sLog -->|log| Vector
+  LogFile -->|log| Vector
   Vector -->|log| DeepFlowAgent
   DeepFlowAgent -->|log| DeepFlowServer
 end
@@ -43,6 +45,22 @@ sources:
       pod_labels: ""
 ```
 
+如果你将 Vector 以进程形式部署在云服务器中，则可以用 [File](https://vector.dev/docs/reference/configuration/sources/file) 模块获取指定路径的日志，我们以 `/var/log/` 路径为例，示例配置如下：
+```yaml
+sources:
+  files_logs:
+    type: file
+    include:
+    - /var/log/*.log
+    - /var/log/**/*.log
+    exclude:
+    # FIXME: 如果同时配置了 kubernetes_logs 模块和 file 模块，为了避免监测日志内容重复，需要去除 k8s 的日志文件夹
+    - /var/log/pods/**
+    - /var/log/containers/**
+    fingerprint:
+      strategy: "device_and_inode"
+```
+
 ## 注入标签
 
 然后，我们可以通过 Transforms 中的 [Remap](https://vector.dev/docs/reference/configuration/transforms/remap/) 模块，对发送的日志打上必要的标签。目前，我们要求打上这两个标签：`_df_log_type` 与 `level`。下面是一份示例配置：
@@ -52,6 +70,7 @@ transforms:
     type: remap
     inputs:
     - kubernetes_logs
+    - files_logs
     source: |-
         # try to parse json
         if is_string(.message) && is_json(string!(.message)) {
@@ -77,7 +96,8 @@ transforms:
         }
 
         if !exists(.app_serivce) {
-            .app_serivce = .kubernetes.container_name
+            # FIXME: files 模块没有此字段，请通过日志内容注入应用名称
+            .app_serivce = .kubernetes.container_name 
         }
 ```
 
