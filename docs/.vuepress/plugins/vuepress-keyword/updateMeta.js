@@ -4,7 +4,6 @@ import escape from "escape-html";
 export default {
   // created will be called on both client and ssr
   created() {
-
     this.siteMeta = this.$site.headTags
       .filter(([headerType]) => headerType === "meta")
       .map(([_, headerValue]) => headerValue);
@@ -15,12 +14,13 @@ export default {
       this.$ssrContext.title = this.$title;
       this.$ssrContext.lang = this.$lang;
       this.$ssrContext.pageMeta = renderPageMeta(mergedMetaItems);
-      this.$ssrContext.canonicalLink = renderCanonicalLink(this.$canonicalUrl);
+      this.$ssrContext.canonicalLink = renderCanonicalLink(
+        this.$themeConfig.home + this.$site.base.slice(0, -1) + this.$page.path
+      );
     }
   },
   // Other life cycles will only be called at client
   mounted() {
-
     // init currentMetaTags from DOM
     this.currentMetaTags = [...document.querySelectorAll("meta")];
 
@@ -43,8 +43,8 @@ export default {
       // pageMetaTags have higher priority than siteMetaTags
       // description needs special attention as it has too many entries
       return unionBy(
-        [{ name: "description", content: getDesc(this.$lang) }],
-        [{ name: "Keywords", content: getKeyword(this.$lang) }],
+        [{ name: "description", content: this.$themeLocaleConfig.description }],
+        [{ name: "Keywords", content: this.$themeLocaleConfig.keyword }],
         pageMeta,
         this.siteMeta,
         metaIdentifier
@@ -149,15 +149,4 @@ function renderPageMeta(meta) {
       return res + `>`;
     })
     .join("\n    ");
-}
-
-function getKeyword(lang) {
-  return lang === "zh-CN"
-    ? "云原生,可观测性,零侵扰采集,全栈可观测,全链路追踪,分布式追踪,服务全景图、eBPF,Wasm,DeepFlow可观测性平台"
-    : "Observability, eBPF, Wasm, Cloud-Native, Distributed Tracing, Continuous Profiling";
-}
-function getDesc(lang) {
-  return lang === "zh-CN"
-    ? "DeepFlow 是云杉网络开发的一款可观测性产品，旨在为复杂的云基础设施及云原生应用提供深度可观测性。DeepFlow 基于 eBPF 实现了应用性能指标、分布式追踪、持续性能剖析等观测信号的零侵扰（Zero Code）采集，并结合智能标签（SmartEncoding）技术实现了所有观测信号的全栈（Full Stack）关联和高效存取。使用 DeepFlow，可以让云原生应用自动具有深度可观测性，从而消除开发者不断插桩的沉重负担，并为 DevOps/SRE 团队提供从代码到基础设施的监控及诊断能力。"
-    : "Utilize eBPF and Wasm technologies to realize Zero Code and Full Stack observability, allowing continuous innovation of cloud infrastructure and cloud-native applications.";
 }
