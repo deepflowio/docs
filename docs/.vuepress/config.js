@@ -1,30 +1,40 @@
 const { resolve } = require("path");
 const json5 = require("json5");
-const dayjs = require("dayjs");
+
+const locales = {
+  "/": {
+    lang: "en-US",
+    title: "Instant Observability for Cloud & AI Applications",
+    keyword:
+      "Observability, eBPF, Wasm, Cloud-Native, Distributed Tracing, Continuous Profiling",
+    description:
+      "DeepFlow leverages eBPF and Wasm to achieve zero-code and full-stack observability, enabling continuous innovation in cloud-native and AI applications.",
+  },
+  "/zh/": {
+    lang: "zh-CN",
+    title:
+      "云原生-可观测性-零侵扰采集-全栈可观测-分布式追踪-eBPF-Wasm-DeepFlow可观测性平台",
+    keyword:
+      "云原生,可观测性,零侵扰采集,全栈可观测,全链路追踪,分布式追踪,服务全景图、eBPF,Wasm,DeepFlow可观测性平台",
+    description:
+      "DeepFlow 旨在为复杂的云原生和 AI 应用提供深度可观测性。DeepFlow 基于 eBPF 实现了应用性能指标、分布式追踪、持续性能剖析等观测信号的零侵扰（Zero Code）采集，并结合智能标签（SmartEncoding）技术实现了所有观测信号的全栈（Full Stack）关联和高效存取。",
+  },
+};
 
 module.exports = {
   theme: resolve(__dirname, "../../vdoing"), // 使用本地主题包
   dest: "dist",
 
-  locales: {
-    "/": {
-      lang: "en-US",
-      title: "Instant Observability for Cloud-Native Applications",
-      description:
-        "Utilize eBPF and Wasm technologies to realize Zero Code and Full Stack observability, allowing continuous innovation of cloud infrastructure and cloud-native applications.",
-    },
-    "/zh/": {
-      lang: "zh-CN",
-      title: "云原生-可观测性-零侵扰采集-全栈可观测-分布式追踪-eBPF-Wasm-DeepFlow可观测性平台",
-      description:
-        "DeepFlow 是云杉网络开发的一款可观测性产品，旨在为复杂的云基础设施及云原生应用提供深度可观测性。DeepFlow 基于 eBPF 实现了应用性能指标、分布式追踪、持续性能剖析等观测信号的零侵扰（Zero Code）采集，并结合智能标签（SmartEncoding）技术实现了所有观测信号的全栈（Full Stack）关联和高效存取。使用 DeepFlow，可以让云原生应用自动具有深度可观测性，从而消除开发者不断插桩的沉重负担，并为 DevOps/SRE 团队提供从代码到基础设施的监控及诊断能力。",
-    },
-  },
+  locales,
   shouldPrefetch: false,
+
   base: "/docs/", // 默认'/'。如果你想将你的网站部署到如 https://foo.github.io/bar/，那么 base 应该被设置成 "/bar/",（否则页面将失去样式等文件）
 
   // 主题配置
   themeConfig: {
+    // 更新域名需要更新此地址
+    home: "https://deepflow.io",
+    locales,
     // 导航配置
     nav: [
       {
