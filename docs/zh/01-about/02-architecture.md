@@ -7,7 +7,7 @@ permalink: /about/architecture
 
 DeepFlow 主要由 Agent 和 Server 两个组件构成。Agent 以各种形态广泛运行于 Serverless Pod、K8s Node、云服务器、虚拟化宿主机等环境中，采集这些环境中所有应用进程的观测数据。Server 运行在一个 K8s 集群中，提供 Agent 管理、数据标签注入、数据写入、数据查询等服务。
 
-![DeepFlow 社区版软件架构](./imgs/deepflow-architecture.png)
+![DeepFlow 社区版软件架构](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240601665a96d382311.png)
 
 DeepFlow 企业版拥有更多的软件组件，以提供更加完善的数据分析、全栈及多区域数据管理、告警管理、报表管理、视图管理、租户管理能力。
 
