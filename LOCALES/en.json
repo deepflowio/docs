@@ -7,6 +7,7 @@
     "best-practice": "Best Practice",
     "best-practice/ee": "Enterprise Edition",
     "features": "Features",
+    "features/l7-protocols": "Application Protocols",
     "features/universal-map": "Universal Map",
     "features/distributed-tracing": "Distributed Tracing",
     "features/continuous-profiling": "Continuous Profiling",

@@ -7,6 +7,7 @@
     "best-practice": "最佳实践",
     "best-practice/ee": "企业版生产部署",
     "features": "核心特性",
+    "features/l7-protocols": "应用协议",
     "features/universal-map": "服务全景图",
     "features/distributed-tracing": "分布式追踪",
     "features/continuous-profiling": "持续性能剖析",
