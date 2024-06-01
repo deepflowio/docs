@@ -7,7 +7,7 @@ permalink: /features/continuous-profiling/auto-profiling
 
 通过 eBPF 获取应用程序的函数调用栈快照，DeepFlow 可绘制任意进程的 CPU Profiling，帮助开发者快速定位函数性能瓶颈。**函数调用栈中除了包含业务函数以外，还可展现动态链接库、语言运行时、内核函数的耗时情况**。除此之外，DeepFlow 在采集函数调用栈时生成了唯一标识，可用于与调用日志相关联，实现分布式追踪和函数性能剖析的联动。
 
-![DeepFlow 中的 CPU Profiling 和 Network Profiling](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023091064fc9ac3060c3.png)
+![DeepFlow 中的 CPU Profiling 和 Network Profiling](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240601665a96f4b63fd.png)
 
 # 能力和限制
 
