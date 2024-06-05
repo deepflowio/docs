@@ -3,78 +3,95 @@ title: Service Topology
 permalink: /guide/ee-tenant/universal-map/service-map/
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
 # Service Topology
 
-Displaying the `services` defined by users in `business definitions` in a waterfall topology format.
+Displays the `services` defined by the user in `Business Definition` in a waterfall topology format.
 
-![01-Service Topology](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202310196530f3fa1b279.png)
+![01-Service Topology](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202405166645a9bb16811.png)
 
-- **① Business Switch Dropdown Box**: Quick switch between businesses, default to the first starred business
-- **② Service Management**: Click the button to enter the business details page
-- **③ Settings**: Support `viewing APIs`, `adding to views` etc.
-- **④ Legend**: Understand the semantics of the ICONs
-- **⑤ Service Group**: Consist of `name row` + `box`, such as client, gcp-microservices-demo, DNS, Redis are independent service groups
-- **⑥ Service**: Each block in the topology represents a service, composed of a `name row` + `metric quantity`, hover over to see the TIP, click to see the service details via the right slide box, see the following sections for explanations
-  - Name Row: The ICON expresses the service type
-  - Metric Quantity: Only the metric quantity showing the service as the server is displayed. When the metric quantity exceeds the threshold, both the name row and its corresponding metric quantity will be marked in red
-- **⑦ Path**: Represents the actual data path for the client visiting the server, hover over to see the TIP, click to see the path details via the right slide box, see the following sections for explanations
+- **① Business Switch Dropdown**: Quickly switch businesses, defaulting to the first starred business.
+- **② Service Management**: Click the button to enter the business details page.
+- **③ Modify Metrics**: Supports displaying/hiding metrics and setting primary metrics.
+- **④ Save**: Supports saving the `time range`, `service topology position`, and `configuration` of the service topology.
+- **⑤ Settings**: Supports functions such as `Edit`, `View API`, `Add to Dashboard`, `Reset`, etc.
+  - Reset: The service topology will revert to its initial layout.
+- **⑥ Service Group**: Consists of `name row` + `box`, such as client, gcp-microservices-demo, DNS, and Redis in the figure, all of which are independent service groups.
+- **⑦ Path**: Represents the actual data path from the client to the server. Hover to view the TIP, click to view path details through the right sliding panel, as explained in subsequent sections.
+- **⑧ Service**: Each block in the topology represents a service, consisting of `name row` + `metrics`. Hover to view the TIP, click to view service details through the right sliding panel, as explained in subsequent sections.
+  - Name Row: ICON represents the service type.
+  - Metrics: Displays metrics according to the priority of [observation points](../../../features/universal-map/auto-metrics) (s-xx > local > rest > app). When metrics exceed the threshold, the name row and corresponding metrics will be marked in red.
+- **⑨ Operation Set**: Supports operations such as layout, connection, zooming, etc., on the topology.
+  - Layout: Enter manual layout mode, supports dragging `services`, click the `Save` button again to exit and save the layout position.
+  - Edit: Enter path editing mode, supports adding or deleting `paths`. Click the `Edit` button again to exit the path editing mode.
+    - Add Path: Supports adding connections between `services/auto-grouped service groups`, converting connections to `paths`.
+    - Delete Path: Click the close button on the path to delete the corresponding `path`.
+  - Zoom In/Out: Zoom in or out of the topology.
+  - Scroll Wheel Zoom: When scroll wheel zoom is disabled, only the `Zoom In/Out` buttons can control the topology size.
 
-## Right Slide Box
+## Right Sliding Panel
 
-Click on `Service` or `Path` to enter the right slide box and view its detailed information. The right slide box is composed of the upper `Invocation Topology` and lower TAB.
+Clicking on `service` or `path` will enter the right sliding panel to view detailed information. The right sliding panel consists of the upper `call topology` and the lower TAB.
 
-### Invocation Topology
+### Call Topology
 
-Through `Invocation Topology`, you can view the client and server of the selected service, and also view the selected path.
+View the client and server of the selected service through `call topology`, and also view the selected path.
 
-![02-Invocation Topology](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202310196530f3fc61c4d.png)
+![02-Call Topology](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202405166645a9aa20975.png)
 
-- **① Switch Group**: You can view the Invocation Topology from \*, auto_service, auto_instance three dimensions
-- **② Name**: The name of the currently clicked `service` or `path`, corresponding to the object viewed by the lower TAB.
-- **③ Node**: Refer to [Traffic Topology](../dashboard/panel/topology/) for introduction
-- **④ Path**: Refer to [Traffic Topology](../dashboard/panel/topology/) for introduction
+- **① Switch Group**: View the call topology by dimensions such as \*, auto_service, auto_instance, and [custom auto-grouping tags](../../../features/auto-tagging/custom-tags).
+- **② Name**: The name of the currently clicked `service` or `path`, corresponding to the object viewed in the lower TAB.
+- **③ Node**: Refer to [Traffic Topology](../dashboard/panel/topology/) introduction.
+- **④ Path**: Refer to [Traffic Topology](../dashboard/panel/topology/) introduction.
 
 ### Knowledge Graph
 
 ![03-Knowledge Graph](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202310196530f3f435c6d.png)
 
-Refer to [Application - Right Slide Box - Knowledge Graph](../application/right-sliding-box/) for introduction
+Refer to [Application-Right Sliding Box-Knowledge Graph](../application/right-sliding-box/) introduction.
 
 ### Application Performance
 
-You can utilize `Application Performance` to analyze whether there are abnormalities in the application layer of the selected service or path.
+Use `Application Performance` to analyze whether there are application layer anomalies in the selected service or path.
 
 ![04-Application Performance](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202310196530f3f6ac6b5.png)
 
-The TAB consists of throughput, latency, exception three curves, and the endpoint list below. Click on a row in the endpoint list to go to the next level right slide box.
+The TAB consists of three curve charts for throughput, latency, and anomalies, and an endpoint list below. Clicking on a row in the endpoint list will enter the next level of the right sliding panel.
 
 ![04-1-Application Performance](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202310196530f3f764e5d.png)
 ![04-2-Application Performance](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202310196530f3f799476.png)
 
-The next-level right slide box can view the RED metrics and log details of an endpoint. When an exception occurs, you can view `Exception Analysis`.
+The next level of the right sliding panel can view the RED metrics and log details of a specific endpoint. When there are anomalies, `anomaly analysis` can be viewed.
 
 ### Network Performance
 
-You can utilize `Network Performance` to analyze whether there are abnormalities in the application layer of the selected service or path.
+Use `Network Performance` to analyze whether there are application layer anomalies in the selected service or path.
 
 ![05-Network Performance](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202310196530f3f9625df.png)
 
-The TAB consists of throughput, latency, exception, performance four curves, and the service port list below. Click on a row in the list to go to the next level right slide box.
+The TAB consists of four curve charts for throughput, latency, anomalies, and performance, and a service port list below. Clicking on a row in the list will enter the next level of the right sliding panel.
 
-- Service: You can view the data of the service `acting as a client` or `acting as a server`
-- Path: By clicking each `path statistical location` on the `Path Topology`, you can view the data of each `path statistical location`
+- Service: View data for the service `as a client` or `as a server` separately.
+- Path: Click on each `observation point` on the `path topology` to view the data for each `observation point` separately.
 
 ![05-1-Network Performance](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202310196530f3f9c515d.png)
 ![05-2-Network Performance](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202310196530f3fd02700.png)
 
-The next-level right slide box can view the RED metrics and log details of a service port. When an exception occurs, you can view `Exception Analysis`.
+The next level of the right sliding panel can view the RED metrics and log details of a specific service port. When there are anomalies, `anomaly analysis` can be viewed.
+
+### Infrastructure
+
+Use `Infrastructure` to analyze the CPU, memory, status, and other data of the infrastructure instances corresponding to the service.
+
+![06-Infrastructure](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202405166645a9ae67608.png)
+
+**① Switch Service:** Switch the service to view the infrastructure. The candidates are the services at both ends of the clicked path or the clicked service.
 
 ### Events
 
-Check the resource change events of `services` or `paths`
+View resource change events of `service` or `path`.
 
 ![06-Events](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202310196530f3fcdb8b4.png)
 
-Refer to [Application - Right Slide Box - Events](../application/right-sliding-box/) for introduction
+Refer to [Application-Right Sliding Box-Events](../application/right-sliding-box/) introduction.

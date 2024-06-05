@@ -3,145 +3,151 @@ title: Traffic Topology
 permalink: /guide/ee-tenant/dashboard/panel/topology/
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
 # Traffic Topology
 
-DeepFlow's traffic topology can be used to visualize the dependency relationships between services or resources for a better problem analysis and resolution, such as performance bottlenecks, single point failures, or potential dependency access issues.
+DeepFlow's traffic topology can be used to display the dependencies between services or resources, facilitating better analysis and problem-solving, such as analyzing performance bottlenecks, single points of failure, or potential dependency access issues.
 
 ## Overview
 
-![2_1.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202309196509170253aed.png)
+![00-Overview](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031465f2d3476b5c0.png)
 
-Traffic topology consists of `nodes`, `paths`, and some operations:
+The traffic topology consists of `nodes`, `paths`, and some operations:
 
-- **① Node:** Represents a service or resource, corresponding to `group` in search conditions, which could be a container service, a cloud server, a region, etc.
-- **② Path:** Represents the direction of a service or resource from `client` to `server`.
-- **Operation:** Hover or click on `node` or `path`.
-  - Hover: Highlights `node` or `path` to check metrics.
-  - Click: Checks `node` or `path` details in a right swipe box.
+- **① Node:** Represents a service or resource, corresponding to the `group` in the search criteria. It can be a container service, cloud server, or region, etc.
+- **② Path:** Represents the direction of service or resource, where the `client` accesses the `server`.
+- **Operations:** You can hover over or click on `nodes` or `paths`.
+  - Hover: Highlight the `node` or `path` to view metrics.
+  - Click: View details of the `node` or `path` in a right-slide panel.
 
-![2_2.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023091965093c2239c31.png)
+### Topology Details
 
-- **① Switch TOP data:** Sorts by the primary metrics of the nodes after grouping in descending order.
-  - Note: If the search conditions are not grouped, there is no `Switch TOP data` function.
-- **② Toggle Data Table:** Toggles the precision of the data table, for example, 1m for minute-level data, 1s for second-level data.
-- **③ Expand Table:** Click to expand or close the table. For more details, refer to the section of 【Expanding Table】.
-- **④ Modify Metrics:** Allows for modification of metrics. For more details, refer to the section of 【Modifying Metrics】.
-- **⑤ Settings:** Click to change settings for `traffic topology`, for more details, refer to the section of 【Settings】.
-- **⑥ Edit:** A capability in `view` that allows editing of sub-views, for example, modifying search conditions, names, changing saved view locations, opening original function pages of sub-views, etc. For more details, refer to the section of 【Editing】.
-- **⑦ Delete:** A capability in `view` that if `traffic topology` is not needed in the view, it can be removed by clicking the delete button.
-- **⑧ Manually supplement resource relationship mode:** In this mode, paths can be manually added between nodes.
-- **⑨ Waterfall/Free Topology:** Supports switching the display format of topology. Free topology is generally used for scenarios with many nodes and complex paths, whereas waterfall topology is generally used for scenarios with fewer nodes and single paths.
-- **⑩ Automatic Layout:** The system lays out nodes in a tree structure based on path access relationships.
-- **⑪ Random Layout:** The system lays out nodes in a star structure.
-- **⑫ Save Topology:** A capability in `view` that when `traffic topology` is modified, the `save topology` button can be selected to save the changes, such as remembering the time range, topology location, topology configuration, memorizing variable template values.
-- **⑬ Legend:** Opens the legend to see what the icons and lines represent. For more details, refer to the section of 【Legend】.
+![01-Topology](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031465f2cfe0cb741.png)
 
-## Hover TIP
+- **① Switch Query Area:** If there are multiple storage areas in the previous data, you can quickly switch areas for data queries.
+  - Note: If the query criteria are not grouped, there is no `Switch TOP Data` function.
+- **② Switch Top Data:** Sort the main metric values of the grouped nodes in descending order.
+  - Note: If the query criteria are not grouped, there is no `Switch TOP Data` function.
+- **③ Expand Table:** Click to expand or close the table. For details, please refer to the [Expand Table] section.
+- **④ Modify Metrics:** You can modify the metrics. For details, please refer to the [Modify Metrics] section.
+- **⑤ Settings:** Click to set the `traffic topology`. For details, please refer to the [Settings] section.
+- **⑥ Delete:** This is a `Dashboard` capability. If you do not need to display this `traffic topology` in the Dashboard, you can click the delete button to remove it.
+- **⑦ Manual Resource Relationship Mode:** In this mode, you can manually add paths between nodes.
+- **⑧ Waterfall/Free Topology:** Supports switching the display form of the topology. Free topology is generally used for scenarios with many nodes and complex paths; waterfall topology is generally used for scenarios with fewer nodes and simpler paths.
+- **⑨ Auto Layout:** The system arranges the nodes in a tree structure based on the path access relationships.
+- **⑩ Random Layout:** The system arranges the nodes in a star structure.
+- **⑪ Save Topology:** This is a `Dashboard` capability. After modifying the `traffic topology`, you can choose the `Save Topology` button to save the changes, such as remembering the time range, topology position, topology configuration, and variable template values.
+- **⑫ Legend:** You can open the legend to view the meanings of icons and lines. For details, please refer to the [Legend] section.
 
-![2_3.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230919650917049cd3c.png)
+### Hover TIP
 
-When the mouse hovers over a `node`, it automatically highlights the `paths` associated with the `node`. When it hovers over a `path`, it automatically highlights the `nodes` associated with the `path`. At the same time, metrics can be viewed through the TIP, which can display the metrics corresponding to different `path statistical positions`.
+![02-Hover TIP](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031865f7b8291e1be.png)
 
-### Hover to Display Metrics
+When the mouse hovers over a `node`, the `path` associated with the `node` is automatically highlighted. When hovering over a `path`, the `nodes` associated with the `path` are automatically highlighted. At the same time, you can view the metrics in the form of a TIP, which can display the metrics corresponding to different `observation points`.
 
-![2_4.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230919650917062390f.png)
+### Hover Display Metrics
 
-Taking the example of hovering over a `path`, this section introduces the display content of TIP.
+![03-Hover Display](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031865f7b826aff77.png)
 
-- First line: Explanation and legend display area, followed by legend definitions:
+Taking the mouse hovering over a `path` as an example, the TIP display content is introduced.
+
+- First row: Description and legend display area. The legend explanation is as follows:
   - Application Function
-    - A Application: Represents metrics obtained through application code embedment, currently can represent data with the `signal source=OTel`.
-    - S System: Represents metrics obtained via the eBPF method, currently can represent data with the `signal source=eBPF`.
-    - E Endpoint Network: Represents metrics obtained by network traffic capture (BPF), currently represents data collected from the network cards where the client or server is located.
-    - M Middle Network: Represents metrics obtained by network traffic capture (BPF), currently represents data collected from positions other than the network cards where the client or server is located.
-  - Network Function: All metrics come from network traffic capture (BPF).
-    - D Network Card: Represents data collected from the network cards where the client or server is located.
-    - K Container Node: Represents data collected from the network cards of container nodes.
-    - H Host: Represents data collected from the network cards of hosts.
-    - M Middle Network: Represents data collected from positions other than the above network cards.
-  - Corner Mark: Distinguishes whether the current data collection position is at the client or server.
+    - A Application: Represents metrics obtained through application instrumentation, currently indicating data with `signal source=OTel`.
+    - S System: Represents metrics obtained through eBPF, currently indicating data with `signal source=eBPF`.
+    - E Endpoint Network: Represents metrics obtained through traffic capture (BPF), currently indicating data collected from the network card of the client or server.
+    - M Middle Network: Represents metrics obtained through traffic capture (BPF), currently indicating data collected from locations other than the network card of the client or server.
+  - Network Function: All metrics are derived from traffic capture (BPF).
+    - D Network Card: Indicates data collected from the network card of the client or server.
+    - K Container Node: Indicates data collected from the network card of the container node.
+    - H Host: Indicates data collected from the network card of the host.
+    - M Middle Network: Indicates data collected from locations other than the above network cards.
+  - Corner Mark: Distinguishes whether the current data collection location is on the client or server.
     - C: Represents the client.
     - S: Represents the server.
-- Second Line: `Node/Path` name information on hover.
-- Other: Metrics display area.
-  - Displays relevant metric values based on the viewed data position.
-  - The last column is the difference for all `path statistical positions`, for example, this line can be used to quickly determine if there are inconsistencies in `sent traffic`.
-  - Example: As shown in the figure below, it represents the endpoint network data of the client.
-    ![2_3_1.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202309196509427e1c1c9.png)
+- Second row: Hover `node/path` name information.
+- Others: Metrics display area.
+  - Displays relevant metric values based on the data location.
+  - The last column shows the difference of all `observation points`, allowing quick judgment of data inconsistencies in `sent traffic`.
+  - Example: As shown in the figure below, it indicates the endpoint network data of the client.
+    ![04-Icon](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202309196509427e1c1c9.png)
 
-## Settings
+### Settings
 
-Users can click on the gear icon to set the `traffic topology`.
+Users can click the gear icon to set the `traffic topology`.
 
-![2_5.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202309196509170721de1.png)
+![05-Settings](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031865f7b8295063a.png)
 
-- **Display Full Name:** Full name display or default display for node names.
-- **Download CSV Data:** Supports downloading of `traffic topology` data information.
-- **View API:** Views the API used to generate the `traffic topology`.
-- **Complete All Associated Data:** Completes paths of resource nodes with all dependency relationships.
-- **Show/Hide Characteristic Associations:** Shows or hides nodes of resources with characteristic associations.
-  - Resource nodes include: IP, Virtual machine, router, DHCP gateway, POD, container service, container node, RDS, Redis, Load balancer, NAT gateway, Workload, WAN IP, and others.
-- **Thumbnail:** Turns on/off the thumbnail at the bottom left of the `traffic topology`.
-- **Color Settings:** Sets the color of the current `traffic topology`.
-- **Display Primary Metrics:** Supports displaying primary metric values on `nodes` and `paths`. For more information on `setting primary metrics`, refer to 【Modifying Metrics】.
+- **Display Full Name:** Display the full name of the node or show it by default.
+- **Download CSV Data:** Supports downloading the data information of the `traffic topology`.
+- **View API:** View the interface information that generates the `traffic topology`.
 
-## Expand Table
+### Expand Table
 
-Click the `Expand Table` button to show the metrics of `nodes` and `paths` in `traffic topology` in the form of a list, including resource monitoring, path monitoring, and path difference tables.
+Click the `Expand Table` button to display the metrics of `nodes` and `paths` in the `traffic topology` in a list form, including resource monitoring, path monitoring, and path difference tables.
 
-![2_6.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023091965091707f4009.png)
+![06-Table](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023091965091707f4009.png)
 
-- Resource Monitoring: Shows the metrics of all nodes in `traffic topology`.
-- Path Monitoring: Shows the metrics of all paths in `traffic topology`.
-- Path Difference: Shows the difference in values of all path metrics in different `path statistical positions` in `traffic topology`.
-- Search: Supports quick search and find of table data.
-- Set: Sets the width display mode of columns, such as even column width, column width assigned according to content.
+- Resource Monitoring: Displays the metrics of all nodes in the `traffic topology`.
+- Path Monitoring: Displays the metrics of all paths in the `traffic topology`.
+- Path Difference: Displays the difference in metrics of all paths in the `traffic topology` at different `observation points`.
+- Search: Supports quick search and lookup of table data.
+- Settings: Set the display method of column width, such as evenly distributing column width or allocating column width according to content.
 
-## Modifying Metrics
+### Modify Metrics
 
-Metrics are an important part of sub-views, DeepFlow provides a shortcut to quickly select metrics, you can select the metric data to be displayed in the dropdown box.
+Metrics are one of the important components of the Panel. DeepFlow provides shortcuts to help users quickly select metrics, which can be selected from the dropdown menu to display the desired metric data.
 
-![2_7.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202309196509170932512.png)
+![07-Modify Metrics](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202309196509170932512.png)
 
-- **① Metric Name:** Selecting a metric name will display it in the sub-view.
-- **② Set as Primary Metric:** Clicking the icon will set the metric as the primary metric, the sub-view is sorted by the primary metric value when `switching TOP data`.
-- **③ Advanced Setting:** Allows for adding, deleting, and modifying of metrics. For more details, refer to the section of 【Advanced Setting】.
-- **Multi-choice/Single-choice:** Some sub-views support this. When `multiple-choice` is selected, multiple metrics can be displayed in the TIP of the sub-view; when `single-choice` is selected, only one metric can be displayed.
+- **① Metric Name:** Select the metric name to display the metric in the Panel.
+- **② Set as Main Metric:** Click the icon to set the metric as the main metric. When `Switching TOP Data`, the Panel will sort by the main metric value.
+- **③ Advanced Settings:** You can add, delete, or modify metrics. For details, please refer to the [Advanced Settings] section.
+- **Multi-select/Single-select:** Some Panels support this. In `multi-select` mode, the TIP in the Panel can display multiple metrics, while in `single-select` mode, only one metric can be displayed.
 
-### Advanced Setting
+### Advanced Settings
 
-For further setting of metrics, the setting page can be accessed by clicking `Modify Metrics -> Advanced Setting`. As shown below, users are supported to add or delete metrics, add aggregate functions, modify display names, set threshold values, select metric templates, etc.
+For further settings of metrics, you can click `Modify Metrics -> Advanced Settings` to enter the settings page. As shown in the figure below, it supports users to add or delete metrics, add aggregation functions, modify display names, set thresholds, select metric templates, and other operations.
 
-![2_8.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023091965091709aebea.png)
+![08-Advanced Settings](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023091965091709aebea.png)
 
-- **① Select Template:** Select a `metric template` to quickly switch the metric template in the current pop-up window.
-- **② Clear All:** Clears all metrics in the current pop-up window.
-- **③ Save Template:** Saves the settings of the metrics in the current pop-up window as a `metric template`.
-- **④ Metric Column:** Click on the input box to pop up the drop-down box to select a metric based on classification.
-  - **Aggregation - First-level Operator:** Functions such as averaging, summing, taking maximum value, minimum value, etc., can be applied to aggregate metrics.
-  - **Aggregation - Second-level Operator:** Secondary calculations based on the data obtained by the `first-level operator`.
-  - **Name:** Sets the display name of the metric.
-  - **Unit:** Sets the display unit of the metric.
-  - **Threshold:** Sets the threshold of the metric, when the threshold is exceeded, the `node` or `path` turns red to alert.
-- **⑤ Enable/Disable Metric:** Shows/hides corresponding metrics.
-- **⑥ Add Metric Column:** Adds `④ Metric Column` to the current pop-up window.
+- **① Select Template:** Select a `metric template` to quickly switch the current metrics in the popup window.
+- **② Clear All:** Clear all metrics in the current popup window with one click.
+- **③ Save Template:** Save the current metric settings in the popup window as a `metric template`.
+- **④ Metric Column:** Click the input box to pop up a dropdown menu, and select metrics according to the category.
+  - **Aggregation - Primary Operator:** Perform function aggregation operations on metrics, supporting functions such as average, sum, maximum, minimum, etc.
+  - **Aggregation - Secondary Operator:** Perform secondary calculations based on the data obtained by the `primary operator`.
+  - **Name:** Set the display name of the metric.
+  - **Unit:** Set the display unit of the metric.
+  - **Threshold:** Set the threshold of the metric. When the threshold is exceeded, the `node` or `path` will turn red to indicate a warning.
+- **⑤ Enable/Disable Metric:** Show/hide the corresponding metric.
+- **⑥ Add Metric:** Add `④ Metric Column` in the current popup window.
 
-## Edit
+### Edit
 
-Editing is a capability in `view` where `traffic topology` can be modified using the `edit` button.
+The topology edit box consists of three parts: `① Chart`, `② Search Criteria`, and `③ Style and Settings`.
 
-![2_9.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023091965091bb83ac9a.png)
+![09-Edit](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031365f175fb51d9f.png)
 
-- **① Name:** Modify the name of the sub-view.
-- **② View:** Change the view to which the sub-view belongs.
-- **③ Save As:** Save the modified sub-view separately, without changing the current sub-view information.
-- **④ Search Condition:** Modify search conditions of the sub-view.
-  - Edit Search Condition: For more details, refer to the section on 【[Search](../../query/overview/)】
+- **① Chart:** The chart is drawn based on `② Search Criteria` and `③ Style and Settings`.
+- **② Search Criteria:** For the use of search criteria, please refer to the [Search](../../query/overview/) section.
+- **③ Style and Settings:** Set the style, color, and other settings of the chart.
+  - **Style:** Rich functions support setting the style of the chart.
+    - **Title:** Supports modifying the chart name.
+    - **Chart Style:**
+      - Full Name Display: Display the full name of the node/abbreviated display.
+      - Show Main Metric: When enabled, the main metric value will be displayed on the path.
+      - Close Thumbnail: Supports enabling/disabling the thumbnail.
+      - Step Line Chart Turning Point: Supports setting the position of the data turning point.
+      - Area Fill: Supports filling the area between the line and the coordinate axis with color.
+      - Data Stacking: Supports displaying multiple data series in a stacked or tiled manner.
+        - Stacked: Displays the values of multiple data series in the same coordinate system in a stacked manner to show their overall trend and individual contributions.
+        - Tiled: Displays the values of multiple data series in the same coordinate system in a tiled manner to better show the differences and relationships between them.
+    - **Color:** Supports setting the color of paths and nodes.
 
-## Legend
+### Legend
 
-Click on `Legend` to see what icons and lines represent.
+Click `Legend` to view the meanings of icons and lines.
 
-![2_10.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202309196509170b4c72e.png)
+![10-Legend](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202309196509170b4c72e.png)

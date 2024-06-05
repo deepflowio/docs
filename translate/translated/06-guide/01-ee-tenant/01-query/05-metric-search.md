@@ -3,7 +3,7 @@ title: Metric Search Box
 permalink: /guide/ee-tenant/query/metric-search/
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
 # Metric Search Box
 

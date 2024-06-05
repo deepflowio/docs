@@ -3,7 +3,7 @@ title: Metric Summary
 permalink: /guide/ee-tenant/metrics/metric-summary/
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
 # Metric Summary
 

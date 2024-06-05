@@ -1,13 +1,13 @@
 ---
-title: Monitoring Traditional Servers
+title: Monitoring Legacy Servers
 permalink: /ce-install/legacy-host
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
 # Introduction
 
-DeepFlow supports monitoring of traditional servers. Please note that the DeepFlow Server must be run on K8s. If you do not have a K8s cluster, you can refer to the [All-in-One Quick Deployment](./all-in-one/) section to deploy DeepFlow Server first.
+DeepFlow supports monitoring legacy servers. Note that DeepFlow Server must run on K8s. If you do not have a K8s cluster, you can refer to the [All-in-One Quick Deployment](./all-in-one/) section to deploy DeepFlow Server first.
 
 # Deployment Topology
 
@@ -31,9 +31,9 @@ end
 
 # Configuring DeepFlow Server
 
-## Update deepflow-server configuration
+## Updating deepflow-server Configuration
 
-Check if all server sectors are in the following list of sectors
+Check if all network segments of the server are in the following segment list
 
 ```yaml
 local_ip_ranges:
@@ -44,12 +44,11 @@ local_ip_ranges:
   - 224.0.0.0-240.255.255.255
 ```
 
-If not, you need to add the missing server sectors to the `local_ip_ranges` list in the custom configuration file below.
+If not, you need to add the missing server segments to the `local_ip_ranges` list in the custom configuration file below. For example, if the host IP is 100.42.32.213, you need to add the corresponding 100.42.32.0/24 segment to the configuration.
 
 Modify the `values-custom.yaml` custom configuration file:
 
 ```yaml
-# add
 configmap:
   server.yaml:
     controller:
@@ -60,7 +59,7 @@ configmap:
           - 192.168.0.0/16
           - 169.254.0.0/15
           - 224.0.0.0-240.255.255.255
-        # - 7.8.0.0/16  # FIXME: your host all network cidr
+          - 100.42.32.0/24 # FIXME
       trisolaris:
         trident-type-for-unkonw-vtap: 3 # required
 ```
@@ -73,7 +72,9 @@ helm upgrade deepflow -n deepflow -f values-custom.yaml deepflow/deepflow
 kubectl delete pods -n deepflow -l app=deepflow -l component=deepflow-server
 ```
 
-## Create Host Domain
+## Creating Host Domain
+
+Just like monitoring multiple K8s clusters requires creating a K8s domain, you need to create a domain specifically for synchronizing servers.
 
 ```bash
 unset DOMAIN_NAME
@@ -85,9 +86,9 @@ type: agent_sync
 EOF
 ```
 
-## Create Collector Group
+## Creating Agent Group
 
-Create a collector group:
+Create an agent group:
 
 ```bash
 unset AGENT_GROUP
@@ -97,20 +98,20 @@ deepflow-ctl agent-group create $AGENT_GROUP
 deepflow-ctl agent-group list $AGENT_GROUP # Get agent-group ID
 ```
 
-Create collector group configuration file `agent-group-config.yaml`:
+Create the agent group configuration file `agent-group-config.yaml`, specify the `vtap_group_id` and enable `platform_enabled` to allow deepflow-agent to sync the server's network information to deepflow-server
 
 ```yaml
-vtap_group_id: g-ffffff # FIXME: agent-group ID
+vtap_group_id: g-ffffff # FIXME
 platform_enabled: 1
 ```
 
-Create collector group configuration:
+Create agent group configuration:
 
 ```bash
 deepflow-ctl agent-group-config create -f agent-group-config.yaml
 ```
 
-# Deploy DeepFlow Agent
+# Deploying DeepFlow Agent
 
 Download deepflow-agent
 
@@ -158,9 +159,40 @@ EOF
 systemctl daemon-reload
 ```
 
+@tab docker compose
+
+```bash
+touch /etc/deepflow-agent.yaml
+
+cat << EOF > deepflow-agent-docker-compose.yaml
+version: '3.2'
+services:
+  deepflow-agent:
+    image: registry.cn-hongkong.aliyuncs.com/deepflow-ce/deepflow-agent:stable
+    container_name: deepflow-agent
+    restart: always
+    cap_add:
+      - SYS_ADMIN
+      - SYS_RESOURCE
+      - SYS_PTRACE
+      - NET_ADMIN
+      - NET_RAW
+      - IPC_LOCK
+      - SYSLOG
+    volumes:
+      - /etc/deepflow-agent.yaml:/etc/deepflow-agent/deepflow-agent.yaml:ro
+      - /sys/kernel/debug:/sys/kernel/debug:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    network_mode: "host"
+    pid: "host"
+EOF
+
+docker compose -f deepflow-agent-docker-compose.yaml up -d
+```
+
 :::
 
-Modify the deepflow-agent's configuration file `/etc/deepflow-agent.yaml` :
+Modify the configuration file of deepflow-agent `/etc/deepflow-agent.yaml`:
 
 ```yaml
 controller-ips:
@@ -177,7 +209,7 @@ systemctl restart deepflow-agent
 
 **Note**:
 
-If deepflow-agent cannot start normally due to missing dependency libraries, you can download a statically linked compiled deepflow-agent. Please note that statically linked compiled deepflow-agent has serious performance problems in multi-threading:
+If deepflow-agent fails to start due to missing dependencies, you can download the statically linked version of deepflow-agent. Note that the statically linked version has severe performance issues under multithreading:
 ::: code-tabs#shell
 
 @tab rpm
@@ -226,8 +258,8 @@ systemctl daemon-reload
 
 # Next Steps
 
-- [Universal Service Map - Experience DeepFlow's AutoMetrics Capabilities](../features/universal-map/auto-metrics/)
-- [Distributed Tracing - Experience DeepFlow's AutoTracing Capabilities](../features/distributed-tracing/auto-tracing/)
-- [Eliminate Data Silos - Understand DeepFlow's AutoTagging and SmartEncoding Capabilities](../features/auto-tagging/eliminate-data-silos/)
-- [Say Goodbye to High-Base Troubles - Integrate Metrics Data such as Promethes](../integration/input/metrics/metrics-auto-tagging/)
-- [Full Stack Distributed Tracing - Integrate Tracing Data such as OpenTelemetry](../integration/input/tracing/full-stack-distributed-tracing/)
+- [Universal Service Map - Experience DeepFlow's AutoMetrics capability](../features/universal-map/auto-metrics/)
+- [Distributed Tracing - Experience DeepFlow's AutoTracing capability](../features/distributed-tracing/auto-tracing/)
+- [Eliminate Data Silos - Learn about DeepFlow's AutoTagging and SmartEncoding capabilities](../features/auto-tagging/eliminate-data-silos/)
+- [Say Goodbye to High Costs - Integrate metrics data from Prometheus, etc.](../integration/input/metrics/metrics-auto-tagging/)
+- [Full-Stack Distributed Tracing - Integrate tracing data from OpenTelemetry, etc.](../integration/input/tracing/full-stack-distributed-tracing/)

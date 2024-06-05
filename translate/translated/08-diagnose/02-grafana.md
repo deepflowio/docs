@@ -1,42 +1,47 @@
 ---
-title: Grafana Slow Query
+title: Grafana Related Issues
 permalink: /diagnose/grafana
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
-# Slow Query
+# Dashboard Panel Cannot Find Kubernetes Resources
 
-## Enabling debug mode
+> The specific manifestation is shown in the figure below: In the panels related to Pods, some Pods or namespaces are missing or lost (it may be one or two, or it may be many)
 
-Add `debug=true` search parameter in grafana url, for example:
+<img src="./imgs/grafana_not_found_k8s_resources.png">
 
-```url
-http://your.grafana?debug=true
-http://your.grafana?xx=xx&debug=true
+**Step 1. Check the status of deepflow-agent in the cluster**
+
+```
+  ## Check the running status of the agent on the deepflow server side, NORMAL means normal
+  deepflow-ctl agent list
 ```
 
-## Viewing querier time consumption
+**Step 2. Output agent debug logs by adding variables**
+<img src="./imgs/deepflow_agent_debug_log.png">
 
-Press F12 key to pull up the debug page, the following methods are detailed using Chrome as an example:
+```
+  ## Add environment variables to the agent pod:
+  ## After running, grep replicasets in the logs, and check whether the total time required for each page query (kubernetes-api-list-limit) displayed in DEBUG is > 5min
+      - name: RUST_LOG
+        value=info,deepflow_agent::platform::kubernetes::resource_watcher=debug
+```
 
-![Browser viewing](./imgs/grafana_api_networks.png)
+If the log output is too much and inconvenient to view, you can directly check the synchronized data through the DeepFlow System - DeepFlow Agent panel
+<img src="./imgs/deepflow_agent_sync_k8s_resources.png">
 
-- Click on the Network tab to view detailed scenario of API time consumption.
-  - From the Time column, you can see the overall time taken by the API.
-  - The Waterfall lets you intuitively spot the APIs that take longer. The longer the horizontal green (or blue) column, the more time consumed.
-  - Hovering over a horizontal column on the waterfall chart displays further details, usually focusing on Waiting and Content Download items.
-    - The former generally represents the time consumed by the server-side API.
-    - The latter represents the time from the first reply package of the API to the last, often used in conjunction with the `Size` column in the table - the larger the content, the longer it takes to transmit.
+**Step 3. Solution for too many synchronized resources**
 
-Note: You need to first open the F12 debug box and refresh the page to view API call information. Generally, you can switch menus after opening F12, click on the clear icon in the second row and the second column in the upper left corner of the picture above, and then switch back to the menu that needs troubleshooting to view.
+> As mentioned in Step 2, deepflow-agent synchronizes 1000 k8s resource information by default each time, while the default expiration time of the k8s continue token is 5 minutes. Exceeding this time will cause synchronization interruption.
+> The role of the continue token:
+>
+> - https://kubernetes.io/zh-cn/docs/reference/kubernetes-api/common-parameters/common-parameters/#continue
+> - https://kubernetes.io/zh-cn/docs/reference/using-api/api-concepts/#retrieving-large-results-sets-in-chunks
 
-## Viewing ClickHouse time consumption
+>   Solution:
 
-In the Network tab, you can see the execution time of SQL statements in ClickHouse in the Preview tab by clicking a specific API.
-
-![Browser viewing](./imgs/querier_debug_info.png)
-
-- By looking at the debug field, you can see the following contents:
-  - sql represents the specific SQL statement executed in ClickHouse.
-  - query_time represents the execution time of the SQL statement itself.
+- Solution 1: Increase the single-page query limit (kubernetes-api-list-limit)
+  https://github.com/deepflowio/deepflow/blob/main/server/agent_config/example.yaml#L468
+- Solution 2: Increase the expiration time of the continue token (--etcd-compaction-interval)
+  https://stackoverflow.com/questions/63664353/how-to-modify-default-expired-time-of-continue-token-in-kubernetes

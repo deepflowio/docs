@@ -1,92 +1,115 @@
 ---
-title: Service Search Box
+title: Resource Search Box
 permalink: /guide/ee-tenant/query/service-search/
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
-# Service Search Box
+# Resource Search Box
 
-The `Service Search Box` is used in the Application-Metric Statistics, Network-Service Statistics, and Network-Resource Inventory.
+The `Resource Search Box` is used in Application-Resource Statistics, Network-Resource Statistics, and Network-Resource Inventory.
 
-![1-Service Search Box](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa530137.png)
+![01-资源搜索框](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240520664ac73e1e086.png)
 
-- **① Search condition input box**: Supports Chinese and English predictive typing, supports Tags in the data table as search conditions
-- **② Switch main group**: Resource grouping, corresponds to the `resource` in the function interface
-- **③ Switch sub-group**: Other groups, corresponds to the `group attribute` in the function interface
-- **④ Clear search conditions**: Clear the `search condition input box` and the `main and sub-group` returns to default values
-- **⑤ Save search conditions**: Save the search conditions entered on the current interface
+- **① Search Snapshot**: Refer to the [Search Snapshot](./history/) section for details.
+- **② Search Input Form**: You can switch the form of search input. Currently, there are Free Search, Container Search, and Process Search. See the following sections for details.
 
-Each complete search condition in the `Search condition input box` is referred to as a `search tag`. The management of `search tags` is explained in detail below.
+## Free Search
 
-![2-Search Tags](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa57a56f.png)
+![02-自由搜索](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202405156644260e09259.png)
 
-![3-Operator](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa702aed.png)
+- **① Search Condition Input Box**: Supports both Chinese and English input suggestions and allows using Tags from the data table as search conditions.
+- **② Clear Search Conditions**: Clears the `Search Condition Input Box`.
+- **③ Switch Main Group**: Resource grouping, corresponding to `Resource` in the functional interface.
+- **④ Switch Sub Group**: Other groupings, corresponding to `Group Attributes` in the functional interface.
 
-![4-Candidates](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa702aed.png)
+In the `Search Condition Input Box`, each complete search condition is called a `Search Tag`. The following explains how to manage `Search Tags`.
 
-- **① Tag Name**: Supports searching for tags in the data table, details can be viewed in `database field`
-  - Supports English and Chinese predictive typing
-  - Hover the mouse over the tag name to view its details
-  - Semantics: Different tags are connected with "and", the same tags depending on the `operator` will use different logical operators.
-    - a: `=`, `:`, `~` are connected with "or"
-    - b: `!=`, `:!`, `!~` are connected with "and"
-    - c: `>=`, `<=`, `>`, `<` are connected with "and"
-    - a/b/c are connected with "and". For example: `search condition input box: server_port > 20, server_port < 80, server_port != 44, server_port != 45`, the effective condition is `(server_port > 20 and server_port < 80) and (server_port != 44 and server_port != 45)`
-- **② Operator**: Currently supports exact match, fuzzy match, and regular match
-  - Exact match: Corresponding to `=`, `!=`, `>=`, `<=` operator, `resource types` of tags are exact matched according to the resource ID, others are exact matched according to the actual input
-  - Fuzzy match: Corresponding to `:`, `:!` operator, string matching, supports `*` wildcard. For example, `*123*` matches all strings that <mark>includes</mark>`123`, while `123` only matches strings that are <mark>exactly equalto</mark>`123`
-  - Regular match: Corresponding to `~`, `!~` operator, string regular match
-- **③ Tag Value**: Filter or directly input the value needed to be filtered
-  - NULL: Null value, generally combined with `!=` is used, the semantics of filtering `all`
-  - ⑦ Table Filter: When filter candidates appear duplicated situation or need to select more, they can use `table filter` to locate resources precisely
-- **④ Disable**: Disable the search condition for the current `search tag`
-- **⑤ Modify**: Modify the search condition for the current `search tag`
-- **⑥ Delete**: Delete the current `search tag`
+![03-搜索标签](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa57a56f.png)
+
+![04-操作符](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa702aed.png)
+
+![05-候选项](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c50ecc63c1.png)
+
+- **① Tag Name**: Supports querying Tags in the data table. For detailed descriptions, see `Database Fields`.
+  - Supports both Chinese and English input suggestions.
+  - Hover over the Tag Name to view detailed information.
+  - Semantics: Different Tags are connected using `and`, while the same Tag uses different logical operators based on the `operator`.
+    - a: `=`, `:`, `~` are connected using `or`.
+    - b: `!=`, `!:`, `!~` are connected using `and`.
+    - c: `>=`, `<=`, `>`, `<` are connected using `and`.
+    - After connecting a/b/c, they are further connected using `and`. For example: `Search Condition Input Box: server_port > 20, server_port < 80, server_port != 44, server_port != 45`, the effective condition is `(server_port > 20 and server_port < 80) and (server_port != 44 and server_port != 45)`.
+- **② Operator**: Currently supports exact match, fuzzy match, and regex match.
+  - Exact Match: Corresponds to `=`, `!=`, `>=`, `<=` operators. For `resource type` Tags, it matches by resource ID; for others, it matches exactly as input.
+  - Fuzzy Match: Corresponds to `:`, `!:` operators. String matching supports `*` wildcard. For example, `*123*` matches all strings that <mark>contain</mark> `123`, while `123` matches strings that <mark>exactly equal</mark> `123`.
+  - Regex Match: Corresponds to `~`, `!~` operators. String regex matching.
+- **③ Tag Value**: Filter or directly input the value to be filtered.
+  - NULL: Null value, generally used with `!=` to filter `all`.
+  - **⑦ Table Filter**: When there are duplicate names in the filter options or multiple selections are needed, use `Table Filter` for precise resources.
+- **④ Disable**: Disable the search condition corresponding to the current `Search Tag`.
+- **⑤ Modify**: Modify the search condition corresponding to the current `Search Tag`.
+- **⑥ Delete**: Delete the current `Search Tag`.
+
+## Container Search
+
+The container search form fixes commonly used resource Tags in container scenarios as dropdowns for quick filtering of container resources.
+
+![06-容器搜索](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240515664425a2b3c16.png)
+
+- **① Container Resource Dropdown**: Click the dropdown to quickly select the container resources to filter. The options in the dropdown can interact with the previous selections.
+- **② Search Condition Input Box**: See the description in the `Free Search` section above.
+- **③ Collapse Search Condition Input Box**: Click to quickly collapse the `Search Condition Input Box`.
+- **④ Switch Group**: Quickly switch container resource Tags.
+
+## Process Search
+
+The process search form is similar to container search, mainly fixing commonly used Tags related to processes as dropdowns for quick filtering of process resources.
+
+![07-进程搜索](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240515664426411eea4.png)
 
 # Application Scenarios
 
 ## View the service performance of a workload
 
-- Function page: Application-Metrics
-- Search Tags: pod_ns = gcp-microservices-demo
+- Functional Page: Application-Metrics
+- Search Tag: pod_ns = gcp-microservices-demo
 - Main Group: auto_service
-- Subgroup: --
+- Sub Group: --
 
-![5-Query Result](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa039078.png)
+![05-查询结果](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa039078.png)
 
 ## View the performance of a workload in a namespace
 
-- Function page: Application-Metrics
-- Search Tags: pod_ns = gcp-microservices-demo, pod_group : loadgenerator
+- Functional Page: Application-Metrics
+- Search Tag: pod_ns = gcp-microservices-demo, pod_group : loadgenerator
 - Main Group: auto_service
-- Subgroup: --
+- Sub Group: --
 
-![6-Query Result](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa17b7c6.png)
+![06-查询结果](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa17b7c6.png)
 
-## View the TOP 5 cloud servers in traffic
+## View the top 5 cloud servers by traffic
 
-- Function page: Network-Services
-- Search Tags: none
+- Functional Page: Network-Service
+- Search Tag: None
 - Main Group: chost
-- Sub-Group: --
+- Sub Group: --
 
-![7-Query Result](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa2642e9.png)
+![07-查询结果](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa2642e9.png)
 
-## View the TOP 5 service ports of a cloud server in terms of traffic
+## View the top 5 service ports by traffic on a cloud server
 
-- Function page: Network-Services
-- Search Tags: role = server
+- Functional Page: Network-Service
+- Search Tag: role = server
 - Main Group: chost
-- Sub-Group: server_port
+- Sub Group: server_port
 
-![8-Query Result](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa2adfda.png)
+![08-查询结果](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa2adfda.png)
 
 ## View the network performance of a specific port on a cloud server
 
-- Function page: Network-Services
-- Search Tags: role = server, chost = cn-chengdu.172.16.0.196, server_port = 22
+- Functional Page: Network-Service
+- Search Tag: role = server, chost = cn-chengdu.172.16.0.196, server_port = 22
 - Main Group: chost
-- Sub-Group: server_port
+- Sub Group: server_port
 
-![9-Query Result](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa44b491.png)
+![09-查询结果](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4fa44b491.png)

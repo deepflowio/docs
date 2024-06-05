@@ -3,7 +3,7 @@ title: Advanced Server Configuration
 permalink: /best-practice/server-advanced-config/
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
 # Introduction
 

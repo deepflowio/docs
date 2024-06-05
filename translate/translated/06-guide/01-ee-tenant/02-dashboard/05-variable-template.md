@@ -3,95 +3,108 @@ title: Template Variables
 permalink: /guide/ee-tenant/dashboard/variable-template/
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
 # Template Variables
 
-Template variables allow you to define a set of variables in the current view and reference these variables in the search criteria of the subviews. By changing the variable's value in one view, the corresponding view can be quickly changed without having to construct multiple identical visualization panels due to different search conditions.
+Template variables allow you to define a set of variables in the current dashboard and reference these variables in the search conditions of subviews. This enables you to quickly change the search conditions of subviews by simply altering the values of the variables, allowing you to view the corresponding dashboards without needing to create multiple identical visualization panels just because of different search conditions.
 
 ## Managing Template Variables
 
-You can manage template variables via the `Template Variable List`.
+Template variables can be managed uniformly through the `Template Variable List`.
 
-As displayed below, in the template variable list, operations such as `① Adding`, `② Deleting`, `③ Modifying` are supported. You can also input any string in the `⑤ Search bar` and adjust the display mode of the `④ Setting` column width, like distributing column width evenly or basing on the content.
+As shown in the figure below, the template variable list supports operations such as `① Add`, `② Delete`, and `③ Modify`. You can also enter any string in the `⑤ Search Bar` and adjust the column width display method in the `④ Settings`, such as evenly distributing column width or allocating column width based on content.
 
-![5_1.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202309186508271003b1f.png)
+![00-Template Variable List](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024032165fbf59d3ef4d.png)
 
 ## Creating Template Variables
 
-When you need to set up some quick search conditions for the current view, you can `Create template variables`. For instance, when constructing an `Application Observability View`, if you need to quickly check the views of different `Applications`, you can establish a `Template Variable` for the search condition of `Application`.
+When you need to build some quick search conditions for the current dashboard, you can `Create Template Variables` to achieve this. For example, when building an `Application Observability Dashboard`, you need to quickly view the dashboards of different `applications`, so you can create a `template variable` for the `application` search condition.
 
-**Step One**: Click the `① Settings` button on the view details page and select `② Manage template variables`.
+**Step 1**: Click the `① Settings` button on the dashboard details page and select `② Manage Template Variables`.
 
-![5_2.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023091865082710acc0d.png)
+![01-Step 1](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024032165fbf68c0b038.png)
 
-**Step Two**: Click the `③ Create template variable` button in the template variable list pop-up box.
+**Step 2**: Click the `③ Create Template Variable` button in the template variable list popup.
 
-![5_3.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202309186508281781e9e.png)
+![02-Step 2](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024032165fbf70be224b.png)
 
-**Step Three**: Create a template variable according to your needs. The DeepFlow platform offers three types of template variables, namely `Dropdown Selection`, `Text Input`, and `Grouping`. Detailed descriptions will follow in the subsequent sections.
+**Step 3**: Create the template variable as needed. The DeepFlow platform provides three types of template variables: `Dropdown`, `Text Input`, and `Grouping`. Detailed descriptions can be found in the corresponding sections below.
 
-![5_4.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202309186508270fc440b.png)
+![03-Step 3](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024032165fbf7bb39bbe.png)
 
-### Dropdown Selection
+### Dropdown
 
-The dropdown selection type of template variables changes search conditions through the dropdown box switch. It currently supports constructing this type of template variable for the DeepFlow platform's database `resource` and `xx_enum` type `Tag`.
+Dropdown type template variables change the search conditions through a dropdown menu. Currently, this type of template variable supports the `resource` and `xx_enum` types of `Tag` in the DeepFlow platform database.
 
-- <mark>Note</mark>: For DeepFlow platform database description, please see the following explanation.
+- <mark>Note</mark>: For a description of the DeepFlow platform database, see the subsequent explanation.
 
-![5_5.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230918650827189345b.png)
+![04-Dropdown](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024032165fbf81b3b73b.png)
 
-- Value Range: Select the value range of the template variable.
-  - ① Transmission Mode: Different data have different transmission methods.
-    - Only transmit value: Support id query transmission.
-    - Transmit label: Support string query transmission.
-  - ② Value Range: Determine the database of the template variable value.
-    - ③: Determine the corresponding Tag of the template variable value.
-    - ④: Choose the corresponding value of the template variable.
-- Selection Mode: Change the search condition by switching through the dropdown box, the default is single selection.
-  - ⑤: Check `Multiple Selections`, then switch to `Multiple Selections` mode.
-  - ⑤: Check `Select All`, then the option `Select All` will appear in the candidate list, which means to select all values of the current template variable.
+- **① Query Type:** Different data transmission methods
+  - Query by ID: Supports transmission of id queries
+  - Query by Name: Supports transmission of string queries
+- **② Value Range:** Supports setting the value range of template variables in two ways: `Static Value` and `Dynamic Value`
+  - Static Value: The value range is fixed after referencing
+  - Dynamic Value: Compared to static value, the value range of dynamic value can be influenced by `Static Value` or `Value Tag`. For details, please refer to the [Creation and Reference] section
+  - **③ Data Source:** Determines the data table where the template variable values are located
+  - **④ Value Tag:** Determines the Tag corresponding to the template variable values
+  - **⑤ Value Range:** Select the corresponding value for the template variable
+- **⑥ Selection Mode:** Changes the search conditions through a dropdown menu, default is single selection
+  - Multi-selection: Check `Multi-selection` to switch to `Multi-selection` mode
+  - Select All: Check `Select All` to include `Select All` in the options, which selects all values of the current template variable
+- How to Reference: When adding query conditions in the search bar of the chart, enter the Tag, and the established template variables with the same `Tag` will appear as options in the dropdown menu. For details, please refer to the [Creation and Reference] section
 
-The dropdown selection type of template variables can only be referenced by `Tags` with the same `name` and `type`. For example, if the value is derived from the `Tag` named `chost` in the `flow_metrics.network` data table, it can only be referenced by `chost` when cited. The template variable will appear in the search condition as a dropdown list candidate, and if you choose the template variable, you have successfully referenced the template variable.
+#### Creation and Reference
 
-![5_6.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023091865082713aca9a.png)
+Next, we will demonstrate how to create and reference `Static Template Variables` and `Dynamic Template Variables`, and how to link dynamic and static template variables.
 
-![5_7.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023091865082ac9cb794.png)
+- First, create a static template variable named `K8s Namespace` for `pod_ns`, with a value range of `deepflow-ebpf-istio-demo, deepflow-otel-grpc-demo, deepflow-telegraf-demo`.
+
+![05-Create Static Template Variable](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240402660bbd4b0c94b.png)
+
+- Next, create a dynamic template variable named `K8s Workload` for `pod_group`, with a value range of `pod_ns = K8s Namespace`, meaning the dropdown options for `pod_group` will change based on the selection of `pod_ns`.
+
+![06-Create Dynamic Template Variable](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240402660bbd4c9cee2.png)
+
+- Then, select the query condition `pod_group = K8s Workload` and reference the template variable in the search conditions of the chart.
+
+![07-Template Variable Reference](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240402660bbd4e0596a.png)
+
+- Finally, you can quickly switch the referenced template variables at the top of the dashboard. Different selections for `K8s Namespace` will result in different options for `K8s Workload`.
+
+![08-Use Template Variable](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240402660bbd504e2f4.png)
+
+![09-Switch Template Variable](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240402660bbd5108331.png)
 
 ### Text Input
 
-The text input type of template variables changes search conditions by inputting the string.
+Text input type template variables change the search conditions by entering a string.
 
-![5_8.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023091865082716002b8.png)
+![10-Text Input](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023091865082716002b8.png)
 
-The text input type of template variables supports any directly input `Tag` or `Operator` reference. The appearance in the search condition is similar to the `Dropdown selection` type of template variables.
+Text input type template variables can be referenced by any `Tag` or `Operator` that can be directly entered. The form in which they appear in the search conditions is similar to that of `Dropdown` type template variables.
 
-- ① Tag Reference: Supports types such as int, int_enum, string, ip, mac. All these data types' Tags support all operators.
+- ① Tag Reference: Supports int, int_enum, string, ip, mac types. Tags of these data types support all operators.
 
-![5_9.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202309186508271402080.png)
+![11-Tag Reference](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202309186508271402080.png)
 
-- ② Operator Reference: Supports :, !:, =~, !~ types. All these types support all kinds of Tags.
+- ② Operator Reference: Supports :, !:, =~, !~ types. These types support all Tag types.
 
-![5_10.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023091865082716add4e.png)
+![12-Operator Reference](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023091865082716add4e.png)
 
 ### Grouping
 
-The grouping type of template variables changes groups by switching through the dropdown box. For instance, when you need to delve into the data from `K8s Cluster` -> `K8s Namespace` -> `K8s Container Service` -> `K8s Workload` -> `K8s Container POD`, you could construct this template variable.
+Grouping type template variables change the grouping through a dropdown menu. For example, when you need to drill down data layer by layer from `K8s Cluster` -> `K8s Namespace` -> `K8s Container Service` -> `K8s Workload` -> `K8s Container POD`, you can create this type of template variable.
 
-![5_11.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230918650827184c5b7.png)
+![13-Grouping](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230918650827184c5b7.png)
 
-- Value Range: Currently, all `Tags` in the DeepFlow platform database can be used as the value for this type of template variable.
-  - ①: Determine the database of the template variable value.
-  - ②: Choose the corresponding value of the template variable.
-- Selection Mode: For detailed descriptions, see <mark>Dropdown Selection</mark>'s template variable description.
-- <mark>Note</mark>: The main group cannot reference template variables in the `Multiple Selections` or `Select All` mode.
+- Value Range: Currently, all `Tags` in the DeepFlow platform database can be used as values for this type of template variable.
+  - ①: Determine the data table where the template variable values are located
+  - ②: Select the corresponding value for the template variable
+- Selection Mode: For detailed description, see the <mark>Dropdown</mark> type template variable description
+  - <mark>Note</mark>: Main groups cannot reference template variables in `Multi-selection` or `Select All` mode
 
-The grouping type of template variables can only be referenced by the groups in search conditions. It appears as a candidate in the group dropdown list.
+Grouping type template variables can only be referenced by groupings in search conditions. They appear as options in the grouping dropdown menu.
 
-![5_12.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023091865082715de5ff.png)
-
-## Operating Template Variables
-
-Once the template variable is successfully referenced, you can change the value of the template variable at the top of the view to quickly switch data of the view.
-
-![5_13.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023091865082719abddf.png)
+![14-Grouping Reference](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023091865082715de5ff.png)

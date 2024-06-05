@@ -3,18 +3,18 @@ title: Overview
 permalink: /guide/ee-tenant/application/overview/
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
 # Overview
 
-The DeepFlow application module supports real-time monitoring of crucial service metrics, presents service call topology, delves into service call logs and initiates comprehensive distributed tracing. Through zero-disturbance to the application, it makes application services observable, enabling users to efficiently identify and locate performance bottlenecks at the application level, rapidly discover and resolve errors and anomalies in the application services, and consequently undertake targeted optimization. This will significantly enhance the performance and reliability of the application services.
+The DeepFlow application module supports real-time monitoring of service golden metrics, presents service call topology, deeply analyzes service call logs, and initiates blind-spot-free distributed tracing. By adopting a zero-intrusion approach to applications, it enables observability for application services, allowing users to efficiently identify and locate performance bottlenecks at the application layer, quickly discover and resolve errors and anomalies in application services, and perform targeted optimizations. This significantly enhances the performance and reliability of application services.
 
-DeepFlow application is divided into six major pages, each of which will be detailed below.
+The DeepFlow application is divided into six main pages, which will be introduced in detail next.
 
-- [Metrics Statistics](./service-list/)
-- [Path Traffic](./service-statistics/)
+- [Resource Statistics](./service-list/)
+- [Path Statistics](./service-statistics/)
 - [Path Topology](./path-topology/)
-- [Call Logs](./call-log/)
+- [Call Log](./call-log/)
 - [Distributed Tracing](./call-chain-tracing/)
 - [Continuous Profiling](./continue-profile/)
-- [Right Slide Box](./right-sliding-box/)
+- [Right Sliding Box](./right-sliding-box/)

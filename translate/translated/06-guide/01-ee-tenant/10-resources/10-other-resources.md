@@ -3,31 +3,31 @@ title: Other Resources
 permalink: /guide/ee-tenant/resources/other-resources/
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
 # Other Resources
 
-Other resources include information related to other resources in the network or system, such as physical network elements, collection points, physical links, and legends.
+Other resources include information related to other resources in the network or system, such as physical network elements, network locations, physical links, and legends.
 
 ## Physical Network Elements
 
-Physical network elements refer to the hardware devices in the network, including routers, switches, firewalls, gateways, etc. These devices realize data communication and transmission by connecting and exchanging network traffic. We provide features allowing the view and download of related information, like zones, types, etc., on the physical network elements page, as well as support the creation, modification, and deletion of physical network elements.
+Physical network elements refer to hardware devices in the network, including routers, switches, firewalls, gateways, etc. These devices achieve data communication and transmission by connecting and exchanging network traffic. On the physical network elements page, you can view and download related information, such as region, type, etc. It also supports creating, modifying, and deleting physical network elements.
 
-## Collection Points
+## Network Locations
 
-Collection points refer to the sources or targets of information collected during the information collection and analysis process. On the collection points page, we provide the possibility to view and download related data, such as zones, data tags, types, VLAN tags, source IPs, interface names, sampling rates, etc. Also, it supports the creation, modification, and deletion of collection points.
+Network locations refer to the sources or destinations of information collected during the information collection and analysis process. On the network locations page, you can view and download related data, such as region, data tags, type, VLAN tags, source IP, interface name, sampling rate, etc. It also supports creating, modifying, and deleting network locations.
 
 ## Physical Links
 
-Physical links refer to the physical lines connecting network devices, the stability, speed, and reliability of network transmission are crucially affected by physical links.
+Physical links refer to the physical lines connecting network devices. Physical links have a significant impact on the stability, speed, and reliability of network transmission.
 
-![09-process_resources_2.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202304266449023482d95.png)
+![01-物理链路](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202304266449023482d95.png)
 
-- View topology: Displays the logical dependencies of all the physical links in the current list in the form of a topology map.
-- For the use of page buttons, refer to the description in the [Resource Pool-Area](./network-resources/) section.
+- View Topology: Displays the logical dependency relationships of all physical links in the current list in the form of a topology diagram.
+- For page button usage, refer to the [Resource Pool - Region](./network-resources/) section description.
 
 ## Legends
 
-Legends represent related resources in the form of icons and display all legends in the form of a list, supporting the creation and modification of legends.
+Legends represent related resources in the form of icons. All legends are displayed in a list format, supporting the creation and modification of legends.
 
-![10-other_resources.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202304266449034569faf.png)
+![02-图例](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202304266449034569faf.png)

@@ -3,7 +3,7 @@ title: DeepFlow Versioning Rules
 permalink: /release-notes/versioning
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
 # Version Naming
 

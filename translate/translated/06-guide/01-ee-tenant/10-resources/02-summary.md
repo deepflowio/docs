@@ -3,13 +3,13 @@ title: Summary
 permalink: /guide/ee-tenant/resources/summary/
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
 # Summary
 
-The Summary page displays the distribution of network resources and computing resources. Each resource information is presented in a pie chart manner.
+The summary page provides an overview of the distribution of network and computing resources. Information about each resource is displayed in pie charts.
 
-![02-summary.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023042464463e64633af.png)
+![Summary](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023042464463e64633af.png)
 
-- Network Resources: Display the distribution of VPCs, subnets, and public IPs on the cloud platform
-- Computational Resources: Present the distribution of cloud servers across different cloud platforms, their operational status, and the distribution status of associated collectors.
+- Network Resources: Displays statistics on the distribution of VPCs, subnets, and external IPs across cloud platforms.
+- Computing Resources: Shows the distribution of cloud servers across cloud platforms, their operational status, and the distribution status of corresponding collectors.

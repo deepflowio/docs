@@ -3,35 +3,38 @@ title: Continuous Profiling
 permalink: /guide/ee-tenant/application/continue-profile/
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
 # Continuous Profiling
 
-Continuous profiling at the language level, currently supporting data visualization for Java & Golang.
+For the functional principles, see [Core Features - Explanation of Continuous Profiling](../../../features/continuous-profiling/auto-profiling)
 
-## Overview
+## Overview Introduction
 
-![01_Continuous Profiling](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202310206532521185998.jpg)
+![Overview Introduction](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202405146642dfb068b35.png)
 
-- **① Region**: Choose the query area
-- **② Application List**: Supports aggregated display of reported service list information, the default display method is **service name (language type)**
-- **③ Profiling Type**: Support to display the `profiling type` that this profiling method supports according to the customer's configured profiling method
-- **④ Tag Filtering**: Supports filtering the Tag in the `profiling data` table
-- **⑤ Group Type**: Currently only supports full names
-- **⑥ Display Switching**: Used for switching the display of profiling data, currently supports: flame graph, list, and simultaneous display
-- **⑦ Data Filtering**: Used for static filtering of table data
-- **⑧ Sort Priority**: Used for sorting and filtering of stack information display, default is header priority
-
-## How to Use
-
-- Click ① to select a specific application list, supporting Java and Golang applications
-- Click ② to select the `profiling type` supported by the current application, different profiling types express different semantics
-- Click ③ to select the Tag data that needs to be filtered, including the meta-information included in the data and the meta-information added by DeepFlow
-- Click ④ to select the supported group type, currently only supports **full names**
-- Check ⑤ to determine the meaning expressed by the current profiling type and the data reporting trend in the current time window
-- Click ⑥ to determine the way to display profiling data, currently supports the following:
-  - Flame Graph: Can clearly express function call stack, usage rate, and other information
-  - Table: Intuitively displays all function full names and the total resource usage and individual metrics currently in use
-  - Simultaneous Selection: Show multiple expressions in one view, currently does not support linkage of the two
-- Click ⑦ to input any character of the permission name to filter data
-- Click ⑧ to switch the current sorting and filtering rules by default, is header priority. When focusing on the content of the function, you can choose tail priority.
+- **① Page Search**: Search bar, search snapshots, etc. For details, please refer to the [Resource Statistics](../application/service-list/) section.
+- **② Quick Filter**: Supports filtering by `Application List` and `Profiling Type`.
+  - Application List: Displays the reported service list information, with the default display format as **Service Name (Language Type)**.
+  - Profiling Type: Displays the `Profiling Type` supported by the profiling method configured by the client.
+    - Select the `Profiling Type` supported by the current application, different profiling types express different semantics.
+- **③ Display Switch**: Switch the display mode of performance profiling data. Currently supports: Flame Graph, List, and Simultaneous Display.
+  - Flame Graph: Displays the function call stack in the form of a flame graph.
+    - **⑥ Tip**: Hover to view the information of the Span in the flame graph.
+      - Function Type:
+        - K: Linux Kernel Function
+        - L: Function in Dynamic Link Library
+        - A: Application Business Function
+        - P: Process
+        - T: Thread, only appears in the second layer of the flame graph
+        - ?: Unknown, function name translation failed. For detailed explanation, see [Core Features - Continuous Profiling - Explanation of API Return Result profile_location_str](../../../features/continuous-profiling/api)
+      - Span Name
+      - Total Consumption: The percentage of total consumption of the Span relative to the root (the first line of the flame graph).
+      - Self Consumption: The percentage of self-consumption of the Span relative to the root (the first line of the flame graph).
+    - Operation: Click to zoom in and view the call stack of the clicked Span; click again on a blank area to return to the original state.
+  - Table: Displays the function's `Self Consumption` and `Total Consumption` in a list format.
+    - Default sorted by `Self Consumption` in descending order.
+  - Simultaneous Selection: View performance profiling data in both `Flame Graph` and `Table` formats simultaneously.
+    - Clicking on a function in the table will highlight it in the flame graph.
+- **④ Flame Graph Name Display**: The flame graph can choose to display the head or tail of the name.
+- **⑤ Data Filter**: Input characters to filter data in the table.
