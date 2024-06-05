@@ -1,16 +1,16 @@
 ---
-title: Network Topology
+title: Path Topology
 permalink: /guide/ee-tenant/network/network-map/
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
-# Network Topology
+# Path Topology
 
-The Network Topology page illustrates the statistical positional relationships of network flows in virtual or physical networks in the form of topology.
+The Path Topology page displays the relationships of observation points in virtual or physical networks in the form of topology.
 
 ## Overview Introduction
 
-![4_1.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650ac4d081034.png)
+![Overview Introduction](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650ac4d081034.png)
 
-- For page button features and how to use them, please refer to the chapter [Applications - Path Topology](../application/path-topology/).
+- For details on the functionality of the page buttons, please refer to the section [Application - Path Topology](../application/path-topology/).

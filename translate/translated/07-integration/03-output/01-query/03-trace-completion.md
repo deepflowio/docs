@@ -3,7 +3,7 @@ title: Trace Completion API
 permalink: /integration/output/query/trace-completion
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
 # Introduction
 
@@ -67,14 +67,14 @@ App_spans normally include a part of Application Span from an APM's Trace, and D
 
 The purpose of carrying these Span in the request is to tell DeepFlow to complete it with Span X being the core, and reconstruct the relationship between all Span in the return result with X's ancestors and descendants as boundaries. The parameters needed for each app_span are listed below:
 
-| Field          | Type   | Required | Description                                                                                                                                               |
+| Field | Type | Required | Description |
 | -------------- | ------ | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| trace_id       | string | Yes      | TraceID for `Application Span`                                                                                                                            |
-| span_id        | string | Yes      | SpanID for `Application Span`                                                                                                                             |
-| parent_span_id | string | Yes      | ParentSpanID for `Application Span`                                                                                                                       |
-| span_kind      | int    | Yes      | Type of `Application Span` meaning the same as OpenTelemetry, optional value：0: unspecified, 1: internal, 2: server, 3: client, 4: producer, 5: consumer |
-| start_time_us  | int    | Yes      | Start time of `Application Span`，unit: microseconds                                                                                                      |
-| end_time_us    | int    | Yes      | End time of `Application Span`，unit: microseconds                                                                                                        |
+| trace_id | string | Yes | TraceID for `Application Span` |
+| span_id | string | Yes | SpanID for `Application Span` |
+| parent_span_id | string | Yes | ParentSpanID for `Application Span` |
+| span_kind | int | Yes | Type of `Application Span` meaning the same as OpenTelemetry, optional value：0: unspecified, 1: internal, 2: server, 3: client, 4: producer, 5: consumer |
+| start_time_us | int | Yes | Start time of `Application Span`，unit: microseconds |
+| end_time_us | int | Yes | End time of `Application Span`，unit: microseconds |
 
 ## Output Description
 
@@ -128,45 +128,45 @@ The purpose of carrying these Span in the request is to tell DeepFlow to complet
 
 The tracing in the returned result is a complete Span traced by DeepFlow, an array type. Each item in this array is a Span, which includes both Application Span from APM and System/Network Span from DeepFlow. Important attributes for each Span include:
 
-| Field                   | Type   | Description                                                                                                                                                                               |
+| Field | Type | Description |
 | ----------------------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| start_time_us           | int    | Span start time, unit: microseconds                                                                                                                                                       |
-| end_time_us             | int    | Span end time, unit: microseconds                                                                                                                                                         |
-| duration                | int    | Span execution time, unit: microseconds                                                                                                                                                   |
-| name                    | string | Span name, For System/Network Span, it's corresponding to DeepFlow's [`request_resource` field description](../../../features/universal-map/request-log/)                                 |
-| signal_source           | int    | Span source, corresponding to DeepFlow's [`signal_source` field description](../../../features/universal-map/request-log/)                                                                |
-| tap_side                | int    | Span statistic location, corresponding to DeepFlow's [`tap_side` field description](../../../features/universal-map/auto-metrics/#%E7%BB%9F%E8%AE%A1%E4%BD%8D%E7%BD%AE%E8%AF%B4%E6%98%8E) |
-| trace_id                | string | TraceID, if `System/Network Span` has corresponding `Application Span`, value should be the same; otherwise, it's empty                                                                   |
-| span_id                 | string | Original Span ID, if `System/Network Span` has corresponding `Application Span`, value should be the same; otherwise, it's empty                                                          |
-| parent_span_id          | string | Original Parent Span ID, if `System/Network Span` has corresponding `Application Span`, value should be the same; otherwise, it's empty                                                   |
-| deepflow_span_id        | string | Re-calculated Span ID by DeepFlow                                                                                                                                                         |
-| deepflow_parent_span_id | string | Re-calculated Parent Span ID by DeepFlow                                                                                                                                                  |
+| start_time_us | int | Span start time, unit: microseconds |
+| end_time_us | int | Span end time, unit: microseconds |
+| duration | int | Span execution time, unit: microseconds |
+| name | string | Span name, For System/Network Span, it's corresponding to DeepFlow's [`request_resource` field description](../../../features/universal-map/request-log/) |
+| signal_source | int | Span source, corresponding to DeepFlow's [`signal_source` field description](../../../features/universal-map/request-log/) |
+| tap_side | int | Span statistic location, corresponding to DeepFlow's [`tap_side` field description](../../../features/universal-map/auto-metrics/#%E7%BB%9F%E8%AE%A1%E4%BD%8D%E7%BD%AE%E8%AF%B4%E6%98%8E) |
+| trace_id | string | TraceID, if `System/Network Span` has corresponding `Application Span`, value should be the same; otherwise, it's empty |
+| span_id | string | Original Span ID, if `System/Network Span` has corresponding `Application Span`, value should be the same; otherwise, it's empty |
+| parent_span_id | string | Original Parent Span ID, if `System/Network Span` has corresponding `Application Span`, value should be the same; otherwise, it's empty |
+| deepflow_span_id | string | Re-calculated Span ID by DeepFlow |
+| deepflow_parent_span_id | string | Re-calculated Parent Span ID by DeepFlow |
 
 Besides, API will return extra fields for each Span:
 
-| Field                     | Type   | Description                                                                                                                               | Note                       |
+| Field | Type | Description | Note |
 | ------------------------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------- | -------------------------- |
-| \_ids                     | array  | DipFlow call logs corresponding to Span                                                                                                   |                            |
-| related_ids               | int    | Other DeepFlow call logs associated with Span                                                                                             |                            |
-| flow_id                   | string | DeepFlow flow logs corresponding to Span, no data for Application/ System Span                                                            |
-| l7_protocol               | int    | Application protocol for Span, corresponding to DipFlow's [`l7_protocol` field description](../../../features/universal-map/request-log/) |
-| l7_protocol_str           | string | Application protocol for Span                                                                                                             |
-| request_type              | string | Request type for Span                                                                                                                     |
-| request_id                | string | Request ID for Span                                                                                                                       |
-| endpoint                  | string | Request endpoint for Span                                                                                                                 |
-| request_resource          | string | Request resource for Span                                                                                                                 |
-| response_status           | int    | Response status for Span, corresponding to DipFlow's [`response_status` field description](../../../features/universal-map/request-log/)  |
-| process_id                | int    | Process ID for Span, only for System Span                                                                                                 |
-| app_service               | string | Service where Span belongs, only for Application Span                                                                                     |
-| app_instance              | string | Instance where Span belongs, only for Application Span                                                                                    |
-| vtap_id                   | int    | Collection ID corresponding to Span                                                                                                       |
-| req_tcp_seq               | int    | TCP Seq for Span request, only for System/ Network Span                                                                                   | Used for trace calculation |
-| resp_tcp_seq              | int    | TCP Seq for Span response, only for System/ Network Span                                                                                  | Used for trace calculation |
-| x_request_id              | string | X-Request-ID for Span request or response, only for System/ Network Span                                                                  | Used for trace calculation |
-| syscall_trace_id_request  | string | Syscall TraceID corresponding to Span request, only for System Span                                                                       | Used for trace calculation |
-| syscall_trace_id_response | string | Syscall TraceID corresponding to Span response, only for System Span                                                                      | Used for trace calculation |
-| syscall_cap_seq_0         | string | Syscall Seq corresponding to Span request, only for System Span                                                                           | Used for trace calculation |
-| syscall_cap_seq_1         | string | Syscall Seq corresponding to Span response, only for System Span                                                                          | Used for trace calculation |
+| \_ids | array | DipFlow call logs corresponding to Span | |
+| related_ids | int | Other DeepFlow call logs associated with Span | |
+| flow_id | string | DeepFlow flow logs corresponding to Span, no data for Application/ System Span |
+| l7_protocol | int | Application protocol for Span, corresponding to DipFlow's [`l7_protocol` field description](../../../features/universal-map/request-log/) |
+| l7_protocol_str | string | Application protocol for Span |
+| request_type | string | Request type for Span |
+| request_id | string | Request ID for Span |
+| endpoint | string | Request endpoint for Span |
+| request_resource | string | Request resource for Span |
+| response_status | int | Response status for Span, corresponding to DipFlow's [`response_status` field description](../../../features/universal-map/request-log/) |
+| process_id | int | Process ID for Span, only for System Span |
+| app_service | string | Service where Span belongs, only for Application Span |
+| app_instance | string | Instance where Span belongs, only for Application Span |
+| vtap_id | int | Collection ID corresponding to Span |
+| req_tcp_seq | int | TCP Seq for Span request, only for System/ Network Span | Used for trace calculation |
+| resp_tcp_seq | int | TCP Seq for Span response, only for System/ Network Span | Used for trace calculation |
+| x_request_id | string | X-Request-ID for Span request or response, only for System/ Network Span | Used for trace calculation |
+| syscall_trace_id_request | string | Syscall TraceID corresponding to Span request, only for System Span | Used for trace calculation |
+| syscall_trace_id_response | string | Syscall TraceID corresponding to Span response, only for System Span | Used for trace calculation |
+| syscall_cap_seq_0 | string | Syscall Seq corresponding to Span request, only for System Span | Used for trace calculation |
+| syscall_cap_seq_1 | string | Syscall Seq corresponding to Span response, only for System Span | Used for trace calculation |
 
 Note：
 

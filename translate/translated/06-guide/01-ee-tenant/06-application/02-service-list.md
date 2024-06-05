@@ -1,32 +1,32 @@
 ---
-title: Metrics Statistics
+title: Resource Statistics
 permalink: /guide/ee-tenant/application/service-list/
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
-# Metrics Statistics
+# Resource Statistics
 
-The Metrics Statistics page provides a centralized way to display an overview of the applications and services monitored by DeepFlow. It includes information such as the names of these services, their sources, and golden metrics. Through the Metrics Statistics page, users can quickly grasp the overall state of the application services, easily locate the services they need to pay attention to, and further view the detailed information of the application services for performance analysis, troubleshooting and optimization. This can help improve the efficiency and accuracy of service monitoring.
+The Resource Statistics page provides a centralized way to present an overview of the application services monitored by DeepFlow. It includes information such as the names of various application services, their sources, and key metrics. Through the Resource Statistics page, users can quickly obtain an overall status of the application services, easily locate the services that need attention, and further view detailed information for performance analysis, fault diagnosis, and optimization. This helps improve the efficiency and accuracy of service monitoring.
 
 ## Overview Introduction
 
-The Metrics Statistics page supports overview queries of application services through time filter queries, condition search queries, and other methods.
+The Resource Statistics page supports time filter queries, conditional search queries, and other methods for application service overview queries.
 
-![2_1.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650a602e67679.png)
+![Overview Introduction](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650a602e67679.png)
 
-- **① Time Selector**: Supports time filter queries. For usage details, please refer to the chapter 【[View Details - Time Selector](../dashboard/use/)】
-- **② Search Snapshot**: Supports saving the search conditions as a snapshot. For usage details, please refer to the chapter 【[Query - Search Snapshot](../query/history/)】
+- **① Time Selector**: Supports time filter queries. For details, please refer to the chapter [Dashboard Details - Time Selector](../dashboard/use/)
+- **② Search Snapshot**: Supports saving search conditions as snapshots. For details, please refer to the chapter [Query - Search Snapshot](../query/history/)
 - **③ Search Save and Settings**:
-  - Search Saving: Supports quickly saving the current page's search conditions. For usage details, please refer to the chapter 【[Query - Search Snapshot](../query/history/)】
-  - Settings: A collection of page settings operations
-    - Field in database: Supports viewing the tags and metrics in the data table used on the current page.
-    - Enable/Disable Tip Synchronization: When enabled, metrics data at the same time point on all line graphs can be viewed simultaneously.
-    - Toggle Fill Mode: Missing data at a certain time point can be handled by toggling to the desired fill method.
-    - Toggle Stacking: Quickly switch between tiled and stacked display modes for all time series sub-views on the function page.
-    - Toggle Name Abbreviation/Full Display: Display the full names or abbreviations of the legends.
-- **④ Search Box**: Supports searching or grouping by Tag. For usage details, please refer to the chapter 【[Query](../query/overview/)】
-- **⑤ Left Quick Filter**: Supports quickly filtering data. For usage details, please refer to the chapter 【[Query - Left Quick Filter](../query/left-quick-filter/)】
-- **⑥ Area Query**: Supports quick switching of query area data
+  - Search Save: Supports quickly saving the search conditions of the current page. For details, please refer to the chapter [Query - Search Snapshot](../query/history/)
+  - Settings: A collection of page setting operations
+    - Database Fields: Supports viewing the tags and metrics used in the data table of the current page
+    - Enable/Disable Tip Sync: When enabled, you can view the metric data of all line charts at the same time point
+    - Switch Interpolation Method: When data does not exist at a certain time point, you can switch the interpolation method to handle it as needed
+    - Switch Stacking: Quickly switch the display form of all time-series related Panels on the functional page between tiled/stacked
+    - Default/Full Name Display: Display the full name or default name of the legend
+- **④ Search Box**: Supports searching or grouping by Tag. For details, please refer to the chapter [Query](../query/overview/)
+- **⑤ Left Quick Filter**: Allows quick data filtering. For details, please refer to the chapter [Query - Left Quick Filter](../query/left-quick-filter/)
+- **⑥ Region Query**: Supports quickly switching query region data
 - **Table Operations**:
-  - Row Clicking: Clicking the data in the table allows quick access to the right slide box to view the corresponding application service's related information. For usage details, please refer to the chapter 【[Right Slide Box](./right-sliding-box/)】
+  - Click Row: Clicking on the data in the table allows you to quickly enter the right sliding box to view the relevant information of the corresponding application service. For details, please refer to the chapter [Right Sliding Box](./right-sliding-box/)

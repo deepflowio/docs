@@ -3,7 +3,7 @@ title: Integrating Telegraf Data
 permalink: /integration/input/metrics/telegraf
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
 # Data Flow
 

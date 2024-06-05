@@ -3,7 +3,7 @@ title: Resource Changes
 permalink: /guide/ee-tenant/events/resource-changes/
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
 # Resource Changes
 

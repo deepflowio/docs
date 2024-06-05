@@ -38,13 +38,13 @@ async function callRemoteApi(data) {
   })
 }
 
+const TRANSLATE_FAILED = '翻译失败了'
+
 const translateFile = async (fileContent) => {
   let data = { question: fileContent }
   let res = await callRemoteApi(data)
-  if (res.STATUS === 'FAIL') {
-    console.log(res)
-  }
-  return res.DATA?.content || '翻译失败了'
+  console.log(res)
+  return res.DATA || TRANSLATE_FAILED
 }
 
 // translateFile('我倒要看看你到底行不行').then((d) => console.log(d))
@@ -52,4 +52,5 @@ const translateFile = async (fileContent) => {
 module.exports = {
   //translateFile: (d) => '胡说八道，谢谢。',
   translateFile,
+  TRANSLATE_FAILED,
 }

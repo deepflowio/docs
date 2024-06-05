@@ -1,7 +1,7 @@
 const fs = require('fs').promises
 const path = require('path')
 const crypto = require('crypto')
-const { translateFile } = require('./translator')
+const { translateFile, TRANSLATE_FAILED } = require('./translator')
 
 let translatedDirPath = ''
 let mapFilePath
@@ -60,23 +60,42 @@ const writeFileWithDir = async (targetPath, content) => {
 const translateMarkdownFile = async (filePath, relativePath, map) => {
   const fileMD5 = await calculateMD5(filePath)
   const fileName = path.basename(filePath)
-  const existingMD5 = map.get(filePath)
+  const existingMD5 = map.get(relativePath)
 
   if (fileMD5 === existingMD5) {
     // If MD5 hasn't changed, no need to translate
     console.log(`No changes detected for '${fileName}'.`)
-    return
+    return -1
+  } else {
+    console.log(
+      `changes detected for '${fileName}: ${existingMD5} -> ${fileMD5}'.`
+    )
   }
 
   // If MD5 is different or file wasn't translated before, translate it
   const fileContent = await fs.readFile(filePath, 'utf8')
   const translatedContent = await translateFile(fileContent)
+  // 未完全测试
+  translatedContent = replaceLinks(translatedContent)
+  if (translatedContent === TRANSLATE_FAILED) {
+    console.log(TRANSLATE_FAILED)
+    return
+  }
+
   const translatedFilePath = path.join(translatedDirPath, relativePath)
   await writeFileWithDir(translatedFilePath, translatedContent)
   console.log(`Translated '${fileName}'`)
 
   // Update the map
-  map.set(filePath, fileMD5)
+  map.set(relativePath, fileMD5)
+}
+
+const sleep = (seconds) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve()
+    }, seconds * 1000)
+  })
 }
 
 const processMarkdownDirectoryFile = async (markdownFilePath) => {
@@ -92,10 +111,20 @@ const processMarkdownDirectoryFile = async (markdownFilePath) => {
   //const links = await parseMarkdownLinks(markdownFilePath)
   const links = await getMarkdownFiles(markdownFilePath)
 
+  console.log(markdownFilePath)
   for (const relativeFilePath of links) {
+    console.log(relativeFilePath)
     const fullFilePath = path.resolve(markdownFilePath, relativeFilePath)
-    await translateMarkdownFile(fullFilePath, relativeFilePath, map)
+    const isModified = await translateMarkdownFile(
+      fullFilePath,
+      relativeFilePath,
+      map
+    )
+    if (isModified === -1) {
+      continue
+    }
     await writeMapFile(map)
+    await sleep(5)
   }
 }
 
@@ -129,20 +158,32 @@ async function getMarkdownFiles(dir, fileList = [], root = null) {
   return fileList
 }
 
-const insertLineIfNotExists = async (filePath, lineContent, lineNumber) => {
+const insertLineIfNotExists = async (
+  filePath,
+  lineContent,
+  lineNumber,
+  pattern
+) => {
   try {
     // Read the contents of the file
     let data = await fs.readFile(filePath, 'utf-8')
-    data = data.replaceAll(lineContent + '\n', '')
-    const lines = data.split('\n')
 
+    // If pattern is provided, remove lines that match the pattern
+    if (pattern) {
+      const regex = new RegExp(pattern + '\n', 'g')
+      data = data.replace(regex, '')
+    } else {
+      // Remove the specific line content if pattern is not provided
+      data = data.replaceAll(lineContent + '\n', '')
+    }
+
+    const lines = data.split('\n')
     // Check if line number is out of bounds
     if (lineNumber < 1 || lineNumber > lines.length + 1) {
       console.error(filePath + ': Line number out of bounds')
       return
     }
 
-    // Check if the specified line already contains the desired content
     // Insert the new line content if it doesn't exist already
     lines.splice(lineNumber - 1, 0, lineContent)
 
@@ -163,10 +204,22 @@ const addGptAuthorLine = async () => {
     console.log(`处理${file}`)
     await insertLineIfNotExists(
       file,
-      '> This document was translated by GPT-4\n',
-      6
+      '> This document was translated by ChatGPT\n',
+      6,
+      '> This document was translated by.*\n'
     )
   }
+}
+
+function replaceLinks(str) {
+  // 使用正则表达式找到所有符合条件的链接
+  return str.replace(
+    /https:\/\/raw\.githubusercontent\.com[^\s]*?\.ch\b/g,
+    function (match) {
+      // 将每个匹配的链接中的 .ch 替换为 .en
+      return match.replace('.ch', '.en')
+    }
+  )
 }
 
 module.exports = {
@@ -190,6 +243,6 @@ if (require.main === module) {
   processMarkdownDirectoryFile(path.resolve(__dirname, args[0]))
     .catch(console.error)
     .then(() => {
-      addGptAuthorLine()
+      addGptAuthorLine().filter((d) => d)
     })
 }

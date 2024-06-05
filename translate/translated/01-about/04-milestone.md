@@ -3,7 +3,7 @@ title: DeepFlow Milestones
 permalink: /about/milestone
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
 As of now (September 2023), DeepFlow has iterated to v6.3.9. The main supported features are:
 

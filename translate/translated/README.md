@@ -1,16 +1,13 @@
 ---
 home: true
-
 # This file is very important, do not delete
-
 # Title and description
 heroText: DeepFlow - Instant Achieve Observability
+
 description: Utilize eBPF and Wasm technologies to realize Zero Code and Full Stack observability, allowing continuous innovation of cloud infrastructure and cloud-native applications.
-
 # Button link and text
-actionLink: /about/overview/
+actionLink: /zh/about/overview/
 actionText: Read Now →
-
 # Features
 features:
   - title: Universal Service Map
@@ -20,3 +17,5 @@ features:
   - title: Continuous Profiling
     details: Based on the leading AutoProfiling mechanism and utilizing eBPF technology with less than 1% overhead, collect production environment process performance profiling data with zero disruptions.
 ---
+
+> This document was translated by ChatGPT

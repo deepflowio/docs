@@ -3,175 +3,187 @@ title: Path Search Box
 permalink: /guide/ee-tenant/query/path-search/
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
 # Path Search Box
 
-The path search box is used in Application-Path Statistics/Path Topology and Network-Network Path/Network Topology/NAT Tracing.
+The `Path Search Box` is used in Application - Path Statistics/Path Topology, Network - Path Statistics/Path Topology/NAT Tracing.
 
-![1-Path Search Box](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f883b6cf.png)
+![00-Path Search Box](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024032065faac6eb6f17.png)
 
-![2-Path Search](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f891b970.png)
+- **①/②/③/④/⑦**: For detailed operation instructions, please refer to [Resource Search Box](./service-search/)
+- **⑤ Search Mode**: You can switch between `Simplified Mode`, `Unidirectional Path`, and `Bidirectional Path` modes, and use the `Path Filtering` capability to query the required path data.
+  - Simplified Search: The input `search tags` will be used as conditions for both `client` and `server`. For details, please refer to the [Simplified Mode] section.
+  - Unidirectional Path: The input `search tags` will be used as conditions for either the `client` or the `server`. For details, please refer to the [Unidirectional Path] section.
+  - Bidirectional Path: The input `search tags` do not specify the query direction. For details, please refer to the [Bidirectional Path] section.
+- **⑥ Path Filtering**: Supported only in `Simplified Search` mode. For details, please refer to the [Simplified Mode] section.
 
-![3-Path Filter](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f8a31f4c.png)
+## Simplified Mode
 
-The path search box can switch between 'Simplified Search' and 'Path Search' modes. Combined with 'Path Filter' capabilities, it queries the data of the needed paths.
+![01-Simplified Mode](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024032065fab1ff0d41a.png)
 
-- **①/②/③/⑥**：For the detailed operation and usage instructions, you can refer to the [Service Search Box](./service-search/)
-- **④ Edit Externally-related Filtering Conditions**:
-  The option lets you edit the 'External Service Collection', which is hidden by default
-- **④ Switch between Simplified Search/Path Search**:
-  Pressing this option lets you toggle between 'Simplified Search' and 'Path Search'
-  - Simplified Search: Filters the Tag data entered in 'Search Condition Input Box' as 'Client side' or 'Server side'
-  - Path Search: Shows paths defined from ‘Client side’ and ‘Server side’, and apply filters data based on the specified direction.
-- **⑤ Path Filtering**:
-  In 'Simplified Search' mode, it enables you to edit path filtering conditions. The DeepFlow platform defines three types of paths:
-  - Internal Service Paths: paths between services or resources filtered via the 'Search Condition Input Box'
-  - External Service Paths: paths between the filtered services or resources in 'Search Condition Input Box' and other services or resources
-  - WAN Paths: paths between the filtered services or resources in 'Search Condition Input Box' and the WAN
-- **⑦/⑧ Path direction**:
-  Direction of 'Path Search' mode
-- **⑨ Swap Direction**:
-  Click to quickly switch between 'Client side' and 'Server side'
+The Path Search Box can switch between `Simplified Mode`, `Unidirectional Path`, and `Bidirectional Path` modes, and use the `Path Filtering` capability to query the required path data.
 
-# Use Cases
+- **①/②/③/④**: For detailed operation instructions, please refer to [Resource Search Box](./service-search/)
+- **⑤ Search Mode**: Click to switch between `Simplified Search` or `Path Search` modes.
+- **⑤ Path Filtering**: Supports selecting the query path and supports querying three types of paths, supported only in `Simplified Search` mode.
+  - Intra-service Path: Paths between services or resources.
+  - Inter-service Path: Paths between a service or resource and other services or resources.
+  - WAN Path: Paths between a service or resource and the WAN.
 
-## View the invocation topology of all services within a specific namespace
+## Unidirectional Path
 
-- Function Page: Application-Path Topology
-- Data Table: Metrics (per minute)
+![02-Unidirectional Path](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024032065fab3eccc2de.png)
+
+- **①/②/③/④**: For detailed operation instructions, please refer to [Resource Search Box](./service-search/)
+- **⑤ Search Mode**: You can switch the search mode. For details, please refer to the [Path Search Box] section.
+- **⑥ Swap Direction**: Click to quickly swap the search conditions of `client` and `server`, supported only in `Unidirectional Path` mode.
+
+## Bidirectional Path
+
+![03-Bidirectional Path](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024032065fab5961fd4e.png)
+
+- **①/②/③/④**: For detailed operation instructions, please refer to [Resource Search Box](./service-search/)
+- **⑤ Search Mode**: You can switch the search mode. For details, please refer to the [Path Search Box] section.
+
+# Application Scenarios
+
+## View the Call Topology of All Services in a Namespace
+
+- Function Page: Application - Path Topology
+- Data Table: Metrics (minute-level)
 
 ---
 
 - Search Tags: pod_ns = gcp-microservices-demo
-- Path: Internal Service
-- Primary Grouping: auto_service
-- Secondary Grouping: tap_side
+- Path: Intra-service
+- Primary Group: auto_service
+- Secondary Group: observation_point
 
-![4-Query Result](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f8b00145.png)
+![04-Query Result](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f8b00145.png)
 
-## View the application performance of all paths for a specific service
+## View the Application Performance of All Paths of a Service
 
-- Function Page: Application-Path Overview
-- Data Table: Metrics (per minute)
+- Function Page: Application - Path Overview
+- Data Table: Metrics (minute-level)
 
 ---
 
 - Search Tags: pod_ns = gcp-microservices-demo, pod_service = productpageservice
-- Path: Internal Service, External Service, WAN
-- Primary Grouping: auto_service
-- Secondary Grouping: tap_side
+- Path: Intra-service, Inter-service, WAN
+- Primary Group: auto_service
+- Secondary Group: observation_point
 
-![5-Query Result](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f8b659a4.png)
+![05-Query Result](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f8b659a4.png)
 
-## View the application performance of a service accessing an extern MySQL
+## View the Application Performance of a Service Accessing an External MySQL
 
-- Function Page: Application-Path Overview
-- Data Table: Invocation Logs
+- Function Page: Application - Path Overview
+- Data Table: Call Logs
 
 ---
 
-- Direction: Client Side
+- Direction: Client
 - Search Tags: pod_service = finaxxx, l7_protocol = MySQL
-- Primary Grouping: auto_service
-- Secondary Grouping: tap_side
+- Primary Group: auto_service
+- Secondary Group: observation_point
 
 ---
 
-- Direction: Server Side
-- Search Tags: ip = 8.x.x.x (extern MySQL address)
-- Primary Grouping: auto_service
-- Secondary Grouping: tap_side
+- Direction: Server
+- Search Tags: ip = 8.x.x.x (address of the external MySQL)
+- Primary Group: auto_service
+- Secondary Group: observation_point
 
-![6-Query Result](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f8c96f16.png)
+![06-Query Result](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f8c96f16.png)
 
-## View the application performance of two workloads interacting at the POD granularity
+## View the Application Performance of Two Workloads Interacting at the POD Level
 
-- Function Page: Application-Path Overview
-- Data Table: Metrics (per minute)
+- Function Page: Application - Path Overview
+- Data Table: Metrics (minute-level)
 
 ---
 
 - Search Tags: pod_group = recommendationservice, pod_group = productcatalogservice
-- Path: Internal Service
-- Primary Grouping: auto_service
-- Secondary Grouping: tap_side
+- Path: Intra-service
+- Primary Group: auto_service
+- Secondary Group: observation_point
 
-![7-Query Result](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f8d313a2.png)
+![07-Query Result](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f8d313a2.png)
 
-## View the performance data of a path corresponding to a domain
+## View the Performance Data of Paths Corresponding to a Domain Name
 
-- Function Page: Application-Path Overview
-- Data Table: Invocation Logs
+- Function Page: Application - Path Overview
+- Data Table: Call Logs
 
 ---
 
 - Search Tags: request_domain : hotels.travel-agency:8000
-- Path: Internal Service, External Service, WAN
-- Primary Grouping: auto_service
-- Secondary Grouping: tap_side, request_domain
+- Path: Intra-service, Inter-service, WAN
+- Primary Group: auto_service
+- Secondary Group: observation_point, request_domain
 
-![8-Query Result](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f8de4a50.png)
+![08-Query Result](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f8de4a50.png)
 
-## View the TOP 5 of the other resources accessing a specific cloud server
+## View the Top 5 Other Resources Accessing a Cloud Server
 
-- Function Page: Network-Network Path
-- Data Table: Metrics (per minute)
+- Function Page: Network - Path Statistics
+- Data Table: Metrics (minute-level)
 
 ---
 
-- Direction: Client Side
+- Direction: Client
 - Search Tags: chost != cn-zhxxx
-- Primary Grouping: auto_service
-- Secondary Grouping: tap_side
+- Primary Group: auto_service
+- Secondary Group: observation_point
 
 ---
 
-- Direction: Server Side
+- Direction: Server
 - Search Tags: chost = cn-zhxxx
-- Primary Grouping: chost
-- Secondary Grouping: tap_side
+- Primary Group: chost
+- Secondary Group: observation_point
 
-![9-Query Result](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f8eb246e.png)
+![09-Query Result](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f8eb246e.png)
 
-## View the TOP 5 public IP addresses accessing a service port of a cloud server
+## View the Top 5 WAN IPs Accessing a Cloud Server's Service Port
 
-- Function Page: Network-Path Overview
-- Data Table: Stream Logs
-
----
-
-- Direction: Client Side
-- Search Tags: is_internet = true
-- Primary Grouping: auto_service
-- Secondary Grouping: tap_side
+- Function Page: Network - Path Overview
+- Data Table: Flow Logs
 
 ---
 
-- Direction: Server Side
-- Search Tags: chost = cn-zhxxx, server_port = 80
-- Primary Grouping: chost
-- Secondary Grouping: tap_side, server_port
+- Direction: Client
+- Search Tags: is_internet = yes
+- Primary Group: auto_service
+- Secondary Group: observation_point
+
+---
+
+- Direction: Server
+- Search Tags: chost = cn-zhxx, server_port = 80
+- Primary Group: chost
+- Secondary Group: observation_point, server_port
 
 ![10-Query Result](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f8f9ac67.png)
 
-## View the network performance of a client-side POD accessing a server-side POD
+## View the Network Performance of a Client (POD) Accessing a Server (POD)
 
-- Function Page: Network-Path Overview
-- Data Table: Metrics (per minute)
+- Function Page: Network - Path Overview
+- Data Table: Metrics (minute-level)
 
 ---
 
-- Direction: Client Side
+- Direction: Client
 - Search Tags: pod = nginx-xxxx
-- Primary Grouping: pod
-- Secondary Grouping: tap_side
+- Primary Group: pod
+- Secondary Group: observation_point
 
 ---
 
-- Direction: Server Side
+- Direction: Server
 - Search Tags: pod = bohriu-xxxx
-- Primary Grouping: pod
-- Secondary Grouping: tap_side
+- Primary Group: pod
+- Secondary Group: observation_point
 
 ![11-Query Result](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f9054a2e.png)

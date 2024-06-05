@@ -3,7 +3,7 @@ title: Overview
 permalink: /guide/ee-tenant/events/event/
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
 # Overview
 

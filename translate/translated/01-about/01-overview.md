@@ -3,7 +3,7 @@ title: Introduction to DeepFlow
 permalink: /about/overview
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
 # What is DeepFlow
 

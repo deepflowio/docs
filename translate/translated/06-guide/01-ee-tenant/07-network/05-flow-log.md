@@ -1,16 +1,16 @@
 ---
-title: Flow Log
+title: Flow Logs
 permalink: /guide/ee-tenant/network/flow-log/
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
-# Flow Log
+# Flow Logs
 
-Flow Logs provide detailed information on each flow recorded at a minute granularity, and are presented through trend analysis graphs and tables. Flow logs are obtained by deciphering and interpreting data collected from points on a link, then automatically tagging (AutoTagging) and organizing the data.
+Flow logs record detailed information of each flow on a minute-by-minute basis, displaying flow log data through trend analysis charts and tables. The data obtained from network positions on the link is parsed layer by layer, automatically tagged through AutoTagging, and then organized to produce flow logs.
 
 ## Overview Introduction
 
-![5_1.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650ac4d20944c.png)
+![Overview Introduction](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650ac4d20944c.png)
 
-- For the details on the functions of the page buttons, please refer to the chapter on "[Application - Call Log](../application/call-log/)".
+- For details on page button functions, please refer to the section [Application - Call Logs](../application/call-log/).

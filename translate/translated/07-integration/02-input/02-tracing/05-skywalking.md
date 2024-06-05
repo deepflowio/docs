@@ -3,7 +3,7 @@ title: SkyWalking Data Import
 permalink: /integration/input/tracing/skywalking
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
 # Data Flow
 
@@ -123,7 +123,8 @@ kubectl apply -f https://raw.githubusercontent.com/deepflowio/deepflow-demo/main
 
 Go to Grafana, open the `Distributed Tracing` Dashboard, select `namespace = deepflow-otel-skywalking-demo`, and then select a call for tracing.
 DeepFlow is capable of displaying the tracing data obtained from SkyWalking, eBPF, and BPF in a single Trace flame graph, covering the full-stack call path of a Spring Boot application from business code, system functions, to network interfaces, thereby achieving true full-link distributed tracing. The effect is as follows:
-
 ![OTel SkyWalking Demo](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2022082363044145adc1b.png)
 
 You can also visit the [DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d/Distributed_Tracing/distributed-tracing?var-namespace=deepflow-otel-skywalking-demo&from=deepflow-doc) to see the effect.
+
+你也可以访问 [DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d/Distributed_Tracing/distributed-tracing?var-namespace=deepflow-otel-skywalking-demo&from=deepflow-doc) 查看效果。

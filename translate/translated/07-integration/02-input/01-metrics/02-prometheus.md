@@ -1,9 +1,9 @@
 ---
-title: Integrate Prometheus Data
+title: Integrating Prometheus Data
 permalink: /integration/input/metrics/prometheus
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
 # Data Flow
 
@@ -20,12 +20,12 @@ subgraph K8s-Cluster
 end
 ```
 
-# Configure Prometheus
+# Configuring Prometheus
 
-## Install Prometheus
+## Installing Prometheus
 
-You can learn about the related background knowledge in the [Prometheus documentation](https://prometheus.io/docs/introduction/overview/).
-If your cluster does not have Prometheus, you can quickly deploy a Prometheus in the `deepflow-prometheus-demo` namespace with the following steps:
+You can learn the relevant background knowledge in the [Prometheus documentation](https://prometheus.io/docs/introduction/overview/).
+If you do not have Prometheus in your cluster, you can quickly deploy a Prometheus in the `deepflow-prometheus-demo` namespace using the following steps:
 
 ```bash
 # add helm chart
@@ -36,28 +36,28 @@ helm repo update
 helm install prometheus prometheus-community/prometheus -n deepflow-prometheus-demo --create-namespace
 ```
 
-## Configure remote_write
+## Configuring remote_write
 
-We need to configure Prometheus `remote_write` to send data to DeepFlow Agent.
+We need to configure Prometheus `remote_write` to send data to the DeepFlow Agent.
 
-First, determine the address of the data listening service started by the DeepFlow Agent. After [installing DeepFlow Agent](../../../ce-install/single-k8s/), the DeepFlow Agent Service address will be displayed, its default value is `deepflow-agent.default`, please fill in the configuration according to the actual service name and namespace.
+First, determine the address of the data listening service started by the DeepFlow Agent. After [installing the DeepFlow Agent](../../../ce-install/single-k8s/), the DeepFlow Agent Service address will be displayed. Its default value is `deepflow-agent.default`. Please fill in the actual service name and namespace in the configuration.
 
-The following command can modify the default configuration of Prometheus (assuming it is in `deepflow-prometheus-demo`):
+Execute the following command to modify the default configuration of Prometheus (assuming it is in `deepflow-prometheus-demo`):
 
 ```bash
 kubectl edit cm -n deepflow-prometheus-demo prometheus-server
 ```
 
-Configure `remote_write` address (please modify `DEEPFLOW_AGENT_SVC` to the service name of deepflow-agent):
+Configure the `remote_write` address (please modify `DEEPFLOW_AGENT_SVC` to the service name of deepflow-agent):
 
 ```yaml
 remote_write:
   - url: http://${DEEPFLOW_AGENT_SVC}/api/v1/prometheus
 ```
 
-## Configure remote_read
+## Configuring remote_read
 
-If you want Prometheus to query data from DeepFlow, you need to configure Prometheus's `remote_read` (please modify `DEEPFLOW_SERVER_SVC` to the service name of deepflow-server):
+If you want Prometheus to query data from DeepFlow, you need to configure Prometheus `remote_read` (please modify `DEEPFLOW_SERVER_SVC` to the service name of deepflow-server):
 
 ```yaml
 remote_read:
@@ -65,23 +65,28 @@ remote_read:
     read_recent: true
 ```
 
-# Configure DeepFlow
+# Configuring DeepFlow
 
-Please refer to the content of [Configure DeepFlow](../tracing/opentelemetry/#configure-deepflow) and add configuration `prometheus targets api` address (v6.2 and earlier versions do not need to be configured) to complete the DeepFlow Agent configuration. The goal is to synchronize prometheus activeTargets.labels and config to deepflow-server, to improve storage and query performance.
+Please refer to the section [Configuring DeepFlow](../tracing/opentelemetry/#配置-deepflow) and add the configuration for the `prometheus targets api` address (not required for versions v6.2 and earlier) to complete the DeepFlow Agent configuration. The purpose is to synchronize prometheus activeTargets.labels and config to deepflow-server to improve storage and query performance.
 
 Add the following configuration to the Group where the Agent is located (please modify `PROMETHEUS_HTTP_API_ADDRESSES`):
 
 ```yaml
-prometheus_http_api_addresses: # This item should be filled in when integrating Prometheus metrics
+prometheus_http_api_addresses: # Required when integrating Prometheus metrics
   - { PROMETHEUS_HTTP_API_ADDRESSES }
 ```
 
-# View Prometheus Data
+# Viewing Prometheus Data
 
-Metrics in Prometheus will be stored in DeepFlow's `prometheus` database.
+The metrics in Prometheus will be stored in the `prometheus` database of DeepFlow.
 The original labels of Prometheus can be referenced through tag.XXX, and the metric values can be referenced through value.
-At the same time, DeepFlow will also automatically inject a lot of Meta Tag and Custom Tag, so that the data collected by Prometheus can be seamlessly associated with other data sources.
+At the same time, DeepFlow will automatically inject a large number of Meta Tags and Custom Tags, allowing the data collected by Prometheus to be seamlessly associated with other data sources.
 
-When using Grafana and selecting the `DeepFlow` data source for search, the display is as follows:
+Using Grafana, select the `DeepFlow` data source to display the search results as shown below:
 
-![Integration of Prometheus Data](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20231003651c19e6684d1.png)
+![Prometheus Data Integration](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20231003651c19e6684d1.png)
+
+# Notes
+
+1. When calculating the `Derivative` operator through the DeepFlow data source, it is required to select an outer operator (such as `Avg`).
+2. When calculating the `Derivative` operator, since the calculation process first calculates the `Derivative` operator for multiple time series of the same metric, and then calculates the outer operator, if the query interval is less than the data collection interval, using relative time queries like now-xx, if multiple time series of the same metric are continuously writing new data, the results of multiple queries may be inconsistent.

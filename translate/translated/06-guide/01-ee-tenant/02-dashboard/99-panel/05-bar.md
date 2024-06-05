@@ -3,15 +3,29 @@ title: Bar Chart
 permalink: /guide/ee-tenant/dashboard/panel/bar/
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
 # Bar Chart
 
-A bar chart visualizes data for various categories by drawing a series of vertical or horizontal bars, to directly show the size and distribution of the data. In DeepFlow, you can visualize data in the form of a `bar chart` by `switching display mode` in the `table`.
+A bar chart represents data for various categories by plotting a series of vertical or horizontal bars, providing an intuitive display of data size and distribution. In DeepFlow, data can be visualized as a `bar chart` by `switching the display mode` in the `table`.
 
-![5_1.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230919650975ed91538.png)
+## Overview
 
-- **① Switch Top Data:** This is a basic operation of the subview. For more information, please refer to the chapter on 【[Flow Topology - Overview Introduction](./topology/)】.
-- **② Modify Metric Quantity:** This is a basic operation of the subview. For more information, please refer to the chapter on【[Flow Topology - Modify Metric Quantity](./topology/)】.
-- **③ Settings:** This is a standard operation of the subview. For more information, please refer to the chapter on【[Flow Topology - Settings](./topology/)】.
-- **④ Delete:** This is a capability within the `view`. For more information, please refer to the chapter on 【[Flow Topology - Overview Introduction](./topology/)】.
+![00-Overview](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031865f8001c6c54e.png)
+
+- **① Switch Query Area:** Basic operation of the Panel. For details, please refer to the section [Traffic Topology - Overview](./topology/)
+- **② Switch Top Data:** Basic operation of the Panel. For details, please refer to the section [Traffic Topology - Overview](./topology/)
+- **③ Modify Metrics:** Basic operation of the Panel. For details, please refer to the section [Traffic Topology - Modify Metrics](./topology/)
+- **④ Settings:** Standard operation of the Panel. For details, please refer to the section [Line Chart - Settings](./line/)
+- **⑤ Delete:** Capability within the `Dashboard`. For details, please refer to the section [Traffic Topology - Overview](./topology/)
+
+### Bar Chart
+
+The bar chart editing box consists of three parts: `① Chart`, `② Search Conditions`, and `③ Style and Settings`.
+
+![01-Bar Chart](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031865f8001b3666e.png)
+
+- **① Chart:** The chart is drawn based on `② Search Conditions` and `③ Style and Settings`
+- **② Search Conditions:** For the usage of search conditions, please refer to the section [Search](../../query/overview/)
+- **③ Style and Settings:** For setting the style of the chart, please refer to the section [Line Chart - Edit](./line/)
+  - **Top Sorting:** Supports ascending/descending sorting of data

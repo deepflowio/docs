@@ -1,51 +1,51 @@
 ---
-title: Search Snapshot
+title: Search Snapshots
 permalink: /guide/ee-tenant/query/history/
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
-# Search Snapshot
+# Search Snapshots
 
-The search snapshot feature records user's past search-related information, which will help you log the query conditions, query time, and configurations of sub-views on the current page. It also supports quick selection of search snapshots from the dropdown for application to the page, as well as sharing search snapshots and setting default load pages, among other operations.
+The search snapshot feature records the user's past search-related information, helping you to save the current page's query conditions, query time, and configuration settings of the Panel. It also supports quickly selecting search snapshots from a dropdown menu to apply to the page, sharing search snapshots, setting default load pages, and other functions.
 
-Next, we'll show you how to use the search snapshot feature.
+Next, we will introduce how to use the search snapshot feature.
 
 ## Basic Introduction
 
-![6_1.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230922650d6263c60c9.png)
+![00-Basic Introduction](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230922650d6263c60c9.png)
 
-- **① Search Snapshot Dropdown:** Displays all saved search conditions for the current page in the form of a dropdown, and supports management of search snapshots. For detailed instructions, please refer to [Search Snapshot Dropdown]
-- **② Save Search Conditions:** Click to save the current page's search conditions, time, and other information. For usage details, please refer to [Save Search Conditions]
+- **① Search Snapshot Dropdown:** Displays all saved search conditions for the current page in a dropdown format, and supports managing search snapshots. For detailed usage, please refer to [Search Snapshot Dropdown].
+- **② Save Search Conditions:** Click to save the current page's search conditions, time, and other information. For detailed usage, please refer to [Save Search Conditions].
 
 ## Search Snapshot Dropdown
 
-![6_2.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230922650d626419381.png)
+![01-Dropdown](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230922650d626419381.png)
 
-The search snapshot bar consists of a search bar, dropdown, and description box.
+The search snapshot bar consists of a search bar, dropdown menu, and description box.
 
-- Search bar: Allows you to query the name of a search snapshot, supporting both Chinese and English predictive input
-  - Click on the search bar to bring up a dropdown, displaying the search snapshots saved on the current page
-- Dropdown: Displays the search condition records saved by the user on the current page, as well as search conditions shared by other users for the current page
-  - Also supports operations such as starring and modifying search snapshots. For usage details, refer to the [Manage Search Snapshots] section
-- Description box: When the mouse hovers over a search snapshot, the description box displays related information
-  - Shows the name, description, number of searches, permissions, source account, and creation time of the search snapshot
+- Search Bar: Allows querying the name of the search snapshot, supporting both Chinese and English suggestions.
+  - Click the search bar to pop up the dropdown menu, displaying the saved search snapshots for the current page.
+- Dropdown Menu: Displays the search condition records saved by the user on the current page and the search conditions shared by other users.
+  - Also supports starring, modifying, and other operations on search snapshots. For detailed usage, please refer to the [Manage Search Snapshots] section.
+- Description Box: When the mouse hovers over a search snapshot, the description box displays related information.
+  - Shows the name, description, search count, permissions, source account, creation time, etc., of the search snapshot.
 
 ## Save Search Conditions
 
-![6_3.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230922650d6264dba0a.png)
+![02-Save Search Conditions](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230922650d6264dba0a.png)
 
-Users can save the current page's search conditions by clicking the `Save` icon, and add names and descriptions for these saves, while also supporting remembering the time range of the search and the configuration of sub-views.
+Users can save the search conditions on the current page. Click the `Save` icon to edit the name and description of the save, and it also supports remembering the search time range and the configuration of the Panel.
 
 ## Manage Search Snapshots
 
-![6_4.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230922650d6265ca207.png)
+![03-Manage Search Snapshots](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230922650d6265ca207.png)
 
-- **① Star:** Starring marks a search snapshot as important for follow-up, and gives it priority in dropdowns and tables, helping users locate search snapshots faster
-  - Click again to unstar
-- **② Edit:** Modify the `name` or `description` of a search snapshot
-- **③ Share:** Allows sharing of this search snapshot line with designated users (one or multiple), with the option to assign `read-only` or `read-write` permissions, also displaying the number of times it has been shared
-- **④ Query:** The conditions of this search snapshot will open in a new page, also showing the number of queries of this snapshot
-- **⑤ Set Default Load Page:** Click the icon to set this search snapshot condition as the default load page for the current page
-  - Once set successfully, the icon will be highlighted, and the setting will take effect when re-entering from other pages
-- **⑥ Delete:** Deletes this search snapshot
+- **① Star:** Mark the search snapshot as important, displaying it first in the dropdown menu and table, helping users find the search snapshot more quickly.
+  - Click again to unstar.
+- **② Edit:** Modify the `name` or `description` of the search snapshot.
+- **③ Share:** Supports sharing the search snapshot with one or more specified users, with options to assign `read-only` or `read-write` permissions, and displays the share count.
+- **④ Query:** Supports opening the search snapshot conditions in a new page, and displays the query count of the search snapshot.
+- **⑤ Set Default Load Page:** Click the icon to set the search snapshot conditions as the default load page for the current page.
+  - After successful setting, the icon will be highlighted, and the setting will take effect when entering from other pages again.
+- **⑥ Delete:** Delete the search snapshot.

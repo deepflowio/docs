@@ -3,12 +3,12 @@ title: Process Resources
 permalink: /guide/ee-tenant/resources/process-resources/
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
 # Process
 
-A process is an instance of a running program in a computer. Viewing and downloading relevant data information is supported on the process page.
+A process is an instance of a program that is currently running on a computer. On the process page, you can view and download relevant data information.
 
-![09-process_resources.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202304266448fdf60b29f.png)
+![Process](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202304266448fdf60b29f.png)
 
-- For page button usage, please refer to the description in the [Resource Pool - Region](./network-resources/) chapter.
+- For the usage of page buttons, please refer to the [Resource Pool - Region](./network-resources/) section description.

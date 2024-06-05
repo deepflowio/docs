@@ -1,16 +1,16 @@
 ---
-title: Network Path
+title: Path Statistics
 permalink: /guide/ee-tenant/network/network-path/
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
-# Network Path
+# Path Statistics
 
-The network path, presented in the form of a polyline and table, depicts the traffic information gathered from the data link. With the proprietary flow tracing algorithm of DeepFlow, we can track the statistical locations of network flow or application calls that pass through the virtual or physical network.
+Path statistics display traffic information collected at network locations in the data link in the form of line charts and tables. Utilizing DeepFlow's self-developed flow tracing algorithm, network flows or application calls can be traced through observation points in both virtual and physical networks.
 
-## Overview Description
+## Overview Introduction
 
-![3_1.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650ac4cf837e7.png)
+![Overview Introduction](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650ac4cf837e7.png)
 
-- Regarding the function of the page buttons, for details, please refer to the chapter of [Application - Path Statistics](../application/service-statistics/).
+- For details on page button functions, please refer to the section [Application - Path Statistics](../application/service-statistics/).

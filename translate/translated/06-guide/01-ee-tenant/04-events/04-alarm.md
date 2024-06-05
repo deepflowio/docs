@@ -3,7 +3,7 @@ title: Alert
 permalink: /guide/ee-tenant/events/alarm/
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
 # Alert
 
