@@ -119,9 +119,11 @@ permalink: /features/universal-map/metrics-and-operators
 
 | 算子 |  描述 |
 | ---- |  ---- |
-| PerSecond  | 计算速率，将指标量除以时间间隔（单位为秒） |
+| PerSecond  | 计算速率，将内层算子结果除以时间间隔 [1] |
 | Math  | 四则运算，支持 +、-、*、/ |
 | Percentage  | 单位转化 % |
+
+- [1] 例如：`PerSeond(Sum)` 表示先求和，再除以 API 传入的时间间隔 `interval`；`PerSeond(Avg)` 表示先求平均，然后除以数据源的时间间隔 `data_precision`。
 
 # 不同指标的算子计算逻辑
 
