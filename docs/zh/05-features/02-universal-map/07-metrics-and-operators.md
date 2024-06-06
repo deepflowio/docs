@@ -196,3 +196,5 @@ permalink: /features/universal-map/metrics-and-operators
 | ext_metrics     | 10s            | 可通过`server.yaml`的`data_source_ext_metrics_interval`字段修改 |
 | deepflow_admin  | 10s            |                                                                 |
 | deepflow_tenant | 10s            |                                                                 |
+| event           | 1s             | 实际上没有`data_precision`的概念，其取值仅为方便计算            |
+| profile         | 1s             | 实际上没有`data_precision`的概念，其取值仅为方便计算            |
