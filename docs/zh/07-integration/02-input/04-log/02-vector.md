@@ -82,12 +82,20 @@ transforms:
 
         if !exists(.level) {
            if exists(.json) {
-              .level = .json.level
-              del(.json.level)
+            .level = .json.level
+            del(.json.level)
            } else {
-             level_tags = parse_regex(.message, r'[\s\[](?<level>INFO|WARN|WARNING|DEBUG|ERROR|TRACE|FATAL)[\s\]]') ?? {}
-                .level = level_tags.level
-             } 
+            # match log levels surround by `[]` or `<>` with ignore case
+            level_tags = parse_regex(.message, r'[\[\\<](?<level>(?i)INFOR?(MATION)?|WARN(ING)?|DEBUG?|ERROR?|TRACE|FATAL|CRIT(ICAL)?)[\]\\>]') ?? {}
+            if !exists(level_tags.level) {
+              # match log levels surround by whitespace, required uppercase strictly in case mismatching
+              level_tags = parse_regex(.message, r'[\s](?<level>INFOR?(MATION)?|WARN(ING)?|DEBUG?|ERROR?|TRACE|FATAL|CRIT(ICAL)?)[\s]') ?? {}
+            }
+            if exists(level_tags.level) {
+              level_tags.level = upcase(string!(level_tags.level)) 
+              .level = level_tags.level
+            }
+          }
         }
 
         if !exists(._df_log_type) {
@@ -104,6 +112,70 @@ transforms:
 这段代码片段里，我们假定可能获取到 json 格式的日志内容及非 json 格式的这两类日志内容。对于这两类日志，我们都尝试提取它的日志等级 `level`。对 json 格式的日志，我们把它的内容提取到外层的 `message` 字段，并将剩余的所有 json key 放入名为 `json` 的字段中。在这段代码的最后，我们为这两类日志打上 `_df_log_type=user` 及 `app_service=kubernetes.container_name` 两个标签。
 
 如果实际使用中，有更丰富的日志格式需要匹配，可参考 [Vrl](https://vector.dev/docs/reference/vrl/) 语法规则，自定义你的日志提取规则。
+
+## 常见配置
+
+除了以上的配置外，Transforms 模块还可以实现很多 Feature，帮助我们从日志中获取更精确的信息，这里提供一些常见的配置：
+
+### 合并多行日志
+
+使用建议：使用正则匹配日志的“开始模式”，在遇到下一个“开始模式”之前，所有日志聚合为一个日志消息并保留换行符。为了减少误匹配，这里使用形如 `yyyy-MM-dd HH:mm:ss` 的日期时间格式匹配一行日志的开头。
+
+```yaml
+transforms:
+  # The configuration comes from https://vector.dev/docs/reference/configuration/transforms/reduce/
+  multiline_kubernetes_logs:
+    type: reduce
+    inputs:
+      - kubernetes_logs
+    group_by:
+      - file
+      - stream
+    merge_strategies:
+      message: concat_newline
+    starts_when: match(string!(.message), r'^(\[|\[?\u001B\[[0-9;]*m|\{\".+\"|(::ffff:)?([0-9]{1,3}.){3}[0-9]{1,3}[\s\-]+(\[)?)?\d{4}[-\/\.]?\d{2}[-\/\.]?\d{2}[T\s]?\d{2}:\d{2}:\d{2}')
+    expire_after_ms: 2000 # unit: ms, aggregate logs max waiting timeout
+    flush_period_ms: 500 # unit: ms, flush expire events
+```
+
+### 过滤颜色控制符
+
+使用建议：使用正则过滤日志中的颜色控制符，增加日志可读性。
+
+```yaml
+transforms:
+  # The configuration comes from https://vector.dev/docs/reference/configuration/transforms/remap/
+  flush_kubernetes_logs:
+    type: remap
+    inputs:
+      - multiline_kubernetes_logs
+    source: |-
+        .message = replace(string!(.message), r'\u001B\[([0-9]{1,3}(;[0-9]{1,3})*)?m', "")
+```
+
+### 提取日志等级
+
+使用建议：使用正则尝试匹配日志中出现的日志等级。为了减少误匹配，在日志等级外可以加上形如`[]`的符号。
+
+```yaml
+transforms:
+  # The configuration comes from https://vector.dev/docs/reference/configuration/transforms/remap/
+  remap_kubernetes_logs:
+    type: remap
+    inputs:
+    - flush_kubernetes_logs
+    source: |-
+        # match log levels surround by `[]` or `<>` with ignore case
+        level_tags = parse_regex(.message, r'[\[\\<](?<level>(?i)INFOR?(MATION)?|WARN(ING)?|DEBUG?|ERROR?|TRACE|FATAL|CRIT(ICAL)?)[\]\\>]') ?? {}
+        if !exists(level_tags.level) {
+          # match log levels surround by whitespace, required uppercase strictly in case mismatching
+          level_tags = parse_regex(.message, r'[\s](?<level>INFOR?(MATION)?|WARN(ING)?|DEBUG?|ERROR?|TRACE|FATAL|CRIT(ICAL)?)[\s]') ?? {}
+        }
+        if exists(level_tags.level) {
+          level_tags.level = upcase(string!(level_tags.level)) 
+          .level = level_tags.level
+        }
+```
 
 ## 发送
 
