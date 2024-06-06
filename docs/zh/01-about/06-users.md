@@ -7,6 +7,7 @@ permalink: /about/users
 
 | 行业   | 用户      | 来源   | 标题                                                | 链接               |
 | ------ | --------- | ------ | --------------------------------------------------- | ------------------ |
+| 消费电子  | 某手机厂商  | 文章  | 使用 DeepFlow 消除 APISIX 故障诊断中的“南辕北辙”  | [文章](https://mp.weixin.qq.com/s/a-x_ce6VO-L1SaXs8PKoAg)  |
 | 云服务 | 腾讯云    | 文章   | 腾讯云某业务基于 DeepFlow 的可观测性实践            | [文章](https://mp.weixin.qq.com/s/57e3dAvN9gYcwWGjt-BMbw) |
 | 游戏   | 腾讯互娱  | 文章   | 腾讯游戏基于 DeepFlow 的零侵扰可观测性进阶实战      | [文章](https://mp.weixin.qq.com/s/6v5jPLSMD1SZJITIKvHpWA) |
 | 电信   | 中国移动  | 文章   | 开箱即用的 eBPF 可观测性：中国移动磐基 PaaS 平台案例 | [文章](https://mp.weixin.qq.com/s/Byb_PJ7hlUAeTotAamgqRA) |
