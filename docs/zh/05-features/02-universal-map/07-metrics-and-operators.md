@@ -191,6 +191,8 @@ permalink: /features/universal-map/metrics-and-operators
 | --------------- |  ------------- | --------------------------------------------------------------- |
 | flow_metrics    | 1s/1m          | 默认支持 1s、1m，可聚合为 1h、1d                                |
 | flow_log        | 1s             | 实际上没有`data_precision`的概念，其取值仅为方便计算            |
+| application_log | 1s             | 实际上没有`data_precision`的概念，其取值仅为方便计算            |
 | prometheus      | 10s            | 可通过`server.yaml`的`data_source_prometheus_interval`字段修改  |
 | ext_metrics     | 10s            | 可通过`server.yaml`的`data_source_ext_metrics_interval`字段修改 |
-| deepflow_system | 10s            |                                                                 |
+| deepflow_admin  | 10s            |                                                                 |
+| deepflow_tenant | 10s            |                                                                 |
