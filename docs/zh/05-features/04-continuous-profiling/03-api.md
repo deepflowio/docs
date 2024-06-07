@@ -82,7 +82,7 @@ API 返回结果示例：
 API 返回结果说明：
 - **profile_location_str**：函数名
   - `[t] thread_name`：线程，只会出现在火焰图的第二层
-  - `[k] function_name`：Linux 内核函数
+  - `[k] function_name`：Linux 内核函数、CUDA 动态链接库函数
   - `[l] function_name`：动态链接库中的函数
   - `function_name`：表示应用程序的业务函数
   - `$app_service`：火焰图最顶层的节点，名字为进程名
