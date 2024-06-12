@@ -16,7 +16,9 @@ on:
         description: "Why trigger?"
         required: true 
         type: string
-        
+permissions:
+  issues: write
+  
 env:
   IMAGE: "docs"
 
@@ -165,3 +167,22 @@ jobs:
       shell: bash
       run: |
         kubectl set image -n deepservice-test deployment deepservice-docs deepservice-docs=${{ secrets.REGISTRY_ALIYUN_ADDR }}/deepservice/${{ env.IMAGE }}:${{ env.IMAGE_TAG_PREFIX }}-${{ github.run_id }}-${{ github.run_attempt }}
+
+
+  step-awaiting-manual-trigger:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - uses: trstringer/manual-approval@v1
+      with:
+        secret: ${{ github.TOKEN }}
+        approvers: sharang,Nick-0314,taloric,liqian1834
+        minimum-approvals: 1
+        issue-title: "Deploying v1.3.5 to prod from staging"
+        issue-body: "Please approve or deny the deployment of version v1.3.5."
+        exclude-workflow-initiator-as-approver: false
+        additional-approved-words: ''
+        additional-denied-words: ''
+    - name: update
+      run: |
+        echo "test"
