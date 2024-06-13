@@ -1,24 +1,24 @@
 ---
-title: Adding Subviews
+title: Add Panel
 permalink: /guide/ee-tenant/dashboard/add-panel/
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
-# Adding Subviews
+# Add Panel
 
-A view is composed of one or more `subviews`. This section explains how to add `subviews` to a `view`.
+A Dashboard is composed of one or more `panels`. This chapter will introduce how to add `panels` to a `dashboard`.
 
-Currently, `subviews` can only be added to `views` from the function page, which includes `metrics`, `applications`, and `network` function subviews.
+Currently, it only supports adding `panels` to the `dashboard` from the feature pages, including charts from the `Metrics`, `Applications`, and `Network` feature pages.
 
-**Step 1**: Navigate to the function module page where the subview is to be added, such as clicking `① Application-Service` to go to the `Service Overview` page.
+**Step 1**: Navigate to the feature module page where you want to add a panel, for example, click `① Applications - Services` to enter the `Service Overview` page.
 
-![4_1.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230918650824ebccb7c.png)
+![Step 1](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230918650824ebccb7c.png)
 
-**Step 2**: Select the subview to be added to the view, click the `② Settings` button in the subview, and choose the `③ Add to View` option.
+**Step 2**: Select the panel you want to add to the dashboard, click the `② Settings` button on the panel, and choose the `③ Add to Dashboard` option.
 
-![4_2.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230918650824ed30950.png)
+![Step 2](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230918650824ed30950.png)
 
-**Step 3**: Verify the `④ name` of the subview and select the `⑤ view` to which the current subview is to be added. Click `⑥ Confirm` to successfully add it to the corresponding view.
+**Step 3**: Confirm the `④ Name` of the panel and select the `⑤ Dashboard` to which the panel should be added. Click `⑥ Confirm` to successfully add the panel to the corresponding dashboard.
 
-![4_3.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230918650824edae26e.png)
+![Step 3](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230918650824edae26e.png)

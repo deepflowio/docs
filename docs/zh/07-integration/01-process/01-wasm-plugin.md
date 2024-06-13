@@ -5,9 +5,18 @@ permalink: /integration/process/wasm-plugin
 
 # 关于 Wasm 插件系统
 
-Wasm 插件系统通过在固定的地方调用 Wasi Export Function 实现一些用户自定义的功能，目前已经实现的功能有：
-- 自定义协议的解析，例子可以参考[这里](https://github.com/deepflowio/deepflow-wasm-go-sdk/blob/5393818adf94f2f9b296de82e20f614ba3b2336a/example/dns/dns.go)
-- HTTPv1 协议增强，例子可以参考[这里](https://github.com/deepflowio/deepflow-wasm-go-sdk/blob/5393818adf94f2f9b296de82e20f614ba3b2336a/example/http/http.go)
+Wasm 插件系统通过在固定的地方调用 Wasi Export Function 实现一些用户自定义的功能，我们在[这个仓库](https://github.com/deepflowio/deepflow-wasm-go-sdk/tree/main/example)里提供了一些示例，通过示例你可以感受到目前 DeepFlow Wasm Plugin 能实现哪些功能：
+
+| 类别           | 目录                | 描述 |
+| -------------- | ------------------- | ---- |
+| 增强已知协议   | http                | 解析 JSON over HTTP |
+|                | http_status_rewrite | 解析 JSON over HTTP |
+|                | dubbo               | 解析 JSON over Dubbo |
+|                | nats                | 解析 Protobuf (nRPC) over NATS |
+|                | zmtp                | 解析 Protobuf over ZMTP |
+| 当做新协议解析 | krpc                | 解析 Protobuf over TCP |
+|                | go_http2_uprobe     | 解析 Protobuf over HTTP2 |
+|                | dns                 | 演示如何将 DNS 当做一种新协议解析 |
 
 关于 Wasm Plugin 的开发你也可以参考这篇博客文章：[使用 DeepFlow Wasm 插件实现业务可观测性](https://deepflow.io/blog/035-deepflow-enabling-zero-code-observability-for-applications-by-webAssembly/)。
 

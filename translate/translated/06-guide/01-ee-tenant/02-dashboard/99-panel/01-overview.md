@@ -3,19 +3,20 @@ title: Overview
 permalink: /guide/ee-tenant/dashboard/panel/overview/
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
 # Overview
 
-Subviews are the smallest unit of visualization components in DeepFlow, representing every feature page's visual component and can be added to views to create custom visualizations. Each subview is independently operable, and users can modify the search conditions, metrics, styles, etc., of the subviews according to their needs.
+Panel is the smallest unit visualization component in DeepFlow. It is the visualization component of each functional page and can also be added to the Dashboard to customize visualization views. Each panel can be operated independently, and users can modify the search conditions, metrics, styles, etc., of the panel according to their needs.
 
-DeepFlow supports the use of various subviews, and we will introduce you to how to use the following subviews.
+DeepFlow supports the use of various panels. Next, we will introduce how to use the following panels.
 
 - [Traffic Topology](./topology/)
 - [Distributed Tracing Flame Graph](./flame/)
-- [Line Graph](./line/)
-- [Bar Graph](./bar/)
+- [Line Chart](./line/)
+- [Bar Chart](./bar/)
 - [Pie Chart](./pie/)
-- [Distribution Chart](./histogram/)
+- [Histogram](./histogram/)
 - [Table](./table/)
-- [Trend Analysis Chart](./trend/)
+- [Overview Chart](./stat/)
+- [Text](./text/)

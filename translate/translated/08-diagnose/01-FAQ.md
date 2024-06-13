@@ -3,7 +3,7 @@ title: FAQ
 permalink: /diagnose/FAQ
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
 # Deployment
 

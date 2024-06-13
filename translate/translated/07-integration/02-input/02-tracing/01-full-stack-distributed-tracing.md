@@ -3,7 +3,7 @@ title: Full Stack Distributed Tracing
 permalink: /integration/input/tracing/full-stack-distributed-tracing
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
 DeepFlow has innovatively implemented AutoTracing using eBPF, which provides distributed tracing covering both API calls and network transfers. This complements the coverage of function granularity inside application code by OpenTelemetry.
 

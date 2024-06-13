@@ -1,0 +1,198 @@
+---
+title: 导入 Vector 数据
+permalink: /integration/input/log/vector
+---
+
+# 数据流
+
+```mermaid
+flowchart TD
+
+subgraph K8s-Cluster
+  subgraph AppPod
+    Stdout["log to stdout"]
+  end
+  
+  LogFile["Log Files"]
+  K8sLog["kubernetes logs (file)"]
+  Vector["vector (daemonset)"]
+  DeepFlowAgent["deepflow-agent (daemonset)"]
+  DeepFlowServer["deepflow-server (deployment)"]
+
+  Stdout -->|log| K8sLog
+  K8sLog -->|log| Vector
+  LogFile -->|log| Vector
+  Vector -->|log| DeepFlowAgent
+  DeepFlowAgent -->|log| DeepFlowServer
+end
+```
+
+# 配置 Vector
+
+## 采集日志
+
+安装了 Vector 之后，我们可以通过 [Kubernetes_Log](https://vector.dev/docs/reference/configuration/sources/kubernetes_logs/) 模块获取部署在 Kubernetes 中的 Pod 日志，由于 DeepFlow 已经通过 AutoTagging 机制主动学习了 Kubernetes 中 Pod 相关的 Label 和 Annotations，所以发送日志流可以去掉这部分内容以减少传输量，示例配置如下：
+```yaml
+sources:
+  kubernetes_logs:
+    type: kubernetes_logs
+    namespace_annotation_fields:
+      namespace_labels: ""
+    node_annotation_fields:
+      node_labels: ""
+    pod_annotation_fields:
+      pod_annotations: ""
+      pod_labels: ""
+```
+
+如果你将 Vector 以进程形式部署在云服务器中，则可以用 [File](https://vector.dev/docs/reference/configuration/sources/file) 模块获取指定路径的日志，我们以 `/var/log/` 路径为例，示例配置如下：
+```yaml
+sources:
+  files_logs:
+    type: file
+    include:
+    - /var/log/*.log
+    - /var/log/**/*.log
+    exclude:
+    # FIXME: 如果同时配置了 kubernetes_logs 模块和 file 模块，为了避免监测日志内容重复，需要去除 k8s 的日志文件夹
+    - /var/log/pods/**
+    - /var/log/containers/**
+    fingerprint:
+      strategy: "device_and_inode"
+```
+
+## 注入标签
+
+然后，我们可以通过 Transforms 中的 [Remap](https://vector.dev/docs/reference/configuration/transforms/remap/) 模块，对发送的日志打上必要的标签。目前，我们要求打上这两个标签：`_df_log_type` 与 `level`。下面是一份示例配置：
+```yaml
+transforms:
+  remap_kubernetes_logs:
+    type: remap
+    inputs:
+    - kubernetes_logs
+    - files_logs
+    source: |-
+        # try to parse json
+        if is_string(.message) && is_json(string!(.message)) {
+            tags = parse_json(.message) ?? {}
+            .message = tags.message # FIXME: the log content key inside json
+            del(tags.message)
+            .json = tags
+        }
+
+        if !exists(.level) {
+           if exists(.json) {
+            .level = .json.level
+            del(.json.level)
+           } else {
+            # match log levels surround by `[]` or `<>` with ignore case
+            level_tags = parse_regex(.message, r'[\[\\<](?<level>(?i)INFOR?(MATION)?|WARN(ING)?|DEBUG?|ERROR?|TRACE|FATAL|CRIT(ICAL)?)[\]\\>]') ?? {}
+            if !exists(level_tags.level) {
+              # match log levels surround by whitespace, required uppercase strictly in case mismatching
+              level_tags = parse_regex(.message, r'[\s](?<level>INFOR?(MATION)?|WARN(ING)?|DEBUG?|ERROR?|TRACE|FATAL|CRIT(ICAL)?)[\s]') ?? {}
+            }
+            if exists(level_tags.level) {
+              level_tags.level = upcase(string!(level_tags.level)) 
+              .level = level_tags.level
+            }
+          }
+        }
+
+        if !exists(._df_log_type) {
+            # default log type
+            ._df_log_type = "user"
+        }
+
+        if !exists(.app_serivce) {
+            # FIXME: files 模块没有此字段，请通过日志内容注入应用名称
+            .app_serivce = .kubernetes.container_name 
+        }
+```
+
+这段代码片段里，我们假定可能获取到 json 格式的日志内容及非 json 格式的这两类日志内容。对于这两类日志，我们都尝试提取它的日志等级 `level`。对 json 格式的日志，我们把它的内容提取到外层的 `message` 字段，并将剩余的所有 json key 放入名为 `json` 的字段中。在这段代码的最后，我们为这两类日志打上 `_df_log_type=user` 及 `app_service=kubernetes.container_name` 两个标签。
+
+如果实际使用中，有更丰富的日志格式需要匹配，可参考 [Vrl](https://vector.dev/docs/reference/vrl/) 语法规则，自定义你的日志提取规则。
+
+## 常见配置
+
+除了以上的配置外，Transforms 模块还可以实现很多 Feature，帮助我们从日志中获取更精确的信息，这里提供一些常见的配置：
+
+### 合并多行日志
+
+使用建议：使用正则匹配日志的“开始模式”，在遇到下一个“开始模式”之前，所有日志聚合为一个日志消息并保留换行符。为了减少误匹配，这里使用形如 `yyyy-MM-dd HH:mm:ss` 的日期时间格式匹配一行日志的开头。
+
+```yaml
+transforms:
+  # The configuration comes from https://vector.dev/docs/reference/configuration/transforms/reduce/
+  multiline_kubernetes_logs:
+    type: reduce
+    inputs:
+      - kubernetes_logs
+    group_by:
+      - file
+      - stream
+    merge_strategies:
+      message: concat_newline
+    starts_when: match(string!(.message), r'^(\[|\[?\u001B\[[0-9;]*m|\{\".+\"|(::ffff:)?([0-9]{1,3}.){3}[0-9]{1,3}[\s\-]+(\[)?)?\d{4}[-\/\.]?\d{2}[-\/\.]?\d{2}[T\s]?\d{2}:\d{2}:\d{2}')
+    expire_after_ms: 2000 # unit: ms, aggregate logs max waiting timeout
+    flush_period_ms: 500 # unit: ms, flush expire events
+```
+
+### 过滤颜色控制符
+
+使用建议：使用正则过滤日志中的颜色控制符，增加日志可读性。
+
+```yaml
+transforms:
+  # The configuration comes from https://vector.dev/docs/reference/configuration/transforms/remap/
+  flush_kubernetes_logs:
+    type: remap
+    inputs:
+      - multiline_kubernetes_logs
+    source: |-
+        .message = replace(string!(.message), r'\u001B\[([0-9]{1,3}(;[0-9]{1,3})*)?m', "")
+```
+
+### 提取日志等级
+
+使用建议：使用正则尝试匹配日志中出现的日志等级。为了减少误匹配，在日志等级外可以加上形如`[]`的符号。
+
+```yaml
+transforms:
+  # The configuration comes from https://vector.dev/docs/reference/configuration/transforms/remap/
+  remap_kubernetes_logs:
+    type: remap
+    inputs:
+    - flush_kubernetes_logs
+    source: |-
+        # match log levels surround by `[]` or `<>` with ignore case
+        level_tags = parse_regex(.message, r'[\[\\<](?<level>(?i)INFOR?(MATION)?|WARN(ING)?|DEBUG?|ERROR?|TRACE|FATAL|CRIT(ICAL)?)[\]\\>]') ?? {}
+        if !exists(level_tags.level) {
+          # match log levels surround by whitespace, required uppercase strictly in case mismatching
+          level_tags = parse_regex(.message, r'[\s](?<level>INFOR?(MATION)?|WARN(ING)?|DEBUG?|ERROR?|TRACE|FATAL|CRIT(ICAL)?)[\s]') ?? {}
+        }
+        if exists(level_tags.level) {
+          level_tags.level = upcase(string!(level_tags.level)) 
+          .level = level_tags.level
+        }
+```
+
+## 发送
+
+最后，我们通过 [HTTP](https://vector.dev/docs/reference/configuration/sinks/http/) 模块，将日志发送到 DeepFlow Agent 中。
+```yaml
+sinks:
+  http:
+    encoding:
+      codec: json
+    inputs:
+    - remap_kubernetes_logs # NOTE: 注意这里数据源是 transform 模块的 key
+    type: http
+    uri: http://deepflow-agent.deepflow/api/v1/log
+```
+
+将这三个模块组合到一起，即可实现采集日志、注入标签并最终发送到 DeepFlow。
+
+# 配置 DeepFlow
+
+为了让 DeepFlow Agent 可以接收这部分数据，请参考 [配置 DeepFlow](../tracing/opentelemetry/#配置-deepflow) 一节内容，完成 DeepFlow Agent 的配置。

@@ -3,15 +3,15 @@ title: Monitoring a Single K8s Cluster
 permalink: /ce-install/single-k8s
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
 # Introduction
 
-If you have deployed applications in a K8s cluster, this section introduces how to monitor them with DeepFlow.
-DeepFlow can non-intrusively collect all Pods' observational signals (AutoMetrics, AutoTracing, AutoProfiling),
-and it automatically injects 'K8s resource' and 'K8s custom Label' tags (AutoTagging) into all observational data based on the information calls to the apiserver.
+If you have deployed applications in a K8s cluster, this chapter introduces how to use DeepFlow for monitoring.
+DeepFlow can collect observability signals (AutoMetrics, AutoTracing, AutoProfiling) from all Pods with zero interference,
+and automatically inject `K8s resources` and `K8s custom labels` tags (AutoTagging) into all observability data based on information obtained from the apiserver.
 
-# Preliminaries
+# Preparation
 
 ## Deployment Topology
 
@@ -46,10 +46,10 @@ end
 
 ## Storage Class
 
-We recommend using Persistent Volumes to store MySQL and ClickHouse data to avoid unnecessary maintenance cost.
-You can provide the default Storage Class or add `--set global.storageClass=<your storageClass>` parameter to choose the Storage Class to create PVC.
+We recommend using Persistent Volumes to store MySQL and ClickHouse data to avoid unnecessary maintenance costs.
+You can provide a default Storage Class or add the `--set global.storageClass=<your storageClass>` parameter to select a Storage Class for creating PVC.
 
-[OpenEBS](https://openebs.io/) can be chosen for the creation of PVC:
+Optionally, you can use [OpenEBS](https://openebs.io/) to create PVC:
 
 ```bash
 kubectl apply -f https://openebs.github.io/charts/openebs-operator.yaml
@@ -57,9 +57,9 @@ kubectl apply -f https://openebs.github.io/charts/openebs-operator.yaml
 kubectl patch storageclass openebs-hostpath  -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 ```
 
-# Deployment of DeepFlow
+# Deploy DeepFlow
 
-Deploy DeepFlow with Helm:
+Install DeepFlow using Helm:
 
 ::: code-tabs#shell
 
@@ -80,9 +80,6 @@ cat << EOF > values-custom.yaml
 global:
   image:
       repository: registry.cn-beijing.aliyuncs.com/deepflow-ce
-grafana:
-  image:
-    repository: registry.cn-beijing.aliyuncs.com/deepflow-ce/grafana
 EOF
 helm install deepflow -n deepflow deepflow/deepflow --create-namespace \
   -f values-custom.yaml
@@ -92,13 +89,13 @@ helm install deepflow -n deepflow deepflow/deepflow --create-namespace \
 
 Note:
 
-- Use helm --set global.storageClass to specify storageClass
+- Use helm --set global.storageClass to specify the storageClass
 - Use helm --set global.replicas to specify the number of replicas for deepflow-server and clickhouse
-- We recommend saving the contents of helm's `--set` parameter in a separate yaml file. Refer to the chapter [Advanced Config](../best-practice/server-advanced-config/).
+- We recommend saving the contents of the helm `--set` parameters in a separate yaml file, refer to the [Advanced Configuration](../best-practice/server-advanced-config/) section.
 
 # Download deepflow-ctl
 
-Deepflow-ctl is a command-line tool for managing DeepFlow. It's recommended to download it to the K8s Node where deepflow-server is located for future use.
+deepflow-ctl is a command-line tool for managing DeepFlow. It is recommended to download it to the K8s Node where deepflow-server is located for subsequent use:
 
 ```bash
 curl -o /usr/bin/deepflow-ctl https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/ctl/stable/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-ctl
@@ -107,7 +104,7 @@ chmod a+x /usr/bin/deepflow-ctl
 
 # Access the Grafana Page
 
-The content output when executing helm deployment of DeepFlow prompts the command to get the URL and password to access Grafana. The output example:
+The output of the helm deployment of DeepFlow provides commands to get the URL and password for accessing Grafana. Example output:
 
 ```bash
 NODE_PORT=$(kubectl get --namespace deepflow -o jsonpath="{.spec.ports[0].nodePort}" services deepflow-grafana)
@@ -115,7 +112,7 @@ NODE_IP=$(kubectl get nodes -o jsonpath="{.items[0].status.addresses[0].address}
 echo -e "Grafana URL: http://$NODE_IP:$NODE_PORT  \nGrafana auth: admin:deepflow"
 ```
 
-Sample output after executing the above command:
+Example output after executing the above commands:
 
 ```text
 Grafana URL: http://10.1.2.3:31999
@@ -124,8 +121,8 @@ Grafana auth: admin:deepflow
 
 # Next Steps
 
-- [Universal Service Map - Experience DeepFlow's AutoMetrics capabilities](../features/universal-map/auto-metrics/)
-- [Distributed Tracing - Experience DeepFlow's AutoTracing capabilities](../features/distributed-tracing/auto-tracing/)
-- [Eliminate Data Silos - Understand DeepFlow's AutoTagging and SmartEncoding capabilities](../features/auto-tagging/eliminate-data-silos/)
-- [Bid Adieu to High-Cardinality Worries - Integrate Prometheus and other metric data](../integration/input/metrics/metrics-auto-tagging/)
-- [Full-Stack Distributed Tracing - Integrate OpenTelemetry and other tracing data](../integration/input/tracing/full-stack-distributed-tracing/)
+- [Universal Service Map - Experience DeepFlow's AutoMetrics capability](../features/universal-map/auto-metrics/)
+- [Distributed Tracing - Experience DeepFlow's AutoTracing capability](../features/distributed-tracing/auto-tracing/)
+- [Eliminate Data Silos - Learn about DeepFlow's AutoTagging and SmartEncoding capabilities](../features/auto-tagging/eliminate-data-silos/)
+- [Say Goodbye to High Cardinality Issues - Integrate metrics data from Prometheus, etc.](../integration/input/metrics/metrics-auto-tagging/)
+- [Full-Stack Distributed Tracing - Integrate tracing data from OpenTelemetry, etc.](../integration/input/tracing/full-stack-distributed-tracing/)

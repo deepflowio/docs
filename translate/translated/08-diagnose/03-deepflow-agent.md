@@ -3,7 +3,7 @@ title: Common Issues with Agent
 permalink: /diagnose/agent
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
 # Issues with Agent Caused by Significant System Time Rollback
 

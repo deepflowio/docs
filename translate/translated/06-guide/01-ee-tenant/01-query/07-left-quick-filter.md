@@ -1,32 +1,32 @@
 ---
-title: Left Side Quick Filter
+title: Left Quick Filter
 permalink: /guide/ee-tenant/query/left-quick-filter/
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
-# Left Side Quick Filter
+# Left Quick Filter
 
-The left side quick filter feature supports fast filtering and selection for 'tag' and 'metric' fields. The following instructions will use the path overview page as an example to illustrate how to use the left filter.
+The left quick filter feature supports quick filtering of tag and metric fields. The following example uses the Path Overview page to demonstrate how to use the left filter.
 
-![7_1.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650a9fb1183e5.png)
+![00-左侧快速过滤](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650a9fb1183e5.png)
 
-The left quick filter supports field filtering queries for the data in the page table, allowing users to quickly search through the data and improve query efficiency. Currently, the left quick filter only supports filtering on some fields, and support for other fields will be gradually added in the future.
+The left quick filter supports field filtering queries for the data in the table on the page, making it convenient for users to quickly search data and improve query efficiency. Currently, the left quick filter only supports filtering for some fields, with more fields to be gradually supported in the future.
 
-## Usage Guide
+## Usage Introduction
 
-Click on the `Quick Filter Button` at the top left of the page, the panel on the left will show the fields that can be filtered. When the mouse is placed on the data, you can see the explanation of the data and the option values. When the left quick filter is in effect, the service search bar on the page also synchronizes the query conditions.
+Click the `Quick Filter Button` at the top left, and a panel displaying filterable fields will expand on the left side of the page. Hovering over the data will show explanations of the data and option values. When the left quick filter is active, the search conditions in the page's service search bar are synchronized.
 
-![7_2.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650a9fb139c2f.png)
+![01-使用介绍](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650a9fb139c2f.png)
 
-- The left quick filter panel is open by default when the page is loaded.
+- The page opens the left quick filter panel by default.
 - **Operation Instructions:**
-  - When the mouse is on the data item and the checkbox, it will prompt the status after clicking at the current position.
-  - Status Description:
-    - Select all: By default, all options under all fields are checked. At this time, the page query does not perform query filtering.
-    - Select this item only: Clicking the row where the option is located means that only the current option value is selected as the query condition.
-    - Deselect: Click on the row where the option is located, indicating to cancel the 'only select this item' state and restore the 'select all' state.
-    - Switch Status: Click on the checkbox, indicating to 'select' or 'deselect' this option.
-      - Select: The checkbox is checked, indicating to query this option.
-      - Deselect: Deselect the checkbox, indicating not to query this option.
-    - Clear filter: Click on the clear filter icon in the upper right corner of the data board to clear the value filter of this field and restore the 'select all' state.
+  - When the mouse is placed over a data item and checkbox, it will prompt the state after clicking at the current position.
+  - State Descriptions:
+    - Select All: By default, all options under all fields are selected initially, and no query filtering is performed on the page.
+    - Select Only This Item: Clicking the row of an option indicates that only the current option value of the field is selected as the query condition.
+    - Deselect: Clicking the row of an option indicates canceling the `Select Only This Item` state, reverting to `Select All`.
+    - Toggle State: Clicking the checkbox indicates `selecting` or `deselecting` the option.
+      - Select: The checkbox is checked, indicating that the option is included in the query.
+      - Deselect: The checkbox is unchecked, indicating that the option is excluded from the query.
+    - Clear Filter: Clicking the clear filter icon at the top right of the data panel clears the value filter for the field, reverting to `Select All`.

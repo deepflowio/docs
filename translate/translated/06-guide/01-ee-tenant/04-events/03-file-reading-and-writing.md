@@ -3,7 +3,7 @@ title: File Reading and Writing
 permalink: /guide/ee-tenant/events/file-reading-and-writing/
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
 # File Reading and Writing
 

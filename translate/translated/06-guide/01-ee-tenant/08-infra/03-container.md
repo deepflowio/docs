@@ -3,7 +3,7 @@ title: Containers
 permalink: /guide/ee-tenant/infra/container/
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
 # Containers
 

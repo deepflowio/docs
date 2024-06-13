@@ -3,7 +3,7 @@ title: Storage Services
 permalink: /guide/ee-tenant/resources/storage-services/
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
 # Storage Services
 

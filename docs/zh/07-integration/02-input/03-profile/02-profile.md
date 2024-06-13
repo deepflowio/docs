@@ -231,4 +231,4 @@ kubectl apply -f https://raw.githubusercontent.com/deepflowio/deepflow-demo/main
 
 :::
 
-然后，社区版可参考 [Auto Profiling](../../../features/continuous-profiling/auto-profiling/#结果查看) 一节内容获取到持续剖析产生的数据。
+然后，社区版可参考[持续性能剖析 - API](../../../features/continuous-profiling/api/) 一节内容获取到持续剖析产生的数据。

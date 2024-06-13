@@ -3,7 +3,7 @@ title: Overview
 permalink: /guide/ee-tenant/resources/overview/
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
 # Overview
 

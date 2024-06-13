@@ -3,11 +3,12 @@ title: Monitoring Cloud Servers
 permalink: /ce-install/cloud-host
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
 # Introduction
 
-DeepFlow supports monitoring cloud servers, retrieving cloud resource data via the cloud vendor's API, and injecting this data automatically into all observable data sets (AutoTagging). Note that DeepFlow Server must run on K8s. If you do not have a Kubernates cluster, you can first deploy DeepFlow Server according to the [All-in-One Quick Deployment](./all-in-one/) section.
+DeepFlow supports monitoring cloud servers and automatically injects cloud resource information into all observability data (AutoTagging) by calling cloud provider APIs.
+Note that DeepFlow Server must run on K8s; if you do not have a K8s cluster, you can refer to the [All-in-One Quick Deployment](./all-in-one/) section to deploy DeepFlow Server first.
 
 # Deployment Topology
 
@@ -35,28 +36,27 @@ end
 DeepFlowServer -->|"get resource & label"| CloudAPI[cloud api service]
 ```
 
-# Create Public Cloud Domain
+# Creating a Public Cloud Domain
 
-Currently, DeepFlow supports synchronizing resource information from the following public clouds (those labeled as 'TBD' are being coded):
+DeepFlow currently supports resource information synchronization for the following public clouds (marked as `TBD` are still under development):
+| Cloud Provider (English) | Cloud Provider (Chinese) | Type Identifier Used in DeepFlow |
+| ------------------------ | ------------------------ | ------------------------------- |
+| AWS | AWS | aws |
+| Aliyun | 阿里云 | aliyun |
+| Baidu Cloud | 百度云 | baidu_bce |
+| Huawei Cloud | 华为云 | huawei |
+| Microsoft Azure | 微软云 | `TBD` |
+| QingCloud | 青云 | qingcloud |
+| Tencent Cloud | 腾讯云 | tencent |
 
-| Cloud Service Provider (English) | Cloud Service Provider (Chinese) | Type Identifier Used in DeepFlow |
-| -------------------------------- | -------------------------------- | -------------------------------- |
-| AWS                              | AWS                              | aws                              |
-| Aliyun                           | Aliyun                           | aliyun                           |
-| Baidu Cloud                      | Baidu Cloud                      | baidu_bce                        |
-| Huawei Cloud                     | Huawei Cloud                     | huawei                           |
-| Microsoft Azure                  | Microsoft Azure                  | `TBD`                            |
-| QingCloud                        | QingCloud                        | qingcloud                        |
-| Tencent Cloud                    | Tencent Cloud                    | tencent                          |
-
-You can use the `deepflow-ctl domain example <domain_type>` command to access the configuration file template to create a public cloud Domain.
-Taking Aliyun as an example:
+You can get the configuration file template for creating a public cloud domain using the `deepflow-ctl domain example <domain_type>` command.
+For example, for Aliyun:
 
 ```bash
 deepflow-ctl domain example aliyun > aliyun.yaml
 ```
 
-Modify the `aliyun.yaml` configuration file, filling in AK/SK (requires read-only permissions for cloud resources) and Region information:
+Edit the configuration file `aliyun.yaml`, fill in the AK/SK (requires read-only permissions for cloud resources) and the Region information where the resources are located:
 
 ```yaml
 name: aliyun
@@ -66,18 +66,18 @@ config:
   secret_id: xxxxxxxx ## FIXME: your secret_id
   # AccessKey Secret
   secret_key: xxxxxxx ## FIXME: your secret_key
-  include_regions: 北京华北2 ## The region where deepflow is hosted, if left blank it indicates all regions, and the regions are separated by commas
+  include_regions: 华北2（北京） ## The region where deepflow is docked, if it is empty, it means all regions, and the regions are separated by commas
 ```
 
-Use the modified configuration file to create a public cloud Domain:
+Use the modified configuration file to create a public cloud domain:
 
 ```bash
 deepflow-ctl domain create -f aliyun.yaml
 ```
 
-# Deploy DeepFlow Agent
+# Deploying DeepFlow Agent
 
-Download deepflow-agent:
+Download deepflow-agent
 
 ::: code-tabs#shell
 
@@ -123,16 +123,47 @@ EOF
 systemctl daemon-reload
 ```
 
+@tab docker compose
+
+```bash
+touch /etc/deepflow-agent.yaml
+
+cat << EOF > deepflow-agent-docker-compose.yaml
+version: '3.2'
+services:
+  deepflow-agent:
+    image: registry.cn-hongkong.aliyuncs.com/deepflow-ce/deepflow-agent:stable
+    container_name: deepflow-agent
+    restart: always
+    cap_add:
+      - SYS_ADMIN
+      - SYS_RESOURCE
+      - SYS_PTRACE
+      - NET_ADMIN
+      - NET_RAW
+      - IPC_LOCK
+      - SYSLOG
+    volumes:
+      - /etc/deepflow-agent.yaml:/etc/deepflow-agent/deepflow-agent.yaml:ro
+      - /sys/kernel/debug:/sys/kernel/debug:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    network_mode: "host"
+    pid: "host"
+EOF
+
+docker compose -f deepflow-agent-docker-compose.yaml up -d
+```
+
 :::
 
-Modify the `deepflow-agent` configuration file `/etc/deepflow-agent.yaml`:
+Modify the deepflow-agent configuration file `/etc/deepflow-agent.yaml`:
 
 ```yaml
 controller-ips:
   - 10.1.2.3 # FIXME: K8s Node IPs
 ```
 
-Start `deepflow-agent`:
+Start deepflow-agent:
 
 ```bash
 systemctl enable deepflow-agent
@@ -141,8 +172,7 @@ systemctl restart deepflow-agent
 
 **Note**:
 
-If `deepflow-agent` cannot start normally due to lack of dependency libraries, you can download `deepflow-agent` compiled with static link. Please note that `deepflow-agent` compiled with static link has serious performance issues under multi-threading:
-
+If deepflow-agent cannot start properly due to missing dependencies, you can download a statically linked compiled version of deepflow-agent. Note that the statically linked compiled version of deepflow-agent has severe performance issues under multithreading:
 ::: code-tabs#shell
 
 @tab rpm
@@ -191,8 +221,8 @@ systemctl daemon-reload
 
 # Next Steps
 
-- [Universal Service Map - Experience DeepFlow's AutoMetrics capabilities](../features/universal-map/auto-metrics/)
-- [Distributed Tracing - Experience DeepFlow's AutoTracing capabilities](../features/distributed-tracing/auto-tracing/)
-- [Eliminate Data Islands - Understand DeepFlow's AutoTagging and SmartEncoding capabilities](../features/auto-tagging/eliminate-data-silos/)
-- [Say Goodbye to High Cardinality Woes - Integrate Prometheus and other metrics data](../integration/input/metrics/metrics-auto-tagging/)
-- [Full Stack Distributed Tracing - Integrate OpenTelemetry and other tracing data](../integration/input/tracing/full-stack-distributed-tracing/)
+- [Universal Service Map - Experience DeepFlow's AutoMetrics Capability](../features/universal-map/auto-metrics/)
+- [Distributed Tracing - Experience DeepFlow's AutoTracing Capability](../features/distributed-tracing/auto-tracing/)
+- [Eliminating Data Silos - Learn About DeepFlow's AutoTagging and SmartEncoding Capabilities](../features/auto-tagging/eliminate-data-silos/)
+- [Goodbye High Baseline Troubles - Integrate Metrics Data Like Prometheus](../integration/input/metrics/metrics-auto-tagging/)
+- [Full-Stack Distributed Tracing - Integrate Tracing Data Like OpenTelemetry](../integration/input/tracing/full-stack-distributed-tracing/)

@@ -1,14 +1,16 @@
 ---
-title: Service Statistics
+title: Resource Statistics
 permalink: /guide/ee-tenant/network/service-statistics/
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
-# Service Statistics
+# Resource Statistics
 
-Service statistics display network flow related information at each collection point in the form of line charts and lists. Users can quickly get a grasp of network traffic conditions and the real-time status of each network node.
+Resource statistics display network traffic-related information at various network locations in the form of line charts and lists. Users can quickly obtain the network traffic status and the real-time status of each network node.
 
-![2_1.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c09d0c6aea.png)
+## Overview Introduction
 
-- For page button functionality and usage details, please refer to the section [Applications - Metric Statistics](../application/service-list/).
+![Overview Introduction](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c09d0c6aea.png)
+
+- For details on page button functions, please refer to the section 【[Application - Resource Statistics](../application/service-list/)】

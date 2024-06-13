@@ -183,7 +183,7 @@ ClusterRole 配置增加：
   - watch
 ```
 
-# 受限的 Agent 运行权限
+# K8s 运行 Agent 权限受限
 
 ## 无 K8s Daemonset 部署权限
 
@@ -224,36 +224,6 @@ helm install deepflow -n deepflow deepflow/deepflow-agent --create-namespace \
 默认情况下 DeepFlow Agent 在 K8s 中以 Daemonset 方式运行。但有些情况下为了保护 apiserver 避免过载，Daemonset 不允许对 apiserver 请求。此时也可使用本文中「无 Daemonset 部署权限」的类似方式进行部署：
 - 部署一个 deepflow-agent deployment，仅负责 list-watch apiserver、同步 K8s 资源信息
 - 部署一个 deepflow-agent daemonset，任何 Pod 都不会 list-watch apiserver
-
-## 使用非 root 用户运行 deepflow-agent
-
-本次示例中，普通用户名为 deepflow，进程存放在 /usr/sbin/deepflow-agent，通过 deepflow 用户启动 deepflow-agent 时，须先通过 root 用户添加权限：
-
-```bash
-## Use the root user to grant execution permissions to the deepflow-agent
-setcap cap_sys_ptrace,cap_net_raw,cap_net_admin,cap_ipc_lock,cap_sys_admin=eip /usr/sbin/deepflow-agent
-mkdir /sys/fs/cgroup/cpu/deepflow-agent
-mkdir /sys/fs/cgroup/memory/deepflow-agent
-chown -R deepflow:deepflow /sys/fs/cgroup/cpu/deepflow-agent
-chown -R deepflow:deepflow /sys/fs/cgroup/memory/deepflow-agent
-chown -R deepflow:deepflow /usr/sbin/deepflow-agent
-chown -R deepflow:deepflow /usr/sbin/deepflow-agent
-```
-
-使用非 root 用户运行 deepflow-agent：
-
-```bash
-/usr/sbin/deepflow-agent -f /etc/deepflow-agent.yaml
-```
-
-若希望卸载 deepflow-agent，注意删除对应的权限：
-
-```bash
-## Use the root user to revoke execution permissions from the deepflow-agent
-setcap -r /usr/sbin/deepflow-agent
-rmdir /sys/fs/cgroup/cpu/deepflow-agent
-rmdir /sys/fs/cgroup/memory/deepflow-agent
-```
 
 ## 不允许 deepflow-agent 请求 apiserver
 
@@ -326,9 +296,9 @@ message KubernetesAPISyncResponse {
 }
 ```
 
-### 对 KubernetesAPIInfo 的说明
+### KubernetesAPIInfo
 
-注意：deepflow-server 要求某些 K8s 资源类型必须上报包括：
+注意，deepflow-server 要求某些 K8s 资源类型必须上报包括：
 - `*v1.Node`
 - `*v1.Namespace`
 - `*v1.Pod`
@@ -338,189 +308,32 @@ message KubernetesAPISyncResponse {
 - `*v1.Service`
 - `*v1beta1.Ingress`
 
-下面我们依次介绍各类资源在上报时必须要携带的字段信息，各个字段的值类型可参考 `kubectl get XXX -o json` 命令的输出。
+对于上述资源，pseudo-deepflow-agent 需要上报的信息可参考[此处的文档](../features/auto-tagging/meta-tags/#依赖的-k8s-api)。
 
-#### *v1.Node 的必要字段
+# 云服务器运行 Agent 权限受限
 
-```json
-{
-    "metadata": {
-        "uid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // 唯一标识
-        "name": "xxxx"                                 // 名称
-    },
-    "status": {
-        "addresses": [
-            {
-                "address": "x.x.x.x", // Node IP
-                "type": "InternalIP"
-            }
-        ],
-        "conditions": [
-            {
-                "reason": "KubeletReady", // 用于判断 Node 状态
-                "status": "True"          // 用于判断 Node 状态
-            }
-        ]
-    },
-    "spec": {
-        "podCIDR": "x.x.x.x/x" // 用于获取该 Node 使用的 POD Cidr
-    }
-}
+## 使用非 root 用户运行 deepflow-agent
+
+假设我们希望使用普通用户 deepflow 来运行安装于 /usr/sbin/deepflow-agent 的 Agent，我们必须先通过 root 用户添加 deepflow 所需的权限：
+```bash
+## Use the root user to grant execution permissions to the deepflow-agent
+setcap cap_sys_ptrace,cap_net_raw,cap_net_admin,cap_ipc_lock,cap_sys_admin=eip /usr/sbin/deepflow-agent
+mkdir /sys/fs/cgroup/cpu/deepflow-agent
+mkdir /sys/fs/cgroup/memory/deepflow-agent
+chown -R deepflow:deepflow /sys/fs/cgroup/cpu/deepflow-agent
+chown -R deepflow:deepflow /sys/fs/cgroup/memory/deepflow-agent
+chown -R deepflow:deepflow /usr/sbin/deepflow-agent
 ```
 
-#### *v1.Namespace 的必要字段
-
-```json
-{
-    "metadata": {
-        "uid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // 唯一标识
-        "name": "xxxx"                                 // 名称
-    }
-}
+使用非 root 用户运行 deepflow-agent，例如：
+```bash
+systemctl start deepflow-agent
 ```
 
-#### *v1.Deployment/StatefulSet/DaemonSet/ReplicationController 的必要字段
-
-```json
-{
-    "metadata": {
-        "uid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // 唯一标识
-        "name": "xxxx",                                // 名称
-        "namespace": "xxxx",                           // 所属 namespace 的名称
-        "labels": {                                    // labels，可以上传空字典
-            "key1": "value1"
-        }
-    },
-    "spec": {
-        "replicas": 1
-    }
-}
-```
-
-#### *v1.ReplicaSet 的必要字段
-
-```json
-{
-    "metadata": {
-        "uid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // 唯一标识
-        "name": "xxxx",                                // 名称
-        "namespace": "xxxx",                           // 所属 namespace 的名称
-        "labels": {                                    // labels，可以上传空字典
-            "key1": "value1"
-        },
-        "ownerReferences": {                           // 所属工作负载信息
-            "name": "xxxx",
-            "uid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
-        }
-    },
-    "spec": {
-        "replicas": 1
-    }
-}
-```
-
-#### *v1.Pod 的必要字段
-
-```json
-{
-    "metadata": {
-        "uid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // 唯一标识
-        "name": "xxxx",                                // 名称
-        "namespace": "xxxx",                           // 所属 namespace 的名称
-        "labels": {                                    // labels，当不上报 *v1.Service 资源时可以上传空字典
-            "key1": "value1"
-        },
-        "ownerReferences": [                           // 所属工作负载信息
-            {
-                // 工作负载类型
-                // 目前支持：DaemonSet/Deployment/ReplicaSet/StatefulSet/ReplicationController
-                "kind": "xxxx",
-                "name": "xxxx",
-                "uid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
-            }
-        ],
-        "creationTimestamp": "2024-04-29T10:02:38Z",   // 创建时间
-        "generate_name": "xxxx"                        // 仅 StatefulSet 的 Pod 需要携带
-    },
-    "status": {
-        "hostIP": "x.x.x.x", // Node IP
-        "podIP": "x.x.x.x",  // Pod IP
-        "conditions" : [     // POD 状态
-            {
-                "type": "xxxx",
-                "status": "xxxx"
-            }
-        ],
-        "containerStatuses" : [
-            {
-                "containerID": "containerd://xxxxxxxxxxxx...", // POD 中的 container 标识
-            }
-        ]
-    }
-}
-```
-
-#### *v1.Service 的必要字段
-
-```json
-{
-    "metadata": {
-        "uid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // 唯一标识
-        "name": "xxxx",                                // 名称
-        "namespace": "xxxx",                           // 所属 namespace 的名称
-        "labels": {                                    // labels，可以上传空字典
-            "key1": "value1"
-        }
-    },
-    "spec": {
-        "clusterIP": "x.x.x.x",
-        "ports": [
-            {
-                "name": "xxxx",
-                "nodePort": xxxx,
-                "port": xxxx,
-                "protocol": "xxxx",
-                "targetPort": xxxx
-            }
-        ],
-        "selector": { // selector 中是 label 信息，service 通过 selector 中的 label 与 Pod 关联
-            "key": "value"
-        },
-        "type": "xxxx" // 当前支持 NodePort 和 ClusterIP
-    }
-}
-```
-
-#### *v1beta1.Ingress 的必要字段
-
-```json
-{
-    "metadata": {
-        "uid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // 唯一标识
-        "name": "xxxx",                                // 名称
-        "namespace": "xxxx"                            // 所属 namespace 的名称
-    },
-    "spec": {
-        "rules": [ // 转发规则
-            {
-                "host": "", // 域名
-                "http": {   // 目前仅支持 http 协议
-                    "paths": [
-                        {
-                            "path": "",   // 路径
-                            "backend": {  // 后端服务信息
-                                "service": {
-                                    "name": "",
-                                    "port": {
-                                        "number": xxxx
-                                    }
-                                }
-                            }
-                        }
-                    ]
-                }
-            }
-        ]
-    }
-}
+若希望卸载 deepflow-agent，注意删除对应的权限：
+```bash
+## Use the root user to revoke execution permissions from the deepflow-agent
+setcap -r /usr/sbin/deepflow-agent
+rmdir /sys/fs/cgroup/cpu/deepflow-agent
+rmdir /sys/fs/cgroup/memory/deepflow-agent
 ```

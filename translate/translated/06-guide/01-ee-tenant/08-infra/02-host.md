@@ -3,7 +3,7 @@ title: Host
 permalink: /guide/ee-tenant/infra/host/
 ---
 
-> This document was translated by GPT-4
+> This document was translated by ChatGPT
 
 # Host
 

@@ -8,7 +8,7 @@ permalink: /guide/ee-tenant/application/continue-profile/
 功能原理见[核心特性-持续性能剖析的说明](../../../features/continuous-profiling/auto-profiling)
 
 ## 总览介绍
- 
+
 ![总览介绍](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202405146642dfb068b35.png)
 
 - **① 页面搜索**：搜索栏、搜索快照等功能，使用详情，请参阅【[资源统计](../application/service-list/)】章节
@@ -25,7 +25,7 @@ permalink: /guide/ee-tenant/application/continue-profile/
         - A：应用程序的业务函数
         - P：进程
         - T：线程，只会出现在火焰图的第二层
-        - ？：未知，函数名未成功翻译，详细的说明见[核心特性-持续性能剖析 API 返回结果 profile_location_str 的说明](../../../features/continuous-profiling/auto-profiling)
+        - ？：未知，函数名未成功翻译，详细的说明见[核心特性-持续性能剖析-API 返回结果 profile_location_str 的说明](../../../features/continuous-profiling/api)
       - Span 名称
       - 总消耗：Span 总消耗占 root (火焰图第一行)的百分比
       - 自身消耗：Span 自身消耗占 root (火焰图第一行)的百分比
