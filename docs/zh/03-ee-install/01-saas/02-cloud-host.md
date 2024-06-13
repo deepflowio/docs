@@ -12,28 +12,22 @@ DeepFlow 支持监控云服务器，并通过调用云厂商 API 获取云资源
 ```mermaid
 flowchart TD
 
-subgraph VPC-1
-  subgraph K8s-Cluster
-    DeepFlowServer["deepflow-server (deployment)"]
-  end
-
-  subgraph Cloud-Host-1
-    DeepFlowAgent1[deepflow-agent]
-    DeepFlowAgent1 --> DeepFlowServer
-  end
+subgraph DeepFlow-Cloud
+  DeepFlowServer["deepflow-server"]
 end
 
-subgraph VPC-2
-  subgraph Cloud-Host-2
-    DeepFlowAgent2[deepflow-agent]
-    DeepFlowAgent2 -->|"tcp/udp 30033+30035"| DeepFlowServer
+
+subgraph VPC-1
+  subgraph Cloud-Host-1
+    DeepFlowAgent1[deepflow-agent]
+    DeepFlowAgent1 -->|"tcp/udp 30033+30035"| DeepFlowServer
   end
 end
 
 DeepFlowServer -->|"get resource & label"| CloudAPI[cloud api service]
 ```
 
-# 联系云杉网络创建公有云 Domain
+# 创建公有云 Domain
 
 DeepFlow 目前支持如下公有云的资源信息同步（标记为 `TBD` 的正在整理代码中）：
 | 云服务商（英文） | 云服务商（中文） | DeepFlow中使用的类型标识 |
@@ -78,7 +72,7 @@ cat << EOF > deepflow-agent-docker-compose.yaml
 version: '3.2'
 services:
   deepflow-agent:
-    image: hub.deepflow.yunshan.net/public/deepflow-agent:v6.4
+    image: hub.deepflow.yunshan.net/public/deepflow-agent:v6.5
     container_name: deepflow-agent
     restart: always
     cap_add:
@@ -105,8 +99,9 @@ docker compose -f deepflow-agent-docker-compose.yaml up -d
 修改 deepflow-agent 的配置文件 `/etc/deepflow-agent.yaml` ：
 ```yaml
 controller-ips:
-  - 10.1.2.3  # FIXME: DeepFlow Server Node IPs
-vtap-group-id-request: "g-fffffff"  # FIXME: agent-group ID
+  - cloud.deepflow.yunshan.net
+vtap-group-id-request: "g-xxxxxxxxxx"  # FIXME: agent-group ID
+team-id: "t-xxxxxxxxxx" # FIXME: Team ID
 ```
 
 启动 deepflow-agent ：
