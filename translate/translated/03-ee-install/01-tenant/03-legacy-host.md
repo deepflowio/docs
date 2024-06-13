@@ -74,7 +74,7 @@ services:
     volumes:
       - /etc/deepflow-agent.yaml:/etc/deepflow-agent/deepflow-agent.yaml:ro
       - /sys/kernel/debug:/sys/kernel/debug:ro
-      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /var/run/docker.sock:/var/run/docker.sock
     network_mode: "host"
     pid: "host"
 EOF
