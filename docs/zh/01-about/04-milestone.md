@@ -21,7 +21,7 @@ DeepFlow 目前（2023 年 9 月）已经迭代到了 v6.3.9，已支持的主�
   - [x] 支持自动追踪网络转发路径，计算逐跳性能
 - Continuous Profiling (AutoProfiling)
   - [x] 支持 eBPF 零侵扰采集 C/C++/Golang/Rust/Java 应用的 Profile 数据
-  - [x] 支持 eBPF 零侵扰采集 OnCPU Profile
+  - [x] 支持 eBPF 零侵扰采集 On-CPU Profile
 - AutoTagging & SmartEncoding
   - [x] 自动注入云资源标签、K8s 服务标签
   - [x] 自动注入 K8s Label/Annotation/Env 自定义标签
@@ -47,7 +47,7 @@ DeepFlow 目前（2023 年 9 月）已经迭代到了 v6.3.9，已支持的主�
   - [ ] 基于 eBPF 的零侵扰分布式追踪能力支持更多跨线程、Golang Channel 等复杂场景
   - [ ] 根据 Span 实时聚合计算 Trace 拓扑图（同时保留调用链关系），以降低追踪数据的存储开销
 - Continuous Profiling (AutoProfiling)
-  - [ ] 支持 eBPF 零侵扰采集更多类型的 Profile 数据，例如 OffCPU、Memory 等
+  - [ ] 支持 eBPF 零侵扰采集更多类型的 Profile 数据，例如 Off-CPU、Memory 等
   - [ ] 取消 Profile 数据对应用进程符号表的依赖
   - [ ] 支持零侵扰采集 Node.js/Python/PHP/Ruby 应用的 Profile 数据
 - AutoTagging & SmartEncoding

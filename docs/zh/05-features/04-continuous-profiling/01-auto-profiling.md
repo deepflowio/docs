@@ -12,8 +12,8 @@ permalink: /features/continuous-profiling/auto-profiling
 # 能力和限制
 
 支持的 Profiling 数据类型：
-- OnCPU
-- OffCPU `仅企业版`
+- On-CPU
+- Off-CPU `仅企业版`
 
 支持的进程语言：
 - 编译为 ELF 格式可执行文件的语言：Golang、Rust、C/C++
@@ -27,7 +27,7 @@ permalink: /features/continuous-profiling/auto-profiling
   - 运行 Java：`-XX:+PreserveFramePointer`
 - 对于编译型语言的进程，编译时需要注意保留符号表
 
-OffCPU Profiling 功能**仅会**采集如下调用栈：
+Off-CPU Profiling 功能**仅会**采集如下调用栈：
 - 让出 CPU 时进程状态**等于**`TASK_INTERRUPTIBLE`（可中断睡眠）或`TASK_UNINTERRUPTIBLE`（不可中断睡眠）的调用栈
 - 0 号进程（Idle 进程）**以外**的调用栈
 - 含有**至少一个**用户态函数的调用栈

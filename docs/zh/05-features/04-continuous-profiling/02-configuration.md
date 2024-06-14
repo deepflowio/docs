@@ -3,9 +3,9 @@ title: 功能开启方法
 permalink: /features/continuous-profiling/configuration
 ---
 
-# eBPF OnCPU Profiling
+# eBPF On-CPU Profiling
 
-eBPF OnCPU Profiling 是默认开启的，但你需要通过修改 `static_config.ebpf.on-cpu-profile.regex` 来指定需要开启的进程列表。默认情况下仅对进程名以 `deepflow-` 开头的进程开启。Agent 支持的配置参数如下：
+eBPF On-CPU Profiling 是默认开启的，但你需要通过修改 `static_config.ebpf.on-cpu-profile.regex` 来指定需要开启的进程列表。默认情况下仅对进程名以 `deepflow-` 开头的进程开启。Agent 支持的配置参数如下：
 ```yaml
 static_config:
   ebpf:
@@ -58,13 +58,13 @@ static_config:
 - **disabled**：默认为 False，表示功能开启。
 - **frequency**：采样频率，默认 99 约表示 10ms 采样周期。不建议设置为 10 的整数倍，避免和程序运行或调度的时钟同频。
 - **cpu**：默认为 0，表示一台主机上采集的数据不区分 CPU，当设置为 1 时数据将按 CPU ID 聚合。
-- **regex**：开启 OnCPU Profiling 的进程名正则表达式。
+- **regex**：开启 On-CPU Profiling 的进程名正则表达式。
 - **java-symbol-file-refresh-default-interval**：Java 符号表的刷新间隔，避免高频刷新
 - **java-symbol-file-max-space-limit**：避免 Java 符号表占用过大的 `/tmp` 空间
 
-# eBPF OffCPU Profiling
+# eBPF Off-CPU Profiling
 
-eBPF OffCPU Profiling（仅企业版）是默认开启的，但你需要通过修改 `static_config.ebpf.off-cpu-profile.regex` 来指定需要开启的进程列表。默认情况下仅对进程名以 `deepflow-` 开头的进程开启。Agent 支持的配置参数如下：
+eBPF Off-CPU Profiling（仅企业版）是默认开启的，但你需要通过修改 `static_config.ebpf.off-cpu-profile.regex` 来指定需要开启的进程列表。默认情况下仅对进程名以 `deepflow-` 开头的进程开启。Agent 支持的配置参数如下：
 ```yaml
 static_config:
   ebpf:
@@ -105,10 +105,10 @@ static_config:
 
 上述配置的含义如下：
 - **disabled**：默认为 False，表示功能开启。
-- **regex**：开启 OffCPU Profiling 的进程名正则表达式。
+- **regex**：开启 Off-CPU Profiling 的进程名正则表达式。
 - **cpu**：默认为 0，表示一台主机上采集的数据不区分 CPU，当设置为 1 时数据将按 CPU ID 聚合。
-- **minblock**：使用持续时间限制采集的 OffCPU 事件，避免采集过多导致主机负载过高。
+- **minblock**：使用持续时间限制采集的 Off-CPU 事件，避免采集过多导致主机负载过高。
 
-另外，下面两个 OnCPU 的配置项同时也对 OffCPU 有效：
+另外，下面两个 On-CPU 的配置项同时也对 Off-CPU 有效：
 - **java-symbol-file-refresh-default-interval**
 - **java-symbol-file-max-space-limit**

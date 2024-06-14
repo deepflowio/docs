@@ -5,7 +5,7 @@ permalink: /about/features
 
 # 三大核心功能
 
-通过利用 eBPF 采集应用函数、系统调用函数、网卡收发的数据，DeepFlow 首先聚合成 TCP/UDP 流日志（Flow Log），经过应用协议识别后聚合得到应用调用日志（Request Log），进而计算出全栈的 RED（Request/Error/Delay）性能指标，并关联生成分布式追踪火焰图。除此之外，DeepFlow 在流日志聚合过程中还计算了 TCP 吞吐、时延、建连异常、重传、零窗等网络层性能指标，以及通过 Hook 文件读写操作计算了 IO 吞吐和时延指标，并将所有这些指标关联至每个调用日志上。另外，DeepFlow 也支持通过 eBPF 获取每个进程的 OnCPU、OffCPU 函数火焰图，以及分析 TCP 包绘制 Network Profile 时序图。所有这些能力最终体现为三大核心功能：
+通过利用 eBPF 采集应用函数、系统调用函数、网卡收发的数据，DeepFlow 首先聚合成 TCP/UDP 流日志（Flow Log），经过应用协议识别后聚合得到应用调用日志（Request Log），进而计算出全栈的 RED（Request/Error/Delay）性能指标，并关联生成分布式追踪火焰图。除此之外，DeepFlow 在流日志聚合过程中还计算了 TCP 吞吐、时延、建连异常、重传、零窗等网络层性能指标，以及通过 Hook 文件读写操作计算了 IO 吞吐和时延指标，并将所有这些指标关联至每个调用日志上。另外，DeepFlow 也支持通过 eBPF 获取每个进程的 On-CPU、Off-CPU 函数火焰图，以及分析 TCP 包绘制 Network Profile 时序图。所有这些能力最终体现为三大核心功能：
 - Universal Map for Any Service，任意服务的全景图
 - Distributed Tracing for Any Request，任意调用的分布式追踪
 - Continuous Profiling for Any Function，任何函数的持续性能剖析

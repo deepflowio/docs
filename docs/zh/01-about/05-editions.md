@@ -16,7 +16,7 @@ DeepFlow 社区版是一个开源版本，是一个高度自动化的可观测�
 - Distributed Tracing（AutoTracing）
   - 基于 eBPF/cBPF，自动追踪微服务分布式调用链
 - Continuous Profiling（AutoProfiling）
-  - 支持基于 eBPF 的零侵扰 OnCPU 持续性能剖析
+  - 支持基于 eBPF 的零侵扰 On-CPU 持续性能剖析
   - 支持 JVM 虚拟机语言，C/C++/Golang/Rust 等编译型语言
 - Integration
   - 集成 Prometheus/Telegraf 等指标数据，解决数据孤岛和高基数问题
@@ -40,7 +40,7 @@ DeepFlow 企业版是一个高度自动化的`一站式`可观测性`分析平�
 
 - 更强大的 AutoMetrics、AutoTracing、AutoProfiling 数据
   - 基于 eBPF/cBPF，支持采集 TLS、Oracle 等应用调用日志，支持 TCP 流重组
-  - 支持基于 eBPF 的零侵扰 OffCPU、Memory、GPU 持续性能剖析，支持 Python 等解释型语言
+  - 支持基于 eBPF 的零侵扰 Off-CPU、Memory、GPU 持续性能剖析，支持 Python 等解释型语言
   - 支持基于 cBPF 的 TCP 逐包时序图、原始 Packet 等 Network Profiling 能力
   - Agent 支持运行于多租户 Serverless K8s 节点、Android 设备、Windows Host 上
   - Agent 支持运行于 KVM/HyperV/ESXi/Xen 宿主机环境中
@@ -97,8 +97,8 @@ DeepFlow 云服务版是一个完全托管的一站式可观测性平台，
 |                      | cBPF Span - 容器/云服务器                 | ✔      | ✔      |
 |                      | cBPF Span - 宿主机/专有云网关/网络设备    |        | ✔      |
 |                      | 专有云网关智能 NAT 追踪                   |        | ✔      |
-| Continuous Profiling | eBPF AutoProfiling - OnCPU                | ✔      | ✔      |
-|                      | eBPF AutoProfiling - OffCPU               |        | ✔      |
+| Continuous Profiling | eBPF AutoProfiling - On-CPU               | ✔      | ✔      |
+|                      | eBPF AutoProfiling - Off-CPU              |        | ✔      |
 |                      | eBPF AutoProfiling - Memory               |        | ✔      |
 |                      | eBPF AutoProfiling - GPU                  |        | ✔      |
 |                      | JVM 语言 AutoProfiling                    | ✔      | ✔      |
