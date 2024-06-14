@@ -241,7 +241,7 @@ For continuous profiling `profile`:
 Additionally, we can reduce data volume from the source through some configuration items:
 
 - Set `tap_interface_regex` to control the list of network cards for traffic collection. When we do not want to collect traffic from certain virtual NICs or physical NICs, we can adjust this configuration.
-- Set `dispatcher_bpf` to use BPF expressions to filter the collected traffic. For example, if we confirm that all traffic on port 9999 is monitoring data transmission and we are not interested in it, we can set this item to `not port 9999` to filter out the collection of this traffic.
+- Set `capture_bpf` to use BPF expressions to filter the collected traffic. For example, if we confirm that all traffic on port 9999 is monitoring data transmission and we are not interested in it, we can set this item to `not port 9999` to filter out the collection of this traffic.
 - Set `kprobe_blacklist` to configure a blacklist of port numbers so that eBPF kprobe can utilize this list to filter (discard) Socket data, reducing the amount of invocation log data.
 
 # Red: Setting Overload Protection Thresholds
