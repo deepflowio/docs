@@ -31,7 +31,7 @@ curl -X POST http://${deepflow_server_node_ip}:$port/v1/profile/ProfileTracing \
 API 请求参数说明：
 - **app_service**：进程名
 - **profile_language_type**：获取 eBPF Profiling 数据时使用 `eBPF`
-- **profile_event_type**：对于 eBPF OnCPU Profiling 数据赋值为 `on-cpu` 即可
+- **profile_event_type**：对于 eBPF On-CPU Profiling 数据赋值为 `on-cpu` 即可
 - **tag_filter**：当进程名冲突时，可使用其他 Tag 过滤
   - 例如 `"tag_filter": "pod_cluster='prod-cluster' AND pod_ns='app'"`
 - **time_start**、**time_end**：时间范围
@@ -94,10 +94,10 @@ API 返回结果说明：
 - **node_id**：该函数节点在火焰图中的唯一标识
 - **parent_node_id**：该函数的父节点在火焰图中的唯一标识
 - **total_value**：该函数的 CPU 时长，单位是微秒（us）。
-  - OnCPU Profiling：此值表示函数花费 CPU 的时长
-  - OffCPU Profiling：此值表示函数等待 CPU 的时长
+  - On-CPU Profiling：此值表示函数花费 CPU 的时长
+  - Off-CPU Profiling：此值表示函数等待 CPU 的时长
 - **self_value**：该函数作为叶子节点（最底层函数）的 CPU `净`时长，单位是微秒（us）。
-  - OnCPU 和 OffCPU 的差异同上
+  - On-CPU 和 Off-CPU 的差异同上
 
 使用 API 的返回结果，可以绘制**指定进程**的 CPU 火焰图。DeepFlow 企业版中的展示效果图如下：
 
@@ -106,10 +106,10 @@ API 返回结果说明：
 # 获取指定主机的 Profiling 数据
 
 ::: tip
-当前仅 OnCPU Profiling 支持查询主机的整体数据。
+当前仅 On-CPU Profiling 支持查询主机的整体数据。
 :::
 
-当请求参数携带 `"app_service": "Total"` 时，能够获取到名为 `Total` 的特殊 OnCPU Profiling 数据，它是一台主机上所有进程的、精细到线程粒度的 Profiling。可用于当 OnCPU `regex` 未配置某个进程时，能够快速定位瓶颈进程和线程。此时的返回结果示例：
+当请求参数携带 `"app_service": "Total"` 时，能够获取到名为 `Total` 的特殊 On-CPU Profiling 数据，它是一台主机上所有进程的、精细到线程粒度的 Profiling。可用于当 On-CPU `regex` 未配置某个进程时，能够快速定位瓶颈进程和线程。此时的返回结果示例：
 ```json
 {
   "OPT_STATUS": "SUCCESS",
@@ -147,6 +147,6 @@ API 返回结果说明：
 - `[p] name`：一个进程的名称
 - `[t] name`：一个线程的名称，它的父节点是一个 `[p] name` 类型的节点，表示这个线程所属的进程
 
-使用 API 的返回结果，可以绘制**指定主机**的 OnCPU 火焰图。DeepFlow 企业版中的展示效果图如下（火焰图只有三层）：
+使用 API 的返回结果，可以绘制**指定主机**的 On-CPU 火焰图。DeepFlow 企业版中的展示效果图如下（火焰图只有三层）：
 
 ![企业版中的主机火焰图](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202405146642dfab0d31a.jpg)

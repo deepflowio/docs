@@ -12,7 +12,7 @@ permalink: /best-practice/reduce-storage-overhead/
 - `flow_log.l7_flow_log`：调用日志。基于 cBPF 流量数据、eBPF 函数调用数据计算出的 HTTP/gRPC/MySQL 等应用协议的调用日志，每条调用日志包含调用的关键请求/响应字段、标签字段、性能指标，每条调用日志平均大约占用 70 字节存储空间，主要取决于头部字段的长度，各种应用协议存储的头部字段详见[文档](../features/l7-protocols/overview/)。
 - `flow_metrics`：指标数据。基于流日志和调用日志聚合计算得到的指标数据，默认聚合生成 1m、1s 两种时间精度的指标。由于这些指标数据是聚合得到的，体量不大，一般消耗的存储空间仅仅是流日志或调用日志的 1/10 左右。
 - `event.perf_event`：性能事件。目前主要存储进程的文件读写事件，每个事件包含进程名、文件名、读写性能指标等字段，每个事件大约占用 80 字节。
-- `profile`：持续剖析。存储开启了持续剖析功能的进程的函数调用栈，默认仅 deepflow-agent 和 deepflow-server 进程开启 eBPF OnCPU Profile。
+- `profile`：持续剖析。存储开启了持续剖析功能的进程的函数调用栈，默认仅 deepflow-agent 和 deepflow-server 进程开启 eBPF On-CPU Profile。
 
 DeepFlow 有丰富的配置可以用于降低 ClickHouse 的存储开销，下图中进行了汇总。
 
