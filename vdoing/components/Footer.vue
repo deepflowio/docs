@@ -202,7 +202,7 @@ export default {
     return {
       locales,
       mobileBg:
-        "background: url(https://deepflow.yunshan.net/images/mobile/footbg.png) no-repeat center;background-size: cover;",
+        "background: url(https://www.yunshan.net/news/images/footer/footbg.png) no-repeat center;background-size: cover;",
     };
   },
   computed: {
