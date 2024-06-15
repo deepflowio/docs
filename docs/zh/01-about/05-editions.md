@@ -90,7 +90,8 @@ DeepFlow 云服务版是一个完全托管的一站式可观测性平台，
 | Distributed Tracing  | eBPF/cBPF AutoTracing                     | ✔      | ✔      |
 |                      | 利用 X-Request-ID 增强 AutoTracing        | ✔      | ✔      |
 |                      | 利用 MySQL Comment 增强 AutoTracing       | ✔      | ✔      |
-|                      | 利用 APM TraceID 增强 AutoTracing         | ✔      | ✔      |
+|                      | 利用开源 APM TraceID 增强 AutoTracing     | ✔      | ✔      |
+|                      | 利用闭源 APM TraceID 增强 AutoTracing     |        | ✔      |
 |                      | Wasm/so AutoTracing 增强插件 SDK          | ✔      | ✔      |
 |                      | 集成 APM Span - OpenTelemetry/SkyWalking  | ✔      | ✔      |
 |                      | eBPF Span - kprobe/uprobe                 | ✔      | ✔      |
