@@ -5,7 +5,7 @@ permalink: /guide/ee-tenant/query/metric-search/
 
 # 指标搜索框
 
-目前`指标页面`及`子视图-编辑-搜索条件`都使用的是`指标搜索框`。
+目前`指标页面`及`图表-编辑-搜索条件`都使用的是`指标搜索框`。
 
 ![指标搜索框](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f741fb51.png)
 
