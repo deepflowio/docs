@@ -13,4 +13,4 @@ DeepFlow 通过对接 Prometheus 数据，以列表的形式展示基础设施�
 * [指标摘要](./metrics-summary/) 
 * [指标模板](./metrics-template/)
 
-注：使用`主机`或`容器`时，需将 Prometheus node_exporter 数据推送给 DeepFlow，推送方式参考[集成 Prometheus 数据](../../../integration/input/metrics/prometheus/)
+注：使用`主机`或`容器`时，需将 Prometheus node_exporter 数据推送给 DeepFlow，推送方式参考[集成 Prometheus 数据](../../integration/input/metrics/prometheus/)

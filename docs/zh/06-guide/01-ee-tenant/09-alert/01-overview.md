@@ -9,6 +9,6 @@ permalink: /guide/ee-tenant/alert/overview/
 
 DeepFlow 的告警分为三大页面，接下来将详细介绍每个页面的使用与说明。
 
-* [告警策略](./business-def/)
-* [推送端点](./service-list/)
+* [告警策略](./alert-policy/)
+* [推送端点](./push-endpoint/)
 * [告警事件](./alert-event/)
