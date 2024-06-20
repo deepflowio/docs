@@ -25,6 +25,7 @@
     "guide/ee-tenant/alert": "告警",
     "guide/ee-tenant/report": "报表",
     "guide/ee-tenant/resources": "资源",
+    "guide/ee-tenant/system": "系统",
     "guide/ee-tenant/configuration": "平台设置",
     "integration": "开发与集成",
     "integration/process": "数据处理",
