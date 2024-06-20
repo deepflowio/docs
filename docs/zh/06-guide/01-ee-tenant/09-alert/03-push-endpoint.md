@@ -17,7 +17,7 @@ permalink: /guide/ee-tenant/alert/push-endpoint/
 
 - 新建 Email 推送：填写相关信息成功建立后，可在[创建告警策略](./alert-policy/)时使用
 - 列表
-  - 关联告警策略：点击数字，可跳转到[告警策略](./alert-policy/)页面中查看使用该推送端点的告警策略
+  - 关联告警策略：点击数字，可跳转到【[告警策略](./alert-policy/)】页面中查看使用该推送端点的告警策略
   - 编辑：支持编辑推动端点
   - 删除：支持删除推送端点
 ### 新建 Email 推送

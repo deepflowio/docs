@@ -5,7 +5,7 @@ permalink: /guide/ee-tenant/query/path-search/
 
 # 路径搜索框
 
-应用-路径统计/路径拓扑、网络-路径统计/路径拓扑/NAT追踪都使用的是`路径搜索框`。
+应用-路径分析/拓扑分析、网络-路径分析/拓扑分析/NAT追踪都使用的是`路径搜索框`。
 
 ![00-路径搜索框](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024032065faac6eb6f17.png)
  
@@ -47,7 +47,7 @@ permalink: /guide/ee-tenant/query/path-search/
 
 ## 查看某命名空间内所有服务的调用拓扑
 
-- 功能页面：应用-路径拓扑
+- 功能页面：应用-拓扑分析
 - 数据表：指标（分钟级）
 -----------------------------
 - 搜索标签：pod_ns = gcp-microservices-demo
@@ -112,7 +112,7 @@ permalink: /guide/ee-tenant/query/path-search/
 
 ## 查看访问某云服务器的流量 TOP 5 的其他资源
 
-- 功能页面：网络-路径统计
+- 功能页面：网络-路径分析
 - 数据表：指标（分钟级）
 ------------------------------
 - 方向：客户端

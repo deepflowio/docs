@@ -6,7 +6,7 @@ permalink: /guide/ee-tenant/dashboard/right-slide-box/
 # 编辑右滑框
 
 视图图表的右滑框可按需编辑页卡，可自定义增删`系统页卡`与`视图页卡`，编辑完的页卡在视图保存记忆到每个图表中。
-- 系统页卡：DeepFlow 系统预定义的页卡，详情参考[应用-右滑框](/guide/ee-tenant/application/right-sliding-box/)
+- 系统页卡：DeepFlow 系统预定义的页卡，详情参考[追踪 - 右滑框](/guide/ee-tenant/tracing/right-sliding-box/)
 - 视图页卡：用户在`视图`中自定义添加的视图
 
 ![右滑框页卡](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240516664579a8512bb.png)
