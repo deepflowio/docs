@@ -55,21 +55,7 @@ function handleFileAndGetSideBar (sourceDir, files, currentFileName) {
         const filePath = path.join(sourceDir, item);
         const stat = fs.statSync(filePath);
         if (stat.isDirectory()) {
-            const readmePath = filePath + path.sep + "README.md";
-            const hasReadme = fs.existsSync(readmePath) && !readmePath.includes('zh'+ path.sep + "README.md")
-            // 如果存在README 则需要读取内容的Permalink
-            let directoryPath = null
-            if (hasReadme) {
-                const fileContent = fs.readFileSync(readmePath, "utf8");
-                const { data: matterData } = matter(fileContent, {});
-                directoryPath = matterData.permalink
-                if(!directoryPath){
-                    directoryPath = getPermalink(filePath)
-                    // 不存在permalink
-                    // 需要改动下readme的内容
-                    fs.writeFileSync(readmePath,`---\npermalink: ${directoryPath}\n---\n`+ fileContent);
-                }
-            }
+            const directoryPath = handlerReadmeFile(filePath)
             // 如果是文件夹 则进行递归
             const res = handleFileAndGetSideBar(filePath, fs.readdirSync(filePath), item)
             // 需要处理下文件名称
@@ -80,15 +66,15 @@ function handleFileAndGetSideBar (sourceDir, files, currentFileName) {
             const fullFile = path.sep + 'docs' + path.sep
             // 需要截取docs目录后面那一串
             const itemStr = longestMatch(filePath.slice(cwd.length + fullFile.length))
-            // if(res.sidebar.length && hasReadme && directoryPath){
-            //     res.sidebar.push([getPermalink1(readmePath), itemStr, directoryPath]) 
-            // }
-            res.sidebar.length && sidebar.push({
-                title: itemStr,
-                collapsable: true,
-                path: directoryPath,
-                children: res.sidebar
-            })
+            // 如果存在 sidebar或者directoryPath 两者之一
+            if(res.sidebar.length || directoryPath){
+                sidebar.push({
+                    title: itemStr,
+                    collapsable: true,
+                    path: directoryPath,
+                    children: res.sidebar
+                })
+            }
             return false
         }
 
@@ -171,6 +157,26 @@ function longestMatch (filePath) {
 
     // 返回最后一项元素
     return oldName;
+}
+
+// 独立处理readme文件
+function handlerReadmeFile(filePath){
+    const readmePath = filePath + path.sep + "README.md";
+    const hasReadme = fs.existsSync(readmePath) && !readmePath.includes('zh'+ path.sep + "README.md")
+    // 如果存在README 则需要读取内容的Permalink
+    let directoryPath = null
+    if (hasReadme) {
+        const fileContent = fs.readFileSync(readmePath, "utf8");
+        const { data: matterData } = matter(fileContent, {});
+        directoryPath = matterData.permalink
+        if(!directoryPath){
+            directoryPath = getPermalink(filePath)
+            // 不存在permalink
+            // 需要改动下readme的内容
+            fs.writeFileSync(readmePath,`---\npermalink: ${directoryPath}\n---\n`+ fileContent);
+        }
+    }
+    return directoryPath
 }
 
 // 简化sidebarData数据
