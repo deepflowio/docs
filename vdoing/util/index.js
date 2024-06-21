@@ -247,13 +247,8 @@ function resolveItem (item, pages, base, groupDepth = 1) {
     })
   } else {
     const children = item.children || []
-    if (children.length === 0 && item.path) {
-      return Object.assign(resolvePage(pages, item.path, base), {
-        title: item.title
-      })
-    }
     return {
-      type: 'group',
+      type: children.length === 0 ? '' : 'group',
       path: item.path && (base + item.path.substring(1)),
       href: item.href,
       title: item.title,
