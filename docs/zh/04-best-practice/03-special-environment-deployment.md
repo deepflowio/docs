@@ -337,3 +337,9 @@ setcap -r /usr/sbin/deepflow-agent
 rmdir /sys/fs/cgroup/cpu/deepflow-agent
 rmdir /sys/fs/cgroup/memory/deepflow-agent
 ```
+
+# 特殊的主机
+
+## Oracle RAC 主机
+
+由于 deepflow-agent 会使用 cgroup 限制自身资源的使用，因此会隐性开启 CPUAccounting 参数，导致 Oracle 无法启动，可参考此[文章](https://blog.csdn.net/jin415147/article/details/132299816)手动修改 CPUAccouting 参数，使 Oracle 正常启动。
