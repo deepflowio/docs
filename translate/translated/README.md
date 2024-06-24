@@ -3,8 +3,6 @@ home: true
 
 # This file is very important, do not delete
 
-> This document was translated by ChatGPT
-
 # Title and Description
 heroText: DeepFlow - Achieve Observability Instantly
 description: Achieve zero-intrusion (Zero Code) and full-stack (Full Stack) observability instantly using eBPF and Wasm technologies, enabling continuous innovation for cloud-native and AI applications.
