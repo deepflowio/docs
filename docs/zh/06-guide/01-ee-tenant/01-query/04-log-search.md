@@ -16,7 +16,9 @@ permalink: /guide/ee-tenant/query/log-search/
 ## 查看某服务存在异常的调用
 
 - 功能页面：应用-调用日志
------------------------------
+
+---
+
 - 服务集合：S1
 - 搜索标签：pod_service = frontend-external，response_status != 正常
 - 路径：服务内、服务外、广域网
@@ -27,7 +29,9 @@ permalink: /guide/ee-tenant/query/log-search/
 ## 查看某服务的 MySQL 调用
 
 - 功能页面：应用-调用日志
------------------------------
+
+---
+
 - 服务集合：S1
 - 搜索标签：pod_service = cars，l7_protocol = MySQL
 - 路径：服务内、服务外、广域网
@@ -38,14 +42,18 @@ permalink: /guide/ee-tenant/query/log-search/
 ## 查看某五元组的流日志
 
 - 功能页面：网络-流日志
------------------------------
+
+---
+
 - 服务集合：S1
 - 搜索标签：pod = insurances-v1-d895774d6-26wf7，client_port = 46168，protocol = TCP
 - 路径：服务内
 - 主分组：pod
 - 次分组：observation_point
 - 方向：客户端
-------------------------------
+
+---
+
 - 服务集合：S2
 - 搜索标签：pod = mysqldb-v1-5cc78df8d-fwrn4，server_port = 3306
 - 路径：服务内
@@ -58,7 +66,9 @@ permalink: /guide/ee-tenant/query/log-search/
 ## 查看某 POD 存在建连异常的流日志
 
 - 功能页面：网络-流日志
------------------------------
+
+---
+
 - 服务集合：S1
 - 搜索标签：pod = frontend-97cc49c74-qs6wh，close_type = 建连-客户端 ACK 缺失，close_type = 建连-服务端 SYN 缺失，close_type = 建连-客户端端口复用，close_type = 建连-服务端直接重置，close_type = 建连-服务端其他重置
 - 路径：服务内、服务外、广域网

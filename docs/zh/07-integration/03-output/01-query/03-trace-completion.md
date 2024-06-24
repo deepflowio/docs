@@ -20,11 +20,13 @@ APM 聚焦在代码层面，不具备全栈多维度无盲点看问题的能力�
 # API 说明
 
 获取 DeepFlow 服务端点端口号：
+
 ```bash
 port=$(kubectl get --namespace deepflow -o jsonpath="{.spec.ports[0].nodePort}" services deepflow-app)
 ```
 
 Trace Completion API 调用方式：
+
 ```bash
 curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/stats/querier/tracing-completion-by-external-app-spans"
 ```
@@ -49,27 +51,28 @@ curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/stats/querier/tracing-
 }
 ```
 
-| 字段 | 类型 | 必填 | 说明 |
-| ---- | --- | ---- | ---- |
-| max_iteration | int | 否 | 系统 Span 追踪的深度，默认30, 单位：层 |
-| network_delay_us | int | 否 | 网络 Span 追踪的时间跨度 ，默认3000000，单位：微秒|
-| app_spans | array[AppSpans] | 是 | 希望补全调用链的 `应用 Span` 列表，可以是一次完整的 Trace 中所有`应用 Span`（但不建议） |
+| 字段             | 类型            | 必填 | 说明                                                                                    |
+| ---------------- | --------------- | ---- | --------------------------------------------------------------------------------------- |
+| max_iteration    | int             | 否   | 系统 Span 追踪的深度，默认 30, 单位：层                                                 |
+| network_delay_us | int             | 否   | 网络 Span 追踪的时间跨度 ，默认 3000000，单位：微秒                                     |
+| app_spans        | array[AppSpans] | 是   | 希望补全调用链的 `应用 Span` 列表，可以是一次完整的 Trace 中所有`应用 Span`（但不建议） |
 
 app_spans 通常为 APM 中一个 Trace 的一部分应用 Span，DeepFlow 据此进行补全，建议每一次调用携带如下 Span：
+
 - 最关注的一个应用 Span（下称 X），称它所在的服务为 a
 - X 的祖先 Span，直到找到第一个不是服务 a 的祖先 Span 为止，例如在 SkyWalking 中就是找到第一个类型为 Exit 的祖先 Span
 - X 的子孙 Span，每一个子分支直到找到第一个不是服务 a 的祖先 Span 为止，例如在 SkyWalking 中就是对每一个子分支找到第一个类型为 Entry 的子孙 Span
 
 在请求中携带这些 Span 的目的是，告知 DeepFlow 以 Span X 为核心进行补全，且以 X 的祖先和子孙为边界来重构返回结果中所有 Span 的父子关系。具体每一个 app_span 需要携带的参数如下：
 
-| 字段 | 类型 | 必填 | 说明 |
-| ---- | --- | ---- | ---- |
-| trace_id | string | 是 | `应用 Span` 的 TraceID |
-| span_id | string | 是 | `应用 Span` 的 SpanID |
-| parent_span_id | string | 是 | `应用 Span` 的 ParentSpanID |
-| span_kind | int | 是 | `应用 Span` 的 Span 类型，含义同 OpenTelemetry，可选值：0: unspecified, 1: internal, 2: server, 3: client, 4: producer, 5: consumer |
-| start_time_us | int | 是 | `应用 Span` 的 Span 开始时间，单位：微秒 |
-| end_time_us |int | 是 | `应用 Span` 的 Span 结束时间，单位：微秒 |
+| 字段           | 类型   | 必填 | 说明                                                                                                                                |
+| -------------- | ------ | ---- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| trace_id       | string | 是   | `应用 Span` 的 TraceID                                                                                                              |
+| span_id        | string | 是   | `应用 Span` 的 SpanID                                                                                                               |
+| parent_span_id | string | 是   | `应用 Span` 的 ParentSpanID                                                                                                         |
+| span_kind      | int    | 是   | `应用 Span` 的 Span 类型，含义同 OpenTelemetry，可选值：0: unspecified, 1: internal, 2: server, 3: client, 4: producer, 5: consumer |
+| start_time_us  | int    | 是   | `应用 Span` 的 Span 开始时间，单位：微秒                                                                                            |
+| end_time_us    | int    | 是   | `应用 Span` 的 Span 结束时间，单位：微秒                                                                                            |
 
 ## 出参说明
 
@@ -123,46 +126,47 @@ app_spans 通常为 APM 中一个 Trace 的一部分应用 Span，DeepFlow 据�
 
 返回结果中的 tracing 为 DeepFlow 追踪的完整 Span，数组类型，数组中的每一项为一个 Span，既包含来自 APM 的应用 Span，也包含 DeepFlow 中的系统/网络 Span。每个 Span 的重要属性有：
 
-| 字段 | 类型 | 说明 |
-| --- | --- | ------ |
-| start_time_us | int | Span 开始时间，单位：微秒 |
-| end_time_us | int | Span 结束时间，单位：微秒 |
-| duration | int | Span 执行时间，单位：微秒 |
-| name | string | Span 名称，系统/网络 Span 对应 DeepFlow 的 [`request_resource` 字段说明](../../../features/universal-map/request-log/) |
-| signal_source | int | Span 来源，对应 DeepFlow 的 [`signal_source` 字段说明](../../../features/universal-map/request-log/)  |
-| tap_side | int | Span 统计位置，对应 DeepFlow 的 [`tap_side` 字段说明](../../../features/universal-map/auto-metrics/#%E7%BB%9F%E8%AE%A1%E4%BD%8D%E7%BD%AE%E8%AF%B4%E6%98%8E) |
-| trace_id | string | TraceID，`系统/网络 Span` 如有对应的 `应用 Span`，则为对应 `应用 Span` 的此值；否则值为空 |
-| span_id | string | 原始 Span ID，`系统/网络 Span` 如有对应的 `应用 Span`，则为对应 `应用 Span` 的此值；否则值为空 |
-| parent_span_id | string | 原始父 Span ID，`系统/网络 Span` 如有对应的 `应用 Span`，则为对应 `应用 Span` 的此值；否则值为空 |
-| deepflow_span_id | string | DeepFlow 重新计算的 Span ID |
-| deepflow_parent_span_id | string | DeepFlow 重新计算的父 Span ID |
+| 字段                    | 类型   | 说明                                                                                                                                                        |
+| ----------------------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| start_time_us           | int    | Span 开始时间，单位：微秒                                                                                                                                   |
+| end_time_us             | int    | Span 结束时间，单位：微秒                                                                                                                                   |
+| duration                | int    | Span 执行时间，单位：微秒                                                                                                                                   |
+| name                    | string | Span 名称，系统/网络 Span 对应 DeepFlow 的 [`request_resource` 字段说明](../../../features/universal-map/request-log/)                                      |
+| signal_source           | int    | Span 来源，对应 DeepFlow 的 [`signal_source` 字段说明](../../../features/universal-map/request-log/)                                                        |
+| tap_side                | int    | Span 统计位置，对应 DeepFlow 的 [`tap_side` 字段说明](../../../features/universal-map/auto-metrics/#%E7%BB%9F%E8%AE%A1%E4%BD%8D%E7%BD%AE%E8%AF%B4%E6%98%8E) |
+| trace_id                | string | TraceID，`系统/网络 Span` 如有对应的 `应用 Span`，则为对应 `应用 Span` 的此值；否则值为空                                                                   |
+| span_id                 | string | 原始 Span ID，`系统/网络 Span` 如有对应的 `应用 Span`，则为对应 `应用 Span` 的此值；否则值为空                                                              |
+| parent_span_id          | string | 原始父 Span ID，`系统/网络 Span` 如有对应的 `应用 Span`，则为对应 `应用 Span` 的此值；否则值为空                                                            |
+| deepflow_span_id        | string | DeepFlow 重新计算的 Span ID                                                                                                                                 |
+| deepflow_parent_span_id | string | DeepFlow 重新计算的父 Span ID                                                                                                                               |
 
 除此之外，API 还会为每个 Span 额外返回一些字段：
 
-| 字段 | 类型 | 说明 | 备注 |
-| --- | --- | ------ | ---- |
-| \_ids | array | Span 对应的 DeepFlow 调用日志 |  |
-| related_ids | int | Span 关联的其他 DeepFlow 调用日志 |  |
-| flow_id | string | Span 对应的 DeepFlow 流日志，应用/系统 Span 无数据 |
-| l7_protocol | int | Span 的应用协议，对应 DeepFlow 的 [`l7_protocol` 字段说明](../../../features/universal-map/request-log/) |
-| l7_protocol_str | string | Span 的应用协议 |
-| request_type | string | Span 的请求类型  |
-| request_id | string | Span 的请求 ID  |
-| endpoint | string | Span 的请求端点 |
-| request_resource | string | Span 的请求资源 |
-| response_status | int | Span 的响应状态，对应 DeepFlow 的 [`response_status` 字段说明](../../../features/universal-map/request-log/) |
-| process_id | int | Span 所属的进程ID，仅系统 Span 有数据 |
-| app_service | string | Span 所属的服务，仅应用 Span 有数据 |
-| app_instance | string | Span 所属的实例，仅应用 Span 有数据 |
-| vtap_id | int | Span 对应的采集器 ID |
-| req_tcp_seq | int | Span 请求对应的 TCP Seq，仅系统/网络 Span 有数据 | 用于追踪计算 |
-| resp_tcp_seq | int | Span 响应对应的 TCP Seq，仅系统/网络 Span 有数据 | 用于追踪计算 |
-| x_request_id | string | Span 请求或响应的 X-Request-ID，仅系统/网络 Span 有数据 | 用于追踪计算 |
-| syscall_trace_id_request | string | Span 请求对应的 Syscall TraceID，仅系统 Span 有数据 | 用于追踪计算 |
-| syscall_trace_id_response | string | Span 响应对应的 Syscall TraceID，仅系统 Span 有数据 | 用于追踪计算 |
-| syscall_cap_seq_0 | string | Span 请求对应的 Syscall Seq，仅系统 Span 有数据 | 用于追踪计算 |
-| syscall_cap_seq_1 | string | Span 响应对应的 Syscall Seq，仅系统 Span 有数据 | 用于追踪计算 |
+| 字段                      | 类型   | 说明                                                                                                         | 备注         |
+| ------------------------- | ------ | ------------------------------------------------------------------------------------------------------------ | ------------ |
+| \_ids                     | array  | Span 对应的 DeepFlow 调用日志                                                                                |              |
+| related_ids               | int    | Span 关联的其他 DeepFlow 调用日志                                                                            |              |
+| flow_id                   | string | Span 对应的 DeepFlow 流日志，应用/系统 Span 无数据                                                           |
+| l7_protocol               | int    | Span 的应用协议，对应 DeepFlow 的 [`l7_protocol` 字段说明](../../../features/universal-map/request-log/)     |
+| l7_protocol_str           | string | Span 的应用协议                                                                                              |
+| request_type              | string | Span 的请求类型                                                                                              |
+| request_id                | string | Span 的请求 ID                                                                                               |
+| endpoint                  | string | Span 的请求端点                                                                                              |
+| request_resource          | string | Span 的请求资源                                                                                              |
+| response_status           | int    | Span 的响应状态，对应 DeepFlow 的 [`response_status` 字段说明](../../../features/universal-map/request-log/) |
+| process_id                | int    | Span 所属的进程 ID，仅系统 Span 有数据                                                                       |
+| app_service               | string | Span 所属的服务，仅应用 Span 有数据                                                                          |
+| app_instance              | string | Span 所属的实例，仅应用 Span 有数据                                                                          |
+| vtap_id                   | int    | Span 对应的采集器 ID                                                                                         |
+| req_tcp_seq               | int    | Span 请求对应的 TCP Seq，仅系统/网络 Span 有数据                                                             | 用于追踪计算 |
+| resp_tcp_seq              | int    | Span 响应对应的 TCP Seq，仅系统/网络 Span 有数据                                                             | 用于追踪计算 |
+| x_request_id              | string | Span 请求或响应的 X-Request-ID，仅系统/网络 Span 有数据                                                      | 用于追踪计算 |
+| syscall_trace_id_request  | string | Span 请求对应的 Syscall TraceID，仅系统 Span 有数据                                                          | 用于追踪计算 |
+| syscall_trace_id_response | string | Span 响应对应的 Syscall TraceID，仅系统 Span 有数据                                                          | 用于追踪计算 |
+| syscall_cap_seq_0         | string | Span 请求对应的 Syscall Seq，仅系统 Span 有数据                                                              | 用于追踪计算 |
+| syscall_cap_seq_1         | string | Span 响应对应的 Syscall Seq，仅系统 Span 有数据                                                              | 用于追踪计算 |
 
 注意：
+
 - 返回结果中 Span 的新父子关系，需要使用 `deepflow_span_id` 与 `deepflow_parent_span_id` 字段来构建
 - 应用插桩后向协议中注入的 TraceID/SpanID 可自动被 Agent 解析采集，默认已适配 OpenTelemetry、SkyWalking 的 Header 格式，如有自定义 Header 请修改 Agent 配置，具体参考 [Agent 高级配置](../../../best-practice/agent-advanced-config/)

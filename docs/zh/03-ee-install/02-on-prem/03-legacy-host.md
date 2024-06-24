@@ -27,7 +27,6 @@ subgraph Legacy-Host-2
 end
 ```
 
-
 ## 获取采集器安装包和采集器组的 Agent Group ID
 
 传统服务器部署 DeepFlow Agent 时需要向云杉网络的同学获取传统服务器的安装包和 Agent Group ID
@@ -84,10 +83,11 @@ docker compose -f deepflow-agent-docker-compose.yaml up -d
 :::
 
 修改 deepflow-agent 的配置文件 `/etc/deepflow-agent.yaml` ：
+
 ```yaml
 controller-ips:
-  - 10.1.2.3  # FIXME: DeepFlow Server Node IPs
-vtap-group-id-request: "g-fffffff"  # FIXME: agent-group ID
+  - 10.1.2.3 # FIXME: DeepFlow Server Node IPs
+vtap-group-id-request: 'g-fffffff' # FIXME: agent-group ID
 ```
 
 启动 deepflow-agent ：

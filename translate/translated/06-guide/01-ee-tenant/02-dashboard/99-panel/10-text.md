@@ -7,7 +7,7 @@ permalink: /guide/ee-tenant/dashboard/panel/text/
 
 # Text
 
-Text is often used for overall description and tips in the Dashboard.
+Text is often used for overall description and tips in the dashboard.
 
 ## Overview Introduction
 

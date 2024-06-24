@@ -16,7 +16,7 @@ Community edition of DeepFlow has been deployed in K8s.
 - Enter the `deploy/templates` directory in the project and modify the configuration parameters in the following files
   - Modify the `namespace` in `service.yaml`, `deployment.yaml`, and `configmap.yaml` to the actual value (it needs to be in the same namespace as mysql)
   - Modify the `host`, `port`, `user_name`, `user_password`, and `database` under `mysql` in the `configmap.yaml` file to the real values
-  - Modify the `ai` section in the `configmap.yaml` file, for specific precautions, please see below `Configure Session Model via yaml`
+  - Modify the `ai` section in the `configmap.yaml` file, for specific precautions, please see the section `Configure Session Model via yaml` below
 - Enter the `deploy/templates` directory in the project and execute the yaml files to deploy the service
   - `kubectl apply -f ./configmap.yaml`
   - `kubectl apply -f ./deployment.yaml`
@@ -62,9 +62,9 @@ ai:
         - 'chatglm_turbo'
 ```
 
-# Using in Grafana
+# Usage in Grafana
 
-The AI model interpretation feature (alpha version) is currently available in `DeepFlow Topo Panel` and `DeepFlow Tracing Panel`:
+The AI model interpretation feature (alpha version) is currently available in the `DeepFlow Topo Panel` and `DeepFlow Tracing Panel`:
 
 ![DeepFlow Topo Panel](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024052966570a950a6ac.png)
 
@@ -116,11 +116,11 @@ Optimize resources: Optimizing resources can reduce their size, thereby improvin
 Compressing images.
 Using appropriate image formats.
 Minifying CSS and JavaScript files.
-Use caching appropriately: Caching can reduce repeated network requests, thereby improving loading speed. This can be achieved by:
+Proper use of caching: Caching can reduce repeated network requests, thereby improving loading speed. This can be achieved by:
 Setting appropriate cache headers.
 Using browser caching.
 Optimize DOM structure: A reasonable DOM structure can reduce browser parsing and rendering time. This can be achieved by:
-Reducing the number and levels of DOM elements.
+Reducing the number and hierarchy of DOM elements.
 Avoiding complex CSS selectors.
 Optimize JavaScript code: Optimizing JavaScript code can improve code execution efficiency. This can be achieved by:
 Avoiding the use of global variables.
@@ -138,9 +138,9 @@ Using caching.
 Optimizing code.
 Network optimization
 
-Choose an appropriate CDN: CDN can distribute content to servers closer to the user, thereby reducing network latency.
+Choose an appropriate CDN: A CDN can distribute content to servers closer to the user, thereby reducing network latency.
 Optimize DNS resolution: Optimizing DNS resolution can improve DNS resolution speed. This can be achieved by:
-Using CDN.
+Using a CDN.
 Configuring DNS records.
 Using Gzip compression: Gzip compression can reduce the amount of data transmitted, thereby improving loading speed.
 Tools
@@ -150,7 +150,7 @@ Various tools can be used to test and analyze the performance of web pages, such
 Google PageSpeed Insights
 Lighthouse
 WebPageTest
-By using these tools, you can identify performance bottlenecks in web pages and optimize accordingly.
+By using these tools, you can identify performance bottlenecks in web pages and perform corresponding optimizations.
 
 Web page optimization is a continuous process that requires constant testing and optimization to achieve the best performance.
 

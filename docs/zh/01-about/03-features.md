@@ -6,6 +6,7 @@ permalink: /about/features
 # 三大核心功能
 
 通过利用 eBPF 采集应用函数、系统调用函数、网卡收发的数据，DeepFlow 首先聚合成 TCP/UDP 流日志（Flow Log），经过应用协议识别后聚合得到应用调用日志（Request Log），进而计算出全栈的 RED（Request/Error/Delay）性能指标，并关联生成分布式追踪火焰图。除此之外，DeepFlow 在流日志聚合过程中还计算了 TCP 吞吐、时延、建连异常、重传、零窗等网络层性能指标，以及通过 Hook 文件读写操作计算了 IO 吞吐和时延指标，并将所有这些指标关联至每个调用日志上。另外，DeepFlow 也支持通过 eBPF 获取每个进程的 On-CPU、Off-CPU 函数火焰图，以及分析 TCP 包绘制 Network Profile 时序图。所有这些能力最终体现为三大核心功能：
+
 - Universal Map for Any Service，任意服务的全景图
 - Distributed Tracing for Any Request，任意调用的分布式追踪
 - Continuous Profiling for Any Function，任何函数的持续性能剖析
@@ -22,7 +23,7 @@ permalink: /about/features
 
 ## 分布式追踪
 
-零侵扰的分布式追踪（**AutoTracing**）是 DeepFlow 中的一个重大创新，在通过 eBPF 和 cBPF 采集调用日志时，DeepFlow 基于系统调用上下文计算出了 syscall\_trace\_id、thread\_id、goroutine\_id、cap\_seq、tcp\_seq 等信息，**无需修改应用代码、无需注入 TraceID、SpanID 即可实现分布式追踪**。目前 DeepFlow 除了跨线程（通过内存 Queue 或 Channel 传递信息）和异步调用以外，都能实现零侵扰的分布式追踪。此外也支持解析应用注入的唯一 Request ID（例如几乎所有网关都会注入 X-Request-ID）来解决跨线程和异步的问题。下图对比了 DeepFlow 和 APM 的分布式追踪能力。APM 仅能对插桩的服务实现追踪，常见的是利用 Java Agent 覆盖 Java 服务。DeepFlow 使用 eBPF 实现了所有服务的追踪，包括 Nginx 等 SLB、Spring Cloud Gateway 等微服务网关、Envoy 等 Service Mesh 边车，以及 MySQL、Redis、CoreDNS 等基础服务（包括它们读写文件的耗时），除此之外还覆盖了 Pod NIC、Node NIC、KVM NIC、物理交换机等网络传输路径，更重要的是对 Java、Golang 以及所有语言都可无差别支持。
+零侵扰的分布式追踪（**AutoTracing**）是 DeepFlow 中的一个重大创新，在通过 eBPF 和 cBPF 采集调用日志时，DeepFlow 基于系统调用上下文计算出了 syscall_trace_id、thread_id、goroutine_id、cap_seq、tcp_seq 等信息，**无需修改应用代码、无需注入 TraceID、SpanID 即可实现分布式追踪**。目前 DeepFlow 除了跨线程（通过内存 Queue 或 Channel 传递信息）和异步调用以外，都能实现零侵扰的分布式追踪。此外也支持解析应用注入的唯一 Request ID（例如几乎所有网关都会注入 X-Request-ID）来解决跨线程和异步的问题。下图对比了 DeepFlow 和 APM 的分布式追踪能力。APM 仅能对插桩的服务实现追踪，常见的是利用 Java Agent 覆盖 Java 服务。DeepFlow 使用 eBPF 实现了所有服务的追踪，包括 Nginx 等 SLB、Spring Cloud Gateway 等微服务网关、Envoy 等 Service Mesh 边车，以及 MySQL、Redis、CoreDNS 等基础服务（包括它们读写文件的耗时），除此之外还覆盖了 Pod NIC、Node NIC、KVM NIC、物理交换机等网络传输路径，更重要的是对 Java、Golang 以及所有语言都可无差别支持。
 
 ![DeepFlow 和 APM 的分布式追踪对比](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240601665a96eb4e2e2.png)
 

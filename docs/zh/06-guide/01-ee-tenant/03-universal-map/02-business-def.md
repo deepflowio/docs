@@ -10,6 +10,7 @@ permalink: /guide/ee-tenant/universal-map/business-def/
 ![00-术语说明](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202310196530f64f1d682.jpg)
 
 业务可由若干`服务`及`路径`组成，`服务`可完全通过用户自定义，并加入到`自定义服务组`；也可仅设定服务组，在服务组中自动生成`服务`，此时对应`自动分组服务组`。`路径`通过指定服务的访问关系而来，以下对着上图说明：
+
 - 业务：手机银行业务
 - 服务：
   - 未加入任何服务，独立的服务：前台负载服务
@@ -58,12 +59,12 @@ permalink: /guide/ee-tenant/universal-map/business-def/
     - 服务拓扑：跳转至`服务拓扑`页面，查看该业务的拓扑。使用详情，请参阅【[服务拓扑](./service-map/)】章节
     - 服务列表：跳转至`服务列表`页面，查看该业务的拓扑。使用详情，参考【[服务拓扑](./service-list/)】章节
 - 服务列表：当前业务中所有的服务的相关信息，支持编辑、删除
-  - 例如 Redis/DNS/访问客户端/压测客户端均为一个独立的服务 
+  - 例如 Redis/DNS/访问客户端/压测客户端均为一个独立的服务
 
 ![04-新建服务](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024040766124e3fcabc4.png)
 
 - 名称：必填，服务名称同一个业务中不可重名
-- 图例：`服务拓扑`及`服务列表`显示的服务ICON，目前可选项为`资源-图例`
+- 图例：`服务拓扑`及`服务列表`显示的服务 ICON，目前可选项为`资源-图例`
 - 过滤条件：根据过滤条件定义服务数据，支持`双/单`方向查询
   - 独立设置客户端与服务端：勾选，则使用客户端与服务端过滤条件框，进行`单方向`过滤；不勾选，则进行`双方向`过滤
   - 方向：分别定义服务作为不同角色的过滤条件
@@ -79,10 +80,10 @@ permalink: /guide/ee-tenant/universal-map/business-def/
   - 指标量超过阈值时，对应的`服务`显示会标红
 
 #### 服务组
- 
+
 ![05-服务组](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024040766124e41e9e32.png)
 
-- 服务组列表：每一行代表业务中的一组服务，例如前台服务组，可以包含APP接入服务、Web接入服务。DeepFlow 服务组即可用户自定义，逐一添加自定义的服务，也可以将自动识别的一组服务组成服务组。
+- 服务组列表：每一行代表业务中的一组服务，例如前台服务组，可以包含 APP 接入服务、Web 接入服务。DeepFlow 服务组即可用户自定义，逐一添加自定义的服务，也可以将自动识别的一组服务组成服务组。
 
 ![06-新建服务组](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024040766124e4586d8e.png)
 
@@ -104,6 +105,6 @@ permalink: /guide/ee-tenant/universal-map/business-def/
 ![08-新建路径](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024040766124e4a3bd2a.png)
 
 - 名称：必填，路径名称
-- 客户端：多选，候选项为`全部`、`自定义服务及自动分组`类型的服务组 
+- 客户端：多选，候选项为`全部`、`自定义服务及自动分组`类型的服务组
 - 服务端：多选，候选项为`全部`、`自定义服务及自动分组`类型的服务组
 - 全部：表示选择所有的自定义服务/自动分组类型的服务组

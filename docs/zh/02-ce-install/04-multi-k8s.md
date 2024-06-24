@@ -103,7 +103,6 @@ helm install deepflow-agent -n deepflow deepflow/deepflow-agent --create-namespa
 
 我们建议上述部署过程中将 deepflow-agent 的 `deepflowServerNodeIPS` 配置为 K8s 集群的一个或多个相对固定的 Node IP。
 
-
 # 下一步
 
 - [服务全景图 - 体验 DeepFlow 的 AutoMetrics 能力](../features/universal-map/auto-metrics/)

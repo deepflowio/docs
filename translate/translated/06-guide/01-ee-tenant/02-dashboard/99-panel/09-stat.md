@@ -27,7 +27,7 @@ The overview chart editing box consists of three parts: `① Chart`, `② Search
 - **① Chart:** The chart is drawn based on `② Search Conditions` and `③ Style and Settings`
 - **② Search Conditions:** For the usage of search conditions, please refer to the section [Search](../../query/overview/)
 - **③ Style and Settings:** Set the style, color, etc., of the chart
-  - **Style:** Rich functionalities support style settings for the chart
+  - **Style:** Rich functionalities to support style settings for the chart
     - **Title:** Supports modifying the chart name
     - **Unit:** Supports editing the unit. If no unit is set, the default unit of the metric will be used
     - **Data Precision:** Supports setting the decimal places for displaying data
@@ -35,4 +35,4 @@ The overview chart editing box consists of three parts: `① Chart`, `② Search
     - **Color:** Supports setting the color of the font, background, and background image
   - **Settings:**
     - **Background Image:** Supports displaying a line chart or bar chart of the metric over a time period
-    - **Comparison:** Supports displaying a comparison of the metric values between the current time and one hour ago, one day ago
+    - **Comparison:** Supports displaying a comparison of the metric values between the current time and one hour ago, or one day ago

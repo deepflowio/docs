@@ -7,10 +7,10 @@ permalink: /guide/ee-tenant/dashboard/overview/
 
 # Overview
 
-A view is made up of one or a group of sub-views. DeepFlow has a wide range of sub-views, allowing for the effortless customization of visual panels for various scenarios.
-We will provide the following instructions to help you quickly understand and use the view function of DeepFlow.
+A Dashboard is composed of one or a group of charts. DeepFlow offers a rich variety of charts, allowing you to easily customize visualization panels for various scenarios.
+We provide the following instructions to help you quickly understand and use the DeepFlow Dashboard features.
 
-- [Viewlist](./list/)
-- [View Details](./use/)
-- [Add Subviews](./add-panel/)
-- [Variable Templates](./variable-template/)
+- [Dashboard List](./list/)
+- [Dashboard Details](./use/)
+- [Add Panel](./add-panel/)
+- [Variable Template](./variable-template/)

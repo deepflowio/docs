@@ -1,5 +1,5 @@
 ---
-title: SkyWalking Data Import
+title: Import SkyWalking Data
 permalink: /integration/input/tracing/skywalking
 ---
 
@@ -38,29 +38,29 @@ end
 
 # Configure OpenTelemetry SkyWalking Receiver
 
-## Background Information
+## Background Knowledge
 
-You can check the [OpenTelemetry documentation](https://opentelemetry.io/docs/) for background knowledge on OpenTelemetry. You can also read the previous section on the [OpenTelemetry installation](../tracing/opentelemetry/#configure-opentelemetry) for a quick installation.
+You can refer to the [OpenTelemetry documentation](https://opentelemetry.io/docs/) to understand the background knowledge of OpenTelemetry and refer to the previous section [OpenTelemetry Installation](../tracing/opentelemetry/#配置-opentelemetry) for quick installation of OpenTelemetry.
 
-You can refer to the [SkyWalking documentation](https://skywalking.apache.org/docs/) for background information on SkyWalking. This Demo does not require a full SkyWalking installation. Instead, we will use OpenTelemetry to integrate SkyWalking Trace data.
+You can refer to the [SkyWalking documentation](https://skywalking.apache.org/docs/) to understand the background knowledge of SkyWalking. This demo does not require a full installation of SkyWalking; we will use OpenTelemetry to integrate SkyWalking's trace data.
 
-## Check OpenTelemetry Version
+## Confirm OpenTelemetry Version
 
-First, you need to enable OpenTelemetry's SkyWalking data receiving capabilities. The data will be processed by the OpenTelemetry standard protocol and passed to DeepFlow Agent.
+First, you need to enable OpenTelemetry's ability to receive SkyWalking data, process the data through the OpenTelemetry standard protocol, and send it to the DeepFlow Agent.
 
-There are bugs in OpenTelemetry receiving SkyWalking data. We have recently made fixes in [#11562](https://github.com/open-telemetry/opentelemetry-collector-contrib/pull/11562) and [#12651](https://github.com/open-telemetry/opentelemetry-collector-contrib/pull/12651). For the following demonstration, we need the [Collector mirror](https://hub.docker.com/r/otel/opentelemetry-collector-contrib) version of OpenTelemetry `>= 0.57.0`. Please check the image version of otel-agent in your environment and make sure it meets the requirements. You can refer to the previous section on [OpenTelemetry installation](../tracing/opentelemetry/#configure-otel-agent) to update the otel-agent version in your environment.
+There is a bug in OpenTelemetry receiving SkyWalking data, which we have recently fixed in these two PRs [#11562](https://github.com/open-telemetry/opentelemetry-collector-contrib/pull/11562) and [#12651](https://github.com/open-telemetry/opentelemetry-collector-contrib/pull/12651). For the following demo, we need the OpenTelemetry [Collector image](https://hub.docker.com/r/otel/opentelemetry-collector-contrib) version `>= 0.57.0`. Please check the image version of the otel-agent in your environment and ensure it meets the requirements. Refer to the previous section [OpenTelemetry Installation](../tracing/opentelemetry/#配置-otel-agent) to update the otel-agent version in your environment.
 
 ## Configure OpenTelemetry to Receive SkyWalking Data
 
-After installing OpenTelemetry as described in the [Background Information](#Background-Information) section, we can proceed with the following steps to configure OpenTelemetry to receive SkyWalking data:
+After installing OpenTelemetry as described in the [Background Knowledge](#背景知识) section, we can configure OpenTelemetry to receive SkyWalking data using the following steps:
 
-Assuming the namespace where OpenTelemetry resides is `open-telemetry`, and the ConfigMap used by the otel-agent is named `otel-agent-conf`, use the command below to modify the otel-agent configuration.
+Assuming the namespace where OpenTelemetry is located is `open-telemetry` and the ConfigMap used by otel-agent is named `otel-agent-conf`, use the following command to modify the otel-agent configuration:
 
 ```bash
 kubectl -n open-telemetry edit cm otel-agent-conf
 ```
 
-Add the following content in the `receivers` section:
+In the `receivers` section, add the following content:
 
 ```yaml
 receivers:
@@ -73,7 +73,7 @@ receivers:
         endpoint: 0.0.0.0:12800
 ```
 
-In the `service.pipelines.traces` section, add the following:
+In the `service.pipelines.traces` section, add the following content:
 
 ```yaml
 service:
@@ -83,19 +83,19 @@ service:
       receivers: [skywalking]
 ```
 
-Ensure that `otel-agent-conf` has finished the corresponding configuration according to the section on [configuring otel-agent](../tracing/opentelemetry/#configure-otel-agent).
+At the same time, ensure that the `otel-agent-conf` has completed the corresponding configuration as described in the section [Configure otel-agent](../tracing/opentelemetry/#配置-otel-agent).
 
-Next, use the command below to modify otel-agent Service and open the corresponding port:
+Next, use the following command to modify the otel-agent Service to open the corresponding ports:
 
 ```bash
 kubectl -n open-telemetry patch service otel-agent -p '{"spec":{"ports":[{"name":"sw-http","port":12800,"protocol":"TCP","targetPort":12800},{"name":"sw-grpc","port":11800,"protocol":"TCP","targetPort":11800}]}}'
 ```
 
-Check the address of the [SkyWalking OAP Server](https://skywalking.apache.org/docs/main/next/en/setup/backend/backend-setup/#requirements-and-default-settings) configured in your application and modify it to the Otel Agent's Service address: `otel-agent.open-telemetry`. Make sure that the environment variable `SW_AGENT_COLLECTOR_BACKEND_SERVICES=oap-server:11800` is modified to `SW_AGENT_COLLECTOR_BACKEND_SERVICES=otel-agent.open-telemetry:11800`.
+Then, check the connection address configured in the application for the [SkyWalking OAP Server](https://skywalking.apache.org/docs/main/next/en/setup/backend/backend-setup/#requirements-and-default-settings) and modify it to the Service address of the Otel Agent: `otel-agent.open-telemetry`. For example, change the environment variable `SW_AGENT_COLLECTOR_BACKEND_SERVICES=oap-server:11800` to `SW_AGENT_COLLECTOR_BACKEND_SERVICES=otel-agent.open-telemetry:11800`.
 
-The reporting address configured by your application may take various forms, so please modify it according to the actual startup command of your application. For `Java` applications, you just need to make sure that you can modify the injected address in the startup command, such as `-Dskywalking.collector.backend_service=otel-agent.open-telemetry:11800`.
+Of course, the reporting address configured in the application may take various forms. Please modify it according to the actual startup command of the application. For `Java` applications, just ensure that the address injected in the startup command can be modified, such as: `-Dskywalking.collector.backend_service=otel-agent.open-telemetry:11800`.
 
-Finally, restart otel-agent to complete otel-agent update:
+Finally, restart the otel-agent to complete the update:
 
 ```bash
 kubectl rollout restart -n open-telemetry daemonset/otel-agent
@@ -103,17 +103,17 @@ kubectl rollout restart -n open-telemetry daemonset/otel-agent
 
 # Configure DeepFlow
 
-Please refer to the [Configure DeepFlow](../tracing/opentelemetry/#configure-deepflow) section to complete the configuration of the DeepFlow Agent.
+Please refer to the section [Configure DeepFlow](../tracing/opentelemetry/#配置-deepflow) to complete the configuration of the DeepFlow Agent.
 
-# Experience Based on the WebShop Demo
+# Experience Based on WebShop Demo
 
-## Deployment of the Demo
+## Deploy Demo
 
-This demo is sourced from [this GitHub repository](https://github.com/liuzhibin-cn/my-demo). It is a WebShop application composed of five microservices written based on Spring Boot. The architecture is as follows:
+This demo comes from [this GitHub repository](https://github.com/liuzhibin-cn/my-demo). It is a WebShop application composed of five microservices written in Spring Boot. Its architecture is as follows:
 
 ![Sping Boot Demo Architecture](./imgs/spring-boot-webshop-arch.png)
 
-Use the following command to deploy this demo with one click. The address for reporting has been configured for this demo, so no further modifications are needed.
+You can deploy this demo with one click using the following command. This demo has already configured the reporting address, so no additional modifications are needed.
 
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/deepflowio/deepflow-demo/main/DeepFlow-Otel-SkyWalking-Demo/deepflow-otel-skywalking-demo.yaml
@@ -121,10 +121,10 @@ kubectl apply -f https://raw.githubusercontent.com/deepflowio/deepflow-demo/main
 
 ## View Tracing Data
 
-Go to Grafana, open the `Distributed Tracing` Dashboard, select `namespace = deepflow-otel-skywalking-demo`, and then select a call for tracing.
-DeepFlow is capable of displaying the tracing data obtained from SkyWalking, eBPF, and BPF in a single Trace flame graph, covering the full-stack call path of a Spring Boot application from business code, system functions, to network interfaces, thereby achieving true full-link distributed tracing. The effect is as follows:
+Go to Grafana, open the `Distributed Tracing` Dashboard, select `namespace = deepflow-otel-skywalking-demo`, and then you can choose a call to trace.
+DeepFlow can correlate and display the tracing data obtained from SkyWalking, eBPF, and BPF in a single trace flame graph,
+covering the full-stack call path of a Spring Boot application from business code, system functions, to network interfaces, achieving true full-link distributed tracing, as shown below:
+
 ![OTel SkyWalking Demo](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2022082363044145adc1b.png)
 
 You can also visit the [DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d/Distributed_Tracing/distributed-tracing?var-namespace=deepflow-otel-skywalking-demo&from=deepflow-doc) to see the effect.
-
-你也可以访问 [DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d/Distributed_Tracing/distributed-tracing?var-namespace=deepflow-otel-skywalking-demo&from=deepflow-doc) 查看效果。

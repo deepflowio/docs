@@ -7,24 +7,31 @@ permalink: /integration/process/wasm-plugin
 
 # About the Wasm Plugin System
 
-The Wasm plugin system implements some user-defined functions by calling the Wasi Export Function at fixed points. Currently implemented functions include:
+The Wasm plugin system implements some user-defined functions by calling the Wasi Export Function at fixed points. We provide some examples in [this repository](https://github.com/deepflowio/deepflow-wasm-go-sdk/tree/main/example), through which you can see what functionalities the current DeepFlow Wasm Plugin can achieve:
 
-- Custom protocol parsing, examples can be found [here](https://github.com/deepflowio/deepflow-wasm-go-sdk/blob/main/example/dns/dns.go)
-- HTTPv1 protocol enhancement, examples can be found [here](https://github.com/deepflowio/deepflow-wasm-go-sdk/blob/main/example/http/http.go)
-- Dubbo protocol enhancement, examples can be found [here](https://github.com/deepflowio/deepflow-wasm-go-sdk/blob/main/example/dubbo/dubbo.go)
+| Category       | Directory           | Description                       |
+| -------------- | ------------------- | --------------------------------- |
+| Enhance Known Protocols | http                | Parse JSON over HTTP               |
+|                | http_status_rewrite | Parse JSON over HTTP               |
+|                | dubbo               | Parse JSON over Dubbo              |
+|                | nats                | Parse Protobuf (nRPC) over NATS    |
+|                | zmtp                | Parse Protobuf over ZMTP           |
+| As New Protocol Parsing | krpc                | Parse Protobuf over TCP            |
+|                | go_http2_uprobe     | Parse Protobuf over HTTP2          |
+|                | dns                 | Demonstrate how to parse DNS as a new protocol |
 
-For more information on Wasm Plugin development, you can also refer to this blog post: [使用 DeepFlow Wasm 插件实现业务可观测性](https://deepflow.io/blog/035-deepflow-enabling-zero-code-observability-for-applications-by-webAssembly/).
+For the development of Wasm Plugin, you can also refer to this blog post: [使用 DeepFlow Wasm 插件实现业务可观测性](https://deepflow.io/blog/035-deepflow-enabling-zero-code-observability-for-applications-by-webAssembly/).
 
 # Golang SDK Instructions
 
-Currently, only the Golang SDK is provided, with more languages to be supported in the future. The Golang SDK requires tinygo for compilation. Below is a brief explanation of how to quickly develop plugins using Golang.
+Currently, only the Golang SDK is provided, with more languages to be supported in the future. The Golang SDK requires tinygo for compilation. Below is a brief explanation of how to quickly develop a plugin using Golang.
 
 ```go
 package main
 
 import (
- "github.com/deepflowio/deepflow-wasm-go-sdk/sdk"
- _ "github.com/wasilibs/nottinygc" // Use nottinygc as an alternative memory allocator for TinyGo compiling WASI, as the default allocator has performance issues in large data scenarios
+	"github.com/deepflowio/deepflow-wasm-go-sdk/sdk"
+	_ "github.com/wasilibs/nottinygc" // Use nottinygc as an alternative memory allocator for TinyGo compiling WASI, as the default allocator has performance issues in large data scenarios
 )
 
 // Define a structure that needs to implement the sdk.Parser interface
@@ -32,35 +39,35 @@ type plugin struct {
 }
 
 /*
-    This returns an array indicating where the agent needs to call the corresponding Export function of the plugin. Currently, there are 3 hook points:
+    The returned array here indicates the hook points where the agent needs to call the corresponding Export function of the plugin. Currently, there are 3 hook points:
         HOOK_POINT_HTTP_REQ       Indicates before the HTTP request parsing is completed and returned
         HOOK_POINT_HTTP_RESP      Indicates before the HTTP response parsing is completed and returned
         HOOK_POINT_PAYLOAD_PARSE  Indicates protocol judgment and parsing
 */
 func (p plugin) HookIn() []sdk.HookBitmap {
- return []sdk.HookBitmap{
-  sdk.HOOK_POINT_HTTP_REQ,
-  sdk.HOOK_POINT_HTTP_RESP,
+	return []sdk.HookBitmap{
+		sdk.HOOK_POINT_HTTP_REQ,
+		sdk.HOOK_POINT_HTTP_RESP,
         sdk.HOOK_POINT_PAYLOAD_PARSE,
- }
+	}
 }
 
 // When HookIn() includes HOOK_POINT_HTTP_REQ, it will be called before the HTTP request parsing is completed and returned.
-// HttpReqCtx contains BaseCtx and some parsed HTTP headers
+// HttpReqCtx contains BaseCtx and some already parsed HTTP headers
 func (p plugin) OnHttpReq(ctx *sdk.HttpReqCtx) sdk.Action {
-    // baseCtx includes some information like IP, port, layer 4 protocol, packet direction, etc.
+    // baseCtx includes some information like ip, port, layer 4 protocol, packet direction, etc.
     baseCtx := &ctx.BaseCtx
 
-    // Optional filtering of port and path
- if baseCtx.DstPort != 8080 || !strings.HasPrefix(ctx.Path, "/user_info?") {
-  return sdk.ActionNext()
- }
+    // Optional filtering by port and path
+	if baseCtx.DstPort != 8080 || !strings.HasPrefix(ctx.Path, "/user_info?") {
+		return sdk.ActionNext()
+	}
 
     // payload is the application layer data, which may be truncated
- payload, err := baseCtx.GetPayload()
+	payload, err := baseCtx.GetPayload()
     if err != nil {
-  return sdk.ActionAbortWithErr(err)
- }
+		return sdk.ActionAbortWithErr(err)
+	}
 
     var(
         trace = &sdk.Trace{}
@@ -89,32 +96,32 @@ func (p plugin) OnHttpResp(ctx *sdk.HttpRespCtx) sdk.Action {
     It needs to return a unique protocol number and protocol name, returning 0 indicates failure
 */
 func (p plugin) OnCheckPayload(baseCtx *sdk.ParseCtx) (uint8, string) {
- return 0, ""
+	return 0, ""
 }
 
 func (p plugin) OnParsePayload(baseCtx *sdk.ParseCtx) sdk.ParseAction {
-    // ctx.L7 is the protocol number returned by OnCheckPayload, you can filter based on layer 4 protocol or protocol number.
+    // ctx.L7 is the protocol number returned by OnCheckPayload, you can filter based on layer 4 protocol or protocol number first.
     if ctx.L4 != sdk.TCP || ctx.L7 != 1 {
-  return sdk.ActionNext()
- }
+		return sdk.ActionNext()
+	}
 
- payload, err := ctx.GetPayload()
- if err != nil {
-  return sdk.ActionAbortWithErr(err)
- }
+	payload, err := ctx.GetPayload()
+	if err != nil {
+		return sdk.ActionAbortWithErr(err)
+	}
     // the parse logic here
     // ...
 
     /*
         About the L7ProtocolInfo structure:
             type L7ProtocolInfo struct {
-                ReqLen    *int       // Request length, e.g., HTTP content-length
-                RespLen   *int       // Response length, e.g., HTTP content-length
-                RequestID *uint32    // Substream ID, e.g., HTTP2 stream ID, DNS transaction ID
+                ReqLen    *int       // Request length, e.g., content-length in HTTP
+                RespLen   *int       // Response length, e.g., content-length in HTTP
+                RequestID *uint32    // Substream ID, e.g., stream ID in HTTP2, transaction ID in DNS
                 Req       *Request
                 Resp      *Response
                 Trace     *Trace     // Tracing information
-                Kv        []KeyVal   // Corresponding attributes
+                Kv        []KeyVal   // Corresponding attribute
             }
 
             type Request struct {
@@ -138,7 +145,7 @@ func (p plugin) OnParsePayload(baseCtx *sdk.ParseCtx) sdk.ParseAction {
 // main needs to register the parser
 func main() {
     sdk.SetParser(plugin{})
- sdk.Warn("xxx wasm plugin registered")
+	sdk.Warn("xxx wasm plugin registered")
 }
 // About return values
 /*
@@ -147,7 +154,7 @@ func main() {
     The return values are as follows:
         sdk.ActionNext()                 Stop the current plugin and directly execute the next plugin
         sdk.ActionAbort()                Stop the current plugin and stop traversal
-        sdk.ActionAbortWithErr(err)      Stop the current plugin, print error logs, and stop traversal
+        sdk.ActionAbortWithErr(err)      Stop the current plugin, print error log, and stop traversal
 
         sdk.HttpActionAbortWithResult()
         sdk.ParseActionAbortWithL7Info()  The agent stops traversal and extracts the corresponding return result
@@ -184,20 +191,20 @@ wasm-plugins:
 
 # Related Issues and Limitations
 
-- Cannot use go func(), you can remove the -scheduler=none parameter to pass the compilation but it will not achieve the desired effect
+- Cannot use go func(), you can remove the -scheduler=none parameter to let the compilation pass but it will not achieve the desired effect
 - Cannot use time.Sleep(), this will cause the Wasm plugin to fail to load
 - If the plugin execution time is too long, it will block the agent's execution for a long time. If it enters an infinite loop, the agent will be continuously blocked
-- tinygo has certain limitations on the standard library and third-party libraries of go, not all go code or libraries can be used. For the standard library, you can refer to [tinygo package supported](https://tinygo.org/docs/reference/lang-support/stdlib/) for the support status. Note that this list is for reference only, and "Passes tests" showing "no" does not mean it cannot be used at all, for example, fmt.Sprintf() can be used but fmt.Println() cannot.
-- Since go version 1.21 supports wasi, if you need to use built-in serialization-related libraries (json, yaml, xml, etc.), you need to use go version not lower than 1.21 and tinygo version not lower than 0.29.
-- The structures returned from the Parser (L7ProtocolInfo, Trace, []KeyVal) will be serialized to linear memory. Currently, the memory allocated for serialization of each structure is fixed at 1 page (65536 bytes). If the returned structure is too large, serialization will fail.
+- Tinygo has certain limitations on Go's standard library and third-party libraries, not all Go code or libraries can be used. For the standard library, you can refer to [tinygo package supported](https://tinygo.org/docs/reference/lang-support/stdlib/) for the support status. Note that this list is for reference only, "Passes tests" showing "no" does not mean it cannot be used at all, for example, fmt.Sprintf() can be used but fmt.Println() cannot.
+- Since Go 1.21 version supports wasi, if you need to use built-in serialization-related libraries (json, yaml, xml, etc.), you need to use Go version not lower than 1.21 and tinygo version not lower than 0.29.
+- The structures returned from Parser (L7ProtocolInfo, Trace, []KeyVal) will be serialized to linear memory. Currently, the memory allocated for serialization of each structure is fixed at 1 page (65536 bytes). If the returned structure is too large, it will cause serialization failure.
 - The agent determines the application layer protocol of a stream by traversing all supported protocols. The current order is HTTP -> Wasm Hook -> DNS -> ..., with Wasm having a priority just below HTTP. Therefore, user-defined protocol judgment and parsing can override the agent's existing protocol judgment and parsing (except for HTTP/HTTP2). For example, in [this example](https://github.com/deepflowio/deepflow-wasm-go-sdk/blob/5393818adf94f2f9b296de82e20f614ba3b2336a/example/dns/dns.go), DNS parsing can be overridden, and the agent will not execute the default DNS parsing logic.
-- Due to the complexity of network environments and protocols, incomplete application layer data frames may be received, such as IP fragmentation caused by MTU limitations, TCP peer receive window or flow control congestion window shrinkage, MSS being too small, etc., resulting in incomplete application layer data frames. Currently, transport layer connection tracking has not been implemented. Additionally, application layer data that is too long will also be truncated.
+- Due to the complexity of network environments and protocols, it is possible to receive incomplete application layer data frames, such as IP fragmentation caused by MTU limitations, TCP peer receive window or flow control congestion window shrinkage, MSS being too small, etc., resulting in incomplete application layer data frames. Currently, transport layer connection tracking has not been implemented. Additionally, application layer data that is too long will also be truncated.
 
 # Wasm Plugin Execution Flow
 
 Before understanding the execution flow of the Wasm plugin, you need to have a general understanding of DeepFlow's protocol parsing. You can refer to [DeepFlow Protocol Development Documentation](https://github.com/deepflowio/deepflow/blob/main/docs/HOW_TO_SUPPORT_YOUR_PROTOCOL_CN.MD).
 
-The execution flow of the Wasm plugin is as follows
+The execution flow of the Wasm plugin is as follows:
 
 ```mermaid
 graph TB;
@@ -206,7 +213,7 @@ graph TB;
 
   id1(["wasm runtime"]);
 
-  id3(["read wasm file and load to runetime"])-->id4(["instance"]);
+  id3(["read wasm file and load to runtime"])-->id4(["instance"]);
 
   id1-->id3;
 
@@ -236,7 +243,7 @@ graph TB;
   id30(["vm: OnHttpReq(*HttpReqCtx)(*Trace, []KeyVal)"]) -->
   id31(["vm serialize struct Trace and []KeyVal to instance linear memory"])-->
   id32(["vm import: hostReadHttpResult(b *byte, length int) bool"])-->
-  id33(["host deserialize  struct Trace and []KeyVal  from instacne memory"])-->
+  id33(["host deserialize struct Trace and []KeyVal from instance memory"])-->
   id34(["host replace the trace info from struct Trace and extend attribute from []KeyVal"]);
 
   id35(["host: http response before HttpLog::parse_payload() return"]) --> id7 -->
@@ -245,7 +252,7 @@ graph TB;
   id39(["vm: OnHttpResp(*HttpRespCtx)(*Trace, []KeyVal)"]) -->
   id40(["vm serialize struct Trace and []KeyVal to instance linear memory"])-->
   id41(["vm import: hostReadHttpResult(b *byte, length int) bool"])-->
-  id42(["host deserialize  struct Trace and []KeyVal  from instacne memory"])-->
+  id42(["host deserialize struct Trace and []KeyVal from instance memory"])-->
   id43(["host replace the trace info from struct Trace and extend attribute from []KeyVal"]);
 ```
 

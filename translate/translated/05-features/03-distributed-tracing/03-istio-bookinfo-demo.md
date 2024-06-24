@@ -57,8 +57,7 @@ Go to Grafana, open the `Distributed Tracing` Dashboard, select `namespace = dee
 
 ![eBPF Istio Demo](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2022082363044b235153a.png)
 
-You can also view the tracing results by [visiting the DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d/Distributed_Tracing/distributed-tracing?var-namespace=deepflow-ebpf-istio-demo&from=deepflow-doc).
-The topology corresponding to the flame graph of the call chain in the above image is as follows.
+You can also view the tracing results by [visiting the DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d/Distributed_Tracing/distributed-tracing?var-namespace=deepflow-ebpf-istio-demo&from=deepflow-doc). The topology corresponding to the flame graph of the call chain in the above image is as follows.
 
 ```mermaid
 flowchart TD

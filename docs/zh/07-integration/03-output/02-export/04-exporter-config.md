@@ -10,75 +10,76 @@ permalink: /integration/output/export/exporter-config
 ```yaml
 ingester:
   exporters:
-  - protocol: kafka
-    enabled: true
-    endpoints: [broker1.example.com:9092, broker2.example.com:9092]
-    data-sources:
-    - flow_log.l7_flow_log
-    # - flow_log.l4_flow_log
-    # - flow_metrics.application_map.1s
-    # - flow_metrics.application_map.1m
-    # - flow_metrics.application.1s
-    # - flow_metrics.application.1m
-    # - flow_metrics.network_map.1s
-    # - flow_metrics.network_map.1m
-    # - flow_metrics.network.1s
-    # - flow_metrics.network.1m
-    # - event.perf_event
-    queue-count: 4
-    queue-size: 100000
-    batch-size: 1024
-    flush-timeout: 10
-    tag-filters:
-    export-fields:
-    - $tag
-    - $metrics
-    extra-headers:
-      key1: value1
-      key2: value2
-    export-empty-tag: false
-    export-empty-metrics-disabled: false
-    enum-translate-to-name-disabled: false
-    universal-tag-translate-to-name-disabled: false
-    sasl:
-      enabled: false
-      security-protocol: SASL_SSL  # currently only supports: SASL_SSL
-      sasl-mechanism: PLAIN # currently only supports: PLAIN
-      username: aaa
-      password: bbb
+    - protocol: kafka
+      enabled: true
+      endpoints: [broker1.example.com:9092, broker2.example.com:9092]
+      data-sources:
+        - flow_log.l7_flow_log
+      # - flow_log.l4_flow_log
+      # - flow_metrics.application_map.1s
+      # - flow_metrics.application_map.1m
+      # - flow_metrics.application.1s
+      # - flow_metrics.application.1m
+      # - flow_metrics.network_map.1s
+      # - flow_metrics.network_map.1m
+      # - flow_metrics.network.1s
+      # - flow_metrics.network.1m
+      # - event.perf_event
+      queue-count: 4
+      queue-size: 100000
+      batch-size: 1024
+      flush-timeout: 10
+      tag-filters:
+      export-fields:
+        - $tag
+        - $metrics
+      extra-headers:
+        key1: value1
+        key2: value2
+      export-empty-tag: false
+      export-empty-metrics-disabled: false
+      enum-translate-to-name-disabled: false
+      universal-tag-translate-to-name-disabled: false
+      sasl:
+        enabled: false
+        security-protocol: SASL_SSL # currently only supports: SASL_SSL
+        sasl-mechanism: PLAIN # currently only supports: PLAIN
+        username: aaa
+        password: bbb
 ```
 
 # 详细参数说明
 
-|     字段   |    类型    |   必选   |  描述  |
-|-----------|------------|--------|--------|
-| protocol  | string     | 是 | 支持`opentelemetry`, `prometheus`, `kafka` |
-| enabled   | bool       | 是 | 是否启用该 exporter |
-| data-sources| strings     | 是 | 不同协议支持的数据源取值范围不同. 取值clickhouse `flow_metrics.*/flow_log.*/event.perf_event` 数据, 也用于 Kafka 主题名|
-| endpoints      | strings | 是 | 远端接收地址，不同协议地址格式不同, 随机选择一个可发送成功的 |
-| extra-headers  | map  | 否 | 远端 HTTP 请求的头部字段，比如有效验需求的，可以在这里补充 token 等信息 |
-| batch-size    | int  | 否 | 批次大小，当达到这个数值，成批的发送。默认值： 1024 (protocol 为 opentelemetry 时, 默认值: 32) |
-| flush-timeout | int  | 否 | 刷新间隔，当达到这个时间，则直接发送。单位: 秒，默认值： 10 |
-| queue-count   | int  | 否 | 并发发送数，默认值： 4|
-| tag-filters   | structs | 否 | 过滤不符合条件的数据, 只发送符合条件的数据。默认值: 空, 表示不过滤. 详细配置见下文 |
-| export-fields | strings | 是 | 过滤需要发送的字段或类别，只发送符合条件的字段，例如: $tag, $metrics , 表示所有 `$tag` 和 `$metrics` 类别的字段都发送. 详细配置见下文 |
-| export-empty-tag | bool   | 否 | 对于tag值为空的字段是否发送。默认值: false, 表示不发送 |
-| export-empty-metrics-disabled | bool   | 否 | 对于metrics值为0的字段是否发送。默认值: false, 表示发送 |
-| enum-translate-to-name-disabled | bool | 否 | 对于枚举类型的ID值是否翻译为字符串发送。 默认值: false，表示翻译 |
-| universal-tag-translate-to-name-disabled | bool | 否 | 对于universal-tag类型的资源ID值是否翻译为资源名称发送。 默认值: false，表示翻译 |
-| sasl          | struct | 否  | Kafka 协议使用. 连接 Kafka 认证方式, 目前仅支持 'SASL_SSL' 的 'PLAIN' 方式 |
-| topic         | string | 否  | Kafka 协议使用. 主题名, 若为空, 则取默认值为 `deepflow.$data-source`, 如 `deepflow.flow_log.l7_flow_log` |
+| 字段                                     | 类型    | 必选 | 描述                                                                                                                                |
+| ---------------------------------------- | ------- | ---- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| protocol                                 | string  | 是   | 支持`opentelemetry`, `prometheus`, `kafka`                                                                                          |
+| enabled                                  | bool    | 是   | 是否启用该 exporter                                                                                                                 |
+| data-sources                             | strings | 是   | 不同协议支持的数据源取值范围不同. 取值 clickhouse `flow_metrics.*/flow_log.*/event.perf_event` 数据, 也用于 Kafka 主题名            |
+| endpoints                                | strings | 是   | 远端接收地址，不同协议地址格式不同, 随机选择一个可发送成功的                                                                        |
+| extra-headers                            | map     | 否   | 远端 HTTP 请求的头部字段，比如有效验需求的，可以在这里补充 token 等信息                                                             |
+| batch-size                               | int     | 否   | 批次大小，当达到这个数值，成批的发送。默认值： 1024 (protocol 为 opentelemetry 时, 默认值: 32)                                      |
+| flush-timeout                            | int     | 否   | 刷新间隔，当达到这个时间，则直接发送。单位: 秒，默认值： 10                                                                         |
+| queue-count                              | int     | 否   | 并发发送数，默认值： 4                                                                                                              |
+| tag-filters                              | structs | 否   | 过滤不符合条件的数据, 只发送符合条件的数据。默认值: 空, 表示不过滤. 详细配置见下文                                                  |
+| export-fields                            | strings | 是   | 过滤需要发送的字段或类别，只发送符合条件的字段，例如: $tag, $metrics , 表示所有 `$tag`和`$metrics` 类别的字段都发送. 详细配置见下文 |
+| export-empty-tag                         | bool    | 否   | 对于 tag 值为空的字段是否发送。默认值: false, 表示不发送                                                                            |
+| export-empty-metrics-disabled            | bool    | 否   | 对于 metrics 值为 0 的字段是否发送。默认值: false, 表示发送                                                                         |
+| enum-translate-to-name-disabled          | bool    | 否   | 对于枚举类型的 ID 值是否翻译为字符串发送。 默认值: false，表示翻译                                                                  |
+| universal-tag-translate-to-name-disabled | bool    | 否   | 对于 universal-tag 类型的资源 ID 值是否翻译为资源名称发送。 默认值: false，表示翻译                                                 |
+| sasl                                     | struct  | 否   | Kafka 协议使用. 连接 Kafka 认证方式, 目前仅支持 'SASL_SSL' 的 'PLAIN' 方式                                                          |
+| topic                                    | string  | 否   | Kafka 协议使用. 主题名, 若为空, 则取默认值为 `deepflow.$data-source`, 如 `deepflow.flow_log.l7_flow_log`                            |
 
 ## tag-filters
 
 作用相当于 SQL 语句中的 WHERE，样例见下面的 yaml
+
 - `field-name` 仅支持 ClickHouse 中的原始 Tag 字段名
 - `field-values` 不支持填写 Resource 类型 Tag 的字符串值
 - `operator` 包括
-   - 数值相等/不相等、字符串相等/不相等：`=`、`!=`
-   - 数值属于/不属于某个集合、字符串属于/不属于某个集合：`IN` 、`NOT IN`
-   - 字符串相等/不相等，支持*通配符：`:`、`!:`
-   - 字符串相等/不相等，支持正则：`~`、`!~`
+  - 数值相等/不相等、字符串相等/不相等：`=`、`!=`
+  - 数值属于/不属于某个集合、字符串属于/不属于某个集合：`IN` 、`NOT IN`
+  - 字符串相等/不相等，支持\*通配符：`:`、`!:`
+  - 字符串相等/不相等，支持正则：`~`、`!~`
 - 所有的 tag-filter 之间是 AND 的逻辑
 
 ```yaml
@@ -106,12 +107,13 @@ ingester:
 ## export-fields
 
 作用相当于 SQL 语句中的 SELECT field-names，仅支持使用 ClickHouse 中的原始字段名，样例见下面的 yaml
+
 - `<field-name>`: Tag 名称、Metric 名称, 如 ip4_0, ip4_1, region_id_0, region_id_1
 - `<category>`: 字段 Category 名称，包括 `$tag`, `$k8s.label` 和 `$metrics`
   - `$tag`：所有 Tag 字段
   - `$tag.<sub-category>`：某一类 Tag 字段, `<sub-category>` 如下
     - `flow_info`
-      - _id, time(s), start_time(us), end_time(us), close_type, flow_id, is_new_flow, status
+      - \_id, time(s), start_time(us), end_time(us), close_type, flow_id, is_new_flow, status
     - `universal_tag`
       - region_id[_0/1], az_id[_0/1], host_id[_0/1], pod_node_id[_0/1], pod_ns_id[_0/1], pod_group_id[_0/1], pod_group_type[_0/1], pod_id[_0/1], pod_cluster_id[_0/1]
       - l3_device_type[_0/1], l3_device_id[_0/1], l3_epc_id[_0/1], epc_id[_0/1], subnet_id[_0/1], service_id[_0/1]
@@ -167,16 +169,16 @@ ingester:
   - `~$k8s.label.<sub-field-name_regex>`： k8s.label 子字段名支持正则
 
 ```yaml
-    export-fields:
-    - ip4_0               # <field-name>
-    - pod_id_0            # <field-name>
-    - $tag                # <category>
-    - $tag.universal_tag  # <category>.<sub-category>
-    - $tag.flow_info      # <category>.<sub-category>
-    - $k8s.label          # <category>
-    - $k8s.label.k8s.annotation.app  # <category>.<sub-field-name>, sub-field-name: k8s.annotation.app
-    - ~$k8s.label.env.(a.*|abc)  # <category>.<sub-field-name_regex>, regex: env.(a.*|abc)
-    - $merics             # <category>
-    - $metrics.delay      # <category>.<sub-category>
-    - rtt                 # <field-name>
+export-fields:
+  - ip4_0 # <field-name>
+  - pod_id_0 # <field-name>
+  - $tag # <category>
+  - $tag.universal_tag # <category>.<sub-category>
+  - $tag.flow_info # <category>.<sub-category>
+  - $k8s.label # <category>
+  - $k8s.label.k8s.annotation.app # <category>.<sub-field-name>, sub-field-name: k8s.annotation.app
+  - ~$k8s.label.env.(a.*|abc) # <category>.<sub-field-name_regex>, regex: env.(a.*|abc)
+  - $merics # <category>
+  - $metrics.delay # <category>.<sub-category>
+  - rtt # <field-name>
 ```

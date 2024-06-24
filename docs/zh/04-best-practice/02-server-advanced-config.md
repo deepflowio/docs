@@ -14,8 +14,8 @@ DeepFlow Server 高级配置。
 
 ```yaml
 global:
-  storageClass: "<your storageClass>"
-  replicas: 1  ## replicas for deepflow-server and clickhouse
+  storageClass: '<your storageClass>'
+  replicas: 1 ## replicas for deepflow-server and clickhouse
   image:
     ## ghcr Image repository address: ghcr.io/deepflowio/deepflow-ce
     ## Dockerhub Image repository address: deepflowce
@@ -28,7 +28,7 @@ global:
 ```yaml
 global:
   image:
-      repository: registry.cn-beijing.aliyuncs.com/deepflow-ce
+    repository: registry.cn-beijing.aliyuncs.com/deepflow-ce
 grafana:
   image:
     repository: registry.cn-beijing.aliyuncs.com/deepflow-ce/grafana
@@ -61,19 +61,18 @@ helm upgrade deepflow -n deepflow -f values-custom.yaml deepflow/deepflow
 ## 服务端口
 
 - `global.nodePort.deepflowServerIngester`
-  - deepflow-server ingrester 模块需要暴露的 NodePort 端口号，默认为30033，用于 agent 向 server 传输数据。
+  - deepflow-server ingrester 模块需要暴露的 NodePort 端口号，默认为 30033，用于 agent 向 server 传输数据。
   - 如有冲突，修改此处后需要修改 `agent-group-config` 的 `analyzer_port`。
 - `global.nodePort.deepflowServerGrpc`
-  - deepflow-server controller 模块需要暴露的 NodePort 端口号，默认为30035，用于 agent 向 server 请求策略。
+  - deepflow-server controller 模块需要暴露的 NodePort 端口号，默认为 30035，用于 agent 向 server 请求策略。
   - 如有冲突，修改此处后需要修改 `agent-group-config` 的 `proxy_controller_port`。
 - `global.nodePort.deepflowServerhealthCheck`
-  - deepflow-server controller 模块暴露给 deepflow-ctl 的 HTTP NodePort 端口号，默认为30417。
+  - deepflow-server controller 模块暴露给 deepflow-ctl 的 HTTP NodePort 端口号，默认为 30417。
   - 如有冲突，修改此处后使用 `deepflow-ctl` 命令需要指定 `--api-port` 参数。
 
 ## 依赖服务
 
-- `global.image.repository`: DeepFlow 组件镜像仓库地址，默认为 DockerHub: `deepflowce`，国内用户可以切换为阿里云:  `registry.cn-beijing.aliyuncs.com/deepflow-ce`。
+- `global.image.repository`: DeepFlow 组件镜像仓库地址，默认为 DockerHub: `deepflowce`，国内用户可以切换为阿里云: `registry.cn-beijing.aliyuncs.com/deepflow-ce`。
 - `global.image.pullPolicy`: DeepFlow 组件镜像拉取策略，默认为 `Always` 以获取重启 Pod 更新 DeepFlow 的能力。
 - `global.ntpServer`: DeepFlow 的时间同步服务器，默认值为 `ntp.aliyun.com` 。
 - `global.storageClass`: DeepFlow 部署使用的 `storageClass`，默认为空即使用 default storageClass。
-

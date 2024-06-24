@@ -67,14 +67,14 @@ ingester:
 
 # Detailed Parameter Description
 
-| Field         | Type    | Required | Description                                                                                               |
-| ------------- | ------- | -------- | --------------------------------------------------------------------------------------------------------- |
-| protocol      | string  | Yes      | Fixed value `kafka`                                                                                       |
+| Field         | Type    | Required | Description                                                                                   |
+| ------------- | ------- | -------- | --------------------------------------------------------------------------------------------- |
+| protocol      | string  | Yes      | Fixed value `kafka`                                                                           |
 | data-sources  | strings | Yes      | Values from ClickHouse `flow_metrics.*/flow_log.*/event.perf_event` data, also used for Kafka topic names |
-| endpoints     | strings | Yes      | Remote receiving address, Kafka broker receiving address, randomly selects one that can send successfully |
-| batch-size    | int     | No       | Batch size, sends in batches when this value is reached. Default: 1024                                    |
-| export-fields | strings | Yes      | Recommended configuration: [$tag, $metrics]                                                               |
-| sasl          | struct  | No       | Kafka connection authentication method, currently only supports 'SASL_SSL' with 'PLAIN' mechanism         |
-| topic         | string  | No       | Kafka topic name, if empty, defaults to `deepflow.$data-source`, such as `deepflow.flow_log.l7_flow_log`  |
+| endpoints     | strings | Yes      | Remote receiving addresses, Kafka broker receiving addresses, randomly select one that can send successfully |
+| batch-size    | int     | No       | Batch size, when this value is reached, send in batches. Default value: 1024                  |
+| export-fields | strings | Yes      | Recommended configuration: [$tag, $metrics]                                                   |
+| sasl          | struct  | No       | Kafka connection authentication method, currently only supports 'SASL_SSL' with 'PLAIN' method |
+| topic         | string  | No       | Kafka topic name, if empty, the default value is `deepflow.$data-source`, such as `deepflow.flow_log.l7_flow_log` |
 
 [Refer to detailed configuration](./exporter-config/)

@@ -9,5 +9,5 @@ permalink: /guide/ee-tenant/resources/summary/
 
 ![摘要](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023042464463e64633af.png)
 
-- 网络资源：对VPC、子网、外网IP在云平台分布进行统计展示
+- 网络资源：对 VPC、子网、外网 IP 在云平台分布进行统计展示
 - 计算资源：对云服务器所在的云平台分布、运行状态、对应采集器分布状态进行展示

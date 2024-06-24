@@ -1,21 +1,21 @@
 ---
-title: Common Issues with Agent
+title: Common Agent Failures
 permalink: /diagnose/agent
 ---
 
 > This document was translated by ChatGPT
 
-# Issues with Agent Caused by Significant System Time Rollback
+# Agent Error Due to Significant System Time Rollback
 
 ## Symptoms
 
-The word `SystemTimeError` appears in the Agent log, indicating a panic.
+Panic appears in the agent logs with the term `SystemTimeError`.
 
 ## Cause
 
-When Agent calculates the time difference, it will error out if the subtracted time is older (i.e., the time difference is negative) and the relevant code is not protected.
+When the agent calculates the time difference, if the subtracted time is older (resulting in a negative time difference), the unprotected code will report an error.
 
-## Solutions
+## Solution
 
-- Adjust the system time gradually using methods such as ntpd.
-- If there's a need to significantly adjust the time, Agent needs to be restarted.
+- Use ntpd or similar methods to slowly adjust the system time.
+- If making a significant time adjustment, the agent needs to be restarted.

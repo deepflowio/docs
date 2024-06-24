@@ -32,8 +32,8 @@ end
 
 ## Installing Telegraf
 
-You can learn about the relevant background knowledge in the [Telegraf documentation](https://www.influxdata.com/time-series-platform/telegraf/).
-If you do not have Telegraf in your cluster, you can quickly deploy Telegraf as a DaemonSet using the following steps:
+You can learn the relevant background knowledge in the [Telegraf documentation](https://www.influxdata.com/time-series-platform/telegraf/).
+If your cluster does not have Telegraf, you can quickly deploy Telegraf as a DaemonSet using the following steps:
 
 ```bash
 # add helm chart
@@ -48,19 +48,19 @@ kubectl apply -f https://raw.githubusercontent.com/deepflowio/deepflow-demo/main
 
 ## Configuring Telegraf Data Output
 
-We need to modify the Telegraf configuration so that Telegraf sends data to the DeepFlow Agent.
+We need to modify Telegraf's configuration to send data to the DeepFlow Agent.
 
-First, we need to determine the address of the data listening service launched by DeepFlow Agent. After [installing DeepFlow Agent](../../../ce-install/single-k8s/),
-the DeepFlow Agent Service address will be displayed, the default value is `deepflow-agent.default`.
-If you have modified it, please fill in according to the actual service name and namespace.
+First, we need to determine the address of the data listening service started by the DeepFlow Agent. After [installing the DeepFlow Agent](../../../ce-install/single-k8s/),
+the DeepFlow Agent Service address will be displayed, with a default value of `deepflow-agent.default`.
+If you have modified it, please fill in the actual service name and namespace in the configuration.
 
-Next, modify the default configuration of Telegraf (assuming it is in the `deepflow-telegraf-demo` namespace):
+Next, modify Telegraf's default configuration (assuming it is in the `deepflow-telegraf-demo` namespace):
 
 ```bash
 kubectl edit cm -n deepflow-telegraf-demo telegraf
 ```
 
-Add the following configuration in `telegraf.conf` (please modify `DEEPFLOW_AGENT_SVC` to the service name of deepflow-agent):
+In `telegraf.conf`, add the following configuration (please change `DEEPFLOW_AGENT_SVC` to the service name of deepflow-agent):
 
 ```toml
 [[outputs.http]]
@@ -70,16 +70,16 @@ Add the following configuration in `telegraf.conf` (please modify `DEEPFLOW_AGEN
 
 # Configuring DeepFlow
 
-Please refer to [Configuring DeepFlow](../tracing/opentelemetry/#configuring-deepflow) section to complete the DeepFlow Agent configuration.
+Please refer to the section [Configuring DeepFlow](../tracing/opentelemetry/#配置-deepflow) to complete the DeepFlow Agent configuration.
 
 # Viewing Telegraf Data
 
-The metrics in Telegraf will be stored in DeepFlow's `ext_metrics` database.
-To reduce the number of tables, DeepFlow will store all Measurements in one ClickHouse Table,
-and users will still see a series of data tables corresponding to the original Telegraf Measurement when they use it.
-The original tags of Telegraf metrics can be referenced through tag.XXX, and the metric values can be referenced through metrics.YYY.
-At the same time, DeepFlow will also automatically inject a large number of Meta Tags and Custom Tags, allowing data collected by Telegraf to seamlessly connect with other data sources.
+The metrics in Telegraf will be stored in the `ext_metrics` database of DeepFlow.
+To reduce the number of tables, DeepFlow will store all Measurements in a single ClickHouse Table,
+but users will still see a series of data tables corresponding to the original Telegraf Measurements.
+The original tags of Telegraf metrics can be referenced via tag.XXX, and metric values can be referenced via metrics.YYY.
+At the same time, DeepFlow will automatically inject a large number of Meta Tags and Custom Tags, allowing Telegraf-collected data to be seamlessly associated with other data sources.
 
-When using Grafana, select the `DeepFlow` data source for search, the presentation figure is as follows:
+Using Grafana, select the `DeepFlow` data source to display the search results as shown below:
 
 ![Telegraf Data Integration](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20231003651c1adb93461.png)

@@ -7,7 +7,7 @@ permalink: /ce-install/managed-k8s
 
 # Introduction
 
-DeepFlow supports monitoring managed K8s clusters provided by cloud service providers. The only difference from [directly monitoring K8s clusters](./single-k8s/) is that by calling the cloud provider's API, tags of cloud resources can be automatically injected into the observability data (AutoTagging).
+DeepFlow supports monitoring managed K8s clusters from cloud service providers. The only difference from [directly monitoring K8s clusters](./single-k8s/) is that by calling the cloud provider's API, tags of cloud resources can be automatically injected into the observability data (AutoTagging).
 
 # Deployment Topology
 
@@ -30,7 +30,7 @@ DeepFlowServer -->|"get cloud resource & label"| CloudAPI[cloud api service]
 
 # Configure DeepFlow Server
 
-Create a YAML file `your-managed-k8s.yaml` locally:
+Create a local YAML file `your-managed-k8s.yaml`:
 
 ```yaml
 # Name
@@ -38,13 +38,13 @@ name: sub-domain-test
 # Name of the cloud platform [required]
 domain_name: example-domain-name
 config:
-  # VPC UUID to which the cluster belongs [required], can be queried via `deepflow-ctl vpc list`
+  # VPC UUID of the cluster [required], can be queried via `deepflow-ctl vpc list`
   vpc_uuid: xxxxx-xxxx-xxxx-xxxx-xxxx
   # Maximum mask of POD subnet IPv4 address [optional]
   #pod_net_ipv4_cidr_max_mask: 16
   # Maximum mask of POD subnet IPv6 address [optional]
   #pod_net_ipv6_cidr_max_mask: 64
-  # Enter regular expression to specify additional routing interfaces to connect [optional]
+  # Input regular expression to specify additional routing interfaces [optional]
   #port_name_regex: ^(cni|flannel|vxlan.calico|tunl|en[ospx])
 ```
 
@@ -62,7 +62,7 @@ deepflow-ctl subdomain list
 
 # Deploy DeepFlow Agent
 
-Use the generated ClusterID to deploy DeepFlow Agent:
+Deploy DeepFlow Agent using the generated ClusterID:
 
 ```bash
 echo "deepflowK8sClusterID: "fffffff"  # FIXME: Generate by `deepflow-ctl  subdomain list`" >> values-custom.yaml
@@ -75,5 +75,5 @@ helm upgrade deepflow-agent -n deepflow deepflow/deepflow-agent  \
 - [Universal Service Map - Experience DeepFlow's AutoMetrics capability](../features/universal-map/auto-metrics/)
 - [Distributed Tracing - Experience DeepFlow's AutoTracing capability](../features/distributed-tracing/auto-tracing/)
 - [Eliminate Data Silos - Learn about DeepFlow's AutoTagging and SmartEncoding capabilities](../features/auto-tagging/eliminate-data-silos/)
-- [Say Goodbye to High Overhead - Integrate metrics data from Prometheus, etc.](../integration/input/metrics/metrics-auto-tagging/)
-- [Full-Stack Distributed Tracing - Integrate tracing data from OpenTelemetry, etc.](../integration/input/tracing/full-stack-distributed-tracing/)
+- [Say Goodbye to High Overhead - Integrate metrics data like Prometheus](../integration/input/metrics/metrics-auto-tagging/)
+- [Full-Stack Distributed Tracing - Integrate tracing data like OpenTelemetry](../integration/input/tracing/full-stack-distributed-tracing/)

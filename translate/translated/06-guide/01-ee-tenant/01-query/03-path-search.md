@@ -7,15 +7,15 @@ permalink: /guide/ee-tenant/query/path-search/
 
 # Path Search Box
 
-The `Path Search Box` is used in Application - Path Statistics/Path Topology, Network - Path Statistics/Path Topology/NAT Tracing.
+The `Path Search Box` is used in Application - Path Analysis/Topology Analysis, Network - Path Analysis/Topology Analysis/NAT Tracing.
 
 ![00-Path Search Box](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024032065faac6eb6f17.png)
 
 - **①/②/③/④/⑦**: For detailed operation instructions, please refer to [Resource Search Box](./service-search/)
 - **⑤ Search Mode**: You can switch between `Simplified Mode`, `Unidirectional Path`, and `Bidirectional Path` modes, and use the `Path Filtering` capability to query the required path data.
-  - Simplified Search: The input `search tags` will be used as conditions for both `client` and `server`. For details, please refer to the [Simplified Mode] section.
-  - Unidirectional Path: The input `search tags` will be used as conditions for either the `client` or the `server`. For details, please refer to the [Unidirectional Path] section.
-  - Bidirectional Path: The input `search tags` do not specify the query direction. For details, please refer to the [Bidirectional Path] section.
+  - Simplified Search: The entered `search tags` will be used as conditions for both `client` and `server`. For details, please refer to the [Simplified Mode] section.
+  - Unidirectional Path: The entered `search tags` will be used as conditions for either the `client` or the `server`. For details, please refer to the [Unidirectional Path] section.
+  - Bidirectional Path: The entered `search tags` do not specify the query direction. For details, please refer to the [Bidirectional Path] section.
 - **⑥ Path Filtering**: Supported only in `Simplified Search` mode. For details, please refer to the [Simplified Mode] section.
 
 ## Simplified Mode
@@ -25,8 +25,8 @@ The `Path Search Box` is used in Application - Path Statistics/Path Topology, Ne
 The Path Search Box can switch between `Simplified Mode`, `Unidirectional Path`, and `Bidirectional Path` modes, and use the `Path Filtering` capability to query the required path data.
 
 - **①/②/③/④**: For detailed operation instructions, please refer to [Resource Search Box](./service-search/)
-- **⑤ Search Mode**: Click to switch between `Simplified Search` or `Path Search` modes.
-- **⑤ Path Filtering**: Supports selecting the query path and supports querying three types of paths, supported only in `Simplified Search` mode.
+- **⑤ Search Mode**: Click to switch between `Simplified Search` and `Path Search` modes.
+- **⑤ Path Filtering**: Supports selecting the query path and supports querying three types of paths, only supported in `Simplified Search` mode.
   - Intra-service Path: Paths between services or resources.
   - Inter-service Path: Paths between a service or resource and other services or resources.
   - WAN Path: Paths between a service or resource and the WAN.
@@ -37,7 +37,7 @@ The Path Search Box can switch between `Simplified Mode`, `Unidirectional Path`,
 
 - **①/②/③/④**: For detailed operation instructions, please refer to [Resource Search Box](./service-search/)
 - **⑤ Search Mode**: You can switch the search mode. For details, please refer to the [Path Search Box] section.
-- **⑥ Swap Direction**: Click to quickly swap the search conditions of `client` and `server`, supported only in `Unidirectional Path` mode.
+- **⑥ Swap Direction**: Click to quickly swap the search conditions of `client` and `server`, only supported in `Unidirectional Path` mode.
 
 ## Bidirectional Path
 
@@ -50,7 +50,7 @@ The Path Search Box can switch between `Simplified Mode`, `Unidirectional Path`,
 
 ## View the Call Topology of All Services in a Namespace
 
-- Function Page: Application - Path Topology
+- Function Page: Application - Topology Analysis
 - Data Table: Metrics (minute-level)
 
 ---
@@ -111,7 +111,7 @@ The Path Search Box can switch between `Simplified Mode`, `Unidirectional Path`,
 
 ![07-Query Result](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f8d313a2.png)
 
-## View the Performance Data of Paths Corresponding to a Domain Name
+## View the Performance Data of a Path Corresponding to a Domain Name
 
 - Function Page: Application - Path Overview
 - Data Table: Call Logs
@@ -127,7 +127,7 @@ The Path Search Box can switch between `Simplified Mode`, `Unidirectional Path`,
 
 ## View the Top 5 Other Resources Accessing a Cloud Server
 
-- Function Page: Network - Path Statistics
+- Function Page: Network - Path Analysis
 - Data Table: Metrics (minute-level)
 
 ---

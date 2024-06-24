@@ -7,9 +7,9 @@ permalink: /integration/output/query/sql
 
 # Introduction
 
-Provides a unified SQL interface to query all types of observability data, which can be used as a DataSource for Grafana or to implement your own GUI based on it.
+Provides a unified SQL interface to query all types of observability data. It can be used as a DataSource for Grafana or to implement your own GUI based on it.
 
-# SQL Service Endpoint
+# SQL Server Endpoint
 
 Get the service endpoint port number:
 
@@ -34,7 +34,7 @@ curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/query/" \
     --data-urlencode "sql=show databases"
 ```
 
-## Get All Tables in a Specified Database
+## Get All Tables in a Specific Database
 
 SQL statement:
 
@@ -50,7 +50,7 @@ curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/query/" \
     --data-urlencode "sql=show tables"
 ```
 
-## Get Tags in a Specified Table
+## Get Tags in a Specific Table
 
 SQL statement:
 
@@ -94,7 +94,7 @@ Output example:
 }
 ```
 
-## Get Values of a Specified Tag
+## Get Values of a Specific Tag
 
 ### Get All Values of a Tag
 
@@ -104,7 +104,7 @@ SQL statement:
 show tag ${tag_name} values from ${table_name}
 ```
 
-The above statement can also use the `limit` and `offset` keywords to reduce the number of returned values:
+The above statement can also use `limit` and `offset` keywords to reduce the number of returned values:
 
 ```SQL
 show tag ${tag_name} values from ${table_name} limit 100 offset 100
@@ -143,7 +143,7 @@ API call method and output example are the same as above.
 
 ### Filter Using Other Tags
 
-Sometimes we want to use tags for associative filtering to reduce the range of candidate values. In this case, we can choose to query a data table, filter Tag1 while aggregating Tag2. For example, we want to query all `pod` names in `pod_cluster="cluster1"`:
+Sometimes we want to use tags for associative filtering to reduce the range of candidate values. In this case, we can choose to query a specific table, filter by Tag1, and aggregate by Tag2. For example, we want to query all `pod` names in `pod_cluster="cluster1"`:
 
 ```SQL
 SELECT pod FROM `network.1m` WHERE pod_cluster = 'cluster1' GROUP BY pod
@@ -155,13 +155,13 @@ The above statement will use the `pod_cluster` field in the `network.1m` table o
 SELECT pod FROM `network.1m` WHERE pod_cluster = 'cluster1' AND time > 1234567890 GROUP BY pod
 ```
 
-Note: Data can only be found in `flow_metrics` if there has been traffic in the pod (and not using HostNetwork). After integrating Prometheus or Telegraf data, we can also use the constant metrics in them to assist in obtaining Tag values. For example, we can use Prometheus metrics in `ext_metrics` to achieve the above requirement:
+Note: Data can only be found in `flow_metrics` if there has been traffic in the pod (and HostNetwork is not used). After integrating Prometheus or Telegraf data, we can also use the constant metrics in them to assist in obtaining Tag values. For example, we can use Prometheus metrics in `ext_metrics` to achieve the above requirement:
 
 ```SQL
 SELECT pod FROM `prometheus.kube_pod_start_time` WHERE pod_cluster = 'cluster1' GROUP BY pod
 ```
 
-In Grafana, we can also use the above capabilities to achieve linked filtering of Variable candidates. For example, we use a custom Variable $cluster and built-in Variables [`$**from`, `$**to`](https://grafana.com/docs/grafana/latest/dashboards/variables/add-template-variables/#__from-and-__to) to perform linked filtering on another Variable pod:
+In Grafana, we can also use the above capabilities to achieve linked filtering of Variable candidates. For example, we use a custom Variable $cluster and built-in Variables [`$__from`, `$__to`](https://grafana.com/docs/grafana/latest/dashboards/variables/add-template-variables/#__from-and-__to) to perform linked filtering on another Variable pod:
 
 - When the value of cluster is id, use `$cluster`:
 
@@ -186,7 +186,7 @@ In Grafana, we can also use the above capabilities to achieve linked filtering o
   SELECT pod as `value`, pod as `display_name` FROM `network.1m` WHERE pod_cluster IN (${cluster:singlequote}) AND  time >= ${__from:date:seconds}-500 AND time <= ${__to:date:seconds}+500 GROUP BY `value`
   ```
 
-## Get Metrics in a Specified Table
+## Get Metrics in a Specific Table
 
 SQL statement:
 

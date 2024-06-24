@@ -12,16 +12,19 @@ DeepFlow 使用声明式 API 对所有 deepflow-agent 进行控制，几乎所�
 ## agent-group 常用操作
 
 查看 agent-group 列表：
+
 ```bash
 deepflow-ctl agent-group list
 ```
 
 创建 agent-group：
+
 ```bash
 deepflow-ctl agent-group create your-agent-group
 ```
 
 获取刚刚创建的 agent-group ID:
+
 ```bash
 deepflow-ctl agent-group list your-agent-group
 ```
@@ -29,10 +32,12 @@ deepflow-ctl agent-group list your-agent-group
 ## agent-group-config 常用操作
 
 参考上述 agent 默认配置，摘取其中你想修改的部分，创建一个 `your-agent-group-config.yaml` 文件并填写 agent 配置参数，注意必须包含 `vtap_group_id`：
+
 ```yaml
 vtap_group_id: <Your-agent-group-ID>
 # write configurations here
 ```
+
 ### 创建 agent-group-config
 
 ```bash

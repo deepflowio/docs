@@ -18,17 +18,18 @@ permalink: /guide/ee-tenant/configuration/settings/
 ![搜索框配置](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202405166645a4bfcef96.png)
 
 - 跟随系统设置：选中则表示配置与默认系统配置一致，若自行调整设置，取消勾选即可
-- **页面首次加载**：页面初次加载时，是否查询数据 
+- **页面首次加载**：页面初次加载时，是否查询数据
   - 不触发搜索：页面初次加载无数据，需点击【搜索】按钮或添加查询条件，才可展示数据
   - 按默认条件搜索：`默认系统设置项`，页面加载时页面时，同时进行数据查询并展示
-- **搜索触发方式**：设置搜索查询触发方式 
+- **搜索触发方式**：设置搜索查询触发方式
   - 即时触发：`默认系统设置项`，搜索条件变化时，立即触发查询
   - 点击【搜索】按钮触发：搜索条件变化时，需点击【搜索】按钮触发查询
-- **默认搜索框形式**：对`路径`类页面，设置默认展示搜索框形式 
+- **默认搜索框形式**：对`路径`类页面，设置默认展示搜索框形式
   - 精简搜索：`默认系统设置项`，使用详情，请参阅【[资源搜索框](../query/service-search/)】
   - 单向路径：使用详情，请参阅【[路径搜索框](../query/path-search/)】
   - 双向路径：使用详情，请参阅【[路径搜索框](../query/path-search/)】
-- **默认搜索框内容**：搜索框可设置快速搜索模式 
+- **默认搜索框内容**：搜索框可设置快速搜索模式
+
   - 自由搜索：使用详情，请参阅【[资源搜索框](../query/service-search/)】
   - 容器搜索：使用详情，请参阅【[资源搜索框](../query/service-search/)】
   - 进程搜索：`默认系统设置项`，使用详情，请参阅【[资源搜索框](../query/service-search/)】
@@ -37,4 +38,4 @@ permalink: /guide/ee-tenant/configuration/settings/
 
 平台信息可查看当前系统的版本号、反馈邮箱、厂商信息等。
 
-  ![平台信息](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202405166645829f09cbb.png)
+![平台信息](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202405166645829f09cbb.png)

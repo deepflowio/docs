@@ -25,7 +25,7 @@ end
 ## Installing Prometheus
 
 You can learn the relevant background knowledge in the [Prometheus documentation](https://prometheus.io/docs/introduction/overview/).
-If you do not have Prometheus in your cluster, you can quickly deploy a Prometheus in the `deepflow-prometheus-demo` namespace using the following steps:
+If your cluster does not have Prometheus, you can quickly deploy a Prometheus in the `deepflow-prometheus-demo` namespace using the following steps:
 
 ```bash
 # add helm chart
@@ -48,7 +48,7 @@ Execute the following command to modify the default configuration of Prometheus 
 kubectl edit cm -n deepflow-prometheus-demo prometheus-server
 ```
 
-Configure the `remote_write` address (please modify `DEEPFLOW_AGENT_SVC` to the service name of deepflow-agent):
+Configure the `remote_write` address (please change `DEEPFLOW_AGENT_SVC` to the service name of deepflow-agent):
 
 ```yaml
 remote_write:
@@ -57,7 +57,7 @@ remote_write:
 
 ## Configuring remote_read
 
-If you want Prometheus to query data from DeepFlow, you need to configure Prometheus `remote_read` (please modify `DEEPFLOW_SERVER_SVC` to the service name of deepflow-server):
+If you want Prometheus to query data from DeepFlow, you need to configure Prometheus `remote_read` (please change `DEEPFLOW_SERVER_SVC` to the service name of deepflow-server):
 
 ```yaml
 remote_read:
@@ -82,11 +82,11 @@ The metrics in Prometheus will be stored in the `prometheus` database of DeepFlo
 The original labels of Prometheus can be referenced through tag.XXX, and the metric values can be referenced through value.
 At the same time, DeepFlow will automatically inject a large number of Meta Tags and Custom Tags, allowing the data collected by Prometheus to be seamlessly associated with other data sources.
 
-Using Grafana, select the `DeepFlow` data source to display the search results as shown below:
+Using Grafana, select the `DeepFlow` data source to display the chart as shown below:
 
 ![Prometheus Data Integration](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20231003651c19e6684d1.png)
 
 # Notes
 
-1. When calculating the `Derivative` operator through the DeepFlow data source, it is required to select an outer operator (such as `Avg`).
+1. When calculating the `Derivative` operator through the DeepFlow data source, you must select an outer operator (such as `Avg`).
 2. When calculating the `Derivative` operator, since the calculation process first calculates the `Derivative` operator for multiple time series of the same metric, and then calculates the outer operator, if the query interval is less than the data collection interval, using relative time queries like now-xx, if multiple time series of the same metric are continuously writing new data, the results of multiple queries may be inconsistent.

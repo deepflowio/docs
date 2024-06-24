@@ -19,7 +19,7 @@ permalink: /diagnose/FAQ
 
 4. 部署规格中包含了`mysql`与`clickhouse`两个存储组件，它们有什么区别？
 
-   答：`mysql` 中会保存从部署集群中获取到的元数据信息，如：虚拟机、K8S资源、同步采集器信息等。`clickhouse` 则会保存实时采集数据，比如从集群中采集到的网络流日志，并进行聚合分析。
+   答：`mysql` 中会保存从部署集群中获取到的元数据信息，如：虚拟机、K8S 资源、同步采集器信息等。`clickhouse` 则会保存实时采集数据，比如从集群中采集到的网络流日志，并进行聚合分析。
 
 5. 部署完成之后 Grafana 上没有数据？
 
@@ -51,7 +51,7 @@ permalink: /diagnose/FAQ
 
      - 请确认服务器内核版本[符合要求](../ce-install/overview/#%E8%BF%90%E8%A1%8C%E6%9D%83%E9%99%90%E5%8F%8A%E5%86%85%E6%A0%B8%E8%A6%81%E6%B1%82)。
 
-     - 请检查 `deepflow-agent` 的所有副本：通过 ``kubectl logs -n deepflow ds/deepflow-agent | grep 'ebpf collector'`` 命令检查 eBPF 模块是否正常启动，通过 `kubectl logs -n deepflow ds/deepflow-agent | grep TRACER` 命令确认 eBPF Tracer 功能正常运行。
+     - 请检查 `deepflow-agent` 的所有副本：通过 `kubectl logs -n deepflow ds/deepflow-agent | grep 'ebpf collector'` 命令检查 eBPF 模块是否正常启动，通过 `kubectl logs -n deepflow ds/deepflow-agent | grep TRACER` 命令确认 eBPF Tracer 功能正常运行。
 
 # 产品
 

@@ -7,17 +7,17 @@ permalink: /guide/ee-tenant/dashboard/panel/bar/
 
 # Bar Chart
 
-A bar chart represents data for various categories by plotting a series of vertical or horizontal bars, providing an intuitive display of data size and distribution. In DeepFlow, data can be visualized as a `bar chart` by `switching the display mode` in the `table`.
+A bar chart represents data for various categories by plotting a series of vertical or horizontal bars, providing an intuitive display of data size and distribution. In DeepFlow, data can be visualized as a `bar chart` by switching the display mode in the `table`.
 
 ## Overview
 
 ![00-Overview](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024031865f8001c6c54e.png)
 
-- **① Switch Query Area:** Basic operation of the Panel. For details, please refer to the section [Traffic Topology - Overview](./topology/)
-- **② Switch Top Data:** Basic operation of the Panel. For details, please refer to the section [Traffic Topology - Overview](./topology/)
-- **③ Modify Metrics:** Basic operation of the Panel. For details, please refer to the section [Traffic Topology - Modify Metrics](./topology/)
-- **④ Settings:** Standard operation of the Panel. For details, please refer to the section [Line Chart - Settings](./line/)
-- **⑤ Delete:** Capability within the `Dashboard`. For details, please refer to the section [Traffic Topology - Overview](./topology/)
+- **① Switch Query Area:** Basic chart operation. For details, please refer to the section [Traffic Topology - Overview](./topology/)
+- **② Switch Top Data:** Basic chart operation. For details, please refer to the section [Traffic Topology - Overview](./topology/)
+- **③ Modify Metrics:** Basic chart operation. For details, please refer to the section [Traffic Topology - Modify Metrics](./topology/)
+- **④ Settings:** Standard chart operation. For details, please refer to the section [Line Chart - Settings](./line/)
+- **⑤ Delete:** A capability within the `Dashboard`. For details, please refer to the section [Traffic Topology - Overview](./topology/)
 
 ### Bar Chart
 

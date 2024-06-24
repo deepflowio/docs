@@ -41,12 +41,14 @@ helm upgrade deepflow-agent -n deepflow deepflow/deepflow-agent -f values-custom
 通过 deepflow-ctl 升级云服务器和传统服务器上部署的 DeepFlow Agent：
 
 1. 下载最新的 deepflow-agent：
+
    ```bash
    curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/agent/stable/linux/amd64/deepflow-agent.tar.gz
    tar -zxvf deepflow-agent.tar.gz -C /usr/sbin/
    ```
 
 2. 将本地二进制程序上传至 MySQL 数据库中保存：
+
    ```bash
    deepflow-ctl repo agent create --arch x86 --image /usr/sbin/deepflow-agent
    ```
@@ -54,6 +56,7 @@ helm upgrade deepflow-agent -n deepflow deepflow/deepflow-agent -f values-custom
    若多次上传相同文件名的二进制程序，则会进行覆盖；上传的二进制会进行压缩，压缩比约为 3.4。
 
 3. 查看仓库里的软件包：
+
    ```bash
    deepflow-ctl repo agent list
    ```
@@ -98,7 +101,6 @@ deepflow-ctl agent-upgrade <AGENT_NAME> \
 - 【注意】当前版本暂时不支持验证镜像可拉取及可用性, 使用之前请确保镜像可拉取、可运行、版本正确
 - 【注意】一个 K8s 集群中仅需挑选一个 deepflow-agent 触发升级，它会自修改 daemonset 的配置，使得所有 deepflow-agent 都得到升级
 - 【注意】请做好手动介入修正镜像（由于镜像不可拉取/不可运行等原因）的准备
-
 
 # 获取最新 DeepFlow Grafana dashboard
 

@@ -12,6 +12,3 @@ permalink: /guide/ee-tenant/metrics/host/
 点击行，将通过右滑框的形式查看历史指标量。
 
 ![02-右滑框](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023101965310cab63d91.png)
-
-
-

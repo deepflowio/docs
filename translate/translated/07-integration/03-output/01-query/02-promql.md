@@ -9,14 +9,14 @@ permalink: /integration/output/query/promql
 
 Starting from v6.2.1, DeepFlow supports PromQL. The following Prometheus APIs are currently implemented and can be called directly via HTTP as per the [Prometheus API definition](https://prometheus.io/docs/prometheus/latest/querying/api/#expression-queries):
 
-Http Method | Path | Prometheus API | Description
--------------|--------------------------------------|-----------------------------------|----------------------
-GET/POST | /prom/api/v1/query | /api/v1/query | Query data at a single point in time
-GET/POST | /prom/api/v1/query_range | /api/v1/query_range | Query data over a range of time
-GET | /prom/api/v1/label/:labelName/values | /api/v1/label/<label_name>/values | Get all label values for a metric
-GET/POST | /prom/api/v1/series | /api/v1/series | Get all time series
+| Http Method | Path                                 | Prometheus API                    | Description                      |
+| ----------- | ------------------------------------ | --------------------------------- | -------------------------------- |
+| GET/POST    | /prom/api/v1/query                   | /api/v1/query                     | Query data at a single point in time |
+| GET/POST    | /prom/api/v1/query_range             | /api/v1/query_range               | Query data over a time range     |
+| GET         | /prom/api/v1/label/:labelName/values | /api/v1/label/<label_name>/values | Get all labels for a metric      |
+| GET/POST    | /prom/api/v1/series                  | /api/v1/series                    | Get all time series              |
 
-## How to Call
+## Calling Method
 
 You can call the API in DeepFlow as follows:
 
@@ -53,13 +53,13 @@ curl -XPOST "http://${deepflow_server_node_ip}:${port}/prom/api/v1/query_range" 
 
 ## DeepFlow Metric Definitions
 
-When providing PromQL queries externally, DeepFlow constructs metric names following the format `${database}__${table}__${metric}__${data_precision}`. You can refer to the [AutoMetrics Metric Types](../../../features/universal-map/auto-metrics/#%E6%8C%87%E6%A0%87%E7%B1%BB%E5%9E%8B) definition to obtain the target data source for querying. The specific rules are as follows:
+When providing PromQL queries externally, DeepFlow metrics are constructed in the format `${database}__${table}__${metric}__${data_precision}`. You can obtain the target data source to query through the definition of [AutoMetrics Metric Types](../../../features/universal-map/auto-metrics/#%E6%8C%87%E6%A0%87%E7%B1%BB%E5%9E%8B). The specific rules are as follows:
 
-db | metrics
-------------------------------------------------------|----------------------------------------------
-`flow_log` | `{db}__{table}__{metric}`
-`flow_metrics` (data_precision values are `1m`/`1s`) | `{db}__{table}__{metric}__{data_precision}`
-`prometheus` (data written via Prometheus RemoteWrite) | `prometheus__samples__{metric}`
+| db                                                    | metrics                                     |
+| ----------------------------------------------------- | ------------------------------------------- |
+| `flow_log`                                            | `{db}__{table}__{metric}`                   |
+| `flow_metrics` (data_precision values are `1m`/`1s`)  | `{db}__{table}__{metric}__{data_precision}` |
+| `prometheus` (data written via Prometheus RemoteWrite) | `prometheus__samples__{metric}`             |
 
 For example:
 
@@ -69,22 +69,22 @@ For example:
 
 ## Known Limitations
 
-In Grafana's panel operations, the following limitations are currently known:
+In the Grafana panel operations, the following limitations are currently known:
 
 - Labels cannot be queried directly; you need to select metrics first before choosing labels
-- When reselecting metrics, you need to remove all labels first
+- When reselecting metrics, all labels need to be removed first
 - Queries will fail if the metrics name contains characters like `.-` that are not supported by Prometheus
 
 When querying directly based on PromQL or writing alert rules, the following limitations are currently known:
 
 - Metrics names cannot be searched using `~/!~` regex
-- For metrics provided by DeepFlow, you must first determine the aggregation evaluation method using an [aggregation operator](https://prometheus.io/docs/prometheus/latest/querying/operators/#aggregation-operators) before performing specific metric queries. The functions `stdvar`, `topk`, `bottomk`, and `quantile` are not yet supported and will be supported in future iterations.
+- For metrics provided by DeepFlow, you must first determine the aggregation evaluation method through the [aggregation operator](https://prometheus.io/docs/prometheus/latest/querying/operators/#aggregation-operators) before performing specific metric queries. The functions `stdvar`, `topk`, `bottomk`, and `quantile` are not yet supported and will be supported in future iterations.
 
 # Querying DeepFlow Metrics Based on PromQL
 
 Based on the above definitions, we can query DeepFlow metrics using PromQL. Note to `determine the aggregation evaluation method first`, for example:
 
-- Query the time series trend of HTTP `500` response codes for all requests:
+- Query the time series trend of all requests with HTTP `500` response codes:
 
 ```
 sum(flow_log__l7_flow_log__server_error{response_code="500"}) by(request_resource, response_code)
@@ -126,4 +126,4 @@ groups:
           description: '{{ $labels.auto_instance }} request to {{ $labels.auto_service }} has a high request latency above 1s (current value: {{ $value }}s)'
 ```
 
-We will also support direct configuration of alert rules in future iterations of DeepFlow. Stay tuned.
+We will also support direct configuration of alert rules in future iterations of DeepFlow, so stay tuned.

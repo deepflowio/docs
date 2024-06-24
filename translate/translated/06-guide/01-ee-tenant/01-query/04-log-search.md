@@ -15,7 +15,7 @@ Compared to the `Path Search Box`, the `Log Search Box` only lacks the `grouping
 
 # Application Scenarios
 
-## Viewing Abnormal Calls of a Service
+## View Abnormal Calls of a Service
 
 - Feature Page: Application - Call Logs
 
@@ -26,9 +26,9 @@ Compared to the `Path Search Box`, the `Log Search Box` only lacks the `grouping
 - Path: Intra-service, Inter-service, WAN
 - Direction: Bidirectional
 
-![01-Query Result](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f61ad6e0.png)
+![01-Query Results](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f61ad6e0.png)
 
-## Viewing MySQL Calls of a Service
+## View MySQL Calls of a Service
 
 - Feature Page: Application - Call Logs
 
@@ -39,9 +39,9 @@ Compared to the `Path Search Box`, the `Log Search Box` only lacks the `grouping
 - Path: Intra-service, Inter-service, WAN
 - Direction: Bidirectional
 
-![02-Query Result](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f60c6540.png)
+![02-Query Results](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f60c6540.png)
 
-## Viewing Flow Logs of a Specific Five-tuple
+## View Flow Logs of a Specific Five-tuple
 
 - Feature Page: Network - Flow Logs
 
@@ -63,17 +63,17 @@ Compared to the `Path Search Box`, the `Log Search Box` only lacks the `grouping
 - Secondary Group: observation_point
 - Direction: Server
 
-![03-Query Result](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f601adf9.png)
+![03-Query Results](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650c4f601adf9.png)
 
-## Viewing Flow Logs of a POD with Connection Establishment Anomalies
+## View Flow Logs of a POD with Connection Establishment Anomalies
 
 - Feature Page: Network - Flow Logs
 
 ---
 
 - Service Set: S1
-- Search Tags: pod = frontend-97cc49c74-qs6wh, close_type = connection establishment - client ACK missing, close_type = connection establishment - server SYN missing, close_type = connection establishment - client port reuse, close_type = connection establishment - server direct reset, close_type = connection establishment - server other reset
+- Search Tags: pod = frontend-97cc49c74-qs6wh, close_type = connection-client ACK missing, close_type = connection-server SYN missing, close_type = connection-client port reuse, close_type = connection-server direct reset, close_type = connection-server other reset
 - Path: Intra-service, Inter-service, WAN
 - Direction: Bidirectional
 
-![04-Query Result](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202405166645b087b6e86.png)
+![04-Query Results](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202405166645b087b6e86.png)
