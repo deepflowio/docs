@@ -12,4 +12,3 @@ permalink: /guide/ee-tenant/network/flow-log/
 ![总览介绍](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650ac4d20944c.png)
 
 - 页面按钮功能，使用详情，请参阅【[追踪 - 调用日志](../tracing/call-log/)】章节
-

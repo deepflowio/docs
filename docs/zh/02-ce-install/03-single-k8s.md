@@ -48,6 +48,7 @@ end
 你可以提供默认 Storage Class 或添加 `--set global.storageClass=<your storageClass>` 参数来选择 Storage Class 以创建 PVC。
 
 可选择 [OpenEBS](https://openebs.io/) 用于创建 PVC：
+
 ```bash
 kubectl apply -f https://openebs.github.io/charts/openebs-operator.yaml
 ## config default storage class
@@ -85,6 +86,7 @@ helm install deepflow -n deepflow deepflow/deepflow --create-namespace \
 :::
 
 注意：
+
 - 使用 helm --set global.storageClass 可指定 storageClass
 - 使用 helm --set global.replicas 可指定 deepflow-server 和 clickhouse 的副本数量
 - 我们建议将 helm 的 `--set` 参数内容保存一个独立的 yaml 文件中，参考[高级配置](../best-practice/server-advanced-config/)章节。
@@ -92,6 +94,7 @@ helm install deepflow -n deepflow deepflow/deepflow --create-namespace \
 # 下载 deepflow-ctl
 
 deepflow-ctl 是管理 DeepFlow 的一个命令行工具，建议下载至 deepflow-server 所在的 K8s Node 上，用于后续使用：
+
 ```bash
 curl -o /usr/bin/deepflow-ctl https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/ctl/stable/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-ctl
 chmod a+x /usr/bin/deepflow-ctl
@@ -100,6 +103,7 @@ chmod a+x /usr/bin/deepflow-ctl
 # 访问 Grafana 页面
 
 执行 helm 部署 DeepFlow 时输出的内容提示了获取访问 Grafana 的 URL 和密码的命令，输出示例：
+
 ```bash
 NODE_PORT=$(kubectl get --namespace deepflow -o jsonpath="{.spec.ports[0].nodePort}" services deepflow-grafana)
 NODE_IP=$(kubectl get nodes -o jsonpath="{.items[0].status.addresses[0].address}")
@@ -107,6 +111,7 @@ echo -e "Grafana URL: http://$NODE_IP:$NODE_PORT  \nGrafana auth: admin:deepflow
 ```
 
 执行上述命令后的输出示例：
+
 ```text
 Grafana URL: http://10.1.2.3:31999
 Grafana auth: admin:deepflow

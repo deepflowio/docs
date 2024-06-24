@@ -12,6 +12,7 @@ permalink: /features/distributed-tracing/istio-bookinfo-demo
 ## 部署 Istio
 
 你可参考 [Istio 官方文档](https://istio.io/latest/zh/docs/setup/getting-started/)部署 Istio。也可以使用如下命令快速部署：
+
 ```bash
 curl -L https://istio.io/downloadIstio | sh -
 cd istio-*
@@ -20,6 +21,7 @@ istioctl install --set profile=demo -y
 ```
 
 DeepFlow 目前已经支持了 Golang 应用的 HTTPS 采集能力，其他语言的支持还在迭代中。我们在此 Demo 中先关闭 Istio mTLS：
+
 ```bash
 kubectl apply -f - <<EOF
 apiVersion: security.istio.io/v1beta1
@@ -40,6 +42,7 @@ EOF
 ![Bookinfo Application with Istio](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/yunshan-ticket/svg/e7e48d8a0700e87de42f72b0d8f9df19_20240112174222.svg)
 
 使用如下命令可在 K8s 中快速部署 Demo：
+
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/deepflowio/deepflow-demo/main/Istio-Bookinfo/bookinfo.yaml
 ```
@@ -211,6 +214,7 @@ classDef ratings_2 fill:#aa48bc,color:black;
 ```
 
 对这个追踪 Demo 我们总结一下：
+
 - 零插码：整个追踪过程不需要手动插入任何追踪代码，不需要向 HTTP Header 中注入任何 TraceID/SpanID
 - 多语言：支持对 Java、Python、Ruby、NodeJS 语言应用及 C/C++（curl/envoy）语言基础服务的追踪
 - 全链路：利用 eBPF 和 BPF，自动追踪到了这个 Trace 的 38 个 Span，含 24 个 eBPF Span、14 个 BPF Span

@@ -3,9 +3,9 @@ title: PCAP下载
 permalink: /guide/ee-tenant/network/pcap-download/
 ---
 
-# PCAP下载
+# PCAP 下载
 
-PCAP下载以列表和趋势分析图形式展示了一定时间范围内所开有启的 PCAP 策略数据。
+PCAP 下载以列表和趋势分析图形式展示了一定时间范围内所开有启的 PCAP 策略数据。
 
 ## 总览介绍
 

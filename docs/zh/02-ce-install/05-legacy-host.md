@@ -32,34 +32,38 @@ end
 ## 更新 deepflow-server 配置
 
 检查服务器所有的网段是否在以下网段列表中
+
 ```yaml
 local_ip_ranges:
-- 10.0.0.0/8
-- 172.16.0.0/12
-- 192.168.0.0/16
-- 169.254.0.0/15
-- 224.0.0.0-240.255.255.255
+  - 10.0.0.0/8
+  - 172.16.0.0/12
+  - 192.168.0.0/16
+  - 169.254.0.0/15
+  - 224.0.0.0-240.255.255.255
 ```
+
 若不在，需要在下面自定义配置文件内 `local_ip_ranges` 列表中添加缺失的服务器网段。例如：主机 IP 为 100.42.32.213，则需要把对应的 100.42.32.0/24 网段加入配置
 
 修改 `values-custom.yaml` 自定义配置文件：
+
 ```yaml
 configmap:
   server.yaml:
     controller:
       genesis:
         local_ip_ranges:
-        - 10.0.0.0/8
-        - 172.16.0.0/12
-        - 192.168.0.0/16
-        - 169.254.0.0/15
-        - 224.0.0.0-240.255.255.255
-        - 100.42.32.0/24  # FIXME
+          - 10.0.0.0/8
+          - 172.16.0.0/12
+          - 192.168.0.0/16
+          - 169.254.0.0/15
+          - 224.0.0.0-240.255.255.255
+          - 100.42.32.0/24 # FIXME
       trisolaris:
-        trident-type-for-unkonw-vtap: 3  # required
+        trident-type-for-unkonw-vtap: 3 # required
 ```
 
 更新 deepflow
+
 ```bash
 helm upgrade deepflow -n deepflow -f values-custom.yaml deepflow/deepflow
 ## Restart deepflow-server
@@ -83,6 +87,7 @@ EOF
 ## 创建采集器组
 
 创建采集器组：
+
 ```bash
 unset AGENT_GROUP
 AGENT_GROUP="legacy-host"  # FIXME: domain name
@@ -91,13 +96,15 @@ deepflow-ctl agent-group create $AGENT_GROUP
 deepflow-ctl agent-group list $AGENT_GROUP # Get agent-group ID
 ```
 
-创建采集器组配置文件 `agent-group-config.yaml`，指定 `vtap_group_id` 并开启 `platform_enabled` 让 deepflow-agent 将服务器的网络信息同步至 deepflow-server 
+创建采集器组配置文件 `agent-group-config.yaml`，指定 `vtap_group_id` 并开启 `platform_enabled` 让 deepflow-agent 将服务器的网络信息同步至 deepflow-server
+
 ```yaml
 vtap_group_id: g-ffffff # FIXME
 platform_enabled: 1
 ```
 
 创建采集器组配置：
+
 ```bash
 deepflow-ctl agent-group-config create -f agent-group-config.yaml
 ```
@@ -184,10 +191,11 @@ docker compose -f deepflow-agent-docker-compose.yaml up -d
 :::
 
 修改 deepflow-agent 的配置文件 `/etc/deepflow-agent.yaml` ：
+
 ```yaml
 controller-ips:
-  - 10.1.2.3  # FIXME: K8s Node IPs
-vtap-group-id-request: "g-fffffff"  # FIXME: agent-group ID
+  - 10.1.2.3 # FIXME: K8s Node IPs
+vtap-group-id-request: 'g-fffffff' # FIXME: agent-group ID
 ```
 
 启动 deepflow-agent ：

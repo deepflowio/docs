@@ -7,11 +7,11 @@ permalink: /best-practice/production-deployment/
 
 # Introduction
 
-DeepFlow production environment deployment recommendations.
+DeepFlow production deployment recommendations.
 
 # Use LTS Version of DeepFlow
 
-Add the `--version 6.4.9` parameter to the helm command to install or upgrade the LTS version of DeepFlow Server and Agent.
+Add the `--version 6.4.9` parameter to helm to install or upgrade the LTS version of DeepFlow Server and Agent.
 
 ## Install LTS Version of DeepFlow Server
 
@@ -151,8 +151,7 @@ chmod a+x /usr/bin/deepflow-ctl
 
 # Use Managed MySQL
 
-In a production environment, it is recommended to use a managed MySQL to ensure availability. It is recommended to use MySQL version 8.0 or above.
-You need to create the following databases and grant accounts in advance:
+In a production environment, it is recommended to use a managed MySQL to ensure availability. It is recommended to use MySQL version 8.0 or above. The following databases need to be created and authorized in advance:
 
 - deepflow
 - grafana
@@ -173,8 +172,7 @@ mysql:
 
 # Use Managed ClickHouse
 
-In a production environment, it is recommended to use a managed ClickHouse to ensure availability. It is recommended that the ClickHouse version be at least 21.8.
-You need to create the following databases and grant accounts in advance:
+In a production environment, it is recommended to use a managed ClickHouse to ensure availability. It is recommended that the version of ClickHouse be at least 21.8. The following databases need to be created and authorized in advance:
 
 - deepflow_system
 - event
@@ -213,11 +211,11 @@ clickhouse:
   enabled: false ## Close ClickHouse deployment
 ```
 
-DeepFlow will write the IP:Port information of ClickHouse into the Endpoint of a Service. The controller and ingester of deepflow-server will obtain the ClickHouse address list through the `list&watch` of this Service's Endpoint. The controller connects to all ClickHouse instances to create databases and table structures, while the ingester sorts all deepflow-server pod names and Endpoint IPs, corresponding to deepflow-server and ClickHouse in sequence, creating databases, table structures, and writing observability data. The querier accesses this Service to query observability data.
+DeepFlow will write the IP:Port information of ClickHouse into an Endpoint of a Service. The controller and ingester of deepflow-server obtain the ClickHouse address list through the `list&watch` of this Service's Endpoint. The controller connects to all ClickHouse instances to create databases and table structures, while the ingester sorts all deepflow-server pod names and Endpoint IPs, mapping them to deepflow-server and ClickHouse in sequence, creating databases, table structures, and writing observability data. The querier accesses this Service to query observability data.
 
 Since ClickHouse needs to request MySQL, it is recommended to use managed MySQL along with managed ClickHouse.
 
-If you only use managed ClickHouse without managed MySQL, it is recommended to open the NodePort of MySQL and configure `global.externalMySQL` to the NodePort access address.
+If only using managed ClickHouse without managed MySQL, it is recommended to open the NodePort of MySQL and configure `global.externalMySQL` to the NodePort access address.
 
 `values-custom.yaml` configuration:
 
@@ -264,7 +262,7 @@ Since ClickHouse will save the connection method of MySQL, after modifying the M
 
 # Optimize Traffic Path from deepflow-agent to deepflow-server
 
-When deepflow-agent starts, it will use the `controller-ips` in the local configuration file (including ConfigMap) to request deepflow-server. deepflow-server will by default send the Node IP of the deepflow-server Pod to deepflow-agent (the Pod IP of deepflow-server is sent by default in the same cluster) for subsequent request configuration and data sending. When there are multiple deepflow-servers, different deepflow-server Node IPs will be sent for load balancing, and load balancing will be reissued periodically.
+When deepflow-agent starts, it will use the `controller-ips` in the local configuration file (including ConfigMap) to request deepflow-server. deepflow-server will by default send the Node IP of the deepflow-server Pod to deepflow-agent (the Pod IP of deepflow-server is sent by default in the same cluster) for subsequent request configuration and data sending. When there are multiple deepflow-servers, different deepflow-server Node IPs will be sent for load balancing, and load balancing will be performed periodically.
 
 At this time, two ports' IPs are dynamically sent by deepflow-server to deepflow-agent:
 
@@ -289,7 +287,7 @@ server:
     type: LoadBalancer
 ```
 
-After modifying the Service type of deepflow-server to LoadBalancer, you need to configure agent-group-config to switch the deepflow-agent request address to the LoadBalancer IP:
+After modifying the Service type of deepflow-server to LoadBalancer, you need to configure agent-group-config to switch the address of deepflow-server requested by deepflow-agent to the LoadBalancer IP:
 
 ```yaml
 proxy_controller_ip: 1.2.3.4 # FIXME: Your LoadBalancer IP address
@@ -298,12 +296,11 @@ proxy_controller_port: 30035 # The default is 30035
 analyzer_port: 30033 # The default is 30033
 ```
 
-Note: After configuration, this IP will be fixedly sent to the collector as the data transmission IP, and the collector will also use the `controller-ips` in the local configuration file to request the control plane port 30035 to obtain configuration information.
+Note: After configuration, this IP will be fixedly sent to the collector as the data transmission IP, and the collector will also fixedly use the `controller-ips` in the local configuration file to request the control plane port 30035 to obtain configuration information.
 
 ## Use Local externalTrafficPolicy
 
-In environments without LoadBalancer conditions, you can configure the Service of deepflow-server to `externalTrafficPolicy=Local` to ensure that the traffic accessing the NodePort of a certain node will only be routed to the deepflow-server on that node.
-Due to the use of `externalTrafficPolicy=Local` and deepflow-server drift, some nodes' NodePorts may not be able to access deepflow-server. You need to be careful to avoid affecting the controller-ip in the deepflow-agent configuration file.
+In environments without LoadBalancer conditions, you can configure the Service of deepflow-server to `externalTrafficPolicy=Local` to ensure that the traffic accessing the NodePort of a node will only be routed to the deepflow-server on that node. Due to the use of `externalTrafficPolicy=Local` and deepflow-server drift and other factors, some nodes' NodePorts may not be able to access deepflow-server. You need to be careful to avoid affecting the `controller-ip` in the configuration file of deepflow-agent.
 
 `values-custom.yaml` configuration:
 
@@ -315,7 +312,7 @@ server:
 
 ## Use HostNetwork
 
-Enable HostNetwork for deepflow-server to reduce the pressure on kube-proxy.
+Enable the HostNetwork of deepflow-server to reduce the pressure on kube-proxy.
 
 `values-custom.yaml` configuration:
 
@@ -325,7 +322,7 @@ server:
   dnsPolicy: ClusterFirstWithHostNet
 ```
 
-After enabling HostNetwork for deepflow-server, you need to configure agent-group-config to switch the deepflow-agent request ports:
+After enabling the HostNetwork of deepflow-server, you need to configure agent-group-config to switch the port requested by deepflow-agent to deepflow-server:
 
 ```yaml
 proxy_controller_port: 20035 # The deepflow-server controller listens on the port. The default port is 20035

@@ -5,9 +5,9 @@ permalink: /features/continuous-profiling/configuration
 
 > This document was translated by ChatGPT
 
-# eBPF OnCPU Profiling
+# eBPF On-CPU Profiling
 
-eBPF OnCPU Profiling is enabled by default, but you need to specify the list of processes to enable by modifying `static_config.ebpf.on-cpu-profile.regex`. By default, it is only enabled for processes whose names start with `deepflow-`. The configuration parameters supported by the Agent are as follows:
+eBPF On-CPU Profiling is enabled by default, but you need to specify the list of processes to be enabled by modifying `static_config.ebpf.on-cpu-profile.regex`. By default, it is only enabled for processes whose names start with `deepflow-`. The configuration parameters supported by the Agent are as follows:
 
 ```yaml
 static_config:
@@ -59,15 +59,15 @@ static_config:
 The meanings of the above configurations are as follows:
 
 - **disabled**: Default is False, indicating the feature is enabled.
-- **frequency**: Sampling frequency, default 99 approximately represents a 10ms sampling period. It is not recommended to set it to an integer multiple of 10 to avoid synchronization with the program's runtime or scheduling clock.
+- **frequency**: Sampling frequency, default is 99, which approximately represents a 10ms sampling period. It is not recommended to set it to an integer multiple of 10 to avoid synchronization with the program's runtime or scheduling clock.
 - **cpu**: Default is 0, indicating that the data collected on a host is not distinguished by CPU. When set to 1, the data will be aggregated by CPU ID.
-- **regex**: Regular expression for the process names to enable OnCPU Profiling.
+- **regex**: Regular expression for the process names to enable On-CPU Profiling.
 - **java-symbol-file-refresh-default-interval**: Refresh interval for Java symbol files to avoid high-frequency refreshes.
 - **java-symbol-file-max-space-limit**: To prevent Java symbol files from occupying too much `/tmp` space.
 
-# eBPF OffCPU Profiling
+# eBPF Off-CPU Profiling
 
-eBPF OffCPU Profiling (Enterprise Edition only) is enabled by default, but you need to specify the list of processes to enable by modifying `static_config.ebpf.off-cpu-profile.regex`. By default, it is only enabled for processes whose names start with `deepflow-`. The configuration parameters supported by the Agent are as follows:
+eBPF Off-CPU Profiling (Enterprise Edition only) is enabled by default, but you need to specify the list of processes to be enabled by modifying `static_config.ebpf.off-cpu-profile.regex`. By default, it is only enabled for processes whose names start with `deepflow-`. The configuration parameters supported by the Agent are as follows:
 
 ```yaml
 static_config:
@@ -110,11 +110,11 @@ static_config:
 The meanings of the above configurations are as follows:
 
 - **disabled**: Default is False, indicating the feature is enabled.
-- **regex**: Regular expression for the process names to enable OffCPU Profiling.
+- **regex**: Regular expression for the process names to enable Off-CPU Profiling.
 - **cpu**: Default is 0, indicating that the data collected on a host is not distinguished by CPU. When set to 1, the data will be aggregated by CPU ID.
-- **minblock**: Use duration limit to collect OffCPU events to avoid excessive collection leading to high host load.
+- **minblock**: Use duration limits to collect Off-CPU events to avoid excessive collection leading to high host load.
 
-Additionally, the following two OnCPU configuration items are also effective for OffCPU:
+Additionally, the following two On-CPU configuration items are also effective for Off-CPU:
 
 - **java-symbol-file-refresh-default-interval**
 - **java-symbol-file-max-space-limit**

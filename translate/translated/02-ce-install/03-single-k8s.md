@@ -8,7 +8,7 @@ permalink: /ce-install/single-k8s
 # Introduction
 
 If you have deployed applications in a K8s cluster, this chapter introduces how to use DeepFlow for monitoring.
-DeepFlow can collect observability signals (AutoMetrics, AutoTracing, AutoProfiling) from all Pods with zero interference,
+DeepFlow can collect observability signals (AutoMetrics, AutoTracing, AutoProfiling) from all Pods with zero intrusion,
 and automatically inject `K8s resources` and `K8s custom labels` tags (AutoTagging) into all observability data based on information obtained from the apiserver.
 
 # Preparation
@@ -49,7 +49,7 @@ end
 We recommend using Persistent Volumes to store MySQL and ClickHouse data to avoid unnecessary maintenance costs.
 You can provide a default Storage Class or add the `--set global.storageClass=<your storageClass>` parameter to select a Storage Class for creating PVC.
 
-Optionally, you can use [OpenEBS](https://openebs.io/) to create PVC:
+You can choose [OpenEBS](https://openebs.io/) to create PVC:
 
 ```bash
 kubectl apply -f https://openebs.github.io/charts/openebs-operator.yaml
@@ -124,5 +124,5 @@ Grafana auth: admin:deepflow
 - [Universal Service Map - Experience DeepFlow's AutoMetrics capability](../features/universal-map/auto-metrics/)
 - [Distributed Tracing - Experience DeepFlow's AutoTracing capability](../features/distributed-tracing/auto-tracing/)
 - [Eliminate Data Silos - Learn about DeepFlow's AutoTagging and SmartEncoding capabilities](../features/auto-tagging/eliminate-data-silos/)
-- [Say Goodbye to High Cardinality Issues - Integrate metrics data from Prometheus, etc.](../integration/input/metrics/metrics-auto-tagging/)
-- [Full-Stack Distributed Tracing - Integrate tracing data from OpenTelemetry, etc.](../integration/input/tracing/full-stack-distributed-tracing/)
+- [Say Goodbye to High Latency - Integrate metrics data like Prometheus](../integration/input/metrics/metrics-auto-tagging/)
+- [Full-Stack Distributed Tracing - Integrate tracing data like OpenTelemetry](../integration/input/tracing/full-stack-distributed-tracing/)

@@ -40,11 +40,12 @@ permalink: /features/universal-map/metrics-and-operators
 [csv-传输层吞吐量](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/network.ch?Category=L4 Throughput)
 
 活跃连接计算逻辑：
+
 - 采集器以四元组（客户端 IP、服务端 IP、协议、服务端口）为单位统计原始活跃连接数，并进而计算出资源、路径对应的活跃连接数
 - 数据源对应的时间间隔内能采集到流量，则统计活跃连接，但存在一些特殊情况：
   - 1s 数据源：描述每秒统计到的活跃连接数
-    - 每分钟第1秒：包括该秒内无流量但未结束的连接，一般可用于评估并发连接（无交叠且持续时间小于一秒的多个连接会带来一些误差）
-    - 每分钟后59秒：如果相同四元组的多条流在该秒内均无流量，这一秒会忽略该四元组对应的连接数，一般可用于评估并发连接的下界
+    - 每分钟第 1 秒：包括该秒内无流量但未结束的连接，一般可用于评估并发连接（无交叠且持续时间小于一秒的多个连接会带来一些误差）
+    - 每分钟后 59 秒：如果相同四元组的多条流在该秒内均无流量，这一秒会忽略该四元组对应的连接数，一般可用于评估并发连接的下界
   - 1m 数据源：描述每分钟统计到的活跃连接数
     - 包括没有流量但仍未结束的连接，一般可用于评估并发连接的上界
   - 自定义数据源：根据 1s/1m 数据源通过 Avg/Max/Min 计算得到，含义与直接使用 1s/1m 数据源并选择 Avg/Max/Min 算子得到的值相同
@@ -98,30 +99,30 @@ permalink: /features/universal-map/metrics-and-operators
 
 ## 聚合算子
 
-| 算子            | 英文名                        | 适用的指标类型   | 描述 |
-| --------------- | ----------------------------- | ---------------- | ---- |
-| Avg             | Average                       | 所有类型         | 平均值（用于 Counter/Gauge 指标时不会忽略零值）|
-| AAvg            | Arithmetic Average            | 所有类型         | 算数平均值（先求每个时间点的均值，再求均值的平均）|
-| Sum             | Sum                           | Counter 类型     | 加和值 |
-| Max             | Maximum                       | 所有类型         | 最大值 |
-| Min             | Minimum                       | 所有类型         | 最小值 |
-| Percentile      | Estimated Percentile          | 所有类型         | 估算百分位数 |
-| PercentileExact | Exact Percentile              | 所有类型         | 精准百分位数 |
-| Spread          | Spread                        | 所有类型         | 绝对跨度，统计周期内，Max 减去 Min |
-| Rspread         | Relative Spread               | 所有类型         | 相对跨度，统计周期内，Max 除以 Min |
-| Stddev          | Standard Deviation            | 所有类型         | 标准差 |
-| Apdex           | Application Performance Index | Delay 类型       | 时延满意度 |
-| Last            | Last                          | 所有类型         | 最新值 |
-| Uniq            | Estimated Uniq                | Cardinality 类型 | 估算基数统计 |
-| UniqExact       | Exact Uniq                    | Cardinality 类型 | 精准基数统计 |
+| 算子            | 英文名                        | 适用的指标类型   | 描述                                               |
+| --------------- | ----------------------------- | ---------------- | -------------------------------------------------- |
+| Avg             | Average                       | 所有类型         | 平均值（用于 Counter/Gauge 指标时不会忽略零值）    |
+| AAvg            | Arithmetic Average            | 所有类型         | 算数平均值（先求每个时间点的均值，再求均值的平均） |
+| Sum             | Sum                           | Counter 类型     | 加和值                                             |
+| Max             | Maximum                       | 所有类型         | 最大值                                             |
+| Min             | Minimum                       | 所有类型         | 最小值                                             |
+| Percentile      | Estimated Percentile          | 所有类型         | 估算百分位数                                       |
+| PercentileExact | Exact Percentile              | 所有类型         | 精准百分位数                                       |
+| Spread          | Spread                        | 所有类型         | 绝对跨度，统计周期内，Max 减去 Min                 |
+| Rspread         | Relative Spread               | 所有类型         | 相对跨度，统计周期内，Max 除以 Min                 |
+| Stddev          | Standard Deviation            | 所有类型         | 标准差                                             |
+| Apdex           | Application Performance Index | Delay 类型       | 时延满意度                                         |
+| Last            | Last                          | 所有类型         | 最新值                                             |
+| Uniq            | Estimated Uniq                | Cardinality 类型 | 估算基数统计                                       |
+| UniqExact       | Exact Uniq                    | Cardinality 类型 | 精准基数统计                                       |
 
 ## 二级算子
 
-| 算子 |  描述 |
-| ---- |  ---- |
+| 算子       | 描述                                     |
+| ---------- | ---------------------------------------- |
 | PerSecond  | 计算速率，将内层算子结果除以时间间隔 [1] |
-| Math  | 四则运算，支持 +、-、*、/ |
-| Percentage  | 单位转化 % |
+| Math       | 四则运算，支持 +、-、\*、/               |
+| Percentage | 单位转化 %                               |
 
 - [1] 例如：`PerSeond(Sum)` 表示先求和，再除以 API 传入的时间间隔 `interval`；`PerSeond(Avg)` 表示先求平均，然后除以数据源的时间间隔 `data_precision`。
 
@@ -188,7 +189,7 @@ permalink: /features/universal-map/metrics-and-operators
 ## 不同数据库/表的 data_precision
 
 | 数据库          | data_precision | 备注                                                            |
-| --------------- |  ------------- | --------------------------------------------------------------- |
+| --------------- | -------------- | --------------------------------------------------------------- |
 | flow_metrics    | 1s/1m          | 默认支持 1s、1m，可聚合为 1h、1d                                |
 | flow_log        | 1s             | 实际上没有`data_precision`的概念，其取值仅为方便计算            |
 | application_log | 1s             | 实际上没有`data_precision`的概念，其取值仅为方便计算            |

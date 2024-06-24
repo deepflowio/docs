@@ -48,7 +48,7 @@ env:
     value: http://deepflow-agent.deepflow/api/v1/profile
 ```
 
-Additionally, to identify different data sources in DeepFlow, explicitly label the application name by adding the following environment variable:
+Additionally, to identify different data sources in DeepFlow, explicitly label the application name by adding the following environment variables:
 
 ```yaml
 env:
@@ -58,7 +58,7 @@ env:
 
 ## Based on Golang pprof
 
-Profile data collected based on Golang pprof can also be sent to DeepFlow, but you need to manually add the code logic for active reporting. You can collect Profile data using ["net/http/pprof"](https://pkg.go.dev/net/http/pprof) and expose the data download service. The client requests the `/debug/pprof/profile` interface to get the target pprof data and then sends it to DeepFlow.
+Profile data collected based on Golang pprof can also be sent to DeepFlow, but you need to manually add the code logic for active reporting. You can collect Profile data through ["net/http/pprof"](https://pkg.go.dev/net/http/pprof) and expose the data download service. The client requests the `/debug/pprof/profile` interface to obtain the target pprof data and then sends it to DeepFlow.
 
 Here is a reference code snippet for building the reporting logic:
 
@@ -66,71 +66,71 @@ Here is a reference code snippet for building the reporting logic:
 func main() {
   // Note, the actual URL used here is `/api/v1/profile/ingest`
   deepflowAgentAddress = "http://deepflow-agent.deepflow/api/v1/profile/ingest"
-  var pprof io.Reader // FIXME: This is an example, please first get the pprof data from `/debug/pprof/profile`
- err = sendProfileData(pprof, deepflowAgentAddress)
- if err != nil {
-  fmt.Println(err)
- }
+  var pprof io.Reader // FIXME: This is an example, please first obtain pprof data from `/debug/pprof/profile`
+	err = sendProfileData(pprof, deepflowAgentAddress)
+	if err != nil {
+		fmt.Println(err)
+	}
 }
 
-// Build the request
+// Build the request to send
 func sendProfileData(pprof io.Reader, remoteURL string) error {
- bodyBuf := &bytes.Buffer{}
- bodyWriter := multipart.NewWriter(bodyBuf)
- pprofWriter, err := bodyWriter.CreateFormFile("profile", "profile.pprof")
- if err != nil {
-  return err
- }
+	bodyBuf := &bytes.Buffer{}
+	bodyWriter := multipart.NewWriter(bodyBuf)
+	pprofWriter, err := bodyWriter.CreateFormFile("profile", "profile.pprof")
+	if err != nil {
+		return err
+	}
 
- _, err = io.Copy(pprofWriter, pprof)
- if err != nil {
-  return err
- }
+	_, err = io.Copy(pprofWriter, pprof)
+	if err != nil {
+		return err
+	}
 
- err = bodyWriter.Close()
- if err != nil {
-  return err
- }
+	err = bodyWriter.Close()
+	if err != nil {
+		return err
+	}
 
- u, err := url.Parse(remoteURL)
- if err != nil {
-  return err
- }
+	u, err := url.Parse(remoteURL)
+	if err != nil {
+		return err
+	}
 
- q := u.Query()
- q.Set("spyName", "gospy")                            // hardcode, no need to modify
- q.Set("name", "application-demo")                    // FIXME: your application name
- q.Set("unit", "samples");                            // FIXME: unit of measurement, see explanation below
- q.Set("from", strconv.Itoa(int(time.Now().Unix())))  // FIXME: profile start time
- q.Set("until", strconv.Itoa(int(time.Now().Unix()))) // FIXME: profile end time
- q.Set("sampleRate", "100")                           // FIXME: actual sampling rate, sampling rate 100=1s/10ms, i.e., sampled every 10ms
- u.RawQuery = q.Encode()
+	q := u.Query()
+	q.Set("spyName", "gospy")                            // hardcode, no need to modify
+	q.Set("name", "application-demo")                    // FIXME: your application name
+	q.Set("unit", "samples");                            // FIXME: unit of measurement, see explanation below
+	q.Set("from", strconv.Itoa(int(time.Now().Unix())))  // FIXME: profile start time
+	q.Set("until", strconv.Itoa(int(time.Now().Unix()))) // FIXME: profile end time
+	q.Set("sampleRate", "100")                           // FIXME: actual sampling rate of the profile, sampling rate 100=1s/10ms, i.e., sampled every 10ms
+	u.RawQuery = q.Encode()
 
- req, err := http.NewRequest(http.MethodPost, u.String(), bodyBuf)
- if err != nil {
-  return err
- }
- req.Header.Set("Content-Type", bodyWriter.FormDataContentType())
+	req, err := http.NewRequest(http.MethodPost, u.String(), bodyBuf)
+	if err != nil {
+		return err
+	}
+	req.Header.Set("Content-Type", bodyWriter.FormDataContentType())
 
- // Send the request
- client := http.Client{}
- resp, err := client.Do(req)
- if err != nil {
-  return err
- }
- defer resp.Body.Close()
+	// Send the request
+	client := http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
 
- if resp.StatusCode != http.StatusOK {
-  return fmt.Errorf("server returned non-OK status: %s", resp.Status)
- }
+	if resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("server returned non-OK status: %s", resp.Status)
+	}
 
- return nil
+	return nil
 }
 ```
 
 ## Based on Java Async Profiler
 
-For Java applications, we support receiving Profile data in [JFR](https://docs.oracle.com/javacomponents/jmc-5-4/jfr-runtime-guide/about.htm) format. You can collect Profile data using Java's built-in [jcmd](https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/tooldescr006.html) or [async-profiler](https://github.com/async-profiler/async-profiler) and send the Jfr format data to DeepFlow.
+For Java applications, we support receiving Profile data in [JFR](https://docs.oracle.com/javacomponents/jmc-5-4/jfr-runtime-guide/about.htm) format. Use Java's built-in [jcmd](https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/tooldescr006.html) or [async-profiler](https://github.com/async-profiler/async-profiler) to collect Profile data and generate Jfr format to send to DeepFlow.
 
 Here is a reference code snippet for building the reporting logic:
 
@@ -143,7 +143,7 @@ import okio.Okio;
 import java.io.IOException;
 
 public class Sender {
- // Note, the actual URL used here is `/api/v1/profile/ingest`
+	// Note, the actual URL used here is `/api/v1/profile/ingest`
     private static final String DEEPFLOW_AGENT_ADDRESS = "http://deepflow-agent.deepflow/api/v1/profile/ingest";
 
     public static void main(String[] args) throws IOException {
@@ -153,7 +153,7 @@ public class Sender {
     private static void sendProfileData(String remoteURL) throws IOException {
         OkHttpClient client = new OkHttpClient();
 
-        byte[] data = new byte[] {}; // FIXME: This is an example, please use the profile tool to get the Jfr content before reporting
+        byte[] data = new byte[] {}; // FIXME: This is an example, please use the profile tool to obtain Jfr content before reporting
         MediaType mediaType = MediaType.parse("application/octet-stream");
 
         RequestBody requestBody = new RequestBody() {
@@ -162,7 +162,7 @@ public class Sender {
                 return mediaType;
             }
 
-   // Use Gzip for compression before transmission
+			// Use Gzip for compression before transmission
             @Override
             public void writeTo(BufferedSink sink) throws IOException {
                 BufferedSink gzipSink = Okio.buffer(new GzipSink(sink));
@@ -178,7 +178,7 @@ public class Sender {
         urlBuilder.addQueryParameter("unit", "samples"); // FIXME: unit of measurement, see explanation below
         urlBuilder.addQueryParameter("from", String.valueOf(System.currentTimeMillis() / 1000)); // FIXME: profile start time
         urlBuilder.addQueryParameter("until", String.valueOf(System.currentTimeMillis() / 1000));// FIXME: profile end time
-        urlBuilder.addQueryParameter("sampleRate", "100"); // FIXME: actual sampling rate, sampling rate 100=1s/10ms, i.e., sampled every 10ms
+        urlBuilder.addQueryParameter("sampleRate", "100"); // FIXME: actual sampling rate of the profile, sampling rate 100=1s/10ms, i.e., sampled every 10ms
         String urlWithQueryParams = urlBuilder.build().toString();
 
         Request request = new Request.Builder()
@@ -199,23 +199,23 @@ public class Sender {
 
 ## Reporting Parameter Explanation
 
-| Name       | Type   | Description                                                                                                                                                                                                                                                                                                   |
-| ---------- | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| name       | string | Application name, used to identify the reported data. You can also add custom tags to mark different deployment specifications of the same application, e.g., `application-demo{region="cn",deploy="prod"}`                                                                                                   |
-| spyName    | string | Used to mark the type of reported data. For Golang applications, it is fixed as `gospy`, and for Java applications, it is fixed as `javaspy`                                                                                                                                                                  |
-| format     | string | Profile data format. For Golang, the collected pprof format is `pprof` (default), and for Java, the collected jfr format is `jfr`                                                                                                                                                                             |
-| unit       | string | Unit of measurement. Different sampling types have different units. Refer to [here](https://github.com/deepflowio/deepflow/blob/v6.4.9/server/ingester/profile/dbwriter/profile.go#L99) for details. For example, `cpu` uses `samples` as the unit, `memory` uses `bytes` as the unit, and others are similar |
-| from       | int    | Profile start time, Unix timestamp (seconds)                                                                                                                                                                                                                                                                  |
-| until      | int    | Profile end time, Unix timestamp (seconds)                                                                                                                                                                                                                                                                    |
-| sampleRate | int    | Actual sampling rate of the profile                                                                                                                                                                                                                                                                           |
+| Name       | Type   | Description                                                                                                                                                                                                                                                            |
+| ---------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| name       | string | Application name, used to identify the reported data. You can add custom tags to mark different deployment specifications of the same application, e.g., `application-demo{region="cn",deploy="prod"}`                                                                 |
+| spyName    | string | Used to mark the type of reported data. For Golang applications, it is fixed as `gospy`, and for Java applications, it is fixed as `javaspy`                                                                                                                            |
+| format     | string | Profile data format. For Golang, the collected pprof format is `pprof` (default), and for Java, the collected jfr format is `jfr`                                                                                                                                       |
+| unit       | string | Unit of measurement. For different sampling types, there are different units. Refer to [here](https://github.com/deepflowio/deepflow/blob/v6.4.9/server/ingester/profile/dbwriter/profile.go#L99) for details. `cpu` uses `samples` as the unit, `memory` uses `bytes` as the unit, and others are similar |
+| from       | int    | Profile start time, Unix timestamp (seconds)                                                                                                                                                                                                                           |
+| until      | int    | Profile end time, Unix timestamp (seconds)                                                                                                                                                                                                                             |
+| sampleRate | int    | Actual sampling rate of the profile                                                                                                                                                                                                                                    |
 
 # Configure DeepFlow
 
 Please refer to the [Configure DeepFlow](../tracing/opentelemetry/#配置-deepflow) section to complete the configuration of DeepFlow Agent and open the data integration port.
 
-# Experience with Demo
+# Experience Based on Demo
 
-Use the following commands to quickly deploy the Demo and experience the continuous profiling capability in DeepFlow:
+Use the following command to quickly deploy the Demo and experience the continuous profiling capability in DeepFlow:
 
 ::: code-tabs#shell
 

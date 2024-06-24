@@ -10,6 +10,7 @@ eBPF Profiling 数据目前无法在 Grafana 上展现，仅可在企业版页�
 # 获取指定进程的 Profiling 数据
 
 Profiling 数据查询 API 示例：
+
 ```bash
 # 确认 deepflow-server 的监听 IP 和端口
 deepflow_server_node_ip=FIXME # 注意修改
@@ -29,6 +30,7 @@ curl -X POST http://${deepflow_server_node_ip}:$port/v1/profile/ProfileTracing \
 ```
 
 API 请求参数说明：
+
 - **app_service**：进程名
 - **profile_language_type**：获取 eBPF Profiling 数据时使用 `eBPF`
 - **profile_event_type**：对于 eBPF On-CPU Profiling 数据赋值为 `on-cpu` 即可
@@ -40,6 +42,7 @@ API 请求参数说明：
 [csv-profile-tag-filters](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/tag/profile/in_process.ch)
 
 API 返回结果示例：
+
 ```json
 {
   "OPT_STATUS": "SUCCESS",
@@ -80,6 +83,7 @@ API 返回结果示例：
 ```
 
 API 返回结果说明：
+
 - **profile_location_str**：函数名
   - `[t] thread_name`：线程，只会出现在火焰图的第二层
   - `[k] function_name`：Linux 内核函数、CUDA 动态链接库函数（[libcuda](https://developer.nvidia.com/cuda-toolkit)、[libcublas](https://developer.nvidia.com/cublas) 等）
@@ -110,6 +114,7 @@ API 返回结果说明：
 :::
 
 当请求参数携带 `"app_service": "Total"` 时，能够获取到名为 `Total` 的特殊 On-CPU Profiling 数据，它是一台主机上所有进程的、精细到线程粒度的 Profiling。可用于当 On-CPU `regex` 未配置某个进程时，能够快速定位瓶颈进程和线程。此时的返回结果示例：
+
 ```json
 {
   "OPT_STATUS": "SUCCESS",
@@ -143,6 +148,7 @@ API 返回结果说明：
 ```
 
 上述返回结果中 **profile_location_str** 的补充说明如下：
+
 - `$app_service`：火焰图最顶层的节点，名字固定为 Total
 - `[p] name`：一个进程的名称
 - `[t] name`：一个线程的名称，它的父节点是一个 `[p] name` 类型的节点，表示这个线程所属的进程

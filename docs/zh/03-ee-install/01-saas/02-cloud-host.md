@@ -30,16 +30,15 @@ DeepFlowServer -->|"get resource & label"| CloudAPI[cloud api service]
 # 创建公有云 Domain
 
 DeepFlow 目前支持如下公有云的资源信息同步（标记为 `TBD` 的正在整理代码中）：
-| 云服务商（英文） | 云服务商（中文） | DeepFlow中使用的类型标识 |
+| 云服务商（英文） | 云服务商（中文） | DeepFlow 中使用的类型标识 |
 | ---------------- | ---------------- | ------------------------ |
-| AWS              | AWS              | aws                      |
-| Aliyun           | 阿里云           | aliyun                   |
-| Baidu Cloud      | 百度云           | baidu\_bce               |
-| Huawei Cloud     | 华为云           | huawei                   |
-| Microsoft Azure  | 微软云           | `TBD`                    |
-| QingCloud        | 青云             | qingcloud                |
-| Tencent Cloud    | 腾讯云           | tencent                  |
-
+| AWS | AWS | aws |
+| Aliyun | 阿里云 | aliyun |
+| Baidu Cloud | 百度云 | baidu_bce |
+| Huawei Cloud | 华为云 | huawei |
+| Microsoft Azure | 微软云 | `TBD` |
+| QingCloud | 青云 | qingcloud |
+| Tencent Cloud | 腾讯云 | tencent |
 
 ## 获取采集器安装包和采集器组的 Agent Group ID
 
@@ -97,11 +96,12 @@ docker compose -f deepflow-agent-docker-compose.yaml up -d
 :::
 
 修改 deepflow-agent 的配置文件 `/etc/deepflow-agent.yaml` ：
+
 ```yaml
 controller-ips:
   - cloud.deepflow.yunshan.net
-vtap-group-id-request: "g-xxxxxxxxxx"  # FIXME: agent-group ID
-team-id: "t-xxxxxxxxxx" # FIXME: Team ID
+vtap-group-id-request: 'g-xxxxxxxxxx' # FIXME: agent-group ID
+team-id: 't-xxxxxxxxxx' # FIXME: Team ID
 ```
 
 启动 deepflow-agent ：

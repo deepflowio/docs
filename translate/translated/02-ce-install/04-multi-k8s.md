@@ -28,13 +28,13 @@ subgraph K8s-Cluster-2
 end
 ```
 
-## Ensure Different K8s Clusters Are Distinguishable
+## Ensure Different K8s Clusters Can Be Distinguished
 
-DeepFlow uses the MD5 value of the K8s CA file to distinguish between different clusters. Please check the `/run/secrets/kubernetes.io/serviceaccount/ca.crt` file in the Pods of different K8s clusters to ensure that the CA files are different.
+DeepFlow uses the MD5 value of the K8s CA file to distinguish different clusters. Please check the `/run/secrets/kubernetes.io/serviceaccount/ca.crt` file in the Pods of different K8s clusters to ensure that the CA files of different clusters are different.
 
-If your different K8s clusters use the same CA file, you need to obtain a `K8sClusterID` using `deepflow-ctl domain create` before deploying deepflow-agent in multiple clusters:
+If your different K8s clusters use the same CA file, you need to use `deepflow-ctl domain create` to obtain a `K8sClusterID` before deploying deepflow-agent in multiple clusters:
 
-Note: It is uncommon for multiple K8s clusters to have the same CA file. Nevertheless, we still recommend manually connecting the deepflow-agent of other K8s clusters to the deepflow-server cluster. The advantage of manual connection is that you can customize the K8s cluster names displayed in the Grafana dashboard. You can create a custom K8s cluster domain using `deepflow-ctl domain create -f custom-domain.yaml`:
+Note: It is uncommon for multiple K8s clusters to have the same CA file. Nevertheless, we still recommend manually connecting the deepflow-agent of other K8s clusters to the deepflow-server cluster. The advantage of manual connection is that you can customize the K8s cluster name displayed in the Grafana dashboard. You can create a custom K8s cluster domain using `deepflow-ctl domain create -f custom-domain.yaml`:
 
 ```bash
 # Name (you can customize the cluster name, for example, beijing-prod-k8s)
@@ -42,7 +42,7 @@ name: $CLUSTER_NAME  # FIXME
 # Type of cloud platform
 type: kubernetes
 config:
-  ## Regional identifier (must use this default valued)
+  ## Regional identifier (must use this default value)
   #region_uuid: ffffffff-ffff-ffff-ffff-ffffffffffff
   ## Resource synchronization controller (it is recommended to use the default setting here)
   #controller_ip: 127.0.0.1
@@ -59,9 +59,9 @@ config:
 deepflow-ctl domain list $CLUSTER_NAME
 ```
 
-# Deploying deepflow-agent
+# Deploy deepflow-agent
 
-Use Helm to install deepflow-agent. If the service used by deepflow-server is the default NodePort type, directly fill in the deepflow-server Node IP under `deepflowServerNodeIPS`; if the [service used by deepflow-server is LoadBalancer type](../best-practice/production-deployment/#优化-deepflow-agent-到-deepflow-server-的流量路径), directly fill in the LoadBalancer VIP.
+Use Helm to install deepflow-agent. If the service used by deepflow-server is the default NodePort type, directly fill in the deepflow-server Node IP under `deepflowServerNodeIPS`; if the [service used by deepflow-server is of LoadBalancer type](../best-practice/production-deployment/#优化-deepflow-agent-到-deepflow-server-的流量路径), directly fill in the LoadBalancer VIP.
 
 ::: code-tabs#shell
 
@@ -103,12 +103,12 @@ helm install deepflow-agent -n deepflow deepflow/deepflow-agent --create-namespa
 
 :::
 
-We recommend configuring the `deepflowServerNodeIPS` of deepflow-agent to one or more relatively fixed Node IPs of the K8s cluster during the deployment process mentioned above.
+We recommend configuring the `deepflowServerNodeIPS` of deepflow-agent to one or more relatively fixed Node IPs of the K8s cluster during the above deployment process.
 
 # Next Steps
 
-- [Universal Service Map - Experience DeepFlow's AutoMetrics capability](../features/universal-map/auto-metrics/)
-- [Distributed Tracing - Experience DeepFlow's AutoTracing capability](../features/distributed-tracing/auto-tracing/)
-- [Eliminate Data Silos - Learn about DeepFlow's AutoTagging and SmartEncoding capabilities](../features/auto-tagging/eliminate-data-silos/)
-- [Say Goodbye to High Cardinality Woes - Integrate Prometheus and other metric data](../integration/input/metrics/metrics-auto-tagging/)
-- [Full-Stack Distributed Tracing - Integrate OpenTelemetry and other tracing data](../integration/input/tracing/full-stack-distributed-tracing/)
+- [Universal Service Map - Experience DeepFlow's AutoMetrics Capability](../features/universal-map/auto-metrics/)
+- [Distributed Tracing - Experience DeepFlow's AutoTracing Capability](../features/distributed-tracing/auto-tracing/)
+- [Eliminate Data Silos - Learn About DeepFlow's AutoTagging and SmartEncoding Capabilities](../features/auto-tagging/eliminate-data-silos/)
+- [Say Goodbye to High Cardinality Issues - Integrate Metrics Data from Prometheus, etc.](../integration/input/metrics/metrics-auto-tagging/)
+- [Full-Stack Distributed Tracing - Integrate Tracing Data from OpenTelemetry, etc.](../integration/input/tracing/full-stack-distributed-tracing/)

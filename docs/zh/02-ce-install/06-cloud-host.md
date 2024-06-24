@@ -37,23 +37,25 @@ DeepFlowServer -->|"get resource & label"| CloudAPI[cloud api service]
 # 创建公有云 Domain
 
 DeepFlow 目前支持如下公有云的资源信息同步（标记为 `TBD` 的正在整理代码中）：
-| 云服务商（英文） | 云服务商（中文） | DeepFlow中使用的类型标识 |
+| 云服务商（英文） | 云服务商（中文） | DeepFlow 中使用的类型标识 |
 | ---------------- | ---------------- | ------------------------ |
-| AWS              | AWS              | aws                      |
-| Aliyun           | 阿里云           | aliyun                   |
-| Baidu Cloud      | 百度云           | baidu\_bce               |
-| Huawei Cloud     | 华为云           | huawei                   |
-| Microsoft Azure  | 微软云           | `TBD`                    |
-| QingCloud        | 青云             | qingcloud                |
-| Tencent Cloud    | 腾讯云           | tencent                  |
+| AWS | AWS | aws |
+| Aliyun | 阿里云 | aliyun |
+| Baidu Cloud | 百度云 | baidu_bce |
+| Huawei Cloud | 华为云 | huawei |
+| Microsoft Azure | 微软云 | `TBD` |
+| QingCloud | 青云 | qingcloud |
+| Tencent Cloud | 腾讯云 | tencent |
 
 可通过 `deepflow-ctl domain example <domain_type>` 命令获取创建公有云 Domain 的配置文件模板。
 以阿里云为例：
+
 ```bash
 deepflow-ctl domain example aliyun > aliyun.yaml
 ```
 
 修改配置文件 `aliyun.yaml`，填写 AK/SK（需要云资源的只读权限）和资源所在的 Region 信息：
+
 ```yaml
 name: aliyun
 type: aliyun
@@ -66,6 +68,7 @@ config:
 ```
 
 使用修改好的配置文件创建公有云 Domain：
+
 ```bash
 deepflow-ctl domain create -f aliyun.yaml
 ```
@@ -152,12 +155,14 @@ docker compose -f deepflow-agent-docker-compose.yaml up -d
 :::
 
 修改 deepflow-agent 的配置文件 `/etc/deepflow-agent.yaml` ：
+
 ```yaml
 controller-ips:
-  - 10.1.2.3  # FIXME: K8s Node IPs
+  - 10.1.2.3 # FIXME: K8s Node IPs
 ```
 
 启动 deepflow-agent ：
+
 ```bash
 systemctl enable deepflow-agent
 systemctl restart deepflow-agent

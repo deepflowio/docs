@@ -12,4 +12,3 @@ permalink: /guide/ee-tenant/resources/resource-changes/
 ![1_1.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230921650bbbf54f94c.png)
 
 - 页面按钮功能，使用详情，请参阅【[追踪 - 调用日志](../tracing/call-log/)】章节
-  

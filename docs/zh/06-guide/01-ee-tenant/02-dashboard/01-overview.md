@@ -12,4 +12,3 @@ permalink: /guide/ee-tenant/dashboard/overview/
 - [视图详情](./use/)
 - [添加图表](./add-panel/)
 - [变量模板](./variable-template/)
-

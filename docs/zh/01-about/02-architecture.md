@@ -24,6 +24,7 @@ DeepFlow 的名称来自于我们对实现可观测性的认知：**对每一次
 DeepFlow Agent 使用 Rust 语言实现，有着极致的处理性能和内存安全性。
 
 Agent 采集的数据包括如下三类：
+
 - **eBPF 观测信号**
   - **AutoMetrics**
     - 基于 eBPF（Linux Kernel 4.14+）采集所有服务的全栈 RED 黄金指标
@@ -40,6 +41,7 @@ Agent 采集的数据包括如下三类：
 此外，Agent 支持基于 WASM 向开发者提供可编程接口，用于解析 Agent 尚未识别的应用协议，以及构建面向具体场景的业务分析能力。
 
 Agent 支持运行于各种工作负载环境中：
+
 - 以进程形态运行于 Linux/Windows 服务器中，采集服务器中所有进程的观测数据
 - 以独立 Pod 形态运行于每个 K8s Node 中，采集 K8s Node 中所有 Pod 的观测数据
 - 以 Sidecar 形态运行于每个 K8s Pod 中，采集 Pod 中所有 Container 的观测数据
@@ -51,12 +53,14 @@ Agent 支持运行于各种工作负载环境中：
 # DeepFlow Server
 
 DeepFlow Server 使用 Golang 实现，由 Controller、Labeler、Ingester、Querier 等模块组成：
+
 - Controller：管理 Agent、均衡调度 Agent 与 Server 的通信关系、同步 Agent 收集的 Tag 数据。
 - Labeler：为所有观测信号计算统一的属性标签。
 - Ingester：向 ClickHouse 中存储观测数据，向 otel-collector 导出观测数据。
 - Querier：观测数据查询，提供统一的 SQL/PromQL 接口查询所有类型的观测数据。
 
 DeepFlow 的标签注入机制有两个特点：
+
 - **AutoTagging**：自动为所有观测数据注入统一的属性标签，包括云资源属性、容器资源属性、K8s Label/Annotation/Env、CMDB 中的业务属性等，消除数据孤岛，增强数据的下钻切分能力
 - **SmartEncoding**：仅向数据中注入少量预先编码的元标签（Meta Tag），其余绝大多数标签（Custom Tag）与观测信号分离存储。通过自动的关联查询机制，使得用户获得直接在大宽表（BigTable）上查询的体验。在生产环境中的实际运行数据表明 SmartEncoding 可将标签存储开销降低一个数量级。
 

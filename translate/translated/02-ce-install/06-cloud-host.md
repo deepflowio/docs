@@ -7,8 +7,7 @@ permalink: /ce-install/cloud-host
 
 # Introduction
 
-DeepFlow supports monitoring cloud servers and automatically injects cloud resource information into all observability data (AutoTagging) by calling cloud provider APIs.
-Note that DeepFlow Server must run on K8s; if you do not have a K8s cluster, you can refer to the [All-in-One Quick Deployment](./all-in-one/) section to deploy DeepFlow Server first.
+DeepFlow supports monitoring cloud servers and automatically injects cloud resource information into all observability data (AutoTagging) by calling cloud vendor APIs. Note that DeepFlow Server must run on K8s. If you do not have a K8s cluster, you can refer to the [All-in-One Quick Deployment](./all-in-one/) section to deploy DeepFlow Server first.
 
 # Deployment Topology
 
@@ -36,27 +35,27 @@ end
 DeepFlowServer -->|"get resource & label"| CloudAPI[cloud api service]
 ```
 
-# Creating a Public Cloud Domain
+# Create Public Cloud Domain
 
-DeepFlow currently supports resource information synchronization for the following public clouds (marked as `TBD` are still under development):
+DeepFlow currently supports resource information synchronization for the following public clouds (marked as `TBD` are in the process of code organization):
 | Cloud Provider (English) | Cloud Provider (Chinese) | Type Identifier Used in DeepFlow |
 | ------------------------ | ------------------------ | ------------------------------- |
-| AWS | AWS | aws |
-| Aliyun | 阿里云 | aliyun |
-| Baidu Cloud | 百度云 | baidu_bce |
-| Huawei Cloud | 华为云 | huawei |
-| Microsoft Azure | 微软云 | `TBD` |
-| QingCloud | 青云 | qingcloud |
-| Tencent Cloud | 腾讯云 | tencent |
+| AWS                      | AWS                      | aws                             |
+| Aliyun                   | 阿里云                   | aliyun                          |
+| Baidu Cloud              | 百度云                   | baidu_bce                       |
+| Huawei Cloud             | 华为云                   | huawei                          |
+| Microsoft Azure          | 微软云                   | `TBD`                           |
+| QingCloud                | 青云                     | qingcloud                       |
+| Tencent Cloud            | 腾讯云                   | tencent                         |
 
-You can get the configuration file template for creating a public cloud domain using the `deepflow-ctl domain example <domain_type>` command.
+You can get the configuration file template for creating a public cloud Domain using the `deepflow-ctl domain example <domain_type>` command.
 For example, for Aliyun:
 
 ```bash
 deepflow-ctl domain example aliyun > aliyun.yaml
 ```
 
-Edit the configuration file `aliyun.yaml`, fill in the AK/SK (requires read-only permissions for cloud resources) and the Region information where the resources are located:
+Edit the configuration file `aliyun.yaml`, filling in the AK/SK (requires read-only permissions for cloud resources) and the Region information where the resources are located:
 
 ```yaml
 name: aliyun
@@ -69,13 +68,13 @@ config:
   include_regions: 华北2（北京） ## The region where deepflow is docked, if it is empty, it means all regions, and the regions are separated by commas
 ```
 
-Use the modified configuration file to create a public cloud domain:
+Create the public cloud Domain using the modified configuration file:
 
 ```bash
 deepflow-ctl domain create -f aliyun.yaml
 ```
 
-# Deploying DeepFlow Agent
+# Deploy DeepFlow Agent
 
 Download deepflow-agent
 
@@ -156,7 +155,7 @@ docker compose -f deepflow-agent-docker-compose.yaml up -d
 
 :::
 
-Modify the deepflow-agent configuration file `/etc/deepflow-agent.yaml`:
+Edit the configuration file of deepflow-agent `/etc/deepflow-agent.yaml`:
 
 ```yaml
 controller-ips:
@@ -172,7 +171,7 @@ systemctl restart deepflow-agent
 
 **Note**:
 
-If deepflow-agent cannot start properly due to missing dependencies, you can download a statically linked compiled version of deepflow-agent. Note that the statically linked compiled version of deepflow-agent has severe performance issues under multithreading:
+If deepflow-agent fails to start due to missing dependencies, you can download the statically linked compiled deepflow-agent. Note that the statically linked compiled deepflow-agent has severe performance issues under multithreading:
 ::: code-tabs#shell
 
 @tab rpm
@@ -223,6 +222,6 @@ systemctl daemon-reload
 
 - [Universal Service Map - Experience DeepFlow's AutoMetrics Capability](../features/universal-map/auto-metrics/)
 - [Distributed Tracing - Experience DeepFlow's AutoTracing Capability](../features/distributed-tracing/auto-tracing/)
-- [Eliminating Data Silos - Learn About DeepFlow's AutoTagging and SmartEncoding Capabilities](../features/auto-tagging/eliminate-data-silos/)
-- [Goodbye High Baseline Troubles - Integrate Metrics Data Like Prometheus](../integration/input/metrics/metrics-auto-tagging/)
-- [Full-Stack Distributed Tracing - Integrate Tracing Data Like OpenTelemetry](../integration/input/tracing/full-stack-distributed-tracing/)
+- [Eliminate Data Silos - Learn About DeepFlow's AutoTagging and SmartEncoding Capabilities](../features/auto-tagging/eliminate-data-silos/)
+- [Say Goodbye to High Baseline Troubles - Integrate Metrics Data from Prometheus, etc.](../integration/input/metrics/metrics-auto-tagging/)
+- [Full-Stack Distributed Tracing - Integrate Tracing Data from OpenTelemetry, etc.](../integration/input/tracing/full-stack-distributed-tracing/)

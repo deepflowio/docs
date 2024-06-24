@@ -34,34 +34,35 @@ permalink: /guide/ee-tenant/dashboard/variable-template/
 ### 下拉选择
 
 下拉选择类型的模板变量，是通过下拉框切换的形式来改变搜索条件。目前支持对 DeepFlow 平台的数据库 `resource` 和 `xx_enum` 类型的 `Tag` 构建此类型的模板变量。
+
 - <mark>注</mark>：DeepFlow 平台数据库描述，见后续说明。
 
 ![04-下拉选择](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024032165fbf81b3b73b.png)
 
 - **① 查询类型:** 不同的数据传值方式不同
-  - 按ID查询：支持传输 id 查询
+  - 按 ID 查询：支持传输 id 查询
   - 按名称查询：支持传输 string 查询
 - **② 取值范围:**：支持`静态取值`与`动态取值`两种方式设置模板变量的取值
   - 静态取值：引用后，取值范围固定
   - 动态取值：与静态取值相比，动态取值的取值范围可受`静态取值`或`取值Tag`影响，使用详情，请参阅【创建与引用】章节
   - **③ 数据来源:** 确定模板变量取值所在的数据表
-  - **④ 取值Tag:** 确定模板变量取值对应的 Tag
-  - **⑤ 取值范围:** 选择模板变量对应的取值 
+  - **④ 取值 Tag:** 确定模板变量取值对应的 Tag
+  - **⑤ 取值范围:** 选择模板变量对应的取值
 - **⑥ 选择模式:** 通过下拉框切换的形式来改变搜索条件，默认为单选
   - 多选：勾选`多选`，则可切换为`多选`模式
   - 全选：勾选`全选`，则候选项中出现`全选`，即选中当前模板变量全部的取值
-- 如何引用：图表的搜索栏中添加查询条件时，输入Tag，已建立的相同`Tag`模版变量，将以候选项的形式出现在下拉框中，使用详情，请参阅【创建与引用】章节 
+- 如何引用：图表的搜索栏中添加查询条件时，输入 Tag，已建立的相同`Tag`模版变量，将以候选项的形式出现在下拉框中，使用详情，请参阅【创建与引用】章节
 
 #### 创建与引用
 
 接下来，将演示如何创建与引用`静态模版变量`与`动态模板变量`，以及将动态与静态模版变量进行联动
 
 - 首先，创建名为`K8s 命名空间`的`pod_ns`的静态模版变量，取值范围为`deepflow-ebpf-istio-demo、deepflow-otel-grpc-demo、deepflow-telegraf-demo`
-  
+
 ![05-创建静态模板变量](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240402660bbd4b0c94b.png)
 
 - 其次，创建名为`K8s 工作负载`的`pod_group`的动态模版变量，取值范围选择`pod_ns = K8s 命名空间`，即`pod_group`的下拉候选项将受到`pod_ns`的选择变化而变化
-  
+
 ![06-创建动态模板变量](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240402660bbd4c9cee2.png)
 
 - 随后，选择查询条件`pod_group = K8s 工作负载`，在图表的搜索条件中引用模板变量
@@ -81,6 +82,7 @@ permalink: /guide/ee-tenant/dashboard/variable-template/
 ![10-文本输入](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2023091865082716002b8.png)
 
 文本输入类型的模板变量，支持被任何可直接输入的 `Tag` 或者`操作符`引用。在搜索条件中出现的形式与`下拉选择`类型的模板变量类似。
+
 - ① Tag 引用：支持 int、int_enum、string、ip、mac 类型，以上数据类型 Tag 均支持所有操作符
 
 ![11-Tag 引用](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202309186508271402080.png)

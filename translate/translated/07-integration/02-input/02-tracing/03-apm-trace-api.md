@@ -7,7 +7,7 @@ permalink: /integration/input/tracing/apm-trace-api
 
 # Introduction
 
-DeepFlow has implemented the capability to obtain APP Span from external APM and associate APP Span with tracing data collected by DeepFlow. Currently, only SkyWalking is supported as the external APM storage. Applications do not need any modifications; you only need to modify the DeepFlow configuration to achieve DeepFlow's full-link, zero-instrumentation tracing capability.
+DeepFlow has the capability to obtain APP Spans from external APMs and associate these APP Spans with the tracing data collected by DeepFlow. Currently, only SkyWalking is supported as the external APM storage. Applications do not need any modifications; you only need to change the DeepFlow configuration to achieve DeepFlow's full-link, zero-instrumentation tracing capability.
 
 # Data Flow
 
@@ -41,16 +41,16 @@ end
 
 # Configuration
 
-Modify the [configuration](https://github.com/deepflowio/deepflow/blob/main/server/server.yaml) of DeepFlow Server by adding the following content:
+Modify the [configuration](https://github.com/deepflowio/deepflow/blob/main/server/server.yaml) of the DeepFlow Server by adding the following content:
 
 ```yaml
 querier:
   external-apm:
     - name: skywalking
-      addr: 127.0.0.1:12800 # FIXME: Fill in the address of the SkyWalking OAP Server here, port 12800 is the default port for HTTP service
+      addr: 127.0.0.1:12800 # FIXME: Replace this with the address of the SkyWalking OAP Server, port 12800 is the default port for HTTP service
 ```
 
-At the same time, you need to modify the [configuration](https://github.com/deepflowio/deepflow-app/blob/main/app/app.yaml) of DeepFlow App by setting the following value to `true`:
+At the same time, you need to modify the [configuration](https://github.com/deepflowio/deepflow-app/blob/main/app/app.yaml) of the DeepFlow App by setting the following value to `true`:
 
 ```yaml
 app:

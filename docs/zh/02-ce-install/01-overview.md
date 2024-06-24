@@ -4,6 +4,7 @@ permalink: /ce-install/overview
 ---
 
 本章介绍 DeepFlow 的部署方法。DeepFlow 可用于监控多个 K8s 上的容器应用、多个 VPC 中的云主机应用。本章的内容安排如下：
+
 - [all-in-one](./all-in-one/)：使用一台虚拟机快速体验 DeepFlow
 - [single-k8s](./single-k8s/)：部署 DeepFlow 监控一个 K8s 集群上的所有应用，所有观测数据将会自动注入`K8s 资源`和`K8s 自定义 Label` 标签
 - [multi-k8s](./multi-k8s/)：部署 DeepFlow 监控多个 K8s 集群上的所有应用
@@ -17,6 +18,7 @@ permalink: /ce-install/overview
 
 如果你现在没有合适的资源部署 DeepFlow，也可登录我们的[在线 Demo](https://ce-demo.deepflow.yunshan.net)，
 借助如下文档章节抢先体验 DeepFlow 的强大能力：
+
 - [服务全景图 - 体验 DeepFlow 的 AutoMetrics 能力](../features/universal-map/auto-metrics/)
 - [分布式追踪 - 体验 DeepFlow 的 AutoTracing 能力](../features/distributed-tracing/auto-tracing/)
 - [消除数据孤岛 - 了解 DeepFlow 的 AutoTagging 和 SmartEncoding 能力](../features/auto-tagging/eliminate-data-silos/)
@@ -26,21 +28,22 @@ permalink: /ce-install/overview
 # 运行权限及内核要求
 
 DeepFlow 中的 eBPF 能力（AutoTracing、AutoProfiling）对内核版本的要求如下：
-| 体系架构 | 发行版                | 内核版本          | kprobe | Golang uprobe | OpenSSL uprobe | perf |
+| 体系架构 | 发行版 | 内核版本 | kprobe | Golang uprobe | OpenSSL uprobe | perf |
 | -------- | --------------------- | ----------------- | ------ | ------------- | -------------- | ---- |
-| X86      | CentOS 7.9            | 3.10.0 **[1]**    | Y      | Y **[2]**     | Y **[2]**      | Y    |
-|          | RedHat 7.6            | 3.10.0 **[1]**    | Y      | Y **[2]**     | Y **[2]**      | Y    |
-|          | \*                    | 4.9-4.13          |        |               |                | Y    |
-|          | \*                    | 4.14 **[3]**      | Y      | Y **[2]**     |                | Y    |
-|          | \*                    | 4.15              | Y      | Y **[2]**     |                | Y    |
-|          | \*                    | 4.16              | Y      | Y             |                | Y    |
-|          | \*                    | 4.17+             | Y      | Y             | Y              | Y    |
-| ARM      | CentOS 8              | 4.18              | Y      | Y             | Y              | Y    |
-|          | EulerOS               | 5.10+             | Y      | Y             | Y              | Y    |
-|          | 麒麟 KylinOS V10 SP3+ | 4.19.90-52.25+    | Y      | Y             | Y              | Y    |
-|          | 其他发行版            | 5.8+              | Y      | Y             | Y              | Y    |
+| X86 | CentOS 7.9 | 3.10.0 **[1]** | Y | Y **[2]** | Y **[2]** | Y |
+| | RedHat 7.6 | 3.10.0 **[1]** | Y | Y **[2]** | Y **[2]** | Y |
+| | \* | 4.9-4.13 | | | | Y |
+| | \* | 4.14 **[3]** | Y | Y **[2]** | | Y |
+| | \* | 4.15 | Y | Y **[2]** | | Y |
+| | \* | 4.16 | Y | Y | | Y |
+| | \* | 4.17+ | Y | Y | Y | Y |
+| ARM | CentOS 8 | 4.18 | Y | Y | Y | Y |
+| | EulerOS | 5.10+ | Y | Y | Y | Y |
+| | 麒麟 KylinOS V10 SP3+ | 4.19.90-52.25+ | Y | Y | Y | Y |
+| | 其他发行版 | 5.8+ | Y | Y | Y | Y |
 
 对内核版本的额外说明：
+
 - [1]: CentOS 7.9、RedHat 7.6 向 3.10 内核中[移植了一部分 eBPF 能力](https://www.redhat.com/en/blog/introduction-ebpf-red-hat-enterprise-linux-7)
   - 在这两个发行版中，DeepFlow 支持的详细内核版本如下（[依赖的 Hook 点](https://github.com/deepflowio/deepflow/blob/main/agent/src/ebpf/docs/probes-and-maps.md)）：
     - 3.10.0-957.el7.x86_64
@@ -53,6 +56,7 @@ DeepFlow 中的 eBPF 能力（AutoTracing、AutoProfiling）对内核版本的�
 - [3]: 在内核 4.14 版本中，一个 `tracepoint` 不能被多个 eBPF program attach（如：不能同时运行两个或多个 deepflow-agent），其他版本不存在此问题
 
 deepflow-agent 运行权限的要求：
+
 - 当运行于 K8s 环境下，采集 K8s 信息需要的权限包括
   - `[必须]` 容器权限：`HOST_PID`
   - `[建议]` 内核权限：`SYS_ADMIN`
@@ -64,10 +68,10 @@ deepflow-agent 运行权限的要求：
     - 如果无法访问此目录则通过 `/proc/$pid/ns/net` 来获取容器的网络命名空间，此时有两个问题：
       - 进程停止了，这个文件会消失
       - 不同的 PID 可能对应同一个命名空间
-- 采集 AF\_PACKET 流量需要的权限包括
+- 采集 AF_PACKET 流量需要的权限包括
   - `[必须]` 容器权限：`HOST_NET`
   - `[必须]` 内核权限：`NET_RAW`、`NET_ADMIN`
-  - `[建议]` 内核权限：`IPC_LOCK`（包含 MAP\_LOCKED、MAP\_NORESERVE）
+  - `[建议]` 内核权限：`IPC_LOCK`（包含 MAP_LOCKED、MAP_NORESERVE）
     - 不具备该权限时 cBPF 性能会受到显著影响，且会打印 WARN 日志提醒
 - 采集 eBPF 数据需要的权限包括
   - `[必须]` 系统权限：`SELINUX = disabled`
@@ -90,6 +94,7 @@ deepflow-agent 运行权限的要求：
     - K8s 下 deepflow-agent DaemonSet 会默认开启一个特权 init container 将该值设置为 1，使得 deepflow-agent 可运行于非特权模式下
 
 deepflow-agent 调用 K8s apiserver 同步信息需要以下资源的 get/list/watch 权限：
+
 - `nodes`
 - `namespaces`
 - `configmaps`
@@ -104,6 +109,7 @@ deepflow-agent 调用 K8s apiserver 同步信息需要以下资源的 get/list/w
 - `routes`
 
 另外关联 K8s 标签信息需要对 CNI 进行适配，目前 DeepFlow 已适配的 CNI 包括：
+
 - Flannel
 - Calico
 - Cilium

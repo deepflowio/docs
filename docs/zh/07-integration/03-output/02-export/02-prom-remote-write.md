@@ -27,46 +27,45 @@ permalink: /integration/output/export/prometheus-remote-write
 ```yaml
 ingester:
   exporters:
-  - protocol: prometheus
-    enabled: true
-    endpoints: [http://127.0.0.1:9091/receive, http://1.1.1.1:9091/receive]
-    data-sources:
-    - flow_metrics.application_map.1s
-    # - flow_metrics.application_map.1m
-    # - flow_metrics.application.1s
-    # - flow_metrics.application.1m
-    # - flow_metrics.network_map.1s
-    # - flow_metrics.network_map.1m
-    # - flow_metrics.network.1s
-    # - flow_metrics.network.1m
-    queue-count: 4
-    queue-size: 100000
-    batch-size: 1024
-    flush-timeout: 10
-    tag-filters:
-    export-fields:
-    - $tag
-    - $metrics
-    extra-headers:
-      key1: value1
-      key2: value2
-    export-empty-tag: false
-    export-empty-metrics_disabled: false
-    enum-translate-to-name-disabled: false
-    universal-tag-translate-to-name-disabled: false
-
+    - protocol: prometheus
+      enabled: true
+      endpoints: [http://127.0.0.1:9091/receive, http://1.1.1.1:9091/receive]
+      data-sources:
+        - flow_metrics.application_map.1s
+      # - flow_metrics.application_map.1m
+      # - flow_metrics.application.1s
+      # - flow_metrics.application.1m
+      # - flow_metrics.network_map.1s
+      # - flow_metrics.network_map.1m
+      # - flow_metrics.network.1s
+      # - flow_metrics.network.1m
+      queue-count: 4
+      queue-size: 100000
+      batch-size: 1024
+      flush-timeout: 10
+      tag-filters:
+      export-fields:
+        - $tag
+        - $metrics
+      extra-headers:
+        key1: value1
+        key2: value2
+      export-empty-tag: false
+      export-empty-metrics_disabled: false
+      enum-translate-to-name-disabled: false
+      universal-tag-translate-to-name-disabled: false
 ```
 
 # 详细参数说明
 
-|     字段   |    类型    |   必选   |  描述  |
-|-----------|------------|--------|--------|
-| protocol  | strings     | 是 | 固定值 `prometheus` |
-| data-sources| strings   | 是 | 取值 `flow_metrics.*` 数据, 不支持 `flow_log.*` 等数据 |
-| endpoints      | strings| 是 | 远端接收地址，remote write 接收地址, 随机选择一个能发送成功的|
-| batch-size    | int  | 否 | 批次大小，当达到这个数值，成批的发送。默认值： 1024 |
-| extra-headers  | map  | 否 | 远端 HTTP 请求的头部字段，比如有效验需求的，可以在这里补充 token 等信息 |
-| export-fields | strings | 是 | 当前不支持 `$k8s.label`, 建议配置: [$tag, $metrics] |
+| 字段          | 类型    | 必选 | 描述                                                                    |
+| ------------- | ------- | ---- | ----------------------------------------------------------------------- |
+| protocol      | strings | 是   | 固定值 `prometheus`                                                     |
+| data-sources  | strings | 是   | 取值 `flow_metrics.*` 数据, 不支持 `flow_log.*` 等数据                  |
+| endpoints     | strings | 是   | 远端接收地址，remote write 接收地址, 随机选择一个能发送成功的           |
+| batch-size    | int     | 否   | 批次大小，当达到这个数值，成批的发送。默认值： 1024                     |
+| extra-headers | map     | 否   | 远端 HTTP 请求的头部字段，比如有效验需求的，可以在这里补充 token 等信息 |
+| export-fields | strings | 是   | 当前不支持 `$k8s.label`, 建议配置: [$tag, $metrics]                     |
 
 [详细配置参考](./exporter-config/)
 
@@ -77,17 +76,16 @@ ingester:
 - 添加配置
 
 ```yaml
-  exporters:
+exporters:
   - protocol: prometheus
     data-sources:
-    - flow_metrics.application_map.1s
+      - flow_metrics.application_map.1s
     endpoints: [http://localhost:1234/receive]
     export-fields:
-    - $tag
-    - $metrics
+      - $tag
+      - $metrics
 ```
 
 - 重启 DeepFlow Server，稍等片刻后，即可在 RemoteWrite 接收端，看到如图输出结果
 
 ![](./imgs/remote-write.png)
-

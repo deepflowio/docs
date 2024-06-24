@@ -1,64 +1,64 @@
 ---
-title: DeepFlow Milestones
+title: DeepFlow Roadmap
 permalink: /about/milestone
 ---
 
 > This document was translated by ChatGPT
 
-As of now (September 2023), DeepFlow has iterated to v6.3.9. The main supported features are:
+As of September 2023, DeepFlow has iterated to version v6.3.9, and the main supported features include:
 
 - Universal Map (AutoMetrics)
   - [x] TCP network performance metrics based on cBPF
-  - [x] Application protocol parsing and performance analysis based on cBPF
-  - [x] Application protocol parsing and performance analysis based on eBPF tracepoint/kprobe
-  - [x] File read and write performance indicators based on eBPF
-  - [x] Golang application HTTP2, gRPC protocol parsing, and performance analysis based on eBPF uprobe
-  - [x] Golang/openssl HTTPS protocol parsing and performance analysis based on eBPF uprobe
-  - [x] Use Wasm, so plugins to enhance the parsing of standard protocols, and to achieve private protocol parsing
+  - [x] Various application protocol parsing and performance analysis capabilities based on cBPF
+  - [x] Various application protocol parsing and performance analysis capabilities based on eBPF tracepoint/kprobe
+  - [x] File read/write performance metrics based on eBPF
+  - [x] Golang application HTTP2 and gRPC protocol parsing and performance analysis capabilities based on eBPF uprobe
+  - [x] Golang/openssl application HTTPS protocol parsing and performance analysis capabilities based on eBPF uprobe
+  - [x] Enhanced standard protocol parsing capabilities using Wasm and so plugins, and the ability to parse private protocols
 - Distributed Tracing (AutoTracing)
-  - [x] Support for eBPF-based non-intrusive distributed tracing, supporting any application with same-thread, Golang applications with cross-coroutine call chains
-  - [x] Use of Wasm/so plugins to extract business serial numbers, implementing non-intrusive distributed tracing only dependent on cBPF
-  - [x] Support for tracing call chains before and after ALB by parsing X-Request-ID fields in requests
-  - [x] Support for tracking MySQL call chains by parsing MySQL Comment fields in requests
-  - [x] Support for tracking cross-thread call chains by parsing TraceID/SpanID fields in requests
-  - [x] Support for automatically tracing the network forwarding path, calculating the performance per hop
+  - [x] Zero-intrusion distributed tracing capabilities based on eBPF, supporting same-thread for any application and cross-coroutine for Golang applications
+  - [x] Extract business serial numbers using Wasm/so plugins to achieve zero-intrusion distributed tracing capabilities relying only on cBPF
+  - [x] Parse fields such as X-Request-ID in requests to trace the call chain before and after ALB
+  - [x] Parse MySQL Comment fields in requests to trace MySQL call chains
+  - [x] Parse fields such as TraceID/SpanID in requests to trace cross-thread call chains
+  - [x] Automatically trace network forwarding paths and calculate hop-by-hop performance
 - Continuous Profiling (AutoProfiling)
-  - [x] Support for eBPF non-intrusive collection of Profile data for C/C++/Golang/Rust/Java applications
-  - [x] Support for eBPF non-intrusive collection of OnCPU Profile
+  - [x] Zero-intrusion collection of Profile data for C/C++/Golang/Rust/Java applications using eBPF
+  - [x] Zero-intrusion collection of On-CPU Profile using eBPF
 - AutoTagging & SmartEncoding
-  - [x] Automatic injection of cloud resource tags, K8s service tags
-  - [x] Automatic injection of K8s Label/Annotation/Env custom labels
-  - [x] Support for injecting business tags in CMDB via API
-  - [x] Support for injecting process business labels exposed by the business release system via Plugin
-  - [x] High-performance SmartEncoding label storage query capabilities
+  - [x] Automatically inject cloud resource tags and K8s service tags
+  - [x] Automatically inject K8s Label/Annotation/Env custom tags
+  - [x] Support injecting business tags from CMDB via API
+  - [x] Support injecting process business tags exposed by the business release system via Plugin
+  - [x] High-performance SmartEncoding tag storage and query capabilities
 - Integration
-  - [x] Support for integrating metrics data from Prometheus and Telegraf
-  - [x] Support for integrating tracing data from OpenTelemetry and SkyWalking and associating it with eBPF tracing data to achieve full-stack distributed tracing
-  - [x] Support for integrating continuous performance profiling data from Pyroscope
-  - [x] Support for SQL/PromQL API, support for being a Grafana DataSource
-  - [x] Support for displaying distributed tracing data in Grafana Tempo
-  - [x] Support for exporting tracing data to OpenTelemetry Collector
-  - [x] Support for exporting tracing data to SkyWalking
+  - [x] Support integration of Prometheus and Telegraf metric data
+  - [x] Support integration of OpenTelemetry and SkyWalking tracing data, and associate with eBPF tracing data to achieve full-stack distributed tracing
+  - [x] Support integration of Pyroscope continuous profiling data
+  - [x] Support SQL/PromQL API, and act as a DataSource for Grafana
+  - [x] Support displaying distributed tracing data in Grafana Tempo
+  - [x] Support exporting tracing data to OpenTelemetry Collector
+  - [x] Support exporting tracing data to SkyWalking
 
-There are many exciting future plans for DeepFlow：
+As a plan, DeepFlow has many exciting features in the future:
 
 - Universal Map (AutoMetrics)
-  - [ ] Enhanced protocol parsing ability based on TCP stream reassembly
-  - [ ] Built-in parsing capability for more application protocols, such as Elasticsearch
+  - [ ] Enhanced protocol parsing capabilities based on TCP stream reassembly
+  - [ ] Built-in parsing capabilities for more application protocols, such as Elasticsearch
   - [ ] Support for more types of protocol parsing plugins, such as Lua
-  - [ ] Support for eBPF collection of more network and system performance indicators within the call lifecycle
+  - [ ] Support eBPF collection of more network and system performance metrics during the call lifecycle
 - Distributed Tracing (AutoTracing)
-  - [ ] eBPF-based non-intrusive distributed tracing capability supports more complex scenarios such as cross-thread, Golang Channel
-  - [ ] Real-time aggregation and calculation of Trace topology based on Span (while preserving the call chain relationship), to reduce the storage overhead of tracing data
+  - [ ] Zero-intrusion distributed tracing capabilities based on eBPF to support more complex scenarios such as cross-thread and Golang Channel
+  - [ ] Real-time aggregation and calculation of Trace topology based on Span (while retaining call chain relationships) to reduce storage overhead of tracing data
 - Continuous Profiling (AutoProfiling)
-  - [ ] Support for eBPF non-intrusive collection of more types of Profile data, such as OffCPU, Memory
-  - [ ] Elimination of Profile data's dependency on application process symbol tables
-  - [ ] Support for non-intrusive collection of Profile data for Node.js/Python/PHP/Ruby applications
+  - [ ] Zero-intrusion collection of more types of Profile data using eBPF, such as Off-CPU, Memory, etc.
+  - [ ] Eliminate the dependency of Profile data on application process symbol tables
+  - [ ] Support zero-intrusion collection of Profile data for Node.js/Python/PHP/Ruby applications
 - AutoTagging & SmartEncoding
-  - [ ] Automatic injection of business labels entered by the tenant on the cloud platform
+  - [ ] Automatically inject business tags recorded by tenants on cloud platforms
 - Integration
-  - [ ] Support for integration with Sentry RUM data source
-  - [ ] Support for integration with Promtail/Loki log data source
-  - [ ] Support for displaying log data in Grafana Loki GUI
-  - [ ] Support for outputting eBPF metrics data as a Prometheus Exporter
-  - [ ] Support for exporting tracing data to Kafka
+  - [ ] Support integration of Sentry RUM data source
+  - [ ] Support integration of Promtail/Loki log data source
+  - [ ] Support displaying log data in Grafana Loki GUI
+  - [ ] Support exporting eBPF metric data as a Prometheus Exporter
+  - [ ] Support exporting tracing data to Kafka

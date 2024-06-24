@@ -7,37 +7,35 @@ permalink: /features/distributed-tracing/spring-boot-demo
 
 # Introduction
 
-This is an example of a microservice application developed using Spring Boot to illustrate the AutoTracing capability of DeepFlow.
+This chapter uses a microservice application developed with Spring Boot as an example to demonstrate DeepFlow's AutoTracing capabilities.
 
 # Deploying the Spring Boot Demo
 
-The demo we used comes from [this GitHub repository](https://github.com/chanjarster/spring-boot-istio-jaeger-demo).
-It has a simple distribution tracing chain: `foo_svc -> bar_svc -> loo_svc`.
+The demo we use is sourced from [this GitHub repository](https://github.com/chanjarster/spring-boot-istio-jaeger-demo), and its call chain is relatively simple: `foo_svc -> bar_svc -> loo_svc`.
 
-And this is the command to quickly deploy the Demo in K8s:
+You can quickly deploy the demo in K8s using the following command:
 
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/deepflowio/deepflow-demo/main/DeepFlow-EBPF-Sping-Demo/deepflow-ebpf-spring-demo.yaml
 ```
 
-The original demo in the GitHub repository used Jaeger for primary tracing. In order to demonstrate AutoTracing capabilities, we removed Jaeger from the deployment script mentioned above.
+The original GitHub code repository for this demo uses Jaeger for active tracing. To demonstrate AutoTracing capabilities, we have specifically removed Jaeger in the above deployment script.
 
-# Exploring Distributed Tracing
+# Viewing Distributed Tracing
 
-You can proceed to Grafana and open the `Distributed Tracing` Dashboard by selecting `namespace = deepflow-ebpf-spring-demo`. Then, choose an invocation to trace. Here's how it looks:
+Go to Grafana, open the `Distributed Tracing` Dashboard, select `namespace = deepflow-ebpf-spring-demo`, and then choose a call to trace. The effect is shown in the figure below:
 
 ![eBPF Sping Demo](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20220823630441420077b.png)
 
-The tracing data in DeepFlow includes three types of Spans that track the entire trajectory of a request:
+DeepFlow's tracing data contains three types of Spans, tracking the entire trajectory of a request:
 
-- N: Spans extracted from network traffic using BPF
-- S: Spans extracted from system or application function calls using eBPF
-- A: Spans collected internally from the application using OTel
+- N: Spans extracted from network traffic via BPF
+- S: Spans extracted from system or application function calls via eBPF
+- A: Spans collected from within the application via OTel
 
-The image above shows the first two types. The third one can be displayed upon [integrating OpenTelemetry](../../integration/input/tracing/opentelemetry/).
+The figure above shows the first two types, and the third type can be displayed by [integrating OpenTelemetry](../../integration/input/tracing/opentelemetry/).
 
-You can also view the effect of tracing by [visiting DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d/Distributed_Tracing/distributed-tracing?var-namespace=deepflow-ebpf-spring-demo&from=deepflow-doc).
-The corresponding topology diagram of the call chain flame graph in the image above is as follows:
+[Visit DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d/Distributed_Tracing/distributed-tracing?var-namespace=deepflow-ebpf-spring-demo&from=deepflow-doc) to also view the tracing effect. The topology corresponding to the call chain flame graph in the figure above is as follows.
 
 ```mermaid
 flowchart TD
@@ -119,9 +117,9 @@ classDef bar fill:#9cdbc3,color:black;
 classDef loo fill:#eadb92,color:black;
 ```
 
-To summarize this Demo,
+To summarize this tracing demo:
 
-- Zero code injection: No manual code injection is required for the entire tracing process, nor is there a need for any TraceID/SpanID injection into the HTTP Header.
-- Multilingual: Supports tracing of Java applications and C (curl) basic services.
-- Full-link: Utilizes eBPF and BPF to automatically trace 18 Spans in this Trace, including 6 eBPF Spans and 12 BPF Spans.
-- Full stack: Supports tracing of network paths between two Pods on different K8s Nodes, even if the path goes through tunnel encapsulations, such as Span 2-5 (IPIP tunnel encapsulation).
+- Zero Instrumentation: The entire tracing process does not require manually inserting any tracing code or injecting any TraceID/SpanID into the HTTP Header.
+- Multi-language: Supports tracing for Java applications and C (curl) language basic services.
+- Full Link: Utilizing eBPF and BPF, it automatically traces 18 Spans for this trace, including 6 eBPF Spans and 12 BPF Spans.
+- Full Stack: Supports tracing the network path between two Pods across K8s Nodes, even if it passes through tunnel encapsulation in the middle, such as Spans 2-5 (IPIP tunnel encapsulation).

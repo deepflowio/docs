@@ -12,19 +12,19 @@ Database table name: `flow_metrics.network`.
 
 ## Tags
 
-List of automatically injected tags: IP, protocol, port, collection location, cloud resource, K8s resource, K8s custom labels. Detailed field descriptions are as follows.
+List of automatically injected tags: IP, protocol, port, collection location, cloud resources, K8s resources, K8s custom labels. Detailed field descriptions are as follows.
 
-[csv-IP, Protocol, Port, Collection Location, Cloud Resource, K8s Resource](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/tag/flow_metrics/network.en)
+[csv-IP, protocol, port, collection location, cloud resources, K8s resources](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/tag/flow_metrics/network.en)
 
 ## Metrics
 
-List of metrics: Throughput, Load, Latency, TCP Anomalies, Retransmissions, Zero Window. Detailed field descriptions are as follows.
+List of metrics: throughput, load, latency, TCP anomalies, retransmissions, zero window. Detailed field descriptions are as follows.
 
-[csv-Throughput, Load, Latency, TCP Anomalies, Retransmissions, Zero Window](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/network.en)
+[csv-throughput, load, latency, TCP anomalies, retransmissions, zero window](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/network.en)
 
 ## Grafana Dashboard
 
-Based on the above data, you can build rich dashboards through Grafana. We have pre-configured a `Network - K8s Pod` dashboard in Grafana, the preview is as follows:
+Based on the above data, you can build rich dashboards through Grafana. We have pre-configured a `Network - K8s Pod` dashboard in Grafana, as shown below:
 
 ![Network K8s Pod](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2022082363044143504e0.png)
 
@@ -32,24 +32,24 @@ You can also visit [DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d
 
 # Universal Service Map
 
-Without inserting any code into the application, DeepFlow automatically generates full-stack access paths and network performance metrics for all services.
+Without inserting any code into the application, DeepFlow automatically generates the full-stack access paths and network performance metrics for all services.
 Database table name: `flow_metrics.network_map`.
 
 ## Tags
 
-List of automatically injected tags: IP, protocol, port, collection location, cloud resource, K8s resource, K8s custom labels. Detailed field descriptions are as follows.
+List of automatically injected tags: IP, protocol, port, collection location, cloud resources, K8s resources, K8s custom labels. Detailed field descriptions are as follows.
 
-[csv-IP, Protocol, Port, Collection Location, Cloud Resource, K8s Resource](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/tag/flow_metrics/network_map.en)
+[csv-IP, protocol, port, collection location, cloud resources, K8s resources](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/tag/flow_metrics/network_map.en)
 
 ## Metrics
 
-List of metrics: Throughput, Load, Latency, TCP Anomalies, Retransmissions, Zero Window. Detailed field descriptions are as follows.
+List of metrics: throughput, load, latency, TCP anomalies, retransmissions, zero window. Detailed field descriptions are as follows.
 
-[csv-Throughput, Load, Latency, TCP Anomalies, Retransmissions, Zero Window](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/network_map.en)
+[csv-throughput, load, latency, TCP anomalies, retransmissions, zero window](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/network_map.en)
 
 ## Grafana Dashboard
 
-Based on the above data, you can build rich dashboards through Grafana. We have pre-configured a `Network - K8s Pod Map` dashboard in Grafana, the preview is as follows:
+Based on the above data, you can build rich dashboards through Grafana. We have pre-configured a `Network - K8s Pod Map` dashboard in Grafana, as shown below:
 
 ![Network K8s Pod Map](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2022082363044143e589f.png)
 

@@ -53,11 +53,13 @@ OpenTelemetry 接收 SkyWalking 数据存在 Bug，最近我们在 [#11562](http
 在[背景知识](#背景知识)一节中，安装好 OpenTelemetry 之后，我们可以使用如下步骤配置 OpenTelemetry 接收 SkyWalking 数据:
 
 假设 OpenTelemetry 所在的命名空间为 `open-telemetry`，假设 otel-agent 使用的 ConfigMap 名为 `otel-agent-conf`，使用如下命令修改 otel-agent 配置：
+
 ```bash
 kubectl -n open-telemetry edit cm otel-agent-conf
 ```
 
 在 `receivers` 一节中，增加如下内容：
+
 ```yaml
 receivers:
   # add the following config
@@ -70,6 +72,7 @@ receivers:
 ```
 
 在 ``service.pipelines.traces` 一节中，增加如下内容：
+
 ```yaml
 service:
   pipelines:
@@ -81,6 +84,7 @@ service:
 同时，确认 `otel-agent-conf` 中参照[配置 otel-agent](../tracing/opentelemetry/#配置-otel-agent) 一节的内容完成了对应的配置。
 
 接着，使用如下命令修改 otel-agent Service，开放对应端口：
+
 ```bash
 kubectl -n open-telemetry patch service otel-agent -p '{"spec":{"ports":[{"name":"sw-http","port":12800,"protocol":"TCP","targetPort":12800},{"name":"sw-grpc","port":11800,"protocol":"TCP","targetPort":11800}]}}'
 ```
@@ -90,6 +94,7 @@ kubectl -n open-telemetry patch service otel-agent -p '{"spec":{"ports":[{"name"
 当然，应用配置的上报地址可能有各种形式，请根据应用实际启动命令修改，对于 `Java` 应用而言，只需要确保能修改启动命令中注入的地址即可，如：`-Dskywalking.collector.backend_service=otel-agent.open-telemetry:11800`。
 
 最后，重启 otel-agent 完成 otel-agent 更新：
+
 ```bash
 kubectl rollout restart -n open-telemetry daemonset/otel-agent
 ```
@@ -102,11 +107,12 @@ kubectl rollout restart -n open-telemetry daemonset/otel-agent
 
 ## 部署 Demo
 
-此Demo来源于 [这个 GitHub 仓库](https://github.com/liuzhibin-cn/my-demo)，这是一个基于 Spring Boot 编写的由五个微服务组成的 WebShop 应用，其架构如下：
+此 Demo 来源于 [这个 GitHub 仓库](https://github.com/liuzhibin-cn/my-demo)，这是一个基于 Spring Boot 编写的由五个微服务组成的 WebShop 应用，其架构如下：
 
 ![Sping Boot Demo Architecture](./imgs/spring-boot-webshop-arch.png)
 
 使用如下命令可以一键部署这个 Demo，这个 Demo 已经完成了上报地址的配置，不需要再对它做额外修改。
+
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/deepflowio/deepflow-demo/main/DeepFlow-Otel-SkyWalking-Demo/deepflow-otel-skywalking-demo.yaml
 ```

@@ -1,27 +1,27 @@
 ---
-title: Full Stack Distributed Tracing
+title: Full-Stack Distributed Tracing
 permalink: /integration/input/tracing/full-stack-distributed-tracing
 ---
 
 > This document was translated by ChatGPT
 
-DeepFlow has innovatively implemented AutoTracing using eBPF, which provides distributed tracing covering both API calls and network transfers. This complements the coverage of function granularity inside application code by OpenTelemetry.
+DeepFlow leverages eBPF to innovatively implement AutoTracing, covering distributed tracing at both the API call and network transmission levels. This complements OpenTelemetry's function-level coverage within application code.
 
-By integrating APM data sources such as OpenTelemetry and SkyWalking, the capabilities of AutoTracing have been enhanced, realizing a full stack distributed tracing capability that penetrates applications, systems, and networks. In the following flame graph, we can see:
+By integrating APM data sources such as OpenTelemetry and SkyWalking, AutoTracing capabilities are further enhanced, enabling full-stack distributed tracing across applications, systems, and networks. In the flame graph below, we can observe:
 
 - Complex and lengthy gateway paths can be traced, including API gateways, microservice gateways, load balancers, Ingress, etc.
-- The upstream and downstream calls of any microservice can be traced, including those easily overlooked by developers, such as DNS calls, services like MySQL, Redis, etc., which cannot be instrumented.
-- The full stack network path between any two microservices can be traced, covering application code to system calls, container network components such as Sidecar/iptables/ipvs, virtual machine network components like OvS/LinuxBridge, and cloud network components like NFV gateways.
+- Upstream and downstream calls of any microservice can be traced, including often-overlooked calls like DNS, and services that cannot be instrumented like MySQL and Redis.
+- Full-stack network paths between any two microservices can be traced, covering from application code to system calls, container network components like Sidecar/iptables/ipvs, virtual machine network components like OvS/LinuxBridge, and cloud network components like NFV gateways.
 
-![DeepFlow and APM integration](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20231002651a886330ed3.png)
+![DeepFlow and APM Integration](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20231002651a886330ed3.png)
 
-There are many methods of integrating DeepFlow with APM, divided into the following four types:
+There are several methods for integrating DeepFlow with APM, categorized into four types:
 
-- The results of full stack distributed tracing are displayed by DeepFlow
-  - 1. **Call API**: DeepFlow calls the APM `Trace API` to get the APP Span in APM, for configuration method, please refer to [Call APM Trace API](./apm-trace-api/)
-  - 2. **Import data**: DeepFlow receives the APP Span exported by APM via the OTLP protocol, for the configuration method, please refer to [Import OpenTelemetry Data](./opentelemetry/) and [Import SkyWalking Data](./skywalking/)
-- The results of full stack distributed tracing are displayed by APM
-  - 3. **Provide API**: APM calls DeepFlow’s `Trace Completion API` to get SYS Span and NET Span in DepeFlow, for the configuration method, please refer to [Trace Completion API](../../output/query/trace-completion/) document
-  - 4. **Export data**: APM receives SYS Span and NET Span exported by DeepFlow via OTLP protocol, for the configuration method, please refer to [OTLP Exporter](../../output/export/opentelemetry-exporter/) document.
+- Full-stack distributed tracing results displayed by DeepFlow
+  - 1. **API Call**: DeepFlow calls the APM's `Trace API` to obtain APP Spans from the APM. Configuration methods can be found in [Calling APM Trace API](./apm-trace-api/)
+  - 2. **Data Import**: DeepFlow receives APP Spans exported by APM via the OTLP protocol. Configuration methods can be found in [Importing OpenTelemetry Data](./opentelemetry/) and [Importing SkyWalking Data](./skywalking/)
+- Full-stack distributed tracing results displayed by APM
+  - 3. **Providing API**: APM calls the `Trace Completion API` provided by DeepFlow to obtain SYS Spans and NET Spans from DeepFlow. Configuration methods can be found in the [Trace Completion API](../../output/query/trace-completion/) documentation
+  - 4. **Data Export**: APM receives SYS Spans and NET Spans exported by DeepFlow via the OTLP protocol. Configuration methods can be found in the [OTLP Exporter](../../output/export/opentelemetry-exporter/) documentation
 
-Among these four methods, schemes 1 and 2 require the least work, requiring only configuration; scheme 3 also requires very little development work and is ideal for early use; scheme 4 requires understanding the logic of the relationship between SYS Span, NET Span, and APP Span. The development work is relatively large, and it is suitable for use after gaining an in-depth understanding of DeepFlow.
+Among the four methods mentioned above, methods 1 and 2 require the least effort, as they only need configuration; method 3 also has a very small development workload, making it very suitable for initial use; method 4 requires understanding the association logic between SYS Span, NET Span, and APP Span, and has a larger development workload, making it suitable for use after gaining a deep understanding of DeepFlow.

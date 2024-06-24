@@ -55,7 +55,7 @@ Upgrade DeepFlow Agent deployed on cloud servers and traditional servers using d
    deepflow-ctl repo agent create --arch x86 --image /usr/sbin/deepflow-agent
    ```
 
-   If the same filename binary is uploaded multiple times, it will be overwritten; the uploaded binary will be compressed with a compression ratio of approximately 3.4.
+   If the same binary file name is uploaded multiple times, it will be overwritten; the uploaded binary will be compressed with a compression ratio of about 3.4.
 
 3. List the packages in the repository:
 
@@ -81,11 +81,11 @@ Upgrade DeepFlow Agent deployed on cloud servers and traditional servers using d
 
 ## Remote Upgrade K8s Agent
 
-Remote upgrading of agents can reduce operational steps and improve upgrade speed when upgrading multiple clusters in bulk.
+Remote upgrading of agents can reduce operational steps and increase upgrade speed when upgrading multiple clusters in bulk.
 
-K8s remote upgrade uses deepflow-agent to modify the permissions of daemonset and configmap in the namespace where it resides, and modifies its own daemonset parameters for remote upgrade.
+K8s remote upgrade uses deepflow-agent to modify the permissions of the daemonset and configmap in its namespace, and modify its own daemonset parameters for remote upgrade.
 
-Add the image of deepflow-agent to be upgraded. The --version-image in the command needs to point to the same version of the deepflow-agent binary file as the K8s image, so that deepflow-ctl can obtain the version information of the image. Ensure that the K8s cluster to be upgraded can correctly pull the image corresponding to --k8s-image.
+Add the image of the deepflow-agent to be upgraded. The --version-image in the command needs to point to the deepflow-agent binary file of the same version as the K8s image, so that deepflow-ctl can obtain the version information of the image. Ensure that the K8s cluster to be upgraded can correctly pull the image corresponding to --k8s-image.
 
 ```bash
 deepflow-ctl repo agent create --arch x86 \
@@ -100,19 +100,19 @@ deepflow-ctl agent-upgrade <AGENT_NAME> \
    --image-name="kube.registry.local:5000/deepflow-agent:v6.4.4594"
 ```
 
-- **Note**: The current version does not support verifying the pullability and availability of the image. Ensure the image can be pulled, run, and has the correct version before use.
-- **Note**: Only one deepflow-agent in a K8s cluster needs to be selected to trigger the upgrade. It will modify the daemonset configuration itself, so that all deepflow-agents are upgraded.
-- **Note**: Be prepared to manually intervene to correct the image (due to reasons such as the image not being pullable or runnable).
+- **Note**: The current version does not support verifying the pullability and availability of the image. Please ensure that the image can be pulled, run, and the version is correct before use.
+- **Note**: Only one deepflow-agent needs to be selected in a K8s cluster to trigger the upgrade. It will modify the configuration of the daemonset itself, so that all deepflow-agents are upgraded.
+- **Note**: Be prepared to manually intervene to correct the image (due to reasons such as the image cannot be pulled or run).
 
 # Obtain the Latest DeepFlow Grafana Dashboard
 
-Check if the image of the Grafana init container `init-grafana-ds-dh` is `latest` and if the image pull policy is `Always`:
+Check if the image of the init container `init-grafana-ds-dh` of Grafana is `latest` and if the image pull policy is `Always`:
 
 ```bash
 kubectl get deployment -n deepflow deepflow-grafana -o yaml|grep -E 'image:|imagePullPolicy'
 ```
 
-If the image of the Grafana init container `init-grafana-ds-dh` is not `latest` and the image pull policy is not `Always`, modify them to `latest` and `Always`.
+If the image of the init container `init-grafana-ds-dh` of Grafana is not `latest` and the image pull policy is not `Always`, please modify them to `latest` and `Always`.
 
 Restart Grafana to pull the latest init container `init-grafana-ds-dh` image and obtain the latest dashboard:
 
