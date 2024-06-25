@@ -99,7 +99,7 @@ docker compose -f deepflow-agent-docker-compose.yaml up -d
 
 ```yaml
 controller-ips:
-  - cloud.deepflow.yunshan.net
+  - agent.cloud.deepflow.yunshan.net
 vtap-group-id-request: 'g-xxxxxxxxxx' # FIXME: agent-group ID
 team-id: 't-xxxxxxxxxx' # FIXME: Team ID
 ```
