@@ -23,6 +23,14 @@
               $frontmatter.titleTag
             }}</span>
           </h1>
+          <div class="docs-time">
+            <span class="time"
+              >{{ locales[lang].createdAt }}：{{ creatAt }}</span
+            >
+            <span class="time"
+              >{{ locales[lang].updateAt }}：{{ updateAt }}</span
+            >
+          </div>
 
           <slot name="top" v-if="isShowSlotT" />
 
@@ -49,10 +57,13 @@ import RightMenu from "./RightMenu.vue";
 
 import TitleBadgeMixin from "../mixins/titleBadge";
 
+import locales from "./../locales/index";
+
 export default {
   mixins: [TitleBadgeMixin],
   data() {
     return {
+      locales,
       updateBarConfig: null,
     };
   },
@@ -67,6 +78,12 @@ export default {
     this.updateBarConfig = this.$themeConfig.updateBar;
   },
   computed: {
+    creatAt() {
+      return this.$frontmatter.creatAt.split("T")[0];
+    },
+    updateAt() {
+      return this.$frontmatter.updateAt.split("T")[0];
+    },
     title() {
       const {
         $page: { title, regularPath },
@@ -105,6 +122,9 @@ export default {
     },
     isShowSlotB() {
       return this.getShowStatus("pageBshowMode");
+    },
+    lang() {
+      return this.$page.relativePath.indexOf("zh/") > -1 ? "zh" : "en";
     },
   },
   methods: {
@@ -176,6 +196,7 @@ export default {
   .content-wrapper
     position relative
   h1
+    margin-bottom: 10px
     .title-tag
       height 1.5rem
       line-height 1.5rem
@@ -190,8 +211,15 @@ export default {
     img
       margin-bottom -0.2rem
       margin-right 0.2rem
-      max-width 2.2rem
-      max-height 2.2rem
+      width 2.2rem
+      height 2.2rem
+  .docs-time
+    display: flex
+    gap: 1.2rem
+    align-items: center
+    font-size: 0.7rem
+    padding-left: 2.4rem
+
 .theme-vdoing-wrapper
   --linesColor rgba(50, 0, 0, 0.05)
   &.bg-style-1 // 方格
