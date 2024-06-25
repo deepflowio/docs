@@ -93,7 +93,12 @@ jobs:
       if: ${{ github.event_name == 'push' && github.repository	== 'deepflowio/docs'}}
       run: |
         echo "IMAGE_TAG_PREFIX=${{ github.ref_name }}"|sed 's|main|latest|' >> $GITHUB_ENV
-        
+  
+      - name: set env
+      if: ${{ github.event_name == 'workflow_dispatch' && github.repository	== 'deepflowio/docs'}}
+      run: |
+        echo "IMAGE_TAG_PREFIX=${{ github.ref_name }}"|sed 's|main|latest|' >> $GITHUB_ENV
+
     - name: Build and push docs image
       if: ${{ github.repository	== 'deepflowio/docs'}}
       uses: docker/build-push-action@v2
