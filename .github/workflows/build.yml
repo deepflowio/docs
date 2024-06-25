@@ -60,7 +60,11 @@ jobs:
     - name: Node build
       shell: bash
       run: |
+        pnpm install gray-matter json2yaml
+        node addTime.js
+        node addTime.js ./translate/translated
         node copy-file.js ./docs/zh ./translate/translated false
+        rm -rf translate/translated/README.md
         mv translate/translated/* ./docs
         rm -rf ./docs/map.txt
         pnpm install

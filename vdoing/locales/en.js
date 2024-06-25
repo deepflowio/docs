@@ -9,4 +9,6 @@ export default {
     docs: "Docs",
     deepflowCloudDocs: "DeepFlow Cloud Docs",
     blog: "Blog",
+    createdAt: 'Created',
+    updateAt: 'Last Modified'
 }
