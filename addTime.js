@@ -60,11 +60,11 @@ const getZhUrl = (url) => {
   const zh = path.sep + "zh" + path.sep;
   // 如果不是带了 /zh/ 的地址，需要转为对应的中文的地址
   if (url.includes(zh)) {
-    return zh;
+    return path.relative(__dirname, url);
   }
   const translatedUrl = `${path.sep}translate${path.sep}translated${path.sep}`;
   const replaceUrl = `${path.sep}docs${path.sep}zh${path.sep}`;
-  return url.replace(translatedUrl, replaceUrl);
+  return path.relative(__dirname, url.replace(translatedUrl, replaceUrl));
 };
 
 const run = (sourceDir) => {
