@@ -79,10 +79,10 @@ export default {
   },
   computed: {
     creatAt() {
-      return this.$frontmatter.creatAt.split("T")[0];
+      return this.$frontmatter.creatAt?.split("T")[0] ?? '--'
     },
     updateAt() {
-      return this.$frontmatter.updateAt.split("T")[0];
+      return this.$frontmatter.updateAt?.split("T")[0] ?? '--'
     },
     title() {
       const {

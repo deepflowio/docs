@@ -4,10 +4,14 @@ const matter = require("gray-matter"); //
 const jsonToYaml = require('json2yaml')
 const os = require("os");
 const { checkLocalesFilename, getPermalink1, getPermalink, fileShouldCreateREADME, getCurrnetFileName } = require("./modules/filename");
+const { handleDate, type } = require("./modules/fn");
 
 const FILE_NAME = 'README.md' // readme.md文件
 const LOCALES = require('../page-locales/index')
 const cwd = process.cwd()
+function getReallyContent(date) {
+  return type(date) === "date" ? handleDate(date) : date;
+}
 /**
  * 三合一操作，遍历一次
  * 1. 检测是否需要readme文件
@@ -102,6 +106,12 @@ function handleFileAndGetSideBar (sourceDir, files, currentFileName) {
         sidebar.push([getPermalink1(filePath), title, permalink])
 
         if (!matterData.permalink && permalink) {
+            if (matterData.creatAt) {
+              matterData.creatAt = getReallyContent(matterData.creatAt);
+            }
+            if (matterData.updateAt) {
+              matterData.updateAt = getReallyContent(matterData.updateAt);
+            }
             // 如果没有permalink 则需要回写到md中
             matterData.permalink = permalink
             const newFileContent = jsonToYaml.stringify(matterData).replace(/\n\s{2}/g, "\n").replace(/"/g, "") + '---' + os.EOL + content;
