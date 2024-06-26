@@ -7,28 +7,28 @@ permalink: /features/auto-tagging/additional-cloud-tags
 
 # Introduction
 
-In addition to actively calling (fetching) the APIs of cloud service providers and K8s apiserver to sync resource information, DeepFlow also provides a declarative interface named `domain-additional-resource` that allows external services to push additional resource information. This method is applicable for synchronizing public cloud resources not yet supported by DeepFlow, syncing private cloud resources using DeepFlow community edition, and syncing business tags in the CMDB.
+In addition to actively calling (pulling) APIs from cloud service providers and K8s apiserver to synchronize resource information, DeepFlow also provides a declarative interface `domain-additional-resource` to allow external services to push additional resource information. This method is suitable for synchronizing public cloud resources not yet supported by DeepFlow, synchronizing private cloud resources using the DeepFlow community edition, and synchronizing business tags in CMDB.
 
-The resource information that can be pushed through this API includes:
+The resource information that can be pushed using this API includes:
 
 - Availability Zone
-- Virtual Private Cloud (VPC)
+- VPC
 - Subnet
 - Server
 - Cloud Server
 - Custom Business Tags
 - Load Balancer
 
-The custom tags that can be pushed through this API include:
+The custom tags that can be pushed using this API include:
 
-- Custom tags associated with the following K8s resources:
+- Custom tags associated with the following K8s resources
   - Namespace
-- Custom tags associated with the following cloud resources:
+- Custom tags associated with the following cloud resources
   - Cloud Server
 
 # API Call Method
 
-## Interface
+## Endpoint
 
 ```bash
 ${deepflow_server_node_ip}:${port}/v1/domain-additional-resources/
@@ -42,131 +42,131 @@ PUT
 
 ### Header
 
-| Name         | Type   | Required | Explanation      |
-| ------------ | ------ | -------- | ---------------- |
-| Content-Type | String | Yes      | application/json |
+| Name         | Type   | Required | Description       |
+| ------------ | ------ | -------- | ----------------- |
+| Content-Type | String | Yes      | application/json  |
 
 ### Body
 
-| Name       | Type                     | Required | Description                                                                           |
-| ---------- | ------------------------ | -------- | ------------------------------------------------------------------------------------- |
-| azs        | Array of AZ object       | No       | Availability Zone                                                                     |
-| vpcs       | Array of VPC object      | No       | Virtual Private Cloud                                                                 |
-| subnets    | Array of Subnet object   | No       | Subnet                                                                                |
-| hosts      | Array of Host object     | No       | Server                                                                                |
-| chosts     | Array of Chost object    | No       | Cloud Server                                                                          |
-| cloud_tags | Array of CloudTag object | No       | Generally used to inject business tags, see [Business tags in the CMDB](./cmdb-tags/) |
-| lbs        | Array of LB object       | No       | Load Balancer                                                                         |
+| Name       | Type                | Required | Description                                                         |
+| ---------- | ------------------- | -------- | ------------------------------------------------------------------- |
+| azs        | Array of AZ Structs | No       | Availability Zone                                                   |
+| vpcs       | Array of VPC Structs| No       | Virtual Private Cloud                                               |
+| subnets    | Array of Subnet Structs | No   | Subnet                                                              |
+| hosts      | Array of Host Structs | No     | Server                                                              |
+| chosts     | Array of Chost Structs | No    | Cloud Server                                                        |
+| cloud_tags | Array of CloudTag Structs | No | Generally used to inject business tags, see [Business Tags in CMDB](./cmdb-tags/) |
+| lbs        | Array of LB Structs | No       | Load Balancer                                                       |
 
-AZ object
-| Name | Type | Required | Description |
-| ----------- | ------ | -------- | ----------- |
-| name | String | Yes | |
-| uuid | String | Yes | |
-| domain_uuid | String | Yes | Cloud platform UUID |
+AZ Struct
+| Name       | Type   | Required | Description       |
+| -----------| ------ | -------- | ----------------- |
+| name       | String | Yes      |                   |
+| uuid       | String | Yes      |                   |
+| domain_uuid| String | Yes      | Cloud platform UUID |
 
-VPC object
-| Name | Type | Required | Description |
-| ----------- | ------ | -------- | ----------- |
-| name | String | Yes | |
-| uuid | String | Yes | |
-| domain_uuid | String | Yes | Cloud platform UUID |
+VPC Struct
+| Name       | Type   | Required | Description       |
+| -----------| ------ | -------- | ----------------- |
+| name       | String | Yes      |                   |
+| uuid       | String | Yes      |                   |
+| domain_uuid| String | Yes      | Cloud platform UUID |
 
-Subnet object
-| Name | Type | Required | Explanation |
-| ----------- | ---------- | -------- | ------------------------------- |
-| name | String | Yes | |
-| uuid | String | Yes | |
-| type | Integer | No | Default: 4, optional: 3 (WAN), 4 (LAN) |
-| is_vip | Boolean | No | Optional: true, false |
-| vpc_uuid | String | Yes | |
-| az_uuid | String | No | |
-| domain_uuid | String | Yes | Cloud platform UUID |
-| cidrs | Array of String | Yes | E.g., ["x.x.x.x/x"] |
+Subnet Struct
+| Name       | Type   | Required | Description       |
+| -----------| ------ | -------- | ----------------- |
+| name       | String | Yes      |                   |
+| uuid       | String | Yes      |                   |
+| type       | Integer| No       | Default: 4, Options: 3 (WAN), 4 (LAN) |
+| is_vip     | Boolean| No       | Options: true, false |
+| vpc_uuid   | String | Yes      |                   |
+| az_uuid    | String | No       |                   |
+| domain_uuid| String | Yes      | Cloud platform UUID |
+| cidrs      | Array of Strings | Yes | Example: ["x.x.x.x/x"] |
 
-Host object
-| Name | Type | Required | Explanation |
-| ----------- | ---------------------- | -------- | -------------------------------------------------------------------------------- |
-| name | String | Yes | |
-| uuid | String | Yes | |
-| ip | String | Yes | |
-| type | Integer | No | Default: 3(KVM). Optional: 2 (ESXi), 3 (KVM), 5 (Hyper-V), 6 (Gateway) |
-| az_uuid | String | Yes | |
-| domain_uuid | String | Yes | Cloud platform UUID |
-| vinterfaces | Array of Vinterface 1 object | No | Network interfaces |
+Host Struct
+| Name       | Type   | Required | Description       |
+| -----------| ------ | -------- | ----------------- |
+| name       | String | Yes      |                   |
+| uuid       | String | Yes      |                   |
+| ip         | String | Yes      |                   |
+| type       | Integer| No       | Default: 3 (KVM). Options: 2 (ESXi), 3 (KVM), 5 (Hyper-V), 6 (Gateway) |
+| az_uuid    | String | Yes      |                   |
+| domain_uuid| String | Yes      | Cloud platform UUID |
+| vinterfaces| Array of Vinterface 1 Structs | No | Network interfaces |
 
-Vinterface 1 object
-| Name | Type | Required | Explanation |
-| ----------- | ---------- | -------- | ----------- |
-| mac | String | Yes | E.g., xx:xx:xx:xx:xx:xx |
-| subnet_uuid | String | Yes | |
-| ips | Array of String | No | E.g., ["x.x.x.x"] |
+Vinterface 1 Struct
+| Name       | Type   | Required | Description       |
+| -----------| ------ | -------- | ----------------- |
+| mac        | String | Yes      | Example: xx:xx:xx:xx:xx:xx |
+| subnet_uuid| String | Yes      |                   |
+| ips        | Array of Strings | No | Example: ["x.x.x.x"] |
 
-Chost object
-| Name | Type | Required | Description |
-| ----------- | ----------------------- | -------- | ---------------------------------------------------------------------------------|
-| name | String | Yes | |
-| uuid | String | Yes | |
-| host_ip | String | No | Hypervisor IP address |
-| type | Integer | No | Default: 1(vm/compute). Optional: 1 (vm/compute), 2 (bm/compute), 3 (vm/network), 4 (bm/network), 5 (vm/storage), 6 (bm/storage) |
-| vpc_uuid | String | Yes | |
-| az_uuid | String | Yes | |
-| domain_uuid | String | Yes | Cloud platform UUID |
-| vinterfaces | Array of Vinterface 2 object | No | Chost interfaces |
+Chost Struct
+| Name       | Type   | Required | Description       |
+| -----------| ------ | -------- | ----------------- |
+| name       | String | Yes      |                   |
+| uuid       | String | Yes      |                   |
+| host_ip    | String | No       | Hypervisor IP address |
+| type       | Integer| No       | Default: 1 (vm/compute). Options: 1 (vm/compute), 2 (bm/compute), 3 (vm/network), 4 (bm/network), 5 (vm/storage), 6 (bm/storage) |
+| vpc_uuid   | String | Yes      |                   |
+| az_uuid    | String | Yes      |                   |
+| domain_uuid| String | Yes      | Cloud platform UUID |
+| vinterfaces| Array of Vinterface 2 Structs | No | Chost interfaces |
 
-Vinterface 2 object
-| Name | Type | Required | Description |
-| ----------- | ---------- | -------- | -------------- |
-| mac | String | Yes | E.g., xx:xx:xx:xx:xx:xx |
-| subnet_uuid | String | Yes | |
-| ips | Array of String | Yes | E.g., ["x.x.x.x"] |
+Vinterface 2 Struct
+| Name       | Type   | Required | Description       |
+| -----------| ------ | -------- | ----------------- |
+| mac        | String | Yes      | Example: xx:xx:xx:xx:xx:xx |
+| subnet_uuid| String | Yes      |                   |
+| ips        | Array of Strings | Yes | Example: ["x.x.x.x"] |
 
-CloudTag object: See [Business tags in the CMDB](./cmdb-tags/).
+CloudTag Struct: See [Business Tags in CMDB](./cmdb-tags/).
 
-Tag object
-| Name | Type | Required | Explanation |
-| ----- | ------ | -------- | ------------------------------------------------- |
-| key | String | Yes | Limit to 255 characters, spaces, colons, backquotes, backslashes, and single quotes are not supported |
-| value | String | Yes | Limit to 255 characters, spaces, colons, backquotes, backslashes are not supported |
+Tag Struct
+| Name       | Type   | Required | Description       |
+| -----      | ------ | -------- | ----------------- |
+| key        | String | Yes      | Limit 255 characters, no spaces, colons, backticks, backslashes, single quotes |
+| value      | String | Yes      | Limit 255 characters, no spaces, colons, backticks, backslashes |
 
-LB object
-| Name | Type | Required | Description |
-| ------------ | ----------------------- | -------- | ------------------------------------------------ |
-| name | String | Yes | |
-| model | Integer | Yes | Default: 2. Optional: 1 (internal), 2 (external) |
-| vpc_uuid | String | Yes | |
-| domain_uuid | String | Yes | |
-| vinterfaces | Array of Vinterface 2 object | No | Chost interfaces |
-| lb_listeners | Array of LBListener object | No | |
+LB Struct
+| Name       | Type   | Required | Description       |
+| ------------ | ------ | -------- | ----------------- |
+| name         | String | Yes      |                   |
+| model        | Integer| Yes      | Default: 2. Options: 1 (internal), 2 (external) |
+| vpc_uuid     | String | Yes      |                   |
+| domain_uuid  | String | Yes      |                   |
+| vinterfaces  | Array of Vinterface 2 Structs | No | Chost interfaces |
+| lb_listeners | Array of LBListener Structs | No |                   |
 
-LBListener object
-| Name | Type | Required | Explanation |
-| ----------------- | ------------------------- | -------- | ------------------------- |
-| name | String | No | If it's empty, the value will be ${ip}-${port} |
-| protocol | String | Yes | Optional: TCP, UDP |
-| ip | Integer | Yes | |
-| port | String | Yes | |
-| lb_target_servers | Array of LBTargetServer object | No | |
+LBListener Struct
+| Name       | Type   | Required | Description       |
+| -----------| ------ | -------- | ----------------- |
+| name       | String | No       | If empty, assigned as ${ip}-${port} |
+| protocol   | String | Yes      | Options: TCP, UDP |
+| ip         | Integer| Yes      |                   |
+| port       | String | Yes      |                   |
+| lb_target_servers | Array of LBTargetServer Structs | No |                   |
 
-LBTargetServer object
-| Name | Type | Required | Explanation |
-| ---- | ------ | -------- | ---- |
-| ip | String | Yes | |
-| port | Integer | Yes | |
+LBTargetServer Struct
+| Name       | Type   | Required | Description       |
+| ----       | ------ | -------- | ----------------- |
+| ip         | String | Yes      |                   |
+| port       | Integer| Yes      |                   |
 
-## Response
+## Response Results
 
-### Return parameters
+### Return Parameters
 
-| Name        | Type   | Required | Explanation    |
-| ----------- | ------ | -------- | -------------- |
-| OPT_STATUS  | String | Yes      | Success or not |
-| DESCRIPTION | String | Yes      | Error message  |
-| DATA        | JSON   | Yes      | Return data    |
+| Name        | Type   | Required | Description       |
+| ----------- | ------ | -------- | ----------------- |
+| OPT_STATUS  | String | Yes      | Success or failure |
+| DESCRIPTION | String | Yes      | Error information  |
+| DATA        | JSON   | Yes      | Return data        |
 
-### Success response
+### Successful Response
 
-When the return parameter OPT_STATUS equals SUCCESS, it indicates the call was successful. The return value example is as follows:
+When the return parameter OPT_STATUS equals SUCCESS, it indicates a successful call. Example return value:
 
 ```json
 {
@@ -176,9 +176,9 @@ When the return parameter OPT_STATUS equals SUCCESS, it indicates the call was s
 }
 ```
 
-### Failure response
+### Failed Response
 
-When the return parameter OPT_STATUS does not equal SUCCESS, it indicates the call failed. The return value example is as follows:
+When the return parameter OPT_STATUS does not equal SUCCESS, it indicates a failed call. Example return value:
 
 ```json
 {
@@ -188,15 +188,15 @@ When the return parameter OPT_STATUS does not equal SUCCESS, it indicates the ca
 }
 ```
 
-The error code is the information in the OPT_STATUS field in the return value.
-| Error code | Explanation | Suggested solution |
-| ------------------ | ---------- | ------------------------------------ |
-| INVALID_POST_DATA | Invalid parameter | Check the value of the corresponding field according to the error prompt |
+The error code is the information in the OPT_STATUS field of the return value
+| Error Code         | Description | Suggested Solution |
+| ------------------ | ----------- | ------------------ |
+| INVALID_POST_DATA  | Invalid parameter | Check if the corresponding field values are correct based on the error message |
 | RESOURCE_NOT_FOUND | Resource not found | The resource value filled in is invalid, please check and fill in correctly |
 
-# Invocation Example
+# Call Example
 
-## Call via HTTP API
+## Calling via HTTP API
 
 ```bash
 curl -XPUT -H "Content-Type:application/json" \
@@ -204,7 +204,7 @@ ${deepflow_server_node_ip}:${port}/v1/domain-additional-resources/ \
 -d@additional_resource.json
 ```
 
-Parameter file additional_resource.json ([see sample YAML file](https://github.com/deepflowio/deepflow/blob/main/cli/ctl/example/domain_additional_resource.yaml))
+Parameter file additional_resource.json ([Reference YAML file](https://github.com/deepflowio/deepflow/blob/main/cli/ctl/example/domain_additional_resource.yaml))
 
 ```json
 {
@@ -315,12 +315,12 @@ Parameter file additional_resource.json ([see sample YAML file](https://github.c
 }
 ```
 
-## Call via deepflow-ctl command
+## Calling via deepflow-ctl Command
 
-In addition to using the HTTP API call, you can also use the deepflow-ctl command to call through a yaml file.
+In addition to using the HTTP API, you can also use the deepflow-ctl command to call via a YAML file.
 
 ```bash
-# View the parameter example in YAML
+# View YAML parameter example
 deepflow-ctl domain additional-resource example
 
 # Create additional-resource.yaml file
@@ -330,12 +330,12 @@ deepflow-ctl domain additional-resource example > additional-resource.yaml
 deepflow-ctl domain additional-resource apply -f additional-resource.yaml
 ```
 
-After successfully adding the resource manually, the corresponding database table can view the information after 1 minute (depending on the resource_recorder_interval field in the server.yaml configuration file):
+After the resource is manually added successfully, the corresponding database table can be viewed after 1 minute (depending on the resource_recorder_interval field in the server.yaml configuration file):
 
 - Availability Zone (table az)
 - VPC (table epc)
 - Subnet (table subnet)
 - Server (table host_device)
 - Cloud Server (table vm)
-- Load Balancer (table lb, lb_listener, and lb_target_server)
+- Load Balancer (tables lb, lb_listener, and lb_target_server)
 - Namespace (table pod_namespace)

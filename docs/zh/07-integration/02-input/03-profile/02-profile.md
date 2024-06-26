@@ -42,16 +42,16 @@ DeepFlow 目前支持以 Pyroscope SDK 为基础发送的 Profile 数据接入�
 
 ```yaml
 env:
-- name: PYROSCOPE_SERVER_ADDRESS
-  value: http://deepflow-agent.deepflow/api/v1/profile
+  - name: PYROSCOPE_SERVER_ADDRESS
+    value: http://deepflow-agent.deepflow/api/v1/profile
 ```
 
 此外，为了在 DeepFlow 中标识不同的数据来源，需要显式标注应用名称，增加如下环境变量：
 
 ```yaml
 env:
-- name: PYROSCOPE_APPLICATION_NAME
-  value: application-demo # FIXME: 你的应用名称
+  - name: PYROSCOPE_APPLICATION_NAME
+    value: application-demo # FIXME: 你的应用名称
 ```
 
 ## 基于 Golang pprof
@@ -197,15 +197,15 @@ public class Sender {
 
 ## 上报参数说明
 
-| 名称 | 类型 | 描述 |
-| --- | --- | --- |
-| name | string | 应用名称，用于标识上报数据，可额外带上自定义标签标记同一个应用的不同部署规格，如：`application-demo{region="cn",deploy="prod"}` |
-| spyName | string | 用于标记上报数据类型，Golang 应用固定为 `gospy`，Java 应用固定为 `javaspy` |
-| format | string | profile 数据格式，Golang 采集 pprof 格式为 `pprof` (缺省)，Java 采集 jfr 格式为 `jfr` |
-| unit | string | 取值单位，对于不同的采样类型，有不同的单位，可参考[此处](https://github.com/deepflowio/deepflow/blob/v6.4.9/server/ingester/profile/dbwriter/profile.go#L99)，具体含义为：`cpu` 用 `samples` (样本数) 作为单位，`memory` 用 `bytes`（字节数）作为单位，其他类同 |
-| from | int | profile 开始时间，Unix 时间戳（秒）|
-| until | int | profile 结束时间，Unix 时间戳（秒）|
-| sampleRate | int | profile 的真实采样率 |
+| 名称       | 类型   | 描述                                                                                                                                                                                                                                                            |
+| ---------- | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| name       | string | 应用名称，用于标识上报数据，可额外带上自定义标签标记同一个应用的不同部署规格，如：`application-demo{region="cn",deploy="prod"}`                                                                                                                                 |
+| spyName    | string | 用于标记上报数据类型，Golang 应用固定为 `gospy`，Java 应用固定为 `javaspy`                                                                                                                                                                                      |
+| format     | string | profile 数据格式，Golang 采集 pprof 格式为 `pprof` (缺省)，Java 采集 jfr 格式为 `jfr`                                                                                                                                                                           |
+| unit       | string | 取值单位，对于不同的采样类型，有不同的单位，可参考[此处](https://github.com/deepflowio/deepflow/blob/v6.4.9/server/ingester/profile/dbwriter/profile.go#L99)，具体含义为：`cpu` 用 `samples` (样本数) 作为单位，`memory` 用 `bytes`（字节数）作为单位，其他类同 |
+| from       | int    | profile 开始时间，Unix 时间戳（秒）                                                                                                                                                                                                                             |
+| until      | int    | profile 结束时间，Unix 时间戳（秒）                                                                                                                                                                                                                             |
+| sampleRate | int    | profile 的真实采样率                                                                                                                                                                                                                                            |
 
 # 配置 DeepFlow
 

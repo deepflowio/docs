@@ -32,6 +32,7 @@ end
 
 在 [Telegraf 文档](https://www.influxdata.com/time-series-platform/telegraf/)中可了解相关背景知识。
 如果你的集群中没有 Telegraf，可用如下步骤快速以 DaemonSet 方式部署 Telegraf：
+
 ```bash
 # add helm chart
 helm repo add influxdata https://helm.influxdata.com/
@@ -52,11 +53,13 @@ kubectl apply -f https://raw.githubusercontent.com/deepflowio/deepflow-demo/main
 如果你修改了它，请根据实际的服务名称与命名空间填写到配置中。
 
 接下来修改 Telegraf 的默认配置（假设它位于 `deepflow-telegraf-demo` 命名空间中）：
+
 ```bash
 kubectl edit cm -n deepflow-telegraf-demo telegraf
 ```
 
 在 `telegraf.conf` 中，增加如下配置（请修改 `DEEPFLOW_AGENT_SVC` 为 deepflow-agent 的服务名）：
+
 ```toml
 [[outputs.http]]
   url = "http://${DEEPFLOW_AGENT_SVC}/api/v1/telegraf"

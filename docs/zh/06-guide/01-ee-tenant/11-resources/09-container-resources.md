@@ -25,7 +25,7 @@ Ingress 是在 K8s 集群中公开 HTTP 和 HTTPS 服务的一种方式，通过
 
 ![01-Ingress](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202304266448dfd092f9a.png)
 
-- 全部转发规则：支持查看并下载所有的转发规则，列表内容包括协议类型、域名、路径、服务、服务PORT、所属Ingress
+- 全部转发规则：支持查看并下载所有的转发规则，列表内容包括协议类型、域名、路径、服务、服务 PORT、所属 Ingress
 - 操作：
   - 查看转发规则：可查看并下载当前 Ingress 下的转发规则
 - 页面其他按钮使用，请参阅【[资源池-区域](./network-resources/)】章节

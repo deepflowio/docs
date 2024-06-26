@@ -18,16 +18,16 @@ Example of Profiling data query API:
 deepflow_server_node_ip=FIXME # Remember to modify
 port=$(kubectl get --namespace deepflow -o jsonpath="{.spec.ports[0].nodePort}" services deepflow-server)
 
-# Request deepflow-server's API
+# Request the API of deepflow-server
 curl -X POST http://${deepflow_server_node_ip}:$port/v1/profile/ProfileTracing \
   -H 'Content-Type: application/json' \
   -d '{
     "app_service": "deepflow-agent",
     "profile_language_type": "eBPF",
     "profile_event_type": "on-cpu",
-    "tag_filter": "",
+    "tag_filter: "",
     "time_start": 1708479421,
-    "time_end": 1708480321
+    "time_end": 1708480321,
   }'
 ```
 
@@ -35,7 +35,7 @@ Explanation of API request parameters:
 
 - **app_service**: Process name
 - **profile_language_type**: Use `eBPF` when retrieving eBPF Profiling data
-- **profile_event_type**: For eBPF OnCPU Profiling data, set to `on-cpu`
+- **profile_event_type**: For eBPF On-CPU Profiling data, set this to `on-cpu`
 - **tag_filter**: When process names conflict, other tags can be used for filtering
   - For example, `"tag_filter": "pod_cluster='prod-cluster' AND pod_ns='app'"`
 - **time_start**, **time_end**: Time range
@@ -88,22 +88,22 @@ Explanation of API response:
 
 - **profile_location_str**: Function name
   - `[t] thread_name`: Thread, only appears in the second layer of the flame graph
-  - `[k] function_name`: Linux kernel function
-  - `[l] function_name`: Function in a dynamic link library
+  - `[k] function_name`: Linux kernel function, CUDA dynamic library function ([libcuda](https://developer.nvidia.com/cuda-toolkit), [libcublas](https://developer.nvidia.com/cublas), etc.)
+  - `[l] function_name`: Function in a dynamic library
   - `function_name`: Represents a business function of the application
-  - `$app_service`: The top node of the flame graph, named after the process
+  - `$app_service`: The top node of the flame graph, named after the process name
   - Additionally, if the function name translation fails, it may appear in one of the following forms:
-    - `[/tmp/perf-29887.map]`: The process ID 29887's Java process symbol file name in square brackets, the function address was not found in this file. Java process symbol files are automatically generated periodically, usually because the function was not loaded when the symbol file was generated.
-    - `[/lib/ld-musl-x86_64.so.1]`: The file path of the dynamic link library (with `so`) in square brackets, the function address belongs to this file but the translation failed, usually due to the symbol table being trimmed.
-    - `[/usr/local/bin/kube-apiserver]`: The executable file path in square brackets, the function address belongs to this file but the translation failed, usually due to the symbol table being trimmed.
-    - `[unknown] 0x0000000003932388`: In all other cases, if an address cannot be successfully translated into a function name, it is displayed as such. Specifically, if the third layer function address of the flame graph (usually the thread's entry function) cannot be translated into a function name, it is displayed as `[unknown start_thread?]`.
+    - `[/tmp/perf-29887.map]`: The process symbol file name for process number 29887 in square brackets, indicating that the function address was not found in this file. Java process symbol files are automatically generated periodically, usually because the function was not loaded when the symbol file was generated.
+    - `[/lib/ld-musl-x86_64.so.1]`: The file path of the dynamic library (with `so`) in square brackets, indicating that the function address belongs to this file but was not successfully translated, usually due to the symbol table being trimmed.
+    - `[/usr/local/bin/kube-apiserver]`: The file path of the executable file in square brackets, indicating that the function address belongs to this file but was not successfully translated, usually due to the symbol table being trimmed.
+    - `[unknown] 0x0000000003932388`: If an address cannot be successfully translated into a function name, it is displayed like this. Specifically, if the third layer function address of the flame graph (usually the entry function of the thread) cannot be translated into a function name, it is displayed as `[unknown start_thread?]`.
 - **node_id**: The unique identifier of this function node in the flame graph
 - **parent_node_id**: The unique identifier of the parent node of this function in the flame graph
-- **total_value**: The CPU time of this function, in microseconds (us).
-  - OnCPU Profiling: This value indicates the CPU time spent by the function
-  - OffCPU Profiling: This value indicates the CPU waiting time of the function
-- **self_value**: The `net` CPU time of this function as a leaf node (bottom-level function), in microseconds (us).
-  - The difference between OnCPU and OffCPU is the same as above
+- **total_value**: The CPU duration of this function, in microseconds (us).
+  - On-CPU Profiling: This value indicates the CPU time spent by the function
+  - Off-CPU Profiling: This value indicates the CPU waiting time of the function
+- **self_value**: The `net` CPU duration of this function as a leaf node (bottom-level function), in microseconds (us).
+  - The difference between On-CPU and Off-CPU is the same as above
 
 Using the API response, you can draw a CPU flame graph for the **specified process**. The display effect in the DeepFlow enterprise edition is as follows:
 
@@ -112,10 +112,10 @@ Using the API response, you can draw a CPU flame graph for the **specified proce
 # Retrieve Profiling Data for a Specific Host
 
 ::: tip
-Currently, only OnCPU Profiling supports querying overall data for a host.
+Currently, only On-CPU Profiling supports querying overall data for a host.
 :::
 
-When the request parameter includes `"app_service": "Total"`, it retrieves a special OnCPU Profiling data named `Total`, which is the Profiling of all processes on a host, detailed down to the thread level. This can be used to quickly identify bottleneck processes and threads when the OnCPU `regex` does not configure a specific process. An example of the response in this case:
+When the request parameter includes `"app_service": "Total"`, it retrieves a special On-CPU Profiling data named `Total`, which is the Profiling of all processes on a host, detailed down to the thread level. This can be used to quickly identify bottleneck processes and threads when the On-CPU `regex` is not configured for a specific process. An example of the response in this case:
 
 ```json
 {
@@ -151,10 +151,10 @@ When the request parameter includes `"app_service": "Total"`, it retrieves a spe
 
 Additional explanation of **profile_location_str** in the above response:
 
-- `$app_service`: The top node of the flame graph, fixed name as Total
+- `$app_service`: The top node of the flame graph, fixed as Total
 - `[p] name`: The name of a process
 - `[t] name`: The name of a thread, its parent node is a `[p] name` type node, indicating the process to which this thread belongs
 
-Using the API response, you can draw an OnCPU flame graph for the **specified host**. The display effect in the DeepFlow enterprise edition is as follows (the flame graph has only three layers):
+Using the API response, you can draw an On-CPU flame graph for the **specified host**. The display effect in the DeepFlow enterprise edition is as follows (the flame graph has only three layers):
 
 ![Host Flame Graph in Enterprise Edition](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202405146642dfab0d31a.jpg)

@@ -29,6 +29,7 @@ DeepFlowServer -->|"get cloud resource & label"| CloudAPI[cloud api service]
 # 配置 DeepFlow Server
 
 本地创建一个 YAML 文件 `your-managed-k8s.yaml`：
+
 ```yaml
 # 名称
 name: sub-domain-test
@@ -46,11 +47,13 @@ config:
 ```
 
 创建托管集群：
+
 ```bash
 deepflow-ctl subdomain create -f your-managed-k8s.yaml
 ```
 
 查询 DeepFlow Server 生成的托管集群 ClusterID：
+
 ```bash
 deepflow-ctl subdomain list
 ```
@@ -58,6 +61,7 @@ deepflow-ctl subdomain list
 # 部署 DeepFlow Agent
 
 使用生成的 ClusterID 部署 DeepFlow Agent：
+
 ```bash
 echo "deepflowK8sClusterID: "fffffff"  # FIXME: Generate by `deepflow-ctl  subdomain list`" >> values-custom.yaml
 helm upgrade deepflow-agent -n deepflow deepflow/deepflow-agent  \

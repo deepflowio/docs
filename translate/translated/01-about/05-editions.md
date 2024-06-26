@@ -1,5 +1,5 @@
 ---
-title: DeepFlow Product
+title: DeepFlow Products
 permalink: /about/editions
 ---
 
@@ -7,9 +7,9 @@ permalink: /about/editions
 
 # Community Edition
 
-The DeepFlow Community Edition is an open-source version, a highly automated observability `data platform`.
-Its core is licensed under Apache 2.0, and the frontend is entirely based on Grafana, thus adopting an AGPL license.
-It includes essential features for efficiently building observability, including:
+DeepFlow Community Edition is an open-source version, a highly automated observability `data platform`.
+Its core is licensed under Apache 2.0, and the frontend is entirely based on Grafana, thus adopting the AGPL license.
+It includes common functionalities required for efficient observability construction, such as:
 
 - Universal Map (AutoMetrics)
   - Automatically collects application, network, and system full-stack performance metrics based on eBPF/cBPF
@@ -18,138 +18,139 @@ It includes essential features for efficiently building observability, including
 - Distributed Tracing (AutoTracing)
   - Automatically traces microservice distributed call chains based on eBPF/cBPF
 - Continuous Profiling (AutoProfiling)
-  - Supports zero-intrusion OnCPU continuous profiling based on eBPF
+  - Supports zero-intrusion On-CPU continuous profiling based on eBPF
   - Supports JVM languages, compiled languages like C/C++/Golang/Rust
 - Integration
   - Integrates Prometheus/Telegraf metrics data to solve data silos and high cardinality issues
-  - Integrates OpenTelemetry/SkyWalking tracing data for full-stack distributed tracing
+  - Integrates OpenTelemetry/SkyWalking tracing data to achieve full-stack distributed tracing
   - Integrates Vector log data to solve data silos and resource consumption issues
 - AutoTagging
-  - Supports syncing public cloud resource tags and automatically injecting them into all observability data
-  - Supports syncing container resource tags and custom labels and automatically injecting them into all observability data
+  - Supports synchronizing public cloud resource tags and automatically injecting them into all observability data
+  - Supports synchronizing container resource tags and custom labels, and automatically injecting them into all observability data
   - Supports SmartEncoding for high-performance data tag storage
 - Integration and Management
-  - Supports displaying metrics and tracing data using Grafana
+  - Supports using Grafana to display metrics and tracing data
   - Supports unified monitoring of multiple K8s clusters and regular cloud servers
-  - Collection agents can run on K8s nodes, Serverless Pods, and Linux Hosts
-  - Supports deployment under X86 and ARM architectures
+  - The collection agent supports running on K8s nodes, Serverless Pods, and Linux Hosts
+  - Supports deployment on X86 and ARM architectures
 
 # Enterprise Edition
 
-The DeepFlow Enterprise Edition is a highly automated `one-stop` observability `analysis platform`,
-featuring enterprise-level visualization and management interfaces, complete data analysis capabilities, and enhanced data governance capabilities.
+DeepFlow Enterprise Edition is a highly automated `one-stop` observability `analysis platform`.
+It features enterprise-level visualization and management interfaces, complete data analysis capabilities, and enhanced data governance capabilities.
 In addition to all the features of the Community Edition, it also includes:
 
 - More powerful AutoMetrics, AutoTracing, AutoProfiling data
   - Supports collecting application call logs for TLS, Oracle, etc., and supports TCP stream reassembly based on eBPF/cBPF
-  - Supports zero-intrusion OffCPU, Memory, GPU continuous profiling based on eBPF, and supports interpreted languages like Python
-  - Supports TCP packet-by-packet sequence diagrams and raw packet network profiling capabilities based on cBPF
-  - Agents can run on multi-tenant Serverless K8s nodes, Android devices, and Windows Hosts
-  - Agents can run on KVM/HyperV/ESXi/Xen host environments
-  - Agents can run on hosts and physical servers using the DPDK data plane
-  - Agents can run on dedicated servers to collect and analyze mirrored traffic from physical switches, analyzing the performance of traditional four-seven layer gateways and proprietary cloud four-seven layer gateways
-  - Agents can run on dedicated servers to collect NetFlow, sFlow data from physical switches
+  - Supports zero-intrusion Off-CPU, Memory, GPU continuous profiling based on eBPF, and supports interpreted languages like Python
+  - Supports TCP per-packet sequence diagrams and raw packet capabilities for Network Profiling based on cBPF
+  - The agent supports running on multi-tenant Serverless K8s nodes, Android devices, and Windows Hosts
+  - The agent supports running on KVM/HyperV/ESXi/Xen host environments
+  - The agent supports running on hosts and physical servers using the DPDK data plane
+  - The agent supports running on dedicated servers to collect and analyze mirrored traffic from physical switches, analyzing the performance of traditional Layer 4-7 gateways and proprietary cloud Layer 4-7 gateways
+  - The agent supports running on dedicated servers to collect NetFlow and sFlow data from physical switches
 - AutoTagging
-  - Deep integration with proprietary cloud products, including mainstream cloud platforms like Alibaba Cloud, Tencent Cloud, Huawei Cloud, etc.
-- Analytical Capabilities
-  - Supports correlation queries and automatic jumps of metrics, tracing, and log data
-  - Supports one-stop alerting, reporting, custom Dashboard, and other multi-team collaborative features
+  - Deeply adapted to proprietary cloud products, including major cloud platforms like Alibaba Cloud, Tencent Cloud, Huawei Cloud, etc.
+- Analysis Capabilities
+  - Supports correlation queries and automatic jumps for metrics, tracing, and log data
+  - Supports one-stop alerting, reporting, and custom dashboard features for multi-team collaboration
 - Advanced Features
-  - Supports on-demand configuration of traffic filtering policies and distributing traffic to security, network, audit, and other traffic-consuming tools
+  - Supports configuring traffic filtering policies on demand and distributing traffic to security, network, audit, and other traffic consumption tools
   - Supports providing services for multiple tenants and data permission isolation
-  - Supports encrypted data transmission between Agents and Servers
-  - Supports unified monitoring of proprietary cloud, public cloud, and container resources across multiple regions
+  - Supports encrypted data transmission between agents and servers
+  - Supports unified monitoring of proprietary clouds, public clouds, and container resources across multiple regions
 - Enterprise-level Services
-  - Provides comprehensive cloud-native observability construction solutions for industries such as finance, energy, telecommunications (IT, 5GC), and IoV (Internet of Vehicles)
-  - Provides enterprise-level after-sales support services, including troubleshooting, performance tuning, version upgrades, and best practice implementations for observability
+  - Provides comprehensive cloud-native observability solutions for industries such as finance, energy, telecommunications (IT, 5GC), and connected vehicles
+  - Provides enterprise-level after-sales support services, including fault troubleshooting, performance tuning, version upgrades, and best practices for observability implementation
 
 # Cloud Edition
 
-The DeepFlow Cloud Edition is a fully managed one-stop observability platform,
-featuring the same functionalities as the Enterprise Edition, currently in the testing trial phase.
+DeepFlow Cloud Edition is a fully managed one-stop observability platform,
+with the same features as the Enterprise Edition, currently in the testing trial phase.
 
-# Comparison of Edition Features
+# Version Feature Comparison
 
-| Module               | <center>Supported Capability</center>                                           | Community Edition | Enterprise Edition |
-| -------------------- | :------------------------------------------------------------------------------ | ----------------- | ------------------ |
-| Universal Map        | eBPF/cBPF AutoMetrics                                                           | ✔                 | ✔                  |
-|                      | Application protocol parsing - TLS, Oracle                                      |                   | ✔                  |
-|                      | Application protocol parsing - Others                                           | ✔                 | ✔                  |
-|                      | Enhanced protocol parsing capability based on TCP stream reassembly             |                   | ✔                  |
-|                      | Wasm/so protocol parsing plugin SDK                                             | ✔                 | ✔                  |
-|                      | Application performance metrics - Process/Container/Cloud Server                | ✔                 | ✔                  |
-|                      | Application performance metrics - Host/Proprietary Cloud Gateway/Network Device |                   | ✔                  |
-|                      | Network performance metrics - Process/Container/Cloud Server                    | ✔                 | ✔                  |
-|                      | Network performance metrics - Host/Proprietary Cloud Gateway/Network Device     |                   | ✔                  |
-|                      | Network performance metrics - NetFlow/sFlow                                     |                   | ✔                  |
-|                      | Database performance metrics - Process/Container/Server                         | ✔                 | ✔                  |
-|                      | Database performance metrics - Host/Proprietary Cloud Gateway                   |                   | ✔                  |
-|                      | Application call logs - Process/Container/Server                                | ✔                 | ✔                  |
-|                      | Application call logs - Host/Proprietary Cloud Gateway/Network Device           |                   | ✔                  |
-|                      | Network flow logs - Process/Container/Server                                    | ✔                 | ✔                  |
-|                      | Network flow logs - Host/Proprietary Cloud Gateway/Network Device               |                   | ✔                  |
-|                      | Network flow logs - NetFlow/sFlow                                               |                   | ✔                  |
-| Distributed Tracing  | eBPF/cBPF AutoTracing                                                           | ✔                 | ✔                  |
-|                      | Enhancing AutoTracing using X-Request-ID                                        | ✔                 | ✔                  |
-|                      | Enhancing AutoTracing using MySQL Comment                                       | ✔                 | ✔                  |
-|                      | Enhancing AutoTracing using APM TraceID                                         | ✔                 | ✔                  |
-|                      | Wasm/so AutoTracing enhancement plugin SDK                                      | ✔                 | ✔                  |
-|                      | Integrating APM Span - OpenTelemetry/SkyWalking                                 | ✔                 | ✔                  |
-|                      | eBPF Span - kprobe/uprobe                                                       | ✔                 | ✔                  |
-|                      | cBPF Span - Container/Cloud Server                                              | ✔                 | ✔                  |
-|                      | cBPF Span - Host/Proprietary Cloud Gateway/Network Device                       |                   | ✔                  |
-|                      | Proprietary Cloud Gateway intelligent NAT tracing                               |                   | ✔                  |
-| Continuous Profiling | eBPF AutoProfiling - OnCPU                                                      | ✔                 | ✔                  |
-|                      | eBPF AutoProfiling - OffCPU                                                     |                   | ✔                  |
-|                      | eBPF AutoProfiling - Memory                                                     |                   | ✔                  |
-|                      | eBPF AutoProfiling - GPU                                                        |                   | ✔                  |
-|                      | JVM languages AutoProfiling                                                     | ✔                 | ✔                  |
-|                      | C/C++/Golang/Rust languages AutoProfiling                                       | ✔                 | ✔                  |
-|                      | Python languages AutoProfiling                                                  |                   | ✔                  |
-|                      | AutoProfiling for processes without symbol tables                               |                   | ✔                  |
-|                      | TCP packet-by-packet sequence diagrams (Network Profiling)                      |                   | ✔                  |
-|                      | Packet backtracking (Network Profiling)                                         |                   | ✔                  |
-| Event                | eBPF AutoEvents                                                                 | ✔                 | ✔                  |
-|                      | Linux file read/write AutoEvents                                                | ✔                 | ✔                  |
-|                      | Cloud resource, container resource change events                                | ✔                 | ✔                  |
-| AutoTagging          | SmartEncoding                                                                   | ✔                 | ✔                  |
-|                      | K8s container resources, custom label tags                                      | ✔                 | ✔                  |
-|                      | K8s custom annotation/env tags                                                  |                   | ✔                  |
-|                      | Public cloud resource tags                                                      | ✔                 | ✔                  |
-|                      | Public cloud custom business tags                                               |                   | ✔                  |
-|                      | Private/Proprietary cloud resource tags                                         |                   | ✔                  |
-|                      | Private/Proprietary cloud custom business tags                                  |                   | ✔                  |
-|                      | Provides API for injecting CMDB business tags                                   | ✔                 | ✔                  |
-|                      | Provides plugin mechanism for injecting process business tags                   | ✔                 | ✔                  |
-| Integration          | Integrates Prometheus/Telegraf metrics data                                     | ✔                 | ✔                  |
-|                      | Integrates OpenTelemetry/SkyWalking tracing data                                | ✔                 | ✔                  |
-|                      | Integrates Pyroscope continuous profiling data                                  | ✔                 | ✔                  |
-|                      | Integrates Vector log data                                                      | ✔                 | ✔                  |
-|                      | Provides SQL, PromQL API                                                        | ✔                 | ✔                  |
-|                      | Provides Grafana Datasource and Panel                                           | ✔                 |                    |
-|                      | Uses Grafana Tempo for displaying distributed tracing data                      | ✔                 |                    |
-|                      | Outputs tracing data to SkyWalking                                              | ✔                 | ✔                  |
-|                      | Outputs tracing data to OpenTelemetry Collector                                 | ✔                 | ✔                  |
-|                      | Outputs metrics/tracing/events data to Kafka                                    | ✔                 | ✔                  |
-|                      | Outputs metrics data to Prometheus                                              | ✔                 | ✔                  |
-| Analytics            | Enterprise-level observability analysis platform                                |                   | ✔                  |
-|                      | Custom Dashboard management                                                     |                   | ✔                  |
-|                      | Alert management                                                                |                   | ✔                  |
-|                      | Report management                                                               |                   | ✔                  |
-| Compatibility        | Agent/Server runs on X86/ARM servers                                            | ✔                 | ✔                  |
-|                      | Agent runs on proprietary K8s nodes                                             | ✔                 | ✔                  |
-|                      | Agent runs inside Serverless K8s Pods                                           | ✔                 | ✔                  |
-|                      | Agent runs on Serverless K8s nodes                                              |                   | ✔                  |
-|                      | Agent runs on Linux servers                                                     | ✔                 | ✔                  |
-|                      | Agent runs on Windows servers                                                   |                   | ✔                  |
-|                      | Agent runs on Android devices                                                   |                   | ✔                  |
-|                      | Agent runs on KVM/HyperV/ESXi/Xen                                               |                   | ✔                  |
-|                      | Agent runs on DPDK data plane environments                                      |                   | ✔                  |
-|                      | Agent runs on dedicated servers to collect mirrored traffic                     |                   | ✔                  |
-| Advanced Feature     | Cloud network traffic distribution (NPB)                                        |                   | ✔                  |
-|                      | Unified management of multiple regions                                          |                   | ✔                  |
-|                      | Multi-tenant and permission isolation                                           |                   | ✔                  |
-|                      | Encrypted transmission                                                          |                   | ✔                  |
-|                      | Agent registration security confirmation                                        |                   | ✔                  |
-| Advanced Service     | Industry-specific observability solutions                                       |                   | ✔                  |
-|                      | Enterprise-level after-sales support                                            |                   | ✔                  |
+| Module               | <center>Supported Capabilities</center>    | Community Edition | Enterprise Edition |
+| -------------------- | :---------------------------------------- | ----------------- | ------------------ |
+| Universal Map        | eBPF/cBPF AutoMetrics                     | ✔                 | ✔                  |
+|                      | Application Protocol Parsing - TLS, Oracle|                   | ✔                  |
+|                      | Application Protocol Parsing - Others     | ✔                 | ✔                  |
+|                      | Enhanced Protocol Parsing via TCP Reassembly|                 | ✔                  |
+|                      | Wasm/so Protocol Parsing Plugin SDK       | ✔                 | ✔                  |
+|                      | Application Performance Metrics - Process/Container/Cloud Server | ✔ | ✔ |
+|                      | Application Performance Metrics - Host/Proprietary Cloud Gateway/Network Device | | ✔ |
+|                      | Network Performance Metrics - Process/Container/Cloud Server | ✔ | ✔ |
+|                      | Network Performance Metrics - Host/Proprietary Cloud Gateway/Network Device | | ✔ |
+|                      | Network Performance Metrics - NetFlow/sFlow | | ✔ |
+|                      | Database Performance Metrics - Process/Container/Server | ✔ | ✔ |
+|                      | Database Performance Metrics - Host/Proprietary Cloud Gateway | | ✔ |
+|                      | Application Call Logs - Process/Container/Server | ✔ | ✔ |
+|                      | Application Call Logs - Host/Proprietary Cloud Gateway/Network Device | | ✔ |
+|                      | Network Flow Logs - Process/Container/Server | ✔ | ✔ |
+|                      | Network Flow Logs - Host/Proprietary Cloud Gateway/Network Device | | ✔ |
+|                      | Network Flow Logs - NetFlow/sFlow | | ✔ |
+| Distributed Tracing  | eBPF/cBPF AutoTracing                     | ✔                 | ✔                  |
+|                      | Enhanced AutoTracing using X-Request-ID   | ✔                 | ✔                  |
+|                      | Enhanced AutoTracing using MySQL Comment  | ✔                 | ✔                  |
+|                      | Enhanced AutoTracing using Open Source APM TraceID | ✔ | ✔ |
+|                      | Enhanced AutoTracing using Proprietary APM TraceID | | ✔ |
+|                      | Wasm/so AutoTracing Enhancement Plugin SDK | ✔ | ✔ |
+|                      | Integration of APM Span - OpenTelemetry/SkyWalking | ✔ | ✔ |
+|                      | eBPF Span - kprobe/uprobe                 | ✔                 | ✔                  |
+|                      | cBPF Span - Container/Cloud Server        | ✔                 | ✔                  |
+|                      | cBPF Span - Host/Proprietary Cloud Gateway/Network Device | | ✔ |
+|                      | Proprietary Cloud Gateway Intelligent NAT Tracing | | ✔ |
+| Continuous Profiling | eBPF AutoProfiling - On-CPU               | ✔                 | ✔                  |
+|                      | eBPF AutoProfiling - Off-CPU              |                   | ✔                  |
+|                      | eBPF AutoProfiling - Memory               |                   | ✔                  |
+|                      | eBPF AutoProfiling - GPU                  |                   | ✔                  |
+|                      | JVM Language AutoProfiling                | ✔                 | ✔                  |
+|                      | C/C++/Golang/Rust Language AutoProfiling  | ✔                 | ✔                  |
+|                      | Python Language AutoProfiling             |                   | ✔                  |
+|                      | AutoProfiling for Unsigned Processes      |                   | ✔                  |
+|                      | TCP Per-Packet Sequence Diagram (Network Profiling) | | ✔ |
+|                      | Packet Retrospective (Network Profiling)  |                   | ✔                  |
+| Event                | eBPF AutoEvents                           | ✔                 | ✔                  |
+|                      | Linux File Read/Write AutoEvents          | ✔                 | ✔                  |
+|                      | Cloud Resource, Container Resource Change Events | ✔ | ✔ |
+| AutoTagging          | SmartEncoding                             | ✔                 | ✔                  |
+|                      | K8s Container Resource, Custom Label Tags | ✔                 | ✔                  |
+|                      | K8s Custom Annotation/Env Tags            |                   | ✔                  |
+|                      | Public Cloud Resource Tags                | ✔                 | ✔                  |
+|                      | Public Cloud Custom Business Tags         |                   | ✔                  |
+|                      | Private/Proprietary Cloud Resource Tags   |                   | ✔                  |
+|                      | Private/Proprietary Cloud Custom Business Tags | | ✔ |
+|                      | API Support for Injecting CMDB Business Tags | ✔ | ✔ |
+|                      | Plugin Mechanism Support for Injecting Process Business Tags | ✔ | ✔ |
+| Integration          | Integration of Prometheus/Telegraf Metrics Data | ✔ | ✔ |
+|                      | Integration of OpenTelemetry/SkyWalking Tracing Data | ✔ | ✔ |
+|                      | Integration of Pyroscope Continuous Profiling Data | ✔ | ✔ |
+|                      | Integration of Vector Log Data            | ✔                 | ✔                  |
+|                      | Provides SQL, PromQL API                  | ✔                 | ✔                  |
+|                      | Provides Grafana Datasource and Panel     | ✔                 |                    |
+|                      | Uses Grafana Tempo to Display Distributed Tracing Data | ✔ | |
+|                      | Outputs Tracing Data to SkyWalking        | ✔                 | ✔                  |
+|                      | Outputs Tracing Data to OpenTelemetry Collector | ✔ | ✔ |
+|                      | Outputs Metrics/Tracing/Event Data to Kafka | ✔ | ✔ |
+|                      | Outputs Metrics Data to Prometheus        | ✔                 | ✔                  |
+| Analytics            | Enterprise-level Observability Analysis Platform | | ✔ |
+|                      | Custom Dashboard Management               |                   | ✔                  |
+|                      | Alert Management                          |                   | ✔                  |
+|                      | Report Management                         |                   | ✔                  |
+| Compatibility        | Agent/Server Running on X86/ARM Servers   | ✔                 | ✔                  |
+|                      | Agent Running on Proprietary K8s Nodes    | ✔                 | ✔                  |
+|                      | Agent Running in Serverless K8s Pods      | ✔                 | ✔                  |
+|                      | Agent Running on Serverless K8s Nodes     |                   | ✔                  |
+|                      | Agent Running on Linux Servers            | ✔                 | ✔                  |
+|                      | Agent Running on Windows Servers          |                   | ✔                  |
+|                      | Agent Running on Android Devices          |                   | ✔                  |
+|                      | Agent Running on KVM/HyperV/ESXi/Xen      |                   | ✔                  |
+|                      | Agent Running in DPDK Data Plane Environments | | ✔ |
+|                      | Agent Running on Dedicated Servers to Collect Mirrored Traffic | | ✔ |
+| Advanced Feature     | Cloud Network Traffic Distribution (NPB)  |                   | ✔                  |
+|                      | Unified Management of Multiple Regions    |                   | ✔                  |
+|                      | Multi-Tenant and Permission Isolation     |                   | ✔                  |
+|                      | Encrypted Transmission                    |                   | ✔                  |
+|                      | Agent Registration Security Confirmation  |                   | ✔                  |
+| Advanced Service     | Industry Observability Solutions          |                   | ✔                  |
+|                      | Enterprise-level After-sales Support      |                   | ✔                  |

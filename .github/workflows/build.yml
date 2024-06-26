@@ -34,6 +34,8 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
@@ -60,7 +62,11 @@ jobs:
     - name: Node build
       shell: bash
       run: |
+        pnpm install gray-matter json2yaml
+        node addTime.js
+        node addTime.js ./translate/translated
         node copy-file.js ./docs/zh ./translate/translated false
+        rm -rf translate/translated/README.md
         mv translate/translated/* ./docs
         rm -rf ./docs/map.txt
         pnpm install
@@ -93,7 +99,12 @@ jobs:
       if: ${{ github.event_name == 'push' && github.repository	== 'deepflowio/docs'}}
       run: |
         echo "IMAGE_TAG_PREFIX=${{ github.ref_name }}"|sed 's|main|latest|' >> $GITHUB_ENV
-        
+  
+    - name: set env
+      if: ${{ github.event_name == 'workflow_dispatch' && github.repository	== 'deepflowio/docs'}}
+      run: |
+        echo "IMAGE_TAG_PREFIX=${{ github.ref_name }}"|sed 's|main|latest|' >> $GITHUB_ENV
+
     - name: Build and push docs image
       if: ${{ github.repository	== 'deepflowio/docs'}}
       uses: docker/build-push-action@v2
@@ -161,7 +172,7 @@ jobs:
         kubectl set image -n deepservice-test deployment deepservice-docs deepservice-docs=${{ secrets.REGISTRY_ALIYUN_ADDR }}/deepservice/${{ env.IMAGE }}:${{ env.IMAGE_TAG_PREFIX }}-${{ github.run_id }}-${{ github.run_attempt }} 
 
     - name: update
-      if: ${{ github.event_name == 'push' && github.ref_name == 'main' &&  github.repository	== 'deepflowio/docs' }}
+      if: ${{ github.event_name == 'workflow_dispatch' &&  github.ref == 'refs/heads/main' &&  github.repository	== 'deepflowio/docs' }}
       shell: bash
       run: |
-        kubectl set image -n deepservice-test deployment deepservice-docs deepservice-docs=${{ secrets.REGISTRY_ALIYUN_ADDR }}/deepservice/${{ env.IMAGE }}:${{ env.IMAGE_TAG_PREFIX }}-${{ github.run_id }}-${{ github.run_attempt }}
+        kubectl set image -n deepservice deployment deepservice-docs deepservice-docs=${{ secrets.REGISTRY_ALIYUN_ADDR }}/deepservice/${{ env.IMAGE }}:${{ env.IMAGE_TAG_PREFIX }}-${{ github.run_id }}-${{ github.run_attempt }}

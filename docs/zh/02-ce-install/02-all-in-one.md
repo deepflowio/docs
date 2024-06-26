@@ -18,6 +18,7 @@ permalink: /ce-install/all-in-one
 ### 部署 All-in-One K8s
 
 使用 [sealos](https://github.com/labring/sealos) 快速部署一个 K8s 集群：
+
 ```bash
 # install sealos
 curl -o /usr/bin/sealos https://deepflow-ce.oss-cn-beijing.aliyuncs.com/sealos/sealos && \
@@ -35,6 +36,7 @@ kubectl taint node node-role.kubernetes.io/master- node-role.kubernetes.io/contr
 ### 安装 Helm
 
 DeepFlow 使用 [Helm](https://helm.sh/) 进行部署，安装方法为：
+
 ```bash
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
 chmod 700 get_helm.sh
@@ -42,6 +44,7 @@ chmod 700 get_helm.sh
 ```
 
 也可使用 sealos 安装 helm：
+
 ```bash
 sealos run labring/helm:v3.8.2
 ```
@@ -83,11 +86,13 @@ helm install deepflow -n deepflow deepflow/deepflow --create-namespace \
 :::
 
 注意：
+
 - 我们建议将 helm 的 `--set` 参数内容保存一个独立的 yaml 文件中，参考[高级配置](../best-practice/server-advanced-config/)章节。
 
 ## 访问 Grafana 页面
 
 执行 helm 部署 DeepFlow 时输出的内容提示了获取访问 Grafana 的 URL 和密码的命令，输出示例：
+
 ```bash
 NODE_PORT=$(kubectl get --namespace deepflow -o jsonpath="{.spec.ports[0].nodePort}" services deepflow-grafana)
 NODE_IP=$(kubectl get nodes -o jsonpath="{.items[0].status.addresses[0].address}")
@@ -95,6 +100,7 @@ echo -e "Grafana URL: http://$NODE_IP:$NODE_PORT  \nGrafana auth: admin:deepflow
 ```
 
 执行上述命令后的输出示例：
+
 ```text
 Grafana URL: http://10.1.2.3:31999
 Grafana auth: admin:deepflow
@@ -111,6 +117,7 @@ Grafana auth: admin:deepflow
 ### 部署 Docker
 
 参考 [Docker](https://docs.docker.com/engine/install/) 文档部署 Docker：
+
 ```bash
 curl -fsSL https://get.docker.com -o install-docker.sh
 sudo sh install-docker.sh
@@ -119,6 +126,7 @@ sudo sh install-docker.sh
 ### 部署 Docker Compose
 
 参考 [Docker Compose](https://docs.docker.com/compose/install/linux/#install-the-plugin-manually) 文档部署 Docker：
+
 ```bash
 DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
 mkdir -p $DOCKER_CONFIG/cli-plugins
@@ -129,14 +137,17 @@ chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
 ## 部署 All-in-One DeepFlow
 
 设置环境变量 DOCKER_HOST_IP 为本机物理网卡 IP
+
 ```bash
 unset DOCKER_HOST_IP
 DOCKER_HOST_IP="10.1.2.3"  # FIXME: Deploy the environment machine IP
 ```
-下载并安装  All-in-One DeepFlow
+
+下载并安装 All-in-One DeepFlow
+
 ```bash
 wget  https://deepflow-ce.oss-cn-beijing.aliyuncs.com/pkg/docker-compose/stable/linux/deepflow-docker-compose.tar
-tar -zxf deepflow-docker-compose.tar 
+tar -zxf deepflow-docker-compose.tar
 sed -i "s|FIX_ME_ALLINONE_HOST_IP|$DOCKER_HOST_IP|g" deepflow-docker-compose/docker-compose.yaml
 docker compose -f deepflow-docker-compose/docker-compose.yaml up -d
 ```
@@ -159,6 +170,7 @@ docker compose -f deepflow-docker-compose/docker-compose.yaml up -d
 # 下载 deepflow-ctl
 
 deepflow-ctl 是管理 DeepFlow 的一个命令行工具，建议下载至 deepflow-server 所在的 K8s Node 上，用于后续使用：
+
 ```bash
 curl -o /usr/bin/deepflow-ctl https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/ctl/stable/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-ctl
 chmod a+x /usr/bin/deepflow-ctl

@@ -9,22 +9,22 @@ permalink: /features/l7-protocols/sql
 
 **Tag 字段映射表格，以下表格只包含存在映射关系的字段**
 
-| 类别  | 名称                      | 中文            | Request Header | Response Header | 描述 |
-| ----- | ------------------------- | --------------- | -------------- | --------------- | ---- |
-| Req.  | version                   | 协议版本        | --             | --              | --   |
-|       | request_type              | 请求类型        | Command        | --              | 支持解析的命令详见 [1] |
-|       | request_domain            | 请求域名        | --             | --              | --   |
-|       | request_resource          | 请求资源        | Statement 或 COM_STMT_EXECUTE | --              | 解析 `COM_STMT_EXECUTE` 详见 [4]   |
-|       | request_id                | 请求 ID         | Statement ID   | Statement ID    | 从 `COM_STMT_PREPARE` 响应、`COM_STMT_EXECUTE` 请求中提取 |
-|       | endpoint                  | 端点            | --             | --              | --   |
-| Resp. | response_code             | 响应码          | --             | Error Code      | --   |
-|       | response_status           | 响应状态        | --             | Error Code      | 正常: 非 `ERR` 消息; 客户端异常/服务端异常详见 [2] |
-|       | response_exception        | 响应异常        | --             | Error Message   | --   |
-|       | response_result           | 响应结果        | --             | --              | --   |
-| Trace | trace_id                  | TraceID         | SQL Comments   | --              | 注释中的 TraceID 支持提取，提取及配置方法详见 [3] |
-|       | span_id                   | SpanID          | SQL Comments   | --              | 注释中的 TraceID 支持提取，提取及配置方法详见 [3] |
-|       | x_request_id              | X-Request-ID    | --             | --              | --   |
-| Misc. | --                        | --              | --             | --              | --   |
+| 类别  | 名称               | 中文         | Request Header                | Response Header | 描述                                                      |
+| ----- | ------------------ | ------------ | ----------------------------- | --------------- | --------------------------------------------------------- |
+| Req.  | version            | 协议版本     | --                            | --              | --                                                        |
+|       | request_type       | 请求类型     | Command                       | --              | 支持解析的命令详见 [1]                                    |
+|       | request_domain     | 请求域名     | --                            | --              | --                                                        |
+|       | request_resource   | 请求资源     | Statement 或 COM_STMT_EXECUTE | --              | 解析 `COM_STMT_EXECUTE` 详见 [4]                          |
+|       | request_id         | 请求 ID      | Statement ID                  | Statement ID    | 从 `COM_STMT_PREPARE` 响应、`COM_STMT_EXECUTE` 请求中提取 |
+|       | endpoint           | 端点         | --                            | --              | --                                                        |
+| Resp. | response_code      | 响应码       | --                            | Error Code      | --                                                        |
+|       | response_status    | 响应状态     | --                            | Error Code      | 正常: 非 `ERR` 消息; 客户端异常/服务端异常详见 [2]        |
+|       | response_exception | 响应异常     | --                            | Error Message   | --                                                        |
+|       | response_result    | 响应结果     | --                            | --              | --                                                        |
+| Trace | trace_id           | TraceID      | SQL Comments                  | --              | 注释中的 TraceID 支持提取，提取及配置方法详见 [3]         |
+|       | span_id            | SpanID       | SQL Comments                  | --              | 注释中的 TraceID 支持提取，提取及配置方法详见 [3]         |
+|       | x_request_id       | X-Request-ID | --                            | --              | --                                                        |
+| Misc. | --                 | --           | --                            | --              | --                                                        |
 
 - [1] 目前支持解析的命令：`COM_QUERY`、`COM_QUIT`、`COM_INIT_DB`、`COM_FIELD_LIST`、`COM_STMT_PREPARE`、`COM_STMT_EXECUTE`、`COM_STMT_FETCH`、`COM_STMT_CLOSE`。
 - [2] 客户端异常：Error Code=2000-2999，或客户端发送 1-999；服务端异常：Error Code=1000-1999/3000-4000，或服务端发送 1-999。
@@ -43,23 +43,24 @@ permalink: /features/l7-protocols/sql
   ```
 
 注意，以下为单向消息，会被直接保存为 type=session 的调用日志：
+
 - COM_STMT_CLOSE
 - COM_QUIT
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
-| 名称               | 中文            | Request | Response             | 描述        |
-| ------------------ | -------------- | -------- | ------------------- | ----------- |
-| request            | 请求           | --  | --                        | Request 个数 |
-| response           | 响应           | --  | --                        | Response 个数 |
-| sql_affected_rows  | SQL影响行数    | --  | `OK` 报文的 Affected Rows | -- |
-| log_count          | 日志总量       | --  | --                        | -- |
-| error              | 异常           | --  | --                        | 客户端异常 + 服务端异常 |
-| client_error       | 客户端异常     | --  | ERROR CODE                | 参考 Tag 字段`response_code`的说明 |
-| server_error       | 服务端异常     | --  | ERROR CODE                | 参考 Tag 字段`response_code`的说明 |
-| error_ratio        | 异常比例       | --  | --                        | 异常 / 响应 |
-| client_error_ratio | 客户端异常比例 | --  | --                        | 客户端异常 / 响应 |
-| server_error_ratio | 服务端异常比例 | --  | --                        | 服务端异常 / 响应 |
+| 名称               | 中文           | Request | Response                  | 描述                               |
+| ------------------ | -------------- | ------- | ------------------------- | ---------------------------------- |
+| request            | 请求           | --      | --                        | Request 个数                       |
+| response           | 响应           | --      | --                        | Response 个数                      |
+| sql_affected_rows  | SQL 影响行数   | --      | `OK` 报文的 Affected Rows | --                                 |
+| log_count          | 日志总量       | --      | --                        | --                                 |
+| error              | 异常           | --      | --                        | 客户端异常 + 服务端异常            |
+| client_error       | 客户端异常     | --      | ERROR CODE                | 参考 Tag 字段`response_code`的说明 |
+| server_error       | 服务端异常     | --      | ERROR CODE                | 参考 Tag 字段`response_code`的说明 |
+| error_ratio        | 异常比例       | --      | --                        | 异常 / 响应                        |
+| client_error_ratio | 客户端异常比例 | --      | --                        | 客户端异常 / 响应                  |
+| server_error_ratio | 服务端异常比例 | --      | --                        | 服务端异常 / 响应                  |
 
 # PostgreSQL
 
@@ -67,22 +68,22 @@ permalink: /features/l7-protocols/sql
 
 **Tag 字段映射表格，以下表格只包含存在映射关系的字段**
 
-| 类别  | 名称               | 中文         | Request Header             | Response Header  | 描述 |
-| ----- | ------------------ | ------------ | -------------------------- | ---------------- | ---- |
-| Req.  | version            | 协议版本     | --                         | --               | --   |
-|       | request_type       | 请求类型     | char tag                   | --               | 仅 `regular` 消息 |
-|       | request_domain     | 请求域名     | --                         | --               | --   |
-|       | request_resource   | 请求资源     | payload                    | --               | 仅 `regular` 消息 |
-|       | request_id         | 请求 ID      | --                         | --               | --   |
-|       | endpoint           | 端点         | --                         | --               | --   |
-| Resp. | response_code      | 响应码       | --                         | --               | --   |
-|       | response_status    | 响应状态     | --                         | Error Code       | 正常: 非 `error return` 消息; 客户端异常/服务端异常详见 [1] |
-|       | response_exception | 响应异常     | --                         | Error Code       | Error Code 的[英文描述](https://www.postgresql.org/docs/10/errcodes-appendix.html) |
-|       | response_result    | 响应结果     | --                         | Error Code       | 仅 `error return` 消息 |
-| Trace | trace_id           | TraceID      | --                         | --               | --   |
-|       | span_id            | SpanID       | --                         | --               | --   |
-|       | x_request_id       | X-Request-ID | --                         | --               | --   |
-| Misc. | --                 | --           | --                         | --               | --   |
+| 类别  | 名称               | 中文         | Request Header | Response Header | 描述                                                                               |
+| ----- | ------------------ | ------------ | -------------- | --------------- | ---------------------------------------------------------------------------------- |
+| Req.  | version            | 协议版本     | --             | --              | --                                                                                 |
+|       | request_type       | 请求类型     | char tag       | --              | 仅 `regular` 消息                                                                  |
+|       | request_domain     | 请求域名     | --             | --              | --                                                                                 |
+|       | request_resource   | 请求资源     | payload        | --              | 仅 `regular` 消息                                                                  |
+|       | request_id         | 请求 ID      | --             | --              | --                                                                                 |
+|       | endpoint           | 端点         | --             | --              | --                                                                                 |
+| Resp. | response_code      | 响应码       | --             | --              | --                                                                                 |
+|       | response_status    | 响应状态     | --             | Error Code      | 正常: 非 `error return` 消息; 客户端异常/服务端异常详见 [1]                        |
+|       | response_exception | 响应异常     | --             | Error Code      | Error Code 的[英文描述](https://www.postgresql.org/docs/10/errcodes-appendix.html) |
+|       | response_result    | 响应结果     | --             | Error Code      | 仅 `error return` 消息                                                             |
+| Trace | trace_id           | TraceID      | --             | --              | --                                                                                 |
+|       | span_id            | SpanID       | --             | --              | --                                                                                 |
+|       | x_request_id       | X-Request-ID | --             | --              | --                                                                                 |
+| Misc. | --                 | --           | --             | --              | --                                                                                 |
 
 - [1] 错误码分类
   - 客户端异常：Error Code=03/0A/0B/0F/0L/0P/20/22/23/26/2F/34/3D/3F/42
@@ -90,15 +91,15 @@ permalink: /features/l7-protocols/sql
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
-| 名称               | 中文            | Request               | Response                               | 描述        |
-| ------------------ | -------------- | --------------------- | -------------------------------------- | ----------- |
-| request            | 请求           | --                    | --                                      | Request 个数 |
-| response           | 响应           | --                    |                                         | Response 个数 |
-| sql_affected_rows  | SQL影响行数    | --                    | `command complete` 报文的 Affected Rows | -- |
-| log_count          | 日志总量       | --                    | --                                      | -- |
-| error              | 异常           | --                    | --                                      | 客户端异常 + 服务端异常 |
-| client_error       | 客户端异常     | --                    | Error Code                              | 参考 Tag 字段`response_code`的说明 |
-| server_error       | 服务端异常     | --                    | Error Code                              | 参考 Tag 字段`response_code`的说明 |
-| error_ratio        | 异常比例       | --                    | --                                      | 异常 / 响应 |
-| client_error_ratio | 客户端异常比例 | --                    | --                                      | 客户端异常 / 响应 |
-| server_error_ratio | 服务端异常比例 | --                    | --                                      | 服务端异常 / 响应 |
+| 名称               | 中文           | Request | Response                                | 描述                               |
+| ------------------ | -------------- | ------- | --------------------------------------- | ---------------------------------- |
+| request            | 请求           | --      | --                                      | Request 个数                       |
+| response           | 响应           | --      |                                         | Response 个数                      |
+| sql_affected_rows  | SQL 影响行数   | --      | `command complete` 报文的 Affected Rows | --                                 |
+| log_count          | 日志总量       | --      | --                                      | --                                 |
+| error              | 异常           | --      | --                                      | 客户端异常 + 服务端异常            |
+| client_error       | 客户端异常     | --      | Error Code                              | 参考 Tag 字段`response_code`的说明 |
+| server_error       | 服务端异常     | --      | Error Code                              | 参考 Tag 字段`response_code`的说明 |
+| error_ratio        | 异常比例       | --      | --                                      | 异常 / 响应                        |
+| client_error_ratio | 客户端异常比例 | --      | --                                      | 客户端异常 / 响应                  |
+| server_error_ratio | 服务端异常比例 | --      | --                                      | 服务端异常 / 响应                  |

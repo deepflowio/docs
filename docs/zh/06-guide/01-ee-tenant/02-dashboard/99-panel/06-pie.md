@@ -9,8 +9,7 @@ permalink: /guide/ee-tenant/dashboard/panel/pie/
 
 ![饼图](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202309196509754fce717.png)
 
-- **① 切换Top数据:** 图表的基础操作，使用详情，请参阅【[流量拓扑 - 总览介绍](./topology/)】章节
+- **① 切换 Top 数据:** 图表的基础操作，使用详情，请参阅【[流量拓扑 - 总览介绍](./topology/)】章节
 - **② 修改指标量:** 图表的基础操作，使用详情，请参阅【[流量拓扑 - 修改指标量](./topology/)】章节
 - **③ 设置:** 图表的标准操作，使用详情，请参阅【[折线图 - 设置](./line/)】章节
 - **④ 删除:** 为`视图`中的能力，使用详情，请参阅【[流量拓扑 - 总览介绍](./topology/)】章节
-  

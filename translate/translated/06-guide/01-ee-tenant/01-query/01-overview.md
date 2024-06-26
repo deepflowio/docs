@@ -7,7 +7,7 @@ permalink: /guide/ee-tenant/query/overview/
 
 # Search
 
-DeepFlow is a highly automated observability platform that provides metrics, events, tracing, and log data for applications and networks. With the AutoTagging capability, it injects unified attribute tags into all observability data. When dealing with these massive amounts of data, DeepFlow not only offers productized analysis capabilities but also features rapid search capabilities. As an efficient information retrieval tool, the search box can quickly and accurately achieve lookup and filtering when dealing with large volumes of data. This chapter will focus on how to use the DeepFlow search box.
+DeepFlow is a highly automated observability platform that provides application and network metrics, events, distributed tracing, and log data. With the AutoTagging capability, it injects unified attribute tags into all observability data. When dealing with these massive amounts of data, DeepFlow not only offers productized analysis capabilities but also features rapid search capabilities. As an efficient information retrieval tool, the search box can quickly and accurately achieve lookup and filtering when dealing with large volumes of data. This chapter will focus on how to use the DeepFlow search box.
 
 The DeepFlow search box can be divided into four main categories, and this chapter will provide a detailed analysis of each type of search box and its common application scenarios.
 
@@ -16,7 +16,7 @@ The DeepFlow search box can be divided into four main categories, and this chapt
 - [Log Search Box](./log-search/)
 - [Metric Search Box](./metric-search/)
 
-In addition to defining the search box, DeepFlow also enhances it with quick search capabilities and search-related configurations.
+In addition to defining the search box, DeepFlow also enhances rapid search capabilities and search-related configurations.
 
 - [Search Snapshots](./history/)
 - [Left Quick Filter](./left-quick-filter/)

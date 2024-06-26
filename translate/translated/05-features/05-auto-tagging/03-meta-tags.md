@@ -10,12 +10,12 @@ permalink: /features/auto-tagging/meta-tags
 DeepFlow currently supports resource information synchronization for the following public cloud providers:
 
 - AWS
-- Aliyun 阿里云
-- Baidu Cloud 百度云
-- Huawei Cloud 华为云
+- Aliyun
+- Baidu Cloud
+- Huawei Cloud
 - Microsoft Azure
-- QingCloud 青云
-- Tencent Cloud 腾讯云
+- QingCloud
+- Tencent Cloud
 
 The resource tag information that supports automatic injection includes:
 
@@ -54,11 +54,11 @@ DeepFlow supports automatic injection of the following K8s resource information:
 
 # Dependent K8s API
 
-DeepFlow will call (list & watch) the K8s apiserver to obtain key fields of the following types of resources. The value types of each field can be referenced from the output of the `kubectl get XXX -o json` command. Please make necessary adaptations when you modify the APIs of these resources.
+DeepFlow will call (list & watch) the K8s apiserver to obtain key fields of the following types of resources. The value types of each field can be referenced from the output of the `kubectl get XXX -o json` command. Please make necessary adaptations when you modify the API of these resources.
 
-You can also choose to implement a pseudo-deepflow-agent yourself to complete the synchronization of K8s resource tags, thus avoiding direct access to the K8s apiserver by the deepflow-agent. [See the documentation here](../../best-practice/special-environment-deployment/#不允许-deepflow-agent-请求-apiserver).
+You can also choose to implement a pseudo-deepflow-agent to complete the synchronization of K8s resource tags, thereby avoiding direct access to the K8s apiserver by the deepflow-agent. [See the documentation here](../../best-practice/special-environment-deployment/#不允许-deepflow-agent-请求-apiserver).
 
-## Required Fields of \*v1.Node
+## Necessary Fields of \*v1.Node
 
 ```json
 {
@@ -81,12 +81,12 @@ You can also choose to implement a pseudo-deepflow-agent yourself to complete th
     ]
   },
   "spec": {
-    "podCIDR": "x.x.x.x/x" // Used to get the POD Cidr used by this Node
+    "podCIDR": "x.x.x.x/x" // Used to get the POD Cidr used by the Node
   }
 }
 ```
 
-## Required Fields of \*v1.Namespace
+## Necessary Fields of \*v1.Namespace
 
 ```json
 {
@@ -97,7 +97,7 @@ You can also choose to implement a pseudo-deepflow-agent yourself to complete th
 }
 ```
 
-## Required Fields of \*v1.Deployment/StatefulSet/DaemonSet/ReplicationController
+## Necessary Fields of \*v1.Deployment/StatefulSet/DaemonSet/ReplicationController
 
 ```json
 {
@@ -116,7 +116,7 @@ You can also choose to implement a pseudo-deepflow-agent yourself to complete th
 }
 ```
 
-## Required Fields of \*v1.ReplicaSet
+## Necessary Fields of \*v1.ReplicaSet
 
 ```json
 {
@@ -140,7 +140,7 @@ You can also choose to implement a pseudo-deepflow-agent yourself to complete th
 }
 ```
 
-## Required Fields of \*v1.Pod
+## Necessary Fields of \*v1.Pod
 
 ```json
 {
@@ -149,7 +149,7 @@ You can also choose to implement a pseudo-deepflow-agent yourself to complete th
     "name": "xxxx", // Name
     "namespace": "xxxx", // Name of the associated namespace
     "labels": {
-      // Labels, can upload an empty dictionary if *v1.Service resources are not reported
+      // Labels, can upload an empty dictionary if *v1.Service resource is not reported
       "key1": "value1"
     },
     "ownerReferences": [
@@ -163,7 +163,7 @@ You can also choose to implement a pseudo-deepflow-agent yourself to complete th
       }
     ],
     "creationTimestamp": "2024-04-29T10:02:38Z", // Creation time
-    "generate_name": "xxxx" // Required only for StatefulSet Pods
+    "generate_name": "xxxx" // Only required for StatefulSet Pods
   },
   "status": {
     "hostIP": "x.x.x.x", // Node IP
@@ -184,7 +184,7 @@ You can also choose to implement a pseudo-deepflow-agent yourself to complete th
 }
 ```
 
-## Required Fields of \*v1.Service
+## Necessary Fields of \*v1.Service
 
 ```json
 {
@@ -215,7 +215,7 @@ You can also choose to implement a pseudo-deepflow-agent yourself to complete th
 }
 ```
 
-## Required Fields of \*v1beta1.Ingress
+## Necessary Fields of \*v1beta1.Ingress
 
 ```json
 {

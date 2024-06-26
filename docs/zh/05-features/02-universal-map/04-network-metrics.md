@@ -16,9 +16,9 @@ permalink: /features/universal-map/network-metrics
 
 ## 指标
 
-Metrics 列表：吞吐、负载、时延、TCP异常、重传、零窗，详细字段描述如下。
+Metrics 列表：吞吐、负载、时延、TCP 异常、重传、零窗，详细字段描述如下。
 
-[csv-吞吐、负载、时延、TCP异常、重传、零窗](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/network.ch)
+[csv-吞吐、负载、时延、TCP 异常、重传、零窗](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/network.ch)
 
 ## Grafana Dashboard
 
@@ -41,9 +41,9 @@ Metrics 列表：吞吐、负载、时延、TCP异常、重传、零窗，详细
 
 ## 指标
 
-Metrics 列表：吞吐、负载、时延、TCP异常、重传、零窗，详细字段描述如下。
+Metrics 列表：吞吐、负载、时延、TCP 异常、重传、零窗，详细字段描述如下。
 
-[csv-吞吐、负载、时延、TCP异常、重传、零窗](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/network_map.ch)
+[csv-吞吐、负载、时延、TCP 异常、重传、零窗](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/network_map.ch)
 
 ## Grafana Dashboard
 

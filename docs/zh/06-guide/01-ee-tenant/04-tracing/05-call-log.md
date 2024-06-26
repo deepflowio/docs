@@ -24,4 +24,3 @@ permalink: /guide/ee-tenant/tracing/call-log/
 - **表格操作**：
   - 点击行：点击表格的数据，可快速进入右滑框查看对应应用服务的相关信息，使用详情，请参阅【[右滑框](./right-sliding-box/)】章节
   - ⑦ 复制：表格内容复制功能，点击后可选择要复制的内容格式，配置详情，请参阅【[表格](../dashboard/panel/table/)】章节
-  

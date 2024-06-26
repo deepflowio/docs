@@ -29,11 +29,11 @@ subgraph Legacy-Host-2
 end
 ```
 
-# Configuring DeepFlow Server
+# Configure DeepFlow Server
 
-## Updating deepflow-server Configuration
+## Update deepflow-server Configuration
 
-Check if all network segments of the server are in the following segment list
+Check if all network segments of the server are in the following list of network segments
 
 ```yaml
 local_ip_ranges:
@@ -44,7 +44,7 @@ local_ip_ranges:
   - 224.0.0.0-240.255.255.255
 ```
 
-If not, you need to add the missing server segments to the `local_ip_ranges` list in the custom configuration file below. For example, if the host IP is 100.42.32.213, you need to add the corresponding 100.42.32.0/24 segment to the configuration.
+If not, you need to add the missing server network segments to the `local_ip_ranges` list in the custom configuration file below. For example, if the host IP is 100.42.32.213, you need to add the corresponding 100.42.32.0/24 network segment to the configuration.
 
 Modify the `values-custom.yaml` custom configuration file:
 
@@ -72,9 +72,9 @@ helm upgrade deepflow -n deepflow -f values-custom.yaml deepflow/deepflow
 kubectl delete pods -n deepflow -l app=deepflow -l component=deepflow-server
 ```
 
-## Creating Host Domain
+## Create Host Domain
 
-Just like monitoring multiple K8s clusters requires creating a K8s domain, you need to create a domain specifically for synchronizing servers.
+Just like monitoring multiple K8s clusters requires creating a K8s domain, here you also need to create a domain specifically for synchronizing servers.
 
 ```bash
 unset DOMAIN_NAME
@@ -86,9 +86,9 @@ type: agent_sync
 EOF
 ```
 
-## Creating Agent Group
+## Create Collector Group
 
-Create an agent group:
+Create a collector group:
 
 ```bash
 unset AGENT_GROUP
@@ -98,20 +98,20 @@ deepflow-ctl agent-group create $AGENT_GROUP
 deepflow-ctl agent-group list $AGENT_GROUP # Get agent-group ID
 ```
 
-Create the agent group configuration file `agent-group-config.yaml`, specify the `vtap_group_id` and enable `platform_enabled` to allow deepflow-agent to sync the server's network information to deepflow-server
+Create the collector group configuration file `agent-group-config.yaml`, specify `vtap_group_id` and enable `platform_enabled` to allow deepflow-agent to synchronize the server's network information to deepflow-server.
 
 ```yaml
 vtap_group_id: g-ffffff # FIXME
 platform_enabled: 1
 ```
 
-Create agent group configuration:
+Create the collector group configuration:
 
 ```bash
 deepflow-ctl agent-group-config create -f agent-group-config.yaml
 ```
 
-# Deploying DeepFlow Agent
+# Deploy DeepFlow Agent
 
 Download deepflow-agent
 
@@ -192,7 +192,7 @@ docker compose -f deepflow-agent-docker-compose.yaml up -d
 
 :::
 
-Modify the configuration file of deepflow-agent `/etc/deepflow-agent.yaml`:
+Modify the deepflow-agent configuration file `/etc/deepflow-agent.yaml`:
 
 ```yaml
 controller-ips:
@@ -209,7 +209,7 @@ systemctl restart deepflow-agent
 
 **Note**:
 
-If deepflow-agent fails to start due to missing dependencies, you can download the statically linked version of deepflow-agent. Note that the statically linked version has severe performance issues under multithreading:
+If deepflow-agent fails to start due to missing dependencies, you can download the statically linked compiled deepflow-agent. Note that the statically linked compiled deepflow-agent has severe performance issues under multithreading:
 ::: code-tabs#shell
 
 @tab rpm
@@ -258,8 +258,8 @@ systemctl daemon-reload
 
 # Next Steps
 
-- [Universal Service Map - Experience DeepFlow's AutoMetrics capability](../features/universal-map/auto-metrics/)
-- [Distributed Tracing - Experience DeepFlow's AutoTracing capability](../features/distributed-tracing/auto-tracing/)
-- [Eliminate Data Silos - Learn about DeepFlow's AutoTagging and SmartEncoding capabilities](../features/auto-tagging/eliminate-data-silos/)
-- [Say Goodbye to High Costs - Integrate metrics data from Prometheus, etc.](../integration/input/metrics/metrics-auto-tagging/)
-- [Full-Stack Distributed Tracing - Integrate tracing data from OpenTelemetry, etc.](../integration/input/tracing/full-stack-distributed-tracing/)
+- [Universal Service Map - Experience DeepFlow's AutoMetrics Capability](../features/universal-map/auto-metrics/)
+- [Distributed Tracing - Experience DeepFlow's AutoTracing Capability](../features/distributed-tracing/auto-tracing/)
+- [Eliminate Data Silos - Learn About DeepFlow's AutoTagging and SmartEncoding Capabilities](../features/auto-tagging/eliminate-data-silos/)
+- [Say Goodbye to High Cardinality Issues - Integrate Metrics Data from Prometheus, etc.](../integration/input/metrics/metrics-auto-tagging/)
+- [Full-Stack Distributed Tracing - Integrate Tracing Data from OpenTelemetry, etc.](../integration/input/tracing/full-stack-distributed-tracing/)

@@ -11,4 +11,3 @@ permalink: /guide/ee-tenant/metrics/metric-summary/
 
 - **① 指标集合**：支持切换查找数据表
 - **② tab 切换**：切换标签页查看对应数据表中存储的 Metrics、Tag
-  

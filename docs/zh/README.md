@@ -13,10 +13,10 @@ actionText: 马上阅读 →
 
 # 特性
 features:
- - title: 服务全景图
-   details: 基于领先的 AutoMetrics 机制，利用 eBPF 和 Wasm 技术零侵扰绘制生产环境全景图，不遗漏任何服务。
- - title: 分布式追踪
-   details: 基于领先的 AutoTracing 机制，利用 eBPF 和 Wasm 技术零侵扰实现分布式追踪，不留下任何追踪盲点。
- - title: 持续性能剖析
-   details: 基于领先的 AutoProfiling 机制，利用 eBPF 技术以低于 1% 的开销零侵扰采集生产环境进程的性能剖析数据。
+  - title: 服务全景图
+    details: 基于领先的 AutoMetrics 机制，利用 eBPF 和 Wasm 技术零侵扰绘制生产环境全景图，不遗漏任何服务。
+  - title: 分布式追踪
+    details: 基于领先的 AutoTracing 机制，利用 eBPF 和 Wasm 技术零侵扰实现分布式追踪，不留下任何追踪盲点。
+  - title: 持续性能剖析
+    details: 基于领先的 AutoProfiling 机制，利用 eBPF 技术以低于 1% 的开销零侵扰采集生产环境进程的性能剖析数据。
 ---

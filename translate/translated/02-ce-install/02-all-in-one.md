@@ -91,7 +91,7 @@ Note:
 
 - We recommend saving the contents of the helm `--set` parameter in a separate yaml file, refer to the [Advanced Configuration](../best-practice/server-advanced-config/) section.
 
-## Access Grafana Page
+## Access the Grafana Page
 
 The output of the helm deployment of DeepFlow provides commands to get the URL and password for accessing Grafana. Example output:
 
@@ -101,7 +101,7 @@ NODE_IP=$(kubectl get nodes -o jsonpath="{.items[0].status.addresses[0].address}
 echo -e "Grafana URL: http://$NODE_IP:$NODE_PORT  \nGrafana auth: admin:deepflow"
 ```
 
-Example output after executing the above command:
+Example output after executing the above commands:
 
 ```text
 Grafana URL: http://10.1.2.3:31999
@@ -127,7 +127,7 @@ sudo sh install-docker.sh
 
 ### Deploy Docker Compose
 
-Refer to the [Docker Compose](https://docs.docker.com/compose/install/linux/#install-the-plugin-manually) documentation to deploy Docker Compose:
+Refer to the [Docker Compose](https://docs.docker.com/compose/install/linux/#install-the-plugin-manually) documentation to deploy Docker:
 
 ```bash
 DOCKER_CONFIG=${DOCKER_CONFIG:-$HOME/.docker}
@@ -138,7 +138,7 @@ chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
 
 ## Deploy All-in-One DeepFlow
 
-Set the environment variable DOCKER_HOST_IP to the physical network card IP of the machine
+Set the environment variable DOCKER_HOST_IP to the IP of the physical network card of the machine
 
 ```bash
 unset DOCKER_HOST_IP
@@ -148,7 +148,7 @@ DOCKER_HOST_IP="10.1.2.3"  # FIXME: Deploy the environment machine IP
 Download and install All-in-One DeepFlow
 
 ```bash
-wget https://deepflow-ce.oss-cn-beijing.aliyuncs.com/pkg/docker-compose/stable/linux/deepflow-docker-compose.tar
+wget  https://deepflow-ce.oss-cn-beijing.aliyuncs.com/pkg/docker-compose/stable/linux/deepflow-docker-compose.tar
 tar -zxf deepflow-docker-compose.tar
 sed -i "s|FIX_ME_ALLINONE_HOST_IP|$DOCKER_HOST_IP|g" deepflow-docker-compose/docker-compose.yaml
 docker compose -f deepflow-docker-compose/docker-compose.yaml up -d
@@ -158,9 +158,9 @@ docker compose -f deepflow-docker-compose/docker-compose.yaml up -d
 
 Refer to [Monitoring Traditional Servers](./legacy-host) to deploy deepflow-agent for this server.
 
-## Access Grafana Page
+## Access the Grafana Page
 
-The port for DeepFlow Grafana deployed using Docker Compose is 3000, and the user password is admin:deepflow.
+The DeepFlow Grafana port deployed using Docker Compose is 3000, and the user password is admin:deepflow.
 
 For example, if the machine IP is 10.1.2.3, the Grafana access URL is http://10.1.2.3:3000
 

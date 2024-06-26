@@ -5,9 +5,9 @@ permalink: /guide/ee-tenant/query/left-quick-filter/
 
 # 左侧快速过滤
 
-左侧快速过滤功能支持对tag、metric字段进行快速过滤筛选。接下来以路径总览页面为例，介绍如何使用左侧过滤。
+左侧快速过滤功能支持对 tag、metric 字段进行快速过滤筛选。接下来以路径总览页面为例，介绍如何使用左侧过滤。
 
-![00-左侧快速过滤](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650a9fb1183e5.png)  
+![00-左侧快速过滤](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20230920650a9fb1183e5.png)
 
 左侧快速过滤支持对页面中表格的数据进行字段过滤查询，方便用户对数据进行的快捷搜索，提高查询效率。目前，左侧快速过滤仅支持对部分字段过滤，后续将对其他字段逐步开放。
 

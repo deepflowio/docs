@@ -14,9 +14,9 @@ permalink: /features/universal-map/flow-log
 
 # 指标
 
-Metrics 列表：吞吐、负载、时延、TCP异常、重传、零窗，详细字段描述如下。
+Metrics 列表：吞吐、负载、时延、TCP 异常、重传、零窗，详细字段描述如下。
 
-[csv-吞吐、负载、时延、TCP异常、重传、零窗](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_log/l4_flow_log.ch)
+[csv-吞吐、负载、时延、TCP 异常、重传、零窗](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_log/l4_flow_log.ch)
 
 # Grafana Dashboard
 

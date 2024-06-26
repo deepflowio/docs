@@ -13,6 +13,7 @@ permalink: /features/distributed-tracing/spring-boot-demo
 它的调用链比较简单：`foo_svc -> bar_svc -> loo_svc`。
 
 使用如下命令可在 K8s 中快速部署 Demo：
+
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/deepflowio/deepflow-demo/main/DeepFlow-EBPF-Sping-Demo/deepflow-ebpf-spring-demo.yaml
 ```
@@ -26,6 +27,7 @@ kubectl apply -f https://raw.githubusercontent.com/deepflowio/deepflow-demo/main
 ![eBPF Sping Demo](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20220823630441420077b.png)
 
 DeepFlow 的追踪数据中含有三种 Span，跟踪一次请求的整个轨迹：
+
 - N：通过 BPF 从网络流量中提取的 Span
 - S：通过 eBPF 从系统或应用函数调用中提取的 Span
 - A：通过 OTel 从应用内部采集的 Span
@@ -116,6 +118,7 @@ classDef loo fill:#eadb92,color:black;
 ```
 
 对这个追踪 Demo 我们总结一下：
+
 - 零插码：整个追踪过程不需要手动插入任何追踪代码，不需要向 HTTP Header 中注入任何 TraceID/SpanID
 - 多语言：支持对 Java 语言应用及 C（curl）语言基础服务的追踪
 - 全链路：利用 eBPF 和 BPF，自动追踪到了这个 Trace 的 18 个 Span，含 6 个 eBPF Span、12 个 BPF Span

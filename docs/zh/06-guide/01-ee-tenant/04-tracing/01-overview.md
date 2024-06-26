@@ -9,10 +9,10 @@ DeepFlow 应用模块支持实时监控服务的黄金指标、呈现服务调�
 
 DeepFlow 的应用分为六大页面，接下来将详细介绍每个页面的使用与说明。
 
-* [资源分析](./service-list/)
-* [路径分析](./service-statistics/)
-* [拓扑分析](./path-topology/)
-* [调用日志](./call-log/)
-* [调用链追踪](./call-chain-tracing/)
-* [文件读写](./file-reading-and-writing/)
-* [右滑框](./right-sliding-box/)
+- [资源分析](./service-list/)
+- [路径分析](./service-statistics/)
+- [拓扑分析](./path-topology/)
+- [调用日志](./call-log/)
+- [调用链追踪](./call-chain-tracing/)
+- [文件读写](./file-reading-and-writing/)
+- [右滑框](./right-sliding-box/)

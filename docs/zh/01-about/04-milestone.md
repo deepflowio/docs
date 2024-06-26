@@ -4,6 +4,7 @@ permalink: /about/milestone
 ---
 
 DeepFlow 目前（2023 年 9 月）已经迭代到了 v6.3.9，已支持的主要特性包括：
+
 - Universal Map (AutoMetrics)
   - [x] 基于 cBPF 的 TCP 网络性能指标
   - [x] 基于 cBPF 的各类应用协议解析和性能分析能力
@@ -38,6 +39,7 @@ DeepFlow 目前（2023 年 9 月）已经迭代到了 v6.3.9，已支持的主�
   - [x] 支持将追踪数据输出至 SkyWalking
 
 作为规划，DeepFlow 未来还有很多激动人心的特性：
+
 - Universal Map (AutoMetrics)
   - [ ] 基于 TCP 流重组的增强协议解析能力
   - [ ] 内置更多应用协议的解析能力，例如 Elasticsearch 等

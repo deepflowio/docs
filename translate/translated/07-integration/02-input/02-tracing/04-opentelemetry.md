@@ -67,13 +67,11 @@ end
 
 # Configure OpenTelemetry
 
-We recommend using the otel-collector in agent mode to send trace data to deepflow-agent to avoid data transmission across K8s nodes.
-Of course, using the otel-collector in gateway mode is also completely feasible. The following document uses otel-agent as an example to introduce deployment and configuration methods.
+We recommend using the agent mode of otel-collector to send trace data to deepflow-agent to avoid data transmission across K8s nodes. Of course, using the gateway mode of otel-collector is also completely feasible. The following document introduces the deployment and configuration methods using otel-agent as an example.
 
 ## Install otel-agent
 
-Refer to the [OpenTelemetry documentation](https://opentelemetry.io/docs/) for relevant background knowledge.
-If OpenTelemetry is not yet available in your environment, you can quickly deploy an otel-agent DaemonSet in the `open-telemetry` namespace using the following command:
+Refer to the [OpenTelemetry documentation](https://opentelemetry.io/docs/) for relevant background knowledge. If OpenTelemetry is not yet available in your environment, you can quickly deploy an otel-agent DaemonSet in the `open-telemetry` namespace using the following command:
 
 ```bash
 kubectl apply -n open-telemetry -f https://raw.githubusercontent.com/deepflowio/deepflow-demo/main/open-telemetry/open-telemetry.yaml
@@ -91,9 +89,7 @@ kubectl get all -n open-telemetry
 | Service   | otel-agent |
 | ConfigMap | otel-agent |
 
-If you need to use other versions or updated opentelemetry-collector-contrib,
-find the desired image version in the [otel-docker](https://hub.docker.com/r/otel/opentelemetry-collector-contrib/tags) repository,
-and then update the image using the following command:
+If you need to use other versions or updated opentelemetry-collector-contrib, find the desired image version in the [otel-docker](https://hub.docker.com/r/otel/opentelemetry-collector-contrib/tags) repository, and then update the image using the following command:
 
 ```bash
 LATEST_TAG="xxx"  # FIXME
@@ -167,10 +163,10 @@ deepflow-ctl agent-group-config list <your-agent-group-id> -o yaml > your-agent-
 
 Modify the yaml file to ensure it contains the following configuration items:
 
-```yaml
+```bash
 vtap_group_id: <your-agent-group-id>
-external_agent_http_proxy_enabled: 1 # required
-external_agent_http_proxy_port: 38086 # optional, default 38086
+external_agent_http_proxy_enabled: 1   # required
+external_agent_http_proxy_port: 38086  # optional, default 38086
 ```
 
 Update the collector group's configuration:
@@ -179,7 +175,7 @@ Update the collector group's configuration:
 deepflow-ctl agent-group-config update <your-agent-group-id> -f your-agent-group-config.yaml
 ```
 
-If the collector group does not yet have a configuration, use the following command to create a new configuration based on the your-agent-group-config.yaml file:
+If the collector group does not yet have a configuration, create a new configuration based on the your-agent-group-config.yaml file using the following command:
 
 ```bash
 deepflow-ctl agent-group-config create -f your-agent-group-config.yaml
@@ -189,11 +185,11 @@ deepflow-ctl agent-group-config create -f your-agent-group-config.yaml
 
 ## Deploy Demo
 
-This demo is from [this GitHub repository](https://github.com/liuzhibin-cn/my-demo), which is a Spring Boot-based WebShop application composed of five microservices. Its architecture is as follows:
+This Demo is from [this GitHub repository](https://github.com/liuzhibin-cn/my-demo), which is a Spring Boot-based WebShop application composed of five microservices. Its architecture is as follows:
 
-![Spring Boot Demo Architecture](./imgs/spring-boot-webshop-arch.png)
+![Sping Boot Demo Architecture](./imgs/spring-boot-webshop-arch.png)
 
-Use the following command to deploy this demo with one click:
+Deploy this Demo with one command:
 
 ```bash
 kubectl apply -n deepflow-otel-spring-demo -f https://raw.githubusercontent.com/deepflowio/deepflow-demo/main/DeepFlow-Otel-Spring-Demo/deepflow-otel-spring-demo.yaml
@@ -201,29 +197,26 @@ kubectl apply -n deepflow-otel-spring-demo -f https://raw.githubusercontent.com/
 
 ## View Tracing Data
 
-Go to Grafana, open the `Distributed Tracing` Dashboard, and select `namespace = deepflow-otel-spring-demo` to choose a call for tracing.
-DeepFlow can correlate and display tracing data obtained from OpenTelemetry, eBPF, and BPF in a single Trace flame graph,
-covering the full-stack call path of a Spring Boot application from business code, system functions, to network interfaces, achieving true full-link distributed tracing, as shown below:
+Go to Grafana, open the `Distributed Tracing` Dashboard, select `namespace = deepflow-otel-spring-demo`, and then choose a call to trace. DeepFlow can correlate tracing data obtained from OpenTelemetry, eBPF, and BPF in a single Trace flame graph, covering the full-stack call path of a Spring Boot application from business code, system functions, to network interfaces, achieving true end-to-end distributed tracing, as shown below:
 
 ![OTel Spring Demo](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2022082363044b24c3b37.png)
 
 You can also visit [DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d/Distributed_Tracing/distributed-tracing?var-namespace=deepflow-otel-spring-demo&from=deepflow-doc) to see the effect.
 
-To summarize this tracing demo:
+Summary of this tracing Demo:
 
-- Full-link: Integrates OTel, eBPF, and BPF, automatically tracing 100 Spans of this Trace, including 20 eBPF Spans and 34 BPF Spans
-- Full-link: Supports automatic tracing and completion through eBPF for services without OTel instrumentation, such as Spans 1-6 (loadgenerator)
-- Full-link: Supports automatic tracing and completion through eBPF for services that cannot be instrumented by OTel, such as eBPF Spans 67 and 100 depicting the start and end of MySQL Transactions (SET autocommit, commit)
+- End-to-end: Integrated OTel, eBPF, and BPF, automatically traced 100 Spans of this Trace, including 20 eBPF Spans and 34 BPF Spans
+- End-to-end: For services without OTel instrumentation, supports automatic tracing completion through eBPF, such as Spans 1-6 (loadgenerator)
+- End-to-end: For services where OTel cannot be instrumented, supports automatic tracing completion through eBPF, such as eBPF Spans 67 and 100 depicting the start and end of MySQL Transactions (SET autocommit, commit)
 - Full-stack: Supports tracing the network path between two Pods on the same K8s Node, such as Spans 91-92
 - Full-stack: Supports tracing the network path between two Pods across K8s Nodes, even if it passes through tunnel encapsulation, such as Spans 2-5 (IPIP tunnel encapsulation)
-- Full-stack: eBPF and BPF Spans interspersed among OTel Spans, connecting applications, systems, and networks, such as the significant time differences between eBPF Spans 12, 27, 41, 53 and their parent Spans (OTel) can be used to identify real performance bottlenecks, avoiding confusion among upstream and downstream application development teams
+- Full-stack: eBPF and BPF Spans interspersed among OTel Spans, connecting applications, systems, and networks, such as eBPF Spans 12, 27, 41, 53 with their parent Spans (OTel) showing significant time differences that can be used to identify real performance bottlenecks, avoiding confusion among upstream and downstream application development teams
 
 # Experience with OpenTelemetry WebStore Demo
 
 ## Deploy Demo
 
-This demo is from [opentelemetry-webstore-demo](https://github.com/open-telemetry/opentelemetry-demo-webstore),
-which is a demo composed of more than ten microservices implemented in languages such as Go, C#, Node.js, Python, and Java. Its application architecture is as follows:
+This Demo is from [opentelemetry-webstore-demo](https://github.com/open-telemetry/opentelemetry-demo-webstore), which is a WebStore application composed of more than ten microservices implemented in languages such as Go, C#, Node.js, Python, and Java. Its application architecture is as follows:
 
 ```mermaid
 graph TD
@@ -272,7 +265,7 @@ classDef erlang fill:#b83998,color:white;
 classDef php fill:#4f5d95,color:white;
 ```
 
-Use the following command to deploy this demo with one click:
+Deploy this Demo with one command:
 
 ```bash
 kubectl apply -n deepflow-otel-grpc-demo -f https://raw.githubusercontent.com/deepflowio/deepflow-demo/main/DeepFlow-Otel-Grpc-Demo/deepflow-otel-grpc-demo.yaml
@@ -280,10 +273,8 @@ kubectl apply -n deepflow-otel-grpc-demo -f https://raw.githubusercontent.com/de
 
 ## View Tracing Data
 
-Go to Grafana, open the `Distributed Tracing` Dashboard, and select `namespace = deepflow-otel-grpc-demo` to choose a call for tracing. DeepFlow can correlate and display tracing data obtained from OpenTelemetry, eBPF, and BPF in a single Trace flame graph, covering the full-stack call path of a multi-language application from business code, system functions, to network interfaces, achieving true full-link distributed tracing, as shown below:
+Go to Grafana, open the `Distributed Tracing` Dashboard, select `namespace = deepflow-otel-grpc-demo`, and then choose a call to trace. DeepFlow can correlate tracing data obtained from OpenTelemetry, eBPF, and BPF in a single Trace flame graph, covering the full-stack call path of a multi-language application from business code, system functions, to network interfaces, achieving true end-to-end distributed tracing, as shown below:
+
 ![OTel gRPC Demo](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202208236304414496160.png)
+
 You can also visit [DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d/Distributed_Tracing/distributed-tracing?var-namespace=deepflow-otel-grpc-demo&var-request_resource=*Order*&from=deepflow-doc) to see the effect.
-
-![OTel gRPC Demo](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202208236304414496160.png)
-
-你也可以访问 [DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d/Distributed_Tracing/distributed-tracing?var-namespace=deepflow-otel-grpc-demo&var-request_resource=*Order*&from=deepflow-doc) 查看效果。

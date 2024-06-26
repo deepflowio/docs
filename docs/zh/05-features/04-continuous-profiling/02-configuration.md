@@ -6,10 +6,10 @@ permalink: /features/continuous-profiling/configuration
 # eBPF On-CPU Profiling
 
 eBPF On-CPU Profiling 是默认开启的，但你需要通过修改 `static_config.ebpf.on-cpu-profile.regex` 来指定需要开启的进程列表。默认情况下仅对进程名以 `deepflow-` 开头的进程开启。Agent 支持的配置参数如下：
+
 ```yaml
 static_config:
   ebpf:
-
     ## Java compliant update latency time
     ## Default: 600s. Range: [5, 3600]s
     ## Note:
@@ -55,6 +55,7 @@ static_config:
 ```
 
 上述配置的含义如下：
+
 - **disabled**：默认为 False，表示功能开启。
 - **frequency**：采样频率，默认 99 约表示 10ms 采样周期。不建议设置为 10 的整数倍，避免和程序运行或调度的时钟同频。
 - **cpu**：默认为 0，表示一台主机上采集的数据不区分 CPU，当设置为 1 时数据将按 CPU ID 聚合。
@@ -65,50 +66,53 @@ static_config:
 # eBPF Off-CPU Profiling
 
 eBPF Off-CPU Profiling（仅企业版）是默认开启的，但你需要通过修改 `static_config.ebpf.off-cpu-profile.regex` 来指定需要开启的进程列表。默认情况下仅对进程名以 `deepflow-` 开头的进程开启。Agent 支持的配置参数如下：
+
 ```yaml
 static_config:
   ebpf:
 
     ## Off-cpu profile configuration, Enterprise Edition Only.
     #off-cpu-profile:
-      ## eBPF off-cpu Profile Switch
-      ## Default: false
-      #disabled: false
+    ## eBPF off-cpu Profile Switch
+    ## Default: false
+    #disabled: false
 
-      ## Off-cpu trace process name
-      ## Default: ^deepflow-.*
-      #regex: ^deepflow-.*
+    ## Off-cpu trace process name
+    ## Default: ^deepflow-.*
+    #regex: ^deepflow-.*
 
-      ## Whether to obtain the value of CPUID and decide whether to participate in aggregation.
-      ## Set to 1:
-      ##    Obtain the value of CPUID and will be included in the aggregation of stack trace data.
-      ## Set to 0:
-      ##    It will not be included in the aggregation. Any other value is considered invalid,
-      ##    the CPU value for stack trace data reporting is a special value (CPU_INVALID:0xfff)
-      ##    used to indicate that it is an invalid value.
-      ## Default: 0
-      #cpu: 0
+    ## Whether to obtain the value of CPUID and decide whether to participate in aggregation.
+    ## Set to 1:
+    ##    Obtain the value of CPUID and will be included in the aggregation of stack trace data.
+    ## Set to 0:
+    ##    It will not be included in the aggregation. Any other value is considered invalid,
+    ##    the CPU value for stack trace data reporting is a special value (CPU_INVALID:0xfff)
+    ##    used to indicate that it is an invalid value.
+    ## Default: 0
+    #cpu: 0
 
-      ## Configure the minimum blocking event time
-      ## Default: 50us. Range: [0, 2^32-1)us
-      ## Note:
-      ##   If set to 0, there will be no minimum value limitation.
-      ##   Scheduler events are still high-frequency events, as their rate may exceed 1 million events
-      ##   per second, so caution should still be exercised.
-      ##   If overhead remains an issue, you can configure the 'minblock' tunable parameter here.
-      ##   If the off-CPU time is less than the value configured in this item, the data will be discarded.
-      ##   If your goal is to trace longer blocking events, increasing this parameter can filter out shorter
-      ##   blocking events, further reducing overhead. Additionally, we will not collect events with a block
-      ##   time exceeding 1 hour.
-      #minblock: 50us
+    ## Configure the minimum blocking event time
+    ## Default: 50us. Range: [0, 2^32-1)us
+    ## Note:
+    ##   If set to 0, there will be no minimum value limitation.
+    ##   Scheduler events are still high-frequency events, as their rate may exceed 1 million events
+    ##   per second, so caution should still be exercised.
+    ##   If overhead remains an issue, you can configure the 'minblock' tunable parameter here.
+    ##   If the off-CPU time is less than the value configured in this item, the data will be discarded.
+    ##   If your goal is to trace longer blocking events, increasing this parameter can filter out shorter
+    ##   blocking events, further reducing overhead. Additionally, we will not collect events with a block
+    ##   time exceeding 1 hour.
+    #minblock: 50us
 ```
 
 上述配置的含义如下：
+
 - **disabled**：默认为 False，表示功能开启。
 - **regex**：开启 Off-CPU Profiling 的进程名正则表达式。
 - **cpu**：默认为 0，表示一台主机上采集的数据不区分 CPU，当设置为 1 时数据将按 CPU ID 聚合。
 - **minblock**：使用持续时间限制采集的 Off-CPU 事件，避免采集过多导致主机负载过高。
 
 另外，下面两个 On-CPU 的配置项同时也对 Off-CPU 有效：
+
 - **java-symbol-file-refresh-default-interval**
 - **java-symbol-file-max-space-limit**

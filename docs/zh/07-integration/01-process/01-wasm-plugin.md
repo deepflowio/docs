@@ -7,15 +7,15 @@ permalink: /integration/process/wasm-plugin
 
 Wasm 插件系统通过在固定的地方调用 Wasi Export Function 实现一些用户自定义的功能，我们在[这个仓库](https://github.com/deepflowio/deepflow-wasm-go-sdk/tree/main/example)里提供了一些示例，通过示例你可以感受到目前 DeepFlow Wasm Plugin 能实现哪些功能：
 
-| 类别           | 目录                | 描述 |
-| -------------- | ------------------- | ---- |
-| 增强已知协议   | http                | 解析 JSON over HTTP |
-|                | http_status_rewrite | 解析 JSON over HTTP |
-|                | dubbo               | 解析 JSON over Dubbo |
-|                | nats                | 解析 Protobuf (nRPC) over NATS |
-|                | zmtp                | 解析 Protobuf over ZMTP |
-| 当做新协议解析 | krpc                | 解析 Protobuf over TCP |
-|                | go_http2_uprobe     | 解析 Protobuf over HTTP2 |
+| 类别           | 目录                | 描述                              |
+| -------------- | ------------------- | --------------------------------- |
+| 增强已知协议   | http                | 解析 JSON over HTTP               |
+|                | http_status_rewrite | 解析 JSON over HTTP               |
+|                | dubbo               | 解析 JSON over Dubbo              |
+|                | nats                | 解析 Protobuf (nRPC) over NATS    |
+|                | zmtp                | 解析 Protobuf over ZMTP           |
+| 当做新协议解析 | krpc                | 解析 Protobuf over TCP            |
+|                | go_http2_uprobe     | 解析 Protobuf over HTTP2          |
 |                | dns                 | 演示如何将 DNS 当做一种新协议解析 |
 
 关于 Wasm Plugin 的开发你也可以参考这篇博客文章：[使用 DeepFlow Wasm 插件实现业务可观测性](https://deepflow.io/blog/035-deepflow-enabling-zero-code-observability-for-applications-by-webAssembly/)。
@@ -173,6 +173,7 @@ tinygo build -o wasm.wasm -gc=custom -tags=custommalloc -target=wasi -panic=trap
 ## 上传插件
 
 将 wasm 文件上传到对应的节点上，执行
+
 ```sh
 deepflow-ctl plugin create  --type wasm --image wasm.wasm --name wasm
 ```
@@ -180,6 +181,7 @@ deepflow-ctl plugin create  --type wasm --image wasm.wasm --name wasm
 ## 加载插件
 
 在 [agent-group 配置](../../best-practice/agent-advanced-config/#agent-group-config-常用操作) 中添加
+
 ```
 wasm-plugins:
   - wasm // 对应 deepflow-ctl 上传插件的名称
@@ -189,7 +191,7 @@ wasm-plugins:
 
 - 不能使用 go func()， 可以去掉 -scheduler=none 参数让编译通过但是并不会得到理想的效果
 - 不能使用 time.Sleep() ，这回导致 Wasm 插件不能加载
-- 如果插件执行时间太长，将会长时间阻塞agent的执行，如果执行死循环，那么 agent 会一直阻塞
+- 如果插件执行时间太长，将会长时间阻塞 agent 的执行，如果执行死循环，那么 agent 会一直阻塞
 - tinygo 对于 go 的标准库和第三方库有一定的限制，并非任意 go 代码或库都可以使用，对于标准库，tinygo 支持的情况可以参考[tinygo package supported](https://tinygo.org/docs/reference/lang-support/stdlib/)。需要提醒的是，这里的列表仅供参考，Passes tests 显示 no 并非完全不能使用，例如 fmt.Sprintf() 可以使用但 fmt.Println() 就不能使用。
 - 由于 go 1.21 版本开始支持 wasi，如果需要使用 builtin 的序列化相关的库（json，yaml，xml 等等） 需要使用 go 版本不低于 1.21 并且 tinygo 版本需要不低于 0.29。
 - 从 Parser 返回的结构(L7ProtocolInfo, Trace, []KeyVal)会序列化到线性内存，目前对于每个结构的序列化申请的内存固定为 1 page (65536 bytes)，如果返回的结构太大会导致序列化失败。
@@ -252,7 +254,8 @@ graph TB;
   id43(["host replace the trace info from struct Trace and extend attribute from []KeyVal"]);
 ```
 
-其中 序列化/反序列化的结构有6个：
+其中 序列化/反序列化的结构有 6 个：
+
 - VmCtxBase
   - 在目前所有的 Export 函数调用的时候，host 会将 VmCtxBase 序列化到线性内存，序列化的格式参考[这里](https://github.com/deepflowio/deepflow/blob/0da738106f710cad9bbce6632384105b1b868e59/agent/src/plugin/wasm/vm.rs#L199)
   - 同样地，instance 也会反序列化，具体代码可以参考[这里](https://github.com/deepflowio/deepflow-wasm-go-sdk/blob/5393818adf94f2f9b296de82e20f614ba3b2336a/sdk/serde.go#L73)。

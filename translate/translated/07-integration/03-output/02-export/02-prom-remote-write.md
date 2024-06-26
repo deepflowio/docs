@@ -20,11 +20,11 @@ Within DeepFlow, metrics can be categorized into two types:
 
 # Prometheus Remote Write
 
-For the protocol format, refer to Prometheus's pb file definition: https://github.com/prometheus/prometheus/blob/main/prompb/remote.proto
+For protocol format, refer to Prometheus's pb file definition: https://github.com/prometheus/prometheus/blob/main/prompb/remote.proto
 
 # DeepFlow Server Configuration Guide
 
-Add the following configuration under the Server settings to enable metric export:
+Add the following configuration under the Server settings to enable metrics export:
 
 ```yaml
 ingester:
@@ -60,20 +60,20 @@ ingester:
 
 # Detailed Parameter Description
 
-| Field         | Type    | Required | Description                                                                                                 |
-| ------------- | ------- | -------- | ----------------------------------------------------------------------------------------------------------- |
-| protocol      | strings | Yes      | Fixed value `prometheus`                                                                                    |
-| data-sources  | strings | Yes      | Values from `flow_metrics.*` data, `flow_log.*` data is not supported                                       |
-| endpoints     | strings | Yes      | Remote receiving address, remote write receiving address, randomly selects one that can send successfully   |
-| batch-size    | int     | No       | Batch size, sends in batches when this value is reached. Default: 1024                                      |
-| extra-headers | map     | No       | Header fields for remote HTTP requests, for example, if authentication is required, you can add tokens here |
-| export-fields | strings | Yes      | Currently does not support `$k8s.label`, recommended configuration: [$tag, $metrics]                        |
+| Field          | Type    | Required | Description                                                             |
+| -------------- | ------- | -------- | ----------------------------------------------------------------------- |
+| protocol       | string  | Yes      | Fixed value `prometheus`                                                |
+| data-sources   | string  | Yes      | Values from `flow_metrics.*` data, does not support `flow_log.*` data   |
+| endpoints      | string  | Yes      | Remote receiving address, remote write receiving address, randomly selects one that can send successfully |
+| batch-size     | int     | No       | Batch size, sends in batches when this value is reached. Default: 1024  |
+| extra-headers  | map     | No       | HTTP header fields for remote requests, such as tokens for authentication |
+| export-fields  | string  | Yes      | Currently does not support `$k8s.label`, recommended configuration: [$tag, $metrics] |
 
 [Refer to detailed configuration](./exporter-config/)
 
 # Quick Practice Demo
 
-- Set up a RemoteWrite receiving end, refer to this [demo](https://github.com/prometheus/prometheus/tree/main/documentation/examples/remote_storage/example_write_adapter) from Prometheus
+- Set up a RemoteWrite receiver, refer to this [demo](https://github.com/prometheus/prometheus/tree/main/documentation/examples/remote_storage/example_write_adapter) from Prometheus
 
 - Add configuration
 
@@ -88,6 +88,6 @@ exporters:
       - $metrics
 ```
 
-- Restart DeepFlow Server, after a short wait, you can see the output results at the RemoteWrite receiving end as shown in the figure
+- Restart DeepFlow Server, and after a short wait, you should see the output results at the RemoteWrite receiver as shown in the image
 
 ![](./imgs/remote-write.png)

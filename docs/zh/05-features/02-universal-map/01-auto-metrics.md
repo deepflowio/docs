@@ -7,7 +7,7 @@ permalink: /features/universal-map/auto-metrics
 
 以往我们一般通过 SDK、字节码增强或手动埋点方式主动插入统计代码，这给应用开发者带来了沉重的负担，他们需要适配各种开发语言、各类 RPC 框架，高速的业务迭代也使得开发者经常在处理故障时才发现尚未给服务增加必要的性能指标。另外，诸如 Nginx、MySQL 等基础服务的运维人员更为被动，他们只能期待基础服务软件已经暴露了关键的性能指标，但往往内置指标只能精细到实例粒度，无法区分用户调用。
 
-DeepFlow 的 **AutoMetrics** 能力可自动获取每一个微服务的 API 调用在应用函数、系统函数和网络通信等全栈路径上的黄金性能指标，并通过 BPF 和 AF\_PACKET/winpcap 将这些能力扩展到更广泛的 Linux 内核版本及 Windows 操作系统。
+DeepFlow 的 **AutoMetrics** 能力可自动获取每一个微服务的 API 调用在应用函数、系统函数和网络通信等全栈路径上的黄金性能指标，并通过 BPF 和 AF_PACKET/winpcap 将这些能力扩展到更广泛的 Linux 内核版本及 Windows 操作系统。
 
 目前，DeepFlow 已经通过 eBPF 支持了主流应用协议的解析，包括 HTTP 1/2、HTTPS（Golang/openssl）、Dubbo、gRPC、SOFARPC、FastCGI、MySQL、PostgreSQL、Redis、MongoDB、Kafka、MQTT、DNS，未来还将扩展更多应用协议的支持。基于 DeepFlow 的 AutoMetrics 能力，能够零侵扰的获取应用的 RED（Request、Error、Delay）指标、网络协议栈的吞吐、时延、建连异常、重传、零窗等指标。DeepFlow Agent 会维护每个 TCP 连接、每个应用协议 Request 的会话状态，称之为 `Flow`。所有原始性能指标数据精细至 Flow 粒度，并自动聚合生成 1s、1min 指标数据。基于这些指标数据，我们可呈现任意服务、工作负载、API 的全栈性能数据，并可绘制任意服务之间的全景图（Universal Map）。
 
@@ -27,30 +27,30 @@ DeepFlow 的 **AutoMetrics** 能力可自动获取每一个微服务的 API 调�
 DeepFlow 通过 cBPF/eBPF 自动采集各个位置的指标数据，为了区分这些数据的观测点，我们使用 `observation_point` 标签对数据进行标注。
 
 cBPF 采集到的数据，`observation_point` 取值的含义如下：
-| 数据源类型 | `observation_point` 取值 | 观测点含义           |
+| 数据源类型 | `observation_point` 取值 | 观测点含义 |
 | ---------- | ------------------------ | -------------------- |
-| cBPF       | c                        | 客户端网卡           |
-| cBPF       | c-nd                     | 客户端容器节点       |
-| cBPF       | c-hv                     | 客户端宿主机         |
-| cBPF       | c-gw-hv                  | 客户端到网关宿主机   |
-| cBPF       | c-gw                     | 客户端到网关         |
-| cBPF       | local                    | 本机网卡             |
-| cBPF       | rest                     | 其他网卡             |
-| cBPF       | s-gw                     | 网关到服务端         |
-| cBPF       | s-gw-hv                  | 网关宿主机到服务端   |
-| cBPF       | s-hv                     | 服务端宿主机         |
-| cBPF       | s-nd                     | 服务端容器节点       |
-| cBPF       | s                        | 服务端网卡           |
+| cBPF | c | 客户端网卡 |
+| cBPF | c-nd | 客户端容器节点 |
+| cBPF | c-hv | 客户端宿主机 |
+| cBPF | c-gw-hv | 客户端到网关宿主机 |
+| cBPF | c-gw | 客户端到网关 |
+| cBPF | local | 本机网卡 |
+| cBPF | rest | 其他网卡 |
+| cBPF | s-gw | 网关到服务端 |
+| cBPF | s-gw-hv | 网关宿主机到服务端 |
+| cBPF | s-hv | 服务端宿主机 |
+| cBPF | s-nd | 服务端容器节点 |
+| cBPF | s | 服务端网卡 |
 
 eBPF 采集到的数据，`observation_point` 取值的含义如下：
-| 数据源类型 | `observation_point` 取值 | 观测点含义           |
+| 数据源类型 | `observation_point` 取值 | 观测点含义 |
 | ---------- | ------------------------ | -------------------- |
-| eBPF       | c-p                      | 客户端进程           |
-| eBPF       | s-p                      | 服务端进程           |
+| eBPF | c-p | 客户端进程 |
+| eBPF | s-p | 服务端进程 |
 
 除此之外，[集成 OpenTelemetry 数据](../../integration/input/tracing/opentelemetry/)后，我们也会注入 `observation_point` 标签，取值含义如下：
-| 数据源类型 | `observation_point` 取值 | 观测点含义           |
+| 数据源类型 | `observation_point` 取值 | 观测点含义 |
 | ---------- | ------------------------ | -------------------- |
-| OTel       | c-app                    | 客户端应用，对应 `span.spankind = SPAN_KIND_CLIENT, SPAN_KIND_PRODUCER` |
-| OTel       | s-app                    | 服务端应用，对应 `span.spankind = SPAN_KIND_SERVER, SPAN_KIND_CONSUMER` |
-| OTel       | app                      | 应用，对应其他 spankind |
+| OTel | c-app | 客户端应用，对应 `span.spankind = SPAN_KIND_CLIENT, SPAN_KIND_PRODUCER` |
+| OTel | s-app | 服务端应用，对应 `span.spankind = SPAN_KIND_SERVER, SPAN_KIND_CONSUMER` |
+| OTel | app | 应用，对应其他 spankind |
