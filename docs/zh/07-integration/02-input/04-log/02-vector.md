@@ -119,9 +119,9 @@ transforms:
           ._df_log_type = "user"
       }
 
-      if !exists(.app_serivce) {
+      if !exists(.app_service) {
           # FIXME: files 模块没有此字段，请通过日志内容注入应用名称
-          .app_serivce = .kubernetes.container_name
+          .app_service = .kubernetes.container_name
       }
 ```
 
