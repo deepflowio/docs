@@ -29,6 +29,19 @@ end
 
 # 配置 Vector
 
+在配置之前，可以先了解下 [Vector 的工作流](https://vector.dev/docs/about/under-the-hood/architecture/pipeline-model/)，数据按如下模块顺序流转，从采集源发往目的端：
+
+```mermaid
+flowchart LR
+
+Source["source"]
+Transform["transform"]
+Sink["sink"]
+
+Source -->|log| Transform
+Transform -->|log| Sink
+```
+
 ## 采集日志
 
 安装了 Vector 之后，我们可以通过 [Kubernetes_Log](https://vector.dev/docs/reference/configuration/sources/kubernetes_logs/) 模块获取部署在 Kubernetes 中的 Pod 日志，由于 DeepFlow 已经通过 AutoTagging 机制主动学习了 Kubernetes 中 Pod 相关的 Label 和 Annotations，所以发送日志流可以去掉这部分内容以减少传输量，示例配置如下：
@@ -196,6 +209,37 @@ sinks:
 ```
 
 将这三个模块组合到一起，即可实现采集日志、注入标签并最终发送到 DeepFlow。
+
+## 完整示例
+
+基于上述的说明，我们给出一个完整的示例，假设采集对象是 **部署在云服务器上的 nginx 应用**， 可以通过如下配置来采集它的日志，并发送到 DeepFlow :
+
+```yaml
+sources:
+  nginx_logs:
+    type: file
+    include:
+      - /var/log/nginx/*.log
+    fingerprint:
+      strategy: 'device_and_inode'
+transforms:
+  tag_nginx_log:
+    type: remap
+    inputs:
+      - nginx_logs
+    source: |-
+      source = parse_regex(.file, r'\/var\/log\/(?<file_source>.+)\.log') ?? {}
+      source.file_source = replace!(source.file_source, "/", "-")
+      .app_service = "${HOST}-" + source.file_source # FIXME: 这里可写下服务器主机名，用于区分上报的数据源
+sinks:
+  http:
+    encoding:
+      codec: json
+    inputs:
+      - tag_nginx_log
+    uri: http://${deepflow-agent-host}:${port}/api/v1/log # FIXME: 这里填写可接收数据的目标 DeepFlow Agent 地址
+    type: http
+```
 
 # 配置 DeepFlow
 
