@@ -7,57 +7,53 @@ permalink: /ce-install/ai-agent
 
 已经在 K8s 中部署了社区版 DeepFlow。
 
-# 部署 Stella
+# 配置会话模型
 
-- 从项目 [stella-agent-ce](https://github.com/deepflowio/stella-agent-ce) 中获取服务镜像
-  - 镜像通常的位置是：`https://github.com/deepflowio/deepflow/pkgs/container/deepflow-ce%2Fdeepflow-server`
-- 进入该项目中的 `deploy/templates` 目录，修改以下文件中的配置参数
-  - 修改 `service.yaml`、`deployment.yaml`、`configmap.yaml` 文件中的 `namespace` 为实际使用的值（需要和 mysql 在同一个 namespace 下）
-  - 修改 `configmap.yaml`文件中 `mysql`、下的 `host`、`port`、`user_name`、`user_password`、`database` 为真实值
-  - 修改 `configmap.yaml`文件中 `ai` 部分，具体注意事项请看下文 `通过 yaml 来配置会话模型`
-- 进入该项目中的 `deploy/templates` 目录，执行 yaml 文件部署服务
-  - `kubectl apply -f ./configmap.yaml`
-  - `kubectl apply -f ./deployment.yaml`
-  - `kubectl apply -f ./service.yaml`
-
-# 通过 yaml 来配置会话模型
-
-目前服务支持如下模型，可按需开启：
+目前服务支持如下模型，可按需开启，通过 `values-custom.yaml` 配置：
 
 ```yaml
-ai:
-  enable: False
-  platforms:
-    - platform: 'azure' # https://learn.microsoft.com/zh-cn/azure/ai-services/openai/
-      enable: False
-      model: 'gpt'
-      api_type: 'azure'
-      api_key: 'xxx' # FIXME
-      api_base: 'xxx' # FIXME
-      api_version: 'xxx' # FIXME
-      engine_name:
-        - 'xxx' # FIXME（模型部署名称）
-    - platform: 'aliyun' # https://help.aliyun.com/zh/dashscope/create-a-chat-foundation-model
-      enable: False
-      model: 'dashscope'
-      api_key: 'xxx' # FIXME
-      engine_name:
-        - 'qwen-turbo'
-        - 'qwen-plus'
-    - platform: 'baidu' # https://cloud.baidu.com/doc/WENXINWORKSHOP/index.html
-      enable: False
-      model: 'qianfan'
-      api_key: 'xxx' # FIXME
-      api_secret: 'xxx' # FIXME
-      engine_name:
-        - 'ERNIE-Bot'
-        - 'ERNIE-Bot-turbo'
-    - platform: 'zhipu' # https://open.bigmodel.cn/
-      enable: False
-      model: 'zhipuai'
-      api_key: 'xxx' # FIXME
-      engine_name:
-        - 'chatglm_turbo'
+stella-agent-ce:
+  configmap:
+    df-llm-agent.yaml:
+      ai:
+        enable: False
+        platforms:
+        - platform: 'azure' # https://learn.microsoft.com/zh-cn/azure/ai-services/openai/
+          enable: False
+          model: 'gpt'
+          api_type: 'azure'
+          api_key: 'xxx' # FIXME
+          api_base: 'xxx' # FIXME
+          api_version: 'xxx' # FIXME
+          engine_name:
+          - 'xxx' # FIXME（模型部署名称）
+        - platform: 'aliyun' # https://help.aliyun.com/zh/dashscope/create-a-chat-foundation-model
+          enable: False
+          model: 'dashscope'
+          api_key: 'xxx' # FIXME
+          engine_name:
+          - 'qwen-turbo'
+          - 'qwen-plus'
+        - platform: 'baidu' # https://cloud.baidu.com/doc/WENXINWORKSHOP/index.html
+          enable: False
+          model: 'qianfan'
+          api_key: 'xxx' # FIXME
+          api_secret: 'xxx' # FIXME
+          engine_name:
+          - 'ERNIE-Bot'
+          - 'ERNIE-Bot-turbo'
+        - platform: 'zhipu' # https://open.bigmodel.cn/
+          enable: False
+          model: 'zhipuai'
+          api_key: 'xxx' # FIXME
+          engine_name:
+          - 'chatglm_turbo'
+```
+
+更新 DeepFlow：
+
+```bash
+helm upgrade deepflow -n deepflow -f values-custom.yaml  deepflow/deepflow
 ```
 
 # 在 Grafana 中使用
