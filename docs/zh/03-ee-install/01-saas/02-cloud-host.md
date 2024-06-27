@@ -52,13 +52,13 @@ DeepFlow 目前支持如下公有云的资源信息同步（标记为 `TBD` 的�
 
 - **获取 `团队 ID / team-id`**
   
-  操作步骤参考下图：
+  `team-id`即`团队 ID`，操作步骤参考下图：
 
    ![获取 team-id](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240613666aee7de4dd5.jpeg?align=center)
 
 - **新建采集器组并获取 `agent-group-id`**
 
-  操作步骤参考下图：
+   `agent-group-id`即采集器组的 ID，操作步骤参考下图：
 
    ![获取 agent-group-id](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240613666aeb1bb3cb9.jpg?align=center)
 
