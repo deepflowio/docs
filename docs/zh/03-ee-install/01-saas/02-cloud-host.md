@@ -7,7 +7,7 @@ permalink: /ee-install/saas/cloud-host
 
 DeepFlow 支持监控云服务器，并通过调用云厂商 API 获取云资源信息，自动注入到所有观测数据中（AutoTagging）。
 
-- 部署拓扑
+- **部署拓扑**
 
 ```mermaid
 flowchart LR
@@ -50,13 +50,13 @@ DeepFlow 目前支持如下公有云的资源信息同步（标记为 `TBD` 的�
 
 部署 DeepFlow Agent 前需在 DeepFlow Cloud 中获取两个 ID，并配置到 DeepFlow Agent 的配置文件中：
 
-- 获取 `团队 ID / team-id`
+- **获取 `团队 ID / team-id`**
   
   操作步骤参考下图：
 
    ![获取 team-id](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240613666aee7de4dd5.jpeg?align=center)
 
-- 新建采集器组并获取 `agent-group-id`
+- **新建采集器组并获取 `agent-group-id`**
 
   操作步骤参考下图：
 
@@ -66,7 +66,7 @@ DeepFlow 目前支持如下公有云的资源信息同步（标记为 `TBD` 的�
 
 # 部署 DeepFlow Agent
 
-- 执行安装命令
+- **执行安装命令**
 
 ::: code-tabs#shell
 
@@ -117,7 +117,7 @@ docker compose -f deepflow-agent-docker-compose.yaml up -d
 
 :::
 
-- 修改 deepflow-agent 的配置文件 `/etc/deepflow-agent.yaml` ：
+- **修改 deepflow-agent 的配置文件 `/etc/deepflow-agent.yaml`**
 
 ```yaml
 controller-ips:
@@ -126,7 +126,7 @@ vtap-group-id-request: 'g-xxxxxxxxxx' # FIXME: agent-group-id
 team-id: 't-xxxxxxxxxx' # FIXME: team id
 ```
 
-- 启动 deepflow-agent ：
+- **启动 deepflow-agent**
 
 ```bash
 systemctl enable deepflow-agent
