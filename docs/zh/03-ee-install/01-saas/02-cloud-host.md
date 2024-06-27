@@ -62,7 +62,7 @@ DeepFlow 目前支持如下公有云的资源信息同步（标记为 `TBD` 的�
 
    ![获取 agent-group-id](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240613666aeb1bb3cb9.jpg?align=center)
 
-注：创建采集器组的目的是为了配置不同的运行策略，以便于对 DeepFlow Agent 进行运行策略的分组管理。当 DeepFlow Agent 配置的`agent-group-id`在平台中无法找到时，平台会下发 default 组的运行策略。
+> 注：创建采集器组的目的是为了配置不同的运行策略，以便于对 DeepFlow Agent 进行运行策略的分组管理。当 DeepFlow Agent 配置的`agent-group-id`在平台中无法找到时，平台会下发 default 组的运行策略。
 
 # 部署 DeepFlow Agent
 
