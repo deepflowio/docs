@@ -54,6 +54,7 @@ import PageEdit from "@theme/components/PageEdit.vue";
 import PageNav from "@theme/components/PageNav.vue";
 import ArticleInfo from "./ArticleInfo.vue";
 import RightMenu from "./RightMenu.vue";
+import Viewer from "viewerjs";
 
 import TitleBadgeMixin from "../mixins/titleBadge";
 
@@ -63,6 +64,7 @@ export default {
   mixins: [TitleBadgeMixin],
   data() {
     return {
+      viewer: null,
       locales,
       updateBarConfig: null,
     };
@@ -79,10 +81,10 @@ export default {
   },
   computed: {
     creatAt() {
-      return this.$frontmatter.creatAt?.split("T")[0] ?? '--'
+      return this.$frontmatter.creatAt?.split("T")[0] ?? "--";
     },
     updateAt() {
-      return this.$frontmatter.updateAt?.split("T")[0] ?? '--'
+      return this.$frontmatter.updateAt?.split("T")[0] ?? "--";
     },
     title() {
       const {
@@ -127,7 +129,22 @@ export default {
       return this.$page.relativePath.indexOf("zh/") > -1 ? "zh" : "en";
     },
   },
+  watch: {
+    "$route.path"() {
+      setTimeout(() => {
+        this.initView();
+      }, 100);
+    },
+  },
+  mounted() {
+    this.initView();
+  },
   methods: {
+    initView() {
+      this.viewer?.destroy();
+      const images = document.querySelector(".theme-vdoing-content");
+      this.viewer = new Viewer(images);
+    },
     getShowStatus(prop) {
       const { htmlModules } = this.$themeConfig;
       if (!htmlModules) return false;
@@ -151,6 +168,10 @@ export default {
 
 <style lang="stylus">
 @require '../styles/wrapper.styl'
+@import '~viewerjs/dist/viewer.css'
+
+.viewer-container img
+  background-color: #fff
 
 .page.content-layout-container
   position relative
