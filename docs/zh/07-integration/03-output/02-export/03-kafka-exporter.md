@@ -51,7 +51,7 @@ ingester:
         - $tag
         - $metrics
       export-empty-tag: false
-      export-empty-metrics_disabled: false
+      export-empty-metrics-disabled: false
       enum-translate-to-name-disabled: false
       universal-tag-translate-to-name-disabled: false
       sasl:
