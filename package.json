@@ -2,7 +2,7 @@
   "name": "theme-vdoing-blog",
   "version": "1.0.0",
   "scripts": {
-    "dev": "vuepress dev docs",
+    "dev": "set NODE_OPTIONS=--openssl-legacy-provider && vuepress dev docs",
     "build": "vuepress build docs --max-concurrency=500",
     "deploy": "bash deploy.sh",
     "editFm": "node utils/editFrontmatter.js",
@@ -33,6 +33,7 @@
     "good-storage": "^1.1.1",
     "gray-matter": "^4.0.3",
     "json5": "^2.2.1",
-    "mermaid": "8.14.0"
+    "mermaid": "8.14.0",
+    "viewerjs": "^1.11.6"
   }
 }
