@@ -6,6 +6,7 @@ permalink: /ee-install/saas/cloud
 # 简介
 
 DeepFlow 云原生可观测性平台对所有观测数据自动化注入`云资源`、`K8s 资源`和`K8s 自定义 Label`标签，因此 DeepFlow 在开始正常之前工作需先完成云、容器资源的对接。
+
 DeepFlow 通过 云平台的 API 接口自动对接学习公有云租户的资源标签，通过 K8s 集群的 apiserver 自动对接学习容器资源标签。
 
 # 创建云平台（阿里公有云）
