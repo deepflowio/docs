@@ -45,46 +45,84 @@ API 返回结果示例：
 
 ```json
 {
-  "OPT_STATUS": "SUCCESS",
-  "DESCRIPTION": "",
-  "result": [
-    {
-      "profile_location_str": "deepflow-agent",
-      "node_id": "",
-      "parent_node_id": "-1",
-      "self_value": 0,
-      "total_value": 19901
+    "OPT_STATUS": "SUCCESS",
+    "DESCRIPTION": "",
+    "result": {
+        "functions": [
+            "deepflow-agent",
+            "[t] platform-synchr",
+            "[k] entry_SYSCALL_64_after_hwframe",
+            // ...
+            "[l] __write" 
+        ],
+        "function_values": {
+            "columns": [
+                "self_value",
+                "total_value"
+            ],
+            "values": [
+                [
+                    0,
+                    640352895
+                ],
+                [
+                    0,
+                    6292923
+                ],
+                [
+                    0,
+                    46848438
+                ],
+                // ...
+                [
+                    0,
+                    1797978
+                ]
+            ]
+        },
+        "node_values": {
+            "columns": [
+                "function_id",
+                "parent_node_id",
+                "self_value",
+                "total_value"
+            ],
+            "values": [
+                [
+                    0,
+                    -1,
+                    0,
+                    640352895
+                ],
+                [
+                    1,
+                    0,
+                    0,
+                    6292923
+                ],
+                [
+                    2,
+                    1,
+                    0,
+                    1444443
+                ],
+                // ...
+                [
+                    3,
+                    2,
+                    0,
+                    10101
+                ]
+            ]
+        }
     },
-    {
-      "profile_location_str": "[k] __netif_receive_skb_one_core",
-      "node_id": "fd7881c5-6e30-5f40-932c-b961aa1df5ef",
-      "parent_node_id": "67a24424-3397-588e-823e-ce65a4c7eeff",
-      "self_value": 0,
-      "total_value": 2
-    },
-    {
-      "profile_location_str": "[l] __lll_lock_wake_private",
-      "node_id": "afad188d-f326-5b8e-a563-fd8badd284bf",
-      "parent_node_id": "4e8cf302-60a8-5add-bd6c-9f91ce49e9c9",
-      "self_value": 0,
-      "total_value": 1
-    },
-    // ...
-    {
-      "profile_location_str": "deepflow_agent::flow_generator::flow_map::FlowMap::inject_meta_packet::h553351a860254660",
-      "node_id": "03a866fe-7263-54c8-9470-3b22a68f4cb8",
-      "parent_node_id": "d25f5f68-0ab7-55fe-b6ab-63dc3ef05636",
-      "self_value": 0,
-      "total_value": 6
-    }
-  ],
-  "debug": null
+    "debug": null
 }
 ```
 
 API 返回结果说明：
 
-- **profile_location_str**：函数名
+- **functions**：函数名
   - `[t] thread_name`：线程，只会出现在火焰图的第二层
   - `[k] function_name`：Linux 内核函数、CUDA 动态链接库函数（[libcuda](https://developer.nvidia.com/cuda-toolkit)、[libcublas](https://developer.nvidia.com/cublas) 等）
   - `[l] function_name`：动态链接库中的函数
@@ -95,7 +133,9 @@ API 返回结果说明：
     - `[/lib/ld-musl-x86_64.so.1]`：方括号中为动态链接库的文件路径（带有 `so`），函数地址属于该文件但未能成功翻译，一般是符号表被裁剪导致。
     - `[/usr/local/bin/kube-apiserver]`：方括号中为可执行文件的路径，函数地址属于该文件但未能成功翻译，一般是符号表被裁剪导致。
     - `[unknown] 0x0000000003932388`：除上述所有情况以外，当某个地址无法成功翻译为函数名时显示如此。特别地，当火焰图第三层函数地址（一般是线程的入口函数）未能翻译为函数名时，显示为 `[unknown start_thread?]`。
-- **node_id**：该函数节点在火焰图中的唯一标识
+- **function_values**: 函数的 CPU 时长，单位是微秒（us）。
+- **node_values**: 函数作为节点的 CPU 时长，单位是微秒（us）。
+- **function_id**：函数唯一标识
 - **parent_node_id**：该函数的父节点在火焰图中的唯一标识
 - **total_value**：该函数的 CPU 时长，单位是微秒（us）。
   - On-CPU Profiling：此值表示函数花费 CPU 的时长
@@ -117,37 +157,71 @@ API 返回结果说明：
 
 ```json
 {
-  "OPT_STATUS": "SUCCESS",
-  "DESCRIPTION": "",
-  "result": [
-    {
-      "profile_location_str": "Total",
-      "node_id": "",
-      "parent_node_id": "-1",
-      "self_value": 0,
-      "total_value": 206283
+    "OPT_STATUS": "SUCCESS",
+    "DESCRIPTION": "",
+    "result": {
+        "functions": [
+            "Total",
+            "[p] java",
+            // ...
+            "[t] DefaultTimer10-",
+        ],
+        "function_values": {
+            "columns": [
+                "self_value",
+                "total_value"
+            ],
+            "values": [
+                [
+                    0,
+                    4563875153
+                ],
+                [
+                    4616160,
+                    325630360
+                ],
+                // ...
+                [
+                    6565660,
+                    6565660
+                ]
+            ]
+        },
+        "node_values": {
+            "columns": [
+                "function_id",
+                "parent_node_id",
+                "self_value",
+                "total_value"
+            ],
+            "values": [
+                [
+                    0,
+                    -1,
+                    0,
+                    4563875153
+                ],
+                [
+                    1,
+                    0,
+                    4616160,
+                    325630360
+                ],
+                // ...
+                [
+                    2,
+                    1,
+                    6565660,
+                    6565660
+                ]
+            ]
+        }
     },
-    {
-      "profile_location_str": "[p] process-exporte",
-      "node_id": "9d3c5fd3-4cd2-5d04-be22-e0f27144f638",
-      "parent_node_id": "",
-      "self_value": 2512,
-      "total_value": 25028
-    },
-    // ...
-    {
-      "profile_location_str": "[t] stats-collector",
-      "node_id": "99e8ce53-e3bf-5b33-a63d-aa47e00e2ff4",
-      "parent_node_id": "1762633e-a955-5c80-a5be-22529903b0bf",
-      "self_value": 33,
-      "total_value": 33
-    }
-  ],
-  "debug": null
+    "debug": null
 }
 ```
 
-上述返回结果中 **profile_location_str** 的补充说明如下：
+上述返回结果中 **functions** 的补充说明如下：
 
 - `$app_service`：火焰图最顶层的节点，名字固定为 Total
 - `[p] name`：一个进程的名称
