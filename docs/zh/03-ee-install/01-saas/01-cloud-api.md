@@ -17,9 +17,31 @@ DeepFlow 通过 云平台的 API 接口自动对接学习公有云租户的资�
 
 | 配置项 | 填写内容 | 备注 |
 |-------|-----|--------|
-| 云平台名称 | 例：aliyun-1	| 云平台的名称 |
-| AccessKey ID	 | 例：LTAI4FiU3ad3txLUSRg8xGfn	 | 请在控制台-accesskeys页面上配置用于API访问的密钥ID（只读权限即可） |
-| AccessKey Secret	 | 例：itsHzkPo22jbtNZ61QEz3gc5bsPnXP	 | 请在控制台-accesskeys页面上配置用于API访问的密钥KEY（只读权限即可） |
-| 区域白名单	 | 例：华南3（广州）,华北6（乌兰察布）	 | 可以配置多个，不支持正则表达式；优先级高于区域黑名单；具体取值可参考阿里云 ECS 地域和可用区列表 |
+| 云平台名称 | 例：aliyun-1	| 云平台的名称，可自定义 |
+| AccessKey ID	 | 例：LTAI4FiU3ad3txLUSRg8xGfn	 | 请在阿里云控制台-accesskeys 页面上配置用于 API 访问的密钥 ID（只读权限即可） |
+| AccessKey Secret	 | 例：itsHzkPo22jbtNZ61QEz3gc5bsPnXP	 | 请在阿里云控制台-accesskeys 页面上配置用于 API 访问的密钥 KEY（只读权限即可） |
+| 区域白名单	 | 例：华南3（广州）, 华北6（乌兰察布）	 | 可以配置多个，不支持正则表达式；优先级高于区域黑名单；具体取值可参考阿里云 ECS 地域和可用区列表 |
+
+- API 说明
+  DeepFlow 会使用如下 API 进行资源对接学习，如有需要限制对接的资源项，可在阿里云控制台限制 AK/SK 的权限
+
+| API | 对接内容 | 是否必须项 |
+|-------|-----|--------|
+| DescribeRegions |    |     | 
+| DescribeVpcs |    |     | 
+| DescribeNatGateways |    |     | 
+| DescribeSnatTableEntries |    |     | 
+| DescribeForwardTableEntries |    |     | 
+| DescribeRouteTableList |    |     | 
+| DescribeRouteEntryList |    |     | 
+| DescribeVSwitches |    |     | 
+| DescribeInstances |    |     | 
+| DescribeNetworkInterfaces |    |     | 
+| DescribeSecurityGroups |    |     | 
+| DescribeSecurityGroupAttribute |    |     | 
+| DescribeLoadBalancers |    |     | 
+| DescribeLoadBalancerAttribute |    |     | 
+| DescribeHealthStatus |    |     | 
+
 
 # 检查
