@@ -13,6 +13,17 @@ DeepFlow 通过云平台的 API 接口自动对接学习公有云租户的资源
 
 # 创建云平台
 
+DeepFlow 目前支持如下公有云的 API 对接和云资源信息同步：
+| 云服务商（英文） | 云服务商（中文） | DeepFlow 中使用的类型标识 |
+| ---------------- | ---------------- | ------------------------ |
+| AWS | AWS | aws |
+| Aliyun | 阿里云 | aliyun |
+| Baidu Cloud | 百度云 | baidu_bce |
+| Huawei Cloud | 华为云 | huawei |
+| Microsoft Azure | 微软云 |  |
+| QingCloud | 青云 | qingcloud |
+| Tencent Cloud | 腾讯云 | tencent |
+
 ## 阿里公有云
 
 - **创建步骤**
