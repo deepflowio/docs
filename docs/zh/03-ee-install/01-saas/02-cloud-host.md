@@ -5,7 +5,9 @@ permalink: /ee-install/saas/cloud-host
 
 # 简介
 
-DeepFlow 支持监控云服务器，并通过调用云厂商 API 获取云资源信息，自动注入到所有观测数据中（AutoTagging）。
+本章节将详细介绍如何在您的云服务器中部署 DeepFlow Agent。
+
+DeepFlow Agent 在云服务器中开始运行后，将自动零侵扰采集云服务器中应用的观测数据（AutoMetrics、AutoTracing、AutoProfiling）， 并自动为所有观测数据注入云资源 Label 标签（AutoTagging）。
 
 # 部署拓扑
 
