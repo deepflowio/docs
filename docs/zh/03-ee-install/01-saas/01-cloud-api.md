@@ -7,7 +7,9 @@ permalink: /ee-install/saas/cloud
 
 DeepFlow 平台对所有观测数据自动化注入`云资源`、`K8s 资源`和`K8s 自定义 Label`标签，这些标签是 DeepFlow 可观测性分析的基础，因此 DeepFlow 在开始工作之前需首先完成云、容器集群各类资源信息的学习。
 
-DeepFlow 通过 云平台的 API 接口自动对接学习公有云租户的资源标签，通过 K8s 集群的 apiserver 自动对接学习容器资源标签。
+DeepFlow 通过云平台的 API 接口自动对接学习公有云租户的资源标签，通过 K8s 集群的 apiserver 自动对接学习容器资源标签。
+
+本章节将详细介绍如何在您的 K8s 集群中部署 DeepFlow Agent。
 
 # 创建云平台（阿里公有云）
 
