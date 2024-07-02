@@ -34,7 +34,7 @@ DeepFlowServer -->|"get resource & label"| CloudAPI[cloud api service]
 
 - **检查云服务器资源**
 
-  云服务器资源成功被 DeepFlow 通过云平台 API 接口学习是 DeepFlow Agent 在云服务器部署中的前提。
+  云服务器资源已成功被 DeepFlow 通过云平台 API 接口学习是 DeepFlow Agent 在云服务器部署中的前提。
   - 如果未创建云平台，请首先创建云平台并配置正确的云平台 API 对接信息。
   - 如果已创建云平台，请在 DeepFlow 的 Web 页面中检查「资源」-「计算资源」-「云服务器」中通过 IP 搜索，确认云服务器是否已成功学习，操作步骤参考下图：
 
