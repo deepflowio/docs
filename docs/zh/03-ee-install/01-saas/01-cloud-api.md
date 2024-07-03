@@ -47,21 +47,21 @@ DeepFlow 会使用如下 API 从阿里公有云对接学习资源信息，如果
 
 | API | 对接内容 | 是否必须项 |
 |-------|-----|--------|
-| DescribeRegions |    |     | 
-| DescribeVpcs |    |     | 
-| DescribeNatGateways |    |     | 
-| DescribeSnatTableEntries |    |     | 
-| DescribeForwardTableEntries |    |     | 
-| DescribeRouteTableList |    |     | 
-| DescribeRouteEntryList |    |     | 
-| DescribeVSwitches |    |     | 
-| DescribeInstances |    |     | 
-| DescribeNetworkInterfaces |    |     | 
-| DescribeSecurityGroups |    |     | 
-| DescribeSecurityGroupAttribute |    |     | 
-| DescribeLoadBalancers |    |     | 
-| DescribeLoadBalancerAttribute |    |     | 
-| DescribeHealthStatus |    |     | 
+| DescribeRegions | 区域列表 | 必需项 | 
+| DescribeVpcs | VPC列表 | 必需项 | 
+| DescribeVSwitches | 虚拟交换机列表 | 必需项 | 
+| DescribeInstances | 云服务器实例列表 | 必需项 | 
+| DescribeNetworkInterfaces | 云服务器网络接口列表 | 必需项 | 
+| DescribeNatGateways | NAT网关列表 | 非必需项 | 
+| DescribeSnatTableEntries |    | 非必需项 | 
+| DescribeForwardTableEntries |    | 非必需项 | 
+| DescribeRouteTableList |    | 非必需项 | 
+| DescribeRouteEntryList |    | 非必需项 |  
+| DescribeSecurityGroups |    | 非必需项 | 
+| DescribeSecurityGroupAttribute |    | 非必需项 | 
+| DescribeLoadBalancers |    | 非必需项 | 
+| DescribeLoadBalancerAttribute |    | 非必需项 | 
+| DescribeHealthStatus |    | 非必需项 | 
 
 # 创建容器集群
 
