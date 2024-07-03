@@ -31,7 +31,7 @@ permalink: /ee-install/saas/check
 
 # 开启首次观测之旅
 
-如果您想了解您的云资源情况，可进入`资源`-`资源池`-`计算资源`/`网络资源`，[指导链接](../../../guide/ee-tenant/resources/computing-resources/)。
+如果您想了解您的云资源情况，可进入`资源`-`资源池`-`计算资源`/`网络资源`，[指导链接](../../guide/ee-tenant/resources/computing-resources/)。
 
 如果您想了解您的容器集群资源和应用情况，可进入`资源`-`资源池`-`容器资源`-`容器集群`/`命名空间`/`容器节点`/`Ingress`/`容器服务`/`工作负载`/`容器 POD`，[指导链接](/guide/ee-tenant/resources/container-resources/)。
 
