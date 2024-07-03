@@ -106,7 +106,7 @@ docker compose -f deepflow-agent-docker-compose.yaml up -d
 
 ## 修改 DeepFlow Agent 配置文件
 
-修改 DeepFlow Agent 的配置文件，文件的默认存放位置：`/etc/deepflow-agent.yaml` ：
+修改 DeepFlow Agent 的配置文件（默认存放位置：`/etc/deepflow-agent.yaml` ）
 
 ```yaml
 controller-ips:
