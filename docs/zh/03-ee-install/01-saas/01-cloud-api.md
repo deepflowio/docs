@@ -5,7 +5,7 @@ permalink: /ee-install/saas/cloud
 
 # 简介
 
-在 DeepFlow 的 Web 页面录入云平台，并完成云平台 API 接口对接是如下功能的前提条件：
+在 DeepFlow 的 Web 页面录入云平台，并完成云平台 API 接口的对接是如下 DeepFlow 功能运行的前提条件：
 - 学习公有云的云服务器实例信息，以接纳云服务器内所部署的 DeepFlow Agent 的注册请求。
 - 学习公有云的区域、可用区、VPC、子网及其他相关的资源信息和标签信息，对 DeepFlow Agent 采集的观测数据自动化注入`云资源`标签。
 
