@@ -34,31 +34,32 @@ DeepFlowServer -->|"get resource & label"| CloudAPI[cloud api service]
 
 - **检查云服务器资源**
 
-  云服务器资源已成功被 DeepFlow 通过云平台 API 接口学习，是 DeepFlow Agent 在云服务器部署中的前提。
-  - 如果未录入云平台，请首先录入云平台并配置正确的云平台 API 对接信息，参考[录入云平台](./cloud/)章节说明。
-  - 如果已录入云平台，请在 DeepFlow 的 Web 页面中检查`资源`-`计算资源`-`云服务器`中通过 IP 搜索，确认云服务器是否已成功学习，操作步骤参考下图：
+云服务器资源已成功被 DeepFlow 通过云平台 API 接口学习，是 DeepFlow Agent 在云服务器部署中的前提。
+- 如果未录入云平台，请首先录入云平台并配置正确的云平台 API 对接信息，参考[录入云平台](./cloud/)章节说明。
+- 如果已录入云平台，请在 DeepFlow 的 Web 页面中检查`资源`-`计算资源`-`云服务器`中通过 IP 搜索，确认云服务器是否已成功学习，操作步骤参考下图：
 
 ![检查云服务器列表](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240703668504773b7c0.png)
   
 
 - **获取 `teamId`**
   
-  `teamId`即`团队 ID`，用于识别 DeepFlow Agent 所属的组织，操作步骤参考下图：
-  
+`teamId`即`团队 ID`，用于识别 DeepFlow Agent 所属的组织，操作步骤参考下图：
+
 ![获取团队 ID / teamId](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240703668504714e57f.png)
 
 - **新建采集器组并获取 `agentGroupID`**
 
-   `agentGroupId`即采集器组 ID，用于识别 DeepFlow Agent 所属的采集器组，操作步骤参考下图：
+`agentGroupId`即采集器组 ID，用于识别 DeepFlow Agent 所属的采集器组，操作步骤参考下图：
 
 ![获取采集器组 ID / agentGroupId](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024070366850473b0257.png)
 
-   > 注：创建采集器组的目的是为了配置不同的运行策略，以便于对 DeepFlow Agent 进行运行策略的分组管理。
+> 注：创建采集器组的目的是为了配置不同的运行策略，以便于对 DeepFlow Agent 进行运行策略的分组管理。
 
 - **获取安装包**
 
-  Docker 环境推荐使用 Docker Compose 模式部署，无需手动获取安装包。
-  非 Docker 环境，请联系云杉技术支持人员获取安装包。
+Docker 环境推荐使用 Docker Compose 模式部署，无需手动获取安装包。
+
+非 Docker 环境，请联系云杉技术支持人员获取安装包。
 
 ## 安装 DeepFlow Agent 软件包
 
