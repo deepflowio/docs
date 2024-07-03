@@ -5,12 +5,12 @@ permalink: /ee-install/saas/cloud
 
 # 简介
 
-DeepFlow Server 与公有云 API 接口对接是如下功能的前提条件：
-- 学习公有云的云服务器实例信息，以接纳云服务器内所部署的 DeepFlow Agent 的注册。
+在 DeepFlow 的 Web 页面创建云平台，并完成云平台 API 接口对接是如下功能的前提条件：
+- 学习公有云的云服务器实例信息，以接纳云服务器内所部署的 DeepFlow Agent 的注册请求。
 - 学习公有云的区域、可用区、VPC、子网及其他相关的资源信息和标签信息，对 DeepFlow Agent 采集的观测数据自动化注入`云资源`标签。
 
-本章节将详细介绍如何在 DeepFlow 的 Web 页面中创建云平台以完成公有云 API 的对接。
-完成创建后，DeepFlow 将自动根据您配置的云平台信息，通过云平台提供的 API 接口周期性同步云资源信息并构建 DeepFlow 的标签数据。
+本章节将详细介绍如何在 DeepFlow 的 Web 页面中创建云平台以完成云平台 API 的对接。
+完成创建后，DeepFlow 将自动根据您配置的云平台信息，通过云平台提供的 API 接口周期性同步云资源信息并构建 DeepFlow 的可观测性数据标签。
 
 # 创建云平台
 
@@ -41,6 +41,8 @@ DeepFlow 目前支持如下公有云的 API 对接和云资源信息同步：
 | AccessKey ID	 | 例：LTAI4FiU3ad3txLUSRg8xGfn	 | 请在阿里云控制台-accesskeys 页面上配置用于 API 访问的密钥 ID（只读权限即可） |
 | AccessKey Secret	 | 例：itsHzkPo22jbtNZ61QEz3gc5bsPnXP	 | 请在阿里云控制台-accesskeys 页面上配置用于 API 访问的密钥 KEY（只读权限即可） |
 | 区域白名单	 | 例：华南3（广州）, 华北6（乌兰察布）	 | 可以配置多个，不支持正则表达式；优先级高于区域黑名单；具体取值可参考阿里云 ECS 地域和可用区列表 |
+
+> 注意：’区域白名单‘需填写且与实际的云服务器资源分布一致。如果’区域白名单‘为空（表示匹配全部区域）或过多，会产生 DeepFlow 查询过多的阿里云区域、同步周期长等情况。如果填写的区域未包含您的云服务器所在的区域，则会产生无法学习到该区域的云服务器信息，DeepFlow Agent 无法注册等情况。
 
 - **API 说明**
 
