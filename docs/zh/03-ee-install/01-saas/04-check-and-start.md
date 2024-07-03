@@ -1,5 +1,5 @@
 ---
-title: 检查并第一次观测
+title: 检查并首次观测
 permalink: /ee-install/saas/check
 ---
 
