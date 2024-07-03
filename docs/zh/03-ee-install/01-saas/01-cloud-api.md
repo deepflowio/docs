@@ -66,9 +66,3 @@ DeepFlow 会使用如下 API 从阿里公有云对接学习资源信息，如果
 | DescribeLoadBalancers |    | 非必需项 | 
 | DescribeLoadBalancerAttribute |    | 非必需项 | 
 | DescribeHealthStatus |    | 非必需项 | 
-
-# 检查
-
-检查云平台对接状态：
-
-**TBD：此处有待插入图片**
