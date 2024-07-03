@@ -40,13 +40,14 @@ DeepFlowServer -->|"get resource & label"| CloudAPI[cloud api service]
 
 ![检查云服务器列表](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240703668504773b7c0.png)
   
-
+<a id="获取团队ID"></a>
 - **获取 `teamId`**
   
 `teamId`即`团队 ID`，用于识别 DeepFlow Agent 所属的组织，操作步骤参考下图：
 
 ![获取团队 ID / teamId](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240703668504714e57f.png)
 
+<a id="获取采集器组ID"></a>
 - **新建采集器组并获取 `agentGroupID`**
 
 `agentGroupId`即采集器组 ID，用于识别 DeepFlow Agent 所属的采集器组，操作步骤参考下图：
@@ -130,9 +131,6 @@ team-id: 't-xxxxxxxxxx' # FIXME: Team ID
 | `controller-ips` |  DeepFlow Agent 所要连接的 DeepFlow Server 地址 |  `agent.cloud.deepflow.yunshan.net` |  该地址错误时，DeepFlow Agent 将**无法注册** |
 | `teamId` |  即`团队 ID` ， DeepFlow Server 根据该字段确定 DeepFlow Agent 所属的组织 | [获取方式](#获取团队ID) | 该 ID 值错误时，DeepFlow Agent 将**无法注册** |
 | `vtap-group-id-request` |  即采集器组 ID，DeepFlow Server 根据该字段下发运行策略 | [获取方式](#获取采集器组ID) |  该 ID 值无效时，DeepFlow Server 会向 DeepFlow Agent **下发 default 组的运行策略** |
-
-> 注意！！！`deepflowK8sClusterID`与`clusterNAME`互斥，两个参数不能同时配置。独立容器集群的 DeepFlow Agent 使用`clusterNAME`。附属容器集群的 DeepFlow Agent 使用`deepflowK8sClusterID`。
-
 
 ## 启动 DeepFlow Agent 服务
 
