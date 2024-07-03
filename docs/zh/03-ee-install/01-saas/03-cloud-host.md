@@ -40,11 +40,18 @@ DeepFlowServer -->|"get resource & label"| CloudAPI[cloud api service]
 
 ![检查云服务器列表](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240703668504773b7c0.png)
   
+
+- **获取 `teamId`**
+  
+  `teamId`即`团队 ID`，用于识别 DeepFlow Agent 所属的组织，操作步骤参考下图：
+  
+![获取团队 ID / teamId](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240703668504714e57f.png)
+
 - **新建采集器组并获取 `agentGroupID`**
 
    `agentGroupId`即采集器组 ID，用于识别 DeepFlow Agent 所属的采集器组，操作步骤参考下图：
 
-   ![获取 agent-group-id](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240613666aeb1bb3cb9.jpg?align=center)
+![获取采集器组 ID / agentGroupId](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024070366850473b0257.png)
 
    > 注：创建采集器组的目的是为了配置不同的运行策略，以便于对 DeepFlow Agent 进行运行策略的分组管理。
 
