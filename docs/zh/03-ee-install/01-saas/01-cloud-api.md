@@ -94,7 +94,7 @@ DeepFlow 观测覆盖的 K8s 集群分类两类：
 
 ## 创建独立容器集群
 
-独立容器集群的创建可以由 DeepFlow Server 在收到该 K8s 集群的首个 DeepFlow Agent 注册信息后自动在创建，无需运维人员操作。
+独立容器集群的创建可以由 DeepFlow Server 在收到该 K8s 集群的首个 DeepFlow Agent 注册信息后自动创建，无需运维人员操作。
 
 
 # 检查
