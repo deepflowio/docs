@@ -5,7 +5,7 @@ permalink: /ee-install/saas/check
 
 # 简介
 
-本章节将向您介绍在完成部署之后，如何检查 DeepFlow Agent 运行情况，以及如何开启第一次观测。
+本章节将向您介绍在完成 DeepFlow Agent 部署之后，如何检查运行情况，以及如何开启第一次观测。
 
 # 检查
 
