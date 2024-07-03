@@ -63,7 +63,16 @@ DeepFlow 系统默认提供 auto_instance/auto_service 两个自动分组的标�
 DeepFlow 同时也支持自定义自动分组标签的能力，按需配置其需要识别的 Tag 及优先级即可，配置文档如下：
 
 ```
-todo
+querier:
+  auto-custom-tag:
+    # 自定义 Tag 的名称
+    # 限制：不支持包含 空格、冒号、反引号
+    tag-name: xxxx
+    # 自定义 Tag 由哪些已有 Tag 生成，优先级从上往下依次降
+    # 说明：已有 Tag 可通过`show tags from <table>`获得
+    tag-values:
+    - xxxx
+    - xxxx
 ```
 
 上述定义的 `$tag-name`标签使用上与`auto_instance/auto_service`基本一致，限制如下：
