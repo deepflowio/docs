@@ -31,21 +31,21 @@ permalink: /ee-install/saas/check
 
 # 开启首次观测之旅
 
-如果您想了解您的云资源情况，可进入`资源`-`资源池`-`计算资源`/`网络资源`，[指导链接](../../guide/ee-tenant/resources/computing-resources/)。
+如果您想了解您的云资源情况，可进入`资源`-`资源池`-`计算资源`/`网络资源`，[指导链接](../../../guide/ee-tenant/resources/computing-resources/)。
 
-如果您想了解您的容器集群资源和应用情况，可进入`资源`-`资源池`-`容器资源`-`容器集群`/`命名空间`/`容器节点`/`Ingress`/`容器服务`/`工作负载`/`容器 POD`，[指导链接](/guide/ee-tenant/resources/container-resources/)。
+如果您想了解您的容器集群资源和应用情况，可进入`资源`-`资源池`-`容器资源`-`容器集群`/`命名空间`/`容器节点`/`Ingress`/`容器服务`/`工作负载`/`容器 POD`，[指导链接](../../..//guide/ee-tenant/resources/container-resources/)。
 
-如果您想观测某一个云服务器或容器服务的应用拓扑，可进入`追踪`-`拓扑分析`，[指导链接](/guide/ee-tenant/tracing/path-topology/)。
+如果您想观测某一个云服务器或容器服务的应用拓扑，可进入`追踪`-`拓扑分析`，[指导链接](../../..//guide/ee-tenant/tracing/path-topology/)。
 
-如果您想观测某一个云服务器或容器服务的应用性能，可进入`追踪`-`资源分析`，[指导链接](/guide/ee-tenant/tracing/service-list/)。
+如果您想观测某一个云服务器或容器服务的应用性能，可进入`追踪`-`资源分析`，[指导链接](../../..//guide/ee-tenant/tracing/service-list/)。
 
-如果您想对某一次业务请求做调用链追踪，可进入`追踪`-`调用链追踪`，[指导链接](/guide/ee-tenant/tracing/call-chain-tracing/)。
+如果您想对某一次业务请求做调用链追踪，可进入`追踪`-`调用链追踪`，[指导链接](../../..//guide/ee-tenant/tracing/call-chain-tracing/)。
 
-如果您想持续剖析某一个应用进程的性能，可进入`剖析`-`持续剖析`，[指导链接](/guide/ee-tenant/profiling/continue-profile/)。
+如果您想持续剖析某一个应用进程的性能，可进入`剖析`-`持续剖析`，[指导链接](../../..//guide/ee-tenant/profiling/continue-profile/)。
 
-如果您想观测某一个云服务器或容器服务的网络流量拓扑，可进入`网络`-`拓扑分析`，[指导链接](/guide/ee-tenant/network/network-map/)。
+如果您想观测某一个云服务器或容器服务的网络流量拓扑，可进入`网络`-`拓扑分析`，[指导链接](../../..//guide/ee-tenant/network/network-map/)。
 
-如果您想观测某一个云服务器或容器服务的网络性能，可进入`网络`-`资源分析`，[指导链接](/guide/ee-tenant/network/service-statistics/)。
+如果您想观测某一个云服务器或容器服务的网络性能，可进入`网络`-`资源分析`，[指导链接](../../..//guide/ee-tenant/network/service-statistics/)。
 
 除此之外，还有更多的可观测性使用方法等待您的发掘……
 
