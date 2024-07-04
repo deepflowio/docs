@@ -64,12 +64,8 @@ DeepFlow 会使用如下 API 从阿里云对接学习资源信息，如果需要
 | DescribeInstances | 查询云服务器实例列表 | 必需项 |
 | DescribeNetworkInterfaces | 查询云服务器网络接口列表 | 必需项 |
 | DescribeNatGateways | 查询 NAT 网关列表 | 非必需项 |
-| DescribeSnatTableEntries |    | 非必需项 |
-| DescribeForwardTableEntries |    | 非必需项 |
-| DescribeRouteTableList |    | 非必需项 |
-| DescribeRouteEntryList |    | 非必需项 |
-| DescribeSecurityGroups |    | 非必需项 |
-| DescribeSecurityGroupAttribute |    | 非必需项 |
-| DescribeLoadBalancers |    | 非必需项 |
-| DescribeLoadBalancerAttribute |    | 非必需项 |
-| DescribeHealthStatus |    | 非必需项 |
+| DescribeSnatTableEntries | 查询 NAT 网关 SNAT 规则 | 非必需项 |
+| DescribeForwardTableEntries | 查询 NAT 网关 DNAT 规则 | 非必需项 |
+| DescribeLoadBalancers | 查询负载均衡器 | 非必需项 |
+| DescribeLoadBalancerAttribute | 查询负载均衡监听器 | 非必需项 |
+| DescribeHealthStatus | 查询负载均衡规则 | 非必需项 |
