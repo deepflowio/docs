@@ -24,6 +24,7 @@ DeepFlow 目前支持如下公有云的 API 对接和云资源信息同步：
 | Microsoft Azure | 微软云 |  |
 | QingCloud | 青云 | qingcloud |
 | Tencent Cloud | 腾讯云 | tencent |
+| Volcengine | 火山引擎 | volcengine |
 
 # 阿里云
 
