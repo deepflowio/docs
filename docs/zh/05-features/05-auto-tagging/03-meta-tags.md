@@ -14,6 +14,7 @@ DeepFlow 目前支持资源信息同步的公有云厂商包括：
 - Microsoft Azure
 - QingCloud 青云
 - Tencent Cloud 腾讯云
+- Volcengine 火山引擎
 
 支持自动注入的资源标签信息包括：
 
