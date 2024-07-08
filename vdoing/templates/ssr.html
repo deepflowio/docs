@@ -18,7 +18,17 @@
            window._YS_RENDER_IMAGE=function renderImage(svg,id,cb){var canvas=document.getElementById(id);var c=canvas.getContext("2d");var img=new Image();img.src="data:image/svg+xml;base64,"+window.btoa(window.unescape(window.encodeURIComponent(svg)));img.onload=function(){canvas.width=img.width;canvas.height=img.height;c.drawImage(img,0,0);cb(img)}};
     </script>
   </head>
-  
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7MK4F9G6SR"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-7MK4F9G6SR');
+  </script>
+
   <body class="theme-mode-light">
     <!--vue-ssr-outlet-->
     {{{ renderScripts() }}}
