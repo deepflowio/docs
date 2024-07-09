@@ -11,23 +11,7 @@ DeepFlow Agent 在云服务器中开始运行后，将自动零侵扰采集云�
 
 # 部署拓扑
 
-```mermaid
-flowchart LR
-
-subgraph DeepFlow-Cloud
-  DeepFlowServer["deepflow-server"]
-end
-
-
-subgraph VPC-1
-  subgraph Cloud-Host-1
-    DeepFlowAgent1[deepflow-agent]
-    DeepFlowAgent1 -->|"tcp/udp 30033+30035"| DeepFlowServer
-  end
-end
-
-DeepFlowServer -->|"get resource & label"| CloudAPI[cloud api service]
-```
+![部署拓扑](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240709668ce0a950a1c.jpeg)
 
 # 部署前的检查
 
@@ -52,7 +36,7 @@ DeepFlowServer -->|"get resource & label"| CloudAPI[cloud api service]
 ![获取 agentGroupId（采集器组 ID）](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024070366850473b0257.png)
 
 ::: tip
-注：创建采集器组的目的是为了配置不同的运行策略，以便于对 DeepFlow Agent 进行运行策略的分组管理。
+创建采集器组的目的是为了配置不同的运行策略，以便于对 DeepFlow Agent 进行运行策略的分组管理。
 :::
 
 ## 获取安装包
