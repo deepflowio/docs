@@ -12,6 +12,10 @@ permalink: /ee-install/saas/cloud
 本章节将详细介绍如何在 DeepFlow 的 Web 页面中录入云平台信息以完成云平台 API 的对接。
 完成录入后，DeepFlow 将自动根据您配置的云平台信息，通过云平台提供的 API 接口周期性同步云资源信息并构建 DeepFlow 的可观测性数据标签。
 
+# 交互拓扑
+
+![交互拓扑](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240709668ce0a16f52f.jpeg)
+
 # 支持的云服务商
 
 DeepFlow 目前支持如下公有云的 API 对接和云资源信息同步：
@@ -45,13 +49,17 @@ DeepFlow 目前支持如下公有云的 API 对接和云资源信息同步：
 | AccessKey Secret | 例：`itsHzkPo22jbtNZ61QEz3gc5bsPnXP` | 请在阿里云控制台创建 AccessKey，并将 Secret 填写在此 |
 | 区域白名单 | 例：`华南3（广州）, 华北6（乌兰察布）` | 填写为阿里云 ECS 资源所在的区域列表，多个区域之间使用 `, ` 连接 |
 
-![在阿里云控制台创建 AccessKey](http://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/yunshan-ticket/png/d2b5ca33bd970f64a6301fa75ae2eb22_20240704000133.png)
-
 ::: warning
-注意：`区域白名单`需填写且与实际的云服务器资源分布一致。如果`区域白名单`为空（匹配全部区域）或过多，会产生 DeepFlow 查询过多的阿里云区域、查询周期长等情况。如果填写的区域未包含您的云服务器所在的区域，则会产生无法学习到该区域的云服务器信息，以及 DeepFlow Agent 无法注册等情况。
+`区域白名单`需填写且与实际的云服务器资源分布一致。如果`区域白名单`为空（匹配全部区域）或过多，会产生 DeepFlow 查询过多的阿里云区域、查询周期长等情况。如果填写的区域未包含您的云服务器所在的区域，则会产生无法学习到该区域的云服务器信息，以及 DeepFlow Agent 无法注册等情况。
 :::
 
-![查询阿里云资源所在的区域](http://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/yunshan-ticket/png/d2b5ca33bd970f64a6301fa75ae2eb22_20240704000605.png)
+**在阿里云控制台创建 AccessKey 的操作步骤**：
+
+![在阿里云控制台创建 AccessKey](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240709668ce0a59992c.png)
+
+**查询阿里云资源所在区域的操作步骤**：
+
+![查询阿里云资源所在的区域](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240709668ce0a9687e6.png)
 
 ## API 权限说明
 
