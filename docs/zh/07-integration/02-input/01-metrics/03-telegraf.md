@@ -11,7 +11,7 @@ flowchart TD
 subgraph K8s-Cluster
   Telegraf1["telegraf (daemonset)"]
   DeepFlowAgent1["deepflow-agent (daemonset)"]
-  DeepFlowServer["deepflow-server (statefulset)"]
+  DeepFlowServer["deepflow-server (deployment)"]
 
   Telegraf1 -->|metrics| DeepFlowAgent1
   DeepFlowAgent1 -->|metrics| DeepFlowServer
