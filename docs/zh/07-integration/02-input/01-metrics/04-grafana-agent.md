@@ -91,7 +91,14 @@ systemctl enable grafana-agent
 ```bash
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
-helm install kube-state-metrics prometheus-community/kube-state-metrics   --namespace grafana-agent --create-namespace
+cat << EOF > kube-state-metrics-values-custom.yaml
+selfMonitor:
+  enabled: true
+EOF
+helm install  kube-state-metrics prometheus-community/kube-state-metrics \
+  --namespace grafana-agent \
+  --create-namespace \
+  -f kube-state-metrics-values-custom.yaml
 helm repo add grafana https://grafana.github.io/helm-charts
 helm repo update
 
@@ -159,7 +166,7 @@ agent:
                 source_labels:
                   - __meta_kubernetes_service_label_app_kubernetes_io_name
               - action: keep
-                regex: https-main
+                regex: http
                 source_labels:
                   - __meta_kubernetes_endpoint_port_name
               - regex: Node;(.*)
@@ -197,7 +204,7 @@ agent:
                 source_labels:
                   - __meta_kubernetes_service_label_app_kubernetes_io_name
                 target_label: job
-              - replacement: https-main
+              - replacement: http
                 target_label: endpoint
               - action: labeldrop
                 regex: (pod|service|endpoint|namespace)
@@ -210,7 +217,7 @@ agent:
                 regex: 0
                 source_labels:
                   - __tmp_hash
-            scheme: https
+            scheme: http
             scrape_interval: 25s
             scrape_timeout: 25s
             tls_config:
@@ -233,7 +240,7 @@ agent:
                 source_labels:
                   - __meta_kubernetes_service_label_app_kubernetes_io_name
               - action: keep
-                regex: https-self
+                regex: metrics
                 source_labels:
                   - __meta_kubernetes_endpoint_port_name
               - regex: Node;(.*)
@@ -271,7 +278,7 @@ agent:
                 source_labels:
                   - __meta_kubernetes_service_label_app_kubernetes_io_name
                 target_label: job
-              - replacement: https-self
+              - replacement: metrics
                 target_label: endpoint
               - action: hashmod
                 modulus: 1
@@ -282,7 +289,7 @@ agent:
                 regex: 0
                 source_labels:
                   - __tmp_hash
-            scheme: https
+            scheme: http
             scrape_interval: 25s
             tls_config:
               insecure_skip_verify: true
