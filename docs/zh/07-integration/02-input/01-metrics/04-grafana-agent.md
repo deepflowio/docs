@@ -99,10 +99,27 @@ cat << EOF > grafana-agent-values-custom.yaml
 agent:
   # -- Address to listen for traffic on. 0.0.0.0 exposes the UI to other
   # containers.
-  listenAddr: 0.0.0.0
+  # -- Address to listen for traffic on. 0.0.0.0 exposes the UI to other
+  # containers.
+  listenAddr: \$(HOSTIP)
 
   # -- Port to listen for traffic on.
   listenPort: 9100
+
+  # --  Base path where the UI is exposed.
+  uiPathPrefix: /
+
+  # -- Enables sending Grafana Labs anonymous usage stats to help improve Grafana
+  # Agent.
+  enableReporting: true
+
+  # -- Extra environment variables to pass to the agent container.
+  extraEnv:
+  - name: HOSTIP
+    valueFrom:
+      fieldRef:
+        fieldPath: status.hostIP
+
   mode: 'static'
   configMap:
     # -- Create a new ConfigMap for the config file.
