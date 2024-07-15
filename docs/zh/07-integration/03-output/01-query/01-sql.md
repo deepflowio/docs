@@ -245,7 +245,7 @@ API 调用方式：
 
 ```bash
 curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/query/" \
-    --data-urlencode "sql=show metric function"
+    --data-urlencode "sql=show metrics functions"
 ```
 
 # SQL 语法
