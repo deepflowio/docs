@@ -52,7 +52,20 @@ metrics:
     remote_write:
     - url: http://127.0.0.1:38086/api/v1/prometheus
   wal_directory: '/var/lib/grafana-agent'
+integrations:
+  agent:
+    enabled: true
+  node_exporter:
+    enabled: true
+    relabel_configs:
+    - source_labels: [__address__]
+      regex: (.*)
+      target_label: instance
+      replacement: \$1
 EOF
+DEFAULT_INTERFACE=$(ip route | grep default | awk '{print $5}')
+DEFAULT_IP=$(ip -4 addr show $DEFAULT_INTERFACE | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
+sed -i "s|127.0.0.1|$DEFAULT_IP|g" /etc/sysconfig/grafana-agent
 systemctl start grafana-agent
 systemctl enable grafana-agent
 ```
@@ -82,7 +95,20 @@ metrics:
     remote_write:
     - url: http://127.0.0.1:38086/api/v1/prometheus
   wal_directory: '/var/lib/grafana-agent'
+integrations:
+  agent:
+    enabled: true
+  node_exporter:
+    enabled: true
+    relabel_configs:
+    - source_labels: [__address__]
+      regex: (.*)
+      target_label: instance
+      replacement: \$1
 EOF
+DEFAULT_INTERFACE=$(ip route | grep default | awk '{print $5}')
+DEFAULT_IP=$(ip -4 addr show $DEFAULT_INTERFACE | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
+sed -i "s|127.0.0.1|$DEFAULT_IP|g" /etc/sysconfig/grafana-agent
 systemctl start grafana-agent
 systemctl enable grafana-agent
 ```
