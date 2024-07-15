@@ -149,7 +149,6 @@ customConfig:
         }
 
         if !exists(.app_service) {
-            # FIXME: files 模块没有此字段，请通过日志内容注入应用名称
             .app_service = .kubernetes.container_name
         }
   sinks:
@@ -157,7 +156,7 @@ customConfig:
       encoding:
         codec: json
       inputs:
-      - remap_kubernetes_logs # NOTE: 注意这里数据源是 transform 模块的 key
+      - remap_kubernetes_logs
       type: http
       uri: http://deepflow-agent.deepflow/api/v1/log
 EOF
