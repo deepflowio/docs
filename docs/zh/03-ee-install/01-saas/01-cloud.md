@@ -14,7 +14,7 @@ permalink: /ee-install/saas/cloud
 
 # 交互拓扑
 
-![交互拓扑](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240709668ce0a16f52f.jpeg)
+![交互拓扑](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202407156694c77d6f050.jpeg)
 
 # 支持的云服务商
 
