@@ -11,7 +11,6 @@ DeepFlow Agent 在云服务器中开始运行后，将自动零侵扰采集云�
 
 # 部署拓扑
 
-![部署拓扑](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240709668ce0a950a1c.jpeg)
 ![部署拓扑](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202407156694c79250a2a.jpeg)
 
 # 部署前的检查
