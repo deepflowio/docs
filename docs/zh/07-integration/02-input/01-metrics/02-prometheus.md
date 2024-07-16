@@ -63,7 +63,7 @@ remote_read:
     read_recent: true
 ```
 
-# 配置 DeepFlow
+# 配置 DeepFlow（v6.5 及之后的版本废弃）
 
 请参考[配置 DeepFlow](../tracing/opentelemetry/#配置-deepflow) 一节内容，并添加配置 `prometheus targets api` 地址（v6.2 及以前版本不需要配置），完成 DeepFlow Agent 配置。目的是将 prometheus activeTargets.labels 和 config 同步到 deepflow-server 中，以提升存储和查询性能。
 
