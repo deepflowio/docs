@@ -78,3 +78,54 @@ DeepFlow 会使用如下 API 从阿里云对接学习资源信息，如果需要
 | DescribeLoadBalancers | 查询负载均衡器 | 非必需项 |
 | DescribeLoadBalancerAttribute | 查询负载均衡监听器 | 非必需项 |
 | DescribeHealthStatus | 查询负载均衡规则 | 非必需项 |
+
+# 腾讯云
+
+## 录入步骤
+
+1. 进入`资源`-`资源池`-`云平台`
+2. 点击`新建云平台`
+3. 填写云平台相关信息，点击`确定`，得到一条云平台的记录
+
+![录入云平台](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202407036685046c6e3cb.png)
+
+## 配置项说明
+
+| 配置项 | 填写内容 | 备注 |
+| ------ | --------- | -------- |
+| 云平台名称 | 例：tencent-1 | 在 DeepFlow 中看到的云平台的名称，可自定义 |
+| AccessKey ID | 例：AKIDztZ0C9dHuIQJwKMeZEixykjTBhz2L |	填写腾讯云`访问管理`-`访问密钥`-`API密钥管理`页面中`新建密钥`后产生的`SecretId`（只读权限即可） |
+| AccessKey Secret | 例：itsHzkPo22jbtNZ61QEz3gc5bsPnXP |	填写`SecretId`对应的`SecretKey`（只读权限即可） |
+| 区域白名单 | 例：华东地区(上海) |	填写为腾讯云 云服务器所在的区域列表，可以配置多个，不支持正则表达式，多个区域之间使用 `, ` 连接  |
+
+::: warning
+`区域白名单`需填写且与实际的云服务器资源分布一致。如果`区域白名单`为空（匹配全部区域）或过多，会产生 DeepFlow 查询过多的腾讯云区域、查询周期长等情况。如果填写的区域未包含您的云服务器所在的区域，则会产生无法学习到该区域的云服务器信息，以及 DeepFlow Agent 无法注册等情况。
+:::
+
+**在腾讯云控制台创建密钥的操作步骤**：
+
+![在阿里云控制台创建 AccessKey](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240709668ce0a59992c.png)
+
+**查询腾讯云资源所在区域的操作步骤**：
+
+![查询阿里云资源所在的区域](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240709668ce0a9687e6.png)
+
+## API 权限说明
+
+DeepFlow 会使用如下 API 从腾讯云对接学习资源信息，如果需要限制 DeepFlow 能够学习的资源项，可在腾讯云控制台限制用于生成密钥的账号的资源权限：
+
+| API | 对接内容 | 是否必须项 |
+| --- | ---- | -------- |
+| DescribeRegions | 查询区域列表 | 必需项 |
+| DescribeVpcs | 查询 VPC 列表 | 必需项 |
+| DescribeSubnets | 查询子网列表 | 必需项 |
+| DescribeInstances | 查询云服务器实例列表 | 必需项 |
+| DescribeRouteTables |  |  |
+| DescribeSecurityGroups |  |  |
+| DescribeSecurityGroupPolicies |  |  |
+| DescribeServiceTemplates |  |  |
+| DescribeAddressTemplates |  |  |
+| DescribeAddressTemplateGroups |  |  |
+| DescribeNetworkInterfaces | 查询云服务器网络接口列表 | 必需项 |
+| DescribeAddresses |  |  |
+
