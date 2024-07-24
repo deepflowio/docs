@@ -332,6 +332,32 @@ transforms:
       }
 ```
 
+### 提取自定义标签
+
+如果应用里需要注入一些自定义的标签，用于过滤日志，同样地，也可以使用 Transforms 的 Remap 模块，写一段注入标签的代码，其中，我们要求自定义标签必须写入 `.json` 结构体内，才能被存储、查询，示例如下：
+
+```yaml
+transforms:
+  # The configuration comes from https://vector.dev/docs/reference/configuration/transforms/remap/
+  inject_json_tags:
+    type: remap
+    inputs:
+      - remap_kubernetes_logs
+    source: |-
+      .json = {
+        "cluster": "Production",
+        "extra_user_tag": "xxxxx" # FIXME: 可自定义添加需要的标签
+      }
+```
+
+然后，在使用 [SQL API](../../output/query/sql) 查询时，我们可以使用如下语句过滤注入的标签：
+
+```bash
+curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/query/" \
+    --data-urlencode "db=application_log" \
+    --data-urlencode "sql=select attribute.cluster, body from log where attribute.cluster='Production'"
+```
+
 ## 发送
 
 最后，我们通过 [HTTP](https://vector.dev/docs/reference/configuration/sinks/http/) 模块，将日志发送到 DeepFlow Agent 中。
@@ -369,7 +395,12 @@ transforms:
     source: |-
       source = parse_regex(.file, r'\/var\/log\/(?<file_source>.+)\.log') ?? {}
       source.file_source = replace!(source.file_source, "/", "-")
-      .app_service = "${HOST}-" + source.file_source # FIXME: 这里可写下服务器主机名，用于区分上报的数据源
+      hostname, _ = get_hostname()
+      .app_service = hostname + "-" + source.file_source
+      .json = {
+        "cluster": "Production",
+        "module": "nginx"
+      }
 sinks:
   http:
     encoding:
