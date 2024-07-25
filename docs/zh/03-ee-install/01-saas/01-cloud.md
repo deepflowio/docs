@@ -65,7 +65,7 @@ DeepFlow 目前支持如下公有云的 API 对接和云资源信息同步：
 
 DeepFlow 会使用如下 API 从阿里云对接学习资源信息，如果需要限制 DeepFlow 能够学习的资源项，可在阿里云控制台限制用于生成 AccessKey 的账号的资源权限：
 
-| API | 对接内容 | 是否必须项 |
+| API | 对接内容 | 是否必需项 |
 | --- | ---- | -------- |
 | DescribeRegions | 查询区域列表 | 必需项 |
 | DescribeVpcs | 查询 VPC 列表 | 必需项 |
@@ -113,18 +113,20 @@ DeepFlow 会使用如下 API 从阿里云对接学习资源信息，如果需要
 
 DeepFlow 会使用如下 API 从腾讯云对接学习资源信息，如果需要限制 DeepFlow 能够学习的资源项，可在腾讯云控制台限制用于生成密钥的账号的资源权限：
 
-| API | 对接内容 | 是否必须项 |
+| API | 对接内容 | 是否必需项 |
 | --- | ---- | -------- |
-| DescribeRegions | 查询区域列表 | 必需项 |
-| DescribeVpcs | 查询 VPC 列表 | 必需项 |
-| DescribeSubnets | 查询子网列表 | 必需项 |
-| DescribeInstances | 查询云服务器实例列表 | 必需项 |
-| DescribeRouteTables |  |  |
-| DescribeSecurityGroups |  |  |
-| DescribeSecurityGroupPolicies |  |  |
-| DescribeServiceTemplates |  |  |
-| DescribeAddressTemplates |  |  |
-| DescribeAddressTemplateGroups |  |  |
-| DescribeNetworkInterfaces | 查询云服务器网络接口列表 | 必需项 |
-| DescribeAddresses |  |  |
+| DescribeRegions | 查询区域列表 | 必需项 |  
+| DescribeZones | 查询可用区列表 | 必需项 |  
+| DescribeVpcs | 查询 VPC 列表 | 必需项 |  
+| DescribeNatGateways | 查询 NAT 网关及相关信息 | 必需项 |  
+| DescribeNatGatewayDestinationIpPortTranslationNatRules | 查询 NAT 网关规则 | 必需项 |  
+| DescribeRouteTables | 查询路由表 | 必需项 |  
+| DescribeSubnets | 查询子网列表 | 必需项 |  
+| DescribeInstances | 查询实例列表 | 必需项 |  
+| DescribeNetworkInterfaces | 查询弹性网卡列表 | 必需项 |  
+| DescribeLoadBalancers | 查询负载均衡器列表 | 必需项 |  
+| DescribeListeners | 查询负载均衡的监听器列表 | 必需项 |  
+| DescribeTargets | 查询负载均衡绑定的后端服务列表 | 必需项 |  
+| DescribeClassicalLBListeners | 查询传统型负载均衡监听器列表 | 必需项 |
+
 
