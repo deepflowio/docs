@@ -166,7 +166,7 @@ cat << EOF > deepflow-agent-docker-compose.yaml
 version: '3.2'
 services:
   deepflow-agent:
-    image: registry.cn-hongkong.aliyuncs.com/deepflow-ce/deepflow-agent:stable
+    image: registry.cn-hongkong.aliyuncs.com/deepflow-ce/deepflow-agent:v6.5
     container_name: deepflow-agent
     restart: always
     #privileged: true  ## Docker version below 20.10.10 requires the opening of the privileged mode, See https://github.com/moby/moby/pull/42836
