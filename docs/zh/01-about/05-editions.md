@@ -94,6 +94,7 @@ DeepFlow 云服务版是一个完全托管的一站式可观测性平台，
 |                      | 利用闭源 APM TraceID 增强 AutoTracing     |        | ✔      |
 |                      | Wasm/so AutoTracing 增强插件 SDK          | ✔      | ✔      |
 |                      | 集成 APM Span - OpenTelemetry/SkyWalking  | ✔      | ✔      |
+|                      | 链路拓扑 Trace Map                        |        | ✔      |
 |                      | eBPF Span - kprobe/uprobe                 | ✔      | ✔      |
 |                      | cBPF Span - 容器/云服务器                 | ✔      | ✔      |
 |                      | cBPF Span - 宿主机/专有云网关/网络设备    |        | ✔      |
@@ -101,7 +102,9 @@ DeepFlow 云服务版是一个完全托管的一站式可观测性平台，
 | Continuous Profiling | eBPF AutoProfiling - On-CPU               | ✔      | ✔      |
 |                      | eBPF AutoProfiling - Off-CPU              |        | ✔      |
 |                      | eBPF AutoProfiling - Memory               |        | ✔      |
-|                      | eBPF AutoProfiling - GPU                  |        | ✔      |
+|                      | eBPF AutoProfiling - GPU Kernel           |        | ✔      |
+|                      | eBPF AutoProfiling - GPU HBM              |        | ✔      |
+|                      | eBPF AutoProfiling - RDMA                 |        | ✔      |
 |                      | JVM 语言 AutoProfiling                    | ✔      | ✔      |
 |                      | C/C++/Golang/Rust 语言 AutoProfiling      | ✔      | ✔      |
 |                      | Python 语言 AutoProfiling                 |        | ✔      |
