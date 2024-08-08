@@ -19,7 +19,7 @@ DeepFlow Agent 在云服务器中开始运行后，将自动零侵扰采集云�
 - 如果未录入云平台，请首先录入云平台并配置正确的云平台 API 对接信息，参考[在 DeepFlow 中录入云平台](./cloud/)章节说明。
 - 如果已录入云平台，请在 DeepFlow 的 Web 页面中检查`资源`-`计算资源`-`云服务器`中通过 IP 搜索，确认云服务器是否已成功学习，操作步骤参考下图：
 
-![检查云服务器列表](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240703668504773b7c0.png)
+![检查云服务器列表](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080866b4a709808f6.png)
 
 # 部署 Agent
 
@@ -27,13 +27,13 @@ DeepFlow Agent 在云服务器中开始运行后，将自动零侵扰采集云�
 
 `teamId`即`团队 ID`，用于识别 DeepFlow Agent 所属的组织，操作步骤参考下图：
 
-![获取 teamId（团队 ID）](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240703668504714e57f.png)
+![获取 teamId（团队 ID）](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080866b4a6fd05bc7.png)
 
 ## 获取 agentGroupID
 
 `agentGroupId`即`采集器组 ID`，用于识别 DeepFlow Agent 所属的采集器组，操作步骤参考下图：
 
-![获取 agentGroupId（采集器组 ID）](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024070366850473b0257.png)
+![获取 agentGroupId（采集器组 ID）](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080866b4a7017f7b0.png)
 
 ::: tip
 创建采集器组的目的是为了配置不同的运行策略，以便于对 DeepFlow Agent 进行运行策略的分组管理。
