@@ -1,16 +1,19 @@
 ---
-title: API
-permalink: /features/continuous-profiling/api
+title: 查看数据
+permalink: /features/continuous-profiling/data
 ---
 
-::: tip
-eBPF Profiling 数据目前无法在 Grafana 上展现，仅可在企业版页面中查看。但是，社区版中 Profiling 数据已经存储于 ClickHouse 的 `profile.in_process` 表中了，可通过调用 deepflow-server 的 API 查询数据。
-:::
+# 获取指定进程的 Profile
 
-# 获取指定进程的 Profiling 数据
+## Grafana Panel
 
-Profiling 数据查询 API 示例：
+在 `app_service` 中选择一个进程名之后，Grafana 中的展示效果图如下：
 
+![On-CPU - Process](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080866b4805f802ed.png)
+
+## API
+
+Profile 查询 API 示例：
 ```bash
 # 确认 deepflow-server 的监听 IP 和端口
 deepflow_server_node_ip=FIXME # 注意修改
@@ -32,8 +35,8 @@ curl -X POST http://${deepflow_server_node_ip}:$port/v1/profile/ProfileTracing \
 API 请求参数说明：
 
 - **app_service**：进程名
-- **profile_language_type**：获取 eBPF Profiling 数据时使用 `eBPF`
-- **profile_event_type**：对于 eBPF On-CPU Profiling 数据赋值为 `on-cpu` 即可
+- **profile_language_type**：获取 eBPF Profile 数据时使用 `eBPF`
+- **profile_event_type**：对于 eBPF On-CPU Profile 数据赋值为 `on-cpu` 即可
 - **tag_filter**：当进程名冲突时，可使用其他 Tag 过滤
   - 例如 `"tag_filter": "pod_cluster='prod-cluster' AND pod_ns='app'"`
 - **time_start**、**time_end**：时间范围
@@ -53,7 +56,14 @@ API 返回结果示例：
             "[t] platform-synchr",
             "[k] entry_SYSCALL_64_after_hwframe",
             // ...
-            "[l] __write" 
+            "[l] __write"
+        ],
+        "function_types": [
+            "P",
+            "T",
+            "K",
+            // ...
+            "K"
         ],
         "function_values": {
             "columns": [
@@ -123,6 +133,7 @@ API 返回结果示例：
 API 返回结果说明：
 
 - **functions**：函数名
+- **function_types**: 函数的类型
   - `[t] thread_name`：线程，只会出现在火焰图的第二层
   - `[k] function_name`：Linux 内核函数、CUDA 动态链接库函数（[libcuda](https://developer.nvidia.com/cuda-toolkit)、[libcublas](https://developer.nvidia.com/cublas) 等）
   - `[l] function_name`：动态链接库中的函数
@@ -138,22 +149,28 @@ API 返回结果说明：
 - **function_id**：函数唯一标识
 - **parent_node_id**：该函数的父节点在火焰图中的唯一标识
 - **total_value**：该函数的 CPU 时长，单位是微秒（us）。
-  - On-CPU Profiling：此值表示函数花费 CPU 的时长
-  - Off-CPU Profiling：此值表示函数等待 CPU 的时长
+  - On-CPU Profile：此值表示函数花费 CPU 的时长
+  - Off-CPU Profile：此值表示函数等待 CPU 的时长
 - **self_value**：该函数作为叶子节点（最底层函数）的 CPU `净`时长，单位是微秒（us）。
   - On-CPU 和 Off-CPU 的差异同上
 
-使用 API 的返回结果，可以绘制**指定进程**的 CPU 火焰图。DeepFlow 企业版中的展示效果图如下：
+使用 API 的返回结果，可以绘制**指定进程**的 CPU 火焰图。
 
-![企业版中的进程火焰图](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202405146642dfa9701ce.jpg)
+# 获取指定主机的 Profile
 
-# 获取指定主机的 Profiling 数据
+## Grafana Panel
+
+在 `app_service` 中选择 `Total` 之后，Grafana 中的展示效果图如下（火焰图只有三层）：
+
+![On-CPU - Host](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080866b4805e6b9c7.png)
+
+## API
 
 ::: tip
-当前仅 On-CPU Profiling 支持查询主机的整体数据。
+当前仅 On-CPU Profile 支持查询主机的整体数据。
 :::
 
-当请求参数携带 `"app_service": "Total"` 时，能够获取到名为 `Total` 的特殊 On-CPU Profiling 数据，它是一台主机上所有进程的、精细到线程粒度的 Profiling。可用于当 On-CPU `regex` 未配置某个进程时，能够快速定位瓶颈进程和线程。此时的返回结果示例：
+当请求参数携带 `"app_service": "Total"` 时，能够获取到名为 `Total` 的特殊 On-CPU Profile 数据，它是一台主机上所有进程的、精细到线程粒度的 Profile。可用于当 On-CPU `regex` 未配置某个进程时，能够快速定位瓶颈进程和线程。此时的返回结果示例：
 
 ```json
 {
@@ -165,6 +182,12 @@ API 返回结果说明：
             "[p] java",
             // ...
             "[t] DefaultTimer10-",
+        ],
+        "function_types": [
+            "H",
+            "P",
+            // ...
+            "T"
         ],
         "function_values": {
             "columns": [
@@ -227,6 +250,18 @@ API 返回结果说明：
 - `[p] name`：一个进程的名称
 - `[t] name`：一个线程的名称，它的父节点是一个 `[p] name` 类型的节点，表示这个线程所属的进程
 
-使用 API 的返回结果，可以绘制**指定主机**的 On-CPU 火焰图。DeepFlow 企业版中的展示效果图如下（火焰图只有三层）：
+使用 API 的返回结果，可以绘制**指定主机**的 On-CPU 火焰图。
 
-![企业版中的主机火焰图](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202405146642dfab0d31a.jpg)
+# 关于 Function Type
+
+| Function Type | 含义           | Profile Event Type | 特征        |
+| ------------- | -------------- | ------------------ | ----------- |
+| O             | 对象类型       | `mem-*` | Memory Profile 的叶子节点 |
+| H             | 云主机         | `*`     | 等于 `Total` 的根节点  |
+| P             | 进程           | `*`     | `[p] ` 开头，以及不等于 `Total` 的根节点 |
+| T             | 线程           | `*`     | `[t] ` 开头            |
+| K             | 内核函数       | `*`     | `[k] ` 开头            |
+| C             | CUDA 驱动函数  | `*`     | `[c] ` 开头            |
+| L             | 动态链接库函数 | `*`     | `[l] ` 开头            |
+| ?             | 未知函数       | `*`     | 其他 `[` 开头          |
+| A             | 应用函数       | `*`     | 除以上之外的函数       |

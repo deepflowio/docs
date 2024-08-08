@@ -1,5 +1,5 @@
 ---
-title: 功能开启方法
+title: 配置方法
 permalink: /features/continuous-profiling/configuration
 ---
 
@@ -116,3 +116,21 @@ static_config:
 
 - **java-symbol-file-refresh-default-interval**
 - **java-symbol-file-max-space-limit**
+
+# eBPF Memory Profiling
+
+eBPF Memory Profiling（仅企业版）是默认关闭的，你需要通过修改 `static_config.ebpf.memory-profile.regex` 来指定需要开启的进程列表。Agent 支持的配置参数如下：
+```yaml
+static_config:
+  ebpf:
+
+    # Memory profile configuration, Enterprise Edition Only.
+    memory-profile:
+      # eBPF memory Profile Switch
+      # Default: true
+      disabled: true
+
+      # Memory trace process name
+      # Default: ^java
+      regex: ^java
+```
