@@ -195,6 +195,29 @@ ClusterRole 配置增加：
     - watch
 ```
 
+## OpenGauss
+
+该场景下需要从 API 获取 `OpenGaussCluster` 资源。
+
+Agent 高级配置如下：
+```yaml
+static_config:
+  kubernetes-resources:
+  - name: opengaussclusters
+```
+
+ClusterRole 配置增加：
+```yaml
+- apiGroups:
+  - opengauss.sig
+  resources:
+  - opengaussclusters
+  verbs:
+  - get
+  - list
+  - watch
+```
+
 # K8s 运行 Agent 权限受限
 
 ## 无 K8s Daemonset 部署权限
