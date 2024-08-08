@@ -133,7 +133,7 @@ API 返回结果示例：
 API 返回结果说明：
 
 - **functions**：函数名
-- **function_types**: 函数的类型
+- **function_types**: 函数类型
   - `[t] thread_name`：线程，只会出现在火焰图的第二层
   - `[k] function_name`：Linux 内核函数、CUDA 动态链接库函数（[libcuda](https://developer.nvidia.com/cuda-toolkit)、[libcublas](https://developer.nvidia.com/cublas) 等）
   - `[l] function_name`：动态链接库中的函数

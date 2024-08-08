@@ -25,7 +25,7 @@ permalink: /guide/ee-tenant/profiling/continue-profile/
         - A：应用程序的业务函数
         - P：进程
         - T：线程，只会出现在火焰图的第二层
-        - ？：未知，函数名未成功翻译，详细的说明见[核心特性-持续性能剖析-API 返回结果 profile_location_str 的说明](../../../features/continuous-profiling/api)
+        - ？：未知，函数名未成功翻译，详细的说明见[核心特性-持续性能剖析-查看数据-关于 Function Type](../../../features/continuous-profiling/data/)
       - Span 名称
       - 总消耗：Span 总消耗占 root (火焰图第一行)的百分比
       - 自身消耗：Span 自身消耗占 root (火焰图第一行)的百分比
