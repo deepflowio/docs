@@ -19,24 +19,24 @@ permalink: /features/continuous-profiling/auto-profiling
 |           | C/C++       | ✔      | ✔      |
 |           | Rust        | ✔      | ✔      |
 |           | Golang      | ✔      | ✔      |
-|           | Python *    | ✔      | ✔      |
-|           | CUDA *      | ✔      | ✔      |
-|           | Lua *       | ✔      | ✔      |
+|           | Python `*`  | ✔      | ✔      |
+|           | CUDA `*`    | ✔      | ✔      |
+|           | Lua `*`     | ✔      | ✔      |
 | off-cpu   | Java        |        | ✔      |
 |           | C/C++       |        | ✔      |
 |           | Rust        |        | ✔      |
 |           | Golang      |        | ✔      |
-|           | Python *    |        | ✔      |
-|           | CUDA *      |        | ✔      |
-|           | Lua *       |        | ✔      |
+|           | Python `*`  |        | ✔      |
+|           | CUDA `*`    |        | ✔      |
+|           | Lua `*`     |        | ✔      |
 | mem-alloc | Java        |        | ✔      |
-|           | Rust *      |        | ✔      |
-|           | Golang *    |        | ✔      |
-|           | Python *    |        | ✔      |
-| mem-inuse | Rust *      |        | ✔      |
-| hbm-alloc | Python *    |        | ✔      |
-| hbm-inuse | Python *    |        | ✔      |
-| rdma      | C/C++ *     |        | ✔      |
+|           | Rust `*`    |        | ✔      |
+|           | Golang `*`  |        | ✔      |
+|           | Python `*`  |        | ✔      |
+| mem-inuse | Rust `*`    |        | ✔      |
+| hbm-alloc | Python `*`  |        | ✔      |
+| hbm-inuse | Python `*`  |        | ✔      |
+| rdma      | C/C++ `*`   |        | ✔      |
 
 说明：
 - `*`: features in development
