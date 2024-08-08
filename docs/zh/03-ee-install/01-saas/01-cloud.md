@@ -38,7 +38,7 @@ DeepFlow 目前支持如下公有云的 API 对接和云资源信息同步：
 2. 点击`新建云平台`
 3. 填写云平台相关信息，点击`确定`，得到一条云平台的记录
 
-![录入云平台（阿里云）](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202407036685046c6e3cb.png)
+![录入云平台（阿里云）](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080866b4a7076882c.png)
 
 ## 配置项说明
 
@@ -87,7 +87,7 @@ DeepFlow 会使用如下 API 从阿里云对接学习资源信息，如果需要
 2. 点击`新建云平台`
 3. 填写云平台相关信息，点击`确定`，得到一条云平台的记录
 
-![录入云平台（腾讯云）](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240719669a41bcb5631.png)
+![录入云平台（腾讯云）](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080866b4a705b08bb.png)
 
 ## 配置项说明
 
