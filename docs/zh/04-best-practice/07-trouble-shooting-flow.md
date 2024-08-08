@@ -1,5 +1,5 @@
 ---
-title: DeepFlow 故障诊断定位方法
+title: 业务故障诊断定位通用方法
 permalink: /best-practice/trouble-shooting-flow/
 ---
 
@@ -9,19 +9,20 @@ permalink: /best-practice/trouble-shooting-flow/
 
 DeepFlow 可观测性平台通过 eBPF 采集以及开放的数据接口汇聚 metrics、tracing、logging、profiling、events 等各种各样的海量观测数据。
 
-同时通过 AutoTagging 标签注入技术，DeepFlow 能够将所有的观测数据注入丰富的文本标签，这些富含文本语义的信息标签包括了资源标签、业务标签等，比如应用实例的云资源信息、容器资源信息，CI/CD 流水线中标记的开发者、维护者、版本号、commit_id、仓库地址等等。通过标签信息的注入，在故障诊断过程中便可以用文本字段一次检索出与某笔业务或某个应用相关的所有 metrics、tracing、logging、profiling、events 数据，并呈现在一个工作台上，经过初中级工程师 3-5 步的数据分析得到故障诊断结论。
+同时通过 AutoTagging 标签注入技术，DeepFlow 能够将所有的观测数据注入丰富的文本标签，这些富含文本语义的信息标签包括了资源标签、业务标签等，比如应用实例的云资源信息、容器资源信息，CI/CD 流水线中标记的开发者、维护者、版本号、commit_id、仓库地址等等。通过标签信息的注入，在故障诊断过程中便可以用文本字段一次检索出与某笔业务或某个应用相关的所有 metrics、tracing、logging、profiling、events 数据，并呈现在一个工作台上，经过工程师 3-5 步的数据分析得到故障诊断结论。
 
 ![统一的观测数据湖](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080766b3281c6db18.jpeg)
 
 ## 多团队统一协作
 
-在常见的 IT 业务系统运维中，业务部署跨多个可用区，架构复杂，组件众多，运维保障和故障诊断涉及应用、PAAS 平台、IAAS 云等不同团队间的大量沟通协作。DeepFlow 可观测性平台通过打通数据孤岛，构建数据关联，提供了面向应用、PAAS、IAAS、网络等各个运维团队的统一观测、统一协作的运维能力。
+在常见的 IT 业务系统运维中，业务部署跨多个可用区，架构复杂，组件众多，运维保障和故障诊断涉及应用、PaaS 平台、IaaS 云等不同团队间的大量沟通协作。DeepFlow 可观测性平台通过打通数据孤岛，构建数据关联，提供了面向应用、PaaS、IaaS、网络等各个运维团队的统一观测、统一协作的运维能力。
 
-![多团队统一协作](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080766b3281e6a3fa.jpeg)
+![多团队统一协作](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080866b4b0683ed7b.jpeg)
+
 
 ## 从宏观到微观，从一维到多维
 
-![从应用出发的故障诊断流程](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080766b32821cf3ae.jpeg)
+![从应用出发的故障诊断流程](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080866b4b0696e08d.jpeg)
 
 在 DeepFlow 可观测性平台中，一般通过应用 RED 指标观测、调用日志检索、调用链追踪、多维度应用诊断、多维度系统诊断、多维度网络诊断，从宏观到微观，从一个维度的数据观测到多个维度的数据分析，逐步回答如下 5 个问题，有序诊断出问题根因：
 - **Who is in trouble?**
@@ -85,69 +86,73 @@ DeepFlow 平台为每一个观测对象提供了隐藏的“右滑窗”，在�
 在这个场景中，Client 使用`http get`访问前端服务，前端服务查询 DNS 服务后访问 MySQL 数据库，再进行一次 RPC 调用，最后向 Client 返回`http response`。
 ![（简化）应用服务模型](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080766b328390aa62.png)
 
-- 网络传输——TCP 建连慢
-
-如果 Client 端的「系统 Span」与「POD 网卡 Span」之间的时延出现了明显的差值，便可以确定`http get`在进入网络之前即出现了卡顿。
-
-这种情况一般出现在 Client 端采用 TCP 短连接的情况下，发送`http get`之前需要首先建立 TCP 连接，TCP 建连的三次握手过程中出现丢包、卡顿均可能引发这种状况。
-
-![火焰图样例 1（示意图）](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080766b3283e248cf.png)
-
-- 网络传输——客户端容器节点内传输慢
-  
-如果`http get`在 Client 端的「POD 网卡 Span」与「Node 网卡 Span」之间的时延出现了明显的差值，便可确定`http get`在客户端的容器节点内的虚拟网络中传输交换出现了卡顿。
-
-![火焰图样例 2（示意图）](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080766b3284069e45.png)
-
-- 网络传输——容器节点间传输慢
-
-如果 Client 端的「Node 网卡 Span」与前端服务的「Node 网卡 Span」之间的时延出现了明显的差值，便可确定`http get`在两个容器节点之间的网络中传输交换出现了卡顿。
-
-![火焰图样例 3（示意图）](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080766b3284283c8e.png)
-
-- 网络传输——服务端容器节点内传输慢
-
-如果前端服务的「Node 网卡 Span」与 前端服务的「POD 网卡 Span」之间的时延出现了明显的差值，便可确定`http get`在服务端容器节点内的虚拟网络中传输交换出现了卡顿。
-
-![火焰图样例 4（示意图）](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080766b328473bf8b.png)
+### 应用类问题
 
 - 应用服务—— IO 线程慢
 
 如果前端服务的「POD 网卡 Span」与 前端服务的「系统 Span」之间的时延出现了明显的差值，便可确定`http get`在从 POD 网卡队列进入前端服务的处理队列时出现了卡顿。
 常见的 IO 线程调度繁忙便可能引发这种状况。
 
-![火焰图样例 5（示意图）](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080766b3284a1f3bb.png)
+![火焰图样例 1（示意图）](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080766b3284a1f3bb.png)
 
 - 应用服务—— Work 线程慢
 
 如果前端服务接收`http get`的「系统 Span」与发送`dns query`的「系统 Span」之间的时延出现了明显的差值，便可确定前端服务在内部处理时出现了卡顿。
 常见的 Work 线程调度繁忙便可能引发这种状况的出现。
 
-![火焰图样例 6（示意图）](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080766b3284d7fe39.png)
+![火焰图样例 2（示意图）](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080766b3284d7fe39.png)
 
 - 中间件——DNS 服务响应慢
 
 如果 DNS 服务的「系统 Span」出现明显的时间长度，便可确定 DNS 服务进程在查询并返回 DNS 解析结果时消耗了过多的时间，并直接导致此次业务请求的慢响应。
 
-![火焰图样例 7（示意图）](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080766b328508566e.png)
+![火焰图样例 3（示意图）](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080766b328508566e.png)
 
 - 中间件——MySQL 服务响应慢
 
 与 DNS 服务类似，如果 MySQL 服务的「系统 Span」出现明显的时间长度，便可确定 MySQL 服务进程在处理并返回结果时消耗了过多的时间，并直接导致此次业务请求的慢响应。
 
-![火焰图样例 8（示意图）](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080766b3285438f40.png)
+![火焰图样例 4（示意图）](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080766b3285438f40.png)
 
 - 其他应用服务——RPC 服务响应慢
 
 与 DNS 服务类似，如果 RPC 服务的「系统 Span」出现明显的时间长度，便可确定 RPC 服务进程在处理并返回结果时消耗了过多的时间，并直接导致此次业务请求的慢响应。
 
-![火焰图样例 9（示意图）](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080766b328575653a.png)
+![火焰图样例 5（示意图）](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080766b328575653a.png)
 
 - 客户端——进程处理慢
 
 如果前端服务向 Client 端返回的`http response`在到达 Client 端的「POD 网卡 Span」之后，等待一段时间才到达「系统 Span」，便可确定`http response`在从 POD 网卡队列进入 Client 进程的处理队列时出现了卡顿。
 
-![火焰图样例 10（示意图）](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080766b3285982a40.png)
+![火焰图样例 6（示意图）](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080766b3285982a40.png)
+
+### 网络类问题
+
+- 网络传输——TCP 建连慢
+
+如果 Client 端的「系统 Span」与「POD 网卡 Span」之间的时延出现了明显的差值，便可以确定`http get`在进入网络之前即出现了卡顿。
+
+这种情况一般出现在 Client 端采用 TCP 短连接的情况下，发送`http get`之前需要首先建立 TCP 连接，TCP 建连的三次握手过程中出现丢包、卡顿均可能引发这种状况。
+
+![火焰图样例 7（示意图）](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080766b3283e248cf.png)
+
+- 网络传输——客户端容器节点内传输慢
+  
+如果`http get`在 Client 端的「POD 网卡 Span」与「Node 网卡 Span」之间的时延出现了明显的差值，便可确定`http get`在客户端的容器节点内的虚拟网络中传输交换出现了卡顿。
+
+![火焰图样例 8（示意图）](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080766b3284069e45.png)
+
+- 网络传输——容器节点间传输慢
+
+如果 Client 端的「Node 网卡 Span」与前端服务的「Node 网卡 Span」之间的时延出现了明显的差值，便可确定`http get`在两个容器节点之间的网络中传输交换出现了卡顿。
+
+![火焰图样例 9（示意图）](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080766b3284283c8e.png)
+
+- 网络传输——服务端容器节点内传输慢
+
+如果前端服务的「Node 网卡 Span」与 前端服务的「POD 网卡 Span」之间的时延出现了明显的差值，便可确定`http get`在服务端容器节点内的虚拟网络中传输交换出现了卡顿。
+
+![火焰图样例 10（示意图）](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080766b328473bf8b.png)
 
 # 多维度分析——根因诊断
 
