@@ -15,7 +15,7 @@ permalink: /ee-install/saas/check
 
 访问入口：`系统`-`采集器`-`列表`，操作步骤参考下图：
 
-![检查采集器运行状态](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202407036685209d99561.png)
+![检查采集器运行状态](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080866b4a70007388.png)
 
 经过检查，确认采集器处于运行状态，且无异常提示信息即可进入下一步。
 
@@ -25,7 +25,7 @@ permalink: /ee-install/saas/check
 
 访问入口：`追踪`-`调用日志`，操作步骤参考下图：
 
-![检查应用观测数据](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202407036685209fb556f.png)
+![检查应用观测数据](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080866b4a70c9beff.png)
 
 经过检查，确认采集器的应用调用日志已正常采集和呈现即可进入下一步。
 
