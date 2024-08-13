@@ -26,9 +26,9 @@ curl -X POST http://${deepflow_server_node_ip}:$port/v1/profile/ProfileTracing \
     "app_service": "deepflow-agent",
     "profile_language_type": "eBPF",
     "profile_event_type": "on-cpu",
-    "tag_filter: "",
-    "time_start": 1708479421
-    "time_end": 1708480321,
+    "tag_filter": "",
+    "time_start": 1708479421,
+    "time_end": 1708480321
   }'
 ```
 
