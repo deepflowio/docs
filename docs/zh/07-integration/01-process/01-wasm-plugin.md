@@ -183,7 +183,7 @@ deepflow-ctl plugin create  --type wasm --image wasm.wasm --name wasm
 在 [agent-group 配置](../../best-practice/agent-advanced-config/#agent-group-config-常用操作) 中添加
 
 ```
-wasm-plugins:
+wasm_plugins:
   - wasm // 对应 deepflow-ctl 上传插件的名称
 ```
 
