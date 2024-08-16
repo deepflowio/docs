@@ -9,7 +9,7 @@ permalink: /features/continuous-profiling/data
 
 在 `app_service` 中选择一个进程名之后，Grafana 中的展示效果图如下：
 
-![On-CPU - Process](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080866b4805f802ed.png)
+![On-CPU - Process](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024081666bebf5480c10.png)
 
 ## API
 
@@ -162,7 +162,7 @@ API 返回结果说明：
 
 在 `app_service` 中选择 `Total` 之后，Grafana 中的展示效果图如下（火焰图只有三层）：
 
-![On-CPU - Host](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080866b4805e6b9c7.png)
+![On-CPU - Host](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024081666bebf558661f.png)
 
 ## API
 
