@@ -18,7 +18,7 @@ Wasm 插件系统通过在固定的地方调用 Wasi Export Function 实现一�
 |                | go_http2_uprobe     | 解析 Protobuf over HTTP2          |
 |                | dns                 | 演示如何将 DNS 当做一种新协议解析 |
 
-关于 Wasm Plugin 的开发你也可以参考这篇博客文章：[使用 DeepFlow Wasm 插件实现业务可观测性](https://deepflow.io/blog/035-deepflow-enabling-zero-code-observability-for-applications-by-webAssembly/)。
+关于 Wasm Plugin 的开发你也可以参考这篇博客文章：[使用 DeepFlow Wasm 插件实现业务可观测性](https://www.deepflow.io/blog/zh/035-deepflow-enabling-zero-code-observability-for-applications-by-webAssembly/)。
 
 # Golang SDK 说明
 
