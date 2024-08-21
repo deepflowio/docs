@@ -9,8 +9,11 @@
       autocomplete="off"
       spellcheck="false"
       @input="query = $event.target.value"
-      @focus="focused = true"
-      @blur="focused = false"
+      @focus="onInputFocus"
+      @blur="
+        showError = false;
+        focused = false;
+      "
       @keyup.enter="go(focusIndex)"
       @keyup.up="onUp"
       @keyup.down="onDown"
@@ -51,11 +54,21 @@
         </a>
       </li>
     </ul>
+    <div
+      v-if="showError"
+      style="
+        background: #fff;
+        color: #333;
+        text-align: center;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+      "
+    >
+      {{ lang === "zh" ? "插件加载中" : "Plugin loading in progress" }}
+    </div>
   </div>
 </template>
 
 <script>
-let flexsearchSvc = undefined;
 const DEEPFLOW_DOCS_SEARCHKEY = "DEEPFLOW-DOCS-SEARCHKEY";
 const scrollBySearcKey = (searchKey) => {
   if (!searchKey) {
@@ -92,7 +105,11 @@ const scrollBySearcKey = (searchKey) => {
  * 3. prefix + highlightedContent + suffix 长度超过100，截取前100
  * @param {*} param0 返回4种 整体 前置 后置 本身
  */
-const getSearchKey = ({ highlightedContent = "", prefix = "", suffix = "" }) => {
+const getSearchKey = ({
+  highlightedContent = "",
+  prefix = "",
+  suffix = "",
+}) => {
   const MAX_LENGTH = 100;
   // 如果高亮内容大于50直接截至100
   if (highlightedContent.length >= MAX_LENGTH) {
@@ -141,15 +158,17 @@ export default {
       focusIndex: 0,
       placeholder: undefined,
       suggestions: null,
+      showError: false,
+      flexsearchSvc: undefined,
     };
   },
   computed: {
     queryTerms() {
-      if (!flexsearchSvc) {
+      if (!this.flexsearchSvc) {
         return [];
       }
       if (!this.query) return [];
-      const result = flexsearchSvc
+      const result = this.flexsearchSvc
         .normalizeString(this.query)
         .split(/[^\p{L}\p{N}_]+/iu)
         .filter((t) => t);
@@ -164,6 +183,9 @@ export default {
       const navCount = (this.$site.themeConfig.nav || []).length;
       const repo = this.$site.repo ? 1 : 0;
       return navCount + repo <= 2;
+    },
+    lang() {
+      return this.$page.relativePath.indexOf("zh/") > -1 ? "zh" : "en";
     },
   },
   watch: {
@@ -185,8 +207,8 @@ export default {
       import("./../services/flexsearchSvc"),
       import("@dynamic/searchData"),
     ]).then(([{ default: _flexsearchSvc }, { SEARCH_DATA }]) => {
-      flexsearchSvc = _flexsearchSvc;
-      flexsearchSvc.buildIndex(this.$site.pages, options, SEARCH_DATA);
+      this.flexsearchSvc = _flexsearchSvc;
+      this.flexsearchSvc.buildIndex(this.$site.pages, options, SEARCH_DATA);
     });
 
     this.placeholder = this.$site.themeConfig.searchPlaceholder || "";
@@ -206,13 +228,24 @@ export default {
     document.removeEventListener("keydown", this.onHotkey);
   },
   methods: {
+    onInputFocus() {
+      this.focused = true;
+      if (!this.flexsearchSvc) {
+        this.showError = true;
+        return;
+      }
+    },
     async getSuggestions() {
+      if (!this.flexsearchSvc) {
+        this.showError = true;
+        return;
+      }
       if (!this.query || !this.queryTerms.length) {
         this.suggestions = [];
         return;
       }
-      let suggestions = flexsearchSvc
-        ? await flexsearchSvc.match(
+      let suggestions = this.flexsearchSvc
+        ? await this.flexsearchSvc.match(
             this.query,
             this.queryTerms,
             this.$site.themeConfig.searchMaxSuggestions ||
