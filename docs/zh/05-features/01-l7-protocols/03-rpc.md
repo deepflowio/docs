@@ -2,6 +2,7 @@
 title: RPC
 permalink: /features/l7-protocols/rpc
 ---
+
 # Dubbo
 
 支持 Hessian2 和 Kryo 两种序列化算法, 通过解析 [Dubbo](https://dubbo.apache.org/en/docs3-v2/java-sdk/reference-manual/protocol/overview/) 协议，将 Dubbo Request / Response 的字段映射到 l7_flow_log 对应字段中，映射关系如下表：
@@ -196,20 +197,20 @@ permalink: /features/l7-protocols/rpc
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 
-| 名称               | 中文           | Request | Response | 描述                                  |
-| ------------------ | -------------- | ------- | -------- | ------------------------------------- |
-| request            | 请求           | --      | --       | Request 个数                          |
-| response           | 响应           | --      | --       | Response 个数                         |
-| session_length     | 会话长度       | --      | --       | --                                    |
-| request_length     | 请求长度       | --      | --       | --                                    |
-| response_length    | 响应长度       | --      | --       | --                                    |
-| log_count          | 日志总量       | --      | --       | --                                    |
-| error              | 异常           | --      | --       | 客户端异常 + 服务端异常               |
-| client_error       | 客户端异常     | --      | --       | 参考 Tag 字段 `response_code`的说明 |
-| server_error       | 服务端异常     | --      | --       | 参考 Tag 字段 `response_code`的说明 |
-| error_ratio        | 异常比例       | --      | --       | 异常 / 响应                           |
-| client_error_ratio | 客户端异常比例 | --      | --       | 客户端异常 / 响应                     |
-| server_error_ratio | 服务端异常比例 | --      | --       | 服务端异常 / 响应                     |
+| 名称               | 中文           | Request | Response | 描述                               |
+| ------------------ | -------------- | ------- | -------- | ---------------------------------- |
+| request            | 请求           | --      | --       | Request 个数                       |
+| response           | 响应           | --      | --       | Response 个数                      |
+| session_length     | 会话长度       | --      | --       | --                                 |
+| request_length     | 请求长度       | --      | --       | --                                 |
+| response_length    | 响应长度       | --      | --       | --                                 |
+| log_count          | 日志总量       | --      | --       | --                                 |
+| error              | 异常           | --      | --       | 客户端异常 + 服务端异常            |
+| client_error       | 客户端异常     | --      | --       | 参考 Tag 字段`response_code`的说明 |
+| server_error       | 服务端异常     | --      | --       | 参考 Tag 字段`response_code`的说明 |
+| error_ratio        | 异常比例       | --      | --       | 异常 / 响应                        |
+| client_error_ratio | 客户端异常比例 | --      | --       | 客户端异常 / 响应                  |
+| server_error_ratio | 服务端异常比例 | --      | --       | 服务端异常 / 响应                  |
 
 # Tars
 
@@ -226,12 +227,12 @@ permalink: /features/l7-protocols/rpc
 |       | request_id         | 请求 ID      | request_id           | --                  | -- |
 |       | endpoint           | 端点         | service_name/method_name | --                  | --                                 |
 | Resp. | response_code      | 响应码       | --                       | Status Code         | --                                 |
-|       | response_status    | 响应状态     | --                       | response.status | --                                 |
-|       | response_exception | 响应异常     | --                       | -- | --                                 |
+|       | response_status    | 响应状态     | --                       | response.status | 0正常，-10至-12客户端异常，其余服务端异常                                 |
+|       | response_exception | 响应异常     | --                       | 参考返回码描述，详见[iRet Code](https://doc.tarsyun.com/#/base/tars-protocol.md) | --                                 |
 |       | response_result    | 响应结果     | --                       | --                  | --                                 |
 | Trace | trace_id           | TraceID      | --                       | --                  | --                                 |
 |       | span_id            | SpanID       | --                       | --                  | --                                 |
-|       | x_request_id       | X-Request-ID | request.log_id           | --                  | --                                 |
+|       | x_request_id       | X-Request-ID | --           | --                  | --                                 |
 | Misc. | --                 | --           | --                       | --                  | --                                 |
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
