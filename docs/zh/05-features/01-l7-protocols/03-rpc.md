@@ -2,6 +2,7 @@
 title: RPC
 permalink: /features/l7-protocols/rpc
 ---
+
 # Dubbo
 
 支持 Hessian2 和 Kryo 两种序列化算法, 通过解析 [Dubbo](https://dubbo.apache.org/en/docs3-v2/java-sdk/reference-manual/protocol/overview/) 协议，将 Dubbo Request / Response 的字段映射到 l7_flow_log 对应字段中，映射关系如下表：
@@ -226,7 +227,7 @@ permalink: /features/l7-protocols/rpc
 |       | request_id         | 请求 ID      | request_id           | --                  | -- |
 |       | endpoint           | 端点         | service_name/method_name | --                  | --                                 |
 | Resp. | response_code      | 响应码       | --                       | Status Code         | --                                 |
-|       | response_status    | 响应状态     | --                       | response.status | 0正常,-10至-12客户端异常，其余服务端异常                                 |
+|       | response_status    | 响应状态     | --                       | response.status | 0正常，-10至-12客户端异常，其余服务端异常                                 |
 |       | response_exception | 响应异常     | --                       | 参考返回码描述，详见[iRet Code](https://doc.tarsyun.com/#/base/tars-protocol.md) | --                                 |
 |       | response_result    | 响应结果     | --                       | --                  | --                                 |
 | Trace | trace_id           | TraceID      | --                       | --                  | --                                 |
