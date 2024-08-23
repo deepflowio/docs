@@ -7,7 +7,7 @@ permalink: /best-practice/special-environment-deployment/
 
 # Special K8s CNI
 
-In common K8s environments, the DeepFlow Agent can collect full-stack observability signals, as shown in the top left corner of the figure below:
+In common K8s environments, the DeepFlow Agent can collect full-stack observability signals, as shown in the top left of the figure below:
 
 - When two Pods on the same Node communicate, data can be collected from two locations: eBPF Syscall and cBPF Pod NIC.
 - When two Pods on different Nodes communicate, data can be collected from three locations: eBPF Syscall, cBPF Pod NIC, and cBPF Node NIC.
@@ -16,22 +16,22 @@ In common K8s environments, the DeepFlow Agent can collect full-stack observabil
 
 However, under certain CNIs, due to the uniqueness of the traffic path, the data collected by the DeepFlow Agent will differ:
 
-- In the Cilium CNI environment (top right corner of the figure above):
+- In the Cilium CNI environment (top right of the figure above):
   - Cilium [uses XDP](https://docs.cilium.io/en/stable/network/ebpf/intro/) to bypass the TCP/IP stack, resulting in only unidirectional traffic being visible on the Pod NIC named lxc-xxx.
   - When two Pods on the same Node communicate, data can be collected from one location: eBPF Syscall.
   - When two Pods on different Nodes communicate, data can be collected from two locations: eBPF Syscall and cBPF Node NIC, the latter collected from Node eth0.
-- In MACVlan, [Huawei Cloud CCE Turbo](https://support.huaweicloud.com/usermanual-cce/cce_10_0284.html), and other CNI environments (bottom left corner of the figure above):
+- In MACVlan, [Huawei Cloud CCE Turbo](https://support.huaweicloud.com/usermanual-cce/cce_10_0284.html), and other CNI environments (bottom left of the figure above):
   - Using MACVlan sub-interfaces instead of Veth-Pair + Bridge, there is no corresponding Pod NIC in the Root Netns, but all Pod traffic can be seen on Node eth0.
-  - In this case, the DeepFlow Agent can be configured with `tap_mode = 1 (virtual mirror)`, treating the traffic on the Node NIC as if it were collected on the Pod NIC.
+  - In this case, the DeepFlow Agent can be configured with `tap_mode = 1 (virtual mirror)` to treat the traffic on the Node NIC as if it were collected on the Pod NIC.
   - When two Pods on the same Node communicate, data can be collected from two locations: eBPF Syscall and cBPF Pod NIC, the latter collected from Node eth0.
-    - However, since there is only one copy of the communication traffic on eth0, the client and server share the same cBPF Pod NIC data.
+    - However, since there is only one copy of the communication traffic on eth0, the client and server share one set of cBPF Pod NIC data.
   - When two Pods on different Nodes communicate, data can be collected from two locations: eBPF Syscall and cBPF Pod NIC, the latter collected from Node eth0.
-- In the IPVlan CNI environment (bottom right corner of the figure above):
-  - Using IPVlan sub-interfaces instead of Veth-Pair + Bridge, there is no corresponding Pod NIC in the Root Netns, and only the traffic entering and leaving the Node can be seen on Node eth0.
+- In the IPVlan CNI environment (bottom right of the figure above):
+  - Using IPVlan sub-interfaces instead of Veth-Pair + Bridge, there is no corresponding Pod NIC in the Root Netns, and only the traffic of Pods entering and leaving the Node can be seen on Node eth0.
   - When two Pods on the same Node communicate, data can be collected from one location: eBPF Syscall.
   - When two Pods on different Nodes communicate, data can be collected from two locations: eBPF Syscall and cBPF Node NIC, the latter collected from Node eth0.
 
-Additionally, eBPF XDP can also be used in combination with IPVlan (e.g., [Alibaba Cloud's Terway CNI](https://developer.aliyun.com/article/1221415)), where the traffic collection capability is equivalent to Cilium or IPVlan.
+Additionally, eBPF XDP can also be used in conjunction with IPVlan (e.g., [Alibaba Cloud's Terway CNI](https://developer.aliyun.com/article/1221415)), where the traffic collection capability is equivalent to Cilium or IPVlan.
 
 Some reference materials:
 
@@ -41,7 +41,7 @@ Some reference materials:
 
 ## MACVlan
 
-When K8s uses the macvlan CNI, only a single virtual NIC shared by all PODs can be seen under rootns. In this case, additional configuration for the deepflow-agent is required:
+When K8s uses the macvlan CNI, only a single virtual network card shared by all PODs can be seen under rootns. In this case, additional configuration of the deepflow-agent is required:
 
 1. Create agent-group and agent-group-config:
 
@@ -100,7 +100,7 @@ When K8s uses the macvlan CNI, only a single virtual NIC shared by all PODs can 
    ```yaml
    vtap-group-id-request: g-xxxxx
    ```
-   Stop deepflow-agent:
+   Stop the deepflow-agent:
    ```bash
    kubectl -n deepflow  patch daemonset deepflow-agent  -p '{"spec": {"template": {"spec": {"nodeSelector": {"non-existing": "true"}}}}}'
    ```
@@ -108,7 +108,7 @@ When K8s uses the macvlan CNI, only a single virtual NIC shared by all PODs can 
    ```bash
    deepflow-ctl agent delete <agent name>
    ```
-   Start deepflow-agent:
+   Start the deepflow-agent:
    ```bash
    kubectl -n deepflow  patch daemonset deepflow-agent --type json -p='[{"op": "remove", "path": "/spec/template/spec/nodeSelector/non-existing"}]'
    ```
@@ -131,7 +131,7 @@ The only thing to note is that the tap_interface_regex of the collector only nee
 
 # Special K8s Resources or CRD
 
-In such scenarios, the following operations are required:
+In these scenarios, the following operations are required:
 
 - Enable and disable the corresponding resources in the Agent advanced configuration
 - Configure Kubernetes API permissions
@@ -140,7 +140,7 @@ In such scenarios, the following operations are required:
 
 In this scenario, the default `Ingress` resource acquisition needs to be disabled, and the `Route` resource acquisition needs to be enabled.
 
-The Agent advanced configuration is as follows:
+Agent advanced configuration is as follows:
 
 ```yaml
 static_config:
@@ -168,7 +168,7 @@ rules:
 
 In this scenario, the `CloneSet` and `apps.kruise.io/StatefulSet` resources need to be obtained from the API.
 
-The Agent advanced configuration is as follows:
+Agent advanced configuration is as follows:
 
 ```yaml
 static_config:
@@ -197,6 +197,31 @@ ClusterRole configuration addition:
     - watch
 ```
 
+## OpenGauss
+
+In this scenario, the `OpenGaussCluster` resource needs to be obtained from the API.
+
+Agent advanced configuration is as follows:
+
+```yaml
+static_config:
+  kubernetes-resources:
+    - name: opengaussclusters
+```
+
+ClusterRole configuration addition:
+
+```yaml
+- apiGroups:
+    - opengauss.sig
+  resources:
+    - opengaussclusters
+  verbs:
+    - get
+    - list
+    - watch
+```
+
 # Limited Permissions for Running Agent in K8s
 
 ## No Permission to Deploy K8s Daemonset
@@ -204,9 +229,9 @@ ClusterRole configuration addition:
 When there is no permission to run Daemonset in the Kubernetes cluster, but it is possible to run ordinary processes directly on the K8s Node, this method can be used to deploy the Agent.
 
 - Deploy a deepflow-agent in the form of a deployment
-  - By setting the environment variable `ONLY_WATCH_K8S_RESOURCE`, this agent only performs list-watch and controller functions for K8s resources
+  - By setting the environment variable `ONLY_WATCH_K8S_RESOURCE`, this agent only performs list-watch of K8s resources and sends them to the controller
   - All other functions of this agent will be automatically disabled
-  - When the agent requests the server, it informs that it is watch-k8s, and the server updates this information in the MySQL database
+  - When the agent requests the server, it informs that it is watching K8s, and the server updates this information in the MySQL database
   - This Agent, which is only used as a Watcher, will not appear in the Agent list
 - In this K8s cluster, run a regular-function deepflow-agent on each K8s Node in the form of a Linux process
   - Since these agents do not have the `IN_CONTAINER` environment variable, they will not list-watch K8s resources
@@ -236,17 +261,17 @@ After deployment, a Domain (corresponding to this K8s cluster) will be automatic
 
 ## Daemonset Not Allowed to Request apiserver
 
-By default, DeepFlow Agent runs in K8s as a Daemonset. However, in some cases, to protect the apiserver from overload, Daemonset is not allowed to request the apiserver. In this case, a similar method to "No Permission to Deploy Daemonset" in this document can be used for deployment:
+By default, DeepFlow Agent runs in K8s as a Daemonset. However, in some cases, to protect the apiserver from overload, Daemonset is not allowed to request the apiserver. In this case, a similar method to the "No Permission to Deploy Daemonset" described in this document can be used for deployment:
 
-- Deploy a deepflow-agent deployment, only responsible for list-watch apiserver and synchronizing K8s resource information
+- Deploy a deepflow-agent deployment, which is only responsible for list-watching the apiserver and synchronizing K8s resource information
 - Deploy a deepflow-agent daemonset, where no Pod will list-watch the apiserver
 
 ## deepflow-agent Not Allowed to Request apiserver
 
-deepflow-server relies on the K8s resource information reported by deepflow-agent to achieve AutoTagging capability. When your environment does not allow deepflow-agent to directly watch the K8s apiserver, you can implement a pseudo-deepflow-agent specifically for synchronizing K8s resources. This pseudo-deepflow-agent needs to implement the following functions:
+deepflow-server relies on K8s resource information reported by deepflow-agent to achieve AutoTagging capability. When your environment does not allow deepflow-agent to directly watch the K8s apiserver, you can implement a pseudo-deepflow-agent specifically for synchronizing K8s resources. This pseudo-deepflow-agent needs to implement the following functions:
 
 - Periodically list-watch the K8s apiserver to obtain the latest K8s resource information
-- Report K8s resource information by calling the gRPC interface of deepflow-server
+- Report K8s resource information to deepflow-server via gRPC interface
 
 ### gRPC Interface
 
@@ -256,7 +281,7 @@ The interface for reporting K8s resource information is ([GitHub code link](http
 rpc KubernetesAPISync(KubernetesAPISyncRequest) returns (KubernetesAPISyncResponse) {}
 ```
 
-The structure of the message reported by pseudo-deepflow-agent (GitHub code link as above):
+The structure of the message reported by pseudo-deepflow-agent (GitHub code link is the same as above):
 
 ```protobuf
 message KubernetesAPISyncRequest {
@@ -267,14 +292,14 @@ message KubernetesAPISyncRequest {
     optional string cluster_id = 1;
 
     // Version number of the resource information.
-    // When the K8s resource information changes, ensure that this version number also changes, usually using Linux Epoch.
-    // When the K8s resource information does not change, carry the version number from the last request, and entries do not need to be transmitted.
+    // When K8s resource information changes, ensure that this version number also changes, usually using Linux Epoch.
+    // When K8s resource information does not change, carry the version number from the previous request, and entries do not need to be transmitted.
     // Even if the resource information does not change, request deepflow-server periodically, ensuring the interval between two requests does not exceed 24 hours.
     optional uint64 version = 2;
 
     // Error information.
     // When there is an error calling the K8s API or other errors occur, this field can be used to inform deepflow-server.
-    // When there is an error_msg, it is recommended to carry the version and entries fields from the last request.
+    // When there is error_msg, it is recommended to carry the version and entries fields used in the previous request.
     optional string error_msg = 3;
 
     // Source IP address.
@@ -283,7 +308,7 @@ message KubernetesAPISyncRequest {
     optional string source_ip = 5;
 
     // All information of various K8s resources.
-    // Note: It needs to include all types of all resources, and resources that do not appear will be considered deleted by deepflow-server.
+    // Note: It needs to include all types of all resources. Resources not appearing will be considered deleted by deepflow-server.
     repeated common.KubernetesAPIInfo entries = 10;
 }
 
@@ -302,16 +327,16 @@ message KubernetesAPIInfo {
     optional string type = 1;
 
     // List of resources of this type.
-    // Note: Please use JSON serialization, then compress with zlib, and transmit the compressed byte stream.
+    // Note: Please use JSON serialization, then use zlib for compression, and transmit the compressed byte stream.
     optional bytes compressed_info = 3;
 }
 ```
 
-The structure of the response message from deepflow-server (GitHub code link as above):
+The structure of the response message from deepflow-server (GitHub code link is the same as above):
 
 ```protobuf
 message KubernetesAPISyncResponse {
-    // The version number of the resource information accepted by deepflow-server, usually equal to the version used in the most recent request.
+    // The version number of the resource information accepted by deepflow-server, usually equal to the version in the most recent request.
     optional uint64 version = 1;
 }
 ```
@@ -323,7 +348,7 @@ Note that deepflow-server requires certain K8s resource types to be reported, in
 - `*v1.Node`
 - `*v1.Namespace`
 - `*v1.Pod`
-- `*v1.Deployment`, `*v1.StatefulSet`, `*v1.DaemonSet`, `*v1.ReplicationController`, `*v1.ReplicaSet`: report as needed based on the workload type of the Pod
+- `*v1.Deployment`, `*v1.StatefulSet`, `*v1.DaemonSet`, `*v1.ReplicationController`, `*v1.ReplicaSet`: Report as needed based on the workload type of the Pod
 
 Other resources can be omitted:
 
@@ -336,7 +361,7 @@ For the above resources, the information that pseudo-deepflow-agent needs to rep
 
 ## Running deepflow-agent as a Non-root User
 
-Assuming we want to run the Agent installed in /usr/sbin/deepflow-agent using the ordinary user deepflow, we must first grant the necessary permissions to deepflow using the root user:
+Suppose we want to run the Agent installed in /usr/sbin/deepflow-agent using a regular user deepflow. We must first grant the necessary permissions to deepflow using the root user:
 
 ```bash
 ## Use the root user to grant execution permissions to the deepflow-agent

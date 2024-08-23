@@ -1,9 +1,11 @@
 ---
-title: 集成 Grafana Agent 数据
+title: Integrate Grafana Agent Data
 permalink: /integration/input/metrics/grafana-agent
 ---
 
-# 数据流
+> This document was translated by ChatGPT
+
+# Data Flow
 
 ```mermaid
 flowchart TD
@@ -26,16 +28,16 @@ subgraph Host
 end
 ```
 
-# 配置 Grafana Agent
+# Configure Grafana Agent
 
 ## Grafana Agent
 
-在 [Grafana Agent 文档](https://grafana.com/docs/agent/latest/)中可了解相关背景知识。
-如果你的环境中没有 Grafana Agent，可用如下步骤部署 Grafana Agent：
+You can learn the relevant background knowledge in the [Grafana Agent Documentation](https://grafana.com/docs/agent/latest/).
+If your environment does not have Grafana Agent, you can deploy it using the following steps:
 
 ::: code-tabs#shell
 
-@tab APT 部署
+@tab APT Deployment
 
 ```bash
 mkdir -p /etc/apt/keyrings/
@@ -71,7 +73,7 @@ systemctl start grafana-agent
 systemctl enable grafana-agent
 ```
 
-@tab YUM 部署
+@tab YUM Deployment
 
 ```bash
 wget -q -O gpg.key https://rpm.grafana.com/gpg.key
@@ -116,7 +118,7 @@ systemctl start grafana-agent
 systemctl enable grafana-agent
 ```
 
-@tab K8s 集群部署
+@tab K8s Cluster Deployment
 
 ```bash
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
@@ -134,8 +136,6 @@ helm repo update
 
 cat << EOF > grafana-agent-values-custom.yaml
 agent:
-  # -- Address to listen for traffic on. 0.0.0.0 exposes the UI to other
-  # containers.
   # -- Address to listen for traffic on. 0.0.0.0 exposes the UI to other
   # containers.
   listenAddr: \$(HOSTIP)
@@ -502,14 +502,12 @@ helm install grafana-agent grafana/grafana-agent \
 
 :::
 
-# 配置 DeepFlow
+# Configure DeepFlow
 
-请参考 [配置 DeepFlow](../tracing/opentelemetry/#配置-deepflow) 一节内容，完成 DeepFlow Agent 配置。
+Please refer to the section [Configure DeepFlow](../tracing/opentelemetry/#配置-deepflow) to complete the configuration of the DeepFlow Agent.
 
-Grafana Agent 中的指标将会存储在 DeepFlow 的 `Grafana Agent` database 中。
-Grafana Agent 原有的标签可通过 tag.XXX 引用，指标值通过 value 引用。
-同时 DeepFlow 也会自动注入大量的 Meta Tag 和 Custom Tag，使得 Grafana Agent 采集的数据可以与其他数据源无缝关联。
+Metrics from the Grafana Agent will be stored in the `Grafana Agent` database within DeepFlow. The original tags from Grafana Agent can be referenced using `tag.XXX`, and metric values can be referenced using `value`. Additionally, DeepFlow will automatically inject a large number of Meta Tags and Custom Tags, allowing the data collected by Grafana Agent to seamlessly correlate with other data sources.
 
-使用 Grafana，选择 `DeepFlow` 数据源进行搜索时的展现图下图：
+When using Grafana and selecting the `DeepFlow` data source for search, the display will appear as shown below:
 
-![Grafana Agent 数据集成](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20231003651c19e6684d1.png)
+![Grafana Agent Data Integration](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20231003651c19e6684d1.png)

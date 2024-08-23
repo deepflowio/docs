@@ -16,6 +16,7 @@ DeepFlow Agent 在云服务器中开始运行后，将自动零侵扰采集云�
 # 部署前的检查
 
 录入云平台信息，并且云服务器资源被 DeepFlow 通过云平台 API 接口成功学习，是在云服务器中部署 DeepFlow Agent 的前提条件：
+
 - 如果未录入云平台，请首先录入云平台并配置正确的云平台 API 对接信息，参考[在 DeepFlow 中录入云平台](./cloud/)章节说明。
 - 如果已录入云平台，请在 DeepFlow 的 Web 页面中检查`资源`-`计算资源`-`云服务器`中通过 IP 搜索，确认云服务器是否已成功学习，操作步骤参考下图：
 
@@ -107,13 +108,14 @@ controller-ips:
 vtap-group-id-request: 'g-xxxxxxxxxx' # FIXME: agent-group ID
 team-id: 't-xxxxxxxxxx' # FIXME: Team ID
 ```
+
 关键字段的取值说明如下：
 
-| 字段 | 字段用途 | 取值 | 例外说明 |
-|-------|-----|--------|--------|
-| `controller-ips` |  DeepFlow Agent 所要连接的 DeepFlow Server 地址 |  `agent.cloud.deepflow.yunshan.net` |  该地址错误时，DeepFlow Agent 将**无法注册** |
-| `teamId` |  即`团队 ID` ， DeepFlow Server 根据该字段确定 DeepFlow Agent 所属的组织 | DeepFlow 页面获取 | 该 ID 值错误时，DeepFlow Agent 将**无法注册** |
-| `vtap-group-id-request` |  即采集器组 ID，DeepFlow Server 根据该字段下发运行策略 | DeepFlow 页面获取 |  该 ID 值无效时，DeepFlow Server 会向 DeepFlow Agent **下发 default 组的运行策略** |
+| 字段                    | 字段用途                                                                | 取值                               | 例外说明                                                                          |
+| ----------------------- | ----------------------------------------------------------------------- | ---------------------------------- | --------------------------------------------------------------------------------- |
+| `controller-ips`        | DeepFlow Agent 所要连接的 DeepFlow Server 地址                          | `agent.cloud.deepflow.yunshan.net` | 该地址错误时，DeepFlow Agent 将**无法注册**                                       |
+| `teamId`                | 即`团队 ID` ， DeepFlow Server 根据该字段确定 DeepFlow Agent 所属的组织 | DeepFlow 页面获取                  | 该 ID 值错误时，DeepFlow Agent 将**无法注册**                                     |
+| `vtap-group-id-request` | 即采集器组 ID，DeepFlow Server 根据该字段下发运行策略                   | DeepFlow 页面获取                  | 该 ID 值无效时，DeepFlow Server 会向 DeepFlow Agent **下发 default 组的运行策略** |
 
 ## 启动 Agent 服务
 

@@ -13,7 +13,7 @@ flowchart TD
 subgraph K8s-Cluster
   Telegraf1["telegraf (daemonset)"]
   DeepFlowAgent1["deepflow-agent (daemonset)"]
-  DeepFlowServer["deepflow-server (statefulset)"]
+  DeepFlowServer["deepflow-server (deployment)"]
 
   Telegraf1 -->|metrics| DeepFlowAgent1
   DeepFlowAgent1 -->|metrics| DeepFlowServer
@@ -74,7 +74,7 @@ Please refer to the section [Configuring DeepFlow](../tracing/opentelemetry/#配
 
 # Viewing Telegraf Data
 
-The metrics in Telegraf will be stored in the `ext_metrics` database of DeepFlow.
+Metrics from Telegraf will be stored in DeepFlow's `ext_metrics` database.
 To reduce the number of tables, DeepFlow will store all Measurements in a single ClickHouse Table,
 but users will still see a series of data tables corresponding to the original Telegraf Measurements.
 The original tags of Telegraf metrics can be referenced via tag.XXX, and metric values can be referenced via metrics.YYY.

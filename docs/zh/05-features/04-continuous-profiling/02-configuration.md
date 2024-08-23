@@ -120,10 +120,10 @@ static_config:
 # eBPF Memory Profiling
 
 eBPF Memory Profiling（仅企业版）是默认关闭的，你需要通过修改 `static_config.ebpf.memory-profile.regex` 来指定需要开启的进程列表。Agent 支持的配置参数如下：
+
 ```yaml
 static_config:
   ebpf:
-
     # Memory profile configuration, Enterprise Edition Only.
     memory-profile:
       # eBPF memory Profile Switch

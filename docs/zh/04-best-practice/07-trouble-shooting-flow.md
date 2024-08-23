@@ -19,12 +19,12 @@ DeepFlow 可观测性平台通过 eBPF 采集以及开放的数据接口汇聚 m
 
 ![多团队统一协作](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080866b4b0683ed7b.jpeg)
 
-
 ## 从宏观到微观，从一维到多维
 
 ![从应用出发的故障诊断流程](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080866b4b0696e08d.jpeg)
 
 在 DeepFlow 可观测性平台中，一般通过应用 RED 指标观测、调用日志检索、调用链追踪、多维度应用诊断、多维度系统诊断、多维度网络诊断，从宏观到微观，从一个维度的数据观测到多个维度的数据分析，逐步回答如下 5 个问题，有序诊断出问题根因：
+
 - **Who is in trouble?**
 - **When it's in trouble?**
 - **Which request is in trouble?**
@@ -36,9 +36,10 @@ DeepFlow 可观测性平台通过 eBPF 采集以及开放的数据接口汇聚 m
 ## 应用 RED 指标观测
 
 在 IT 系统的运维中，通常使用 **RED** 指标（Rate、Error、Duration）作为核心监测指标评估系统的业务质量/应用服务质量：
+
 - **Rate** (请求速率)——表征单位时间内接收的请求数量，用于衡量服务的吞吐量/压力。
 - **Error** (异常比例)——表征所有请求中返回错误响应的比例，用于发现服务的异常，通常分为客户端原因导致的 Error 和 服务端原因导致的 Error，而服务端原因导致的 Error 通常是应用的关注重点。
-- **Duration** (响应时延)——表征从请求到响应消耗的时间，用于发现服务响应慢的情况；通常使用“响应时延均值”、“响应时延P95”、“响应时延P99”等观测响应时延的统计结果。
+- **Duration** (响应时延)——表征从请求到响应消耗的时间，用于发现服务响应慢的情况；通常使用“响应时延均值”、“响应时延 P95”、“响应时延 P99”等观测响应时延的统计结果。
 
 在 DeepFlow 平台中，同样使用面向应用调用的 RED 指标作为观测运维、故障诊断的入口，通常通过命名空间（pod_ns）、容器服务（pod_servce）、工作负载（pod_group)、应用调用协议（l7_protocol）等不同维度的条件组合过滤，观测您所关注的对象的 RED 指标。
 
@@ -53,6 +54,7 @@ DeepFlow 可观测性平台通过 eBPF 采集以及开放的数据接口汇聚 m
 当然，DeepFlow 还提供了更多的过滤条件在不同场景下灵活使用，您可以在未来的使用中不断探索。
 
 通过观测应用服务的 RED 指标可以回答 **Who** 和 **When** 的问题，即：
+
 - **Who is in trouble?**——哪一个观测对象（比如 IT 系统中的某个容器服务、某个工作负载、某个 Pod、某一条路径等）的服务质量出现异常（出现响应错误、响应慢或超时），需要我们关注。
 - **When it's in trouble?**——哪一个时间点出现了异常？
 
@@ -77,6 +79,7 @@ DeepFlow 平台为每一个观测对象提供了隐藏的“右滑窗”，在�
 ![DeepFlow 的调用链追踪示意图](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080766b3282d820d0.jpeg)
 
 背景阅读：
+
 - [3 分钟理解 DeepFlow 调用链追踪火焰图](https://www.bilibili.com/video/BV1di421k7JE/)
 - [3 分钟理解 DeepFlow 调用链追踪实现原理](https://www.bilibili.com/video/BV1ZC411E7ad/)
 
@@ -137,7 +140,7 @@ DeepFlow 平台为每一个观测对象提供了隐藏的“右滑窗”，在�
 ![火焰图样例 7（示意图）](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080766b3283e248cf.png)
 
 - 网络传输——客户端容器节点内传输慢
-  
+
 如果`http get`在 Client 端的「POD 网卡 Span」与「Node 网卡 Span」之间的时延出现了明显的差值，便可确定`http get`在客户端的容器节点内的虚拟网络中传输交换出现了卡顿。
 
 ![火焰图样例 8（示意图）](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080766b3284069e45.png)
@@ -157,6 +160,7 @@ DeepFlow 平台为每一个观测对象提供了隐藏的“右滑窗”，在�
 # 多维度分析——根因诊断
 
 DeepFlow 平台的应用调用链追踪帮助我们回答了“**Where is the root position?**” 的问题之后，下一步便是围绕 **Root Position** 展开多维度的数据分析，继续回答“**What**”的问题（**What is the root cause？**）。
+
 - 当通过调用链追踪做定界定位，确定问题边界是某一个应用进程后，即可进入“应用诊断”环节，对应用实例进行多个维度数据的分析诊断，确定应用故障的根因。
 - 当通过调用链追踪做定界定位，确定问题边界是网络传输的原因后，即可进入“网络诊断”环节，对网络传输进行多个维度数据的分析诊断，确定网络故障的根因。
 - 当确定问题与系统性能相关时（比如系统 CPU 用量、系统 Load、系统接口），还可进入“系统诊断”环节，对操作系统进行多个维度数据的分析诊断，确定操作系统故障的根因。
@@ -215,7 +219,6 @@ DeepFlow 平台的应用调用链追踪帮助我们回答了“**Where is the ro
 
 ![K8s 资源变更事件分析样例](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080766b3287e6aa0e.jpeg)
 
-
 ### 系统指标分析
 
 在 DeepFlow 平台可以集成并统一观测分析云服务器、容器 Node 的系统指标，通过异常时间点的系统指标快速确定系统资源是否为 Root Cause。
@@ -233,9 +236,10 @@ DeepFlow 平台的应用调用链追踪帮助我们回答了“**Where is the ro
 ### 网络指标分析
 
 当调用链追踪中确定某个「网络 Span」 是 Root Postion 后，随即一键调阅该次应用调用关联的“网络性能”， 进而确定 TCP 会话在三次握手、TLS 建连、数据交互、系统响应等不同过程的时延，确定网络传输慢的关键原因：
+
 - TCP 建连时延——TCP 三次握手过程的时延；
 - TLS 建连时延——TLS 建连过程的时延；
-- 平均数据时延——请求 Data 到响应 Data的时延（多次过程的平均值）
+- 平均数据时延——请求 Data 到响应 Data 的时延（多次过程的平均值）
 - 平均系统时延——请求 Data 到回复 ACK 消息的时延（多次过程的平均值）
 - 平均客户端等待时延——客户端从上一次 ACK 消息或响应 Data 到下一次请求之间等待的时延（多次过程的平均值）
 

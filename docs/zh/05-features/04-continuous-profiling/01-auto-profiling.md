@@ -39,6 +39,7 @@ permalink: /features/continuous-profiling/auto-profiling
 | rdma      | C/C++ `*`   |        | ✔      |
 
 说明：
+
 - `*`: features in development
 - 类型：
   - on-cpu：函数在 CPU 上消耗的时间
@@ -52,6 +53,7 @@ permalink: /features/continuous-profiling/auto-profiling
   - 使用 JVM 虚拟机的语言：Java
 
 获取 Profiling 数据需满足两个前提条件：
+
 - 进程需要开启 Frame Pointer（帧指针寄存器）
   - 编译 C/C++：`gcc -fno-omit-frame-pointer`
   - 编译 Rust：`RUSTFLAGS="-C force-frame-pointers=yes"`
@@ -60,6 +62,7 @@ permalink: /features/continuous-profiling/auto-profiling
 - 对于编译型语言的进程，编译时需要注意保留符号表
 
 Off-CPU Profiling 功能**仅会**采集如下调用栈：
+
 - 让出 CPU 时进程状态**等于**`TASK_INTERRUPTIBLE`（可中断睡眠）或`TASK_UNINTERRUPTIBLE`（不可中断睡眠）的调用栈
 - 0 号进程（Idle 进程）**以外**的调用栈
 - 含有**至少一个**用户态函数的调用栈

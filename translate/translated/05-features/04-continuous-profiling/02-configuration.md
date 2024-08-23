@@ -1,5 +1,5 @@
 ---
-title: How to Enable Features
+title: Configuration Method
 permalink: /features/continuous-profiling/configuration
 ---
 
@@ -112,9 +112,27 @@ The meanings of the above configurations are as follows:
 - **disabled**: Default is False, indicating the feature is enabled.
 - **regex**: Regular expression for the process names to enable Off-CPU Profiling.
 - **cpu**: Default is 0, indicating that the data collected on a host is not distinguished by CPU. When set to 1, the data will be aggregated by CPU ID.
-- **minblock**: Use duration limits to collect Off-CPU events to avoid excessive collection leading to high host load.
+- **minblock**: Use duration limit to collect Off-CPU events to avoid excessive collection leading to high host load.
 
 Additionally, the following two On-CPU configuration items are also effective for Off-CPU:
 
 - **java-symbol-file-refresh-default-interval**
 - **java-symbol-file-max-space-limit**
+
+# eBPF Memory Profiling
+
+eBPF Memory Profiling (Enterprise Edition only) is disabled by default. You need to specify the list of processes to be enabled by modifying `static_config.ebpf.memory-profile.regex`. The configuration parameters supported by the Agent are as follows:
+
+```yaml
+static_config:
+  ebpf:
+    # Memory profile configuration, Enterprise Edition Only.
+    memory-profile:
+      # eBPF memory Profile Switch
+      # Default: true
+      disabled: true
+
+      # Memory trace process name
+      # Default: ^java
+      regex: ^java
+```

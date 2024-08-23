@@ -37,7 +37,7 @@ DeepFlowServer -->|"get resource & label"| CloudAPI[cloud api service]
 
 # Create Public Cloud Domain
 
-DeepFlow currently supports resource information synchronization for the following public clouds (marked as `TBD` are in the process of code organization):
+DeepFlow currently supports resource information synchronization for the following public clouds (marked as `TBD` are under code organization):
 | Cloud Provider (English) | Cloud Provider (Chinese) | Type Identifier Used in DeepFlow |
 | ------------------------ | ------------------------ | ------------------------------- |
 | AWS                      | AWS                      | aws                             |
@@ -55,7 +55,7 @@ For example, for Aliyun:
 deepflow-ctl domain example aliyun > aliyun.yaml
 ```
 
-Edit the configuration file `aliyun.yaml`, filling in the AK/SK (requires read-only permissions for cloud resources) and the Region information where the resources are located:
+Modify the configuration file `aliyun.yaml`, filling in the AK/SK (requires read-only permissions for cloud resources) and the Region information where the resources are located:
 
 ```yaml
 name: aliyun
@@ -134,6 +134,7 @@ services:
     image: registry.cn-hongkong.aliyuncs.com/deepflow-ce/deepflow-agent:stable
     container_name: deepflow-agent
     restart: always
+    #privileged: true  ## Docker version below 20.10.10 requires the opening of the privileged mode, See https://github.com/moby/moby/pull/42836
     cap_add:
       - SYS_ADMIN
       - SYS_RESOURCE
@@ -155,7 +156,7 @@ docker compose -f deepflow-agent-docker-compose.yaml up -d
 
 :::
 
-Edit the configuration file of deepflow-agent `/etc/deepflow-agent.yaml`:
+Modify the deepflow-agent configuration file `/etc/deepflow-agent.yaml`:
 
 ```yaml
 controller-ips:

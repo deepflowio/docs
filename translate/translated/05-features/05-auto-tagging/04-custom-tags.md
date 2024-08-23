@@ -41,34 +41,46 @@ DeepFlow (Enterprise Edition only) currently supports automatically associating 
 
 Supported public cloud providers include:
 
-- Aliyun 阿里云
-- Tencent Cloud 腾讯云
-- Huawei Cloud 华为云
+- Aliyun
+- Tencent Cloud
+- Huawei Cloud
 
 Supported private cloud providers include:
 
-- Aliyun Private Cloud
+- Aliyun Dedicated Cloud
 
 # Custom Auto Grouping Tags
 
-The DeepFlow system by default provides two auto-grouping tags: auto_instance and auto_service:
+The DeepFlow system provides two default auto-grouping tags: auto_instance and auto_service:
 
 - auto_instance: Automatically identifies the corresponding instance tag based on IP or process ID. The system sets recognizable tags and their priorities (Container POD > Process > Container Node > Others > IP).
 
 [csv-auto_instance_type](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/tag/enum/auto_instance_type.en)
 
 - auto_service: Automatically identifies the corresponding service tag based on IP or process ID. The system sets recognizable tags and their priorities (Container Service > Workload > Process > Container Cluster > Others > IP).
-  - Compared to auto_instance, auto_service removes `Container POD` and adds tags like `Container Service` and `Workload` that better reflect services. The priority of `Container Service` recognition is higher than `Workload`, so when an IP belongs to both `Container Service` and `Workload`, it will be recognized as `Container Service`.
+  - Compared to auto_instance, auto_service removes `Container POD` and adds `Container Service` and `Workload` tags that better reflect services. The `Container Service` tag has a higher priority than `Workload`, so when an IP belongs to both `Container Service` and `Workload`, it will be identified as `Container Service`.
 
 [csv-auto_service_type](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/tag/enum/auto_service_type.en)
 
 DeepFlow also supports the ability to customize auto-grouping tags. You can configure the tags and their priorities as needed. The configuration document is as follows:
 
-```
-todo
+```yaml
+querier:
+  auto-custom-tag:
+    # The Name of Custom Tag
+    # Note: Cannot use colon, space, or backquote.
+    tag-name: auto_my_tag
+    # The Value of Custom Tag
+    # Note: Range of source tags for retrieving the field value. Each row of data will
+    #   automatically use the first non-zero tag encountered from top to bottom as the
+    #   value for the custom tag. Here you can enter any tags seen in the results of
+    #   the `show tags from <table>` API.
+    tag-values:
+      - k8s.label.app
+      - auto_service
 ```
 
-The usage of the defined `$tag-name` tag is basically the same as `auto_instance/auto_service`, with the following restrictions:
+The `$tag-name` tag defined above is used similarly to `auto_instance` and `auto_service`, with the following additional restrictions:
 
-- `*` cannot be used for grouping simultaneously with `$tag-name`
-- Tags included in `$tag_values` cannot be used for grouping simultaneously with `$tag-name`
+- The `$tag-name` defined here cannot be used for grouping with `*` simultaneously.
+- The `$tag-name` defined here cannot be used for grouping with any tags included in the `$tag-values` definition simultaneously.
