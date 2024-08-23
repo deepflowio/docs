@@ -8,8 +8,6 @@ permalink: /about/users
 | 行业 | 用户      | 来源 | 标题                                                        | 链接                                                      |
 | ---- | --------- | ---- | ----------------------------------------------------------- | --------------------------------------------------------- |
 | 金融 | FinPoints | 文章 | FinPoints x DeepFlow：如何实现 SRE 99.9% 服务级别目标 (SLO) | [文章](https://mp.weixin.qq.com/s/WoGDcmT1ua3N3DXa11Bk4g) |
-
-|
 | 互联网 | 企迈科技 | 文章 | 企迈科技 x DeepFlow：爆发式增长业务背后的可观测性平台实践 | [文章](https://mp.weixin.qq.com/s/P2tMeAYCMns05zG8nfj6dg) |
 | 消费电子 | 某手机厂商 | 文章 | 使用 DeepFlow 消除 APISIX 故障诊断中的“南辕北辙” | [文章](https://mp.weixin.qq.com/s/a-x_ce6VO-L1SaXs8PKoAg) |
 | 云服务 | 腾讯云 | 文章 | 腾讯云某业务基于 DeepFlow 的可观测性实践 | [文章](https://mp.weixin.qq.com/s/57e3dAvN9gYcwWGjt-BMbw) |
