@@ -18,36 +18,36 @@ stella-agent-ce:
       ai:
         enable: False
         platforms:
-        - platform: 'azure' # https://learn.microsoft.com/zh-cn/azure/ai-services/openai/
-          enable: False
-          model: 'gpt'
-          api_type: 'azure'
-          api_key: 'xxx' # FIXME
-          api_base: 'xxx' # FIXME
-          api_version: 'xxx' # FIXME
-          engine_name:
-          - 'xxx' # FIXME（模型部署名称）
-        - platform: 'aliyun' # https://help.aliyun.com/zh/dashscope/create-a-chat-foundation-model
-          enable: False
-          model: 'dashscope'
-          api_key: 'xxx' # FIXME
-          engine_name:
-          - 'qwen-turbo'
-          - 'qwen-plus'
-        - platform: 'baidu' # https://cloud.baidu.com/doc/WENXINWORKSHOP/index.html
-          enable: False
-          model: 'qianfan'
-          api_key: 'xxx' # FIXME
-          api_secret: 'xxx' # FIXME
-          engine_name:
-          - 'ERNIE-Bot'
-          - 'ERNIE-Bot-turbo'
-        - platform: 'zhipu' # https://open.bigmodel.cn/
-          enable: False
-          model: 'zhipuai'
-          api_key: 'xxx' # FIXME
-          engine_name:
-          - 'chatglm_turbo'
+          - platform: 'azure' # https://learn.microsoft.com/zh-cn/azure/ai-services/openai/
+            enable: False
+            model: 'gpt'
+            api_type: 'azure'
+            api_key: 'xxx' # FIXME
+            api_base: 'xxx' # FIXME
+            api_version: 'xxx' # FIXME
+            engine_name:
+              - 'xxx' # FIXME（模型部署名称）
+          - platform: 'aliyun' # https://help.aliyun.com/zh/dashscope/create-a-chat-foundation-model
+            enable: False
+            model: 'dashscope'
+            api_key: 'xxx' # FIXME
+            engine_name:
+              - 'qwen-turbo'
+              - 'qwen-plus'
+          - platform: 'baidu' # https://cloud.baidu.com/doc/WENXINWORKSHOP/index.html
+            enable: False
+            model: 'qianfan'
+            api_key: 'xxx' # FIXME
+            api_secret: 'xxx' # FIXME
+            engine_name:
+              - 'ERNIE-Bot'
+              - 'ERNIE-Bot-turbo'
+          - platform: 'zhipu' # https://open.bigmodel.cn/
+            enable: False
+            model: 'zhipuai'
+            api_key: 'xxx' # FIXME
+            engine_name:
+              - 'chatglm_turbo'
 ```
 
 更新 DeepFlow：

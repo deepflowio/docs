@@ -74,10 +74,11 @@ querier:
     #   value for the custom tag. Here you can enter any tags seen in the results of
     #   the `show tags from <table>` API.
     tag-values:
-    - k8s.label.app
-    - auto_service
+      - k8s.label.app
+      - auto_service
 ```
 
 上述定义的 `$tag-name` 标签使用上与 `auto_instance`、`auto_service` 基本一致，额外的限制如下：
+
 - 此处定义的 `$tag-name` 不能与 `*` 同时用于分组
 - 此处定义的 `$tag-name` 不能与定义中 `$tag-values` 所包含的 Tag 同时用于分组

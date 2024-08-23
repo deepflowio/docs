@@ -82,6 +82,7 @@ services:
     image: hub.deepflow.yunshan.net/public/deepflow-agent:v6.4
     container_name: deepflow-agent
     restart: always
+    #privileged: true  ## Docker version below 20.10.10 requires the opening of the privileged mode, See https://github.com/moby/moby/pull/42836
     cap_add:
       - SYS_ADMIN
       - SYS_RESOURCE

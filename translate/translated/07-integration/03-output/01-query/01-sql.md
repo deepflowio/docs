@@ -34,7 +34,7 @@ curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/query/" \
     --data-urlencode "sql=show databases"
 ```
 
-## Get All Tables in a Specific Database
+## Get All Tables in a Specified Database
 
 SQL statement:
 
@@ -50,7 +50,7 @@ curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/query/" \
     --data-urlencode "sql=show tables"
 ```
 
-## Get Tags in a Specific Table
+## Get Tags in a Specified Table
 
 SQL statement:
 
@@ -94,7 +94,7 @@ Output example:
 }
 ```
 
-## Get Values of a Specific Tag
+## Get Values of a Specified Tag
 
 ### Get All Values of a Tag
 
@@ -143,7 +143,7 @@ API call method and output example are the same as above.
 
 ### Filter Using Other Tags
 
-Sometimes we want to use tags for associative filtering to reduce the range of candidate values. In this case, we can choose to query a specific table, filter by Tag1, and aggregate by Tag2. For example, we want to query all `pod` names in `pod_cluster="cluster1"`:
+Sometimes we want to use tags for associative filtering to reduce the range of candidate values. In this case, we can choose to query a data table, filter by Tag1, and aggregate by Tag2. For example, we want to query all `pod` names in `pod_cluster="cluster1"`:
 
 ```SQL
 SELECT pod FROM `network.1m` WHERE pod_cluster = 'cluster1' GROUP BY pod
@@ -155,7 +155,7 @@ The above statement will use the `pod_cluster` field in the `network.1m` table o
 SELECT pod FROM `network.1m` WHERE pod_cluster = 'cluster1' AND time > 1234567890 GROUP BY pod
 ```
 
-Note: Data can only be found in `flow_metrics` if there has been traffic in the pod (and HostNetwork is not used). After integrating Prometheus or Telegraf data, we can also use the constant metrics in them to assist in obtaining Tag values. For example, we can use Prometheus metrics in `ext_metrics` to achieve the above requirement:
+Note: Data can only be found in `flow_metrics` if the pod has had traffic (and is not using HostNetwork). After integrating Prometheus or Telegraf data, we can also use the constant metrics in them to assist in obtaining Tag values. For example, we can use Prometheus metrics in `ext_metrics` to achieve the above requirement:
 
 ```SQL
 SELECT pod FROM `prometheus.kube_pod_start_time` WHERE pod_cluster = 'cluster1' GROUP BY pod
@@ -186,7 +186,7 @@ In Grafana, we can also use the above capabilities to achieve linked filtering o
   SELECT pod as `value`, pod as `display_name` FROM `network.1m` WHERE pod_cluster IN (${cluster:singlequote}) AND  time >= ${__from:date:seconds}-500 AND time <= ${__to:date:seconds}+500 GROUP BY `value`
   ```
 
-## Get Metrics in a Specific Table
+## Get Metrics in a Specified Table
 
 SQL statement:
 
@@ -247,7 +247,7 @@ API call method:
 
 ```bash
 curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/query/" \
-    --data-urlencode "sql=show metric function"
+    --data-urlencode "sql=show metrics functions"
 ```
 
 # SQL Syntax

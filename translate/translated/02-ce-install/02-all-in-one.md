@@ -91,7 +91,7 @@ Note:
 
 - We recommend saving the contents of the helm `--set` parameter in a separate yaml file, refer to the [Advanced Configuration](../best-practice/server-advanced-config/) section.
 
-## Access the Grafana Page
+## Access Grafana Page
 
 The output of the helm deployment of DeepFlow provides commands to get the URL and password for accessing Grafana. Example output:
 
@@ -101,7 +101,7 @@ NODE_IP=$(kubectl get nodes -o jsonpath="{.items[0].status.addresses[0].address}
 echo -e "Grafana URL: http://$NODE_IP:$NODE_PORT  \nGrafana auth: admin:deepflow"
 ```
 
-Example output after executing the above commands:
+Example output after executing the above command:
 
 ```text
 Grafana URL: http://10.1.2.3:31999
@@ -148,7 +148,7 @@ DOCKER_HOST_IP="10.1.2.3"  # FIXME: Deploy the environment machine IP
 Download and install All-in-One DeepFlow
 
 ```bash
-wget  https://deepflow-ce.oss-cn-beijing.aliyuncs.com/pkg/docker-compose/stable/linux/deepflow-docker-compose.tar
+wget  https://deepflow-ce.oss-cn-beijing.aliyuncs.com/pkg/docker-compose/latest/linux/deepflow-docker-compose.tar
 tar -zxf deepflow-docker-compose.tar
 sed -i "s|FIX_ME_ALLINONE_HOST_IP|$DOCKER_HOST_IP|g" deepflow-docker-compose/docker-compose.yaml
 docker compose -f deepflow-docker-compose/docker-compose.yaml up -d
@@ -158,11 +158,11 @@ docker compose -f deepflow-docker-compose/docker-compose.yaml up -d
 
 Refer to [Monitoring Traditional Servers](./legacy-host) to deploy deepflow-agent for this server.
 
-## Access the Grafana Page
+## Access Grafana Page
 
-The DeepFlow Grafana port deployed using Docker Compose is 3000, and the user password is admin:deepflow.
+The port for DeepFlow Grafana deployed using Docker Compose is 3000, and the user password is admin:deepflow.
 
-For example, if the machine IP is 10.1.2.3, the Grafana access URL is http://10.1.2.3:3000
+For example, if the machine's IP is 10.1.2.3, the Grafana access URL is http://10.1.2.3:3000
 
 ## Limitations
 
@@ -182,6 +182,6 @@ chmod a+x /usr/bin/deepflow-ctl
 
 - [Universal Service Map - Experience DeepFlow's AutoMetrics Capability](../features/universal-map/auto-metrics/)
 - [Distributed Tracing - Experience DeepFlow's AutoTracing Capability](../features/distributed-tracing/auto-tracing/)
-- [Eliminate Data Silos - Learn About DeepFlow's AutoTagging and SmartEncoding Capabilities](../features/auto-tagging/eliminate-data-silos/)
-- [Say Goodbye to High Cardinality Issues - Integrate Prometheus and Other Metric Data](../integration/input/metrics/metrics-auto-tagging/)
-- [Full-Stack Distributed Tracing - Integrate OpenTelemetry and Other Tracing Data](../integration/input/tracing/full-stack-distributed-tracing/)
+- [Eliminate Data Silos - Learn about DeepFlow's AutoTagging and SmartEncoding Capabilities](../features/auto-tagging/eliminate-data-silos/)
+- [Say Goodbye to High Baseline Troubles - Integrate Prometheus and other metric data](../integration/input/metrics/metrics-auto-tagging/)
+- [Full-Stack Distributed Tracing - Integrate OpenTelemetry and other tracing data](../integration/input/tracing/full-stack-distributed-tracing/)

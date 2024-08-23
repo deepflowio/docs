@@ -10,12 +10,13 @@ permalink: /features/auto-tagging/meta-tags
 DeepFlow currently supports resource information synchronization for the following public cloud providers:
 
 - AWS
-- Aliyun
-- Baidu Cloud
-- Huawei Cloud
+- Aliyun 阿里云
+- Baidu Cloud 百度云
+- Huawei Cloud 华为云
 - Microsoft Azure
-- QingCloud
-- Tencent Cloud
+- QingCloud 青云
+- Tencent Cloud 腾讯云
+- Volcengine 火山引擎
 
 The resource tag information that supports automatic injection includes:
 
@@ -56,7 +57,7 @@ DeepFlow supports automatic injection of the following K8s resource information:
 
 DeepFlow will call (list & watch) the K8s apiserver to obtain key fields of the following types of resources. The value types of each field can be referenced from the output of the `kubectl get XXX -o json` command. Please make necessary adaptations when you modify the API of these resources.
 
-You can also choose to implement a pseudo-deepflow-agent to complete the synchronization of K8s resource tags, thereby avoiding direct access to the K8s apiserver by the deepflow-agent. [See the documentation here](../../best-practice/special-environment-deployment/#不允许-deepflow-agent-请求-apiserver).
+You can also choose to implement a pseudo-deepflow-agent yourself to complete the synchronization of K8s resource tags, thereby avoiding direct access to the K8s apiserver by the deepflow-agent. [See the documentation here](../../best-practice/special-environment-deployment/#不允许-deepflow-agent-请求-apiserver).
 
 ## Necessary Fields of \*v1.Node
 
@@ -106,7 +107,7 @@ You can also choose to implement a pseudo-deepflow-agent to complete the synchro
     "name": "xxxx", // Name
     "namespace": "xxxx", // Name of the associated namespace
     "labels": {
-      // Labels, can upload an empty dictionary
+      // labels, can upload an empty dictionary
       "key1": "value1"
     }
   },
@@ -125,11 +126,11 @@ You can also choose to implement a pseudo-deepflow-agent to complete the synchro
     "name": "xxxx", // Name
     "namespace": "xxxx", // Name of the associated namespace
     "labels": {
-      // Labels, can upload an empty dictionary
+      // labels, can upload an empty dictionary
       "key1": "value1"
     },
     "ownerReferences": {
-      // Information of the associated workload
+      // Information about the associated workload
       "name": "xxxx",
       "uid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
     }
@@ -149,11 +150,11 @@ You can also choose to implement a pseudo-deepflow-agent to complete the synchro
     "name": "xxxx", // Name
     "namespace": "xxxx", // Name of the associated namespace
     "labels": {
-      // Labels, can upload an empty dictionary if *v1.Service resource is not reported
+      // labels, can upload an empty dictionary if *v1.Service resource is not reported
       "key1": "value1"
     },
     "ownerReferences": [
-      // Information of the associated workload
+      // Information about the associated workload
       {
         // Workload type
         // Currently supported: DaemonSet/Deployment/ReplicaSet/StatefulSet/ReplicationController
@@ -192,7 +193,7 @@ You can also choose to implement a pseudo-deepflow-agent to complete the synchro
         "uid": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", // Unique Identifier
         "name": "xxxx",                                // Name
         "namespace": "xxxx",                           // Name of the associated namespace
-        "labels": {                                    // Labels, can upload an empty dictionary
+        "labels": {                                    // labels, can upload an empty dictionary
             "key1": "value1"
         }
     },
@@ -207,7 +208,7 @@ You can also choose to implement a pseudo-deepflow-agent to complete the synchro
                 "targetPort": xxxx
             }
         ],
-        "selector": { // The selector contains label information, and the service associates with the Pod through the labels in the selector
+        "selector": { // The selector contains label information, the service associates with the Pod through the labels in the selector
             "key": "value"
         },
         "type": "xxxx" // Currently supports NodePort and ClusterIP
@@ -227,7 +228,7 @@ You can also choose to implement a pseudo-deepflow-agent to complete the synchro
     "spec": {
         "rules": [ // Forwarding rules
             {
-                "host": "", // Domain
+                "host": "", // Domain name
                 "http": {   // Currently only supports HTTP protocol
                     "paths": [
                         {

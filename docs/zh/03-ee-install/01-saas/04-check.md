@@ -48,4 +48,3 @@ permalink: /ee-install/saas/check
 如果您想观测某一个云服务器或容器服务的网络性能，可进入`网络`-`资源分析`，[指导链接](../../guide/ee-tenant/network/service-statistics/)。
 
 除此之外，还有更多的可观测性使用方法等待您的发掘……
-

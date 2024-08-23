@@ -86,9 +86,9 @@ type: agent_sync
 EOF
 ```
 
-## Create Collector Group
+## Create Agent Group
 
-Create a collector group:
+Create an agent group:
 
 ```bash
 unset AGENT_GROUP
@@ -98,14 +98,14 @@ deepflow-ctl agent-group create $AGENT_GROUP
 deepflow-ctl agent-group list $AGENT_GROUP # Get agent-group ID
 ```
 
-Create the collector group configuration file `agent-group-config.yaml`, specify `vtap_group_id` and enable `platform_enabled` to allow deepflow-agent to synchronize the server's network information to deepflow-server.
+Create the agent group configuration file `agent-group-config.yaml`, specify `vtap_group_id` and enable `platform_enabled` to allow deepflow-agent to synchronize the server's network information to deepflow-server.
 
 ```yaml
 vtap_group_id: g-ffffff # FIXME
 platform_enabled: 1
 ```
 
-Create the collector group configuration:
+Create the agent group configuration:
 
 ```bash
 deepflow-ctl agent-group-config create -f agent-group-config.yaml
@@ -168,9 +168,10 @@ cat << EOF > deepflow-agent-docker-compose.yaml
 version: '3.2'
 services:
   deepflow-agent:
-    image: registry.cn-hongkong.aliyuncs.com/deepflow-ce/deepflow-agent:stable
+    image: registry.cn-hongkong.aliyuncs.com/deepflow-ce/deepflow-agent:v6.5
     container_name: deepflow-agent
     restart: always
+    #privileged: true  ## Docker version below 20.10.10 requires the opening of the privileged mode, See https://github.com/moby/moby/pull/42836
     cap_add:
       - SYS_ADMIN
       - SYS_RESOURCE
@@ -209,7 +210,7 @@ systemctl restart deepflow-agent
 
 **Note**:
 
-If deepflow-agent fails to start due to missing dependencies, you can download the statically linked compiled deepflow-agent. Note that the statically linked compiled deepflow-agent has severe performance issues under multithreading:
+If deepflow-agent cannot start normally due to missing dependencies, you can download the statically linked compiled deepflow-agent. Note that the statically linked compiled deepflow-agent has severe performance issues under multithreading:
 ::: code-tabs#shell
 
 @tab rpm
@@ -261,5 +262,5 @@ systemctl daemon-reload
 - [Universal Service Map - Experience DeepFlow's AutoMetrics Capability](../features/universal-map/auto-metrics/)
 - [Distributed Tracing - Experience DeepFlow's AutoTracing Capability](../features/distributed-tracing/auto-tracing/)
 - [Eliminate Data Silos - Learn About DeepFlow's AutoTagging and SmartEncoding Capabilities](../features/auto-tagging/eliminate-data-silos/)
-- [Say Goodbye to High Cardinality Issues - Integrate Metrics Data from Prometheus, etc.](../integration/input/metrics/metrics-auto-tagging/)
+- [Say Goodbye to High Baseline Troubles - Integrate Metrics Data from Prometheus, etc.](../integration/input/metrics/metrics-auto-tagging/)
 - [Full-Stack Distributed Tracing - Integrate Tracing Data from OpenTelemetry, etc.](../integration/input/tracing/full-stack-distributed-tracing/)

@@ -1,5 +1,5 @@
 ---
-title: Integrating Prometheus Data
+title: Integrate Prometheus Data
 permalink: /integration/input/metrics/prometheus
 ---
 
@@ -20,12 +20,12 @@ subgraph K8s-Cluster
 end
 ```
 
-# Configuring Prometheus
+# Configure Prometheus
 
-## Installing Prometheus
+## Install Prometheus
 
 You can learn the relevant background knowledge in the [Prometheus documentation](https://prometheus.io/docs/introduction/overview/).
-If your cluster does not have Prometheus, you can quickly deploy a Prometheus in the `deepflow-prometheus-demo` namespace using the following steps:
+If you do not have Prometheus in your cluster, you can quickly deploy a Prometheus in the `deepflow-prometheus-demo` namespace using the following steps:
 
 ```bash
 # add helm chart
@@ -36,7 +36,7 @@ helm repo update
 helm install prometheus prometheus-community/prometheus -n deepflow-prometheus-demo --create-namespace
 ```
 
-## Configuring remote_write
+## Configure remote_write
 
 We need to configure Prometheus `remote_write` to send data to the DeepFlow Agent.
 
@@ -55,7 +55,7 @@ remote_write:
   - url: http://${DEEPFLOW_AGENT_SVC}/api/v1/prometheus
 ```
 
-## Configuring remote_read
+## Configure remote_read
 
 If you want Prometheus to query data from DeepFlow, you need to configure Prometheus `remote_read` (please change `DEEPFLOW_SERVER_SVC` to the service name of deepflow-server):
 
@@ -65,24 +65,24 @@ remote_read:
     read_recent: true
 ```
 
-# Configuring DeepFlow
+# Configure DeepFlow (Deprecated in v6.5 and later versions)
 
-Please refer to the section [Configuring DeepFlow](../tracing/opentelemetry/#配置-deepflow) and add the configuration for the `prometheus targets api` address (not required for versions v6.2 and earlier) to complete the DeepFlow Agent configuration. The purpose is to synchronize prometheus activeTargets.labels and config to deepflow-server to improve storage and query performance.
+Please refer to the section [Configure DeepFlow](../tracing/opentelemetry/#配置-deepflow) and add the configuration for the `prometheus targets api` address (not required for versions prior to v6.2) to complete the DeepFlow Agent configuration. The purpose is to synchronize prometheus activeTargets.labels and config to deepflow-server to improve storage and query performance.
 
-Add the following configuration to the Group where the Agent is located (please modify `PROMETHEUS_HTTP_API_ADDRESSES`):
+Add the following configuration for the Group where the Agent is located (please modify `PROMETHEUS_HTTP_API_ADDRESSES`):
 
 ```yaml
 prometheus_http_api_addresses: # Required when integrating Prometheus metrics
   - { PROMETHEUS_HTTP_API_ADDRESSES }
 ```
 
-# Viewing Prometheus Data
+# View Prometheus Data
 
 The metrics in Prometheus will be stored in the `prometheus` database of DeepFlow.
 The original labels of Prometheus can be referenced through tag.XXX, and the metric values can be referenced through value.
 At the same time, DeepFlow will automatically inject a large number of Meta Tags and Custom Tags, allowing the data collected by Prometheus to be seamlessly associated with other data sources.
 
-Using Grafana, select the `DeepFlow` data source to display the chart as shown below:
+Using Grafana, select the `DeepFlow` data source to display the search results as shown below:
 
 ![Prometheus Data Integration](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20231003651c19e6684d1.png)
 

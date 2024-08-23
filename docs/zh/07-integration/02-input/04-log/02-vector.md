@@ -37,6 +37,7 @@ end
 ::: code-tabs#shell
 
 @tab APT 部署
+
 ```bash
 ## Add Vector repo
 bash -c "$(curl -L https://setup.vector.dev)"
@@ -46,7 +47,9 @@ vector --version
 systemctl start vector
 systemctl enable vector
 ```
+
 @tab YUM 部署
+
 ```bash
 ## Add Vector repo
 bash -c "$(curl -L https://setup.vector.dev)"
@@ -57,6 +60,7 @@ vector --version
 systemctl start vector
 systemctl enable vector
 ```
+
 @tab K8s 集群部署
 
 ```bash

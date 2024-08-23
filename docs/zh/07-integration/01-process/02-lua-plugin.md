@@ -44,7 +44,7 @@ function GetWorkloadTypeAndName(metaJsonStr)
     --        }
     --    ],
     --    "uid": ""
-    -- }       
+    -- }
     -- 固定写法，将传入的包含 pod 元数据的 JSON 字符串转换为 Lua 的 table 类型
     local metaData = dkjson.decode(metaJsonStr,1,nil)
     local workloadType = ""
@@ -56,30 +56,35 @@ function GetWorkloadTypeAndName(metaJsonStr)
     end
     -- 通过对 meteData 自定义分析， 返回 workloadType 和 workloadName
     return workloadType, workloadName
-    
+
 end
 ```
 
 # 上传插件
 
 Lua 插件支持运行时的加载，在 DeepFlow 的运行环境中使用 deepflow-ctl 工具上传插件后就可自动加载，在环境中执行以下命令：
+
 ```sh
 # 将 /home/tom/hello.lua 替换为您的 lua 插件所在的路径  hello 替换为您想要给插件起的名字即可
 deepflow-ctl plugin create --type lua --image /home/tom/hello.lua --name hello --user server
 ```
 
 DeepFlow 支持同时加载多个 lua 插件，如果您想用不同的插件对不同的 Pod 起作用，注意写好过滤规则即可，您可以通过以下命令查看您已加载的插件名称：
+
 ```sh
 deepflow-ctl plugin list
 ```
 
 您可以通过插件名称删除掉某个插件，命令如下：
+
 ```sh
 deepflow-ctl plugin delete <name>
 ```
+
 # 示例
 
 例如现在 k8s 环境中某个 Pod 的元数据如下：
+
 ```json
 "metadata": {
         "annotations": {},
@@ -103,18 +108,19 @@ deepflow-ctl plugin delete <name>
 ```
 
 按标准化的方式无法提取到工作负载类型和工作负载名称，因为数据的 kind 是 `OpenGaussCluster`，不是 DeepFlow 支持的类型， 当前版本支持的工作负载类型有：Deployment/StatefulSet/DaemonSet/CloneSet，可以编写以下 lua 脚本将工作负载类型转为 DeepFlow 支持的类型：
+
 ```lua
 package.path = package.path..";/bin/?.lua"
 local dkjson = require("dkjson")
 
 function GetWorkloadTypeAndName(metaJsonStr)
     local metaData = dkjson.decode(metaJsonStr,1,nil)
-    local ownerReferencesData = metaData["ownerReferences"] or {} 
+    local ownerReferencesData = metaData["ownerReferences"] or {}
     local meteTable  = ownerReferencesData[1] or {}
     local workloadType = ""
     local workloadName = ""
-    -- 获取 workloadType，并确保它是字符串类型    
-    workloadType = tostring(meteTable["kind"] or "") 
+    -- 获取 workloadType，并确保它是字符串类型
+    workloadType = tostring(meteTable["kind"] or "")
     -- 如果我们只想对 workloadType = "OpenGaussCluster" 的进行处理，可以在这里过滤掉其他 Pod 的元数据
     if workloadType ~= "OpenGaussCluster" then
         -- 过滤掉的直接返回空字符串
@@ -126,8 +132,9 @@ function GetWorkloadTypeAndName(metaJsonStr)
     -- 获取 workloadName，并确保它是字符串类型
     -- 这里 Pod 中有 ownerReferences 数据，ownerReferences 中的 name 即 workloadName
     -- 如果 Pod 中没有 ownerReferences 数据，可以根据 pod name 计算出 workloadName
-    local workloadName = tostring(meteTable["name"] or "") 
+    local workloadName = tostring(meteTable["name"] or "")
     return workloadType, workloadName
 end
 ```
+
 将此插件上传后，就可以提取到这个 Pod 对应的工作负载类型和工作负载名称。

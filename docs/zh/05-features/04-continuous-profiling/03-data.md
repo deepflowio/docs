@@ -14,6 +14,7 @@ permalink: /features/continuous-profiling/data
 ## API
 
 Profile 查询 API 示例：
+
 ```bash
 # 确认 deepflow-server 的监听 IP 和端口
 deepflow_server_node_ip=FIXME # 注意修改
@@ -48,85 +49,45 @@ API 返回结果示例：
 
 ```json
 {
-    "OPT_STATUS": "SUCCESS",
-    "DESCRIPTION": "",
-    "result": {
-        "functions": [
-            "deepflow-agent",
-            "[t] platform-synchr",
-            "[k] entry_SYSCALL_64_after_hwframe",
-            // ...
-            "[l] __write"
-        ],
-        "function_types": [
-            "P",
-            "T",
-            "K",
-            // ...
-            "K"
-        ],
-        "function_values": {
-            "columns": [
-                "self_value",
-                "total_value"
-            ],
-            "values": [
-                [
-                    0,
-                    640352895
-                ],
-                [
-                    0,
-                    6292923
-                ],
-                [
-                    0,
-                    46848438
-                ],
-                // ...
-                [
-                    0,
-                    1797978
-                ]
-            ]
-        },
-        "node_values": {
-            "columns": [
-                "function_id",
-                "parent_node_id",
-                "self_value",
-                "total_value"
-            ],
-            "values": [
-                [
-                    0,
-                    -1,
-                    0,
-                    640352895
-                ],
-                [
-                    1,
-                    0,
-                    0,
-                    6292923
-                ],
-                [
-                    2,
-                    1,
-                    0,
-                    1444443
-                ],
-                // ...
-                [
-                    3,
-                    2,
-                    0,
-                    10101
-                ]
-            ]
-        }
+  "OPT_STATUS": "SUCCESS",
+  "DESCRIPTION": "",
+  "result": {
+    "functions": [
+      "deepflow-agent",
+      "[t] platform-synchr",
+      "[k] entry_SYSCALL_64_after_hwframe",
+      // ...
+      "[l] __write"
+    ],
+    "function_types": [
+      "P",
+      "T",
+      "K",
+      // ...
+      "K"
+    ],
+    "function_values": {
+      "columns": ["self_value", "total_value"],
+      "values": [
+        [0, 640352895],
+        [0, 6292923],
+        [0, 46848438],
+        // ...
+        [0, 1797978]
+      ]
     },
-    "debug": null
+    "node_values": {
+      "columns": ["function_id", "parent_node_id", "self_value", "total_value"],
+      "values": [
+        [0, -1, 0, 640352895],
+        [1, 0, 0, 6292923],
+        [2, 1, 0, 1444443],
+        // ...
+        [3, 2, 0, 10101]
+      ]
+    }
+  },
+  "debug": null
 }
 ```
 
@@ -174,73 +135,41 @@ API 返回结果说明：
 
 ```json
 {
-    "OPT_STATUS": "SUCCESS",
-    "DESCRIPTION": "",
-    "result": {
-        "functions": [
-            "Total",
-            "[p] java",
-            // ...
-            "[t] DefaultTimer10-",
-        ],
-        "function_types": [
-            "H",
-            "P",
-            // ...
-            "T"
-        ],
-        "function_values": {
-            "columns": [
-                "self_value",
-                "total_value"
-            ],
-            "values": [
-                [
-                    0,
-                    4563875153
-                ],
-                [
-                    4616160,
-                    325630360
-                ],
-                // ...
-                [
-                    6565660,
-                    6565660
-                ]
-            ]
-        },
-        "node_values": {
-            "columns": [
-                "function_id",
-                "parent_node_id",
-                "self_value",
-                "total_value"
-            ],
-            "values": [
-                [
-                    0,
-                    -1,
-                    0,
-                    4563875153
-                ],
-                [
-                    1,
-                    0,
-                    4616160,
-                    325630360
-                ],
-                // ...
-                [
-                    2,
-                    1,
-                    6565660,
-                    6565660
-                ]
-            ]
-        }
+  "OPT_STATUS": "SUCCESS",
+  "DESCRIPTION": "",
+  "result": {
+    "functions": [
+      "Total",
+      "[p] java",
+      // ...
+      "[t] DefaultTimer10-"
+    ],
+    "function_types": [
+      "H",
+      "P",
+      // ...
+      "T"
+    ],
+    "function_values": {
+      "columns": ["self_value", "total_value"],
+      "values": [
+        [0, 4563875153],
+        [4616160, 325630360],
+        // ...
+        [6565660, 6565660]
+      ]
     },
-    "debug": null
+    "node_values": {
+      "columns": ["function_id", "parent_node_id", "self_value", "total_value"],
+      "values": [
+        [0, -1, 0, 4563875153],
+        [1, 0, 4616160, 325630360],
+        // ...
+        [2, 1, 6565660, 6565660]
+      ]
+    }
+  },
+  "debug": null
 }
 ```
 
@@ -254,14 +183,14 @@ API 返回结果说明：
 
 # 关于 Function Type
 
-| Function Type | 含义           | Profile Event Type | 特征        |
-| ------------- | -------------- | ------------------ | ----------- |
-| O             | 对象类型       | `mem-*` | Memory Profile 的叶子节点 |
-| H             | 云主机         | `*`     | 等于 `Total` 的根节点  |
-| P             | 进程           | `*`     | `[p] ` 开头，以及不等于 `Total` 的根节点 |
-| T             | 线程           | `*`     | `[t] ` 开头            |
-| K             | 内核函数       | `*`     | `[k] ` 开头            |
-| C             | CUDA 驱动函数  | `*`     | `[c] ` 开头            |
-| L             | 动态链接库函数 | `*`     | `[l] ` 开头            |
-| ?             | 未知函数       | `*`     | 其他 `[` 开头          |
-| A             | 应用函数       | `*`     | 除以上之外的函数       |
+| Function Type | 含义           | Profile Event Type | 特征                                     |
+| ------------- | -------------- | ------------------ | ---------------------------------------- |
+| O             | 对象类型       | `mem-*`            | Memory Profile 的叶子节点                |
+| H             | 云主机         | `*`                | 等于 `Total` 的根节点                    |
+| P             | 进程           | `*`                | `[p] ` 开头，以及不等于 `Total` 的根节点 |
+| T             | 线程           | `*`                | `[t] ` 开头                              |
+| K             | 内核函数       | `*`                | `[k] ` 开头                              |
+| C             | CUDA 驱动函数  | `*`                | `[c] ` 开头                              |
+| L             | 动态链接库函数 | `*`                | `[l] ` 开头                              |
+| ?             | 未知函数       | `*`                | 其他 `[` 开头                            |
+| A             | 应用函数       | `*`                | 除以上之外的函数                         |
