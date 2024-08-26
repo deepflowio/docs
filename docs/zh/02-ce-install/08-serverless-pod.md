@@ -37,8 +37,7 @@ tke_sidecar: true
 clusterNAME: $clusterNAME  # FIXME: domain name
 EOF
 
-helm install deepflow-agent -n deepflow deepflow/deepflow-agent --create-namespace \
-  -f values-custom.yaml
+helm install deepflow-agent -n deepflow deepflow/deepflow-agent --version 6.5.012 --create-namespace -f values-custom.yaml
 ```
 
 如果不希望 sidecar 形式的 deepflow-agent 承担 list-watch apiserver 的角色，建议部署一个单独的 deepflow-agent deployment 来同步 K8s 资源，具体方法可参考[部署 deployment 模式 DeepFlow Agent](../best-practice/special-environment-deployment/#部署-deployment-模式-deepflow-agent)。
