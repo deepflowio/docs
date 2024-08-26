@@ -9,7 +9,7 @@ DeepFlow 生产环境部署建议。
 
 # 使用 LTS 版本 DeepFlow
 
-helm 增加 --version 6.4.9 参数安装升级 LTS 版本 DeepFlow Server 和 Agent
+helm 添加 --version 参数安装最新 LTS 版本 DeepFlow Server 和 Agent
 
 ## 安装 LTS 版本 DeepFlow Server
 
@@ -21,7 +21,7 @@ helm 增加 --version 6.4.9 参数安装升级 LTS 版本 DeepFlow Server 和 Ag
 # helm repo add deepflow https://deepflowio.github.io/deepflow
 
 helm repo update deepflow # use `helm repo update` when helm < 3.7.0
-helm upgrade --install deepflow -n deepflow deepflow/deepflow --version 6.4.9 --create-namespace
+helm upgrade --install deepflow -n deepflow deepflow/deepflow --version 6.5.012 --create-namespace
 ```
 
 @tab Use Aliyun
@@ -38,7 +38,7 @@ helm repo update deepflow # use `helm repo update` when helm < 3.7.0
 #   image:
 #     repository: registry.cn-beijing.aliyuncs.com/deepflow-ce/grafana
 # EOF
-helm upgrade --install deepflow -n deepflow deepflow/deepflow --version 6.4.9 --create-namespace \
+helm upgrade --install deepflow -n deepflow deepflow/deepflow --version 6.5.012 --create-namespace \
   -f values-custom.yaml
 ```
 
@@ -63,8 +63,7 @@ helm upgrade --install deepflow -n deepflow deepflow/deepflow --version 6.4.9 --
 # helm repo add deepflow https://deepflowio.github.io/deepflow
 
 helm repo update deepflow # use `helm repo update` when helm < 3.7.0
-helm upgrade --install deepflow-agent -n deepflow deepflow/deepflow-agent --version 6.4.9 --create-namespace \
-    -f values-custom.yaml
+helm upgrade --install deepflow-agent -n deepflow deepflow/deepflow-agent --version 6.5.012 --create-namespace -f values-custom.yaml
 ```
 
 @tab Use Aliyun
@@ -82,8 +81,7 @@ helm upgrade --install deepflow-agent -n deepflow deepflow/deepflow-agent --vers
 # helm repo add deepflow https://deepflowio.github.io/deepflow
 
 helm repo update deepflow # use `helm repo update` when helm < 3.7.0
-helm upgrade --install deepflow-agent -n deepflow deepflow/deepflow-agent --version 6.4.9 --create-namespace \
-  -f values-custom.yaml
+helm upgrade --install deepflow-agent -n deepflow deepflow/deepflow-agent --version 6.5.012 --create-namespace -f values-custom.yaml
 ```
 
 :::
