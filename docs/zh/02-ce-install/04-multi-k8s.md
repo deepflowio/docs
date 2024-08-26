@@ -76,8 +76,7 @@ EOF
 
 helm repo add deepflow https://deepflowio.github.io/deepflow
 helm repo update deepflow # use `helm repo update` when helm < 3.7.0
-helm install deepflow-agent -n deepflow deepflow/deepflow-agent --create-namespace \
-    -f values-custom.yaml
+helm install deepflow-agent -n deepflow deepflow/deepflow-agent --version 6.5.012 --create-namespace -f values-custom.yaml
 ```
 
 @tab Use Aliyun
@@ -95,8 +94,7 @@ EOF
 
 helm repo add deepflow https://deepflow-ce.oss-cn-beijing.aliyuncs.com/chart/stable
 helm repo update deepflow # use `helm repo update` when helm < 3.7.0
-helm install deepflow-agent -n deepflow deepflow/deepflow-agent --create-namespace \
-  -f values-custom.yaml
+helm install deepflow-agent -n deepflow deepflow/deepflow-agent --version 6.5.012 --create-namespace -f values-custom.yaml
 ```
 
 :::
