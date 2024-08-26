@@ -51,7 +51,7 @@ sealos run labring/helm:v3.8.2
 
 ## 部署 All-in-One DeepFlow
 
-使用 Helm 安装 All-in-One DeepFlow：
+使用 Helm 安装 LTS 版本 All-in-One DeepFlow：
 
 ::: code-tabs#shell
 
@@ -64,8 +64,7 @@ cat << EOF > values-custom.yaml
 global:
   allInOneLocalStorage: true
 EOF
-helm install deepflow -n deepflow deepflow/deepflow --create-namespace \
-  -f values-custom.yaml
+helm install deepflow -n deepflow deepflow/deepflow --version 6.5.012 --create-namespace -f values-custom.yaml
 ```
 
 @tab Use Aliyun
@@ -79,8 +78,7 @@ global:
   image:
       repository: registry.cn-beijing.aliyuncs.com/deepflow-ce
 EOF
-helm install deepflow -n deepflow deepflow/deepflow --create-namespace \
-  -f values-custom.yaml
+helm install deepflow -n deepflow deepflow/deepflow --version 6.5.012 --create-namespace -f values-custom.yaml
 ```
 
 :::
