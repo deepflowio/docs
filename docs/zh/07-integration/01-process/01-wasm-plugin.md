@@ -9,8 +9,8 @@ Wasm 插件系统通过在固定的地方调用 Wasi Export Function 实现一�
 
 | 类别           | 目录                | 描述                              |
 | -------------- | ------------------- | --------------------------------- |
-| 增强已知协议   | http                | 解析 JSON over HTTP               |
-|                | http_status_rewrite | 解析 JSON over HTTP               |
+| 增强已知协议   | http                | 解析 JSON over HTTP/HTTP2         |
+|                | http_status_rewrite | 解析 JSON over HTTP/HTTP2         |
 |                | dubbo               | 解析 JSON over Dubbo              |
 |                | nats                | 解析 Protobuf (nRPC) over NATS    |
 |                | zmtp                | 解析 Protobuf over ZMTP           |
