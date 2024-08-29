@@ -69,10 +69,11 @@ byconity:
               storageClassName: openebs-hostpath #replace to your storageClassName
 ```
 
-更新 DeepFlow：
+重建 DeepFlow：
 
 ```bash
-helm upgrade deepflow -n deepflow -f values-custom.yaml deepflow/deepflow
+helm del deepflow -n deepflow
+helm install deepflow -n deepflow -f values-custom.yaml deepflow/deepflow
 ```
 
 注意事项：
