@@ -161,7 +161,6 @@ async function getMarkdownFiles(dir, fileList = [], root = null) {
 const insertLineIfNotExists = async (
   filePath,
   lineContent,
-  lineNumber,
   pattern
 ) => {
   try {
@@ -178,10 +177,12 @@ const insertLineIfNotExists = async (
     }
 
     const lines = data.split('\n')
-    // Check if line number is out of bounds
-    if (lineNumber < 1 || lineNumber > lines.length + 1) {
-      console.error(filePath + ': Line number out of bounds')
-      return
+    // 从第二个开始找发现第一个 --- 的位置
+    const lineNumber = lines.findIndex((content, index)=> index > 1 && content === '---'  );
+    // Check has ---
+    if (lineNumber === -1) {
+      console.error(filePath + ": The second one was not found ---");
+      return;
     }
 
     // Insert the new line content if it doesn't exist already
@@ -205,7 +206,6 @@ const addGptAuthorLine = async () => {
     await insertLineIfNotExists(
       file,
       '> This document was translated by ChatGPT\n',
-      6,
       '> This document was translated by.*\n'
     )
   }
