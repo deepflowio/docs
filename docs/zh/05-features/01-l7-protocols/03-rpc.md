@@ -227,8 +227,8 @@ permalink: /features/l7-protocols/rpc
 |       | request_id         | 请求 ID      | request_id               | --                                                                               | --                                           |
 |       | endpoint           | 端点         | service_name/method_name | --                                                                               | --                                           |
 | Resp. | response_code      | 响应码       | --                       | Status Code                                                                      | --                                           |
-|       | response_status    | 响应状态     | --                       | response.status                                                                  | 0 正常，-10 至-12 客户端异常，其余服务端异常 |
-|       | response_exception | 响应异常     | --                       | 参考返回码描述，详见[iRet Code](https://doc.tarsyun.com/#/base/tars-protocol.md) | --                                           |
+|       | response_status    | 响应状态     | --                       | response.status                                                                  | 0 正常，-10 至 -12 客户端异常，其余服务端异常 |
+|       | response_exception | 响应异常     | --                       | 参考返回码描述，详见 [iRet Code](https://doc.tarsyun.com/#/base/tars-protocol.md) | --                                           |
 |       | response_result    | 响应结果     | --                       | --                                                                               | --                                           |
 | Trace | trace_id           | TraceID      | --                       | --                                                                               | --                                           |
 |       | span_id            | SpanID       | --                       | --                                                                               | --                                           |
