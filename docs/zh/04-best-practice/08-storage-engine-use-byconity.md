@@ -11,7 +11,7 @@ permalink: /best-practice/storage-engine-use-byconity/
 
 ## 部署参数
 
-ByConity 默认对接对象存储，修改 `values-custom.yaml`，注意将 `endpoint`，`region`，`bucket`，`ak_id`，`ak_secret` 修改为对象存储的正确参数：
+ByConity 默认对接对象存储，修改 `values-custom.yaml`，注意将 `endpoint`，`region`，`bucket`，`path`，`ak_id`，`ak_secret` 修改为对象存储的正确参数：
 
 ```yaml
 global:
@@ -28,6 +28,7 @@ byconity:
             endpoint: https://oss-cn-beijing-internal.aliyuncs.com
             region: cn-beijing
             bucket: FIX_ME_BUCKET
+            path: byconity0
             ak_id: FIX_ME_ACCESS_KEY
             ak_secret: FIX_ME_ACCESS_SECRET
     server:
