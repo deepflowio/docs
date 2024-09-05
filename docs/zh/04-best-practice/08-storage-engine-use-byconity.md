@@ -45,6 +45,12 @@ byconity:
         disk_cache_strategies:
           simple:
             lru_max_size: 42949672960 # 40Gi # disk Maximum cache space 40 X 1024 X 1024 X 1024
+    usersOverwrite:
+      users:
+        default:
+          password: "" # Password of the default user byconity
+        probe:
+          password: probe
     tso:
       storage:
         localDisk:
