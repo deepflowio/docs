@@ -66,19 +66,20 @@ DeepFlow 目前支持如下公有云的 API 对接和云资源信息同步：
 
 DeepFlow 会使用如下 API 从阿里云对接学习资源信息，如果需要限制 DeepFlow 能够学习的资源项，可在阿里云控制台限制用于生成 AccessKey 的账号的资源权限：
 
-| API                           | 对接内容                 | 是否必需项 |
-| ----------------------------- | ------------------------ | ---------- |
-| DescribeRegions               | 查询区域列表             | 必需项     |
-| DescribeVpcs                  | 查询 VPC 列表            | 必需项     |
-| DescribeVSwitches             | 查询交换机列表           | 必需项     |
-| DescribeInstances             | 查询云服务器实例列表     | 必需项     |
-| DescribeNetworkInterfaces     | 查询云服务器网络接口列表 | 必需项     |
-| DescribeNatGateways           | 查询 NAT 网关列表        | 非必需项   |
-| DescribeSnatTableEntries      | 查询 NAT 网关 SNAT 规则  | 非必需项   |
-| DescribeForwardTableEntries   | 查询 NAT 网关 DNAT 规则  | 非必需项   |
-| DescribeLoadBalancers         | 查询负载均衡器           | 非必需项   |
-| DescribeLoadBalancerAttribute | 查询负载均衡监听器       | 非必需项   |
-| DescribeHealthStatus          | 查询负载均衡规则         | 非必需项   |
+| 产品     | API                           | 权限                    | 对接内容                 | 是否必需项 |
+| -------- | ----------------------------- | ----------------------- | ------------------------ | ---------- |
+| Vpc      | DescribeRegions               | AliyunVPCReadOnlyAccess | 查询区域列表             | 必需项     |
+| Vpc      | DescribeVpcs                  | AliyunVPCReadOnlyAccess | 查询 VPC 列表            | 必需项     |
+| Vpc      | DescribeVSwitches             | AliyunVPCReadOnlyAccess | 查询交换机列表           | 必需项     |
+| Ecs      | DescribeInstances             | AliyunECSReadOnlyAccess | 查询云服务器实例列表     | 必需项     |
+| Ecs      | DescribeNetworkInterfaces     | AliyunECSReadOnlyAccess | 查询云服务器网络接口列表 | 必需项     |
+| Vpc      | DescribeNatGateways           | AliyunVPCReadOnlyAccess | 查询 NAT 网关列表        | 非必需项   |
+| Vpc      | DescribeSnatTableEntries      | AliyunVPCReadOnlyAccess | 查询 NAT 网关 SNAT 规则  | 非必需项   |
+| Vpc      | DescribeForwardTableEntries   | AliyunVPCReadOnlyAccess | 查询 NAT 网关 DNAT 规则  | 非必需项   |
+| Slb      | DescribeLoadBalancers         | AliyunSLBReadOnlyAccess | 查询负载均衡器           | 非必需项   |
+| Slb      | DescribeLoadBalancerAttribute | AliyunSLBReadOnlyAccess | 查询负载均衡监听器       | 非必需项   |
+| Slb      | DescribeHealthStatus          | AliyunSLBReadOnlyAccess | 查询负载均衡规则         | 非必需项   |
+| 容器服务 | DescribeClusters              | AliyunCSReadOnlyAccess  | 查询集群列表             | 非必需项   |
 
 # 腾讯云
 
