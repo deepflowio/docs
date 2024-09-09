@@ -9,6 +9,10 @@ permalink: /best-practice/storage-engine-use-byconity/
 
 自 6.6 版本起，DeepFlow 支持通过调整部署参数决定使用 ClickHouse 还是 ByConity，默认使用 ClickHouse，可调整为使用 ByConity。
 
+::: tip
+ByConity 共有 17 个 Pod，其中 9 个 Pod 的 Request 和 Limit 为 1.1C 1280M，1 个 Pod 的 Request 和 Limit 为 1C 1G，1 个 Pod 的 Request 和 Limit 为 1C 512M。为了确保 ByConity 正常运行，建议 Kubernetes 集群至少剩余 12C 14G 可分配资源。
+:::
+
 ## 部署参数
 
 ByConity 默认对接对象存储，修改 `values-custom.yaml`，注意将 `endpoint`，`region`，`bucket`，`path`，`ak_id`，`ak_secret` 修改为对象存储的正确参数：
