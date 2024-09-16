@@ -28,13 +28,13 @@ permalink: /ce-install/overview
 # 运行权限及内核要求
 
 DeepFlow 中的 eBPF 能力（AutoTracing、AutoProfiling）对内核版本的要求如下：
-| 体系架构 | 发行版 | 内核版本 | kprobe | Golang uprobe | OpenSSL uprobe | perf |
-| -------- | --------------------- | ----------------- | ------ | ------------- | -------------- | ---- |
-| X86 | CentOS 7.9 | 3.10.0 **[1]** | Y | Y **[2]** | Y **[2]** | Y |
-| | RedHat 7.6 | 3.10.0 **[1]** | Y | Y **[2]** | Y **[2]** | Y |
+| 体系架构 | 发行版 | 内核版本 | kprobe [1] | Golang uprobe | OpenSSL uprobe | perf |
+| -------- | ------ | -------  | ---------- | ------------- | -------------- | ---- |
+| X86 | CentOS 7.9 | 3.10.0 **[2]** | Y | Y **[3]** | Y **[3]** | Y |
+| | RedHat 7.6 | 3.10.0 **[2]** | Y | Y **[3]** | Y **[3]** | Y |
 | | \* | 4.9-4.13 | | | | Y |
-| | \* | 4.14 **[3]** | Y | Y **[2]** | | Y |
-| | \* | 4.15 | Y | Y **[2]** | | Y |
+| | \* | 4.14 **[4]** | Y | Y **[3]** | | Y |
+| | \* | 4.15 | Y | Y **[3]** | | Y |
 | | \* | 4.16 | Y | Y | | Y |
 | | \* | 4.17+ | Y | Y | Y | Y |
 | ARM | CentOS 8 | 4.18 | Y | Y | Y | Y |
@@ -44,16 +44,17 @@ DeepFlow 中的 eBPF 能力（AutoTracing、AutoProfiling）对内核版本的�
 
 对内核版本的额外说明：
 
-- [1]: CentOS 7.9、RedHat 7.6 向 3.10 内核中[移植了一部分 eBPF 能力](https://www.redhat.com/en/blog/introduction-ebpf-red-hat-enterprise-linux-7)
+- [1]: 在 Linux 启用了 BTF（BPF Type Format）的情况下，当 X86 架构下内核大于等于 [5.5](https://github.com/torvalds/linux/commit/f1b9509c2fb0ef4db8d22dac9aef8e856a5d81f6)、ARM 架构下内核大于等于 [6.0](https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/commit/?h=linux-6.0.y&id=efc9909fdce00a827a37609628223cd45bf95d0b) 时，agent 将会自动使用 fentry/fexit 替代 kprobe/kretprobe，此时可获得约 15% 的性能提升
+- [2]: CentOS 7.9、RedHat 7.6 向 3.10 内核中[移植了一部分 eBPF 能力](https://www.redhat.com/en/blog/introduction-ebpf-red-hat-enterprise-linux-7)
   - 在这两个发行版中，DeepFlow 支持的详细内核版本如下（[依赖的 Hook 点](https://github.com/deepflowio/deepflow/blob/main/agent/src/ebpf/docs/probes-and-maps.md)）：
     - 3.10.0-957.el7.x86_64
     - 3.10.0-1062.el7.x86_64
     - 3.10.0-1127.el7.x86_64
     - 3.10.0-1160.el7.x86_64
-  - 注意 RedHat 的申明：
+  - 注意 RedHat 的声明：
     > The eBPF in Red Hat Enterprise Linux 7.6 is provided as Tech Preview and thus doesn't come with full support and is not suitable for deployment in production. It is provided with the primary goal to gain wider exposure, and potentially move to full support in the future. eBPF in Red Hat Enterprise Linux 7.6 is enabled only for tracing purposes, which allows attaching eBPF programs to probes, tracepoints and perf events.
-- [2]: 容器内部的 Golang/OpenSSL 进程不支持
-- [3]: 在内核 4.14 版本中，一个 `tracepoint` 不能被多个 eBPF program attach（如：不能同时运行两个或多个 deepflow-agent），其他版本不存在此问题
+- [3]: 容器内部的 Golang/OpenSSL 进程不支持
+- [4]: 在内核 4.14 版本中，一个 `tracepoint` 不能被多个 eBPF program attach（如：不能同时运行两个或多个 deepflow-agent），其他版本不存在此问题
 
 deepflow-agent 运行权限的要求：
 
