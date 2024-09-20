@@ -131,7 +131,7 @@ customConfig:
 
         if !exists(.level) {
            if exists(.json) {
-            .level = .json.level
+            .level = to_string!(.json.level)
             del(.json.level)
            } else {
             # match log levels surround by ``[]`` or ``<>`` with ignore case
@@ -184,6 +184,63 @@ Sink["sink"]
 Source -->|log| Transform
 Transform -->|log| Sink
 ```
+
+一般而言，一个 Vector 配置至少包含 sources 模块、sinks 模块，需要对数据额外处理则必须添加 transforms 模块，并将数据清洗为最终需要的内容，一个典型的 Vector 配置如：
+
+```yaml
+# 数据来源
+sources:
+  nginx_logs:
+    # ...
+  file_logs:
+    # ...
+  kubernetes_logs:
+    # ...
+
+# 数据处理
+transforms:
+  tag_log:
+    # inputs 指的是数据来源，这里可配置 sources 中的 Key，也可以配置 transforms 中的其他 Key
+    inputs:
+    - nginx_logs
+    # ...
+  flush_log:
+    # tag_log 来源于上一个 transforms 模块，这样一份数据就按顺序被两个 transforms 模块处理
+    inputs:
+    - tag_log
+    - file_logs
+    # ...
+
+# 数据输出
+sinks:
+  push_log:
+    # 同样，这里的 inputs 可以同时来自 sources 模块或 transforms 模块
+    inputs:
+    - flush_log
+    - kubernetes_logs
+    # ...
+```
+
+在上面的示例里，通过不同的配置，分别实现了三种不同的数据流：
+
+```mermaid
+flowchart LR
+
+NginxLog["nginx_logs"]
+FileLog["file_logs"]
+KubernetesLog["kubernetes_logs"]
+TagLog["tag_log"]
+FlushLog["flush_log"]
+PushLog["push_log"]
+
+NginxLog --> TagLog
+FileLog --> FlushLog
+KubernetesLog --> PushLog
+TagLog --> FlushLog
+FlushLog --> PushLog
+```
+
+下面我们可以具体看下每个模块的具体配置内容。
 
 ## 采集日志
 
@@ -241,7 +298,7 @@ transforms:
 
       if !exists(.level) {
          if exists(.json) {
-          .level = .json.level
+          .level = to_string!(.json.level)
           del(.json.level)
          } else {
           # match log levels surround by `[]` or `<>` with ignore case
