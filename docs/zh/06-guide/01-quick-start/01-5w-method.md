@@ -1,6 +1,6 @@
 ---
 title: DeepFlow 5W 故障诊断方法
-permalink: /guide/getting-started/5w-method/
+permalink: /guide/quick-start/5w-method/
 ---
 
 # 总体概述
