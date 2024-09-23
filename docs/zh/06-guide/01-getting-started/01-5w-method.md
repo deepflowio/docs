@@ -1,6 +1,6 @@
 ---
 title: DeepFlow 5W 故障诊断方法
-permalink: /guide/5w-method/
+permalink: /guide/getting-start/5w-method/
 ---
 
 # 总体概述
@@ -43,13 +43,13 @@ DeepFlow 可观测性平台通过 eBPF 采集以及开放的数据接口汇聚 m
 ## 从哪里开始
 
 通常从如下功能入口开始分析应用服务的性能：
-- `追踪`-`资源分析`：应用服务（点）的性能指标分析入口，[指导链接](./ee-tenant/tracing/service-list/)
-- `追踪`-`路径分析`：应用服务访问路径（线）的性能指标分析入口，[指导链接](./ee-tenant/tracing/service-statistics/)
-- `追踪`-`拓扑分析`：应用服务访问拓扑（面）的分析入口，[指导链接](./ee-tenant/tracing/path-topology/)
+- `追踪`-`资源分析`：应用服务（点）的性能指标分析入口，[指导链接](../ee-tenant/tracing/service-list/)
+- `追踪`-`路径分析`：应用服务访问路径（线）的性能指标分析入口，[指导链接](../ee-tenant/tracing/service-statistics/)
+- `追踪`-`拓扑分析`：应用服务访问拓扑（面）的分析入口，[指导链接](../ee-tenant/tracing/path-topology/)
 
 ## 如何开始搜索
 
-通常使用命名空间（`pod_ns`）、容器服务（`pod_servce`）、工作负载（`pod_group`)、应用调用协议（`l7_protocol`）等不同维度的条件，并组合过滤，观测您所关注的对象的性能指标。
+通常使用命名空间（`pod_ns`）、容器服务（`pod_servce`）、工作负载（`pod_group`）、应用调用协议（`l7_protocol`）等不同维度的条件，并组合过滤，观测您所关注的对象的性能指标。
 - Step1：如果您负责某一个应用系统的运维，而应用模块部署并隔离在 K8s 的名字为 “A” 的命名空间（k8s namespace） 中，那么可以使用 `pod_ns = A` 来观测该业务系统所有应用服务的 RED 指标。
 - Step2：如果你想在此基础之上仅观测 “A” 命名空间中名字为 “b” 的容器服务，则仅需再增加一个 `pod_svc = b` 的过滤条件。
 - Step3：如果您想仅观测 http 协议调用的 RED 指标，则仅需增加一个 `l7_protocol = http` 的过滤条件。
@@ -71,7 +71,7 @@ DeepFlow 可观测性平台通过 eBPF 采集以及开放的数据接口汇聚 m
 
 当回答了 **Who & When** 的问题之后，下一步便要回答 **Which** 的问题，即：哪一条应用调用出现异常？
 
-DeepFlow 平台为每一个观测对象提供了隐藏的`右滑窗`，在**指标曲线**、**指标统计列表**等位置点击任意观测对象即可自动展开`右滑窗`，[指导链接](./ee-tenant/tracing/right-sliding-box/)。
+DeepFlow 平台为每一个观测对象提供了隐藏的`右滑窗`，在**指标曲线**、**指标统计列表**等位置点击任意观测对象即可自动展开`右滑窗`，[指导链接](../ee-tenant/tracing/right-sliding-box/)。
 
 `右滑窗`提供了包括`应用指标`、`端点列表`、`调用日志`、`网络指标`等一系列的数据观测窗口，用于分析观测对象不同维度的数据。其中在`调用日志`子页面中可以调阅异常时间点的全部调用日志，并过滤其中的异常应用调用（响应错误、响应慢或超时）：
 
@@ -84,7 +84,7 @@ DeepFlow 平台为每一个观测对象提供了隐藏的`右滑窗`，在**指�
 ## 什么是调用链追踪
 
 基于 eBPF 技术 DeepFlow 创新实现了零侵扰的分布式追踪，即无需生成、无需注入、无需传播 TraceID 即可实现分布式追踪：
-- [功能使用指导链接](./ee-tenant/tracing/call-chain-tracing/)
+- [功能使用指导链接](../ee-tenant/tracing/call-chain-tracing/)
 - [B 站学习视频——3 分钟理解 DeepFlow 调用链追踪火焰图](https://www.bilibili.com/video/BV1di421k7JE/)
 - [B 站学习视频——3 分钟理解 DeepFlow 调用链追踪实现原理](https://www.bilibili.com/video/BV1ZC411E7ad/)
 
@@ -183,7 +183,7 @@ DeepFlow 平台为每一个观测对象提供了隐藏的`右滑窗`，在**指�
 
 在 DeepFlow 平台可以集成并统一观测分析容器 Pod/Container 的计算资源指标，通过异常时间点的指标快速确定容器资源是否为 Root Cause。
 
-功能入口：`指标`-`容器`，[指导链接](./ee-tenant/metrics/container/)。
+功能入口：`指标`-`容器`，[指导链接](../ee-tenant/metrics/container/)。
 
 **Pod 状态列表观测**
 
@@ -197,7 +197,7 @@ DeepFlow 平台为每一个观测对象提供了隐藏的`右滑窗`，在**指�
 
 在 DeepFlow 平台可以对应用的 OnCPU 进行持续剖析，发现应用进程中的 CPU 热点函数。
 
-功能入口：`剖析`-`持续剖析`，[指导链接](./ee-tenant/profiling/continue-profile/)。
+功能入口：`剖析`-`持续剖析`，[指导链接](../ee-tenant/profiling/continue-profile/)。
 
 ![OnCPU 持续剖析样例](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080766b3286e73055.png)
 
@@ -205,7 +205,7 @@ DeepFlow 平台为每一个观测对象提供了隐藏的`右滑窗`，在**指�
 
 在 DeepFlow 平台可以对应用的 OffCPU 进行持续剖析，发现应用程序因 IO 等待、锁等原因导致的受阻塞函数。
 
-功能入口：`剖析`-`持续剖析`，[指导链接](./ee-tenant/profiling/continue-profile/)。
+功能入口：`剖析`-`持续剖析`，[指导链接](../ee-tenant/profiling/continue-profile/)。
 
 ![OffCPU 持续剖析样例](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080766b3288a5dc39.png)
 
@@ -213,19 +213,19 @@ DeepFlow 平台为每一个观测对象提供了隐藏的`右滑窗`，在**指�
 
 在 DeepFlow 平台可以对应用的 Memory 进行剖析，发现应用进程的 Memory 热点函数。
 
-功能入口：`剖析`-`持续剖析`，[指导链接](./ee-tenant/profiling/continue-profile/)。
+功能入口：`剖析`-`持续剖析`，[指导链接](../ee-tenant/profiling/continue-profile/)。
 
 ### 应用指标分析
 
 在 DeepFlow 平台可以集成并统一分析应用主动暴露的 metrics，进而通过应用指标发现程序内的 Root Cause。
 
-功能入口：`指标`-`指标查看`，[指导链接](./ee-tenant/metrics/metrics-viewing/)。
+功能入口：`指标`-`指标查看`，[指导链接](../ee-tenant/metrics/metrics-viewing/)。
 
 ### 应用日志分析
 
 在 DeepFlow 平台可以集成并统一分析应用主动的打印日志，进而通过应用打印日志发现程序内的 Root Cause。
 
-功能入口：`日志`-`日志`，[指导链接](./ee-tenant/log/log/)。
+功能入口：`日志`-`日志`，[指导链接](../ee-tenant/log/log/)。
 
 ## 系统诊断
 
@@ -235,9 +235,9 @@ DeepFlow 平台为每一个观测对象提供了隐藏的`右滑窗`，在**指�
 
 功能入口 1：`追踪`-`调用链追踪`-`IO 事件`。
 
-功能入口 2：`右滑窗`-`文件读写事件`，[指导链接](./ee-tenant/tracing/right-sliding-box/)。
+功能入口 2：`右滑窗`-`文件读写事件`，[指导链接](../ee-tenant/tracing/right-sliding-box/)。
 
-功能入口 3：`追踪`-`文件读写`，[指导链接](./ee-tenant/tracing/file-reading-and-writing/)。
+功能入口 3：`追踪`-`文件读写`，[指导链接](../ee-tenant/tracing/file-reading-and-writing/)。
 
 ![文件 IO 事件分析样例](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080766b3287b2741a.png)
 
@@ -245,9 +245,9 @@ DeepFlow 平台为每一个观测对象提供了隐藏的`右滑窗`，在**指�
 
 分析 Root Position 在异常时间点的 K8s 资源变更事件列表，确定容器创建、销毁过程是否为 Root Cause。
 
-功能入口 1：`右滑窗`-`资源变更事件`，[指导链接](./ee-tenant/tracing/right-sliding-box/)。
+功能入口 1：`右滑窗`-`资源变更事件`，[指导链接](../ee-tenant/tracing/right-sliding-box/)。
 
-功能入口 2：`资源`-`变更事件`，[指导链接](./ee-tenant/resources/resource-changes/)。
+功能入口 2：`资源`-`变更事件`，[指导链接](../ee-tenant/resources/resource-changes/)。
 
 ![K8s 资源变更事件分析样例](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080766b3287e6aa0e.jpeg)
 
