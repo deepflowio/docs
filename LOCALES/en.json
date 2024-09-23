@@ -12,6 +12,7 @@
     "features/continuous-profiling": "Continuous Profiling",
     "features/auto-tagging": "AutoTagging",
     "guide": "User Guide",
+    "guide/quick-start": "Quick Start",
     "guide/ee-tenant": "Tenant (Enterprise Edition)",
     "guide/ee-tenant/query": "Data Query",
     "guide/ee-tenant/dashboard": "Dashboard",
