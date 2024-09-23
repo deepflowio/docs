@@ -12,7 +12,7 @@
     "features/continuous-profiling": "持续性能剖析",
     "features/auto-tagging": "AutoTagging",
     "guide": "使用帮助",
-    "guide/getting-start": "快速上手",
+    "guide/getting-started": "快速上手",
     "guide/ee-tenant": "企业版租户页面",
     "guide/ee-tenant/query": "数据搜索",
     "guide/ee-tenant/dashboard": "视图",
