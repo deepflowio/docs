@@ -227,7 +227,7 @@ ClusterRole 配置增加：
 当没有在 Kubernetes 集群中运行 Daemonset 的权限、但可在 K8s Node 上直接运行普通进程时，可使用该方法实现 Agent 部署。
 
 - 以 deployment 形态部署一个 deepflow-agent
-  - 通过设置环境变量 `ONLY_WATCH_K8S_RESOURCE`，该 agent 仅实现对 K8s 资源的 list-watch 及上送控制器的功能
+  - 通过设置环境变量 `K8S_WATCH_POLICY=watch-only`，该 agent 仅实现对 K8s 资源的 list-watch 及上送控制器的功能
   - 这个 agent 的其他所有功能均会自动关闭
   - agent 请求 server 时告知自己在 watch-k8s，server 会将此信息更新到 MySQL 数据库中
   - 这个仅用做 Watcher 的 Agent 将不会出现在 Agent 列表中
@@ -250,7 +250,7 @@ helm install deepflow -n deepflow deepflow/deepflow-agent --create-namespace \
   -f values-custom.yaml
 ```
 
-部署后，将自动创建 Domain（对应此 K8s 集群），通过`deepflow-ctl domain list`中获取 `your-cluster-name` cluster 的 `kubernetes-cluster-id`，再继续下面的操作。
+部署后，将自动创建 Domain（对应此 K8s 集群），通过 `deepflow-ctl domain list` 中获取 `your-cluster-name` cluster 的 `kubernetes-cluster-id`，再继续下面的操作。
 
 ### 部署普通进程形式的 DeepFlow Agent
 
