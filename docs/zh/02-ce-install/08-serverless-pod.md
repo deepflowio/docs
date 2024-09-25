@@ -33,11 +33,12 @@ cat << EOF > values-custom.yaml
 deployComponent:
 - "watcher"
 - "daemonset"
-tke_sidecar: true
+tkeSidecar: true
+daemonsetWatchDisabled: true
 clusterNAME: $clusterNAME  # FIXME: domain name
 EOF
 
-helm install deepflow-agent -n deepflow deepflow/deepflow-agent --version 6.5.012 --create-namespace -f values-custom.yaml
+helm install deepflow-agent -n deepflow deepflow/deepflow-agent --version 6.6.012 --create-namespace -f values-custom.yaml
 ```
 
 上述命令将会部署两组 deepflow-agent：
@@ -45,7 +46,7 @@ helm install deepflow-agent -n deepflow deepflow/deepflow-agent --version 6.5.01
   - 部署时会自动注入 `K8S_WATCH_POLICY=watch-only` 的环境变量，此时 deepflow-agent 仅会同步 K8s 资源，不会采集可观测性数据。
 - daemonset：在每个 serverless pod 中以 sidecar 的方式注入 deepflow-agent，用于采集可观测性数据。
   - 注意：当没有运行 watcher 类型的 deepflow-agent 时，deepflow-server 会选举一个 daemonset 类型的 deepflow-agent 用于同步 K8s 资源。
-  - 因此，为了确保此类 deepflow-agent 不要因为被选举用于同步 K8s 资源而消耗更多资源，可以为他们额外注入 `K8S_WATCH_POLICY=watch-disabled` 的环境变量。
+  - 因此，为了确保此类 deepflow-agent 不要因为被选举用于同步 K8s 资源而消耗更多资源，自动为他们注入了 `K8S_WATCH_POLICY=watch-disabled` 的环境变量。
 
 # 下一步
 
