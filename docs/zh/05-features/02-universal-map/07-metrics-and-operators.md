@@ -58,13 +58,104 @@ permalink: /features/universal-map/metrics-and-operators
 
 [csv-传输层 TCP 异常](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/metrics/flow_metrics/network.ch?Category=TCP Error)
 
-#### TCP 建连异常
+#### TCP 客户端建连异常
 
-![TCP 建连异常](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240411661782557f7bc.png)
+- 客户端端口复用
+  - **现象**：服务端收到 SYN 后不回复 SYN-ACK，导致 TCP 建连失败
+  - **原因**：客户端源端口与已建连的 TCP 连接冲突
+  - **建议**：
+    - 检查客户端 TCP 连接超时参数
+    - 若存在 NAT 设备，检查 NAT 规则
+- 客户端 ACK 缺失
+  - **现象**：服务端回复 SYN-ACK 后，客户端无响应，导致 TCP 建连失败
+  - **原因**：
+    - 客户端SYN Flood攻击
+    - 客户端端口扫描
+  - **建议**：确认是否为安全事件，并对异常客户端及时封堵。
+- 客户端其他重置
+  - **现象**：客户端发送 SYN 后即发送 RST，导致 TCP 建连失败
+  - **原因**：
+    - 客户端应用程序异常
+    - 客户端恶意攻击
+  - **建议**：
+    - 检查客户端应用程序状态
+    - 检查客户端是否有普遍攻击行为
+
+![TCP 客户端建连异常](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20241014670ce8c1ea0f9.png)
+
+#### TCP 服务端建连异常
+
+- 服务端直接重置
+  - **现象**：服务端收到 SYN 后回复 RST ，拒绝 TCP 建连
+  - **原因**：
+    - 服务端口未放行或未监听
+    - 服务端应用未就绪
+    - 客户端端口扫描
+  - **建议**：
+    - 检查服务端口连通性
+    - 检查客户端是否有端口扫描行为
+- 服务端 SYN 缺失
+  - **现象**：客户端多次发送 SYN，服务端无回应
+  - **原因**：
+    - 防火墙未放行端口
+    - 路由不可达
+  - **建议**：
+    - 检查防火墙策略
+    - 检查网络连通性
+- 服务端其他重置
+  - **现象**：服务端发送  SYN-ACK 后即发送 RST，导致 TCP 建连失败
+  - **原因**：服务端操作系统异常
+  - **建议**：检查服务端操作系统日志
+
+![TCP 服务端建连异常](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20241014670ce89f268c4.png)
 
 #### TCP 传输异常
 
-![TCP 传输异常](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202404116617825667233.png)
+- 服务端队列溢出
+  - **现象**：TCP 数据传输过程中，服务端发送 SYN-ACK
+  - **原因**：服务端 Accept 队列溢出
+  - **建议**：
+    - 调整内核 somaxconn 参数
+    - 调整内核 tcp_max_syn_backlog 参数
+- 客户端重置
+  - **现象**：TCP 数据传输过程中，客户端发送 RST，关闭 TCP 连接
+  - **原因**：
+    - 客户端应用异常
+    - 客户端操作系统异常
+  - **建议**：
+    - 检查客户端应用状态
+    - 检查客户端操作系统日志
+- 服务端重置
+  - **现象**：TCP 数据传输过程中，服务端发送 RST，关闭 TCP 连接
+  - **原因**：
+    - 服务端应用异常
+    - 服务端操作系统异常
+  - **建议**：
+    - 检查服务端应用状态
+    - 检查服务端操作系统日志
+- TCP连接超时
+  - **现象**：传输过程中超过 300 秒无数据
+  - **原因**：
+    - 客户端主机离线
+    - 客户端应用异常
+  - **建议**：
+    - 检查客户端主机状态
+    - 检查客户端应用状态
+
+![TCP 传输异常](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20241014670ce885cccd5.png)
+
+#### TCP 断连异常
+
+- 服务端半关
+  - **现象**：服务端收到 FIN 之后，未回复FIN-ACK，TCP 四次挥手不完整
+  - **原因**：服务端应用异常
+  - **建议**：检查服务端应用状态
+- 客户端半关
+  - **现象**：客户端收到 FIN 之后，未回复FIN-ACK，TCP 四次挥手不完整
+  - **原因**：客户端应用异常
+  - **建议**：检查客户端应用状态
+
+![TCP 断连异常](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20241014670ce893a1ed2.png)
 
 ### 传输层时延 (Delay)
 
