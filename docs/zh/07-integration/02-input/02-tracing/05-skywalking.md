@@ -34,7 +34,11 @@ subgraph Host
 end
 ```
 
-# 配置 OpenTelemetry SkyWalking Receiver
+# 通过 DeepFlow Agent 发送
+
+DeepFlow v6.6 及之后的企业版版本，支持直接通过 DeepFlow Agent 直接接收并发送 SkyWalking 数据，无需额外配置。
+
+# 通过 OpenTelemtry Collector Receiver 发送
 
 ## 背景知识
 
@@ -89,15 +93,17 @@ service:
 kubectl -n open-telemetry patch service otel-agent -p '{"spec":{"ports":[{"name":"sw-http","port":12800,"protocol":"TCP","targetPort":12800},{"name":"sw-grpc","port":11800,"protocol":"TCP","targetPort":11800}]}}'
 ```
 
-然后，检查应用中配置的 [SkyWalking OAP Server](https://skywalking.apache.org/docs/main/next/en/setup/backend/backend-setup/#requirements-and-default-settings) 的对接地址，并修改为 Otel Agent 的 Service 地址：`otel-agent.open-telemetry`，比如将环境变量 `SW_AGENT_COLLECTOR_BACKEND_SERVICES=oap-server:11800` 修改为 `SW_AGENT_COLLECTOR_BACKEND_SERVICES=otel-agent.open-telemetry:11800`。
-
-当然，应用配置的上报地址可能有各种形式，请根据应用实际启动命令修改，对于 `Java` 应用而言，只需要确保能修改启动命令中注入的地址即可，如：`-Dskywalking.collector.backend_service=otel-agent.open-telemetry:11800`。
-
 最后，重启 otel-agent 完成 otel-agent 更新：
 
 ```bash
 kubectl rollout restart -n open-telemetry daemonset/otel-agent
 ```
+
+# 修改 SkyWalking 发送配置
+
+最后，检查应用中配置的 [SkyWalking OAP Server](https://skywalking.apache.org/docs/main/next/en/setup/backend/backend-setup/#requirements-and-default-settings) 的对接地址，并修改为 Otel Agent 的 Service 地址：`otel-agent.open-telemetry`，比如将环境变量 `SW_AGENT_COLLECTOR_BACKEND_SERVICES=oap-server:11800` 修改为 `SW_AGENT_COLLECTOR_BACKEND_SERVICES=otel-agent.open-telemetry:11800`；如果是使用 DeepFlow Agent 直接接收，修改为 `deepflow-agent.deepflow` 即可。
+
+当然，应用配置的上报地址可能有各种形式，请根据应用实际启动命令修改，对于 `Java` 应用而言，只需要确保能修改启动命令中注入的地址即可，如：`-Dskywalking.collector.backend_service=otel-agent.open-telemetry:11800`。
 
 # 配置 DeepFlow
 
