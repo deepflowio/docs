@@ -64,16 +64,16 @@ DeepFlow 同时也支持自定义自动分组标签的能力，按需配置其�
 
 ```yaml
 querier:
-  auto-custom-tag:
+  auto-custom-tags:
     # The Name of Custom Tag
     # Note: Cannot use colon, space, or backquote.
-    tag-name: auto_my_tag
-    # The Value of Custom Tag
-    # Note: Range of source tags for retrieving the field value. Each row of data will
-    #   automatically use the first non-zero tag encountered from top to bottom as the
-    #   value for the custom tag. Here you can enter any tags seen in the results of
-    #   the `show tags from <table>` API.
-    tag-values:
+    - tag-name: auto_my_tag
+      # The Value of Custom Tag
+      # Note: Range of source tags for retrieving the field value. Each row of data will
+      #   automatically use the first non-zero tag encountered from top to bottom as the
+      #   value for the custom tag. Here you can enter any tags seen in the results of
+      #   the `show tags from <table>` API.
+      tag-fields:
       - k8s.label.app
       - auto_service
 ```
@@ -81,4 +81,4 @@ querier:
 上述定义的 `$tag-name` 标签使用上与 `auto_instance`、`auto_service` 基本一致，额外的限制如下：
 
 - 此处定义的 `$tag-name` 不能与 `*` 同时用于分组
-- 此处定义的 `$tag-name` 不能与定义中 `$tag-values` 所包含的 Tag 同时用于分组
+- 此处定义的 `$tag-name` 不能与定义中 `$tag-fields` 所包含的 Tag 同时用于分组
