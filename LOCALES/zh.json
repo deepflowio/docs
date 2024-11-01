@@ -39,5 +39,6 @@
     "integration/output/query": "查询 API",
     "integration/output/export": "导出输出",
     "diagnose": "故障处理",
-    "release-notes": "发行注记"
+    "release-notes": "发行注记",
+    "configuration": "配置手册"
 }

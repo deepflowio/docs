@@ -39,5 +39,6 @@
     "integration/output/query": "Query API",
     "integration/output/export": "Exporter",
     "diagnose": "Diagnose",
-    "release-notes": "Release Notes"
+    "release-notes": "Release Notes",
+    "configuration": "Configuration"
 }

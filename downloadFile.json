@@ -1,0 +1,10 @@
+[
+  {
+    "url": "https://raw.githubusercontent.com/deepflowio/deepflow/refs/heads/<BRANCH>/server/agent_config/README-CH.md",
+    "output": "./docs/zh/07-configuration/01-agent.md"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/deepflowio/deepflow/refs/heads/<BRANCH>/server/agent_config/README-CH.md",
+    "output": "./docs/07-configuration/01-agent.md"
+  }
+]
