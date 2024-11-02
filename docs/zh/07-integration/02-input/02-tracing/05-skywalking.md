@@ -5,6 +5,8 @@ permalink: /integration/input/tracing/skywalking
 
 # 数据流
 
+## DeepFlow 社区版
+
 ```mermaid
 flowchart TD
 
@@ -34,25 +36,54 @@ subgraph Host
 end
 ```
 
-# 通过 DeepFlow Agent 发送
+## DeepFlow 企业版
+
+```mermaid
+flowchart TD
+
+subgraph K8s-Cluster
+  subgraph AppPod
+    SWSDK1["sw-sdk / sw-javaagent"]
+  end
+  DeepFlowAgent1["deepflow-agent (daemonset)"]
+  DeepFlowServer["deepflow-server (deployment)"]
+
+  SWSDK1 -->|sw-traces| DeepFlowAgent1
+  DeepFlowAgent1 -->|sw-traces| DeepFlowServer
+end
+
+subgraph Host
+  subgraph AppProcess
+    SWSDK2["sw-sdk / sw-javaagent"]
+  end
+  DeepFlowAgent2[deepflow-agent]
+
+  SWSDK2 -->|sw-traces| DeepFlowAgent2
+  DeepFlowAgent2 -->|sw-traces| DeepFlowServer
+end
+```
+
+# Trace 收集
+
+## 通过 DeepFlow Agent 收集
 
 DeepFlow v6.6 及之后的企业版版本，支持直接通过 DeepFlow Agent 直接接收并发送 SkyWalking 数据，无需额外配置。
 
-# 通过 OpenTelemtry Collector Receiver 发送
+## 通过 OpenTelemtry Collector 收集
 
-## 背景知识
+### 背景知识
 
 你可以查看 [OpenTelemetry 文档](https://opentelemetry.io/docs/) 了解 OpenTelemetry 背景知识，并参考前序章节中的 [OpenTelemetry 安装](../tracing/opentelemetry/#配置-opentelemetry) 快速安装 OpenTelemetry。
 
 你可以查看 [SkyWalking 文档](https://skywalking.apache.org/docs/) 了解 SkyWalking 背景知识，这个 Demo 不需要安装完整的 SkyWalking ，我们将使用 OpenTelemetry 来集成 SkyWalking 的 Trace 数据。
 
-## 确认 OpenTelemetry 版本
+### 确认 OpenTelemetry 版本
 
 首先，你需要开启 OpenTelemetry 的 SkyWalking 数据接收能力，将数据经过 OpenTelemetry 标准协议处理之后，发送到 DeepFlow Agent。
 
 OpenTelemetry 接收 SkyWalking 数据存在 Bug，最近我们在 [#11562](https://github.com/open-telemetry/opentelemetry-collector-contrib/pull/11562) 与 [#12651](https://github.com/open-telemetry/opentelemetry-collector-contrib/pull/12651) 这两个 PR 中进行了修复，接下来的 Demo 我们需要 OpenTelemetry 的 [Collector 镜像](https://hub.docker.com/r/otel/opentelemetry-collector-contrib) 版本 `>= 0.57.0`。请检查你的环境中 otel-agent 的镜像版本，并确保它符合要求。可参考前序章节中的 [OpenTelemetry 安装](../tracing/opentelemetry/#配置-otel-agent)，更新你的环境中的 otel-agent 版本。
 
-## 配置 OpenTelemetry 接收 SkyWalking 数据
+### 配置 OpenTelemetry 接收 SkyWalking 数据
 
 在[背景知识](#背景知识)一节中，安装好 OpenTelemetry 之后，我们可以使用如下步骤配置 OpenTelemetry 接收 SkyWalking 数据:
 
