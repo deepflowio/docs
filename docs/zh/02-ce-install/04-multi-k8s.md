@@ -30,7 +30,7 @@ end
 
 DeepFlow 使用 K8s 的 CA 文件 MD5 值区分不同的集群，请在不同 K8s 集群的 Pod 中查看 `/run/secrets/kubernetes.io/serviceaccount/ca.crt` 文件，确保不同集群的 CA 文件不同。
 
-假如你的不同 K8s 集群使用了相同的 CA 文件，在多个集群中部署 deepflow-agent 之前，需要利用 `deepflow-ctl domain create` 获取一个 `K8sClusterID`：
+假如你的不同 K8s 集群使用了相同的 CA 文件，在多个集群中部署 deepflow-agent 之前，需要利用 `deepflow-ctl domain create` 创建一个 `k8s domain` 并获取它的 `$CLUSTER_NAME` 和 `$CLUSTER_ID`：
 
 注: 多套 K8s 集群的 CA 文件相同，这种情况并不常见。尽管如此，我们仍建议通过手动方式将其他 K8s 集群的 deepflow-agent 对接到 deepflow-server 集群。手动对接的优势在于，可以自定义 Grafana 面板中展示的 K8s 集群名称。可通过`deepflow-ctl domain create -f custom-domain.yaml`创建自定义 K8s cluster domain：
 
