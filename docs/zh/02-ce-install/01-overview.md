@@ -39,7 +39,8 @@ DeepFlow 中的 eBPF 能力（AutoTracing、AutoProfiling）对内核版本的�
 | | \* | 4.17+ | Y | Y | Y | Y |
 | ARM | CentOS 8 | 4.18 | Y | Y | Y | Y |
 | | EulerOS | 5.10+ | Y | Y | Y | Y |
-| | 麒麟 KylinOS V10 SP3+ | 4.19.90-52.25+ | Y | Y | Y | Y |
+| | 麒麟 KylinOS V10 SP2 | 4.19.90-24.4+ | Y | Y | Y | Y |
+| | 麒麟 KylinOS V10 SP3 | 4.19.90-52.24+ | Y | Y | Y | Y |
 | | 其他发行版 | 5.8+ | Y | Y | Y | Y |
 
 对内核版本的额外说明：
