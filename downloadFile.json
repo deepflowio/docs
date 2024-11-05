@@ -1,0 +1,18 @@
+[
+  {
+    "url": "https://raw.githubusercontent.com/deepflowio/deepflow/<BRANCH>/server/agent_config/README-CH.md",
+    "output": "./docs/zh/07-configuration/01-agent.md",
+    "meta": {
+      "title": "Agent",
+      "permalink": "/zh/configuration/agent/"
+    }
+  },
+  {
+    "url": "https://raw.githubusercontent.com/deepflowio/deepflow/<BRANCH>/server/agent_config/README.md",
+    "output": "./docs/07-configuration/01-agent.md",
+    "meta": {
+      "title": "Agent",
+      "permalink": "/configuration/agent/"
+    }
+  }
+]

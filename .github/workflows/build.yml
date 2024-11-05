@@ -57,6 +57,15 @@ jobs:
         key: docs-${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
         restore-keys: |
           docs-${{ runner.os }}-pnpm-store-
+    
+    - name: Get current branch
+      id: get_branch
+      run: |
+          if [ "$GITHUB_EVENT_NAME" == "push" ]; then
+            echo "BRANCH=${GITHUB_REF##*/}" >> $GITHUB_ENV
+          elif [ "$GITHUB_EVENT_NAME" == "pull_request" ]; then
+            echo "BRANCH=$GITHUB_HEAD_REF" >> $GITHUB_ENV
+          fi
 
     - name: Node build
       shell: bash
@@ -69,7 +78,8 @@ jobs:
         mv translate/translated/* ./docs
         rm -rf ./docs/map.txt
         pnpm install
-        node downloadCSV.js
+        node downloadFile.js ${{ env.BRANCH }}
+        node downloadCSV.js ${{ env.BRANCH }}
         pnpm run build
         node copy-file.js
 
