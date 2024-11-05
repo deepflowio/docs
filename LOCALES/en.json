@@ -28,6 +28,7 @@
     "guide/ee-tenant/resources": "Resources",
     "guide/ee-tenant/system": "System",
     "guide/ee-tenant/configuration": "Configuration",
+    "configuration": "Configuration",
     "integration": "Integration",
     "integration/process": "Process",
     "integration/input": "Input",
@@ -39,6 +40,5 @@
     "integration/output/query": "Query API",
     "integration/output/export": "Exporter",
     "diagnose": "Diagnose",
-    "release-notes": "Release Notes",
-    "configuration": "Configuration"
+    "release-notes": "Release Notes"
 }

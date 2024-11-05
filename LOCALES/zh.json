@@ -28,6 +28,7 @@
     "guide/ee-tenant/resources": "资源",
     "guide/ee-tenant/system": "系统",
     "guide/ee-tenant/configuration": "平台设置",
+    "configuration": "配置手册",
     "integration": "开发与集成",
     "integration/process": "数据处理",
     "integration/input": "数据输入",
@@ -39,6 +40,5 @@
     "integration/output/query": "查询 API",
     "integration/output/export": "导出输出",
     "diagnose": "故障处理",
-    "release-notes": "发行注记",
-    "configuration": "配置手册"
+    "release-notes": "发行注记"
 }
