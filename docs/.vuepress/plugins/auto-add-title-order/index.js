@@ -1,3 +1,6 @@
+const isValid = (content) => {
+  return /\{#(.+?)\}$/.test(content);
+};
 // 自动补全title序号
 module.exports = function (md, config) {
   const cacheTitleOrder = [];
@@ -10,14 +13,22 @@ module.exports = function (md, config) {
     const customIdMatch = titleToken.content.match(/\{#(.+?)\}$/);
     if (customIdMatch) {
       const customId = customIdMatch[1]; // 获取自定义 ID
-      titleToken.content = titleToken.content.replace(/\{#(.+?)\}$/, "").trim(); // 移除自定义 ID 语法
-      // token.attrSet("id", customId); // 设置 ID 属性
 
-      const index2 = titleToken.children.findIndex((c) => c.type === "text");
+      token.attrSet("id", customId); // 设置 ID 属性
+      titleToken.children[0].attrSet("href", "#" + customId); // href
 
-      titleToken.children[index2].content = titleToken.children[index2].content
-        .replace(/\{#(.+?)\}$/, "")
-        .trim();
+      // 找到符合的 content 替换下内容
+      const index2 = titleToken.children.findIndex(
+        (c) => c.content && isValid(c.content)
+      );
+
+      if (index2 !== -1) {
+        titleToken.children[index2].content = titleToken.children[
+          index2
+        ].content
+          .replace(/\{#(.+?)\}$/, "")
+          .trim();
+      }
     }
 
     const { relativePath } = env;
