@@ -6,7 +6,7 @@
           :class="[
             'right-menu-item',
             'level' + item.level,
-            { active: item.slug === hashText }
+            { active: item.slug === hashText },
           ]"
           v-for="(item, i) in headers"
           :key="i"
@@ -19,38 +19,56 @@
 </template>
 
 <script>
+const isValid = (content) => {
+  return /\{#(.+?)\}$/.test(content);
+};
+const getNewHeaders = (headers) => {
+  return headers?.map((v) => {
+    let title = v.title;
+    let slug = v.slug;
+    if (isValid(title)) {
+      slug = title.match(/\{#(.+?)\}$/)[1];
+      title = title.replace(/\{#(.+?)\}$/, "").trim();
+    }
+    return {
+      ...v,
+      slug,
+      title,
+    };
+  });
+};
 export default {
   data() {
     return {
       headers: [],
-      hashText: ''
-    }
+      hashText: "",
+    };
   },
   mounted() {
-    this.getHeadersData()
-    this.getHashText()
+    this.getHeadersData();
+    this.getHashText();
   },
   watch: {
     $route() {
-      this.headers = this.$page.headers
-      this.getHashText()
-    }
+      this.headers = getNewHeaders(this.$page.headers);
+      this.getHashText();
+    },
   },
   methods: {
     getHeadersData() {
-      this.headers = this.$page.headers
+      this.headers = getNewHeaders(this.$page.headers);
     },
     getHashText() {
-      this.hashText = decodeURIComponent(window.location.hash.slice(1))
-      if(!this.hashText && this.headers){
-        this.hashText  = this.headers[0]?.slug
+      this.hashText = decodeURIComponent(window.location.hash.slice(1));
+      if (!this.hashText && this.headers) {
+        this.hashText = this.headers[0]?.slug;
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
-<style lang='stylus'>
+<style lang="stylus">
 .right-menu-wrapper
   max-height calc(100vh - 3.6rem - 36px)
   width $rightMenuWidth
@@ -151,7 +169,7 @@ export default {
       // padding 0.3rem 0
       // background var(--sidebarBg)
       // border-radius 5px
-     
+
       .right-menu-item
         // border-color transparent
         // &.active
