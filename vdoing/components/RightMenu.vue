@@ -19,6 +19,40 @@
 </template>
 
 <script>
+const getSlug = (title, slug) => {
+  const titles = title.split(".");
+  const slugs = slug.split("-");
+  return titles
+    .reduce((res, s) => {
+      if (slugs.includes(s)) {
+        res = res + s + ".";
+      } else {
+        let s1 = s.slice(0);
+        let index = 0;
+        let s2;
+        while (s1) {
+          s2 = s1.slice(0, index);
+          if (slugs.includes(s2)) {
+            if (index === s1.length) {
+              res = res + s2 + ".";
+            } else {
+              res = res + s2 + "_";
+            }
+            s1 = s1.slice(index);
+            index = 0;
+          } else {
+            index++;
+            if (index > s1.length) {
+              res = res.slice(0, -1) + s2 + ".";
+              break;
+            }
+          }
+        }
+      }
+      return res;
+    }, "")
+    .slice(0, -1);
+};
 const isValid = (content) => {
   return /\{#(.+?)\}$/.test(content);
 };
@@ -27,7 +61,7 @@ const getNewHeaders = (headers) => {
     let title = v.title;
     let slug = v.slug;
     if (isValid(title)) {
-      slug = title.match(/\{#(.+?)\}$/)[1];
+      slug = getSlug(title.match(/\{#(.+?)\}$/)[1], v.slug);
       title = title.replace(/\{#(.+?)\}$/, "").trim();
     }
     return {

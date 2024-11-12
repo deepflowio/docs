@@ -54,24 +54,6 @@ export function isActive(route, path) {
   return routePath === pagePath;
 }
 
-const isValid = (content) => {
-  return /\{#(.+?)\}$/.test(content);
-};
-const getNewHeaders = (headers) => {
-  return headers?.map((v) => {
-    let title = v.title;
-    let slug = v.slug;
-    if (isValid(title)) {
-      slug = title.match(/\{#(.+?)\}$/)[1];
-      title = title.replace(/\{#(.+?)\}$/, "").trim();
-    }
-    return {
-      ...v,
-      slug,
-      title,
-    };
-  });
-};
 
 // 直接把pages转为map读取 减少400ms的时间
 const pageMap = new Map();
@@ -97,7 +79,7 @@ export function resolvePage(pages, rawPath, base) {
     pageMap.set(normalize(regularPath), {
       href,
       title,
-      headers: getNewHeaders(headers),
+      headers,
       collapsable,
       basePath,
       type: "page",
