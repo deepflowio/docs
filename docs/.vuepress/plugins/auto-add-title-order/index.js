@@ -1,8 +1,36 @@
+const isValid = (content) => {
+  return /\{#(.+?)\}$/.test(content);
+};
 // 自动补全title序号
 module.exports = function (md, config) {
   const cacheTitleOrder = [];
   let latest = "";
   md.renderer.rules.heading_open = (tokens, idx, options, env, self) => {
+    const token = tokens[idx];
+    const titleToken = tokens[idx + 1];
+
+    // 检查标题内容是否包含自定义 ID
+    const customIdMatch = titleToken.content.match(/\{#(.+?)\}$/);
+    if (customIdMatch) {
+      const customId = customIdMatch[1]; // 获取自定义 ID
+
+      token.attrSet("id", customId); // 设置 ID 属性
+      titleToken.children[0].attrSet("href", "#" + customId); // href
+
+      // 找到符合的 content 替换下内容
+      const index2 = titleToken.children.findIndex(
+        (c) => c.content && isValid(c.content)
+      );
+
+      if (index2 !== -1) {
+        titleToken.children[index2].content = titleToken.children[
+          index2
+        ].content
+          .replace(/\{#(.+?)\}$/, "")
+          .trim();
+      }
+    }
+
     const { relativePath } = env;
     if (!relativePath) {
       return self.renderToken(tokens, idx, options, env);
@@ -16,7 +44,6 @@ module.exports = function (md, config) {
      * 1. 找到token，并解析出级别，级别需要-1，从0开始
      * 2. 如果当前级别存在，则+1，同时清空cacheTitleIndex leavel后面的数据;不存在则赋值为1
      */
-    const token = tokens[idx];
     let [, leavel] = token.tag.split("");
     leavel = leavel - 1; //
     if (cacheTitleOrder[leavel]) {
@@ -38,7 +65,7 @@ module.exports = function (md, config) {
 
     // 如果标题中出现了 `` 会有格式问题
     // 找到第一个text的即可
-    const index = nextToken.children.findIndex(c=>c.type === 'text')
+    const index = nextToken.children.findIndex((c) => c.type === "text");
 
     nextToken.children[index].content =
       currentLeavel + nextToken.children[index].content;
