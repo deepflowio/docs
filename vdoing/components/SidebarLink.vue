@@ -1,95 +1,163 @@
 <script>
-import { isActive, hashRE, groupHeaders } from '../util'
+import { isActive, hashRE, groupHeaders } from "../util";
 
 export default {
   functional: true,
 
-  props: ['item', 'sidebarDepth'],
+  props: ["item", "sidebarDepth"],
 
-  render(h,
+  render(
+    h,
     {
-      parent: {
-        $page,
-        $site,
-        $route,
-        $themeConfig,
-        $themeLocaleConfig
-      },
-      props: {
-        item,
-        sidebarDepth
-      }
-    }) {
+      parent: { $page, $site, $route, $themeConfig, $themeLocaleConfig },
+      props: { item, sidebarDepth },
+    }
+  ) {
     // use custom active class matching logic
     // due to edge case of paths ending with / + hash
-    const selfActive = isActive($route, item.path)
+    const selfActive = isActive($route, item.path);
     // for sidebar: auto pages, a hash link should be active if one of its child
     // matches
-    const active = item.type === 'auto'
-      ? selfActive || item.children.some(c => isActive($route, item.basePath + '#' + c.slug))
-      : selfActive
-    const link = item.type === 'external'
-      ? renderExternal(h, item.path, item.title || item.path)
-      : renderLink(h, item.path, item.title || item.path, active)
+    const active =
+      item.type === "auto"
+        ? selfActive ||
+          item.children.some((c) =>
+            isActive($route, item.basePath + "#" + c.slug)
+          )
+        : selfActive;
+    const link =
+      item.type === "external"
+        ? renderExternal(h, item.path, item.title || item.path)
+        : renderLink(h, item.path, item.title || item.path, active);
 
     const maxDepth = [
       $page.frontmatter.sidebarDepth,
       sidebarDepth,
       $themeLocaleConfig.sidebarDepth,
       $themeConfig.sidebarDepth,
-      1
-    ].find(depth => depth !== undefined)
+      1,
+    ].find((depth) => depth !== undefined);
 
-    const displayAllHeaders = $themeLocaleConfig.displayAllHeaders
-      || $themeConfig.displayAllHeaders
+    const displayAllHeaders =
+      $themeLocaleConfig.displayAllHeaders || $themeConfig.displayAllHeaders;
 
-    if (item.type === 'auto') {
-      return [link, renderChildren(h, item.children, item.basePath, $route, maxDepth)]
-    } else if ((active || displayAllHeaders) && item.headers && !hashRE.test(item.path)) {
-      const children = groupHeaders(item.headers)
-      return [link, renderChildren(h, children, item.path, $route, maxDepth)]
+    if (item.type === "auto") {
+      return [
+        link,
+        renderChildren(h, item.children, item.basePath, $route, maxDepth),
+      ];
+    } else if (
+      (active || displayAllHeaders) &&
+      item.headers &&
+      !hashRE.test(item.path)
+    ) {
+      const children = groupHeaders(item.headers);
+      return [link, renderChildren(h, children, item.path, $route, maxDepth)];
     } else {
-      return link
+      return link;
     }
-  }
+  },
+};
+
+function renderLink(h, to = "", text, active) {
+  return h(
+    "router-link",
+    {
+      props: {
+        to,
+        activeClass: "",
+        exactActiveClass: "",
+      },
+      class: {
+        active,
+        "sidebar-link": true,
+      },
+    },
+    text
+  );
 }
 
-function renderLink(h, to='', text, active) {
-  return h('router-link', {
-    props: {
-      to,
-      activeClass: '',
-      exactActiveClass: ''
-    },
-    class: {
-      active,
-      'sidebar-link': true
-    }
-  }, text)
-}
+const getSlug = (title, slug) => {
+  const titles = title.split(".");
+  const slugs = slug.split("-");
+  return titles
+    .reduce((res, s) => {
+      if (slugs.includes(s)) {
+        res = res + s + ".";
+      } else {
+        let s1 = s.slice(0);
+        let index = 0;
+        let s2;
+        while (s1) {
+          s2 = s1.slice(0, index);
+          if (slugs.includes(s2)) {
+            if (index === s1.length) {
+              res = res + s2 + ".";
+            } else {
+              res = res + s2 + "_";
+            }
+            s1 = s1.slice(index);
+            index = 0;
+          } else {
+            index++;
+            if (index > s1.length) {
+              res = res.slice(0, -1) + s2 + ".";
+              break;
+            }
+          }
+        }
+      }
+      return res;
+    }, "")
+    .slice(0, -1);
+};
+const isValid = (content) => {
+  return /\{#(.+?)\}$/.test(content);
+};
+const getSlugAndTitle = (v) => {
+  let title = v.title;
+  let slug = v.slug;
+  if (isValid(title)) {
+    slug = getSlug(title.match(/\{#(.+?)\}$/)[1], v.slug);
+    title = title.replace(/\{#(.+?)\}$/, "").trim();
+  }
+  return {
+    slug,
+    title,
+  };
+};
 
 function renderChildren(h, children, path, route, maxDepth, depth = 1) {
-  if (!children || depth > maxDepth) return null
-  return h('ul', { class: 'sidebar-sub-headers' }, children.map(c => {
-    const active = isActive(route, path + '#' + c.slug)
-    return h('li', { class: 'sidebar-sub-header level' + c.level }, [
-      renderLink(h, path + '#' + c.slug, c.title, active),
-      renderChildren(h, c.children, path, route, maxDepth, depth + 1)
-    ])
-  }))
+  if (!children || depth > maxDepth) return null;
+  return h(
+    "ul",
+    { class: "sidebar-sub-headers" },
+    children.map((c) => {
+      const { slug, title } = getSlugAndTitle(c);
+      const active = isActive(route, path + "#" + slug);
+      return h("li", { class: "sidebar-sub-header level" + c.level }, [
+        renderLink(h, path + "#" + slug, title, active),
+        renderChildren(h, c.children, path, route, maxDepth, depth + 1),
+      ]);
+    })
+  );
 }
 
 function renderExternal(h, to, text) {
-  return h('a', {
-    attrs: {
-      href: to,
-      target: '_blank',
-      rel: 'noopener noreferrer'
+  return h(
+    "a",
+    {
+      attrs: {
+        href: to,
+        target: "_blank",
+        rel: "noopener noreferrer",
+      },
+      class: {
+        "sidebar-link": true,
+      },
     },
-    class: {
-      'sidebar-link': true
-    }
-  }, [text, h('OutboundLink')])
+    [text, h("OutboundLink")]
+  );
 }
 </script>
 
