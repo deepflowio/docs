@@ -25,7 +25,7 @@
           </h1>
           <div class="docs-time">
             <span class="time"
-              >{{ locales[lang].createdAt }}：{{ creatAt }}</span
+              >{{ locales[lang].createdAt }}：{{ createAt }}</span
             >
             <span class="time"
               >{{ locales[lang].updateAt }}：{{ updateAt }}</span
@@ -80,8 +80,8 @@ export default {
     this.updateBarConfig = this.$themeConfig.updateBar;
   },
   computed: {
-    creatAt() {
-      return this.$frontmatter.creatAt?.split("T")[0] ?? "--";
+    createAt() {
+      return this.$frontmatter.createAt?.split("T")[0] ?? "--";
     },
     updateAt() {
       return this.$frontmatter.updateAt?.split("T")[0] ?? "--";

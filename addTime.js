@@ -92,7 +92,7 @@ const run = (sourceDir) => {
     ]);
 
     // 如果没有permalink 则需要回写到md中
-    matterData.creatAt = createAt;
+    matterData.createAt = createAt;
     matterData.updateAt = updateAt;
 
     // 写入指定文件内即可
