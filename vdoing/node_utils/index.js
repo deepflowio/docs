@@ -106,8 +106,8 @@ function handleFileAndGetSideBar (sourceDir, files, currentFileName) {
         sidebar.push([getPermalink1(filePath), title, permalink])
 
         if (!matterData.permalink && permalink) {
-            if (matterData.creatAt) {
-              matterData.creatAt = getReallyContent(matterData.creatAt);
+            if (matterData.createAt) {
+              matterData.createAt = getReallyContent(matterData.createAt);
             }
             if (matterData.updateAt) {
               matterData.updateAt = getReallyContent(matterData.updateAt);
@@ -177,13 +177,15 @@ function handlerReadmeFile(filePath){
     let directoryPath = null
     if (hasReadme) {
         const fileContent = fs.readFileSync(readmePath, "utf8");
-        const { data: matterData } = matter(fileContent, {});
+        const { data: matterData, content } = matter(fileContent, {});
         directoryPath = matterData.permalink
         if(!directoryPath){
             directoryPath = getPermalink(filePath)
+            matterData.permalink = directoryPath
             // 不存在permalink
             // 需要改动下readme的内容
-            fs.writeFileSync(readmePath,`---\npermalink: ${directoryPath}\n---\n`+ fileContent);
+            const newFileContent = jsonToYaml.stringify(matterData).replace(/\n\s{2}/g, "\n").replace(/"/g, "") + '---' + os.EOL + content;
+            fs.writeFileSync(readmePath, newFileContent);
         }
     }
     return directoryPath
