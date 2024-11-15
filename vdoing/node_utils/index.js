@@ -181,6 +181,12 @@ function handlerReadmeFile(filePath){
         directoryPath = matterData.permalink
         if(!directoryPath){
             directoryPath = getPermalink(filePath)
+            if (matterData.createAt) {
+                matterData.createAt = getReallyContent(matterData.createAt);
+            }
+            if (matterData.updateAt) {
+                matterData.updateAt = getReallyContent(matterData.updateAt);
+            } 
             matterData.permalink = directoryPath
             // 不存在permalink
             // 需要改动下readme的内容
