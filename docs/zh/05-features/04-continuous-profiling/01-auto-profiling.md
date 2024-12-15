@@ -19,31 +19,32 @@ permalink: /features/continuous-profiling/auto-profiling
 |           | C/C++       | ✔      | ✔      |
 |           | Rust        | ✔      | ✔      |
 |           | Golang      | ✔      | ✔      |
-|           | Python `*`  | ✔      | ✔      |
-|           | CUDA `*`    | ✔      | ✔      |
+|           | Python      | ✔      | ✔      |
+|           | CUDA        | ✔      | ✔      |
 |           | Lua `*`     | ✔      | ✔      |
 | off-cpu   | Java        |        | ✔      |
 |           | C/C++       |        | ✔      |
 |           | Rust        |        | ✔      |
 |           | Golang      |        | ✔      |
-|           | Python `*`  |        | ✔      |
-|           | CUDA `*`    |        | ✔      |
+|           | Python      |        | ✔      |
+|           | CUDA        |        | ✔      |
 |           | Lua `*`     |        | ✔      |
+| on-gpu    | CUDA `*`    |        | ✔      |
 | mem-alloc | Java        |        | ✔      |
-|           | Rust `*`    |        | ✔      |
+|           | Rust        |        | ✔      |
 |           | Golang `*`  |        | ✔      |
 |           | Python `*`  |        | ✔      |
-| mem-inuse | Rust `*`    |        | ✔      |
-| hbm-alloc | Python `*`  |        | ✔      |
-| hbm-inuse | Python `*`  |        | ✔      |
+| mem-inuse | Rust        |        | ✔      |
+| hbm-alloc | CUDA `*`    |        | ✔      |
+| hbm-inuse | CUDA `*`    |        | ✔      |
 | rdma      | C/C++ `*`   |        | ✔      |
 
 说明：
-
 - `*`: features in development
 - 类型：
   - on-cpu：函数在 CPU 上消耗的时间
   - off-cpu：函数等待 CPU 的时间
+  - on-gpu：函数在 GPU 上消耗的时间
   - mem-alloc：对象的内存总分配量及函数调用栈
   - mem-inuse：对象的内存当前用量及函数调用栈
   - hbm-alloc：对象的 GPU 显存总分配量及函数调用栈
@@ -51,15 +52,17 @@ permalink: /features/continuous-profiling/auto-profiling
 - 语言：
   - 编译为 ELF 格式可执行文件的语言：Golang、Rust、C/C++
   - 使用 JVM 虚拟机的语言：Java
+  - 解释型语言：Python
 
 获取 Profiling 数据需满足两个前提条件：
-
-- 进程需要开启 Frame Pointer（帧指针寄存器）
-  - 编译 C/C++：`gcc -fno-omit-frame-pointer`
-  - 编译 Rust：`RUSTFLAGS="-C force-frame-pointers=yes"`
-  - 编译 Golang：默认开启，无需额外编译参数
-  - 运行 Java：`-XX:+PreserveFramePointer`
-- 对于编译型语言的进程，编译时需要注意保留符号表
+- 应用进程需要开启 Frame Pointer 或启用 Agent 的 DWARF 栈回溯能力
+  - 应用进程开启 Frame Pointer（帧指针寄存器）：
+    - 编译 C/C++：`gcc -fno-omit-frame-pointer`
+    - 编译 Rust：`RUSTFLAGS="-C force-frame-pointers=yes"`
+    - 编译 Golang：默认开启，无需额外编译参数
+    - 运行 Java：`-XX:+PreserveFramePointer`
+  - 启用 Agent 的 DWARF 栈回溯能力请参考[文档](../../configuration/agent/#inputs.ebpf.profile.unwinding)
+- 对于编译型语言的应用进程，编译时需要注意保留符号表
 
 Off-CPU Profiling 功能**仅会**采集如下调用栈：
 
