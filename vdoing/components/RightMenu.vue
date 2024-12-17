@@ -93,11 +93,13 @@ export default {
     getHeadersData() {
       this.headers = getNewHeaders(this.$page.headers);
     },
-    getHashText() {
+    async getHashText() {
       this.hashText = decodeURIComponent(window.location.hash.slice(1));
       if (!this.hashText && this.headers) {
         this.hashText = this.headers[0]?.slug;
       }
+
+      await this.$nextTick();
       // 滚动到指定位置
       this.scrollToHash();
     },
