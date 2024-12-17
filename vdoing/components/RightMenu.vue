@@ -87,8 +87,6 @@ export default {
     $route() {
       this.headers = getNewHeaders(this.$page.headers);
       this.getHashText();
-      // 滚动到指定位置
-      this.scrollToHash();
     },
   },
   methods: {
@@ -100,6 +98,8 @@ export default {
       if (!this.hashText && this.headers) {
         this.hashText = this.headers[0]?.slug;
       }
+      // 滚动到指定位置
+      this.scrollToHash();
     },
     scrollToHash() {
       const element = document.getElementById(`${this.hashText}-slug`);
