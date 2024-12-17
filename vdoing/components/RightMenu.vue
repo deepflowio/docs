@@ -8,6 +8,7 @@
             'level' + item.level,
             { active: item.slug === hashText },
           ]"
+          :id="`${item.slug}-slug`"
           v-for="(item, i) in headers"
           :key="i"
         >
@@ -86,6 +87,8 @@ export default {
     $route() {
       this.headers = getNewHeaders(this.$page.headers);
       this.getHashText();
+      // 滚动到指定位置
+      this.scrollToHash();
     },
   },
   methods: {
@@ -97,6 +100,11 @@ export default {
       if (!this.hashText && this.headers) {
         this.hashText = this.headers[0]?.slug;
       }
+    },
+    scrollToHash() {
+      const element = document.getElementById(`${this.hashText}-slug`);
+      if (element)
+        element.scrollIntoView({ behavior: "smooth", block: "center" });
     },
   },
 };
