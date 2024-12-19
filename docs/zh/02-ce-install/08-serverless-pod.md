@@ -38,7 +38,7 @@ daemonsetWatchDisabled: true
 clusterNAME: $clusterNAME  # FIXME: domain name
 EOF
 
-helm install deepflow-agent -n deepflow deepflow/deepflow-agent --version 6.6.017 --create-namespace -f values-custom.yaml
+helm install deepflow-agent -n deepflow deepflow/deepflow-agent --version 6.6.018 --create-namespace -f values-custom.yaml
 ```
 
 上述命令将会部署两组 deepflow-agent：
