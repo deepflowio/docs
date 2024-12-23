@@ -64,7 +64,7 @@ cat << EOF > values-custom.yaml
 global:
   allInOneLocalStorage: true
 EOF
-helm install deepflow -n deepflow deepflow/deepflow --version 6.5.012 --create-namespace -f values-custom.yaml
+helm install deepflow -n deepflow deepflow/deepflow --version 6.6.018 --create-namespace -f values-custom.yaml
 ```
 
 @tab Use Aliyun
@@ -78,7 +78,7 @@ global:
   image:
       repository: registry.cn-beijing.aliyuncs.com/deepflow-ce
 EOF
-helm install deepflow -n deepflow deepflow/deepflow --version 6.5.012 --create-namespace -f values-custom.yaml
+helm install deepflow -n deepflow deepflow/deepflow --version 6.6.018 --create-namespace -f values-custom.yaml
 ```
 
 :::
@@ -134,19 +134,24 @@ chmod +x $DOCKER_CONFIG/cli-plugins/docker-compose
 
 ## 部署 All-in-One DeepFlow
 
-设置环境变量 DOCKER_HOST_IP 为本机物理网卡 IP
-
-```bash
-unset DOCKER_HOST_IP
-DOCKER_HOST_IP="10.1.2.3"  # FIXME: Deploy the environment machine IP
-```
-
-下载并安装 All-in-One DeepFlow
+下载 DeepFlow docker-compose 包
 
 ```bash
 wget  https://deepflow-ce.oss-cn-beijing.aliyuncs.com/pkg/docker-compose/latest/linux/deepflow-docker-compose.tar
 tar -zxf deepflow-docker-compose.tar
-sed -i "s|FIX_ME_ALLINONE_HOST_IP|$DOCKER_HOST_IP|g" deepflow-docker-compose/docker-compose.yaml
+```
+
+配置`.env`变量
+
+```bash
+vim ./deepflow-docker-compose/.env
+DEEPFLOW_VERSION=v6.6  # FIXME: DeepFlow Version
+NODE_IP_FOR_DEEPFLOW=192.168.101.116  # FIXME: Node IP
+```
+
+安装 DeepFlow
+
+```bash
 docker compose -f deepflow-docker-compose/docker-compose.yaml up -d
 ```
 
