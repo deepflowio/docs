@@ -40,7 +40,7 @@ The eBPF capabilities (AutoTracing, AutoProfiling) in DeepFlow have the followin
 | | \* | 4.17+ | Y | Y | Y | Y |
 | ARM | CentOS 8 | 4.18 | Y | Y | Y | Y |
 | | EulerOS | 5.10+ | Y | Y | Y | Y |
-| | KylinOS V10 SP2 | 4.19.90-24.4+ | Y | Y | Y | Y |
+| | KylinOS V10 SP2 | 4.19.90-25.24+ | Y | Y | Y | Y |
 | | KylinOS V10 SP3 | 4.19.90-52.24+ | Y | Y | Y | Y |
 | | Other Distributions | 5.8+ | Y | Y | Y | Y |
 
