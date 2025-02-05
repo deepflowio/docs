@@ -3,10 +3,17 @@ title: DeepFlow 用户文章
 permalink: /about/users
 ---
 
+# 2025
+
+| 行业     | 用户       | 来源   | 标题                                                   | 链接                                                                                                                                                                                                                                                 |
+| -------- | ---------- | ------ | ------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 新能源汽车 | 某车企   | 文章   | 慢调用排查实录：高效定界服务网格 Sidecar 性能瓶颈       | [文章](https://mp.weixin.qq.com/s/0QtKqQDuV1KjYYCPAP4sBQ) |
+
 # 2024
 
 | 行业     | 用户       | 来源   | 标题                                                   | 链接                                                                                                                                                                                                                                                 |
 | -------- | ---------- | ------ | ------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 电信     | 中国移动   | 文章   | 深度解析 DeepFlow 如何采集大模型服务的业务指标         | [文章](https://mp.weixin.qq.com/s/GjIKMIaDxbxNo75uhvTgAg) |
 | 游戏     | 腾讯互娱   | Meetup | 蓝鲸观测平台：统一观测数据关联模型探索                 | [文章](https://mp.weixin.qq.com/s/-osVmY1V6yAycVx6d3CAMA), [PPT](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/yunshan-ticket/pdf/721e3ac62b51e6234eb10f03e7d41629_20240914102155.pdf), [Video](https://www.bilibili.com/video/BV1ZJ46eiE3S) |
 | 互联网  | 金山办公   | Meetup | 金山办公基于 DeepFlow 的零侵扰可观测性实践              | [文章](https://mp.weixin.qq.com/s/7M5BCzDDQ3NQmuieIeCqXw), [PPT](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/yunshan-ticket/pdf/3838d594c942dc4765a223573206e5b5_20240913152317.pdf), [Video](https://www.bilibili.com/video/BV1JV46e6ErU) |
 | 金融    | 富途证券   | 文章   | 从部署到优化：富途证券的 DeepFlow 探索之旅              | [文章](https://mp.weixin.qq.com/s/xFBiyTRrADUnCOMPwrTOQw)                                                                                                                                                                                            |
