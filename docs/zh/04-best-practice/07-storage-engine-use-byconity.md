@@ -18,53 +18,175 @@ ByConity 共有 17 个 Pod，其中 9 个 Pod 的 Request 和 Limit 为 1.1C 128
 :::
 
 ## 部署参数
-ByConity 默认对接对象存储，修改 `values-custom.yaml`，注意将 `endpoint`，`region`，`bucket`，`path`，`ak_id`，`ak_secret` 修改为对象存储的正确参数。建议将 `byconity-server`、`vw-default` 和 `vw-writer` 副本数量调整至与 `deepflow-server` 或节点数量相同，在修改 `vw-default` 和 `vw-writer` 参数之前，请先将以下 `defaultWorker`、`virtualWarehouses` 内容拷贝到 `values-custom.yaml` 文件中，并在此基础上进行相应修改：
+ByConity 默认对接对象存储，环境要求可参考官方说明。部署时在自定义 values-custom.yaml 文件中添加 byconity 配置即可。
+注：本次配置以阿里云 OSS 为例，须将示例中 `endpoint`,`region`,`bucket`,`path`,`ak_id`,`ak_secret` 修改为对象存储的正确参数，并建议将 `byconity-server`、`vw-default` 和 `vw-writer` 副本数量调整至与 `deepflow-server` 或节点数量相同。
 
 ```yaml
 global:
   storageEngine: byconity
+
 clickhouse:
   enabled: false
+
 byconity:
   enabled: true
+  nameOverride: ""
+  fullnameOverride: ""
+
+  image:
+    repository: "{{ .Values.global.image.repository }}/byconity"
+    tag: 1.0.0
+    imagePullPolicy: IfNotPresent
+  fdbShell:
+    image:
+      repository: "{{ .Values.global.image.repository }}"
   byconity:
     configOverwrite:
       storage_configuration:
+        cnch_default_policy: cnch_default_s3
         disks:
-          server_s3_disk_0:
+          server_s3_disk_0:  # FIXME
+            path: byconity0
             endpoint: https://oss-cn-beijing-internal.aliyuncs.com
             region: cn-beijing
-            bucket: FIX_ME_BUCKET
-            path: byconity0
-            ak_id: FIX_ME_ACCESS_KEY
-            ak_secret: FIX_ME_ACCESS_SECRET
+            bucket: byconity
+            ak_id: XXXXXXX
+            ak_secret: XXXXXXX
+            type: bytes3
+            is_virtual_hosted_style: true
+
+        policies:
+          cnch_default_s3:
+            volumes:
+              bytes3:
+                default: server_s3_disk_0
+                disk: server_s3_disk_0
+  
+    ports:
+      tcp: 9000
+      http: 8123
+      rpc: 8124
+      tcpSecure: 9100
+      https: 9123
+      exchange: 9410
+      exchangeStatus: 9510
+
+    usersOverwrite:
+      users:
+        default:
+          password: ""
+        probe:
+          password: probe
+      profiles:
+        default:
+          allow_experimental_live_view: 1
+          enable_multiple_tables_for_cnch_parts: 1
+
     server:
-      replicas: 1 # Number of replicas of pod byconity-server
+      replicas: 1  # FIXME
+      image: ""
+      podAnnotations: { }
+      resources: { }
+      hostNetwork: false
+      nodeSelector: { }
+      tolerations: [ ]
+      affinity:
+        nodeAffinity: {}
+      imagePullSecrets: [ ]
+      securityContext: { }
       storage:
         localDisk:
           pvcSpec:
-            storageClassName: openebs-hostpath #replace to your storageClassName
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 30Gi
+            storageClassName: openebs-hostpath # FIXME: replace to your storageClassName
         log:
           pvcSpec:
-            storageClassName: openebs-hostpath #replace to your storageClassName
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 20Gi
+            storageClassName: openebs-hostpath # FIXME: replace to your storageClassName
       configOverwrite:
         logger:
           level: trace
-          size: 2000M # Log file size limit
-          count: 10 # Limitation of the number of log files
         disk_cache_strategies:
           simple:
-            lru_max_size: 42949672960 # 40Gi # disk Maximum cache space 40 X 1024 X 1024 X 1024
+            lru_max_size: 429496729600 # 400Gi
+        # timezone: Etc/UTC
+
     tso:
+      replicas: 1
+      image: ""
+      podAnnotations: { }
+      resources: { }
+      hostNetwork: false
+      nodeSelector: { }
+      tolerations: [ ]
+      affinity: {}
+      imagePullSecrets: [ ]
+      securityContext: { }
+      configOverwrite: { }
+      additionalVolumes: { }
       storage:
         localDisk:
           pvcSpec:
-            storageClassName: openebs-hostpath #replace to your storageClassName
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 10Gi
+            storageClassName: openebs-hostpath  # FIXME: replace to your storageClassName
         log:
           pvcSpec:
-            storageClassName: openebs-hostpath #replace to your storageClassName
-    defaultWorker: &defaultWorker
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 10Gi
+            storageClassName: openebs-hostpath  # FIXME: replace to your storageClassName
+
+    daemonManager:
+      replicas: 1 # Please keep single instance now, daemon manager HA is WIP
+      image: ""
+      podAnnotations: { }
+      resources: { }
       hostNetwork: false
+      nodeSelector: { }
+      tolerations: [ ]
+      affinity: {}
+      imagePullSecrets: [ ]
+      securityContext: { }
+      configOverwrite: { }
+
+    resourceManager:
+      replicas: 1
+      image: ""
+      podAnnotations: { }
+      resources: { }
+      hostNetwork: false
+      nodeSelector: { }
+      tolerations: [ ]
+      affinity: {}
+      imagePullSecrets: [ ]
+      securityContext: { }
+      configOverwrite: { }
+
+    defaultWorker: &defaultWorker
+      replicas: 1
+      image: ""
+      podAnnotations: { }
+      resources: { }
+      hostNetwork: false
+      nodeSelector: { }
+      tolerations: [ ]
+      affinity: {}
+      imagePullSecrets: [ ]
+      securityContext: { }
       livenessProbe:
         exec:
           command: [ "/opt/byconity/scripts/lifecycle/liveness" ]
@@ -101,56 +223,124 @@ byconity:
       configOverwrite:
         logger:
           level: trace
-          size: 2000M # Log file size limit
-          count: 10 # Limitation of the number of log files
         disk_cache_strategies:
           simple:
-            lru_max_object_num: 4000000 # Limit the total number of files
             lru_max_size: 42949672960 # 40Gi
         # timezone: Etc/UTC
 
     virtualWarehouses:
       - <<: *defaultWorker
         name: vw_default
-        replicas: 1 # Number of replicas of pod vw-default
-        affinity:
-          podAntiAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
-                matchExpressions:
-                - key: byconity-vw
-                  operator: In
-                  values:
-                  - "vw_default"
-                - key: byconity-role
-                  operator: In
-                  values:
-                  - "worker" 
-              topologyKey: kubernetes.io/hostname
+        replicas: 1  # FIXME
       - <<: *defaultWorker
         name: vw_write
-        replicas: 1 #Number of replicas of pod vw-write
-        affinity:
-          podAntiAffinity:
-            requiredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
-                matchExpressions:
-                - key: byconity-vw
-                  operator: In
-                  values:
-                  - "vw_write"
-                - key: byconity-role
-                  operator: In
-                  values:
-                  - "worker" 
-              topologyKey: kubernetes.io/hostname
+        replicas: 1  # FIXME
+
+    commonEnvs:
+      - name: MY_POD_NAMESPACE
+        valueFrom:
+          fieldRef:
+            fieldPath: "metadata.namespace"
+      - name: MY_POD_NAME
+        valueFrom:
+          fieldRef:
+            fieldPath: "metadata.name"
+      - name: MY_UID
+        valueFrom:
+          fieldRef:
+            apiVersion: v1
+            fieldPath: "metadata.uid"
+      - name: MY_POD_IP
+        valueFrom:
+          fieldRef:
+            fieldPath: "status.podIP"
+      - name: MY_HOST_IP
+        valueFrom:
+          fieldRef:
+            # fieldPath: "status.hostIP"
+            fieldPath: "status.podIP"
+      - name: CONSUL_HTTP_HOST
+        valueFrom:
+          fieldRef:
+            fieldPath: "status.hostIP"
+
+    additionalEnvs: [ ]
+
+    additionalVolumes:
+      volumes: [ ]
+      volumeMounts: [ ]
+
+    postStart: ""
+    preStop: ""
+    livenessProbe: ""
+    readinessProbe: ""
+
+    ingress:
+      enabled: false
+
+  # For more detailed usage, please check fdb-kubernetes-operator API doc: https://github.com/FoundationDB/fdb-kubernetes-operator/blob/main/docs/cluster_spec.md
   fdb:
+    enabled: true
+    enableCliPod: true
+    version: 7.1.15
     clusterSpec:
+      mainContainer:
+        imageConfigs:
+        - version: 7.1.15
+          baseImage: "{{ .Values.global.image.repository }}/foundationdb"
+          tag: 7.1.15
+      sidecarContainer:
+        imageConfigs:
+        - version: 7.1.15
+          baseImage: "{{ .Values.global.image.repository }}/foundationdb-kubernetes-sidecar"
+          tag: 7.1.15-1
+      processCounts:
+        stateless: 3
+        log: 3
+        storage: 3
       processes:
         general:
           volumeClaimTemplate:
             spec:
               storageClassName: openebs-hostpath #replace to your storageClassName
+              resources:
+                requests:
+                  storage: 20Gi
+
+  fdb-operator:
+    enabled: true
+    resources:
+      limits:
+        cpu: 1
+        memory: 512Mi
+      requests:
+        cpu: 1
+        memory: 512Mi
+    affinity: {}
+    image:
+      repository: "{{ .Values.global.image.repository }}/fdb-kubernetes-operator"
+      tag: v1.9.0
+      pullPolicy: IfNotPresent
+    initContainerImage:
+      repository:  "{{ $.Values.global.image.repository }}/foundationdb-kubernetes-sidecar"
+    initContainers:
+      6.2:
+        image:
+          repository: "{{ $.Values.global.image.repository }}/foundationdb/foundationdb-kubernetes-sidecar"
+          tag: 6.2.30-1
+          pullPolicy: IfNotPresent
+      6.3:
+        image:
+          repository: "{{ $.Values.global.image.repository }}/foundationdb/foundationdb-kubernetes-sidecar"
+          tag: 6.3.23-1
+          pullPolicy: IfNotPresent
+      7.1:
+        image:
+          repository: "{{ $.Values.global.image.repository }}/foundationdb/foundationdb-kubernetes-sidecar"
+          tag: 7.1.15-1
+          pullPolicy: IfNotPresent
+  hdfs:
+    enabled: false
 ```
 
 重新部署 DeepFlow：
