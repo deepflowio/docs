@@ -385,3 +385,19 @@ setcap -r /usr/sbin/deepflow-agent
 rmdir /sys/fs/cgroup/cpu/deepflow-agent
 rmdir /sys/fs/cgroup/memory/deepflow-agent
 ```
+
+# Agent 通过 LB 访问 Server
+
+## agent 与 server 集群间网络受限，需通过 lb 连接
+
+当多套 k8s 集群间网络无法互通时，deepflow-agent 可通过 LB 连接 deepflow-server。默认情况下 deepflow-server 的 Service 类型为 NodePort，需在 LB 配置两个端口转发至后端服务器的：30033（用于 agent 注册）和 30035（用于 agent 数据上报），并在 agent-group-config 中添加对应 LB 地址和端口:
+> 注：除网络隔离等特殊情况外，不建议使用 LB 接入方案。默认机制下，agent 会根据数据量自动选择 server 节点，实现动态负载均衡；而通过 LB 接入时，数据上报路径将受限于 LB 的负载策略，会导致 server 节点负载不均。
+
+```yaml
+global:
+  communication:
+    ingester_port: $LB_PORT
+    proxy_controller_port: $LB_PORT
+    ingester_ip: $LB_IP
+    proxy_controller_ip: $LB_IP
+```
