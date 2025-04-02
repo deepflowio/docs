@@ -202,7 +202,7 @@ ${deepflow_server_node_ip}:${port}/v1/domain-additional-resources/ \
 -d@additional_resource.json
 ```
 
-参数文件 additional_resource.json （[参考 YAML 文件](https://github.com/deepflowio/deepflow/blob/main/cli/ctl/example/domain_additional_resource.yaml)）
+参数文件 additional_resource.json （[参考 YAML 文件](https://github.com/deepflowio/deepflow/blob/main/server/controller/model/domain_additional_resource_example.yaml)）
 
 ```json
 {

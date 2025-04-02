@@ -39,6 +39,8 @@ permalink: /best-practice/special-environment-deployment/
 
 ## MACVlan
 
+### 仅采集 RootNS 中的网卡流量
+
 K8s 使用 macvlan CNI 时，在 rootns 下只能看到所有 POD 共用的一个虚拟网卡，此时需要对 deepflow-agent 进行额外的配置：
 
 1. 创建 agent-group 和 agent-group-config：
@@ -114,6 +116,15 @@ K8s 使用 macvlan CNI 时，在 rootns 下只能看到所有 POD 共用的一�
    ```bash
    deepflow-ctl agent list
    ```
+
+### 同时采集 RootNS 和 PodNS 中的网卡流量
+
+参考[文档](../configuration/agent/#inputs.cbpf.af_packet.inner_interface_capture_enabled)，开启 deepflow-agent 的 `inputs.cbpf.af_packet.inner_interface_capture_enabled`，可采集 PodNS 中的网卡流量。
+
+注意需要同时调整如下配置：
+- `inputs.cbpf.af_packet.tunning.ring_blocks_enabled`：使得能够让 AF_PACKET 的内存消耗可调整。
+- `inputs.cbpf.af_packet.tunning.ring_blocks`：使得能够精简所有 AF_PACKET 的总体内存消耗。
+- `inputs.cbpf.af_packet.inner_interface_regex`：使得能够正确匹配 PodNS 内部的网卡名称。
 
 ## 华为云 CCE Turbo
 
@@ -390,7 +401,9 @@ rmdir /sys/fs/cgroup/memory/deepflow-agent
 
 ## agent 与 server 集群间网络受限需通过 lb 连接
 
-当 deepflow-agent 需要经由外部负载均衡器访问 deepflow-server 时，需在 LB 上配置两个负载均衡监听器转发至 deepflow-server 的 NodePort Service（其中 30033 端口用于 agent 注册，30035 端口用于 agent 数据上报），并在 [agent-group-config](./../configuration/) 中添加 LB 的地址和端口。具体配置方法如下：
+
+当 deepflow-agent 需要经由外部负载均衡器访问 deepflow-server 时，需在 LB 上配置两个负载均衡监听器转发至 deepflow-server 的 NodePort Service（其中 30033 端口用于 agent 注册，30035 端口用于 agent 数据上报），并在 [agent-group-config](./../configuration/agent/) 中添加 LB 的地址和端口。具体配置方法如下：
+
 
 > 注：除网络隔离等特殊情况外，不建议使用 LB 接入方案。默认机制下，agent 会根据数据量自动选择 server 节点，实现动态负载均衡；而通过 LB 接入时，数据上报路径将受限于 LB 的负载策略，可能会导致 server 节点负载不均。
 

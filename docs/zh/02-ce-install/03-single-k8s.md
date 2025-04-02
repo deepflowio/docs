@@ -95,7 +95,14 @@ helm install deepflow -n deepflow deepflow/deepflow --version 6.6.018 --create-n
 deepflow-ctl 是管理 DeepFlow 的一个命令行工具，建议下载至 deepflow-server 所在的 K8s Node 上，用于后续使用：
 
 ```bash
-curl -o /usr/bin/deepflow-ctl https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/ctl/stable/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-ctl
+# 设置临时变量
+Version=v6.6
+
+# 使用变量下载
+curl -o /usr/bin/deepflow-ctl \
+  "https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/ctl/$Version/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-ctl"
+
+# 添加执行权限
 chmod a+x /usr/bin/deepflow-ctl
 ```
 

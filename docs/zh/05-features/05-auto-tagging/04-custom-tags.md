@@ -55,8 +55,8 @@ DeepFlow 系统默认提供 auto_instance/auto_service 两个自动分组的标�
 
 [csv-auto_instance_type](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/tag/enum/auto_instance_type.ch)
 
-- auto_service：自动根据 IP 或 进程 ID 识别对应的服务 Tag，系统设置了可识别的 Tag 及优先级（容器服务 > 工作负载 > 进程 > 容器集群 > 其他 > IP）
-  - 对比 auto_instance 来说，auto_service 去掉了 `容器 POD`，增加了`容器服务`、`工作负载`等更能体现服务的 Tag。其中 `容器服务`识别的优先级高于`工作负载`，因此当一个 IP 既属于`容器服务`又属于`工作负载`时，会识别为`容器服务`
+- auto_service：自动根据 IP 或 进程 ID 识别对应的服务 Tag，系统设置了可识别的 Tag 及优先级（自定义服务 > 容器服务 > 工作负载 > 进程 > 容器集群 > 其他 > IP）
+  - 对比 auto_instance 来说，auto_service 去掉了 `容器 POD`，增加了`自定义服务`（仅企业版）、`容器服务`、`工作负载`等更能体现服务的 Tag。其中 `容器服务`识别的优先级高于`工作负载`，因此当一个 IP 既属于`容器服务`又属于`工作负载`时，会识别为`容器服务`
 
 [csv-auto_service_type](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/tag/enum/auto_service_type.ch)
 
