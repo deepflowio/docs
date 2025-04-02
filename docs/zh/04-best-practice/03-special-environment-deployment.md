@@ -39,6 +39,8 @@ permalink: /best-practice/special-environment-deployment/
 
 ## MACVlan
 
+### 仅采集 RootNS 中的网卡流量
+
 K8s 使用 macvlan CNI 时，在 rootns 下只能看到所有 POD 共用的一个虚拟网卡，此时需要对 deepflow-agent 进行额外的配置：
 
 1. 创建 agent-group 和 agent-group-config：
@@ -114,6 +116,15 @@ K8s 使用 macvlan CNI 时，在 rootns 下只能看到所有 POD 共用的一�
    ```bash
    deepflow-ctl agent list
    ```
+
+### 同时采集 RootNS 和 PodNS 中的网卡流量
+
+参考[文档](../configuration/agent/#inputs.cbpf.af_packet.inner_interface_capture_enabled)，开启 deepflow-agent 的 `inputs.cbpf.af_packet.inner_interface_capture_enabled`，可采集 PodNS 中的网卡流量。
+
+注意需要同时调整如下配置：
+- `inputs.cbpf.af_packet.tunning.ring_blocks_enabled`：使得能够让 AF_PACKET 的内存消耗可调整。
+- `inputs.cbpf.af_packet.tunning.ring_blocks`：使得能够精简所有 AF_PACKET 的总体内存消耗。
+- `inputs.cbpf.af_packet.inner_interface_regex`：使得能够正确匹配 PodNS 内部的网卡名称。
 
 ## 华为云 CCE Turbo
 
