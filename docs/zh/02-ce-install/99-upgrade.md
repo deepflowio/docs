@@ -21,7 +21,14 @@ helm upgrade deepflow -n deepflow deepflow/deepflow -f values-custom.yaml
 下载最新的 deepflow-ctl:
 
 ```bash
-curl -o /usr/bin/deepflow-ctl https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/ctl/stable/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-ctl
+# 与当前 server 版本同步即可
+Version=v6.6
+
+# 使用变量下载
+curl -o /usr/bin/deepflow-ctl \
+  "https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/ctl/$Version/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-ctl"
+
+# 添加执行权限
 chmod a+x /usr/bin/deepflow-ctl
 ```
 
