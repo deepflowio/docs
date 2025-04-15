@@ -7,7 +7,7 @@ export default () => {
     function addWebHeaderEvent() {
         document.querySelectorAll(".to-signup").forEach((element) => {
             element.addEventListener("click", function () {
-                window.open('/signup.html', '_blank')
+                window.open('https://cloud.deepflow.yunshan.net/signup.html', '_blank')
             });
         });
         document.querySelectorAll(".to-demo").forEach((element) => {
@@ -67,7 +67,7 @@ export default () => {
     function addMobileHeaderEvent() {
         document.querySelectorAll(".to-signup").forEach((element) => {
             element.addEventListener("click", function () {
-                window.location.href = "/signup.html";
+                window.location.href = "https://cloud.deepflow.yunshan.net/signup.html";
             });
         });
         // document.getElementById("signin-m").addEventListener("click", function () {
