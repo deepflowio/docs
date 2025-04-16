@@ -127,7 +127,7 @@
                     class="color-nomal"
                     target="_blank"
                     id="signin"
-                    href="/signup.html"
+                    href="https://cloud.deepflow.yunshan.net/signup.html"
                     >企业版体验</a
                   >
                 </li>
