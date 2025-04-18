@@ -13,34 +13,36 @@ permalink: /features/continuous-profiling/auto-profiling
 
 支持的 eBPF Profiling 数据类型：
 
-| 类型      | 支持语言/库 | 社区版 | 企业版 |
-| --------- | ----------- | ------ | ------ |
-| on-cpu    | Java        | ✔      | ✔      |
-|           | C/C++       | ✔      | ✔      |
-|           | Rust        | ✔      | ✔      |
-|           | Golang      | ✔      | ✔      |
-|           | Python      | ✔      | ✔      |
-|           | CUDA        | ✔      | ✔      |
-|           | Lua `*`     | ✔      | ✔      |
-| off-cpu   | Java        |        | ✔      |
-|           | C/C++       |        | ✔      |
-|           | Rust        |        | ✔      |
-|           | Golang      |        | ✔      |
-|           | Python      |        | ✔      |
-|           | CUDA        |        | ✔      |
-|           | Lua `*`     |        | ✔      |
-| on-gpu    | CUDA `*`    |        | ✔      |
-| mem-alloc | Java        |        | ✔      |
-|           | Rust        |        | ✔      |
-|           | Golang `*`  |        | ✔      |
-|           | Python `*`  |        | ✔      |
-| mem-inuse | Rust        |        | ✔      |
-| hbm-alloc | CUDA `*`    |        | ✔      |
-| hbm-inuse | CUDA `*`    |        | ✔      |
-| rdma      | C/C++ `*`   |        | ✔      |
+| 类型      | 支持语言/库      | 社区版 | 企业版 |
+| --------- | ---------------- | ------ | ------ |
+| on-cpu    | Java             | ✔      | ✔      |
+|           | C/C++            | ✔      | ✔      |
+|           | Rust             | ✔      | ✔      |
+|           | Golang           | ✔      | ✔      |
+|           | Python `***`     | ✔      | ✔      |
+|           | CUDA             | ✔      | ✔      |
+|           | Lua `*`          | ✔      | ✔      |
+| off-cpu   | Java             |        | ✔      |
+|           | C/C++            |        | ✔      |
+|           | Rust             |        | ✔      |
+|           | Golang           |        | ✔      |
+|           | Python `***`     |        | ✔      |
+|           | CUDA             |        | ✔      |
+|           | Lua `*`          |        | ✔      |
+| on-gpu    | CUDA `*`         |        | ✔      |
+| mem-alloc | Java `**`        |        | ✔      |
+|           | Rust             |        | ✔      |
+|           | Golang `*`       |        | ✔      |
+|           | Python `*` `***` |        | ✔      |
+| mem-inuse | Rust             |        | ✔      |
+| hbm-alloc | CUDA `*`         |        | ✔      |
+| hbm-inuse | CUDA `*`         |        | ✔      |
+| rdma      | C/C++ `*`        |        | ✔      |
 
 说明：
 - `*`: features in development
+- `**`: 运行 Java 程序的 JVM 须有符号表，参考[检查方法](#jvm-符号表检查)
+- `***`: 当前支持版本为 Python 3.10
 - 类型：
   - on-cpu：函数在 CPU 上消耗的时间
   - off-cpu：函数等待 CPU 的时间
@@ -70,3 +72,17 @@ Off-CPU Profiling 功能**仅会**采集如下调用栈：
 - 0 号进程（Idle 进程）**以外**的调用栈
 - 含有**至少一个**用户态函数的调用栈
 - 等待 CPU 的时间**不超过** 1 小时的调用栈
+
+# 常见问题
+
+## JVM 符号表检查
+
+- 查找需要内存剖析的 Java 进程号，记为 `$pid`
+- 查看进程加载的 `libjvm.so` 所在位置，记为 `$path`
+  ```
+  grep libjvm.so /proc/$pid/maps
+  ```
+- 检查该文件是否包含符号表
+  ```
+  readelf -WS $path | grep symtab
+  ```
