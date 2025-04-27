@@ -37,8 +37,10 @@ DeepFlow 中的 eBPF 能力（AutoTracing、AutoProfiling）对内核版本的�
 | | \* | 4.15 | Y | Y **[3]** | | Y |
 | | \* | 4.16 | Y | Y | | Y |
 | | \* | 4.17+ | Y | Y | Y | Y |
+| | SUSE 12 SP5 | 4.12 [5] | Y | Y | | Y |
 | ARM | CentOS 8 | 4.18 | Y | Y | Y | Y |
 | | EulerOS | 5.10+ | Y | Y | Y | Y |
+| | 麒麟 KylinOS V10 SP1 | 4.19.90-23 [6] | Y | Y | Y | Y |
 | | 麒麟 KylinOS V10 SP2 | 4.19.90-25.24+ | Y | Y | Y | Y |
 | | 麒麟 KylinOS V10 SP3 | 4.19.90-52.24+ | Y | Y | Y | Y |
 | | 其他发行版 | 5.8+ | Y | Y | Y | Y |
@@ -56,6 +58,8 @@ DeepFlow 中的 eBPF 能力（AutoTracing、AutoProfiling）对内核版本的�
     > The eBPF in Red Hat Enterprise Linux 7.6 is provided as Tech Preview and thus doesn't come with full support and is not suitable for deployment in production. It is provided with the primary goal to gain wider exposure, and potentially move to full support in the future. eBPF in Red Hat Enterprise Linux 7.6 is enabled only for tracing purposes, which allows attaching eBPF programs to probes, tracepoints and perf events.
 - [3]: 容器内部的 Golang/OpenSSL 进程不支持
 - [4]: 在内核 4.14 版本中，一个 `tracepoint` 不能被多个 eBPF program attach（如：不能同时运行两个或多个 deepflow-agent），其他版本不存在此问题
+- [5]: 目前支持 SUSE 12 SP5 4.12.14，但是 Linux 社区的 4.12 版本依然不支持。
+- [6]: KylinOS V10 SP1 部分内核例如：4.19.90-23.48.v2101.ky10.aarch64，4.19.90-23.48.v2101.ky10.aarch64 正常运行，不确保 KylinOS V10 SP1 所有 aarch64 架构的内核都能正常运行 deepflow-agent。
 
 deepflow-agent 运行权限的要求：
 
