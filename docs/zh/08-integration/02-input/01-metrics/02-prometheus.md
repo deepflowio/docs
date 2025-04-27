@@ -74,6 +74,53 @@ prometheus_http_api_addresses: # 集成 Prometheus 指标时需填写此项
   - { PROMETHEUS_HTTP_API_ADDRESSES }
 ```
 
+# 集成 xExporter 数据
+
+在 DeepFlow-Agent 企业版支持直接从任意一个满足 Prometheus 生态的 xExporter 中拉取指标数据，并推送到 DeepFlow 中。
+
+## 数据流
+
+```mermaid
+flowchart TD
+
+subgraph K8s-Cluster
+  xExporter["x-Exporter (deployment)"]
+  DeepFlowAgent["deepflow-agent-ee (daemonset)"]
+  DeepFlowServer["deepflow-server (deployment)"]
+
+  xExporter -->|metrics| DeepFlowAgent
+  DeepFlowAgent -->|metrics| DeepFlowServer
+end
+```
+
+## 配置 DeepFlow（v6.6 之后的 DeepFlow-Agent 可用）
+
+为 Agent 所在的 Group 添加以下配置：
+
+```yaml
+inputs:
+  vector:
+    config:
+      sources:
+        x_exporter:
+          type: prometheus_scrape
+          endpoints:
+          - http://${HOST:PORT}/metrics
+          scrape_interval_secs: 10
+          scrape_timeout_secs: 10
+          honor_labels: true
+          instance_tag: instance
+          endpoint_tag: metrics_endpoint
+      sinks:
+        prometheus_remote_write:
+          type: prometheus_remote_write
+          inputs:
+          - x_exporter
+          endpoint: http://127.0.0.1:38086/api/v1/prometheus
+          healthcheck:
+            enabled: false
+```
+
 # 查看 Prometheus 数据
 
 Prometheus 中的指标将会存储在 DeepFlow 的 `prometheus` database 中。
