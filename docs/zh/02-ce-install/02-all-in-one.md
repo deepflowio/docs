@@ -106,6 +106,11 @@ Grafana auth: admin:deepflow
 
 # 使用 Docker Compose 部署
 
+我们不推荐使用 Docker 部署 DeepFlow Server 端，具体原因如下：
+
+1. Server 端依赖  K8s 的 [lease](https://kubernetes.io/zh-cn/docs/concepts/architecture/leases/) 进行选主，通过多副本实现高可用性。而 Docker 环境缺乏 K8s 的这一机制，导致 Server 端仅能以单副本模式运行。在 Agent 节点数量较多或数据采集量较大的场景下，单副本实例可能因资源瓶颈而无法承载高并发的数据量。
+2. 当 Server 端以单副本形式部署时，配套的 ClickHouse 只能采用单切片形式部署，否则会导致数据写入不均衡，这在一定程度上限制了数据的查询速度。
+
 ## 准备工作
 
 ### 资源需求
@@ -161,18 +166,15 @@ docker compose -f deepflow-docker-compose/docker-compose.yaml up -d
 
 ## 访问 Grafana 页面
 
-使用 Docke Compose 部署的 DeepFlow Grafana 端口为 3000，用户密码为 admin:deepflow。
+通过 docker compose 部署后，将浏览器指向 `http://<$NODE_IP_FOR_DEEPFLOW>:3000` 即可登录 Grafana 控制台
 
-例如机器 IP 为 10.1.2.3， 则 Grafana 访问 URL 为 http://10.1.2.3:3000
-
-## 限制
-
-- 该部署模式下 deepflow-server、clickhouse 均不支持水平扩展。
-- 由于 deepflow-server 的一些能力依赖 Kubernetes，docker-compose 部署模式下无法监控云服务器，可参考 [监控传统服务器](./legacy-host) 对云主机进行监控。
+默认凭据：
+- 用户名：admin
+- 密码：deepflow
 
 # 下载 deepflow-ctl
 
-deepflow-ctl 是管理 DeepFlow 的一个命令行工具，建议下载至 deepflow-server 所在的 K8s Node 上，用于后续使用：
+deepflow-ctl 是 DeepFlow 的命令行管理工具，建议部署至 deepflow-server 所在的 K8s Node 上，以便后续用于 Agent [组配置管理](../best-practice/agent-advanced-config.md)及其他运维操作：
 
 ```bash
 # 与当前 server 版本同步即可
