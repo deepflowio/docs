@@ -93,14 +93,16 @@ unset AGENT_GROUP
 AGENT_GROUP="legacy-host"  # FIXME: domain name
 
 deepflow-ctl agent-group create $AGENT_GROUP
-deepflow-ctl agent-group list $AGENT_GROUP # Get agent-group ID
+deepflow-ctl agent-group list $AGENT_GROUP # get agent-group-id
 ```
 
-创建采集器组配置文件 `agent-group-config.yaml`，指定 `vtap_group_id` 并开启 `platform_enabled` 让 deepflow-agent 将服务器的网络信息同步至 deepflow-server
+通过 [deepflow-ctl](../best-practice/agent-advanced-config.md) 创建采集器组配置，让 deepflow-agent 以自同步方式将服务器网络信息发送至 deepflow-server
 
 ```yaml
-vtap_group_id: g-ffffff # FIXME
-platform_enabled: 1
+inputs:
+  resources:
+    private_cloud:
+      hypervisor_resource_enabled: true
 ```
 
 创建采集器组配置：
@@ -111,14 +113,15 @@ deepflow-ctl agent-group-config create -f agent-group-config.yaml
 
 # 部署 DeepFlow Agent
 
-下载 deepflow-agent
+注：deepflow-agent 版本必须 ≤ deepflow-server 版本，否则会导致注册、上报数据异常
 
 ::: code-tabs#shell
 
 @tab rpm
 
 ```bash
-curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/rpm/agent/stable/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent-rpm.zip
+AGENT_VERSION=v6.6 FIXME: 此处与 server 版本同步
+curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/rpm/agent/$AGENT_VERSION/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent-rpm.zip
 unzip deepflow-agent-rpm.zip
 yum -y localinstall x86_64/deepflow-agent-1.0*.rpm
 ```
@@ -126,7 +129,8 @@ yum -y localinstall x86_64/deepflow-agent-1.0*.rpm
 @tab deb
 
 ```bash
-curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/deb/agent/stable/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent-deb.zip
+AGENT_VERSION=v6.6 FIXME: 此处与 server 版本同步
+curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/deb/agent/$AGENT_VERSION/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent-deb.zip
 unzip deepflow-agent-deb.zip
 dpkg -i x86_64/deepflow-agent-1.0*.systemd.deb
 ```
@@ -134,7 +138,8 @@ dpkg -i x86_64/deepflow-agent-1.0*.systemd.deb
 @tab binary file
 
 ```bash
-curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/agent/stable/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent.tar.gz
+AGENT_VERSION=v6.6 FIXME: 此处与 server 版本同步
+curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/agent/$AGENT_VERSION/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent.tar.gz
 tar -zxvf deepflow-agent.tar.gz -C /usr/sbin/
 
 cat << EOF > /etc/systemd/system/deepflow-agent.service
@@ -196,7 +201,7 @@ docker compose -f deepflow-agent-docker-compose.yaml up -d
 ```yaml
 controller-ips:
   - 10.1.2.3 # FIXME: K8s Node IPs
-vtap-group-id-request: 'g-fffffff' # FIXME: agent-group ID
+vtap-group-id-request: 'g-fffffff' # FIXME: <AGENT_GROUP_ID>
 ```
 
 启动 deepflow-agent ：
@@ -214,7 +219,8 @@ systemctl restart deepflow-agent
 @tab rpm
 
 ```bash
-curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/rpm/agent/stable/linux/static-link/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent-rpm.zip
+AGENT_VERSION=v6.6 FIXME: 此处与 server 版本同步
+curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/rpm/agent/$AGENT_VERSION/linux/static-link/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent-rpm.zip
 unzip deepflow-agent-rpm.zip
 yum -y localinstall x86_64/deepflow-agent-1.0*.rpm
 ```
@@ -222,7 +228,8 @@ yum -y localinstall x86_64/deepflow-agent-1.0*.rpm
 @tab deb
 
 ```bash
-curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/deb/agent/stable/linux/static-link/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent-deb.zip
+AGENT_VERSION=v6.6 FIXME: 此处与 server 版本同步
+curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/deb/agent/$AGENT_VERSION/linux/static-link/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent-deb.zip
 unzip deepflow-agent-deb.zip
 dpkg -i x86_64/deepflow-agent-1.0*.systemd.deb
 ```
@@ -230,7 +237,8 @@ dpkg -i x86_64/deepflow-agent-1.0*.systemd.deb
 @tab binary file
 
 ```bash
-curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/agent/stable/linux/static-link/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent.tar.gz
+AGENT_VERSION=v6.6 FIXME: 此处与 server 版本同步
+curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/agent/$AGENT_VERSION/linux/static-link/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent.tar.gz
 tar -zxvf deepflow-agent.tar.gz -C /usr/sbin/
 
 cat << EOF > /etc/systemd/system/deepflow-agent.service
