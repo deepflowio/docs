@@ -96,7 +96,7 @@ deepflow-ctl agent-group create $AGENT_GROUP
 deepflow-ctl agent-group list $AGENT_GROUP # get agent-group-id
 ```
 
-通过 [deepflow-ctl](../best-practice/agent-advanced-config.md) 创建采集器组配置，让 deepflow-agent 以自同步方式将服务器网络信息发送至 deepflow-server
+通过 [deepflow-ctl](../best-practice/agent-advanced-config) 创建采集器组配置，让 deepflow-agent 以自同步方式将服务器网络信息发送至 deepflow-server
 
 ```yaml
 inputs:
