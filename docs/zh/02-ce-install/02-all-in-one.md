@@ -174,7 +174,7 @@ docker compose -f deepflow-docker-compose/docker-compose.yaml up -d
 
 # 下载 deepflow-ctl
 
-deepflow-ctl 是 DeepFlow 的命令行管理工具，建议部署至 deepflow-server 所在的 K8s Node 上，以便后续用于 Agent [组配置管理](../best-practice/agent-advanced-config.md)及其他运维操作：
+deepflow-ctl 是 DeepFlow 的命令行管理工具，建议部署至 deepflow-server 所在的 K8s Node 上，以便后续用于 Agent [组配置管理](../best-practice/agent-advanced-config)及其他运维操作：
 
 ```bash
 # 与当前 server 版本同步即可
