@@ -101,8 +101,7 @@ deepflow-ctl agent-group list $AGENT_GROUP # get agent-group-id
 ```yaml
 inputs:
   resources:
-    private_cloud:
-      hypervisor_resource_enabled: true
+    workload_resource_sync_enabled: true
 ```
 
 创建采集器组配置：
