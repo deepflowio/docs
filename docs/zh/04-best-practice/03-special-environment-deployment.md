@@ -132,34 +132,43 @@ K8s 使用 macvlan CNI 时，在 rootns 下只能看到所有 POD 共用的一�
 
 ## IPVlan
 
-唯一需要注意的是，采集器的 tap_interface_regex 只需配置为 Node NIC 列表。
+唯一需要注意的是，Agent 的 tap_interface_regex 只需配置为 Node NIC 列表。
 
 ## Cilium eBPF
 
-唯一需要注意的是，采集器的 tap_interface_regex 只需配置为 Node NIC 列表。
+唯一需要注意的是，Agent 的 tap_interface_regex 只需配置为 Node NIC 列表。
 
 # 特殊 K8s 资源或 CRD
 
 这类场景需要进行以下操作：
 
-- Agent 高级配置中打开和关闭对应的资源
-- 配置 Kubernetes API 权限
+- Agent 配置中打开和关闭对应的资源
+- 在 Agent 部署集群中配置 Kubernetes API 权限
 
 ## OpenShift
 
 该场景需要关闭默认的 `Ingress` 资源获取，打开 `Route` 资源获取。
 
-Agent 高级配置如下：
+- [Route](https://docs.redhat.com/en/documentation/openshift_container_platform/4.14/html/network_apis/route-route-openshift-io-v1)
+
+  ```yaml
+  apiVersion: route.openshift.io/v1
+  kind: Route
+  ```
+
+修改 Agent 配置如下：
 
 ```yaml
-static_config:
-  kubernetes-resources:
-    - name: ingresses
-      disabled: true
-    - name: routes
+inputs:
+  resources:
+    kubernetes:
+      api_resources:
+      - name: ingresses
+        disabled: true
+      - name: routes
 ```
 
-ClusterRole 配置增加：
+在 Agent 所在容器集群中修改 Agent 的 ClusterRole 配置，增加如下规则：
 
 ```yaml
 rules:
@@ -175,24 +184,42 @@ rules:
 
 ## OpenKruise
 
-该场景下需要从 API 获取 `CloneSet` 和 `apps.kruise.io/StatefulSet` 资源。
+该场景下需要从 API 获取 `CloneSet` 和 `Advanced StatefulSet` 资源。
 
-Agent 高级配置如下：
+- [CloneSet](https://openkruise.io/docs/user-manuals/cloneset/)
+
+  ```yaml
+  apiVersion: apps.kruise.io/v1alpha1
+  kind: CloneSet
+  ```
+
+- [Advanced StatefulSet](https://openkruise.io/docs/user-manuals/advancedstatefulset/)
+
+  ```yaml
+  apiVersion: apps.kruise.io/v1beta1
+  kind: StatefulSet
+  ```
+
+修改 Agent 配置如下：
 
 ```yaml
-static_config:
-  kubernetes-resources:
-    - name: clonesets
-      group: apps.kruise.io
-    - name: statefulsets
-      group: apps
-    - name: statefulsets
-      group: apps.kruise.io
+inputs:
+  resources:
+    kubernetes:
+      api_resources:
+      - name: clonesets
+        group: apps.kruise.io
+      - name: statefulsets
+        group: apps
+      - name: statefulsets
+        group: apps.kruise.io
 ```
 
-注意这里需要加上 Kubernetes 的 `apps/StatefulSet`。
+::: tip
+由于 `statefulsets` 在 `apps` 和 `apps.kruise.io` 组中重名，如果需要同时获取 Kubernetes 的 `StatefulSet`，这里除配置 `group=apps.kruise.io, name=statefulsets` 资源同步外，需要同时开启 `group=apps, name=statefulsets` 的资源同步。
+:::
 
-ClusterRole 配置增加：
+在 Agent 所在容器集群中修改 Agent 的 ClusterRole 配置，增加如下规则：
 
 ```yaml
 - apiGroups:
@@ -210,15 +237,19 @@ ClusterRole 配置增加：
 
 该场景下需要从 API 获取 `OpenGaussCluster` 资源。
 
-Agent 高级配置如下：
+- [OpenGaussCluster](https://github.com/opengauss-mirror/openGauss-operator)
+
+修改 Agent 配置如下：
 
 ```yaml
-static_config:
-  kubernetes-resources:
-    - name: opengaussclusters
+inputs:
+  resources:
+    kubernetes:
+      api_resources:
+      - name: opengaussclusters
 ```
 
-ClusterRole 配置增加：
+在 Agent 所在容器集群中修改 Agent 的 ClusterRole 配置，增加如下规则：
 
 ```yaml
 - apiGroups:
