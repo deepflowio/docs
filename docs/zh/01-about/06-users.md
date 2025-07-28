@@ -9,6 +9,7 @@ permalink: /about/users
 | -------- | ---------- | ------ | ------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 云服务   | 腾讯云     | Meetup | DeepFlow 在腾讯 TKE 内部平台的可观测性实践              | [文章](https://mp.weixin.qq.com/s/tsVObqnUBOQ-fE6uK6_oxA)，[PPT](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/yunshan-ticket/pdf/85bfdb75cf8v77d8b618bf2h90a769b4_20241217152025.pdf)，[视频](https://www.bilibili.com/video/BV1y2kEYkEf1) |
 | 新制造   | 某智能车企 | 文章   | 慢调用排查实录：高效定界服务网格 Sidecar 性能瓶颈       | [文章](https://mp.weixin.qq.com/s/0QtKqQDuV1KjYYCPAP4sBQ) |
+| 互联网   | 金山办公   | Meetup | 金山办公基于 DeepFlow docker 模式的可观测性实践        | [文章](https://mp.weixin.qq.com/s/Pd1-lO9pjAKhofzmpuEBgw)，[PPT](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/yunshan-ticket/jpg/6815b7d64b37417156ca9f8bf1403705_20250702104904.pdf)，[视频](https://www.bilibili.com/video/BV1AogSz9E3o) |
 
 # 2024
 
