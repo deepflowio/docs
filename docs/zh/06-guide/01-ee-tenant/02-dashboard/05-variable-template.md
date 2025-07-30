@@ -97,4 +97,4 @@ permalink: /guide/ee-tenant/dashboard/variable-template/
 该功能不是对外的标准功能，对外提供需要单独验证功能。
 :::
 
-新建一个名字叫 `变量名称` 的变量，子视图引用模板变量。然后在URL里添加 &template={"value":[2,3,4]}，子视图中就会使用对应的变量。
+新建一个名字叫 `变量名称` 的变量，子视图引用模板变量。然后在URL里添加 `&template={"value":[2,3,4]}`，子视图中就会使用对应的变量。
