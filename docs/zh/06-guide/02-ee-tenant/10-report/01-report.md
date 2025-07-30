@@ -41,5 +41,5 @@ permalink: /guide/ee-tenant/report/report/
 ![04-download-report-forms.png](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202310316540ccc1e1fec.png)
 
 - **① 视图名称**：展示了生成当前报表策略的视图名称，点击后跳转到对应的视图中，视图使用详情，请参阅【[视图-视图详情](../dashboard/use/)】章节
-- **② 下载**：支持下载当前报表的 CSV 数据
+- **② 下载**：支持下载当前报表的 HTML 页面
 - **③ 删除**：删除当前报表
