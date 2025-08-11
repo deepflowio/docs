@@ -140,6 +140,10 @@ K8s 使用 macvlan CNI 时，在 rootns 下只能看到所有 POD 共用的一�
 
 # 特殊 K8s 资源或 CRD
 
+当发现未同步的（找不到工作负载的）容器 Pod 时，
+- 如果 Pod 的`metadata.ownerReferences[].apiVersion = apps.kruise.io/v1beta1`，那么对应的 K8s 平台应该是 OpenKruise
+- 如果 Pod 的`metadata.ownerReferences[].apiVersion = opengauss.sig/v1`，那么对应的 K8s 平台应该是 OpenGauss
+
 这类场景需要进行以下操作：
 
 - Agent 配置中打开和关闭对应的资源
