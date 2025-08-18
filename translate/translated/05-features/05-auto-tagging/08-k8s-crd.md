@@ -1,15 +1,113 @@
 ---
-title: Lua plugin
-permalink: /integration/process/lua-plugin
+title: K8s CRD Labels
+permalink: /features/auto-tagging/k8s-crd
 ---
 
 > This document was translated by ChatGPT
 
-# About Lua Plugin
+# Common special K8s resources or CRDs
+
+When an unsynchronized (workload-unassociated) container Pod is detected:
+- If the value of Pod's `metadata.ownerReferences[].apiVersion = apps.kruise.io/v1beta1`, then the corresponding K8s platform should be OpenKruise.
+- If the value of Pod's `metadata.ownerReferences[].apiVersion = opengauss.sig/v1`, then the corresponding K8s platform should be OpenGauss.
+
+In these scenarios, the following operations are required:
+
+- Enable and disable the corresponding resources in the Agent advanced configuration
+- Configure Kubernetes API permissions
+
+## OpenShift
+
+In this scenario, the default `Ingress` resource acquisition needs to be disabled, and the `Route` resource acquisition needs to be enabled.
+
+Agent advanced configuration is as follows:
+
+```yaml
+static_config:
+  kubernetes-resources:
+    - name: ingresses
+      disabled: true
+    - name: routes
+```
+
+ClusterRole configuration addition:
+
+```yaml
+rules:
+  - apiGroups:
+      - route.openshift.io
+    resources:
+      - routes
+    verbs:
+      - get
+      - list
+      - watch
+```
+
+## OpenKruise
+
+In this scenario, the `CloneSet` and `apps.kruise.io/StatefulSet` resources need to be obtained from the API.
+
+Agent advanced configuration is as follows:
+
+```yaml
+static_config:
+  kubernetes-resources:
+    - name: clonesets
+      group: apps.kruise.io
+    - name: statefulsets
+      group: apps
+    - name: statefulsets
+      group: apps.kruise.io
+```
+
+Note that Kubernetes's `apps/StatefulSet` needs to be added here.
+
+ClusterRole configuration addition:
+
+```yaml
+- apiGroups:
+    - apps.kruise.io
+  resources:
+    - clonesets
+    - statefulsets
+  verbs:
+    - get
+    - list
+    - watch
+```
+
+## OpenGauss
+
+In this scenario, the `OpenGaussCluster` resource needs to be obtained from the API.
+
+Agent advanced configuration is as follows:
+
+```yaml
+static_config:
+  kubernetes-resources:
+    - name: opengaussclusters
+```
+
+ClusterRole configuration addition:
+
+```yaml
+- apiGroups:
+    - opengauss.sig
+  resources:
+    - opengaussclusters
+  verbs:
+    - get
+    - list
+    - watch
+```
+
+# Other K8s CRD
+## About Lua Plugin on the Server
 
 Due to some users' Kubernetes environments possibly having special configurations or security requirements, the standardized way of extracting workload types and workload names may not work as expected. Alternatively, users might want to customize workload types and workload names based on their own logic. Therefore, DeepFlow supports users in extracting workload types and workload names by adding custom Lua plugins. The Lua plugin system enhances the flexibility and universality of K8s resource integration by calling Lua Functions at fixed points to obtain some user-defined workload types and names.
 
-# Lua Plugin Writing Example
+## Lua Plugin Writing Example
 
 ```lua
 -- Fixed syntax to import the JSON parsing package
@@ -62,7 +160,7 @@ function GetWorkloadTypeAndName(metaJsonStr)
 end
 ```
 
-# Upload Plugin
+## Upload Plugin
 
 Lua plugins support runtime loading. After uploading the plugin using the deepflow-ctl tool in the DeepFlow runtime environment, it will be automatically loaded. Execute the following command in the environment:
 
@@ -83,7 +181,7 @@ You can delete a specific plugin by its name with the following command:
 deepflow-ctl plugin delete <name>
 ```
 
-# Example
+## Example
 
 For instance, if the metadata of a Pod in the current k8s environment is as follows:
 
