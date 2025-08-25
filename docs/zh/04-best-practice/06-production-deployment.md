@@ -9,7 +9,7 @@ DeepFlow 生产环境部署建议。
 
 # 使用 LTS 版本 DeepFlow
 
-helm 添加 --version 参数安装最新 LTS 版本 DeepFlow Server 和 Agent
+通过 `helm search repo deepflow -l` 查看[最新的 LTS 版本](../release-notes/release-timeline)
 
 ## 安装 LTS 版本 DeepFlow Server
 
@@ -21,7 +21,7 @@ helm 添加 --version 参数安装最新 LTS 版本 DeepFlow Server 和 Agent
 # helm repo add deepflow https://deepflowio.github.io/deepflow
 
 helm repo update deepflow # use `helm repo update` when helm < 3.7.0
-helm upgrade --install deepflow -n deepflow deepflow/deepflow --version 6.5.012 --create-namespace
+helm upgrade --install deepflow -n deepflow deepflow/deepflow --version 7.0.014 --create-namespace
 ```
 
 @tab Use Aliyun
@@ -38,7 +38,7 @@ helm repo update deepflow # use `helm repo update` when helm < 3.7.0
 #   image:
 #     repository: registry.cn-beijing.aliyuncs.com/deepflow-ce/grafana
 # EOF
-helm upgrade --install deepflow -n deepflow deepflow/deepflow --version 6.5.012 --create-namespace \
+helm upgrade --install deepflow -n deepflow deepflow/deepflow --version 7.0.014 --create-namespace \
   -f values-custom.yaml
 ```
 
@@ -63,7 +63,7 @@ helm upgrade --install deepflow -n deepflow deepflow/deepflow --version 6.5.012 
 # helm repo add deepflow https://deepflowio.github.io/deepflow
 
 helm repo update deepflow # use `helm repo update` when helm < 3.7.0
-helm upgrade --install deepflow-agent -n deepflow deepflow/deepflow-agent --version 6.5.012 --create-namespace -f values-custom.yaml
+helm upgrade --install deepflow-agent -n deepflow deepflow/deepflow-agent --version 7.0.014 --create-namespace -f values-custom.yaml
 ```
 
 @tab Use Aliyun
@@ -81,7 +81,7 @@ helm upgrade --install deepflow-agent -n deepflow deepflow/deepflow-agent --vers
 # helm repo add deepflow https://deepflowio.github.io/deepflow
 
 helm repo update deepflow # use `helm repo update` when helm < 3.7.0
-helm upgrade --install deepflow-agent -n deepflow deepflow/deepflow-agent --version 6.5.012 --create-namespace -f values-custom.yaml
+helm upgrade --install deepflow-agent -n deepflow deepflow/deepflow-agent --version 7.0.014 --create-namespace -f values-custom.yaml
 ```
 
 :::
@@ -95,7 +95,7 @@ helm upgrade --install deepflow-agent -n deepflow deepflow/deepflow-agent --vers
 @tab rpm
 
 ```bash
-curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/rpm/agent/v6.4.9/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent-rpm.zip
+curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/rpm/agent/v7.0/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent-rpm.zip
 unzip deepflow-agent-rpm.zip
 yum -y localinstall x86_64/deepflow-agent-1.0*.rpm
 ```
@@ -103,7 +103,7 @@ yum -y localinstall x86_64/deepflow-agent-1.0*.rpm
 @tab deb
 
 ```bash
-curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/deb/agent/v6.4.9/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent-deb.zip
+curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/deb/agent/v7.0/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent-deb.zip
 unzip deepflow-agent-deb.zip
 dpkg -i x86_64/deepflow-agent-1.0*.systemd.deb
 ```
@@ -111,7 +111,7 @@ dpkg -i x86_64/deepflow-agent-1.0*.systemd.deb
 @tab binary file
 
 ```bash
-curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/agent/v6.4.9/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent.tar.gz
+curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/agent/v7.0/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent.tar.gz
 tar -zxvf deepflow-agent.tar.gz -C /usr/sbin/
 
 cat << EOF > /etc/systemd/system/deepflow-agent.service
@@ -141,7 +141,7 @@ systemctl daemon-reload
 切换 Cli 下载链接至 LTS 版本：
 
 ```bash
-curl -o /usr/bin/deepflow-ctl https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/ctl/v6.4.9/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-ctl
+curl -o /usr/bin/deepflow-ctl https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/ctl/v7.0/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-ctl
 chmod a+x /usr/bin/deepflow-ctl
 ```
 
