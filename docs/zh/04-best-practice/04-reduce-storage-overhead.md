@@ -96,10 +96,10 @@ ORDER BY date DESC
 根据某个字段的值，区分统计空间消耗。例如：查看 `l7_flow_log` 表中不同应用协议（`l7_protocol`）的行数，以及对应的 `request_resource` 字段的平均长度，评估是否关闭某种应用协议的解析：
 
 ```sql
-SELECT dictGet(flow_tag.int_enum_map, 'name', ('l7_protocol', toUInt64(l7_protocol))) AS "应用协议", count(0) AS "行数", sum(length(request_resource))/count(l7_protocol) AS "平均 request_resource 长度", sum(length(request_resource))/sum(if(request_resource !='', 1, 0)) AS "平均非空 request_resource 长度" FROM flow_log.l7_flow_log WHERE time>now()-86400 GROUP BY l7_protocol ORDER BY "行数" DESC;
+SELECT dictGet(flow_tag.int_enum_map, 'name_zh', ('l7_protocol', toUInt64(l7_protocol))) AS "应用协议", count(0) AS "行数", sum(length(request_resource))/count(l7_protocol) AS "平均 request_resource 长度", sum(length(request_resource))/sum(if(request_resource !='', 1, 0)) AS "平均非空 request_resource 长度" FROM flow_log.l7_flow_log WHERE time>now()-86400 GROUP BY l7_protocol ORDER BY "行数" DESC;
 
 SELECT
-    dictGet(flow_tag.int_enum_map, 'name', ('l7_protocol', toUInt64(l7_protocol))) AS `应用协议`,
+    dictGet(flow_tag.int_enum_map, 'name_zh', ('l7_protocol', toUInt64(l7_protocol))) AS `应用协议`,
     count(0) AS `行数`,
     sum(length(request_resource)) / count(l7_protocol) AS `平均 request_resource 长度`,
     sum(length(request_resource)) / sum(if(request_resource != '', 1, 0)) AS `平均非空 request_resource 长度`
@@ -126,11 +126,11 @@ ORDER BY `行数` DESC
 查看 `l7_flow_log` 表中不同观测点（`observation_point`）的行数，评估是否关闭某些观测点处采集的调用日志：
 
 ```sql
-SELECT observation_point, dictGet(flow_tag.string_enum_map, 'name', ('observation_point', observation_point)) AS "观测点", count(0) AS "行数" FROM flow_log.l7_flow_log WHERE time>now()-86400 GROUP BY observation_point ORDER BY "行数" DESC;
+SELECT observation_point, dictGet(flow_tag.string_enum_map, 'name_zh', ('observation_point', observation_point)) AS "观测点", count(0) AS "行数" FROM flow_log.l7_flow_log WHERE time>now()-86400 GROUP BY observation_point ORDER BY "行数" DESC;
 
 SELECT
     observation_point,
-    dictGet(flow_tag.string_enum_map, 'name', ('observation_point', observation_point)) AS `观测点`,
+    dictGet(flow_tag.string_enum_map, 'name_zh', ('observation_point', observation_point)) AS `观测点`,
     count(0) AS `行数`
 FROM flow_log.l7_flow_log
 WHERE time > (now() - 86400)
