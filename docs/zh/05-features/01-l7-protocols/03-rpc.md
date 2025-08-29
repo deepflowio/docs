@@ -218,22 +218,22 @@ permalink: /features/l7-protocols/rpc
 
 **Tag 字段映射表格，以下表格只包含存在映射关系的字段**
 
-| 类别  | 名称               | 中文         | Request Header           | Response Header                                                                  | 描述                                         |
-| ----- | ------------------ | ------------ | ------------------------ | -------------------------------------------------------------------------------- | -------------------------------------------- |
-| Req.  | version            | 协议版本     | tars_version             | --                                                                               | --                                           |
-|       | request_type       | 请求类型     | request.method_name      | --                                                                               | --                                           |
-|       | request_domain     | 请求域名     | --                       | --                                                                               | --                                           |
-|       | request_resource   | 请求资源     | request.service_name     | --                                                                               | --                                           |
-|       | request_id         | 请求 ID      | request_id               | --                                                                               | --                                           |
-|       | endpoint           | 端点         | service_name/method_name | --                                                                               | --                                           |
-| Resp. | response_code      | 响应码       | --                       | Status Code                                                                      | --                                           |
-|       | response_status    | 响应状态     | --                       | response.status                                                                  | 0 正常，-10 至 -12 客户端异常，其余服务端异常 |
-|       | response_exception | 响应异常     | --                       | 参考返回码描述，详见 [iRet Code](https://doc.tarsyun.com/#/base/tars-protocol.md) | --                                           |
-|       | response_result    | 响应结果     | --                       | --                                                                               | --                                           |
-| Trace | trace_id           | TraceID      | --                       | --                                                                               | --                                           |
-|       | span_id            | SpanID       | --                       | --                                                                               | --                                           |
-|       | x_request_id       | X-Request-ID | --                       | --                                                                               | --                                           |
-| Misc. | --                 | --           | --                       | --                                                                               | --                                           |
+| 类别  | 名称               | 中文         | Request Header           | Response Header                                                                   | 描述                                          |
+| ----- | ------------------ | ------------ | ------------------------ | --------------------------------------------------------------------------------- | --------------------------------------------- |
+| Req.  | version            | 协议版本     | tars_version             | --                                                                                | --                                            |
+|       | request_type       | 请求类型     | request.method_name      | --                                                                                | --                                            |
+|       | request_domain     | 请求域名     | --                       | --                                                                                | --                                            |
+|       | request_resource   | 请求资源     | request.service_name     | --                                                                                | --                                            |
+|       | request_id         | 请求 ID      | request_id               | --                                                                                | --                                            |
+|       | endpoint           | 端点         | service_name/method_name | --                                                                                | --                                            |
+| Resp. | response_code      | 响应码       | --                       | Status Code                                                                       | --                                            |
+|       | response_status    | 响应状态     | --                       | response.status                                                                   | 0 正常，-10 至 -12 客户端异常，其余服务端异常 |
+|       | response_exception | 响应异常     | --                       | 参考返回码描述，详见 [iRet Code](https://doc.tarsyun.com/#/base/tars-protocol.md) | --                                            |
+|       | response_result    | 响应结果     | --                       | --                                                                                | --                                            |
+| Trace | trace_id           | TraceID      | --                       | --                                                                                | --                                            |
+|       | span_id            | SpanID       | --                       | --                                                                                | --                                            |
+|       | x_request_id       | X-Request-ID | --                       | --                                                                                | --                                            |
+| Misc. | --                 | --           | --                       | --                                                                                | --                                            |
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 

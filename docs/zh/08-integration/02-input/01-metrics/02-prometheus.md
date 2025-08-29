@@ -105,7 +105,7 @@ inputs:
         x_exporter:
           type: prometheus_scrape
           endpoints:
-          - http://${HOST:PORT}/metrics
+            - http://${HOST:PORT}/metrics
           scrape_interval_secs: 10
           scrape_timeout_secs: 10
           honor_labels: true
@@ -115,7 +115,7 @@ inputs:
         prometheus_remote_write:
           type: prometheus_remote_write
           inputs:
-          - x_exporter
+            - x_exporter
           endpoint: http://127.0.0.1:38086/api/v1/prometheus
           healthcheck:
             enabled: false

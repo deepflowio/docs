@@ -1,5 +1,5 @@
 ---
-title: Integrate Grafana Agent Data
+title: Integrating Grafana Agent Data
 permalink: /integration/input/metrics/grafana-agent
 ---
 
@@ -32,8 +32,8 @@ end
 
 ## Grafana Agent
 
-You can learn the relevant background knowledge in the [Grafana Agent Documentation](https://grafana.com/docs/agent/latest/).
-If your environment does not have Grafana Agent, you can deploy it using the following steps:
+Refer to the [Grafana Agent documentation](https://grafana.com/docs/agent/latest/) for background information.
+If Grafana Agent is not available in your environment, you can deploy it using the following steps:
 
 ::: code-tabs#shell
 
@@ -136,6 +136,8 @@ helm repo update
 
 cat << EOF > grafana-agent-values-custom.yaml
 agent:
+  # -- Address to listen for traffic on. 0.0.0.0 exposes the UI to other
+  # containers.
   # -- Address to listen for traffic on. 0.0.0.0 exposes the UI to other
   # containers.
   listenAddr: \$(HOSTIP)
@@ -504,10 +506,12 @@ helm install grafana-agent grafana/grafana-agent \
 
 # Configure DeepFlow
 
-Please refer to the section [Configure DeepFlow](../tracing/opentelemetry/#配置-deepflow) to complete the configuration of the DeepFlow Agent.
+Please refer to the section [Configure DeepFlow](../tracing/opentelemetry/#配置-deepflow) to complete the DeepFlow Agent configuration.
 
-Metrics from the Grafana Agent will be stored in the `Grafana Agent` database within DeepFlow. The original tags from Grafana Agent can be referenced using `tag.XXX`, and metric values can be referenced using `value`. Additionally, DeepFlow will automatically inject a large number of Meta Tags and Custom Tags, allowing the data collected by Grafana Agent to seamlessly correlate with other data sources.
+Metrics from Grafana Agent will be stored in DeepFlow’s `Grafana Agent` database.
+The original labels from Grafana Agent can be referenced via `tag.XXX`, and metric values can be referenced via `value`.
+At the same time, DeepFlow will automatically inject a large number of Meta Tags and Custom Tags, enabling Grafana Agent’s collected data to be seamlessly correlated with other data sources.
 
-When using Grafana and selecting the `DeepFlow` data source for search, the display will appear as shown below:
+When using Grafana and selecting the `DeepFlow` data source for queries, the display will look like the following:
 
 ![Grafana Agent Data Integration](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20231003651c19e6684d1.png)

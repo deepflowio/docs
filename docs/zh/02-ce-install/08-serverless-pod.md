@@ -42,6 +42,7 @@ helm install deepflow-agent -n deepflow deepflow/deepflow-agent --version 6.6.01
 ```
 
 上述命令将会部署两组 deepflow-agent：
+
 - watcher：一个 deepflow-agent 的 deployment，用于同步 K8s 资源。
   - 部署时会自动注入 `K8S_WATCH_POLICY=watch-only` 的环境变量，此时 deepflow-agent 仅会同步 K8s 资源，不会采集可观测性数据。
 - daemonset：在每个 serverless pod 中以 sidecar 的方式注入 deepflow-agent，用于采集可观测性数据。

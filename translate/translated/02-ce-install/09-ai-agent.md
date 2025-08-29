@@ -1,5 +1,5 @@
 ---
-title: Installing AskGPT Agent
+title: Install AskGPT Agent
 permalink: /ce-install/ai-agent
 ---
 
@@ -7,11 +7,123 @@ permalink: /ce-install/ai-agent
 
 # Prerequisites
 
-Community edition of DeepFlow has been deployed in K8s.
+When deploying DeepFlow, the AI component is not enabled by default. You need to manually add the AI component configuration in the `values-custom.yaml` file:
 
-# Configuring Session Models
+```yaml
+stella-agent-ce:
+  enabled: true
+  replicas: 1
+  hostNetwork: 'false'
+  dnsPolicy: ClusterFirst
+  imagePullSecrets: []
+  nameOverride: ''
+  fullnameOverride: ''
+  podAnnotations: {}
 
-Currently, the service supports the following models, which can be enabled as needed through `values-custom.yaml` configuration:
+  image:
+    repository: '{{ .Values.global.image.repository }}/deepflowio-stella-agent-ce'
+    pullPolicy: Always
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: latest
+
+  podSecurityContext:
+    {}
+    # fsGroup: 2000
+
+  securityContext:
+    # privileged: true
+    # capabilities:
+    #   drop:
+    #   - ALL
+    # readOnlyRootFilesystem: false
+    # runAsNonRoot: false
+    # runAsUser: 0
+
+  service:
+    ## Configuration for ClickHouse service
+    annotations: {}
+    labels: {}
+    clusterIP: ''
+
+    ## Port for ClickHouse Service to listen on
+    ports:
+      - name: tcp
+        port: 20831
+        targetPort: 20831
+        nodePort:
+        protocol: TCP
+    # Additional ports to open for server service
+    additionalPorts: []
+    externalIPs: []
+    loadBalancerIP: ''
+    loadBalancerSourceRanges: []
+
+    ## Denotes if this Service desires to route external traffic to node-local or cluster-wide endpoints
+    externalTrafficPolicy: Cluster
+    type: ClusterIP
+
+  readinessProbe:
+    httpGet:
+      path: /v1/health/
+      port: http
+    failureThreshold: 10
+    initialDelaySeconds: 15
+    periodSeconds: 10
+    successThreshold: 1
+  livenessProbe:
+    failureThreshold: 6
+    initialDelaySeconds: 15
+    periodSeconds: 20
+    successThreshold: 1
+    httpGet:
+      path: /v1/health/
+      port: http
+    timeoutSeconds: 1
+
+  configmap:
+    df-llm-agent.yaml:
+      daemon: true
+      api_timeout: 500
+      sql_show: 'false'
+      log_file: '/var/log/df-llm-agent.log'
+      log_level: 'info'
+      instance_path: '/root/df-llm-agent'
+      mysql:
+        host: '{{ if $.Values.global.externalMySQL.enabled }}{{$.Values.global.externalMySQL.ip}}{{ else }}{{ $.Release.Name }}-mysql{{end}}'
+        port: '{{ if $.Values.global.externalMySQL.enabled }}{{$.Values.global.externalMySQL.port}}{{ else }}30130{{end}}'
+        user_name: '{{ if $.Values.global.externalMySQL.enabled }}{{$.Values.global.externalMySQL.username}}{{ else }}root{{end}}'
+        user_password: '{{ if $.Values.global.externalMySQL.enabled }}{{$.Values.global.externalMySQL.password}}{{ else }}{{ .Values.global.password.mysql }}{{end}}'
+        database: 'deepflow_llm'
+
+  resources:
+    {}
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+    # requests:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  podAntiAffinityLabelSelector: []
+  podAntiAffinityTermLabelSelector: []
+  podAffinityLabelSelector: []
+  podAffinityTermLabelSelector: []
+  nodeAffinityLabelSelector:
+    []
+    # - matchExpressions:
+    #     - key: kubernetes.io/hostname
+    #       operator: In
+    #       values: controller
+  nodeAffinityTermLabelSelector: []
+```
+
+# Configure Conversation Models
+
+Currently, the service supports the following models, which can be enabled as needed via `values-custom.yaml`:
 
 ```yaml
 stella-agent-ce:
@@ -55,28 +167,28 @@ stella-agent-ce:
 Update DeepFlow:
 
 ```bash
-helm upgrade deepflow -n deepflow -f values-custom.yaml deepflow/deepflow
+helm upgrade deepflow -n deepflow -f values-custom.yaml  deepflow/deepflow
 ```
 
 # Using in Grafana
 
-The AI model interpretation feature (alpha version) is currently available in `DeepFlow Topo Panel` and `DeepFlow Tracing Panel`:
+The AI model interpretation feature (alpha version) is currently available in the `DeepFlow Topo Panel` and `DeepFlow Tracing Panel`:
 
 ![DeepFlow Topo Panel](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024052966570a950a6ac.png)
 
 ![DeepFlow Tracing Panel](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024052966570a93501df.png)
 
-# Using the API
+# Using via API
 
 Method: POST
 
 URL:
 
 - http[s]:://{ip}:{port}/v1/ai/stream/{platform_name}?engine={engine_name}
-- Parameter Description
-  - ip/port: K8s Service of stella-agent, default port is 30831.
-  - platform_name: Name of the platform where the model is located, e.g., azure.
-  - engine_name: Name of the engine, e.g., DF-GPT4-32K.
+- Parameter description:
+  - ip/port: The K8s Service of stella-agent, default port is 30831.
+  - platform_name: The name of the platform where the model is located, e.g., azure.
+  - engine_name: The engine name, e.g., DF-GPT4-32K.
 
 Header:
 
@@ -88,72 +200,72 @@ Request JSON Body:
 
 ```
 {
-  "system_content": "You are an expert in web development", # Model role positioning
-  "user_content": "How to optimize a web page" # Problem description
+  "system_content": "You are an expert in web technologies", # Model role definition
+  "user_content": "How to optimize a web page" # Question description
 }
 ```
 
 Response:
 
 ```text
-Web page optimization refers to improving the performance of a web page through various means, including load speed, response speed, and user experience.
+Web page optimization refers to various methods to improve the performance of a web page, including load speed, response time, and user experience.
 
-Web page optimization is a complex and comprehensive task that involves multiple aspects, including front-end, back-end, and network. It requires analysis and optimization based on specific situations.
+Web page optimization is a complex and comprehensive task involving multiple aspects, including frontend, backend, and network. It requires analysis and optimization based on the specific situation.
 
 Here are some common web page optimization methods:
 
-Front-end Optimization
+Frontend Optimization
 
-Reduce HTTP requests: Reducing HTTP requests can decrease network latency and browser parsing time. Methods to reduce HTTP requests include:
-Combining CSS and JavaScript files.
+Reduce HTTP requests: Reducing HTTP requests can decrease network latency and browser parsing time. This can be achieved by:
+Merging CSS and JavaScript files.
 Using sprite images.
 Implementing lazy loading.
-Optimize resources: Optimizing resources can reduce their size, thereby improving load speed. Methods to optimize resources include:
+Optimize resources: Optimizing resources can reduce their size, thus improving load speed. This can be done by:
 Compressing images.
 Using appropriate image formats.
 Minifying CSS and JavaScript files.
-Proper use of caching: Caching can reduce repeated network requests, thereby improving load speed. Methods to use caching properly include:
+Use caching effectively: Caching can reduce repeated network requests, thus improving load speed. This can be done by:
 Setting appropriate cache headers.
 Using browser caching.
-Optimize DOM structure: A reasonable DOM structure can reduce browser parsing and rendering time. Methods to optimize DOM structure include:
-Reducing the number and levels of DOM elements.
+Optimize DOM structure: A well-structured DOM can reduce browser parsing and rendering time. This can be done by:
+Reducing the number and depth of DOM elements.
 Avoiding complex CSS selectors.
-Optimize JavaScript code: Optimizing JavaScript code can improve code execution efficiency. Methods to optimize JavaScript code include:
+Optimize JavaScript code: Optimizing JavaScript can improve execution efficiency. This can be done by:
 Avoiding global variables.
 Using caching.
 Using appropriate algorithms and data structures.
-Back-end Optimization
+Backend Optimization
 
-Optimize database queries: Optimizing database queries can reduce the load on the database server, thereby improving page response speed. Methods to optimize database queries include:
+Optimize database queries: Optimizing database queries can reduce the load on the database server, thus improving page response speed. This can be done by:
 Using appropriate indexes.
 Avoiding unnecessary queries.
 Using caching.
-Optimize application server: Optimizing the application server can improve its performance. Methods to optimize the application server include:
+Optimize application servers: Optimizing application servers can improve their performance. This can be done by:
 Using appropriate load balancing strategies.
 Using caching.
 Optimizing code.
 Network Optimization
 
-Choose an appropriate CDN: A CDN can distribute content to servers closer to the user, reducing network latency.
-Optimize DNS resolution: Optimizing DNS resolution can improve DNS resolution speed. Methods to optimize DNS resolution include:
+Choose an appropriate CDN: A CDN can distribute content to servers closer to users, reducing network latency.
+Optimize DNS resolution: Optimizing DNS resolution can improve DNS lookup speed. This can be done by:
 Using a CDN.
 Configuring DNS records.
-Using Gzip compression: Gzip compression can reduce the amount of data transmitted, thereby improving load speed.
+Use Gzip compression: Gzip compression can reduce the amount of data transmitted, thus improving load speed.
 Tools
 
-Various tools can be used to test and analyze the performance of web pages, such as:
+Various tools can be used to test and analyze web page performance, such as:
 
 Google PageSpeed Insights
 Lighthouse
 WebPageTest
 By using these tools, you can identify performance bottlenecks in web pages and perform corresponding optimizations.
 
-Web page optimization is a continuous process that requires constant testing and optimization to achieve the best performance.
+Web page optimization is an ongoing process that requires continuous testing and optimization to achieve the best performance.
 
 Here are some additional suggestions:
 
 Always consider performance when developing web pages.
-Use performance testing tools to test the performance of web pages.
-Monitor the performance of web pages and optimize them regularly.
+Use performance testing tools to test web page performance.
+Monitor web page performance and optimize regularly.
 I hope this information is helpful to you.
 ```

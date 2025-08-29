@@ -108,7 +108,7 @@ Grafana auth: admin:deepflow
 
 我们不推荐使用 Docker 部署 DeepFlow Server 端，具体原因如下：
 
-1. Server 端依赖  K8s 的 [lease](https://kubernetes.io/zh-cn/docs/concepts/architecture/leases/) 进行选主，通过多副本实现高可用性。而 Docker 环境缺乏 K8s 的这一机制，导致 Server 端仅能以单副本模式运行。在 Agent 节点数量较多或数据采集量较大的场景下，单副本实例可能因资源瓶颈而无法承载高并发的数据量。
+1. Server 端依赖 K8s 的 [lease](https://kubernetes.io/zh-cn/docs/concepts/architecture/leases/) 进行选主，通过多副本实现高可用性。而 Docker 环境缺乏 K8s 的这一机制，导致 Server 端仅能以单副本模式运行。在 Agent 节点数量较多或数据采集量较大的场景下，单副本实例可能因资源瓶颈而无法承载高并发的数据量。
 2. 当 Server 端以单副本形式部署时，配套的 ClickHouse 只能采用单切片形式部署，否则会导致数据写入不均衡，这在一定程度上限制了数据的查询速度。
 
 ## 准备工作
@@ -169,6 +169,7 @@ docker compose -f deepflow-docker-compose/docker-compose.yaml up -d
 通过 docker compose 部署后，将浏览器指向 `http://<$NODE_IP_FOR_DEEPFLOW>:3000` 即可登录 Grafana 控制台
 
 默认凭据：
+
 - 用户名：admin
 - 密码：deepflow
 

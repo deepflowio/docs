@@ -6,6 +6,7 @@ permalink: /features/auto-tagging/k8s-crd
 # 常见的特殊 K8s 资源或 CRD
 
 当发现未同步的（找不到工作负载的）容器 Pod 时，
+
 - 如果 Pod 的`metadata.ownerReferences[].apiVersion = apps.kruise.io/v1beta1`，那么对应的 K8s 平台应该是 OpenKruise
 - 如果 Pod 的`metadata.ownerReferences[].apiVersion = opengauss.sig/v1`，那么对应的 K8s 平台应该是 OpenGauss
 
@@ -32,9 +33,9 @@ inputs:
   resources:
     kubernetes:
       api_resources:
-      - name: ingresses
-        disabled: true
-      - name: routes
+        - name: ingresses
+          disabled: true
+        - name: routes
 ```
 
 在 Agent 所在容器集群中修改 Agent 的 ClusterRole 配置，增加如下规则：
@@ -76,12 +77,12 @@ inputs:
   resources:
     kubernetes:
       api_resources:
-      - name: clonesets
-        group: apps.kruise.io
-      - name: statefulsets
-        group: apps
-      - name: statefulsets
-        group: apps.kruise.io
+        - name: clonesets
+          group: apps.kruise.io
+        - name: statefulsets
+          group: apps
+        - name: statefulsets
+          group: apps.kruise.io
 ```
 
 ::: tip
@@ -115,7 +116,7 @@ inputs:
   resources:
     kubernetes:
       api_resources:
-      - name: opengaussclusters
+        - name: opengaussclusters
 ```
 
 在 Agent 所在容器集群中修改 Agent 的 ClusterRole 配置，增加如下规则：
@@ -132,6 +133,7 @@ inputs:
 ```
 
 # 其他 K8s 自定义资源
+
 ## 关于 Server 端 Lua 插件
 
 由于一些用户的 Kubernetes 环境可能具有特殊的配置或安全要求，使得标准化的提取工作负载类型和工作负载名称的方式无法按预期工作，或者用户可能希望根据自己的逻辑来定制工作负载类型和工作负载名称。基此，DeepFlow 支持用户通过添加自定义的 lua 插件提取工作负载类型和工作负载名称。Lua 插件系统通过在固定的地方调用 Lua Function 获取一些用户自定义的工作负载类型和名称，提高 K8s 资源对接的灵活性与普适性。

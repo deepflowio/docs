@@ -32,15 +32,15 @@ subgraph Host
 end
 ```
 
-# Configure Application
+# Configure the Application
 
-Currently, DeepFlow supports Profile data (continuous profiling data) integration based on [Pyroscope](https://github.com/grafana/pyroscope) and Golang pprof, Java Jfr.
+Currently, DeepFlow supports integration of Profile data (continuous profiling data) based on [Pyroscope](https://github.com/grafana/pyroscope), Golang pprof, and Java Jfr.
 
 ## Based on Pyroscope SDK
 
-DeepFlow currently supports Profile data sent via Pyroscope SDK. You can find the supported language SDKs in the [Pyroscope SDKs](https://grafana.com/docs/pyroscope/latest/configure-client/#pyroscope-sdks-sdk-instrumentation) documentation and complete the instrumentation in your code.
+DeepFlow currently supports receiving Profile data sent via the Pyroscope SDK. You can find SDKs for supported languages in the [Pyroscope SDKs](https://grafana.com/docs/pyroscope/latest/configure-client/#pyroscope-sdks-sdk-instrumentation) documentation and instrument your code accordingly.
 
-After modifying the code, change the target sending address to DeepFlow Agent via environment variables in the application's runtime environment. For example, in a K8S deployment, add the following environment variables to the deployment file:
+After modifying the code, set the target sending address to the DeepFlow Agent via environment variables in the application runtime environment. For example, in a K8S deployment, add the following environment variables to the deployment file:
 
 ```yaml
 env:
@@ -48,7 +48,7 @@ env:
     value: http://deepflow-agent.deepflow/api/v1/profile
 ```
 
-Additionally, to identify different data sources in DeepFlow, explicitly label the application name by adding the following environment variables:
+In addition, to identify different data sources in DeepFlow, you need to explicitly specify the application name by adding the following environment variable:
 
 ```yaml
 env:
@@ -58,22 +58,22 @@ env:
 
 ## Based on Golang pprof
 
-Profile data collected based on Golang pprof can also be sent to DeepFlow, but you need to manually add the code logic for active reporting. You can collect Profile data via ["net/http/pprof"](https://pkg.go.dev/net/http/pprof) and expose the data download service. After the client requests the `/debug/pprof/profile` interface to get the target pprof data, send it to DeepFlow.
+Profile data collected via Golang pprof can also be sent to DeepFlow, but you need to manually add the logic for active reporting. You can use ["net/http/pprof"](https://pkg.go.dev/net/http/pprof) to collect Profile data and expose a data download service. After the client requests the `/debug/pprof/profile` endpoint to obtain the target pprof data, send it to DeepFlow.
 
-Here is a reference code for building the reporting logic:
+Below is a sample code snippet for building the reporting logic:
 
 ```go
 func main() {
-  // Note, the actual URL used here is `/api/v1/profile/ingest`
+  // Note: the actual URL used here is `/api/v1/profile/ingest`
   deepflowAgentAddress = "http://deepflow-agent.deepflow/api/v1/profile/ingest"
-  var pprof io.Reader // FIXME: This is an example, please first get the pprof data from `/debug/pprof/profile`
+  var pprof io.Reader // FIXME: This is an example, please first obtain pprof data from `/debug/pprof/profile`
 	err = sendProfileData(pprof, deepflowAgentAddress)
 	if err != nil {
 		fmt.Println(err)
 	}
 }
 
-// Build the request to send
+// Build and send the request
 func sendProfileData(pprof io.Reader, remoteURL string) error {
 	bodyBuf := &bytes.Buffer{}
 	bodyWriter := multipart.NewWriter(bodyBuf)
@@ -100,10 +100,10 @@ func sendProfileData(pprof io.Reader, remoteURL string) error {
 	q := u.Query()
 	q.Set("spyName", "gospy")                            // hardcode, no need to modify
 	q.Set("name", "application-demo")                    // FIXME: your application name
-	q.Set("unit", "samples");                            // FIXME: unit of measurement, see explanation below
+	q.Set("unit", "samples");                            // FIXME: unit, see explanation below
 	q.Set("from", strconv.Itoa(int(time.Now().Unix())))  // FIXME: profile start time
 	q.Set("until", strconv.Itoa(int(time.Now().Unix()))) // FIXME: profile end time
-	q.Set("sampleRate", "100")                           // FIXME: actual sampling rate of the profile, sampling rate 100=1s/10ms, i.e., sampled every 10ms
+	q.Set("sampleRate", "100")                           // FIXME: actual profile sampling rate, 100=1s/10ms, i.e., sample every 10ms
 	u.RawQuery = q.Encode()
 
 	req, err := http.NewRequest(http.MethodPost, u.String(), bodyBuf)
@@ -130,9 +130,9 @@ func sendProfileData(pprof io.Reader, remoteURL string) error {
 
 ## Based on Java Async Profiler
 
-For Java applications, we support receiving Profile data in [JFR](https://docs.oracle.com/javacomponents/jmc-5-4/jfr-runtime-guide/about.htm) format. Use Java's built-in [jcmd](https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/tooldescr006.html) or [async-profiler](https://github.com/async-profiler/async-profiler) to collect Profile data and generate Jfr format to send to DeepFlow.
+For Java applications, we support receiving Profile data in [JFR](https://docs.oracle.com/javacomponents/jmc-5-4/jfr-runtime-guide/about.htm) format. Use Java's built-in [jcmd](https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/tooldescr006.html) or [async-profiler](https://github.com/async-profiler/async-profiler) to collect Profile data, generate Jfr format, and send it to DeepFlow.
 
-Here is a reference code for building the reporting logic:
+Below is a sample code snippet for building the reporting logic:
 
 ```java
 import okhttp3.*;
@@ -143,7 +143,7 @@ import okio.Okio;
 import java.io.IOException;
 
 public class Sender {
-	// Note, the actual URL used here is `/api/v1/profile/ingest`
+	// Note: the actual URL used here is `/api/v1/profile/ingest`
     private static final String DEEPFLOW_AGENT_ADDRESS = "http://deepflow-agent.deepflow/api/v1/profile/ingest";
 
     public static void main(String[] args) throws IOException {
@@ -153,7 +153,7 @@ public class Sender {
     private static void sendProfileData(String remoteURL) throws IOException {
         OkHttpClient client = new OkHttpClient();
 
-        byte[] data = new byte[] {}; // FIXME: This is an example, please use the profile tool to get the Jfr content before reporting
+        byte[] data = new byte[] {}; // FIXME: This is an example, please use a profiling tool to obtain Jfr content before reporting
         MediaType mediaType = MediaType.parse("application/octet-stream");
 
         RequestBody requestBody = new RequestBody() {
@@ -162,7 +162,7 @@ public class Sender {
                 return mediaType;
             }
 
-			// Use Gzip for compression before transmission
+			// Use Gzip compression for transmission
             @Override
             public void writeTo(BufferedSink sink) throws IOException {
                 BufferedSink gzipSink = Okio.buffer(new GzipSink(sink));
@@ -175,10 +175,10 @@ public class Sender {
         urlBuilder.addQueryParameter("name", "application-demo"); // FIXME: your application name
         urlBuilder.addQueryParameter("spyName", "javaspy"); // hardcode, no need to modify
         urlBuilder.addQueryParameter("format", "jfr"); // hardcode, no need to modify
-        urlBuilder.addQueryParameter("unit", "samples"); // FIXME: unit of measurement, see explanation below
+        urlBuilder.addQueryParameter("unit", "samples"); // FIXME: unit, see explanation below
         urlBuilder.addQueryParameter("from", String.valueOf(System.currentTimeMillis() / 1000)); // FIXME: profile start time
         urlBuilder.addQueryParameter("until", String.valueOf(System.currentTimeMillis() / 1000));// FIXME: profile end time
-        urlBuilder.addQueryParameter("sampleRate", "100"); // FIXME: actual sampling rate of the profile, sampling rate 100=1s/10ms, i.e., sampled every 10ms
+        urlBuilder.addQueryParameter("sampleRate", "100"); // FIXME: actual profile sampling rate, 100=1s/10ms, i.e., sample every 10ms
         String urlWithQueryParams = urlBuilder.build().toString();
 
         Request request = new Request.Builder()
@@ -197,25 +197,25 @@ public class Sender {
 }
 ```
 
-## Reporting Parameter Explanation
+## Reporting Parameter Description
 
 | Name       | Type   | Description                                                                                                                                                                                                                                                            |
-| ---------- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| name       | string | Application name, used to identify the reported data. You can add custom tags to mark different deployment specifications of the same application, e.g., `application-demo{region="cn",deploy="prod"}`                                                                 |
-| spyName    | string | Used to mark the type of reported data. For Golang applications, it is fixed as `gospy`, and for Java applications, it is fixed as `javaspy`                                                                                                                            |
-| format     | string | Profile data format. For Golang, the collected pprof format is `pprof` (default), and for Java, the collected jfr format is `jfr`                                                                                                                                       |
-| unit       | string | Unit of measurement. For different sampling types, there are different units. Refer to [here](https://github.com/deepflowio/deepflow/blob/v6.4.9/server/ingester/profile/dbwriter/profile.go#L99) for specific meanings: `cpu` uses `samples` as the unit, `memory` uses `bytes` as the unit, and others are similar |
+| ---------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| name       | string | Application name, used to identify reported data. You can also add custom labels to distinguish different deployment specs of the same application, e.g., `application-demo{region="cn",deploy="prod"}`                                                                 |
+| spyName    | string | Used to indicate the type of reported data. For Golang applications, fixed as `gospy`; for Java applications, fixed as `javaspy`                                                                                                                                      |
+| format     | string | Profile data format. Golang pprof format is `pprof` (default), Java Jfr format is `jfr`                                                                                                                                                                                |
+| unit       | string | Unit of measurement. Different sampling types have different units. See [here](https://github.com/deepflowio/deepflow/blob/v6.4.9/server/ingester/profile/dbwriter/profile.go#L99) for details. For `cpu`, use `samples`; for `memory`, use `bytes`; others are similar |
 | from       | int    | Profile start time, Unix timestamp (seconds)                                                                                                                                                                                                                           |
 | until      | int    | Profile end time, Unix timestamp (seconds)                                                                                                                                                                                                                             |
-| sampleRate | int    | Actual sampling rate of the profile                                                                                                                                                                                                                                    |
+| sampleRate | int    | Actual profile sampling rate                                                                                                                                                                                                                                           |
 
 # Configure DeepFlow
 
-Refer to the [Configure DeepFlow](../tracing/opentelemetry/#配置-deepflow) section to complete the configuration of DeepFlow Agent and open the data integration port.
+Refer to the [Configure DeepFlow](../tracing/opentelemetry/#配置-deepflow) section to complete the DeepFlow Agent configuration and enable the data integration port.
 
-# Experience Based on Demo
+# Experience with Demo
 
-Use the following command to quickly deploy the demo and experience the continuous profiling capability in DeepFlow:
+Use the following commands to quickly deploy a demo and experience the continuous profiling capability in DeepFlow:
 
 ::: code-tabs#shell
 
@@ -233,4 +233,4 @@ kubectl apply -f https://raw.githubusercontent.com/deepflowio/deepflow-demo/main
 
 :::
 
-Then, for the community edition, refer to the [Continuous Profiling - View Data](../../../features/continuous-profiling/data/) section to obtain the data generated by continuous profiling.
+Then, for the community edition, refer to the [Continuous Profiling - View Data](../../../features/continuous-profiling/data/) section to access the data generated by continuous profiling.

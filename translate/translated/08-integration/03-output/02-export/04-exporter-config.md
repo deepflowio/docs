@@ -52,37 +52,37 @@ ingester:
 
 # Detailed Parameter Description
 
-| Field                                    | Type    | Required | Description                                                                                                                         |
-| ---------------------------------------- | ------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| protocol                                 | string  | Yes      | Supports `opentelemetry`, `prometheus`, `kafka`                                                                                     |
-| enabled                                  | bool    | Yes      | Whether to enable this exporter                                                                                                     |
-| data-sources                             | strings | Yes      | The range of data sources supported by different protocols. Values for ClickHouse `flow_metrics.*/flow_log.*/event.perf_event` data, also used for Kafka topic names      |
-| endpoints                                | strings | Yes      | Remote receiving addresses, different protocol address formats vary, randomly select one that can be sent successfully              |
-| extra-headers                            | map     | No       | Header fields for remote HTTP requests, such as tokens for authentication can be added here                                         |
-| batch-size                               | int     | No       | Batch size, when this value is reached, send in batches. Default: 1024 (for protocol opentelemetry, default: 32)                    |
-| flush-timeout                            | int     | No       | Flush interval, when this time is reached, send directly. Unit: seconds, default: 10                                                |
-| queue-count                              | int     | No       | Concurrent send count, default: 4                                                                                                   |
-| tag-filters                              | structs | No       | Filter data that does not meet the conditions, only send data that meets the conditions. Default: empty, meaning no filtering. Detailed configuration below               |
-| export-fields                            | strings | Yes      | Filter the fields or categories to be sent, only send fields that meet the conditions, such as: $tag, $metrics, meaning all fields in the `$tag` and `$metrics` categories are sent. Detailed configuration below |
-| export-empty-tag                         | bool    | No       | Whether to send fields with empty tag values. Default: false, meaning not to send                                                   |
-| export-empty-metrics-disabled            | bool    | No       | Whether to send fields with metrics values of 0. Default: false, meaning to send                                                    |
-| enum-translate-to-name-disabled          | bool    | No       | Whether to translate enum type ID values to strings for sending. Default: false, meaning to translate                               |
-| universal-tag-translate-to-name-disabled | bool    | No       | Whether to translate universal-tag type resource ID values to resource names for sending. Default: false, meaning to translate      |
-| sasl                                     | struct  | No       | Used for Kafka protocol. Connection authentication method for Kafka, currently only supports 'SASL_SSL' with 'PLAIN' mechanism      |
-| topic                                    | string  | No       | Used for Kafka protocol. Topic name, if empty, defaults to `deepflow.$data-source`, such as `deepflow.flow_log.l7_flow_log`         |
+| Field                                    | Type    | Required | Description                                                                                                                                       |
+| ---------------------------------------- | ------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| protocol                                 | string  | Yes      | Supports `opentelemetry`, `prometheus`, `kafka`                                                                                                   |
+| enabled                                  | bool    | Yes      | Whether to enable this exporter                                                                                                                   |
+| data-sources                             | strings | Yes      | Supported data source ranges vary by protocol. For ClickHouse: `flow_metrics.*/flow_log.*/event.perf_event` data, also used as Kafka topic names  |
+| endpoints                                | strings | Yes      | Remote receiving addresses, format varies by protocol, randomly selects one that can send successfully                                           |
+| extra-headers                            | map     | No       | HTTP request headers for the remote endpoint, e.g., for authentication you can add tokens here                                                    |
+| batch-size                               | int     | No       | Batch size; when this value is reached, data is sent in batches. Default: 1024 (for opentelemetry protocol, default: 32)                          |
+| flush-timeout                            | int     | No       | Flush interval; when this time is reached, data is sent immediately. Unit: seconds, default: 10                                                  |
+| queue-count                              | int     | No       | Number of concurrent sends, default: 4                                                                                                            |
+| tag-filters                              | structs | No       | Filters out data that does not meet the conditions, only sends matching data. Default: empty, meaning no filtering. See detailed config below    |
+| export-fields                            | strings | Yes      | Filters the fields or categories to send, only sends matching fields. For example: `$tag`, `$metrics` means all `$tag` and `$metrics` fields     |
+| export-empty-tag                         | bool    | No       | Whether to send fields with empty tag values. Default: false, meaning do not send                                                                |
+| export-empty-metrics-disabled            | bool    | No       | Whether to send fields with metrics value 0. Default: false, meaning send                                                                        |
+| enum-translate-to-name-disabled          | bool    | No       | Whether to translate enum type ID values to strings before sending. Default: false, meaning translate                                            |
+| universal-tag-translate-to-name-disabled | bool    | No       | Whether to translate universal-tag type resource ID values to resource names before sending. Default: false, meaning translate                   |
+| sasl                                     | struct  | No       | For Kafka protocol. Kafka authentication method, currently only supports 'SASL_SSL' with 'PLAIN' mechanism                                       |
+| topic                                    | string  | No       | For Kafka protocol. Topic name; if empty, defaults to `deepflow.$data-source`, e.g., `deepflow.flow_log.l7_flow_log`                              |
 
 ## tag-filters
 
-Equivalent to the WHERE clause in SQL statements, see the yaml example below
+Functions like the WHERE clause in SQL. Example YAML below:
 
 - `field-name` only supports original Tag field names in ClickHouse
-- `field-values` do not support filling in string values of Resource type Tags
-- `operator` includes
+- `field-values` does not support filling in string values of Resource type Tags
+- `operator` includes:
   - Numeric equal/not equal, string equal/not equal: `=`, `!=`
   - Numeric in/not in a set, string in/not in a set: `IN`, `NOT IN`
-  - String equal/not equal, supports * wildcard: `:`, `!:`
-  - String equal/not equal, supports regex: `~`, `!~`
-- All tag-filters are logically AND
+  - String equal/not equal with `*` wildcard: `:`, `!:`
+  - String equal/not equal with regex: `~`, `!~`
+- All tag-filters are combined with AND logic
 
 ```yaml
     tag-filters:
@@ -108,12 +108,12 @@ Equivalent to the WHERE clause in SQL statements, see the yaml example below
 
 ## export-fields
 
-Equivalent to the SELECT field-names clause in SQL statements, only supports using original field names in ClickHouse, see the yaml example below
+Functions like the SELECT field-names clause in SQL, only supports using original field names in ClickHouse. Example YAML below:
 
-- `<field-name>`: Tag name, Metric name, such as ip4_0, ip4_1, region_id_0, region_id_1
-- `<category>`: Field Category name, including `$tag`, `$k8s.label` and `$metrics`
+- `<field-name>`: Tag name or Metric name, e.g., ip4_0, ip4_1, region_id_0, region_id_1
+- `<category>`: Field category name, including `$tag`, `$k8s.label`, and `$metrics`
   - `$tag`: All Tag fields
-  - `$tag.<sub-category>`: A specific category of Tag fields, `<sub-category>` as follows
+  - `$tag.<sub-category>`: A specific type of Tag fields, `<sub-category>` as follows
     - `flow_info`
       - \_id, time(s), start_time(us), end_time(us), close_type, flow_id, is_new_flow, status
     - `universal_tag`
@@ -121,7 +121,7 @@ Equivalent to the SELECT field-names clause in SQL statements, only supports usi
       - l3_device_type[_0/1], l3_device_id[_0/1], l3_epc_id[_0/1], epc_id[_0/1], subnet_id[_0/1], service_id[_0/1]
       - auto_instance_id[_0/1], auto_instance_type[_0/1], auto_service_id[_0/1], auto_service_type[_0/1], gprocess_id[_0/1]
     - `native_tag`
-      - attribute_names, attribute_values
+      - attribute_names, attritube_values
     - `network_layer`
       - ip4[_0/1], ip6[_0/1], is_ipv4, protocol, province[_0/1]
     - `tunnel_info`
@@ -145,7 +145,7 @@ Equivalent to the SELECT field-names clause in SQL statements, only supports usi
     - `data_link_layer`
       - mac[_0/1], eth_type, vlan
   - `$metrics`: All Metrics fields
-  - `$metrics.<sub-category>`: A specific category of Metrics fields, `<sub-category>` as follows
+  - `$metrics.<sub-category>`: A specific type of Metrics fields, `<sub-category>` as follows
     - `l3_throughput`
       - packet_tx, packet_rx, byte_tx, byte_rx, l3_byte_tx, l3_byte_rx, total_packet_tx, total_packet_rx, total_byte_tx, total_byte_rx
     - `l4_throughput`
@@ -165,8 +165,8 @@ Equivalent to the SELECT field-names clause in SQL statements, only supports usi
     - `delay`
       - response_duration, duration, rtt, rtt_client, rtt_server, tls_rtt
       - rtt_max, rtt_client_max, rtt_server_max, srt_max, art_max, rrt_max, cit_max
-      - rtt_sum, rtt_client_sum, rtt_server_sum, srt_sum, art_sum, rrt_sum, cit_sum
-      - rtt_count, rtt_client_count, rtt_server_count, srt_count, art_count, rrt_count, cit_count
+      - rtt_sum, rtt_client_sum, rtt_server_sum, srt_sum, art_sum, rtt_sum, cit_sum
+      - rtt_count, rtt_client_count, rtt_server_count, srt_count, art_count, rtt_count, cit_count
   - `$k8s.label`: All k8s.label fields
   - `~$k8s.label.<sub-field-name_regex>`: k8s.label sub-field names support regex
 

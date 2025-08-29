@@ -5,155 +5,156 @@ permalink: /best-practice/reduce-storage-overhead/
 
 > This document was translated by ChatGPT
 
-This article introduces how to configure DeepFlow to reduce ClickHouse storage overhead.
+This article explains how to configure DeepFlow to reduce ClickHouse storage overhead.
 
-# Overview of Configuration Items
+# Overview of Configuration Options
 
-Before diving into specific configuration items, let's first look at the main data types collected by DeepFlow Agent. From the perspective of databases and tables in ClickHouse, the data mainly includes the following categories:
+Before diving into specific configuration items, let’s first look at the main types of data collected by the DeepFlow Agent. From the perspective of databases and tables in ClickHouse, the data mainly falls into the following categories:
 
-- `flow_log.l4_flow_log`: Flow logs. TCP/UDP five-tuple flow logs calculated based on cBPF traffic data. Each flow log contains packet header five-tuple fields, label fields, and performance metrics, consuming about 150 bytes of storage space on average.
-- `flow_log.l7_flow_log`: Call logs. Call logs of application protocols such as HTTP/gRPC/MySQL calculated based on cBPF traffic data and eBPF function call data. Each call log contains key request/response fields, label fields, and performance metrics, consuming about 70 bytes of storage space on average, mainly depending on the length of the header fields. For details on the header fields stored by various application protocols, see [documentation](../features/l7-protocols/overview/).
-- `flow_metrics`: Metric data. Metric data aggregated from flow logs and call logs, with default aggregation generating metrics with 1m and 1s time precision. Since these metrics are aggregated, they are relatively small, generally consuming only about 1/10 of the storage space of flow logs or call logs.
-- `event.perf_event`: Performance events. Currently mainly stores file read/write events of processes. Each event contains fields such as process name, file name, and read/write performance metrics, consuming about 80 bytes per event.
-- `profile`: Continuous profiling. Stores function call stacks of processes with continuous profiling enabled. By default, only the deepflow-agent and deepflow-server processes enable eBPF On-CPU Profile.
+- `flow_log.l4_flow_log`: Flow logs. TCP/UDP five-tuple flow logs calculated from cBPF traffic data. Each flow log contains packet header five-tuple fields, tag fields, and performance metrics, consuming about 150 bytes of storage on average.
+- `flow_log.l7_flow_log`: Call logs. Application protocol call logs (HTTP/gRPC/MySQL, etc.) calculated from cBPF traffic data and eBPF function call data. Each call log contains key request/response fields, tag fields, and performance metrics, consuming about 70 bytes of storage on average, depending mainly on the length of header fields. For details on stored header fields for various application protocols, see the [documentation](../features/l7-protocols/overview/).
+- `flow_metrics`: Metrics data. Metrics aggregated from flow logs and call logs, by default generated at 1m and 1s time resolutions. Since these metrics are aggregated, their volume is small, typically consuming only about 1/10 of the storage space of flow logs or call logs.
+- `event.perf_event`: Performance events. Currently stores process file read/write events, with each event containing process name, file name, read/write performance metrics, etc., consuming about 80 bytes per event.
+- `profile`: Continuous profiling. Stores function call stacks for processes with continuous profiling enabled. By default, only the deepflow-agent and deepflow-server processes have eBPF On-CPU Profile enabled.
 
-DeepFlow offers a variety of configurations to reduce ClickHouse storage overhead, summarized in the diagram below.
+DeepFlow offers a wide range of configurations to reduce ClickHouse storage overhead, summarized in the diagram below.
 
-![Configuration items to reduce data volume](http://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/yunshan-ticket/png/d2b5ca33bd970f64a6301fa75ae2eb22_20231227002415.png)
+![Configuration options to reduce data volume](http://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/yunshan-ticket/png/d2b5ca33bd970f64a6301fa75ae2eb22_20231227002415.png)
 
-The configuration parameters in the diagram can be divided into four categories based on their purpose:
+The configuration parameters in the diagram can be categorized by purpose into four types:
 
-- Black: Used to set data retention duration. Different types of data usually require different retention durations.
-- Green: Used to reduce data granularity. By modifying the configuration, you can adjust the granularity of various data types, directly reducing storage pressure.
-- Blue: Used to disable unimportant data. By modifying the configuration, you can disable some features you don't care about or filter out some traffic you don't care about, thereby reducing storage pressure.
-- Red: Used to set overload protection thresholds. To protect themselves from overload, the Agent and Server expose threshold configuration items for data collection and storage rates, preventing the collection and writing of excessive data.
+- Black: Set data retention periods. Different types of data usually require different retention periods.
+- Green: Reduce data granularity. Adjusting these settings can change the granularity of various data types, directly reducing storage pressure.
+- Blue: Disable unneeded data. Adjusting these settings can disable features you don’t care about or filter out traffic you don’t care about, thereby reducing storage pressure.
+- Red: Set overload protection thresholds. Agents and servers expose rate limit settings for data collection and storage to protect themselves from overload, preventing excessive data collection and writes.
 
 # Estimating the Effect Before Making Changes
 
-Before adjusting the configuration, you should confirm the storage consumption of the corresponding data in ClickHouse and pre-evaluate the benefits of the configuration adjustments. The following ClickHouse commands can help you evaluate the storage overhead of specific data tables.
+Before adjusting configurations, you should check the storage consumption of the relevant data in ClickHouse to estimate the potential benefits. The following ClickHouse commands can help you assess the storage overhead of specific tables.
 
-View the number of rows and space consumption of all data tables to identify which tables occupy the most storage space:
+View the row count and space usage of all tables to identify which ones consume the most storage:
 
 ```sql
-WITH sum(bytes_on_disk) AS size SELECT database, table, formatReadableSize(sum(data_uncompressed_bytes)) AS "Uncompressed Total Size", formatReadableSize(sum(bytes_on_disk)) AS "Compressed Total Size", sum(rows) AS "Total Rows", sum(data_uncompressed_bytes)/sum(rows) AS "Average Row Length (Uncompressed)", sum(bytes_on_disk)/sum(rows) AS "Average Row Length (Compressed)" FROM system.parts GROUP BY database, table ORDER BY size DESC;
+WITH sum(bytes_on_disk) AS size SELECT database, table, formatReadableSize(sum(data_uncompressed_bytes)) AS "压缩前总大小", formatReadableSize(sum(bytes_on_disk)) AS "压缩后总大小", sum(rows) AS "总行数", sum(data_uncompressed_bytes)/sum(rows) AS "压缩前平均每行长度", sum(bytes_on_disk)/sum(rows) AS "压缩后平均每行长度" FROM system.parts GROUP BY database, table ORDER BY size DESC;
 
 WITH sum(bytes_on_disk) AS size
 SELECT
     database,
     table,
-    formatReadableSize(sum(data_uncompressed_bytes)) AS `Uncompressed Total Size`,
-    formatReadableSize(sum(bytes_on_disk)) AS `Compressed Total Size`,
-    sum(rows) AS `Total Rows`,
-    sum(data_uncompressed_bytes) / sum(rows) AS `Average Row Length (Uncompressed)`,
-    sum(bytes_on_disk) / sum(rows) AS `Average Row Length (Compressed)`
+    formatReadableSize(sum(data_uncompressed_bytes)) AS `压缩前总大小`,
+    formatReadableSize(sum(bytes_on_disk)) AS `压缩后总大小`,
+    sum(rows) AS `总行数`,
+    sum(data_uncompressed_bytes) / sum(rows) AS `压缩前平均每行长度`,
+    sum(bytes_on_disk) / sum(rows) AS `压缩后平均每行长度`
 FROM system.parts
 GROUP BY
-    database, table
+    database,
+    table
 ORDER BY size DESC
 
-┌─database────────┬─table────────────────────────────────────┬─Uncompressed Total Size─┬─Compressed Total Size─┬────Total Rows─┬─Average Row Length (Uncompressed)─┬──Average Row Length (Compressed)─┐
-│ flow_log        │ l7_flow_log_local                        │ 16.58 GiB               │ 3.15 GiB              │  47231817     │ 377.02479955408023                │   71.69953315579623              │
-│ flow_log        │ l4_flow_log_local                        │ 4.84 GiB                │ 1.51 GiB              │  10487780     │ 495.46614078479905                │  154.46138525026268              │
-│ profile         │ in_process_local                         │ 2.24 GiB                │ 349.19 MiB            │  10325238     │  233.1437255974148                │   35.46215912892274              │
-│ flow_metrics    │ network_map.1s_local                     │ 1.95 GiB                │ 261.58 MiB            │   5267001     │ 398.20784256543715                │   52.07621016210174              │
-│ flow_metrics    │ network.1s_local                         │ 1.01 GiB                │ 159.70 MiB            │   3027870     │ 357.85661273436443                │   55.30619544432225              │
-│ flow_metrics    │ application.1s_local                     │ 932.36 MiB              │ 129.11 MiB            │   8225431     │ 118.85691983799998                │  16.459093876053426              │
-│ deepflow_system │ deepflow_system_local                    │ 1.55 GiB                │ 117.64 MiB            │  18478240     │  89.79716217561845                │   6.675736920832287              │
-│ flow_metrics    │ application_map.1s_local                 │ 691.41 MiB              │ 65.07 MiB             │   4128212     │  175.6193790435181                │   16.52821560520632              │
-│ flow_metrics    │ network_map.1m_local                     │ 331.22 MiB              │ 57.66 MiB             │    818085     │  424.5371263377277                │   73.90728347298875              │
-│ flow_metrics    │ application_map.1m_local                 │ 228.35 MiB              │ 28.72 MiB             │   1435956     │ 166.75001462440352                │  20.973729000052927              │
-│ flow_metrics    │ network.1m_local                         │ 121.96 MiB              │ 27.08 MiB             │    328060     │  389.8104432116076                │   86.55356946899957              │
-│ flow_metrics    │ application.1m_local                     │ 97.90 MiB               │ 16.84 MiB             │    870320     │ 117.95215897600882                │  20.283444020590128              │
-│ event           │ perf_event_local                         │ 2.84 MiB                │ 1.24 MiB              │     16543     │  180.1239194825606                │   78.70126337423683              │
-└─────────────────┴──────────────────────────────────────────┴─────────────────────────┴───────────────────────┴───────────────┴───────────────────────────────────┴──────────────────────────────────┘
+┌─database────────┬─table────────────────────────────────────┬─压缩前总大小─┬─压缩后总大小─┬────总行数─┬─压缩前平均每行长度─┬──压缩后平均每行长度─┐
+│ flow_log        │ l7_flow_log_local                        │ 16.58 GiB    │ 3.15 GiB     │  47231817 │ 377.02479955408023 │   71.69953315579623 │
+│ flow_log        │ l4_flow_log_local                        │ 4.84 GiB     │ 1.51 GiB     │  10487780 │ 495.46614078479905 │  154.46138525026268 │
+│ profile         │ in_process_local                         │ 2.24 GiB     │ 349.19 MiB   │  10325238 │  233.1437255974148 │   35.46215912892274 │
+│ flow_metrics    │ network_map.1s_local             │ 1.95 GiB     │ 261.58 MiB   │   5267001 │ 398.20784256543715 │   52.07621016210174 │
+│ flow_metrics    │ network.1s_local                  │ 1.01 GiB     │ 159.70 MiB   │   3027870 │ 357.85661273436443 │   55.30619544432225 │
+│ flow_metrics    │ application.1s_local                   │ 932.36 MiB   │ 129.11 MiB   │   8225431 │ 118.85691983799998 │  16.459093876053426 │
+│ deepflow_system │ deepflow_system_local                    │ 1.55 GiB     │ 117.64 MiB   │  18478240 │  89.79716217561845 │   6.675736920832287 │
+│ flow_metrics    │ application_map.1s_local              │ 691.41 MiB   │ 65.07 MiB    │   4128212 │  175.6193790435181 │   16.52821560520632 │
+│ flow_metrics    │ network_map.1m_local             │ 331.22 MiB   │ 57.66 MiB    │    818085 │  424.5371263377277 │   73.90728347298875 │
+│ flow_metrics    │ application_map.1m_local              │ 228.35 MiB   │ 28.72 MiB    │   1435956 │ 166.75001462440352 │  20.973729000052927 │
+│ flow_metrics    │ network.1m_local                  │ 121.96 MiB   │ 27.08 MiB    │    328060 │  389.8104432116076 │   86.55356946899957 │
+│ flow_metrics    │ application.1m_local                   │ 97.90 MiB    │ 16.84 MiB    │    870320 │ 117.95215897600882 │  20.283444020590128 │
+│ event           │ perf_event_local                         │ 2.84 MiB     │ 1.24 MiB     │     16543 │  180.1239194825606 │   78.70126337423683 │
+└─────────────────┴──────────────────────────────────────────┴──────────────┴──────────────┴───────────┴────────────────────┴─────────────────────┘
 ```
 
-Query the daily space consumption of a specific data table, such as the daily space consumption of `l7_flow_log`, to evaluate how to set the retention duration for that type of data:
+Check the daily space usage of a specific table, e.g., `l7_flow_log`, to evaluate how to set its retention period:
 
 ```sql
-WITH sum(bytes_on_disk) AS size SELECT SUBSTRING(partition, 1, 10) AS date, formatReadableSize(sum(data_uncompressed_bytes)) AS "Uncompressed Total Size", formatReadableSize(sum(bytes_on_disk)) AS "Compressed Total Size", sum(rows) AS "Total Rows", sum(data_uncompressed_bytes)/sum(rows) AS "Average Row Length (Uncompressed)", sum(bytes_on_disk)/sum(rows) AS "Average Row Length (Compressed)" FROM system.parts WHERE `table` = 'l7_flow_log_local' GROUP BY date ORDER BY date DESC;
+WITH sum(bytes_on_disk) AS size SELECT SUBSTRING(partition, 1, 10) AS date, formatReadableSize(sum(data_uncompressed_bytes)) AS "压缩前总大小", formatReadableSize(sum(bytes_on_disk)) AS "压缩后总大小", sum(rows) AS "总行数", sum(data_uncompressed_bytes)/sum(rows) AS "压缩前平均每行长度", sum(bytes_on_disk)/sum(rows) AS "压缩后平均每行长度" FROM system.parts WHERE `table` = 'l7_flow_log_local' GROUP BY date ORDER BY date DESC;
 
 WITH sum(bytes_on_disk) AS size
 SELECT
     substring(partition, 1, 10) AS date,
-    formatReadableSize(sum(data_uncompressed_bytes)) AS `Uncompressed Total Size`,
-    formatReadableSize(sum(bytes_on_disk)) AS `Compressed Total Size`,
-    sum(rows) AS `Total Rows`,
-    sum(data_uncompressed_bytes) / sum(rows) AS `Average Row Length (Uncompressed)`,
-    sum(bytes_on_disk) / sum(rows) AS `Average Row Length (Compressed)`
+    formatReadableSize(sum(data_uncompressed_bytes)) AS `压缩前总大小`,
+    formatReadableSize(sum(bytes_on_disk)) AS `压缩后总大小`,
+    sum(rows) AS `总行数`,
+    sum(data_uncompressed_bytes) / sum(rows) AS `压缩前平均每行长度`,
+    sum(bytes_on_disk) / sum(rows) AS `压缩后平均每行长度`
 FROM system.parts
 WHERE table = 'l7_flow_log_local'
 GROUP BY date
 ORDER BY date DESC
 
-┌─date───────┬─Uncompressed Total Size─┬─Compressed Total Size─┬───Total Rows─┬─Average Row Length (Uncompressed)─┬─Average Row Length (Compressed)─┐
-│ 2023-12-27 │ 3.50 GiB                │ 681.83 MiB            │ 10049374     │  374.3181802169966                │  71.14405494312382              │
-│ 2023-12-26 │ 5.13 GiB                │ 1012.92 MiB           │ 14397814     │ 382.63502848418517                │  73.76948966002756              │
-│ 2023-12-25 │ 5.73 GiB                │ 1.07 GiB              │ 16340447     │  376.4205308459432                │  70.36901530294735              │
-│ 2023-12-24 │ 2.22 GiB                │ 436.62 MiB            │  6432796     │ 370.22603095139345                │  71.17070586413746              │
-└────────────┴─────────────────────────┴───────────────────────┴──────────────┴───────────────────────────────────┴──────────────────────────────────┘
+┌─date───────┬─压缩前总大小─┬─压缩后总大小─┬───总行数─┬─压缩前平均每行长度─┬─压缩后平均每行长度─┐
+│ 2023-12-27 │ 3.50 GiB     │ 681.83 MiB   │ 10049374 │  374.3181802169966 │  71.14405494312382 │
+│ 2023-12-26 │ 5.13 GiB     │ 1012.92 MiB  │ 14397814 │ 382.63502848418517 │  73.76948966002756 │
+│ 2023-12-25 │ 5.73 GiB     │ 1.07 GiB     │ 16340447 │  376.4205308459432 │  70.36901530294735 │
+│ 2023-12-24 │ 2.22 GiB     │ 436.62 MiB   │  6432796 │ 370.22603095139345 │  71.17070586413746 │
+└────────────┴──────────────┴──────────────┴──────────┴────────────────────┴────────────────────┘
 ```
 
-Distinguish space consumption based on the value of a specific field. For example, view the number of rows for different application protocols (`l7_protocol`) in the `l7_flow_log` table and the average length of the `request_resource` field to evaluate whether to disable parsing for a certain application protocol:
+Analyze space usage by a specific field value. For example, check the row count for each application protocol (`l7_protocol`) in `l7_flow_log` and the average length of the `request_resource` field to decide whether to disable parsing for certain protocols:
 
 ```sql
-SELECT dictGet(flow_tag.int_enum_map, 'name', ('l7_protocol', toUInt64(l7_protocol))) AS "Application Protocol", count(0) AS "Number of Rows", sum(length(request_resource))/count(l7_protocol) AS "Average request_resource Length", sum(length(request_resource))/sum(if(request_resource !='', 1, 0)) AS "Average Non-empty request_resource Length" FROM flow_log.l7_flow_log WHERE time>now()-86400 GROUP BY l7_protocol ORDER BY "Number of Rows" DESC;
+SELECT dictGet(flow_tag.int_enum_map, 'name_zh', ('l7_protocol', toUInt64(l7_protocol))) AS "应用协议", count(0) AS "行数", sum(length(request_resource))/count(l7_protocol) AS "平均 request_resource 长度", sum(length(request_resource))/sum(if(request_resource !='', 1, 0)) AS "平均非空 request_resource 长度" FROM flow_log.l7_flow_log WHERE time>now()-86400 GROUP BY l7_protocol ORDER BY "行数" DESC;
 
 SELECT
-    dictGet(flow_tag.int_enum_map, 'name', ('l7_protocol', toUInt64(l7_protocol))) AS `Application Protocol`,
-    count(0) AS `Number of Rows`,
-    sum(length(request_resource)) / count(l7_protocol) AS `Average request_resource Length`,
-    sum(length(request_resource)) / sum(if(request_resource != '', 1, 0)) AS `Average Non-empty request_resource Length`
+    dictGet(flow_tag.int_enum_map, 'name_zh', ('l7_protocol', toUInt64(l7_protocol))) AS `应用协议`,
+    count(0) AS `行数`,
+    sum(length(request_resource)) / count(l7_protocol) AS `平均 request_resource 长度`,
+    sum(length(request_resource)) / sum(if(request_resource != '', 1, 0)) AS `平均非空 request_resource 长度`
 FROM flow_log.l7_flow_log
 WHERE time > (now() - 86400)
 GROUP BY l7_protocol
-ORDER BY `Number of Rows` DESC
+ORDER BY `行数` DESC
 
-┌─Application Protocol─┬─────Number of Rows─┬─Average request_resource Length─┬─Average Non-empty request_resource Length─┐
-│ HTTP                 │ 15307526           │          50.94938901296003      │              51.16722749422727            │
-│ MySQL                │ 12762197           │          67.32974729977919      │             103.38747090527679            │
-│ DNS                  │  9271394           │           41.6790123470106      │               41.6790123470106            │
-│ HTTP2                │  4561075           │         0.9742264707333249      │             1.0020964209295697            │
-│ TLS                  │  3422769           │         14.613528403465148      │             23.354457466682167            │
-│ Redis                │  2140668           │          89.61926931219601      │              92.19873624192489            │
-│ gRPC                 │   957471           │         13.709391720480307      │             23.696586596959204            │
-│ N/A                  │    79113           │                          0      │                            nan            │
-│ Custom               │     4802           │                          1      │                              1            │
-│ PostgreSQL           │     1125           │                     81.112      │                         81.112            │
-│ MongoDB              │      108           │         1.3703703703703705      │                         2.3125            │
-└──────────────────────┴────────────────────┴─────────────────────────────────┴───────────────────────────────────────────┘
+┌─应用协议───┬─────行数─┬─平均 request_resource 长度─┬─平均非空 request_resource 长度─┐
+│ HTTP       │ 15307526 │          50.94938901296003 │              51.16722749422727 │
+│ MySQL      │ 12762197 │          67.32974729977919 │             103.38747090527679 │
+│ DNS        │  9271394 │           41.6790123470106 │               41.6790123470106 │
+│ HTTP2      │  4561075 │         0.9742264707333249 │             1.0020964209295697 │
+│ TLS        │  3422769 │         14.613528403465148 │             23.354457466682167 │
+│ Redis      │  2140668 │          89.61926931219601 │              92.19873624192489 │
+│ gRPC       │   957471 │         13.709391720480307 │             23.696586596959204 │
+│ N/A        │    79113 │                          0 │                            nan │
+│ Custom     │     4802 │                          1 │                              1 │
+│ PostgreSQL │     1125 │                     81.112 │                         81.112 │
+│ MongoDB    │      108 │         1.3703703703703705 │                         2.3125 │
+└────────────┴──────────┴────────────────────────────┴────────────────────────────────┘
 ```
 
-View the number of rows for different observation points (`observation_point`) in the `l7_flow_log` table to evaluate whether to disable call logs collected at certain observation points:
+Check the row count for each observation point (`observation_point`) in `l7_flow_log` to decide whether to disable call log collection at certain points:
 
 ```sql
-SELECT observation_point, dictGet(flow_tag.string_enum_map, 'name', ('observation_point', observation_point)) AS "Observation Point", count(0) AS "Number of Rows" FROM flow_log.l7_flow_log WHERE time>now()-86400 GROUP BY observation_point ORDER BY "Number of Rows" DESC;
+SELECT observation_point, dictGet(flow_tag.string_enum_map, 'name_zh', ('observation_point', observation_point)) AS "观测点", count(0) AS "行数" FROM flow_log.l7_flow_log WHERE time>now()-86400 GROUP BY observation_point ORDER BY "行数" DESC;
 
 SELECT
     observation_point,
-    dictGet(flow_tag.string_enum_map, 'name', ('observation_point', observation_point)) AS `Observation Point`,
-    count(0) AS `Number of Rows`
+    dictGet(flow_tag.string_enum_map, 'name_zh', ('observation_point', observation_point)) AS `观测点`,
+    count(0) AS `行数`
 FROM flow_log.l7_flow_log
 WHERE time > (now() - 86400)
 GROUP BY observation_point
-ORDER BY `Number of Rows` DESC
+ORDER BY `行数` DESC
 
-┌─observation_point─┬─Observation Point─┬─────Number of Rows─┐
-│ c                 │ Client NIC        │ 15034372           │
-│ s                 │ Server NIC        │  9343403           │
-│ c-p               │ Client Process    │  9179406           │
-│ s-p               │ Server Process    │  5723075           │
-│ rest              │ Other NIC         │  3170534           │
-│ s-nd              │ Server Node       │  2796958           │
-│ c-nd              │ Client Node       │  2334083           │
-│ local             │ Local NIC         │  1365403           │
-│ s-app             │ Server App        │    89280           │
-│ app               │ App               │    80079           │
-│ s-gw              │ Gateway to Server │       11           │
-└───────────────────┴───────────────────┴────────────────────┘
+┌─observation_point─┬─观测点─────────┬─────行数─┐
+│ c                 │ 客户端网卡     │ 15034372 │
+│ s                 │ 服务端网卡     │  9343403 │
+│ c-p               │ 客户端进程     │  9179406 │
+│ s-p               │ 服务端进程     │  5723075 │
+│ rest              │ 其他网卡       │  3170534 │
+│ s-nd              │ 服务端容器节点 │  2796958 │
+│ c-nd              │ 客户端容器节点 │  2334083 │
+│ local             │ 本机网卡       │  1365403 │
+│ s-app             │ 服务端应用     │    89280 │
+│ app               │ 应用           │    80079 │
+│ s-gw              │ 网关到服务端   │       11 │
+└───────────────────┴────────────────┴──────────┘
 ```
 
-Distinguish space consumption based on the value of a specific field. For example, view the number of rows for different durations in the `event.perf_event` table:
+Analyze space usage by a specific field value. For example, check the row count for different durations in `event.perf_event`:
 
 ```sql
 SELECT count(), min(duration) AS min_duration_us, max(duration) AS max_duration_us, toUInt64(duration/1000) AS ms FROM event.perf_event GROUP BY ms ORDER BY ms ASC
@@ -179,75 +180,75 @@ ORDER BY ms ASC
 ...
 ```
 
-# Black: Setting Data Retention Duration
+# Black: Setting Data Retention Periods
 
-Deepflow-server provides the ability to set retention durations for all data tables. You can search for `-ttl-hour` configuration items in server.yaml to set the retention duration for specific data tables as needed. Typically, you can set a longer retention duration for metric data (`flow_metrics`, `prometheus`, etc.) and a shorter retention duration for log data (`flow_log`, etc.). As you can see, the retention duration can be set with an accuracy of hours.
+deepflow-server allows you to set retention periods for all tables. Search for the `-ttl-hour` option in `server.yaml` to set the retention period for specific tables as needed. Typically, you can set longer retention for metrics data (`flow_metrics`, `prometheus`, etc.) and shorter retention for log data (`flow_log`, etc.). Retention can be set with hourly precision.
 
-In the enterprise edition, you can directly set the data retention duration on the DeepFlow page. The community edition only supports setting the retention duration for tables that have not been created yet. Therefore, if you want to modify the retention duration of a table, you need to first delete the table in ClickHouse and then restart deepflow-server.
+In the Enterprise Edition, you can set retention periods directly in the DeepFlow UI. The Community Edition only supports setting retention for tables that have not yet been created, so to change the retention for an existing table, you must delete it in ClickHouse and restart deepflow-server.
 
 # Green: Reducing Data Granularity
 
-Let's first focus on the green configuration items. Adjusting these settings can help us trade-off data granularity to reduce storage pressure.
+Let’s first look at the green configuration items, which help you trade off data granularity to reduce storage pressure.
 
 For flow logs `flow_log.l4_flow_log`:
 
-- Setting `l4_log_ignore_tap_sides` can discard flow logs collected at certain observation points (`observation_point`). As shown in the figure below, in a K8s container environment, DeepFlow by default collects flow logs on both virtual and physical NICs. When Pod1 accesses Pod3, we will collect four flow logs for the same traffic on four NICs along the way. For example, we can set this configuration item to c-nd and s-nd to discard flow logs collected on physical NICs. For a detailed description of observation points, refer to the [documentation](../features/universal-map/auto-metrics/#观测点说明).
-- Setting `l4_log_tap_types` can discard flow logs collected at certain `network positions`. When we let the Agent handle the mirrored traffic of physical switches (enterprise version feature), this configuration item can be set to control the dropping of flow logs from specified mirror locations. Specifically, setting this configuration item to `[-1]` will completely disable flow log data.
+- `l4_log_ignore_tap_sides`: Discard flow logs collected at certain observation points (`observation_point`). In a K8s container environment, DeepFlow collects flow logs from both virtual and physical NICs by default. For example, when Pod1 accesses Pod3, the same traffic is logged four times along the path. Setting this to `c-nd` and `s-nd` discards logs from physical NICs. See [documentation](../features/universal-map/auto-metrics/#观测点说明) for details on observation points.
+- `l4_log_tap_types`: Discard flow logs collected at certain `network locations`. When processing mirrored traffic from physical switches (Enterprise Edition), you can use this to drop logs from specific mirror locations. Setting to `[-1]` completely disables flow logs.
 
-![Observation Points of Data](http://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/yunshan-ticket/png/d2b5ca33bd970f64a6301fa75ae2eb22_20231226212513.png)
+![Observation points of data (observation_point)](http://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/yunshan-ticket/png/d2b5ca33bd970f64a6301fa75ae2eb22_20231226212513.png)
 
 For call logs `flow_log.l7_flow_log`:
 
-- Setting `obfuscate-enabled-protocols` can desensitize the `request_resource` field in call logs by replacing variables with `?`. Currently, desensitization is supported for MySQL, PostgreSQL, and Redis protocols. Desensitized fields will have a significantly reduced length, thereby reducing storage costs. Note that desensitization will increase the CPU overhead of the deepflow-agent.
-- Setting `l7_log_ignore_tap_sides` can discard call logs collected at certain observation points (`observation_point`). In a K8s container environment, DeepFlow by default collects call logs on application processes, virtual NICs, and physical NICs. As shown in the figure above, when Pod1 accesses Pod3, we will collect six call logs for the same traffic across two processes and four NICs along the way. For example, we can set this configuration item to c-nd and s-nd to discard call logs collected on physical NICs.
-- Setting `l7_log_tap_types` can discard call logs collected at certain `network positions`. When we let the Agent handle the mirrored traffic of physical switches (enterprise version feature), this configuration item can be set to control the dropping of call logs from specified mirror locations. Specifically, setting this configuration item to `[-1]` will completely disable call log data, also disabling distributed tracing functionality.
+- `obfuscate-enabled-protocols`: Mask the `request_resource` field in call logs by replacing variables with `?`. Currently supports MySQL, PostgreSQL, and Redis. Masking reduces field length and thus storage usage but increases deepflow-agent CPU usage.
+- `l7_log_ignore_tap_sides`: Discard call logs collected at certain observation points. In K8s, DeepFlow collects call logs from application processes, virtual NICs, and physical NICs. Setting this to `c-nd` and `s-nd` discards logs from physical NICs.
+- `l7_log_tap_types`: Discard call logs collected at certain `network locations`. Setting to `[-1]` completely disables call logs and also disables distributed tracing.
 
-Adjusting the above configurations for flow logs and call logs will not affect the accuracy of metrics data `flow_metrics`. Although metrics data does not consume much storage space, we also expose some configuration items:
+Adjusting these settings for flow and call logs does not affect the accuracy of `flow_metrics`. For metrics data, although storage usage is small, there are also relevant settings:
 
-- Setting `http-endpoint-extraction` can control how the endpoint field for the HTTP protocol is generated. For RPC (e.g., gRPC/Dubbo, etc.) protocols, the endpoint field is clear and can usually be obtained directly from the header. However, determining which part of the HTTP URI can be used as the endpoint is often challenging. By default, we extract the first two segments of all URIs as the endpoint. But `2` might be too short for some APIs and too long for others. Adjusting this configuration item can prevent generating exploding endpoint field values and also ensure the generated endpoints provide enough information.
-- Setting `inactive_server_port_enabled` can store inactive TCP/UDP port numbers as `server_port = 0`. When there is port scanning traffic in the network, enabling this configuration can effectively reduce the cardinality of metric data. ClickHouse is insensitive to the cardinality of metrics, but reducing the number of metric data can make queries faster. This configuration item is enabled by default.
-- Setting `inactive_ip_enabled` can store inactive IP addresses as `0.0.0.0`. When there is IP address scanning traffic in the network, enabling this configuration can effectively reduce the cardinality of metric data. This configuration item is enabled by default.
-- Setting `vtap_flow_1s_enabled` can disable 1s granularity aggregate data. If high-precision metric data is not required, this configuration can be disabled. This configuration item is enabled by default.
+- `http-endpoint-extration`: Controls how HTTP endpoints are generated. For RPC protocols (e.g., gRPC/Dubbo), endpoints are clear from headers. For HTTP URIs, by default, the first two segments are used. Adjust this to avoid excessive endpoint values or insufficiently informative ones.
+- `inactive_server_port_enabled`: Stores inactive TCP/UDP ports as `server_port = 0`. Useful for reducing metric cardinality when port scanning traffic exists. Enabled by default.
+- `inactive_ip_enabled`: Stores inactive IP addresses as `0.0.0.0`. Useful for reducing metric cardinality when IP scanning traffic exists. Enabled by default.
+- `vtap_flow_1s_enabled`: Disables 1s granularity aggregation when high-resolution metrics are not needed. Enabled by default.
 
 For continuous profiling `profile`:
 
-- Setting `on-cpu-profile.frequency` can adjust the sampling frequency of the function call stack. The default is 99, which means sampling 99 times per second, approximately collecting the function call stack every 10ms. Lowering this value can reduce the data volume of the function call stack.
-- Setting `on-cpu-profile.cpu` can set whether to differentiate the function call stacks on different CPU cores. The default is 0, which means not differentiating CPU cores, resulting in low storage overhead. When set to 1, function call stacks on different CPU cores will not be aggregated.
+- `on-cpu-profile.frequency`: Adjusts function call stack sampling frequency. Default is 99 (about every 10ms). Lowering reduces data volume.
+- `on-cpu-profile.cpu`: Controls whether to distinguish call stacks by CPU core. Default 0 (no distinction, lower storage). Setting to 1 prevents aggregation across cores.
 
-# Blue: Disabling Uninterested Data
+# Blue: Disabling Unneeded Data
 
-Next, let's look at the blue configuration items. Adjusting these settings can help us disable uninterested features or filter out uninterested traffic, thereby reducing storage costs.
+Next, the blue configuration items help disable unneeded features or filter out irrelevant traffic to reduce storage usage.
 
 For call logs `flow_log.l7_flow_log`:
 
-- Setting `l7-protocol-enabled` can select the application protocols to be parsed. By default, all application protocols are enabled for parsing. If you are not interested in certain protocols like Kafka or Redis, you can remove them from the list.
-- Setting `l7-protocol-ports` can set the list of ports to try parsing for specific application protocols. By default, DNS only parses traffic on ports 53 and 5353, TLS only parses traffic on port 443, and all other application protocols parse traffic on all ports 1-65535. This configuration item is very effective for protocols with indistinct characteristics. For example, if you know all the communication ports for the Redis protocol in your environment, setting this configuration item can avoid mis-parsing, thereby preventing the storage of dirty data generated by mis-parsing.
+- `l7-protocol-enabled`: Select which application protocols to parse. By default, all are enabled. Remove protocols like Kafka or Redis if not needed.
+- `l7-protocol-ports`: Set the port list for parsing specific protocols. For example, DNS defaults to ports 53 and 5353, TLS to 443, others to all ports. Restricting ports for ambiguous protocols like Redis can prevent misparsing and dirty data.
 
 For metrics data `flow_metrics`:
 
-- Setting `l4_performance_enabled` can disable the calculation and storage of advanced network performance metrics. Advanced network performance metrics include latency, performance, and exception metrics in the `network_*` tables (i.e., all metrics other than throughput). For a detailed list of metrics, see the [documentation](../features/universal-map/metrics-and-operators/#网络性能指标).
-- Setting `l7_metrics_enabled` can disable the calculation and storage of application performance metrics. Application performance metrics correspond to the `application_*` tables.
+- `l4_performance_enabled`: Disables calculation/storage of advanced network performance metrics (latency, performance, exceptions) in `network_*` tables. See [documentation](../features/universal-map/metrics-and-operators/#网络性能指标) for details.
+- `l7_metrics_enabled`: Disables calculation/storage of application performance metrics in `application_*` tables.
 
 For performance events `event.perf_event`:
 
-- Setting `io-event-collect-mode` can adjust the range of collected file read/write events. Setting it to 0 completely disables collection, setting it to 1 collects only file read/write events occurring within the Request lifecycle, and setting it to 2 collects all file read/write events. The default value is 1, focusing on monitoring the impact of file read/write on Request performance.
-- Setting `io-event-minimal-duration` can adjust the number of recorded file read/write events by setting a duration threshold. The default value is 1ms, recording only events with a read/write duration of 1ms or more. Increasing this value can reduce the number of events.
+- `io-event-collect-mode`: Adjusts the scope of file read/write event collection. 0 disables, 1 collects only within a Request lifecycle, 2 collects all. Default is 1.
+- `io-event-minimal-duration`: Sets a duration threshold for recording events. Default is 1ms. Increasing reduces event count.
 
 For continuous profiling `profile`:
 
-- Setting `on-cpu-profile.disabled` can completely disable the continuous profiling feature.
+- `on-cpu-profile.disabled`: Completely disables continuous profiling.
 
-Additionally, we can reduce the data volume from the source with some configuration items:
+Additionally, you can reduce data at the source:
 
-- Setting `tap_interface_regex` controls the list of NICs to collect traffic from. If we do not want to collect traffic from certain virtual or physical NICs, this configuration can be adjusted.
-- Setting `capture_bpf` can use BPF expressions to filter collected traffic. For example, if we are sure that all traffic on port 9999 is monitoring data transmission, and we are not interested in it, we can set this item to `not port 9999` to filter out the collection of this traffic.
-- Setting `kprobe_blacklist` can set a port number blacklist, allowing eBPF kprobe to use this port number list to filter (discard) Socket data, reducing the data volume of call logs.
+- `tap_interface_regex`: Controls which NICs to capture traffic from. Adjust to exclude certain virtual or physical NICs.
+- `capture_bpf`: Uses BPF expressions to filter captured traffic. For example, set to `not port 9999` to exclude monitoring traffic on port 9999.
+- `kprobe_blacklist`: Sets a port blacklist for eBPF kprobe to filter (drop) socket data, reducing call log volume.
 
 # Red: Setting Overload Protection Thresholds
 
-Finally, let's look at the red configuration items. We do not want the agent to output excessive flow logs and call logs in extreme situations, avoiding excessive bandwidth usage; nor do we want a single server's write volume to be too large, avoiding overloading ClickHouse. Therefore, we expose the following configuration items:
+Finally, the red configuration items. We want to avoid agents outputting excessive flow or call logs in extreme cases to prevent high bandwidth usage, and avoid excessive write loads on a single server to prevent ClickHouse overload. The following settings are available:
 
-- `l4_log_collect_nps_threshold` controls the maximum rate at which the agent sends flow logs. When the actual flow logs to be sent exceed this rate, the agent will actively discard them. This discarding behavior can be monitored through the `drop-in-throttle` metric in `deepflow_system.deepflow_agent_flow_aggr`.
-- `l7_log_collect_nps_threshold` controls the maximum rate at which the agent sends call logs. When the actual call logs to be sent exceed this rate, the agent will actively discard them. This discarding behavior can be monitored through the `throttle-drop` metric in `deepflow_system.deepflow_agent_l7_session_aggr`.
-- `l4-throttle` controls the maximum rate at which a single server replica writes flow logs. When set to 0, the value of the `throttle` configuration item is used. When the actual flow logs to be written exceed this rate, the server will actively discard them. This discarding behavior can be monitored through the `drop_count` metric in `deepflow_system.deepflow_server_ingester_decoder` (filtered using `msg_type: l4_log`).
-- `l7-throttle` controls the maximum rate at which a single server replica writes call logs. When set to 0, the value of the `throttle` configuration item is used. When the actual call logs to be written exceed this rate, the server will actively discard them. This discarding behavior can be monitored through the `drop_count` metric in `deepflow_system.deepflow_server_ingester_decoder` (filtered using `msg_type: l7_log`).
+- `l4_log_collect_nps_threshold`: Controls the maximum rate at which an agent sends flow logs. When exceeded, the agent drops logs. Monitor `drop-in-throttle` in `deepflow_system.deepflow_agent_flow_aggr` to track drops.
+- `l7_log_collect_nps_threshold`: Controls the maximum rate at which an agent sends call logs. When exceeded, the agent drops logs. Monitor `throttle-drop` in `deepflow_system.deepflow_agent_l7_session_aggr` to track drops.
+- `l4-throttle`: Controls the maximum write rate of flow logs per server replica. 0 uses the `throttle` value. When exceeded, the server drops logs. Monitor `drop_count` in `deepflow_system.deepflow_server_ingester_decoder` (filter `msg_type: l4_log`) to track drops.
+- `l7-throttle`: Controls the maximum write rate of call logs per server replica. 0 uses the `throttle` value. When exceeded, the server drops logs. Monitor `drop_count` in `deepflow_system.deepflow_server_ingester_decoder` (filter `msg_type: l7_log`) to track drops.

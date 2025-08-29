@@ -28,12 +28,12 @@ subgraph Host
 end
 ```
 
-# Configuring Telegraf
+# Configure Telegraf
 
-## Installing Telegraf
+## Install Telegraf
 
-You can learn the relevant background knowledge in the [Telegraf documentation](https://www.influxdata.com/time-series-platform/telegraf/).
-If your cluster does not have Telegraf, you can quickly deploy Telegraf as a DaemonSet using the following steps:
+Refer to the [Telegraf documentation](https://www.influxdata.com/time-series-platform/telegraf/) for background information.  
+If Telegraf is not installed in your cluster, you can quickly deploy it as a DaemonSet using the following steps:
 
 ```bash
 # add helm chart
@@ -46,21 +46,22 @@ helm upgrade --install telegraf influxdata/telegraf -n deepflow-telegraf-demo --
 kubectl apply -f https://raw.githubusercontent.com/deepflowio/deepflow-demo/main/DeepFlow-Telegraf-Demo/deepflow-telegraf-demo.yaml
 ```
 
-## Configuring Telegraf Data Output
+## Configure Telegraf Data Output
 
-We need to modify Telegraf's configuration to send data to the DeepFlow Agent.
+We need to modify Telegraf’s configuration so that it sends data to the DeepFlow Agent.
 
-First, we need to determine the address of the data listening service started by the DeepFlow Agent. After [installing the DeepFlow Agent](../../../ce-install/single-k8s/),
-the DeepFlow Agent Service address will be displayed, with a default value of `deepflow-agent.default`.
-If you have modified it, please fill in the actual service name and namespace in the configuration.
+First, determine the address of the data listening service started by the DeepFlow Agent.  
+After [installing the DeepFlow Agent](../../../ce-install/single-k8s/),  
+the DeepFlow Agent Service address will be displayed, with the default value being `deepflow-agent.default`.  
+If you have changed it, update the configuration with the actual service name and namespace.
 
-Next, modify Telegraf's default configuration (assuming it is in the `deepflow-telegraf-demo` namespace):
+Next, modify Telegraf’s default configuration (assuming it is in the `deepflow-telegraf-demo` namespace):
 
 ```bash
 kubectl edit cm -n deepflow-telegraf-demo telegraf
 ```
 
-In `telegraf.conf`, add the following configuration (please change `DEEPFLOW_AGENT_SVC` to the service name of deepflow-agent):
+In `telegraf.conf`, add the following configuration (replace `DEEPFLOW_AGENT_SVC` with the service name of deepflow-agent):
 
 ```toml
 [[outputs.http]]
@@ -68,18 +69,19 @@ In `telegraf.conf`, add the following configuration (please change `DEEPFLOW_AGE
   data_format = "influx"
 ```
 
-# Configuring DeepFlow
+# Configure DeepFlow
 
-Please refer to the section [Configuring DeepFlow](../tracing/opentelemetry/#配置-deepflow) to complete the DeepFlow Agent configuration.
+Refer to the section [Configure DeepFlow](../tracing/opentelemetry/#配置-deepflow) to complete the DeepFlow Agent configuration.
 
-# Viewing Telegraf Data
+# View Telegraf Data
 
-Metrics from Telegraf will be stored in DeepFlow's `ext_metrics` database.
-To reduce the number of tables, DeepFlow will store all Measurements in a single ClickHouse Table,
-but users will still see a series of data tables corresponding to the original Telegraf Measurements.
-The original tags of Telegraf metrics can be referenced via tag.XXX, and metric values can be referenced via metrics.YYY.
-At the same time, DeepFlow will automatically inject a large number of Meta Tags and Custom Tags, allowing Telegraf-collected data to be seamlessly associated with other data sources.
+Metrics from Telegraf will be stored in DeepFlow’s `ext_metrics` database.  
+To reduce the number of tables, DeepFlow stores all Measurements in a single ClickHouse table.  
+When queried, users will still see a series of tables corresponding to Telegraf’s original Measurements.  
+The original tags of Telegraf metrics can be referenced via `tag.XXX`, and metric values via `metrics.YYY`.  
+At the same time, DeepFlow automatically injects a large number of Meta Tags and Custom Tags,  
+allowing Telegraf-collected data to be seamlessly correlated with other data sources.
 
-Using Grafana, select the `DeepFlow` data source to display the search results as shown below:
+When using Grafana, selecting the `DeepFlow` data source for queries will display results as shown below:
 
 ![Telegraf Data Integration](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20231003651c1adb93461.png)

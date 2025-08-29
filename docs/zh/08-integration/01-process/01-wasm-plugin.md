@@ -21,6 +21,7 @@ Wasm 插件系统通过在固定的地方调用 Wasi Export Function 实现一�
 关于 Wasm Plugin 的开发你也可以参考这篇博客文章：[使用 DeepFlow Wasm 插件实现业务可观测性](https://www.deepflow.io/blog/zh/035-deepflow-enabling-zero-code-observability-for-applications-by-webAssembly/)。
 
 对于 HTTP2 和 gRPC 协议，deepflow-agent 已经内置了完整的 Header 字段解析能力，并且你可以通过 agent-group-config 来让 deepflow-agent 采集指定的 Header 字段。因此 HTTP2/gRPC 的 Wasm Plugin 只需要对 Payload 进行解析即可。需要注意的是，由于存在 cBPF/eBPF-kprobe（压缩 Header + 原始 Payload）和 eBPF-uprobe（原始 Header + 原始 Payload）两种采集方式，插件的编写方法有些差别：
+
 - 对于 cBPF/eBPF-kprobe 采集的数据，直接参照上表中的 `http` 插件来编写，解析 Payload。
 - 对于 eBPF-uprobe 采集的数据，目前仅支持视为新的协议在 Plugin 中重新解析，参考上表中的 `go_http2_uprobe` 插件来编写（对增强的支持还在开发中）。
 

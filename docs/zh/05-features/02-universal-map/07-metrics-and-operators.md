@@ -69,7 +69,7 @@ permalink: /features/universal-map/metrics-and-operators
 - 客户端 ACK 缺失
   - **现象**：服务端回复 SYN-ACK 后，客户端无响应，导致 TCP 建连失败
   - **原因**：
-    - 客户端SYN Flood攻击
+    - 客户端 SYN Flood 攻击
     - 客户端端口扫描
   - **建议**：确认是否为安全事件，并对异常客户端及时封堵。
 - 客户端其他重置
@@ -103,7 +103,7 @@ permalink: /features/universal-map/metrics-and-operators
     - 检查防火墙策略
     - 检查网络连通性
 - 服务端其他重置
-  - **现象**：服务端发送  SYN-ACK 后即发送 RST，导致 TCP 建连失败
+  - **现象**：服务端发送 SYN-ACK 后即发送 RST，导致 TCP 建连失败
   - **原因**：服务端操作系统异常
   - **建议**：检查服务端操作系统日志
 
@@ -133,7 +133,7 @@ permalink: /features/universal-map/metrics-and-operators
   - **建议**：
     - 检查服务端应用状态
     - 检查服务端操作系统日志
-- TCP连接超时
+- TCP 连接超时
   - **现象**：传输过程中超过 300 秒无数据
   - **原因**：
     - 客户端主机离线
@@ -147,11 +147,11 @@ permalink: /features/universal-map/metrics-and-operators
 #### TCP 断连异常
 
 - 服务端半关
-  - **现象**：服务端收到 FIN 之后，未回复FIN-ACK，TCP 四次挥手不完整
+  - **现象**：服务端收到 FIN 之后，未回复 FIN-ACK，TCP 四次挥手不完整
   - **原因**：服务端应用异常
   - **建议**：检查服务端应用状态
 - 客户端半关
-  - **现象**：客户端收到 FIN 之后，未回复FIN-ACK，TCP 四次挥手不完整
+  - **现象**：客户端收到 FIN 之后，未回复 FIN-ACK，TCP 四次挥手不完整
   - **原因**：客户端应用异常
   - **建议**：检查客户端应用状态
 

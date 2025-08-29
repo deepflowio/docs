@@ -7,7 +7,7 @@ permalink: /ce-install/legacy-host
 
 # Introduction
 
-DeepFlow supports monitoring legacy servers. Note that DeepFlow Server must run on K8s. If you do not have a K8s cluster, you can refer to the [All-in-One Quick Deployment](./all-in-one/) section to deploy DeepFlow Server first.
+DeepFlow supports monitoring legacy servers. Note that the DeepFlow Server must run on top of K8s. If you do not have a K8s cluster, you can refer to the [All-in-One Quick Deployment](./all-in-one/) section to deploy the DeepFlow Server first.
 
 # Deployment Topology
 
@@ -31,9 +31,9 @@ end
 
 # Configure DeepFlow Server
 
-## Update deepflow-server Configuration
+## Update deepflow-server configuration
 
-Check if all network segments of the server are in the following list of network segments
+Check whether all network segments of the server are included in the following list:
 
 ```yaml
 local_ip_ranges:
@@ -44,9 +44,10 @@ local_ip_ranges:
   - 224.0.0.0-240.255.255.255
 ```
 
-If not, you need to add the missing server network segments to the `local_ip_ranges` list in the custom configuration file below. For example, if the host IP is 100.42.32.213, you need to add the corresponding 100.42.32.0/24 network segment to the configuration.
+If not, you need to add the missing server network segments to the `local_ip_ranges` list in the custom configuration file below.  
+For example: if the host IP is 100.42.32.213, you need to add the corresponding 100.42.32.0/24 segment to the configuration.
 
-Modify the `values-custom.yaml` custom configuration file:
+Edit the `values-custom.yaml` custom configuration file:
 
 ```yaml
 configmap:
@@ -64,7 +65,7 @@ configmap:
         trident-type-for-unkonw-vtap: 3 # required
 ```
 
-Update deepflow
+Update deepflow:
 
 ```bash
 helm upgrade deepflow -n deepflow -f values-custom.yaml deepflow/deepflow
@@ -74,7 +75,7 @@ kubectl delete pods -n deepflow -l app=deepflow -l component=deepflow-server
 
 ## Create Host Domain
 
-Just like monitoring multiple K8s clusters requires creating a K8s domain, here you also need to create a domain specifically for synchronizing servers.
+Just like when monitoring multiple K8s clusters you need to create a K8s domain, here you also need to create a domain specifically for synchronizing servers.
 
 ```bash
 unset DOMAIN_NAME
@@ -95,14 +96,15 @@ unset AGENT_GROUP
 AGENT_GROUP="legacy-host"  # FIXME: domain name
 
 deepflow-ctl agent-group create $AGENT_GROUP
-deepflow-ctl agent-group list $AGENT_GROUP # Get agent-group ID
+deepflow-ctl agent-group list $AGENT_GROUP # get agent-group-id
 ```
 
-Create the agent group configuration file `agent-group-config.yaml`, specify `vtap_group_id` and enable `platform_enabled` to allow deepflow-agent to synchronize the server's network information to deepflow-server.
+Use [deepflow-ctl](../best-practice/agent-advanced-config) to create an agent group configuration, so that deepflow-agent can send server network information to deepflow-server in self-synchronization mode.
 
 ```yaml
-vtap_group_id: g-ffffff # FIXME
-platform_enabled: 1
+inputs:
+  resources:
+    workload_resource_sync_enabled: true
 ```
 
 Create the agent group configuration:
@@ -113,14 +115,15 @@ deepflow-ctl agent-group-config create -f agent-group-config.yaml
 
 # Deploy DeepFlow Agent
 
-Download deepflow-agent
+Note: The deepflow-agent version must be ≤ the deepflow-server version, otherwise registration and data reporting issues may occur.
 
 ::: code-tabs#shell
 
 @tab rpm
 
 ```bash
-curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/rpm/agent/stable/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent-rpm.zip
+AGENT_VERSION=v6.6 FIXME: Keep this in sync with the server version
+curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/rpm/agent/$AGENT_VERSION/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent-rpm.zip
 unzip deepflow-agent-rpm.zip
 yum -y localinstall x86_64/deepflow-agent-1.0*.rpm
 ```
@@ -128,7 +131,8 @@ yum -y localinstall x86_64/deepflow-agent-1.0*.rpm
 @tab deb
 
 ```bash
-curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/deb/agent/stable/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent-deb.zip
+AGENT_VERSION=v6.6 FIXME: Keep this in sync with the server version
+curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/deb/agent/$AGENT_VERSION/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent-deb.zip
 unzip deepflow-agent-deb.zip
 dpkg -i x86_64/deepflow-agent-1.0*.systemd.deb
 ```
@@ -136,7 +140,8 @@ dpkg -i x86_64/deepflow-agent-1.0*.systemd.deb
 @tab binary file
 
 ```bash
-curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/agent/stable/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent.tar.gz
+AGENT_VERSION=v6.6 FIXME: Keep this in sync with the server version
+curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/agent/$AGENT_VERSION/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent.tar.gz
 tar -zxvf deepflow-agent.tar.gz -C /usr/sbin/
 
 cat << EOF > /etc/systemd/system/deepflow-agent.service
@@ -171,7 +176,7 @@ services:
     image: registry.cn-hongkong.aliyuncs.com/deepflow-ce/deepflow-agent:v6.5
     container_name: deepflow-agent
     restart: always
-    #privileged: true  ## Docker version below 20.10.10 requires the opening of the privileged mode, See https://github.com/moby/moby/pull/42836
+    #privileged: true  ## Docker version below 20.10.10 requires enabling privileged mode, See https://github.com/moby/moby/pull/42836
     cap_add:
       - SYS_ADMIN
       - SYS_RESOURCE
@@ -193,12 +198,12 @@ docker compose -f deepflow-agent-docker-compose.yaml up -d
 
 :::
 
-Modify the deepflow-agent configuration file `/etc/deepflow-agent.yaml`:
+Edit the deepflow-agent configuration file `/etc/deepflow-agent.yaml`:
 
 ```yaml
 controller-ips:
   - 10.1.2.3 # FIXME: K8s Node IPs
-vtap-group-id-request: 'g-fffffff' # FIXME: agent-group ID
+vtap-group-id-request: 'g-fffffff' # FIXME: <AGENT_GROUP_ID>
 ```
 
 Start deepflow-agent:
@@ -210,13 +215,16 @@ systemctl restart deepflow-agent
 
 **Note**:
 
-If deepflow-agent cannot start normally due to missing dependencies, you can download the statically linked compiled deepflow-agent. Note that the statically linked compiled deepflow-agent has severe performance issues under multithreading:
+If deepflow-agent fails to start due to missing dependency libraries, you can download the statically linked compiled deepflow-agent.  
+Be aware that the statically linked compiled deepflow-agent has serious performance issues under multithreading:
+
 ::: code-tabs#shell
 
 @tab rpm
 
 ```bash
-curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/rpm/agent/stable/linux/static-link/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent-rpm.zip
+AGENT_VERSION=v6.6 FIXME: Keep this in sync with the server version
+curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/rpm/agent/$AGENT_VERSION/linux/static-link/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent-rpm.zip
 unzip deepflow-agent-rpm.zip
 yum -y localinstall x86_64/deepflow-agent-1.0*.rpm
 ```
@@ -224,7 +232,8 @@ yum -y localinstall x86_64/deepflow-agent-1.0*.rpm
 @tab deb
 
 ```bash
-curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/deb/agent/stable/linux/static-link/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent-deb.zip
+AGENT_VERSION=v6.6 FIXME: Keep this in sync with the server version
+curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/deb/agent/$AGENT_VERSION/linux/static-link/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent-deb.zip
 unzip deepflow-agent-deb.zip
 dpkg -i x86_64/deepflow-agent-1.0*.systemd.deb
 ```
@@ -232,7 +241,8 @@ dpkg -i x86_64/deepflow-agent-1.0*.systemd.deb
 @tab binary file
 
 ```bash
-curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/agent/stable/linux/static-link/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent.tar.gz
+AGENT_VERSION=v6.6 FIXME: Keep this in sync with the server version
+curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/agent/$AGENT_VERSION/linux/static-link/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent.tar.gz
 tar -zxvf deepflow-agent.tar.gz -C /usr/sbin/
 
 cat << EOF > /etc/systemd/system/deepflow-agent.service
@@ -259,8 +269,8 @@ systemctl daemon-reload
 
 # Next Steps
 
-- [Universal Service Map - Experience DeepFlow's AutoMetrics Capability](../features/universal-map/auto-metrics/)
-- [Distributed Tracing - Experience DeepFlow's AutoTracing Capability](../features/distributed-tracing/auto-tracing/)
-- [Eliminate Data Silos - Learn About DeepFlow's AutoTagging and SmartEncoding Capabilities](../features/auto-tagging/eliminate-data-silos/)
-- [Say Goodbye to High Baseline Troubles - Integrate Metrics Data from Prometheus, etc.](../integration/input/metrics/metrics-auto-tagging/)
-- [Full-Stack Distributed Tracing - Integrate Tracing Data from OpenTelemetry, etc.](../integration/input/tracing/full-stack-distributed-tracing/)
+- [Universal Service Map - Experience DeepFlow's AutoMetrics capability](../features/universal-map/auto-metrics/)
+- [Distributed Tracing - Experience DeepFlow's AutoTracing capability](../features/distributed-tracing/auto-tracing/)
+- [Eliminate Data Silos - Learn about DeepFlow's AutoTagging and SmartEncoding capabilities](../features/auto-tagging/eliminate-data-silos/)
+- [Say Goodbye to High Cardinality Issues - Integrate Prometheus and other metrics data](../integration/input/metrics/metrics-auto-tagging/)
+- [Full-Stack Distributed Tracing - Integrate OpenTelemetry and other tracing data](../integration/input/tracing/full-stack-distributed-tracing/)

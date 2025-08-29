@@ -6,6 +6,7 @@ permalink: /features/l7-protocols/overview
 # 支持的应用协议
 
 为了降低资源开销并避免误识别，agent 默认仅会解析如下应用协议：
+
 - HTTP、HTTP2/gRPC、MySQL、Redis、Kafka、DNS、TLS。
 
 如需开启其他应用协议的解析，请配置 agent 的 `l7-protocol-enabled`。支持解析的所有应用协议如下所示：

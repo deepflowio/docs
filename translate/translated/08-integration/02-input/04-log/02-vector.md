@@ -33,8 +33,8 @@ end
 
 ## Install Vector
 
-You can learn the relevant background knowledge in the [Vector documentation](https://vector.dev/docs/).
-If your cluster does not have Vector, you can deploy Vector using the following steps:
+You can learn the relevant background knowledge in the [Vector documentation](https://vector.dev/docs/).  
+If your cluster does not have Vector, you can deploy it using the following steps:
 
 ::: code-tabs#shell
 
@@ -133,7 +133,7 @@ customConfig:
 
         if !exists(.level) {
            if exists(.json) {
-            .level = .json.level
+            .level = to_string!(.json.level)
             del(.json.level)
            } else {
             # match log levels surround by ``[]`` or ``<>`` with ignore case
@@ -174,7 +174,7 @@ helm install vector vector/vector \
 
 :::
 
-Before configuring, you can first understand the [Vector workflow](https://vector.dev/docs/about/under-the-hood/architecture/pipeline-model/), where data flows through the following modules in sequence, from the source to the destination:
+Before configuration, you can first learn about the [Vector workflow](https://vector.dev/docs/about/under-the-hood/architecture/pipeline-model/). Data flows in the following module order, from the source to the destination:
 
 ```mermaid
 flowchart LR
@@ -187,9 +187,66 @@ Source -->|log| Transform
 Transform -->|log| Sink
 ```
 
+Generally, a Vector configuration contains at least the `sources` module and the `sinks` module. If additional data processing is required, you must add the `transforms` module to clean the data into the final desired content. A typical Vector configuration looks like this:
+
+```yaml
+# Data sources
+sources:
+  nginx_logs:
+    # ...
+  file_logs:
+    # ...
+  kubernetes_logs:
+    # ...
+
+# Data processing
+transforms:
+  tag_log:
+    # inputs refers to the data source; here you can configure the key from sources or from other transforms
+    inputs:
+      - nginx_logs
+    # ...
+  flush_log:
+    # tag_log comes from the previous transforms module, so the same data is processed sequentially by two transforms modules
+    inputs:
+      - tag_log
+      - file_logs
+    # ...
+
+# Data output
+sinks:
+  push_log:
+    # Similarly, inputs here can come from both sources and transforms modules
+    inputs:
+      - flush_log
+      - kubernetes_logs
+    # ...
+```
+
+In the above example, different configurations implement three different data flows:
+
+```mermaid
+flowchart LR
+
+NginxLog["nginx_logs"]
+FileLog["file_logs"]
+KubernetesLog["kubernetes_logs"]
+TagLog["tag_log"]
+FlushLog["flush_log"]
+PushLog["push_log"]
+
+NginxLog --> TagLog
+FileLog --> FlushLog
+KubernetesLog --> PushLog
+TagLog --> FlushLog
+FlushLog --> PushLog
+```
+
+Next, let's look at the specific configuration of each module.
+
 ## Collect Logs
 
-After installing Vector, we can use the [Kubernetes_Log](https://vector.dev/docs/reference/configuration/sources/kubernetes_logs/) module to collect logs from Pods deployed in Kubernetes. Since DeepFlow has already actively learned the labels and annotations related to Pods in Kubernetes through the AutoTagging mechanism, the log stream can be sent without this part to reduce transmission volume. The sample configuration is as follows:
+After installing Vector, we can use the [Kubernetes_Log](https://vector.dev/docs/reference/configuration/sources/kubernetes_logs/) module to obtain logs from Pods deployed in Kubernetes. Since DeepFlow has already learned the relevant Labels and Annotations of Pods in Kubernetes through the AutoTagging mechanism, you can remove this part of the content when sending log streams to reduce transmission volume. Example configuration:
 
 ```yaml
 sources:
@@ -204,7 +261,7 @@ sources:
       pod_labels: ''
 ```
 
-If you deploy Vector as a process on a cloud server, you can use the [File](https://vector.dev/docs/reference/configuration/sources/file) module to collect logs from a specified path. Taking the `/var/log/` path as an example, the sample configuration is as follows:
+If you deploy Vector as a process on a cloud server, you can use the [File](https://vector.dev/docs/reference/configuration/sources/file) module to obtain logs from a specified path. Using `/var/log/` as an example:
 
 ```yaml
 sources:
@@ -214,7 +271,7 @@ sources:
       - /var/log/*.log
       - /var/log/**/*.log
     exclude:
-      # FIXME: If both kubernetes_logs and file modules are configured, to avoid duplicate log content, remove the k8s log folder
+      # FIXME: If both kubernetes_logs and file modules are configured, remove k8s log folders to avoid duplicate monitoring
       - /var/log/pods/**
       - /var/log/containers/**
     fingerprint:
@@ -223,7 +280,7 @@ sources:
 
 ## Inject Tags
 
-Then, we can use the [Remap](https://vector.dev/docs/reference/configuration/transforms/remap/) module in Transforms to add necessary tags to the sent logs. Currently, we require these two tags: `_df_log_type` and `level`. Below is a sample configuration:
+We can then use the [Remap](https://vector.dev/docs/reference/configuration/transforms/remap/) module in Transforms to add necessary tags to the logs being sent. Currently, we require two tags: `_df_log_type` and `level`. Example configuration:
 
 ```yaml
 transforms:
@@ -243,7 +300,7 @@ transforms:
 
       if !exists(.level) {
          if exists(.json) {
-          .level = .json.level
+          .level = to_string!(.json.level)
           del(.json.level)
          } else {
           # match log levels surround by `[]` or `<>` with ignore case
@@ -265,22 +322,22 @@ transforms:
       }
 
       if !exists(.app_service) {
-          # FIXME: files module does not have this field, please inject the application name through the log content
+          # FIXME: files module does not have this field, please inject application name via log content
           .app_service = .kubernetes.container_name
       }
 ```
 
-In this code snippet, we assume that we may get both JSON formatted log content and non-JSON formatted log content. For both types of logs, we try to extract their log level `level`. For JSON formatted logs, we extract their content to the outer `message` field and put all remaining JSON keys into a field named `json`. At the end of this code, we tag both types of logs with `_df_log_type=user` and `app_service=kubernetes.container_name`.
+In this snippet, we assume that we may get both JSON-formatted logs and non-JSON logs. For both types, we try to extract the log level `level`. For JSON logs, we extract its content into the outer `message` field and put the remaining JSON keys into a field named `json`. At the end, we add `_df_log_type=user` and `app_service=kubernetes.container_name` tags to both types of logs.
 
-If there are richer log formats that need to be matched in actual use, you can refer to the [Vrl](https://vector.dev/docs/reference/vrl/) syntax rules to customize your log extraction rules.
+If you have richer log formats to match in practice, refer to the [Vrl](https://vector.dev/docs/reference/vrl/) syntax rules to customize your log extraction rules.
 
 ## Common Configurations
 
-In addition to the above configurations, the Transforms module can also implement many features to help us get more accurate information from the logs. Here are some common configurations:
+In addition to the above, the Transforms module can implement many features to help extract more accurate information from logs. Here are some common configurations:
 
 ### Merge Multi-line Logs
 
-Usage suggestion: Use regex to match the "start pattern" of the log. Before encountering the next "start pattern", all logs are aggregated into one log message and retain the newline character. To reduce mismatches, use a date-time format like `yyyy-MM-dd HH:mm:ss` to match the beginning of a log line.
+Recommendation: Use regex to match the "start pattern" of a log. Before encountering the next "start pattern", aggregate all logs into one message and keep line breaks. To reduce mismatches, match a datetime format like `yyyy-MM-dd HH:mm:ss` at the start of a log line.
 
 ```yaml
 transforms:
@@ -301,7 +358,7 @@ transforms:
 
 ### Filter Color Control Characters
 
-Usage suggestion: Use regex to filter color control characters in the log to increase log readability.
+Recommendation: Use regex to filter color control characters in logs to improve readability.
 
 ```yaml
 transforms:
@@ -314,9 +371,9 @@ transforms:
       .message = replace(string!(.message), r'\u001B\[([0-9]{1,3}(;[0-9]{1,3})*)?m', "")
 ```
 
-### Extract Log Levels
+### Extract Log Level
 
-Usage suggestion: Use regex to try to match the log levels that appear in the log. To reduce mismatches, symbols like `[]` can be added around the log level.
+Recommendation: Use regex to try to match log levels in logs. To reduce mismatches, you can enclose log levels in symbols like `[]`.
 
 ```yaml
 transforms:
@@ -340,7 +397,7 @@ transforms:
 
 ### Extract Custom Tags
 
-If the application needs to inject some custom tags for filtering logs, similarly, you can use the Remap module of Transforms to write a piece of code to inject tags. We require custom tags to be written into the `.json` structure to be stored and queried. The example is as follows:
+If your application needs to inject some custom tags for log filtering, you can also use the Remap module in Transforms to write code to inject tags. We require that custom tags must be written into the `.json` struct to be stored and queried. Example:
 
 ```yaml
 transforms:
@@ -352,11 +409,11 @@ transforms:
     source: |-
       .json = {
         "cluster": "Production",
-        "extra_user_tag": "xxxxx" # FIXME: Customize the tags you need to add
+        "extra_user_tag": "xxxxx" # FIXME: customize the tags you need
       }
 ```
 
-Then, when using the [SQL API](../../output/query/sql) for querying, you can use the following statement to filter the injected tags:
+Then, when using the [SQL API](../../output/query/sql) to query, you can filter the injected tags with:
 
 ```bash
 curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/query/" \
@@ -379,11 +436,11 @@ sinks:
     uri: http://deepflow-agent.deepflow/api/v1/log
 ```
 
-Combining these three modules together, you can collect logs, inject tags, and finally send them to DeepFlow.
+By combining these three modules, you can collect logs, inject tags, and finally send them to DeepFlow.
 
 ## Complete Example
 
-Based on the above explanation, we provide a complete example. Assuming the collection target is an **nginx application deployed on a cloud server**, you can collect its logs and send them to DeepFlow with the following configuration:
+Based on the above, here is a complete example. Suppose the collection target is an **nginx application deployed on a cloud server**, you can collect its logs and send them to DeepFlow with the following configuration:
 
 ```yaml
 sources:
@@ -413,10 +470,10 @@ sinks:
       codec: json
     inputs:
       - tag_nginx_log
-    uri: http://${deepflow-agent-host}:${port}/api/v1/log # FIXME: Fill in the target DeepFlow Agent address that can receive data here
+    uri: http://${deepflow-agent-host}:${port}/api/v1/log # FIXME: Fill in the address of the target DeepFlow Agent that can receive data
     type: http
 ```
 
 # Configure DeepFlow
 
-To allow the DeepFlow Agent to receive this part of the data, please refer to the [Configure DeepFlow](../tracing/opentelemetry/#配置-deepflow) section to complete the DeepFlow Agent configuration.
+To allow the DeepFlow Agent to receive this data, please refer to the [Configure DeepFlow](../tracing/opentelemetry/#配置-deepflow) section to complete the DeepFlow Agent configuration.
