@@ -32,13 +32,13 @@ DeepFlow 部署（参考官网[部署文档](https://deepflow.io/docs/zh/ce-inst
 为了实现基于 git commit id 的性能数据查询，需要在应用 Pod 上注入 git_commit_id label。生产环境建议通过 CI/CD 流程自动注入，本教程以手动修改 YAML 为例：
 
 ```yaml
-  template:
-    metadata:
-      labels:
-        git_commit_id: 7ea306a6dca26d54e65e350439cf8bd0d41c9482
+template:
+  metadata:
+    labels:
+      git_commit_id: 7ea306a6dca26d54e65e350439cf8bd0d41c9482
 ```
 
-**Step 3  Cursor 中配置 DeepFlow MCP Server**
+**Step 3 Cursor 中配置 DeepFlow MCP Server**
 
 在项目目录下的 .cursor 文件夹下，增加 mcp.json 文件，输入如下内容（其中 mcp server 端口默认为 20080）：
 
@@ -46,7 +46,7 @@ DeepFlow 部署（参考官网[部署文档](https://deepflow.io/docs/zh/ce-inst
 {
   "mcpServers": {
     "DeepFlow_Git_Commit_Profile": {
-      "url": "http://$deepflow_controller_ip:20080/mcp", 
+      "url": "http://$deepflow_controller_ip:20080/mcp",
       "headers": {}
     }
   }

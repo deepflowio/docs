@@ -40,6 +40,7 @@ permalink: /features/continuous-profiling/auto-profiling
 | rdma      | C/C++ `*`        |        | ✔      |
 
 说明：
+
 - `*`: features in development
 - `**`: 运行 Java 程序的 JVM 须有符号表，参考[检查方法](#jvm-符号表检查)
 - `***`: 当前支持版本为 Python 3.10
@@ -57,6 +58,7 @@ permalink: /features/continuous-profiling/auto-profiling
   - 解释型语言：Python
 
 获取 Profiling 数据需满足两个前提条件：
+
 - 应用进程需要开启 Frame Pointer 或启用 Agent 的 DWARF 栈回溯能力
   - 应用进程开启 Frame Pointer（帧指针寄存器）：
     - 编译 C/C++：`gcc -fno-omit-frame-pointer`

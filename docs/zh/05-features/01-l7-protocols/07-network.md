@@ -46,20 +46,20 @@ permalink: /features/l7-protocols/network
 
 **Tag 字段映射表格，以下表格只包含存在映射关系的字段**
 
-| 类别  | 名称               | 中文         | Request Header | Response Header | 描述                                                                                          |
-| ----- | ------------------ | ------------ | -------------- | --------------- | --------------------------------------------------------------------------------------------- |
-| Req.  | version            | 协议版本     | --             | --              | --                                                                                            |
-|       | request_resource   | 请求资源     | Identifier     | --              | --                                                                                            |
-|       | request_id         | 请求 ID      | Sequence Number | --              | --                                                                                            |
-|       | endpoint           | 端点         | --             | --              | --                                                                                            |
-| Resp. | response_code      | 响应码       | --             | --              | --                                                                                            |
-|       | response_status    | 响应状态     | --             | --              | 收到响应，则记录为正常；未收到响应则记录为超时
-|       | response_exception | 响应异常     | --             | --              | --
-|       | response_result    | 响应结果     | --             | --              | --                                                                                            |
-| Trace | trace_id           | TraceID      | --             | --              | --                                                                                            |
-|       | span_id            | SpanID       | --             | --              | --                                                                                            |
-|       | x_request_id       | X-Request-ID | --             | --              | --                                                                                            |
-| Misc. | --                 | --           | --             | --              | --                                                                                            |
+| 类别  | 名称               | 中文         | Request Header  | Response Header | 描述                                           |
+| ----- | ------------------ | ------------ | --------------- | --------------- | ---------------------------------------------- |
+| Req.  | version            | 协议版本     | --              | --              | --                                             |
+|       | request_resource   | 请求资源     | Identifier      | --              | --                                             |
+|       | request_id         | 请求 ID      | Sequence Number | --              | --                                             |
+|       | endpoint           | 端点         | --              | --              | --                                             |
+| Resp. | response_code      | 响应码       | --              | --              | --                                             |
+|       | response_status    | 响应状态     | --              | --              | 收到响应，则记录为正常；未收到响应则记录为超时 |
+|       | response_exception | 响应异常     | --              | --              | --                                             |
+|       | response_result    | 响应结果     | --              | --              | --                                             |
+| Trace | trace_id           | TraceID      | --              | --              | --                                             |
+|       | span_id            | SpanID       | --              | --              | --                                             |
+|       | x_request_id       | X-Request-ID | --              | --              | --                                             |
+| Misc. | --                 | --           | --              | --              | --                                             |
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 

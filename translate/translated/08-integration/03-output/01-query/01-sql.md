@@ -7,9 +7,9 @@ permalink: /integration/output/query/sql
 
 # Introduction
 
-Provides a unified SQL interface to query all types of observability data. It can be used as a DataSource for Grafana or to implement your own GUI based on it.
+Provides a unified SQL interface to query all types of observability data. It can be used as a Grafana DataSource or as the basis for building your own GUI.
 
-# SQL Server Endpoint
+# SQL Service Endpoint
 
 Get the service endpoint port number:
 
@@ -27,14 +27,14 @@ SQL statement:
 show databases
 ```
 
-API call method:
+API call example:
 
 ```bash
 curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/query/" \
     --data-urlencode "sql=show databases"
 ```
 
-## Get All Tables in a Specified Database
+## Get All Tables in a Specific Database
 
 SQL statement:
 
@@ -42,7 +42,7 @@ SQL statement:
 show tables
 ```
 
-API call method:
+API call example:
 
 ```bash
 curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/query/" \
@@ -50,7 +50,7 @@ curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/query/" \
     --data-urlencode "sql=show tables"
 ```
 
-## Get Tags in a Specified Table
+## Get Tags in a Specific Table
 
 SQL statement:
 
@@ -58,7 +58,7 @@ SQL statement:
 show tags from ${table_name}
 ```
 
-API call method:
+API call example:
 
 ```bash
 curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/query/" \
@@ -66,7 +66,7 @@ curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/query/" \
     --data-urlencode "sql=show tags from ${table_name}"
 ```
 
-Output example:
+Example output:
 
 ```json
 {
@@ -81,12 +81,12 @@ Output example:
       "type" // int, int_enum, string, string_enum, resource_name, resource_id, ip
     ],
     "values": [
-      ["chost", "chost_0", "chost_1", "云服务器", "resource_id"],
+      ["chost", "chost_0", "chost_1", "Cloud Server", "resource_id"],
       [
         "chost_name",
         "chost_name_0",
         "chost_name_1",
-        "云服务器名称",
+        "Cloud Server Name",
         "resource_name"
       ]
     ]
@@ -94,7 +94,7 @@ Output example:
 }
 ```
 
-## Get Values of a Specified Tag
+## Get Values of a Specific Tag
 
 ### Get All Values of a Tag
 
@@ -104,13 +104,13 @@ SQL statement:
 show tag ${tag_name} values from ${table_name}
 ```
 
-The above statement can also use `limit` and `offset` keywords to reduce the number of returned values:
+The above statement can also use the `limit` and `offset` keywords to reduce the number of returned values:
 
 ```SQL
 show tag ${tag_name} values from ${table_name} limit 100 offset 100
 ```
 
-API call method:
+API call example:
 
 ```bash
 curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/query/" \
@@ -118,7 +118,7 @@ curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/query/" \
     --data-urlencode "sql=show tag ${tag_name} values from ${table_name}"
 ```
 
-Output example:
+Example output:
 
 ```json
 {
@@ -131,9 +131,9 @@ Output example:
 }
 ```
 
-### Filter Using Tag's Own Name
+### Filter Using the Tag’s Own Fields
 
-Note that the values of the above Tag will return three columns: `value`, `display_name`, `uid`. We can use this information for filtering, for example:
+Note that the returned values of a Tag contain three columns: `value`, `display_name`, and `uid`. We can use this information for filtering, for example:
 
 ```SQL
 show tag ${tag_name} values from ${table_name} where display_name like '*abc*'
@@ -141,29 +141,35 @@ show tag ${tag_name} values from ${table_name} where display_name like '*abc*'
 
 API call method and output example are the same as above.
 
-### Filter Using Other Tags
+### Filter by Associating with Other Tags
 
-Sometimes we want to use tags for associative filtering to reduce the range of candidate values. In this case, we can choose to query a data table, filter by Tag1, and aggregate by Tag2. For example, we want to query all `pod` names in `pod_cluster="cluster1"`:
+Sometimes we want to filter candidate values by associating with another Tag. In this case, we can query a table, filter by Tag1, and aggregate by Tag2.  
+For example, to query all `pod` names in `pod_cluster="cluster1"`:
 
 ```SQL
 SELECT pod FROM `network.1m` WHERE pod_cluster = 'cluster1' GROUP BY pod
 ```
 
-The above statement will use the `pod_cluster` field in the `network.1m` table of the `flow_metrics` database to filter and group the candidate `pod` values. Of course, we can also achieve this by querying any table in DeepFlow, but we should avoid using tables with large amounts of data. Additionally, we can add other dimensions such as time in the SQL to speed up the search:
+The above statement uses the `pod_cluster` field in the `network.1m` table of the `flow_metrics` database to filter and group `pod` candidates.  
+Of course, we can query any table in DeepFlow to achieve this, but it’s best to avoid tables with very large data volumes.  
+We can also add time or other dimensions in SQL to speed up the search:
 
 ```SQL
 SELECT pod FROM `network.1m` WHERE pod_cluster = 'cluster1' AND time > 1234567890 GROUP BY pod
 ```
 
-Note: Data can only be found in `flow_metrics` if the pod has had traffic (and is not using HostNetwork). After integrating Prometheus or Telegraf data, we can also use the constant metrics in them to assist in obtaining Tag values. For example, we can use Prometheus metrics in `ext_metrics` to achieve the above requirement:
+Note: You can only find data in `flow_metrics` if the pod has had traffic before (and is not using HostNetwork).  
+After integrating Prometheus or Telegraf data, we can also use constant metrics to help retrieve Tag values.  
+For example, we can use Prometheus metrics in `ext_metrics` to achieve the above:
 
 ```SQL
 SELECT pod FROM `prometheus.kube_pod_start_time` WHERE pod_cluster = 'cluster1' GROUP BY pod
 ```
 
-In Grafana, we can also use the above capabilities to achieve linked filtering of Variable candidates. For example, we use a custom Variable $cluster and built-in Variables [`$__from`, `$__to`](https://grafana.com/docs/grafana/latest/dashboards/variables/add-template-variables/#__from-and-__to) to perform linked filtering on another Variable pod:
+In Grafana, we can also use this capability to implement linked filtering for Variable candidates.  
+For example, using a custom Variable `$cluster` and built-in Variables [`$__from`, `$__to`](https://grafana.com/docs/grafana/latest/dashboards/variables/add-template-variables/#__from-and-__to) to filter another Variable `pod`:
 
-- When the value of cluster is id, use `$cluster`:
+- When the cluster value is an id, use `$cluster`:
 
   ```Bash
   cluster = [1, 2]
@@ -171,11 +177,11 @@ In Grafana, we can also use the above capabilities to achieve linked filtering o
   ```
 
   ```SQL
-  // Add 5 minutes before and after the time range to avoid frequent changes of candidates
+  -- Add 5 minutes before and after the time range to avoid frequent changes of candidates
   SELECT pod_id as `value`, pod as `display_name` FROM `network.1m` WHERE pod_cluster IN ($cluster) AND time >= ${__from:date:seconds}-500 AND time <= ${__to:date:seconds}+500 GROUP BY `value`
   ```
 
-- When the value of cluster is name, use `${cluster:singlequote}`:
+- When the cluster value is a name, use `${cluster:singlequote}`:
 
   ```Bash
   cluster = [deepflow-a, deepflow-b]
@@ -186,7 +192,7 @@ In Grafana, we can also use the above capabilities to achieve linked filtering o
   SELECT pod as `value`, pod as `display_name` FROM `network.1m` WHERE pod_cluster IN (${cluster:singlequote}) AND  time >= ${__from:date:seconds}-500 AND time <= ${__to:date:seconds}+500 GROUP BY `value`
   ```
 
-## Get Metrics in a Specified Table
+## Get Metrics in a Specific Table
 
 SQL statement:
 
@@ -194,7 +200,7 @@ SQL statement:
 show metrics from ${table_name}
 ```
 
-API call method:
+API call example:
 
 ```bash
 curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/query/" \
@@ -216,7 +222,7 @@ ORDER BY col_3 \
 LIMIT 100
 ```
 
-API call method:
+API call example:
 
 ```bash
 curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/query/" \
@@ -224,26 +230,27 @@ curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/query/" \
     --data-urlencode "sql=${sql}"
 ```
 
-When `db=flow_metric`, you need to specify the data precision through `--data-urlencode "data_precision=${data_precision}"`. The optional values for `data_precision` are `1m` and `1s`.
+When `db=flow_metric`, you need to specify the data precision with `--data-urlencode "data_precision=${data_precision}"`.  
+The optional values for `data_precision` are `1m` and `1s`.
 
 # SQL Query Functions
 
-## Functions Supported by Tags
+## Functions Supported for Tags
 
-- enum
-  - Description: `enum(observation_point)` converts enum fields to values
-  - Example: `SELECT enum(observation_point) ...`, `... WHERE enum(observation_point) = 'xxx' ...`
-  - Note: Only `string_enum` and `int_enum` types of Tags are supported
+- enum  
+  - Description: `enum(observation_point)` converts an enum field to its value  
+  - Example: `SELECT enum(observation_point) ...`, `... WHERE enum(observation_point) = 'xxx' ...`  
+  - Note: Only `string_enum` and `int_enum` type Tags are supported
 
-## Functions Supported by Metrics
+## Functions Supported for Metrics
 
-Execute the following SQL statement to get all functions:
+Run the following SQL statement to get all functions:
 
 ```SQL
 show metric function
 ```
 
-API call method:
+API call example:
 
 ```bash
 curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/query/" \
@@ -252,5 +259,5 @@ curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/query/" \
 
 # SQL Syntax
 
-- Left values do not support spaces, single quotes, or backticks
-- Single quotes in right values need to be escaped with the escape character `\`
+- The left-hand side does not support spaces, single quotes, or backticks
+- Single quotes in the right-hand side need to be escaped with `\`

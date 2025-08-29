@@ -11,20 +11,21 @@ DeepFlow 部署时，默认不会启用 AI 组件，需手动在 `values-custom.
 stella-agent-ce:
   enabled: true
   replicas: 1
-  hostNetwork: "false"
+  hostNetwork: 'false'
   dnsPolicy: ClusterFirst
   imagePullSecrets: []
-  nameOverride: ""
-  fullnameOverride: ""
+  nameOverride: ''
+  fullnameOverride: ''
   podAnnotations: {}
 
   image:
-    repository: "{{ .Values.global.image.repository }}/deepflowio-stella-agent-ce"
+    repository: '{{ .Values.global.image.repository }}/deepflowio-stella-agent-ce'
     pullPolicy: Always
     # Overrides the image tag whose default is the chart appVersion.
     tag: latest
 
-  podSecurityContext: {}
+  podSecurityContext:
+    {}
     # fsGroup: 2000
 
   securityContext:
@@ -40,19 +41,19 @@ stella-agent-ce:
     ## Configuration for ClickHouse service
     annotations: {}
     labels: {}
-    clusterIP: ""
+    clusterIP: ''
 
     ## Port for ClickHouse Service to listen on
     ports:
-    - name: tcp
-      port: 20831
-      targetPort: 20831
-      nodePort: 
-      protocol: TCP
+      - name: tcp
+        port: 20831
+        targetPort: 20831
+        nodePort:
+        protocol: TCP
     # Additional ports to open for server service
     additionalPorts: []
     externalIPs: []
-    loadBalancerIP: ""
+    loadBalancerIP: ''
     loadBalancerSourceRanges: []
 
     ## Denotes if this Service desires to route external traffic to node-local or cluster-wide endpoints
@@ -81,18 +82,19 @@ stella-agent-ce:
     df-llm-agent.yaml:
       daemon: true
       api_timeout: 500
-      sql_show: "false"
-      log_file: "/var/log/df-llm-agent.log"
-      log_level: "info"
-      instance_path: "/root/df-llm-agent"
+      sql_show: 'false'
+      log_file: '/var/log/df-llm-agent.log'
+      log_level: 'info'
+      instance_path: '/root/df-llm-agent'
       mysql:
-        host: "{{ if $.Values.global.externalMySQL.enabled }}{{$.Values.global.externalMySQL.ip}}{{ else }}{{ $.Release.Name }}-mysql{{end}}"
-        port: "{{ if $.Values.global.externalMySQL.enabled }}{{$.Values.global.externalMySQL.port}}{{ else }}30130{{end}}"
-        user_name: "{{ if $.Values.global.externalMySQL.enabled }}{{$.Values.global.externalMySQL.username}}{{ else }}root{{end}}"
-        user_password: "{{ if $.Values.global.externalMySQL.enabled }}{{$.Values.global.externalMySQL.password}}{{ else }}{{ .Values.global.password.mysql }}{{end}}"
-        database: "deepflow_llm"
+        host: '{{ if $.Values.global.externalMySQL.enabled }}{{$.Values.global.externalMySQL.ip}}{{ else }}{{ $.Release.Name }}-mysql{{end}}'
+        port: '{{ if $.Values.global.externalMySQL.enabled }}{{$.Values.global.externalMySQL.port}}{{ else }}30130{{end}}'
+        user_name: '{{ if $.Values.global.externalMySQL.enabled }}{{$.Values.global.externalMySQL.username}}{{ else }}root{{end}}'
+        user_password: '{{ if $.Values.global.externalMySQL.enabled }}{{$.Values.global.externalMySQL.password}}{{ else }}{{ .Values.global.password.mysql }}{{end}}'
+        database: 'deepflow_llm'
 
-  resources: {}
+  resources:
+    {}
     # limits:
     #   cpu: 100m
     #   memory: 128Mi
@@ -108,7 +110,8 @@ stella-agent-ce:
   podAntiAffinityTermLabelSelector: []
   podAffinityLabelSelector: []
   podAffinityTermLabelSelector: []
-  nodeAffinityLabelSelector: []
+  nodeAffinityLabelSelector:
+    []
     # - matchExpressions:
     #     - key: kubernetes.io/hostname
     #       operator: In

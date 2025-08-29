@@ -202,13 +202,13 @@ transforms:
   tag_log:
     # inputs 指的是数据来源，这里可配置 sources 中的 Key，也可以配置 transforms 中的其他 Key
     inputs:
-    - nginx_logs
+      - nginx_logs
     # ...
   flush_log:
     # tag_log 来源于上一个 transforms 模块，这样一份数据就按顺序被两个 transforms 模块处理
     inputs:
-    - tag_log
-    - file_logs
+      - tag_log
+      - file_logs
     # ...
 
 # 数据输出
@@ -216,8 +216,8 @@ sinks:
   push_log:
     # 同样，这里的 inputs 可以同时来自 sources 模块或 transforms 模块
     inputs:
-    - flush_log
-    - kubernetes_logs
+      - flush_log
+      - kubernetes_logs
     # ...
 ```
 

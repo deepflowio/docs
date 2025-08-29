@@ -77,28 +77,27 @@ permalink: /features/l7-protocols/nosql
 | client_error_ratio | 客户端异常比例 | --      | --        | 客户端异常 / 响应                  |
 | server_error_ratio | 服务端异常比例 | --      | --        | 服务端异常 / 响应                  |
 
-
 # Memcached
 
 通过解析 [Memcached](https://github.com/memcached/memcached/blob/master/doc/protocol.txt) 协议，将 Memcached Request / Response 的字段映射到 l7_flow_log 对应字段中，映射关系如下表：
 
 **Tag 字段映射表格，以下表格只包含存在映射关系的字段**
-| 类别  | 名称               | 中文         | Request Header      | Response Header             | 描述           |
+| 类别 | 名称 | 中文 | Request Header | Response Header | 描述 |
 | ----- | ------------------ | ------------ | ------------------- | --------------------------- | -------------- |
-| Req.  | version            | 协议版本     | --                  | --                          | --             |
-|       | request_type       | 请求类型     | Payload 首个单词    | --                          | --             |
-|       | request_domain     | 请求域名     | --                  | --                          | --             |
-|       | request_resource   | 请求资源     | Payload 首行（\r\n）| --                          | --             |
-|       | request_id         | 请求 ID      | --                  | --                          | --             |
-|       | endpoint           | 端点         | --                  | --                          | --             |
-| Resp. | response_code      | 响应码       | --                  | --                          | --             |
-|       | response_status    | 响应状态     | --                  | Payload 首个单词            | --             |
-|       | response_exception | 响应异常     | --                  | 异常时 Payload 首行错误信息 | --             |
-|       | response_result    | 响应结果     | --                  | Payload 首行                | --             |
-| Trace | trace_id           | TraceID      | --                  | --                          | --             |
-|       | span_id            | SpanID       | --                  | --                          | --             |
-|       | x_request_id       | X-Request-ID | --                  | --                          | --             |
-| Misc. | --                 | --           | --                  | --                          | --             |
+| Req. | version | 协议版本 | -- | -- | -- |
+| | request_type | 请求类型 | Payload 首个单词 | -- | -- |
+| | request_domain | 请求域名 | -- | -- | -- |
+| | request_resource | 请求资源 | Payload 首行（\r\n）| -- | -- |
+| | request_id | 请求 ID | -- | -- | -- |
+| | endpoint | 端点 | -- | -- | -- |
+| Resp. | response_code | 响应码 | -- | -- | -- |
+| | response_status | 响应状态 | -- | Payload 首个单词 | -- |
+| | response_exception | 响应异常 | -- | 异常时 Payload 首行错误信息 | -- |
+| | response_result | 响应结果 | -- | Payload 首行 | -- |
+| Trace | trace_id | TraceID | -- | -- | -- |
+| | span_id | SpanID | -- | -- | -- |
+| | x_request_id | X-Request-ID | -- | -- | -- |
+| Misc. | -- | -- | -- | -- | -- |
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
 

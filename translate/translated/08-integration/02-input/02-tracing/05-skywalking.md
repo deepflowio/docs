@@ -7,6 +7,8 @@ permalink: /integration/input/tracing/skywalking
 
 # Data Flow
 
+## DeepFlow Community Edition
+
 ```mermaid
 flowchart TD
 
@@ -36,31 +38,64 @@ subgraph Host
 end
 ```
 
-# Configure OpenTelemetry SkyWalking Receiver
+## DeepFlow Enterprise Edition
 
-## Background Knowledge
+```mermaid
+flowchart TD
 
-You can refer to the [OpenTelemetry documentation](https://opentelemetry.io/docs/) to understand the background knowledge of OpenTelemetry and refer to the previous section [OpenTelemetry Installation](../tracing/opentelemetry/#配置-opentelemetry) for quick installation of OpenTelemetry.
+subgraph K8s-Cluster
+  subgraph AppPod
+    SWSDK1["sw-sdk / sw-javaagent"]
+  end
+  DeepFlowAgent1["deepflow-agent (daemonset)"]
+  DeepFlowServer["deepflow-server (deployment)"]
 
-You can refer to the [SkyWalking documentation](https://skywalking.apache.org/docs/) to understand the background knowledge of SkyWalking. This demo does not require a full installation of SkyWalking; we will use OpenTelemetry to integrate SkyWalking's trace data.
+  SWSDK1 -->|sw-traces| DeepFlowAgent1
+  DeepFlowAgent1 -->|sw-traces| DeepFlowServer
+end
 
-## Confirm OpenTelemetry Version
+subgraph Host
+  subgraph AppProcess
+    SWSDK2["sw-sdk / sw-javaagent"]
+  end
+  DeepFlowAgent2[deepflow-agent]
 
-First, you need to enable OpenTelemetry's ability to receive SkyWalking data, process the data through the OpenTelemetry standard protocol, and send it to the DeepFlow Agent.
+  SWSDK2 -->|sw-traces| DeepFlowAgent2
+  DeepFlowAgent2 -->|sw-traces| DeepFlowServer
+end
+```
 
-There is a bug in OpenTelemetry receiving SkyWalking data, which we have recently fixed in these two PRs [#11562](https://github.com/open-telemetry/opentelemetry-collector-contrib/pull/11562) and [#12651](https://github.com/open-telemetry/opentelemetry-collector-contrib/pull/12651). For the following demo, we need the OpenTelemetry [Collector image](https://hub.docker.com/r/otel/opentelemetry-collector-contrib) version `>= 0.57.0`. Please check the image version of the otel-agent in your environment and ensure it meets the requirements. Refer to the previous section [OpenTelemetry Installation](../tracing/opentelemetry/#配置-otel-agent) to update the otel-agent version in your environment.
+# Trace Collection
 
-## Configure OpenTelemetry to Receive SkyWalking Data
+## Collecting via DeepFlow Agent
 
-After installing OpenTelemetry as described in the [Background Knowledge](#背景知识) section, we can configure OpenTelemetry to receive SkyWalking data using the following steps:
+Starting from DeepFlow Enterprise Edition v6.6, DeepFlow Agent supports directly receiving and sending SkyWalking data without additional configuration.
 
-Assuming the namespace where OpenTelemetry is located is `open-telemetry` and the ConfigMap used by otel-agent is named `otel-agent-conf`, use the following command to modify the otel-agent configuration:
+## Collecting via OpenTelemetry Collector
+
+### Background Knowledge
+
+You can refer to the [OpenTelemetry documentation](https://opentelemetry.io/docs/) to learn more about OpenTelemetry, and follow the [OpenTelemetry Installation](../tracing/opentelemetry/#配置-opentelemetry) section in the previous chapter to quickly install OpenTelemetry.
+
+You can refer to the [SkyWalking documentation](https://skywalking.apache.org/docs/) to learn more about SkyWalking. For this demo, you do not need to install the full SkyWalking stack — we will use OpenTelemetry to integrate SkyWalking trace data.
+
+### Confirm OpenTelemetry Version
+
+First, you need to enable OpenTelemetry’s ability to receive SkyWalking data, process it using the OpenTelemetry standard protocol, and then send it to the DeepFlow Agent.
+
+There is a bug in OpenTelemetry’s SkyWalking data receiver, which we have recently fixed in PRs [#11562](https://github.com/open-telemetry/opentelemetry-collector-contrib/pull/11562) and [#12651](https://github.com/open-telemetry/opentelemetry-collector-contrib/pull/12651). For the following demo, we require the OpenTelemetry [Collector image](https://hub.docker.com/r/otel/opentelemetry-collector-contrib) version `>= 0.57.0`. Please check the otel-agent image version in your environment and ensure it meets the requirement. You can refer to the [OpenTelemetry Installation](../tracing/opentelemetry/#配置-otel-agent) section in the previous chapter to update the otel-agent version in your environment.
+
+### Configure OpenTelemetry to Receive SkyWalking Data
+
+As described in the [Background Knowledge](#背景知识) section, after installing OpenTelemetry, you can configure it to receive SkyWalking data using the following steps:
+
+Assume the namespace for OpenTelemetry is `open-telemetry`, and the ConfigMap used by otel-agent is named `otel-agent-conf`. Modify the otel-agent configuration with the following command:
 
 ```bash
 kubectl -n open-telemetry edit cm otel-agent-conf
 ```
 
-In the `receivers` section, add the following content:
+In the `receivers` section, add the following:
 
 ```yaml
 receivers:
@@ -73,7 +108,7 @@ receivers:
         endpoint: 0.0.0.0:12800
 ```
 
-In the `service.pipelines.traces` section, add the following content:
+In the `service.pipelines.traces` section, add the following:
 
 ```yaml
 service:
@@ -83,37 +118,39 @@ service:
       receivers: [skywalking]
 ```
 
-At the same time, ensure that the `otel-agent-conf` has completed the corresponding configuration as described in the section [Configure otel-agent](../tracing/opentelemetry/#配置-otel-agent).
+Also, make sure that `otel-agent-conf` has been configured according to the [Configure otel-agent](../tracing/opentelemetry/#配置-otel-agent) section.
 
-Next, use the following command to modify the otel-agent Service to open the corresponding ports:
+Next, modify the otel-agent Service to open the corresponding ports:
 
 ```bash
 kubectl -n open-telemetry patch service otel-agent -p '{"spec":{"ports":[{"name":"sw-http","port":12800,"protocol":"TCP","targetPort":12800},{"name":"sw-grpc","port":11800,"protocol":"TCP","targetPort":11800}]}}'
 ```
 
-Then, check the connection address configured in the application for the [SkyWalking OAP Server](https://skywalking.apache.org/docs/main/next/en/setup/backend/backend-setup/#requirements-and-default-settings) and modify it to the Service address of the Otel Agent: `otel-agent.open-telemetry`. For example, change the environment variable `SW_AGENT_COLLECTOR_BACKEND_SERVICES=oap-server:11800` to `SW_AGENT_COLLECTOR_BACKEND_SERVICES=otel-agent.open-telemetry:11800`.
-
-Of course, the reporting address configured in the application may take various forms. Please modify it according to the actual startup command of the application. For `Java` applications, just ensure that the address injected in the startup command can be modified, such as: `-Dskywalking.collector.backend_service=otel-agent.open-telemetry:11800`.
-
-Finally, restart the otel-agent to complete the update:
+Finally, restart the otel-agent to apply the update:
 
 ```bash
 kubectl rollout restart -n open-telemetry daemonset/otel-agent
 ```
 
+# Modify SkyWalking Sending Configuration
+
+Finally, check the configured [SkyWalking OAP Server](https://skywalking.apache.org/docs/main/next/en/setup/backend/backend-setup/#requirements-and-default-settings) address in your application, and change it to the Otel Agent Service address: `otel-agent.open-telemetry`. For example, change the environment variable `SW_AGENT_COLLECTOR_BACKEND_SERVICES=oap-server:11800` to `SW_AGENT_COLLECTOR_BACKEND_SERVICES=otel-agent.open-telemetry:11800`. If you are using DeepFlow Agent to receive data directly, change it to `deepflow-agent.deepflow`.
+
+Of course, the reporting address in the application configuration may take various forms. Please modify it according to the actual application startup command. For `Java` applications, you only need to ensure that the injected address in the startup command is modified, for example: `-Dskywalking.collector.backend_service=otel-agent.open-telemetry:11800`.
+
 # Configure DeepFlow
 
-Please refer to the section [Configure DeepFlow](../tracing/opentelemetry/#配置-deepflow) to complete the configuration of the DeepFlow Agent.
+Please refer to the [Configure DeepFlow](../tracing/opentelemetry/#配置-deepflow) section to complete the DeepFlow Agent configuration.
 
-# Experience Based on WebShop Demo
+# Experience with WebShop Demo
 
-## Deploy Demo
+## Deploy the Demo
 
-This demo comes from [this GitHub repository](https://github.com/liuzhibin-cn/my-demo). It is a WebShop application composed of five microservices written in Spring Boot. Its architecture is as follows:
+This demo comes from [this GitHub repository](https://github.com/liuzhibin-cn/my-demo). It is a WebShop application built with Spring Boot, consisting of five microservices. Its architecture is as follows:
 
 ![Sping Boot Demo Architecture](./imgs/spring-boot-webshop-arch.png)
 
-You can deploy this demo with one click using the following command. This demo has already configured the reporting address, so no additional modifications are needed.
+You can deploy this demo with a single command. The reporting address has already been configured, so no further modification is needed.
 
 ```bash
 kubectl apply -f https://raw.githubusercontent.com/deepflowio/deepflow-demo/main/DeepFlow-Otel-SkyWalking-Demo/deepflow-otel-skywalking-demo.yaml
@@ -121,9 +158,9 @@ kubectl apply -f https://raw.githubusercontent.com/deepflowio/deepflow-demo/main
 
 ## View Tracing Data
 
-Go to Grafana, open the `Distributed Tracing` Dashboard, select `namespace = deepflow-otel-skywalking-demo`, and then you can choose a call to trace.
-DeepFlow can correlate and display the tracing data obtained from SkyWalking, eBPF, and BPF in a single trace flame graph,
-covering the full-stack call path of a Spring Boot application from business code, system functions, to network interfaces, achieving true full-link distributed tracing, as shown below:
+Go to Grafana, open the `Distributed Tracing` dashboard, select `namespace = deepflow-otel-skywalking-demo`, and then choose a call to trace.  
+DeepFlow can correlate and display tracing data from SkyWalking, eBPF, and BPF in a single trace flame graph,  
+covering the full-stack call path of a Spring Boot application from business code, system functions, to network interfaces, achieving true end-to-end distributed tracing. The result looks like this:
 
 ![OTel SkyWalking Demo](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2022082363044145adc1b.png)
 

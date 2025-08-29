@@ -7,31 +7,31 @@ permalink: /ee-install/saas/cloud
 
 # Introduction
 
-Registering cloud platforms on the DeepFlow web page and completing the integration with cloud platform APIs are prerequisites for the following DeepFlow functionalities:
+Registering a cloud platform in the DeepFlow web interface and completing the integration with the cloud platform API is a prerequisite for the following DeepFlow features to function:
 
-- Learning information about cloud server instances in public clouds to accept registration requests from DeepFlow Agents deployed within these cloud servers.
-- Learning information about resources and tags such as VPCs, load balancers, and RDS in public clouds, and automatically injecting `cloud resource` tags into observability data collected by DeepFlow Agents.
+- Learn public cloud server instance information to accept registration requests from DeepFlow Agents deployed inside cloud servers.
+- Learn public cloud VPC, load balancer, RDS, and other resource and tag information, and automatically inject `cloud resource` tags into observability data collected by DeepFlow Agents.
 
-This chapter will provide a detailed guide on how to register cloud platform information on the DeepFlow web page to complete the integration with cloud platform APIs.
-Once registered, DeepFlow will automatically synchronize cloud resource information periodically through the APIs provided by the cloud platforms based on your configuration and build observability data tags for DeepFlow.
+This section provides a detailed guide on how to register cloud platform information in the DeepFlow web interface to complete API integration with the cloud platform.  
+Once registered, DeepFlow will automatically synchronize cloud resource information periodically via the cloud platform’s API based on your configuration, and build observability data tags in DeepFlow.
 
 # Interaction Topology
 
 ![Interaction Topology](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/202407156694c77d6f050.jpeg)
 
-# Supported Cloud Service Providers
+# Supported Cloud Providers
 
-DeepFlow currently supports API integration and cloud resource information synchronization with the following public clouds:
-| Cloud Service Provider (English) | Cloud Service Provider (Chinese) | Type Identifier in DeepFlow |
-| -------------------------------- | -------------------------------- | --------------------------- |
-| AWS                              | AWS                              | aws                         |
-| Aliyun                           | 阿里云                           | aliyun                      |
-| Baidu Cloud                      | 百度云                           | baidu_bce                   |
-| Huawei Cloud                     | 华为云                           | huawei                      |
-| Microsoft Azure                  | 微软云                           |                             |
-| QingCloud                        | 青云                             | qingcloud                   |
-| Tencent Cloud                    | 腾讯云                           | tencent                     |
-| Volcengine                       | 火山引擎                         | volcengine                  |
+DeepFlow currently supports API integration and cloud resource synchronization for the following public clouds:
+| Cloud Provider (English) | Cloud Provider (Chinese) | Type Identifier in DeepFlow |
+| ------------------------ | ------------------------ | --------------------------- |
+| AWS                      | AWS                      | aws                         |
+| Aliyun                   | 阿里云                   | aliyun                      |
+| Baidu Cloud              | 百度云                   | baidu_bce                   |
+| Huawei Cloud             | 华为云                   | huawei                      |
+| Microsoft Azure          | 微软云                   |                             |
+| QingCloud                | 青云                     | qingcloud                   |
+| Tencent Cloud            | 腾讯云                   | tencent                     |
+| Volcengine               | 火山引擎                 | volcengine                  |
 
 # Aliyun
 
@@ -39,48 +39,52 @@ DeepFlow currently supports API integration and cloud resource information synch
 
 1. Go to `Resources` - `Resource Pool` - `Cloud Platform`
 2. Click `New Cloud Platform`
-3. Fill in the relevant cloud platform information and click `Confirm` to get a record of the cloud platform
+3. Fill in the relevant cloud platform information and click `OK` to create a cloud platform record
 
 ![Register Cloud Platform (Aliyun)](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080866b4a7076882c.png)
 
 ## Configuration Item Description
 
-| Configuration Item | Content Example                        | Remarks                                                                 |
-| ------------------ | -------------------------------------- | ----------------------------------------------------------------------- |
-| Cloud Platform Name| Example: `my-aliyun`                   | The name of the cloud platform as seen in DeepFlow, customizable         |
-| AccessKey ID       | Example: `LTAI4FiU3ad3txLUSRg8xGfn`    | Create an AccessKey in the Aliyun console and fill in the ID here        |
-| AccessKey Secret   | Example: `itsHzkPo22jbtNZ61QEz3gc5bsPnXP` | Create an AccessKey in the Aliyun console and fill in the Secret here    |
-| Region Whitelist   | Example: `South China 3 (Guangzhou), North China 6 (Ulanqab)` | List of regions where Aliyun ECS resources are located, separated by `, ` |
+| Configuration Item  | Example Value                           | Notes                                                                 |
+| ------------------- | --------------------------------------- | --------------------------------------------------------------------- |
+| Cloud Platform Name | e.g., `my-aliyun`                        | The name of the cloud platform as displayed in DeepFlow, customizable |
+| AccessKey ID        | e.g., `LTAI4FiU3ad3txLUSRg8xGfn`         | Create an AccessKey in the Aliyun console and enter the ID here       |
+| AccessKey Secret    | e.g., `itsHzkPo22jbtNZ61QEz3gc5bsPnXP`   | Create an AccessKey in the Aliyun console and enter the Secret here   |
+| Region Whitelist    | e.g., `华南3（广州）, 华北6（乌兰察布）` | List of regions where Aliyun ECS resources are located, separated by `, ` |
 
 ::: warning
-The `Region Whitelist` must be filled in and must match the actual distribution of cloud server resources. If the `Region Whitelist` is empty (matching all regions) or too extensive, DeepFlow may query too many Aliyun regions, resulting in long query cycles. If the regions listed do not include the regions where your cloud servers are located, DeepFlow will not be able to learn the information of the cloud servers in those regions, and DeepFlow Agents will not be able to register.
+`Region Whitelist` must be filled in and must match the actual distribution of your cloud server resources.  
+If the `Region Whitelist` is empty (matches all regions) or contains too many regions, DeepFlow may query too many Aliyun regions, resulting in long query cycles.  
+If the regions you enter do not include the regions where your cloud servers are located, DeepFlow will not be able to learn the cloud server information in those regions, and DeepFlow Agents will fail to register.
 :::
 
-**Steps to Create an AccessKey in the Aliyun Console**:
+**Steps to create an AccessKey in the Aliyun console**:
 
 ![Create AccessKey in Aliyun Console](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240709668ce0a59992c.png)
 
-**Steps to Query the Regions of Aliyun Resources**:
+**Steps to check the regions where Aliyun resources are located**:
 
-![Query Regions of Aliyun Resources](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240709668ce0a9687e6.png)
+![Check Aliyun Resource Regions](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240709668ce0a9687e6.png)
 
 ## API Permission Description
 
-DeepFlow will use the following APIs to learn resource information from Aliyun. If you need to restrict the resources that DeepFlow can learn, you can limit the resource permissions of the account used to generate the AccessKey in the Aliyun console:
+DeepFlow uses the following APIs to learn resource information from Aliyun.  
+If you need to restrict the resources DeepFlow can access, you can limit the permissions of the account used to generate the AccessKey in the Aliyun console:
 
-| API                           | Integration Content         | Required |
-| ----------------------------- | --------------------------- | -------- |
-| DescribeRegions               | Query region list           | Required |
-| DescribeVpcs                  | Query VPC list              | Required |
-| DescribeVSwitches             | Query switch list           | Required |
-| DescribeInstances             | Query cloud server instance list | Required |
-| DescribeNetworkInterfaces     | Query cloud server network interface list | Required |
-| DescribeNatGateways           | Query NAT gateway list      | Optional |
-| DescribeSnatTableEntries      | Query NAT gateway SNAT rules | Optional |
-| DescribeForwardTableEntries   | Query NAT gateway DNAT rules | Optional |
-| DescribeLoadBalancers         | Query load balancers        | Optional |
-| DescribeLoadBalancerAttribute | Query load balancer listeners | Optional |
-| DescribeHealthStatus          | Query load balancer rules   | Optional |
+| Product     | API                           | Permission                | Integration Content              | Required |
+| ----------- | ----------------------------- | ------------------------- | --------------------------------- | -------- |
+| Vpc         | DescribeRegions               | AliyunVPCReadOnlyAccess   | Query region list                 | Yes      |
+| Vpc         | DescribeVpcs                  | AliyunVPCReadOnlyAccess   | Query VPC list                    | Yes      |
+| Vpc         | DescribeVSwitches             | AliyunVPCReadOnlyAccess   | Query switch list                 | Yes      |
+| Ecs         | DescribeInstances             | AliyunECSReadOnlyAccess   | Query cloud server instance list  | Yes      |
+| Ecs         | DescribeNetworkInterfaces     | AliyunECSReadOnlyAccess   | Query cloud server NIC list       | Yes      |
+| Vpc         | DescribeNatGateways           | AliyunVPCReadOnlyAccess   | Query NAT gateway list            | No       |
+| Vpc         | DescribeSnatTableEntries      | AliyunVPCReadOnlyAccess   | Query NAT gateway SNAT rules      | No       |
+| Vpc         | DescribeForwardTableEntries   | AliyunVPCReadOnlyAccess   | Query NAT gateway DNAT rules      | No       |
+| Slb         | DescribeLoadBalancers         | AliyunSLBReadOnlyAccess   | Query load balancers              | No       |
+| Slb         | DescribeLoadBalancerAttribute | AliyunSLBReadOnlyAccess   | Query load balancer listeners     | No       |
+| Slb         | DescribeHealthStatus          | AliyunSLBReadOnlyAccess   | Query load balancer rules         | No       |
+| Container Service | DescribeClusters        | AliyunCSReadOnlyAccess    | Query cluster list                | No       |
 
 # Tencent Cloud
 
@@ -88,46 +92,49 @@ DeepFlow will use the following APIs to learn resource information from Aliyun. 
 
 1. Go to `Resources` - `Resource Pool` - `Cloud Platform`
 2. Click `New Cloud Platform`
-3. Fill in the relevant cloud platform information and click `Confirm` to get a record of the cloud platform
+3. Fill in the relevant cloud platform information and click `OK` to create a cloud platform record
 
 ![Register Cloud Platform (Tencent Cloud)](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2024080866b4a705b08bb.png)
 
 ## Configuration Item Description
 
-| Configuration Item | Content Example                        | Remarks                                                                 |
-| ------------------ | -------------------------------------- | ----------------------------------------------------------------------- |
-| Cloud Platform Name| Example: tencent-1                     | The name of the cloud platform as seen in DeepFlow, customizable         |
-| AccessKey ID       | Example: AKIDztZ0C9dHuIQJwKMeZEixykjTBhz2L | Fill in the `SecretId` generated after creating a new key in the `API Key Management` page under `Access Management` in the Tencent Cloud console (read-only permissions are sufficient) |
-| AccessKey Secret   | Example: itsHzkPo22jbtNZ61QEz3gc5bsPnXP | Fill in the `SecretKey` corresponding to the `SecretId` (read-only permissions are sufficient) |
-| Region Whitelist   | Example: East China (Shanghai)         | List of regions where Tencent Cloud servers are located, multiple regions can be configured, regular expressions are not supported, regions are separated by `, ` |
+| Configuration Item  | Example Value                         | Notes                                                                                                      |
+| ------------------- | ------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| Cloud Platform Name | e.g., tencent-1                        | The name of the cloud platform as displayed in DeepFlow, customizable                                      |
+| AccessKey ID        | e.g., AKIDztZ0C9dHuIQJwKMeZEixykjTBhz2L | Enter the `SecretId` generated after creating a new key in Tencent Cloud `Access Management` - `API Key Management` (read-only permission is sufficient) |
+| AccessKey Secret    | e.g., itsHzkPo22jbtNZ61QEz3gc5bsPnXP    | Enter the `SecretKey` corresponding to the `SecretId` (read-only permission is sufficient)                 |
+| Region Whitelist    | e.g., 华东地区(上海)                    | List of regions where Tencent Cloud servers are located, multiple regions can be configured, regex not supported, separated by `, ` |
 
 ::: warning
-The `Region Whitelist` must be filled in and must match the actual distribution of cloud server resources. If the `Region Whitelist` is empty (matching all regions) or too extensive, DeepFlow may query too many Tencent Cloud regions, resulting in long query cycles. If the regions listed do not include the regions where your cloud servers are located, DeepFlow will not be able to learn the information of the cloud servers in those regions, and DeepFlow Agents will not be able to register.
+`Region Whitelist` must be filled in and must match the actual distribution of your cloud server resources.  
+If the `Region Whitelist` is empty (matches all regions) or contains too many regions, DeepFlow may query too many Tencent Cloud regions, resulting in long query cycles.  
+If the regions you enter do not include the regions where your cloud servers are located, DeepFlow will not be able to learn the cloud server information in those regions, and DeepFlow Agents will fail to register.
 :::
 ::: tip
-The Tencent Cloud `Region` list includes: South China (Guangzhou), East China (Nanjing), North China (Beijing), Southwest China (Chengdu), Southwest China (Chongqing), Hong Kong, Macao, and Taiwan (Hong Kong, China), Northeast Asia (Seoul), Northeast Asia (Tokyo), Southeast Asia (Singapore), Southeast Asia (Bangkok), Southeast Asia (Jakarta), Western US (Silicon Valley), Europe (Frankfurt), South Asia (Mumbai), Eastern US (Virginia), South America (São Paulo), North America (Toronto)
+Tencent Cloud `Region` list includes: 华南地区(广州), 华东地区(南京), 华北地区(北京), 西南地区(成都), 西南地区(重庆), 港澳台地区(中国香港), 亚太东北(首尔), 亚太东北(东京), 亚太东南(新加坡), 亚太东南(曼谷), 亚太东南(雅加达), 美国西部(硅谷), 欧洲地区(法兰克福), 亚太南部(孟买), 美国东部(弗吉尼亚), 南美地区(圣保罗), 北美地区(多伦多)
 :::
 
-**Steps to Create a Key in the Tencent Cloud Console**:
+**Steps to create a key in the Tencent Cloud console**:
 
 ![Create Key in Tencent Cloud Console](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240719669a41be51191.png)
 
 ## API Permission Description
 
-DeepFlow will use the following APIs to learn resource information from Tencent Cloud. If you need to restrict the resources that DeepFlow can learn, you can limit the resource permissions of the account used to generate the key in the Tencent Cloud console:
+DeepFlow uses the following APIs to learn resource information from Tencent Cloud.  
+If you need to restrict the resources DeepFlow can access, you can limit the permissions of the account used to generate the key in the Tencent Cloud console:
 
-| API                                                    | Integration Content             | Required |
-| ------------------------------------------------------ | ------------------------------- | -------- |
-| DescribeRegions                                        | Query region list               | Required |
-| DescribeZones                                          | Query availability zone list    | Required |
-| DescribeVpcs                                           | Query VPC list                  | Required |
-| DescribeNatGateways                                    | Query NAT gateways and related information | Required |
-| DescribeNatGatewayDestinationIpPortTranslationNatRules | Query NAT gateway rules         | Required |
-| DescribeRouteTables                                    | Query route tables              | Required |
-| DescribeSubnets                                        | Query subnet list               | Required |
-| DescribeInstances                                      | Query instance list             | Required |
-| DescribeNetworkInterfaces                              | Query elastic network interface list | Required |
-| DescribeLoadBalancers                                  | Query load balancer list        | Required |
-| DescribeListeners                                      | Query load balancer listener list | Required |
-| DescribeTargets                                        | Query backend services bound to load balancers | Required |
-| DescribeClassicalLBListeners                           | Query classical load balancer listener list | Required |
+| API                                                    | Integration Content                  | Required |
+| ------------------------------------------------------ | ------------------------------------- | -------- |
+| DescribeRegions                                        | Query region list                     | Yes      |
+| DescribeZones                                          | Query availability zone list          | Yes      |
+| DescribeVpcs                                           | Query VPC list                        | Yes      |
+| DescribeNatGateways                                    | Query NAT gateways and related info   | Yes      |
+| DescribeNatGatewayDestinationIpPortTranslationNatRules | Query NAT gateway rules               | Yes      |
+| DescribeRouteTables                                    | Query route tables                    | Yes      |
+| DescribeSubnets                                        | Query subnet list                     | Yes      |
+| DescribeInstances                                      | Query instance list                   | Yes      |
+| DescribeNetworkInterfaces                              | Query elastic NIC list                 | Yes      |
+| DescribeLoadBalancers                                  | Query load balancer list              | Yes      |
+| DescribeListeners                                      | Query load balancer listener list     | Yes      |
+| DescribeTargets                                        | Query backend service list bound to load balancers | Yes      |
+| DescribeClassicalLBListeners                           | Query classic load balancer listener list | Yes   |

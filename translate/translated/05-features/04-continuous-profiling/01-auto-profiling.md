@@ -7,65 +7,86 @@ permalink: /features/continuous-profiling/auto-profiling
 
 # AutoProfiling
 
-By using eBPF to capture snapshots of application function call stacks, DeepFlow can generate Profiling flame graphs for any process, helping developers quickly identify function performance bottlenecks. **In addition to business functions, the function call stack also displays the time consumption of dynamic link libraries, language runtimes, and kernel functions.** Moreover, DeepFlow generates a unique identifier when collecting function call stacks, which can be used to correlate with call logs, enabling the integration of distributed tracing and function performance profiling.
+By using eBPF to capture snapshots of an application's function call stack, DeepFlow can generate profiling flame graphs for any process, helping developers quickly pinpoint function performance bottlenecks. **In addition to business functions, the function call stack can also display the time consumption of dynamic link libraries, language runtimes, and kernel functions**. Furthermore, when collecting function call stacks, DeepFlow generates a unique identifier that can be associated with call logs, enabling the linkage between distributed tracing and function performance profiling.
 
 ![DeepFlow's AutoProfiling](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/20240601665a96f4b63fd.png)
 
 # Capabilities and Limitations
 
-Supported eBPF Profiling data types:
+Supported eBPF profiling data types:
 
 | Type      | Supported Languages/Libraries | Community Edition | Enterprise Edition |
 | --------- | ----------------------------- | ----------------- | ------------------ |
-| on-cpu    | Java                          | ✔                 | ✔                  |
-|           | C/C++                         | ✔                 | ✔                  |
-|           | Rust                          | ✔                 | ✔                  |
-|           | Golang                        | ✔                 | ✔                  |
-|           | Python `*`                    | ✔                 | ✔                  |
-|           | CUDA `*`                      | ✔                 | ✔                  |
-|           | Lua `*`                       | ✔                 | ✔                  |
-| off-cpu   | Java                          |                   | ✔                  |
-|           | C/C++                         |                   | ✔                  |
-|           | Rust                          |                   | ✔                  |
-|           | Golang                        |                   | ✔                  |
-|           | Python `*`                    |                   | ✔                  |
-|           | CUDA `*`                      |                   | ✔                  |
-|           | Lua `*`                       |                   | ✔                  |
-| mem-alloc | Java                          |                   | ✔                  |
-|           | Rust `*`                      |                   | ✔                  |
-|           | Golang `*`                    |                   | ✔                  |
-|           | Python `*`                    |                   | ✔                  |
-| mem-inuse | Rust `*`                      |                   | ✔                  |
-| hbm-alloc | Python `*`                    |                   | ✔                  |
-| hbm-inuse | Python `*`                    |                   | ✔                  |
-| rdma      | C/C++ `*`                     |                   | ✔                  |
+| on-cpu    | Java                           | ✔                 | ✔                  |
+|           | C/C++                          | ✔                 | ✔                  |
+|           | Rust                           | ✔                 | ✔                  |
+|           | Golang                         | ✔                 | ✔                  |
+|           | Python `***`                   | ✔                 | ✔                  |
+|           | CUDA                           | ✔                 | ✔                  |
+|           | Lua `*`                        | ✔                 | ✔                  |
+| off-cpu   | Java                           |                   | ✔                  |
+|           | C/C++                          |                   | ✔                  |
+|           | Rust                           |                   | ✔                  |
+|           | Golang                         |                   | ✔                  |
+|           | Python `***`                   |                   | ✔                  |
+|           | CUDA                           |                   | ✔                  |
+|           | Lua `*`                        |                   | ✔                  |
+| on-gpu    | CUDA `*`                       |                   | ✔                  |
+| mem-alloc | Java `**`                      |                   | ✔                  |
+|           | Rust                           |                   | ✔                  |
+|           | Golang `*`                     |                   | ✔                  |
+|           | Python `*` `***`               |                   | ✔                  |
+| mem-inuse | Rust                           |                   | ✔                  |
+| hbm-alloc | CUDA `*`                       |                   | ✔                  |
+| hbm-inuse | CUDA `*`                       |                   | ✔                  |
+| rdma      | C/C++ `*`                      |                   | ✔                  |
 
 Notes:
 
-- `*`: features in development
-- Types:
-  - on-cpu: Time spent by functions on the CPU
-  - off-cpu: Time functions wait for the CPU
-  - mem-alloc: Total memory allocation of objects and function call stacks
-  - mem-inuse: Current memory usage of objects and function call stacks
-  - hbm-alloc: Total GPU memory allocation of objects and function call stacks
-  - hbm-inuse: Current GPU memory usage of objects and function call stacks
-- Languages:
-  - Languages compiled into ELF format executables: Golang, Rust, C/C++
-  - Languages using the JVM: Java
+- `*`: features in development  
+- `**`: The JVM running the Java program must have a symbol table, see [check method](#jvm-symbol-table-check)  
+- `***`: Currently supports Python 3.10  
+- Types:  
+  - on-cpu: Time a function spends on the CPU  
+  - off-cpu: Time a function waits for the CPU  
+  - on-gpu: Time a function spends on the GPU  
+  - mem-alloc: Total memory allocated by objects and the function call stack  
+  - mem-inuse: Current memory usage of objects and the function call stack  
+  - hbm-alloc: Total GPU memory allocated by objects and the function call stack  
+  - hbm-inuse: Current GPU memory usage of objects and the function call stack  
+- Languages:  
+  - Languages compiled into ELF format executables: Golang, Rust, C/C++  
+  - Languages using the JVM: Java  
+  - Interpreted languages: Python  
 
-Two prerequisites must be met to obtain Profiling data:
+Two prerequisites must be met to obtain profiling data:
 
-- The process needs to enable Frame Pointer
-  - Compiling C/C++: `gcc -fno-omit-frame-pointer`
-  - Compiling Rust: `RUSTFLAGS="-C force-frame-pointers=yes"`
-  - Compiling Golang: Enabled by default, no additional compilation parameters needed
-  - Running Java: `-XX:+PreserveFramePointer`
-- For processes of compiled languages, ensure to retain the symbol table during compilation
+- The application process must enable Frame Pointer or enable the Agent's DWARF stack unwinding capability  
+  - Enable Frame Pointer (frame pointer register) for the application process:  
+    - Compile C/C++: `gcc -fno-omit-frame-pointer`  
+    - Compile Rust: `RUSTFLAGS="-C force-frame-pointers=yes"`  
+    - Compile Golang: Enabled by default, no extra compile parameters needed  
+    - Run Java: `-XX:+PreserveFramePointer`  
+  - For enabling the Agent's DWARF stack unwinding capability, please refer to the [documentation](../../configuration/agent/#inputs.ebpf.profile.unwinding)  
+- For compiled languages, ensure the symbol table is preserved during compilation  
 
-The Off-CPU Profiling feature **only** collects the following call stacks:
+The Off-CPU profiling feature **only** collects the following call stacks:
 
-- Call stacks where the process state **equals** `TASK_INTERRUPTIBLE` (interruptible sleep) or `TASK_UNINTERRUPTIBLE` (uninterruptible sleep) when yielding the CPU
-- Call stacks **excluding** the 0th process (Idle process)
-- Call stacks containing **at least one** user-mode function
-- Call stacks where the CPU wait time **does not exceed** 1 hour
+- Call stacks where the process state is **equal to** `TASK_INTERRUPTIBLE` (interruptible sleep) or `TASK_UNINTERRUPTIBLE` (uninterruptible sleep) when yielding the CPU  
+- Call stacks **excluding** process 0 (Idle process)  
+- Call stacks containing **at least one** user-space function  
+- Call stacks where the CPU wait time is **no more than** 1 hour  
+
+# FAQ
+
+## JVM Symbol Table Check
+
+- Find the process ID of the Java process that requires memory profiling, denoted as `$pid`  
+- Check the location of the loaded `libjvm.so` for the process, denoted as `$path`  
+  ```
+  grep libjvm.so /proc/$pid/maps
+  ```
+- Check whether the file contains a symbol table  
+  ```
+  readelf -WS $path | grep symtab
+  ```

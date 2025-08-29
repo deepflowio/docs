@@ -9,11 +9,11 @@ permalink: /best-practice/production-deployment/
 
 DeepFlow production deployment recommendations.
 
-# Use LTS Version of DeepFlow
+# Use the LTS Version of DeepFlow
 
-Add the `--version 6.4.9` parameter to helm to install or upgrade the LTS version of DeepFlow Server and Agent.
+Run `helm search repo deepflow -l` to check the [latest LTS version](../release-notes/release-timeline)
 
-## Install LTS Version of DeepFlow Server
+## Install the LTS Version of DeepFlow Server
 
 ::: code-tabs#shell
 
@@ -23,7 +23,7 @@ Add the `--version 6.4.9` parameter to helm to install or upgrade the LTS versio
 # helm repo add deepflow https://deepflowio.github.io/deepflow
 
 helm repo update deepflow # use `helm repo update` when helm < 3.7.0
-helm upgrade --install deepflow -n deepflow deepflow/deepflow --version 6.4.9 --create-namespace
+helm upgrade --install deepflow -n deepflow deepflow/deepflow --version 7.0.014 --create-namespace
 ```
 
 @tab Use Aliyun
@@ -40,13 +40,13 @@ helm repo update deepflow # use `helm repo update` when helm < 3.7.0
 #   image:
 #     repository: registry.cn-beijing.aliyuncs.com/deepflow-ce/grafana
 # EOF
-helm upgrade --install deepflow -n deepflow deepflow/deepflow --version 6.4.9 --create-namespace \
+helm upgrade --install deepflow -n deepflow deepflow/deepflow --version 7.0.014 --create-namespace \
   -f values-custom.yaml
 ```
 
 :::
 
-## Install LTS Version of DeepFlow Agent
+## Install the LTS Version of DeepFlow Agent
 
 ### K8s Environment
 
@@ -65,8 +65,7 @@ helm upgrade --install deepflow -n deepflow deepflow/deepflow --version 6.4.9 --
 # helm repo add deepflow https://deepflowio.github.io/deepflow
 
 helm repo update deepflow # use `helm repo update` when helm < 3.7.0
-helm upgrade --install deepflow-agent -n deepflow deepflow/deepflow-agent --version 6.4.9 --create-namespace \
-    -f values-custom.yaml
+helm upgrade --install deepflow-agent -n deepflow deepflow/deepflow-agent --version 7.0.014 --create-namespace -f values-custom.yaml
 ```
 
 @tab Use Aliyun
@@ -84,8 +83,7 @@ helm upgrade --install deepflow-agent -n deepflow deepflow/deepflow-agent --vers
 # helm repo add deepflow https://deepflowio.github.io/deepflow
 
 helm repo update deepflow # use `helm repo update` when helm < 3.7.0
-helm upgrade --install deepflow-agent -n deepflow deepflow/deepflow-agent --version 6.4.9 --create-namespace \
-  -f values-custom.yaml
+helm upgrade --install deepflow-agent -n deepflow deepflow/deepflow-agent --version 7.0.014 --create-namespace -f values-custom.yaml
 ```
 
 :::
@@ -99,7 +97,7 @@ Switch the Agent download link to the LTS version:
 @tab rpm
 
 ```bash
-curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/rpm/agent/v6.4.9/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent-rpm.zip
+curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/rpm/agent/v7.0/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent-rpm.zip
 unzip deepflow-agent-rpm.zip
 yum -y localinstall x86_64/deepflow-agent-1.0*.rpm
 ```
@@ -107,7 +105,7 @@ yum -y localinstall x86_64/deepflow-agent-1.0*.rpm
 @tab deb
 
 ```bash
-curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/deb/agent/v6.4.9/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent-deb.zip
+curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/deb/agent/v7.0/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent-deb.zip
 unzip deepflow-agent-deb.zip
 dpkg -i x86_64/deepflow-agent-1.0*.systemd.deb
 ```
@@ -115,7 +113,7 @@ dpkg -i x86_64/deepflow-agent-1.0*.systemd.deb
 @tab binary file
 
 ```bash
-curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/agent/v6.4.9/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent.tar.gz
+curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/agent/v7.0/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent.tar.gz
 tar -zxvf deepflow-agent.tar.gz -C /usr/sbin/
 
 cat << EOF > /etc/systemd/system/deepflow-agent.service
@@ -140,18 +138,19 @@ systemctl daemon-reload
 
 :::
 
-## Install LTS Version of Cli
+## Install the LTS Version of Cli
 
 Switch the Cli download link to the LTS version:
 
 ```bash
-curl -o /usr/bin/deepflow-ctl https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/ctl/v6.4.9/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-ctl
+curl -o /usr/bin/deepflow-ctl https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/ctl/v7.0/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-ctl
 chmod a+x /usr/bin/deepflow-ctl
 ```
 
 # Use Managed MySQL
 
-In a production environment, it is recommended to use a managed MySQL to ensure availability. It is recommended to use MySQL version 8.0 or above. The following databases need to be created and authorized in advance:
+In production environments, it is recommended to use managed MySQL to ensure availability. MySQL 8.0 or above is recommended.  
+You need to create the following databases in advance and grant account permissions:
 
 - deepflow
 - grafana
@@ -172,7 +171,8 @@ mysql:
 
 # Use Managed ClickHouse
 
-In a production environment, it is recommended to use a managed ClickHouse to ensure availability. It is recommended that the version of ClickHouse be at least 21.8. The following databases need to be created and authorized in advance:
+In production environments, it is recommended to use managed ClickHouse to ensure availability. The recommended ClickHouse version is at least 21.8.  
+You need to create the following databases in advance and grant account permissions:
 
 - deepflow_system
 - event
@@ -211,11 +211,11 @@ clickhouse:
   enabled: false ## Close ClickHouse deployment
 ```
 
-DeepFlow will write the IP:Port information of ClickHouse into an Endpoint of a Service. The controller and ingester of deepflow-server obtain the ClickHouse address list through the `list&watch` of this Service's Endpoint. The controller connects to all ClickHouse instances to create databases and table structures, while the ingester sorts all deepflow-server pod names and Endpoint IPs, mapping them to deepflow-server and ClickHouse in sequence, creating databases, table structures, and writing observability data. The querier accesses this Service to query observability data.
+DeepFlow writes the IP:Port information of ClickHouse into a Service Endpoint. The controller and ingester of deepflow-server obtain the ClickHouse address list through `list&watch` of this Service Endpoint. The controller connects to all ClickHouse instances to create databases, table structures, etc. The ingester sorts all deepflow-server pod names and Endpoint IPs, maps them to deepflow-server and ClickHouse in order, and creates databases, table structures, and writes observability data. The querier queries observability data by accessing this Service.
 
-Since ClickHouse needs to request MySQL, it is recommended to use managed MySQL along with managed ClickHouse.
+Since ClickHouse needs to request MySQL, it is recommended to use managed MySQL together when using managed ClickHouse.
 
-If only using managed ClickHouse without managed MySQL, it is recommended to open the NodePort of MySQL and configure `global.externalMySQL` to the NodePort access address.
+If you only use managed ClickHouse without managed MySQL, it is recommended to open MySQL's NodePort and configure `global.externalMySQL` to the NodePort access address.
 
 `values-custom.yaml` configuration:
 
@@ -256,28 +256,28 @@ mysql:
     type: NodePort
 ```
 
-If you want to reuse the port allocated by NodePort, you need to deploy twice. Before the second deployment, fill in the port allocated in the first deployment into `global.externalMySQL.port`.
+If you want to reuse the port assigned by NodePort, you need to deploy twice, and before the second deployment, fill in the port assigned in the first deployment into `global.externalMySQL.port`.
 
-Since ClickHouse will save the connection method of MySQL, after modifying the MySQL connection, you need to delete all databases in ClickHouse and restart deepflow-server to reset the database.
+Since ClickHouse stores MySQL connection information, after modifying the MySQL connection, you need to delete all databases in ClickHouse and restart deepflow-server to reset the database.
 
-# Optimize Traffic Path from deepflow-agent to deepflow-server
+# Optimize the Traffic Path from deepflow-agent to deepflow-server
 
-When deepflow-agent starts, it will use the `controller-ips` in the local configuration file (including ConfigMap) to request deepflow-server. deepflow-server will by default send the Node IP of the deepflow-server Pod to deepflow-agent (the Pod IP of deepflow-server is sent by default in the same cluster) for subsequent request configuration and data sending. When there are multiple deepflow-servers, different deepflow-server Node IPs will be sent for load balancing, and load balancing will be performed periodically.
+When deepflow-agent starts, it uses the `controller-ips` in the local configuration file (including ConfigMap) to request deepflow-server. By default, deepflow-server sends the Node IP of the deepflow-server Pod to deepflow-agent (Pod IP in the same cluster) for subsequent configuration requests and data sending. When there are multiple deepflow-servers, different Node IPs are sent to deepflow-agent for load balancing, and re-sent periodically after load balancing.
 
-At this time, two ports' IPs are dynamically sent by deepflow-server to deepflow-agent:
+At this time, there are two ports whose IPs are dynamically sent from deepflow-server to deepflow-agent:
 
-- deepflow-agent and deepflow-server are not in the same cluster
+- deepflow-agent and deepflow-server are not in the same cluster:
   - Control plane 30035
   - Data plane 30033
-- deepflow-agent and deepflow-server are in the same cluster
-  - Control plane 20035 (configured in deepflow-server ConfigMap as `controller.grpc-port`, default is 20035)
-  - Data plane 20033 (configured in deepflow-server ConfigMap as `ingester.listen-port`, default is 20033)
+- deepflow-agent and deepflow-server are in the same cluster:
+  - Control plane 20035 (`controller.grpc-port` configured in deepflow-server ConfigMap, default 20035)
+  - Data plane 20033 (`ingester.listen-port` configured in deepflow-server ConfigMap, default 20033)
 
-By default, deepflow-agent uses NodePort to connect to deepflow-server. This NodePort Service uses `externalTrafficPolicy=Cluster`, and the traffic from NodePort to deepflow-server will generally be forwarded again, occupying unnecessary inter-node bandwidth. In extreme cases, kube-proxy may occupy too much CPU and other resources due to excessive traffic.
+By default, deepflow-agent connects to deepflow-server via NodePort. This NodePort Service uses `externalTrafficPolicy=Cluster`, and traffic from NodePort to deepflow-server is usually forwarded again, consuming unnecessary inter-node bandwidth. In extreme cases, kube-proxy may consume excessive CPU and other resources due to high traffic.
 
-## Use LoadBalancer Type Service
+## Use a LoadBalancer Type Service
 
-In environments with LoadBalancer conditions, you can modify the Service type of deepflow-server to LoadBalancer, using LoadBalancer to proxy the traffic of deepflow-agent requests to deepflow-server, improving availability.
+In environments with LoadBalancer capability, you can change the deepflow-server Service type to LoadBalancer to proxy deepflow-agent traffic to deepflow-server, improving availability.
 
 `values-custom.yaml` configuration:
 
@@ -287,7 +287,7 @@ server:
     type: LoadBalancer
 ```
 
-After modifying the Service type of deepflow-server to LoadBalancer, you need to configure agent-group-config to switch the address of deepflow-server requested by deepflow-agent to the LoadBalancer IP:
+After changing the deepflow-server Service type to LoadBalancer, you need to configure agent-group-config to switch the deepflow-agent request address to the LoadBalancer IP:
 
 ```yaml
 proxy_controller_ip: 1.2.3.4 # FIXME: Your LoadBalancer IP address
@@ -296,11 +296,12 @@ proxy_controller_port: 30035 # The default is 30035
 analyzer_port: 30033 # The default is 30033
 ```
 
-Note: After configuration, this IP will be fixedly sent to the collector as the data transmission IP, and the collector will also fixedly use the `controller-ips` in the local configuration file to request the control plane port 30035 to obtain configuration information.
+Note: After configuration, this IP will be fixed as the data transmission IP sent to the collector, and the collector will also always use the controller-ips in the local configuration file to request the control plane port 30035 for configuration information.
 
 ## Use Local externalTrafficPolicy
 
-In environments without LoadBalancer conditions, you can configure the Service of deepflow-server to `externalTrafficPolicy=Local` to ensure that the traffic accessing the NodePort of a node will only be routed to the deepflow-server on that node. Due to the use of `externalTrafficPolicy=Local` and deepflow-server drift and other factors, some nodes' NodePorts may not be able to access deepflow-server. You need to be careful to avoid affecting the `controller-ip` in the configuration file of deepflow-agent.
+In environments without LoadBalancer capability, you can configure the deepflow-server Service with `externalTrafficPolicy=Local` to ensure that traffic accessing a NodePort on a node is only routed to the deepflow-server on that node.  
+Due to `externalTrafficPolicy=Local` and deepflow-server migration, some NodePorts may not be able to access deepflow-server. Be careful to avoid affecting the controller-ip in the deepflow-agent configuration file.
 
 `values-custom.yaml` configuration:
 
@@ -312,7 +313,7 @@ server:
 
 ## Use HostNetwork
 
-Enable the HostNetwork of deepflow-server to reduce the pressure on kube-proxy.
+Enable HostNetwork for deepflow-server to reduce kube-proxy load.
 
 `values-custom.yaml` configuration:
 
@@ -322,31 +323,32 @@ server:
   dnsPolicy: ClusterFirstWithHostNet
 ```
 
-After enabling the HostNetwork of deepflow-server, you need to configure agent-group-config to switch the port requested by deepflow-agent to deepflow-server:
+After enabling HostNetwork for deepflow-server, you need to configure agent-group-config to switch the ports used by deepflow-agent to request deepflow-server:
 
 ```yaml
 proxy_controller_port: 20035 # The deepflow-server controller listens on the port. The default port is 20035
 analyzer_port: 20033 # The deepflow-server ingester listens on the port. The default port is 20033
 ```
 
-# Integrate with Existing Grafana
+# Integrate with an Existing Grafana
 
-## Download and Install Plugins
+## Download and Install the Plugin
 
-DeepFlow supports integration with existing Grafana. It is recommended to use version 9.0 or above, with the minimum supported version being 8.0. Currently, DeepFlow's plugins are undergoing certification. Before the certification is completed, you need to configure Grafana to allow loading unsigned plugins:
+DeepFlow supports integration with an existing Grafana. Grafana 9.0 or above is recommended, with a minimum supported version of 8.0.  
+Currently, DeepFlow's plugin is undergoing certification. Before certification is complete, you need to configure Grafana to allow loading unsigned plugins:
 
 ```ini
 [plugins]
 allow_loading_unsigned_plugins = deepflow-querier-datasource,deepflow-apptracing-panel,deepflow-topo-panel,deepflowio-tracing-panel,deepflowio-deepflow-datasource,deepflowio-topo-panel
 ```
 
-Download the plugin installation package:
+Download the plugin package:
 
 ```
 curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/pkg/grafana-plugin/stable/deepflow-gui-grafana.tar.gz
 ```
 
-Extract the downloaded plugin to the Grafana plugin directory, such as `/var/lib/grafana/plugins`, and restart Grafana to load the plugin:
+Extract the downloaded plugin to the Grafana plugin directory, e.g., `/var/lib/grafana/plugins`, and restart Grafana to load the plugin:
 
 ```bash
 tar -zxvf deepflow-gui-grafana.tar.gz -C /var/lib/grafana/plugins/
@@ -356,15 +358,15 @@ tar -zxvf deepflow-gui-grafana.tar.gz -C /var/lib/grafana/plugins/
 
 You can find DeepFlow Querier in Grafana Data sources and add the following configuration items:
 
-- `Request Url`: The NodePort of the deepflow-server service querier port accessed by Grafana. Execute the following command to get the access address:
+- `Request Url`: The NodePort of the deepflow-server service querier port accessed by Grafana. Run the following command to get the access address:
 
   ```bash
   echo "http://$(kubectl get nodes -o jsonpath="{.items[0].status.addresses[0].address}"):$(kubectl get --namespace deepflow -o jsonpath="{.spec.ports[0].nodePort}" services deepflow-server)"
   ```
 
-- `API Token`: No need to fill in
+- `API Token`: Leave blank
 
-- `Tracing Url`: The NodePort of the deepflow-app service app port accessed by Grafana. Execute the following command to open the NodePort and get the access address:
+- `Tracing Url`: The NodePort of the deepflow-app service app port accessed by Grafana. Run the following command to open the NodePort and get the access address:  
   `values-custom.yaml` configuration:
   ```yaml
   app:
@@ -378,4 +380,4 @@ You can find DeepFlow Querier in Grafana Data sources and add the following conf
 
 ## Import Dashboard
 
-Click to enter the newly added DeepFlow Data source, switch to the `Dashboards` page, and click `Import` on the dashboard to import the dashboard.
+Click to enter the newly added DeepFlow Data source, switch to the `Dashboards` page, and click `Import` on the dashboard to import it.

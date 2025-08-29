@@ -122,6 +122,7 @@ K8s 使用 macvlan CNI 时，在 rootns 下只能看到所有 POD 共用的一�
 参考[文档](../configuration/agent/#inputs.cbpf.af_packet.inner_interface_capture_enabled)，开启 deepflow-agent 的 `inputs.cbpf.af_packet.inner_interface_capture_enabled`，可采集 PodNS 中的网卡流量。
 
 注意需要同时调整如下配置：
+
 - `inputs.cbpf.af_packet.tunning.ring_blocks_enabled`：使得能够让 AF_PACKET 的内存消耗可调整。
 - `inputs.cbpf.af_packet.tunning.ring_blocks`：使得能够精简所有 AF_PACKET 的总体内存消耗。
 - `inputs.cbpf.af_packet.inner_interface_regex`：使得能够正确匹配 PodNS 内部的网卡名称。
@@ -137,7 +138,6 @@ K8s 使用 macvlan CNI 时，在 rootns 下只能看到所有 POD 共用的一�
 ## Cilium eBPF
 
 唯一需要注意的是，Agent 的 tap_interface_regex 只需配置为 Node NIC 列表。
-
 
 # K8s 运行 Agent 权限受限
 
