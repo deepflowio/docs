@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "set NODE_OPTIONS=--openssl-legacy-provider && vuepress dev docs",
-    "build": "set NODE_OPTIONS=--openssl-legacy-provider && vuepress build docs --max-concurrency=500",
+    "build": "set NODE_OPTIONS=--openssl-legacy-provider --max-old-space-size=4096 && vuepress build docs --max-concurrency=500",
     "deploy": "bash deploy.sh",
-    "editFm": "node utils/editFrontmatter.js",
-    "baiduPush": "node utils/baiduPush.js https://xugaoyi.com && bash baiduPush.sh",
+    "editFm": "node --max-old-space-size=4096 utils/editFrontmatter.js",
+    "baiduPush": "node --max-old-space-size=4096 utils/baiduPush.js https://xugaoyi.com && bash baiduPush.sh",
     "publish": "cd ./vdoing && npm publish && cd .. && yarn updateTheme",
     "updateTheme": "yarn remove vuepress-theme-vdoing && rm -rf node_modules && yarn && yarn add vuepress-theme-vdoing -D"
   },

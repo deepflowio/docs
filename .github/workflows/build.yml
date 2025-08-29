@@ -14,9 +14,9 @@ on:
     inputs:
       ref:
         description: "Why trigger?"
-        required: true 
+        required: true
         type: string
-        
+
 env:
   IMAGE: "docs"
 
@@ -27,9 +27,9 @@ jobs:
 
     strategy:
       matrix:
-        node-version: 
-        - 12.x
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+        node-version:
+          - 12.x
+          # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
     - name: Checkout
@@ -57,7 +57,7 @@ jobs:
         key: docs-${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
         restore-keys: |
           docs-${{ runner.os }}-pnpm-store-
-    
+
     - name: Get current branch
       id: get_branch
       run: |
@@ -69,19 +69,29 @@ jobs:
 
     - name: Node build
       shell: bash
+      env:
+        NODE_OPTIONS: "--max-old-space-size=4096"
       run: |
+        # 清理缓存以释放内存
+        pnpm store prune || true
+        # 安装依赖
         pnpm install gray-matter json2yaml
-        node addTime.js
-        node addTime.js ./translate/translated
-        node copy-file.js ./docs/zh ./translate/translated false
+        # 显示内存使用情况
+        free -h
+        # 执行构建步骤
+        node --max-old-space-size=4096 addTime.js
+        node --max-old-space-size=4096 addTime.js ./translate/translated
+        node --max-old-space-size=4096 copy-file.js ./docs/zh ./translate/translated false
         rm -rf translate/translated/README.md
         mv translate/translated/* ./docs
         rm -rf ./docs/map.txt
         pnpm install
-        node downloadFile.js ${{ env.BRANCH }}
-        node downloadCSV.js ${{ env.BRANCH }}
+        node --max-old-space-size=4096 downloadFile.js ${{ env.BRANCH }}
+        node --max-old-space-size=4096 downloadCSV.js ${{ env.BRANCH }}
+        # 清理内存
+        node --max-old-space-size=4096 -e "if (global.gc) global.gc()"
         pnpm run build
-        node copy-file.js
+        node --max-old-space-size=4096 copy-file.js
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v1
@@ -91,14 +101,14 @@ jobs:
       uses: docker/login-action@v2
       with:
         registry: "${{ secrets.REGISTRY_ALIYUN_ADDR }}"
-        username: "${{ secrets.REGISTRY_ALIYUN_USER }}" 
+        username: "${{ secrets.REGISTRY_ALIYUN_USER }}"
         password: "${{ secrets.ALIYUN_DF_CLOUD_REGISTRY_PASSWORD }}"
 
     # - name: debug
     #   shell: bash
     #   run:  |
     #     more $GITHUB_EVENT_PATH
-        
+
     - name: set env
       if: ${{ github.event_name == 'pull_request' && github.repository	== 'deepflowio/docs' && github.event.pull_request.base.ref == 'main' }}
       run: |
@@ -108,7 +118,7 @@ jobs:
       if: ${{ github.event_name == 'push' && github.repository	== 'deepflowio/docs'}}
       run: |
         echo "IMAGE_TAG_PREFIX=${{ github.ref_name }}"|sed 's|main|latest|' >> $GITHUB_ENV
-  
+
     - name: set env
       if: ${{ github.event_name == 'workflow_dispatch' && github.repository	== 'deepflowio/docs'}}
       run: |
@@ -137,7 +147,7 @@ jobs:
       shell: bash
       run: |
          echo "TEMPLATE=green" >> $GITHUB_ENV
-    
+
     - name: info
       shell: bash
       if: ${{ github.repository	== 'deepflowio/docs'}}
@@ -178,7 +188,7 @@ jobs:
       if: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main' &&  github.repository	== 'deepflowio/docs' && github.event.pull_request.merged == true }}
       shell: bash
       run: |
-        kubectl set image -n deepservice-test deployment deepservice-docs deepservice-docs=${{ secrets.REGISTRY_ALIYUN_ADDR }}/deepservice/${{ env.IMAGE }}:${{ env.IMAGE_TAG_PREFIX }}-${{ github.run_id }}-${{ github.run_attempt }} 
+        kubectl set image -n deepservice-test deployment deepservice-docs deepservice-docs=${{ secrets.REGISTRY_ALIYUN_ADDR }}/deepservice/${{ env.IMAGE }}:${{ env.IMAGE_TAG_PREFIX }}-${{ github.run_id }}-${{ github.run_attempt }}
 
     - name: update
       if: ${{ github.event_name == 'workflow_dispatch' &&  github.ref == 'refs/heads/main' &&  github.repository	== 'deepflowio/docs' }}
