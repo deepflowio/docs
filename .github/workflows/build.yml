@@ -185,7 +185,7 @@ jobs:
         echo "${{ secrets.DEEPFLOWIOKUBECONFIG}}" >> ~/.kube/config
 
     - name: update
-      if: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.ref == 'main' &&  github.repository	== 'deepflowio/docs' && github.event.pull_request.merged == true }}
+      if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && github.repository == 'deepflowio/docs' }}
       shell: bash
       run: |
         kubectl set image -n deepservice-test deployment deepservice-docs deepservice-docs=${{ secrets.REGISTRY_ALIYUN_ADDR }}/deepservice/${{ env.IMAGE }}:${{ env.IMAGE_TAG_PREFIX }}-${{ github.run_id }}-${{ github.run_attempt }}
