@@ -47,7 +47,7 @@ The sandbox mechanism is the core difference between eBPF and APM instrumentatio
 
 **Second, full-stack capability solves the fault triage difficulty**. eBPF's capabilities cover every layer from the kernel to user programs, allowing us to track a request from the application, through system calls, network transmission, gateway services, security services, to the database service or peer microservice in the full-stack path, **providing sufficient neutral observability data to quickly complete fault triage**.
 
-For a more detailed analysis of this aspect, please refer to our article [《eBPF 是实现可观测性的关键技术》](https://deepflow.io/zh/ebpf-the-key-technology-to-observability/).
+For a more detailed analysis of this aspect, please refer to our article [《eBPF: The Key Technology to Observability》](https://deepflow.io/ebpf-the-key-technology-to-observability/).
 
 It is important to emphasize that this does not mean DeepFlow only uses eBPF technology. On the contrary, DeepFlow supports seamless integration with popular observability tech stacks, such as serving as a storage backend for Prometheus, OpenTelemetry, SkyWalking, Pyroscope, and other observability signals.
 
