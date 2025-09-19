@@ -65,6 +65,7 @@ permalink: /features/continuous-profiling/auto-profiling
     - 编译 Rust：`RUSTFLAGS="-C force-frame-pointers=yes"`
     - 编译 Golang：默认开启，无需额外编译参数
     - 运行 Java：`-XX:+PreserveFramePointer`
+      - 开启此参数会禁用某些编译器优化，不过根据 [Netflix](https://netflixtechblog.com/java-in-flames-e763b3d32166) 和 [Brendan Gregg](https://www.brendangregg.com/FlameGraphs/cpuflamegraphs.html) 的实测结果，该配置通常只会引入 <1% 的性能损耗。因此，Netflix 早在 2015 年开始已经在生产环境大规模使用，以支撑其 Java 程序的每日性能分析。
   - 启用 Agent 的 DWARF 栈回溯能力请参考[文档](../../configuration/agent/#inputs.ebpf.profile.unwinding)
 - 对于编译型语言的应用进程，编译时需要注意保留符号表
 
