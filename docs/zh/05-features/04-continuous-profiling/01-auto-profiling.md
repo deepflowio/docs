@@ -65,6 +65,7 @@ permalink: /features/continuous-profiling/auto-profiling
     - 编译 Rust：`RUSTFLAGS="-C force-frame-pointers=yes"`
     - 编译 Golang：默认开启，无需额外编译参数
     - 运行 Java：`-XX:+PreserveFramePointer`
+      - 使用此选项运行，可能会降低一些性能，根据工作负载的不同，性能降低 0 到 3% 之间。
   - 启用 Agent 的 DWARF 栈回溯能力请参考[文档](../../configuration/agent/#inputs.ebpf.profile.unwinding)
 - 对于编译型语言的应用进程，编译时需要注意保留符号表
 
