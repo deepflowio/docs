@@ -66,7 +66,8 @@ Two prerequisites must be met to obtain profiling data:
     - Compile C/C++: `gcc -fno-omit-frame-pointer`  
     - Compile Rust: `RUSTFLAGS="-C force-frame-pointers=yes"`  
     - Compile Golang: Enabled by default, no extra compile parameters needed  
-    - Run Java: `-XX:+PreserveFramePointer`  
+    - Run Java: `-XX:+PreserveFramePointer` 
+      - Enabling this option may slightly reduce performance. Depending on the workload, the overhead is typically between 0% and 3%. 
   - For enabling the Agent's DWARF stack unwinding capability, please refer to the [documentation](../../configuration/agent/#inputs.ebpf.profile.unwinding)  
 - For compiled languages, ensure the symbol table is preserved during compilation  
 
