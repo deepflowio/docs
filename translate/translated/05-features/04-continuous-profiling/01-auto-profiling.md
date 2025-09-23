@@ -66,7 +66,8 @@ Two prerequisites must be met to obtain profiling data:
     - Compile C/C++: `gcc -fno-omit-frame-pointer`  
     - Compile Rust: `RUSTFLAGS="-C force-frame-pointers=yes"`  
     - Compile Golang: Enabled by default, no extra compile parameters needed  
-    - Run Java: `-XX:+PreserveFramePointer`  
+    - Run Java: `-XX:+PreserveFramePointer` 
+      - Enabling this parameter disables certain compiler optimizations. However, based on real-world measurements from [Netflix](https://netflixtechblog.com/java-in-flames-e763b3d32166) and [Brendan Gregg](https://www.brendangregg.com/FlameGraphs/cpuflamegraphs.html), this configuration typically introduces less than 1% performance overhead. As a result, Netflix has been widely using it in production since 2015 to support daily performance analysis of its Java applications. 
   - For enabling the Agent's DWARF stack unwinding capability, please refer to the [documentation](../../configuration/agent/#inputs.ebpf.profile.unwinding)  
 - For compiled languages, ensure the symbol table is preserved during compilation  
 
