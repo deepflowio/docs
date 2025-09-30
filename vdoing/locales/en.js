@@ -1,5 +1,6 @@
 export default {
     product: "Product",
+    agent: "Agent",
     openSource: "Open Source",
     eBPF: "eBPF",
     learn: "Learn",
@@ -9,6 +10,7 @@ export default {
     docs: "Docs",
     deepflowCloudDocs: "DeepFlow Cloud Docs",
     blog: "Blog",
+    authentication: "Authentication",
     createdAt: 'Created',
     updateAt: 'Last Modified'
 }

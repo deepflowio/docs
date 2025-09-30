@@ -27,6 +27,10 @@ export default () => {
                         href = isZH ? '/zh/' : '/'
                         target = '_self'
                         break;
+                    case 'agent':
+                        href = isZH ? '/zh/agent' : '/agent'
+                        target = '_self'
+                        break;
                     case 'eBPF':
                         href = isZH ? eBPFZHUrl : eBPFUrl
                         target = '_self'
@@ -38,6 +42,10 @@ export default () => {
                     case 'docs':
                         domain = ''
                         href = config.base + (isZH ? 'zh/' : '');
+                        target = '_self'
+                        break;
+                    case 'authentication':
+                        href = isZH ? '/zh/auth' : '/auth'
                         target = '_self'
                         break;
                     default:
@@ -149,6 +157,10 @@ export default () => {
                         href = isZH ? '/zh/' : '/'
                         target = '_self'
                         break;
+                    case 'agent':
+                        href = isZH ? '/zh/agent' : '/agent'
+                        target = '_self'
+                        break;
                     case 'eBPF':
                         href = isZH ? eBPFZHUrl : eBPFUrl
                         target = '_self'
@@ -160,6 +172,10 @@ export default () => {
                     case 'docs':
                         domain = ''
                         href = config.base + (isZH ? 'zh/' : '');
+                        target = '_self'
+                        break;
+                    case 'authentication':
+                        href = isZH ? '/zh/auth' : '/auth'
                         target = '_self'
                         break;
                     default:
