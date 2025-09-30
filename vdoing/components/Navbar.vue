@@ -67,6 +67,9 @@
           <li class="feature-item" data-name="deepflow-cloud">
             <span>{{ locales[currentLang].product }}</span>
           </li>
+          <li class="feature-item" data-name="agent">
+            <span>{{ locales[currentLang].agent }}</span>
+          </li>
           <li class="feature-item" data-name="eBPF">
             <span>{{ locales[currentLang].eBPF }}</span>
           </li>
@@ -75,6 +78,9 @@
           </li>
           <li class="feature-item" data-name="blog">
             <span>{{ locales[currentLang].blog }}</span>
+          </li>
+          <li class="feature-item" data-name="authentication">
+            <span>{{ locales[currentLang].authentication }}</span>
           </li>
         </ul>
         <div class="blank"></div>

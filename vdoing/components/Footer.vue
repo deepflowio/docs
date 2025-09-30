@@ -180,6 +180,9 @@
         <li class="nav-link" data-name="deepflow-cloud">
           {{ locales[lang].product }}
         </li>
+        <li class="nav-link" data-name="agent">
+          {{ locales[lang].agent }}
+        </li>
         <li class="nav-link" data-name="eBPF">
           {{ locales[lang].eBPF }}
         </li>
@@ -189,6 +192,9 @@
         <li class="nav-link" data-name="blog">
           {{ locales[lang].blog }}
          
+        </li>
+        <li class="nav-link" data-name="authentication">
+          {{ locales[lang].authentication }}
         </li>
       </ul>
     </div>
