@@ -3,136 +3,146 @@ title: Configuration Method
 permalink: /features/continuous-profiling/configuration
 ---
 
-> This document was translated by ChatGPT
+> This document was translated by DeepSeek
+
+By default, continuous profiling is only enabled for specific processes. Please refer to this document to modify the Agent group configuration to enable/adjust the continuous profiling functionality. In the Enterprise Edition, navigate to `System - Agent - Configuration` to modify the Agent group settings.
+
+# Process Matcher
+
+The Agent uses the `inputs.proc.process_matcher` configuration to match processes and enable continuous profiling for the corresponding processes. The default configuration is as follows:
+
+```yaml
+inputs:
+  proc:
+    process_matcher:
+      - match_regex: \bjava( +\S+)* +-jar +(\S*/)*([^ /]+\.jar)
+        match_type: cmdline_with_args
+        only_in_container: false
+        rewrite_name: $3
+        enabled_features: [ebpf.profile.on_cpu, proc.gprocess_info]
+      - match_regex: \bpython(\S)*( +-\S+)* +(\S*/)*([^ /]+)
+        match_type: cmdline_with_args
+        only_in_container: false
+        rewrite_name: $4
+        enabled_features: [ebpf.profile.on_cpu, proc.gprocess_info]
+      - match_regex: ^deepflow-
+        only_in_container: false
+        enabled_features: [ebpf.profile.on_cpu, proc.gprocess_info]
+      - match_regex: .*
+        enabled_features: [proc.gprocess_info]
+```
+
+The meaning of the above configuration is as follows:
+
+- **match_regex**: The regular expression for process matching. The matching rules are as follows:
+  - The first rule matches Java processes, e.g., `java -jar app.jar`, and rewrites the process name to the JAR filename.
+  - The second rule matches Python processes, e.g., `python app.py`, and rewrites the process name to the Python script name.
+  - The third rule matches processes starting with `deepflow-`.
+  - The last rule matches all processes.
+- **match_type**: The matching type. Optional values are:
+  - `cmdline_with_args`: Matches the full command line (including arguments).
+  - `cmdline`: Matches only the command (excluding arguments).
+  - `process_name`: Matches the process name.
+- **only_in_container**: Whether to match only processes within containers.
+- **rewrite_name**: The rule for rewriting the process name, supporting references to regex capture groups.
+- **enabled_features**: The list of features enabled for matched processes:
+  - `ebpf.profile.on_cpu`: Enables On-CPU profiling, requires `inputs.ebpf.profile.on_cpu.disabled: false`
+  - `ebpf.profile.off_cpu`: Enables Off-CPU profiling, requires `inputs.ebpf.profile.off_cpu.disabled: false`
+  - `ebpf.profile.memory`: Enables memory profiling, requires `inputs.ebpf.profile.memory.disabled: false`
+
+Additionally, `inputs.proc.process_blacklist` can be used to ignore specific processes. It has higher priority than `process_matcher`.
+
+```yaml
+inputs:
+  proc:
+    process_blacklist: [sleep, sh, bash, pause, runc, grep, awk, sed, curl]
+```
+
+# Symbol Table
+
+Symbol table related settings can be configured for specific languages. These settings apply to all continuous profiling types and typically work well with default values, requiring no changes.
+
+```yaml
+inputs:
+  ebpf:
+    symbol_table:
+      golang_specific:
+        enabled: false
+      java:
+        refresh_defer_duration: 60s
+        max_symbol_file_size: 10
+```
+
+The meaning of the above configuration is as follows:
+- **golang_specific.enabled**: Configures whether to enable Golang-specific symbol table parsing capability.
+- **refresh_defer_duration**: The refresh deferral duration for the Java symbol table, to avoid high-frequency refreshing.
+- **max_symbol_file_size**: The maximum disk space occupied by the Java symbol table, in GB, to avoid consuming excessive `/tmp` space.
 
 # eBPF On-CPU Profiling
 
-eBPF On-CPU Profiling is enabled by default, but you need to specify the list of processes to be enabled by modifying `static_config.ebpf.on-cpu-profile.regex`. By default, it is only enabled for processes whose names start with `deepflow-`. The configuration parameters supported by the Agent are as follows:
+eBPF On-CPU Profiling is enabled by default, but requires modifying `inputs.proc.process_matcher` to specify the target process list. The configuration parameters supported by the Agent are as follows:
 
 ```yaml
-static_config:
+inputs:
   ebpf:
-    ## Java compliant update latency time
-    ## Default: 600s. Range: [5, 3600]s
-    ## Note:
-    ##   When deepflow-agent finds that an unresolved function name appears in the function call stack
-    ##   of a Java process, it will trigger the regeneration of the symbol file of the process.
-    ##   Because Java utilizes the Just-In-Time (JIT) compilation mechanism, to obtain more symbols for
-    ##   Java processes, the regeneration will be deferred for a period of time.
-    #java-symbol-file-refresh-defer-interval: 600s
-
-    ## Maximum size limit for Java symbol file.
-    ## Default: 10. Range: [2, 100]
-    ## Note:
-    ##   Which means it falls within the interval of 2Mi to 100Mi. If the configuration value is outside
-    ##   this range, the default value of 10(10Mi), will be used.
-    ##   All Java symbol files are stored in the '/tmp' directory mounted by the deepflow-agent. To prevent
-    ##   excessive occupation of host node space due to large Java symbol files, a maximum size limit is set
-    ##   for each generated Java symbol file.
-    #java-symbol-file-max-space-limit: 10
-
-    ## on-cpu profile configuration
-    on-cpu-profile:
-      ## eBPF on-cpu Profile Switch
-      ## Default: false
-      disabled: false
-
-      ## Sampling frequency
-      ## Default: 99
-      frequency: 99
-
-      ## Whether to obtain the value of CPUID and decide whether to participate in aggregation.
-      ## Set to 1:
-      ##    Obtain the value of CPUID and will be included in the aggregation of stack trace data.
-      ## Set to 0:
-      ##    It will not be included in the aggregation. Any other value is considered invalid,
-      ##    the CPU value for stack trace data reporting is a special value (CPU_INVALID:0xfff)
-      ##    used to indicate that it is an invalid value.
-      ## Default: 0
-      cpu: 0
-
-      ## Sampling process name
-      ## Default: ^deepflow-.*
-      regex: ^deepflow-.*
+    profile:
+      on_cpu:
+        disabled: false
+        sampling_frequency: 99
+        aggregate_by_cpu: false
 ```
 
-The meanings of the above configurations are as follows:
-
-- **disabled**: Default is False, indicating the feature is enabled.
-- **frequency**: Sampling frequency, default is 99, which approximately represents a 10ms sampling period. It is not recommended to set it to an integer multiple of 10 to avoid synchronization with the program's runtime or scheduling clock.
-- **cpu**: Default is 0, indicating that the data collected on a host is not distinguished by CPU. When set to 1, the data will be aggregated by CPU ID.
-- **regex**: Regular expression for the process names to enable On-CPU Profiling.
-- **java-symbol-file-refresh-default-interval**: Refresh interval for Java symbol files to avoid high-frequency refreshes.
-- **java-symbol-file-max-space-limit**: To prevent Java symbol files from occupying too much `/tmp` space.
+The meaning of the above configuration is as follows:
+- **disabled**: Defaults to false, meaning the feature is enabled.
+- **sampling_frequency**: The sampling frequency. A default value of 99 corresponds to approximately a 10ms sampling period. It is not recommended to set this to an integer multiple of 10, to avoid synchronization with program execution or scheduling clocks.
+- **aggregate_by_cpu**: Defaults to false, meaning the data collected on a host is not distinguished by CPU. When set to true, data will be aggregated by CPU ID.
 
 # eBPF Off-CPU Profiling
 
-eBPF Off-CPU Profiling (Enterprise Edition only) is enabled by default, but you need to specify the list of processes to be enabled by modifying `static_config.ebpf.off-cpu-profile.regex`. By default, it is only enabled for processes whose names start with `deepflow-`. The configuration parameters supported by the Agent are as follows:
+eBPF Off-CPU Profiling (Enterprise Edition only) is disabled by default. It also requires modifying `inputs.proc.process_matcher` to specify the target process list. The configuration parameters supported by the Agent are as follows:
 
 ```yaml
-static_config:
+inputs:
   ebpf:
-
-    ## Off-cpu profile configuration, Enterprise Edition Only.
-    #off-cpu-profile:
-    ## eBPF off-cpu Profile Switch
-    ## Default: false
-    #disabled: false
-
-    ## Off-cpu trace process name
-    ## Default: ^deepflow-.*
-    #regex: ^deepflow-.*
-
-    ## Whether to obtain the value of CPUID and decide whether to participate in aggregation.
-    ## Set to 1:
-    ##    Obtain the value of CPUID and will be included in the aggregation of stack trace data.
-    ## Set to 0:
-    ##    It will not be included in the aggregation. Any other value is considered invalid,
-    ##    the CPU value for stack trace data reporting is a special value (CPU_INVALID:0xfff)
-    ##    used to indicate that it is an invalid value.
-    ## Default: 0
-    #cpu: 0
-
-    ## Configure the minimum blocking event time
-    ## Default: 50us. Range: [0, 2^32-1)us
-    ## Note:
-    ##   If set to 0, there will be no minimum value limitation.
-    ##   Scheduler events are still high-frequency events, as their rate may exceed 1 million events
-    ##   per second, so caution should still be exercised.
-    ##   If overhead remains an issue, you can configure the 'minblock' tunable parameter here.
-    ##   If the off-CPU time is less than the value configured in this item, the data will be discarded.
-    ##   If your goal is to trace longer blocking events, increasing this parameter can filter out shorter
-    ##   blocking events, further reducing overhead. Additionally, we will not collect events with a block
-    ##   time exceeding 1 hour.
-    #minblock: 50us
+    profile:
+      off_cpu:
+        disabled: true
+        aggregate_by_cpu: false
+        min_blocking_time: 50us
 ```
 
-The meanings of the above configurations are as follows:
+The meaning of the above configuration is as follows:
 
-- **disabled**: Default is False, indicating the feature is enabled.
-- **regex**: Regular expression for the process names to enable Off-CPU Profiling.
-- **cpu**: Default is 0, indicating that the data collected on a host is not distinguished by CPU. When set to 1, the data will be aggregated by CPU ID.
-- **minblock**: Use duration limit to collect Off-CPU events to avoid excessive collection leading to high host load.
-
-Additionally, the following two On-CPU configuration items are also effective for Off-CPU:
-
-- **java-symbol-file-refresh-default-interval**
-- **java-symbol-file-max-space-limit**
+- **disabled**: Defaults to true, meaning the feature is disabled.
+- **aggregate_by_cpu**: Defaults to false, meaning the data collected on a host is not distinguished by CPU. When set to true, data will be aggregated by CPU ID.
+- **min_blocking_time**: Uses the duration to limit the collected Off-CPU events, preventing excessive collection that could lead to high host load.
 
 # eBPF Memory Profiling
 
-eBPF Memory Profiling (Enterprise Edition only) is disabled by default. You need to specify the list of processes to be enabled by modifying `static_config.ebpf.memory-profile.regex`. The configuration parameters supported by the Agent are as follows:
+eBPF Memory Profiling (Enterprise Edition only) is disabled by default. It also requires modifying `inputs.proc.process_matcher` to specify the target process list. The configuration parameters supported by the Agent are as follows:
 
 ```yaml
-static_config:
+inputs:
   ebpf:
-    # Memory profile configuration, Enterprise Edition Only.
-    memory-profile:
-      # eBPF memory Profile Switch
-      # Default: true
-      disabled: true
+    profile:
+      memory:
+        disabled: true
+        report_interval: 10s
+        allocated_addresses_lru_len: 131072
+        sort_length: 16384
+        sort_interval: 1500ms
+        queue_size: 32768
+```
 
-      # Memory trace process name
-      # Default: ^java
-      regex: ^java
+The meaning of the above configuration is as follows:
+
+- **disabled**: Defaults to true, meaning the feature is disabled.
+- **report_interval**: The interval at which the Agent aggregates and reports memory profiling data.
+- **allocated_addresses_lru_len**: The collector uses an LRU cache to record process-allocated addresses to prevent uncontrolled memory usage. Each LRU entry occupies approximately 32B of memory.
+- **sort_length**: The queue length for sorting memory profiling data by timestamp before processing.
+  - When configuring this option, first adjust the `sort_interval` parameter as described. Then, refer to the collector performance metrics `deepflow_agent_ebpf_memory_profiler`, specifically the `dequeued_by_length` and `dequeued_by_interval` metrics. Appropriately reduce this parameter ensuring the former is several times smaller than the latter.
+- **sort_interval**: The maximum time interval for sorting memory profiling data by timestamp before processing. This parameter controls the maximum time difference between the first and last elements in the sorting array.
+  - When configuring this option, refer to the collector performance metric `deepflow_agent_ebpf_memory_profiler`, specifically the `time_backtracked` metric. Increase this parameter until the metric becomes 0. Note that it might be necessary to correspondingly increase the `sort_length` parameter.
+- **queue_size**: The internal queue size of the memory profiling component.
+  - When configuring this option, refer to the collector performance metrics `deepflow_agent_ebpf_memory_profiler`, specifically the `overwritten` and `pending` metrics. Increase this configuration until the former is 0 and the latter does not exceed this configuration value.
 ```
