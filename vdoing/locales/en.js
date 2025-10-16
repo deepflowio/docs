@@ -10,7 +10,7 @@ export default {
     docs: "Docs",
     deepflowCloudDocs: "DeepFlow Cloud Docs",
     blog: "Blog",
-    authentication: "Authentication",
+    authentication: "Certification",
     createdAt: 'Created',
     updateAt: 'Last Modified'
 }

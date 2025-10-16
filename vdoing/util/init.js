@@ -45,7 +45,7 @@ export default () => {
                         target = '_self'
                         break;
                     case 'authentication':
-                        href = isZH ? '/zh/auth' : '/auth'
+                        href = isZH ? '/zh/cert' : '/cert'
                         target = '_self'
                         break;
                     default:
@@ -175,7 +175,7 @@ export default () => {
                         target = '_self'
                         break;
                     case 'authentication':
-                        href = isZH ? '/zh/auth' : '/auth'
+                        href = isZH ? '/zh/cert' : '/cert'
                         target = '_self'
                         break;
                     default:
