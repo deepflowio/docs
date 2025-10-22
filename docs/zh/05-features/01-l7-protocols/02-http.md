@@ -25,7 +25,11 @@ permalink: /features/l7-protocols/http
 |       | span_id            | SpanID          | traceparent, sw8 [2] | traceparent, sw8 | Agent 的 `http_log_span_id` 配置项可定义提取的 Header 名称                                                    |
 |       | x_request_id       | X-Request-ID    | X-Request-ID         | X-Request-ID     | Agent 的 `http_log_x_request_id` 配置项可定义提取的 Header 名称                                               |
 |       | http_proxy_client  | HTTP 代理客户端 | X-Forwarded-For      | --               | Agent 的 `http_log_proxy_client` 配置项可定义提取的 Header 名称                                               |
-| Misc. | attribute.x        | --              | x                    | x                | 支持采集自定义头部字段 [3]                                                                                    |
+| Misc. | attribute.request_header | 请求 Header | x                    |                  | Agent 的 `error_request_header` 配置项开启可以提取该字段
+|       | attribute.request_payload | 请求 Payload |                      |                  | Agent 的 `error_request_payload` 配置项开启可以提取该字段                                                                                    |
+|       | attribute.response_header | 响应 Header |                      | x                | Agent 的 `error_response_header` 配置项开启可以提取该字段                                                                                    |
+|       | attribute.response_payload | 响应 Payload |                      |                  | Agent 的 `error_response_payload` 配置项开启可以提取该字段                                                                               |
+|       | attribute.x        | --              | x                    | x                | 支持采集自定义头部字段 [3]                                                                                    |
 
 - [1] TraceID 只截取以下 HTTP Header 的部分值，其他自定义 Header 读取全部值：
   - `traceparent` Header 中的 `trace-id` 部分
