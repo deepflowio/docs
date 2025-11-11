@@ -339,7 +339,6 @@ transforms:
 
 ```yaml
 transforms:
-  # The configuration comes from https://vector.dev/docs/reference/configuration/transforms/reduce/
   multiline_kubernetes_logs:
     type: reduce
     inputs:
@@ -360,7 +359,6 @@ transforms:
 
 ```yaml
 transforms:
-  # The configuration comes from https://vector.dev/docs/reference/configuration/transforms/remap/
   flush_kubernetes_logs:
     type: remap
     inputs:
@@ -375,7 +373,6 @@ transforms:
 
 ```yaml
 transforms:
-  # The configuration comes from https://vector.dev/docs/reference/configuration/transforms/remap/
   remap_kubernetes_logs:
     type: remap
     inputs:
@@ -399,7 +396,6 @@ transforms:
 
 ```yaml
 transforms:
-  # The configuration comes from https://vector.dev/docs/reference/configuration/transforms/remap/
   inject_json_tags:
     type: remap
     inputs:
@@ -417,6 +413,24 @@ transforms:
 curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/query/" \
     --data-urlencode "db=application_log" \
     --data-urlencode "sql=select attribute.cluster, body from log where attribute.cluster='Production'"
+```
+
+### 提取分布式追踪 ID
+
+如果应用具有分布式追踪能力，无论是做了 [OTel](https://opentelemetry.io/docs/concepts/instrumentation/) 插桩或者应用中天然存在具有唯一性的全局流水号，且输出到日志中，同样可以上报到后端，把分布式追踪请求链路与日志关联起来。例如：将日志中的 `TID:xxx` 提取为 trace_id 的示例如下：
+
+```yaml
+transforms:
+  inject_trace_id_in_logs:
+    type: remap
+    inputs:
+      - remap_kubernetes_logs
+    source: |-
+      trace = parse_regex(.message, r'\[TID:(?<trace_id>[0-9a-zA-Z\.\-]+)\]') ?? {}
+      if exists(trace.trace_id) {
+         .trace_id = trace.trace_id
+         .span_id = "" # 如果能获取到 span_id，可以通过此 tag 注入标签
+      }
 ```
 
 ## 发送
