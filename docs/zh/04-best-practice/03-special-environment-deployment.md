@@ -41,81 +41,19 @@ permalink: /best-practice/special-environment-deployment/
 
 ### 仅采集 RootNS 中的网卡流量
 
-K8s 使用 macvlan CNI 时，在 rootns 下只能看到所有 POD 共用的一个虚拟网卡，此时需要对 deepflow-agent 进行额外的配置：
+当 Kubernetes 环境中使用 macvlan CNI 时，只能看到所有 Pod 在 rootns 下共享的一个虚拟网卡，因此需要通过 [deepflow-ctl](./agent-advanced-config) 更改 agent [组配置](./../configuration/agent/)适配该网络模式：
 
-1. 创建 agent-group 和 agent-group-config：
-
-   ```bash
-   deepflow-ctl agent-group create macvlan
-   deepflow-ctl agent-group-config create macvlan
-   ```
-
-2. 获取 macvlan agent-group ID：
-
-   ```bash
-   deepflow-ctl agent-group list  | grep macvlan
-   ```
-
-3. 新建 agent-group-config 配置文件 `macvlan-agent-group-config.yaml`:
+1. agent-group-config 适配 macvlan CNI:
 
    ```yaml
-   vtap_group_id: g-xxxxxx
-   ## Regular Expression for TAP (Traffic Access Point)
-   ## Length: [0, 65535]
-   ## Default:
-   ##   Localhost:   lo
-   ##   Common NIC:  eth.*|en[osipx].*
-   ##   QEMU VM NIC: tap.*
-   ##   Flannel:     veth.*
-   ##   Calico:      cali.*
-   ##   Cilium:      lxc.*
-   ##   Kube-OVN:    [0-9a-f]+_h$
-   ## Note: Regular expression of NIC name for collecting traffic
-   tap_interface_regex: eth0
-   ## Traffic Tap Mode
-   ## Default: 0, means local.
-   ## Options: 0, 1 (virtual mirror), 2 (physical mirror, aka. analyzer mode)
-   ## Note: Mirror mode is used when deepflow-agent cannot directly capture the
-   ##   traffic from the source. For example:
-   ##   - in the K8s macvlan environment, capture the Pod traffic through the Node NIC
-   ##   - in the Hyper-V environment, capture the VM traffic through the Hypervisor NIC
-   ##   - in the ESXi environment, capture traffic through VDS/VSS local SPAN
-   ##   - in the DPDK environment, capture traffic through DPDK ring buffer
-   ##   Use Analyzer mode when deepflow-agent captures traffic through physical switch
-   ##   mirroring.
-   tap_mode: 1
+   inputs:
+     cbpf:
+       af_packet:
+         interface_regex: ^(tap.*|cali.*|veth.*|eth.*|en[osipx].*|lxc.*|lo|[0-9a-f]+_h)$
+       common:
+         capture_mode: 1
    ```
 
-4. 创建 agent-group-config：
-
-   ```bash
-   deepflow-ctl agent-group-config create -f macvlan-agent-group-config.yaml
-   ```
-
-5. 修改 deepflow-agent 的 agent-group：
-   ```bash
-   kubectl edit cm -n deepflow deepflow-agent
-   ```
-   添加配置：
-   ```yaml
-   vtap-group-id-request: g-xxxxx
-   ```
-   停止 deepflow-agent：
-   ```bash
-   kubectl -n deepflow  patch daemonset deepflow-agent  -p '{"spec": {"template": {"spec": {"nodeSelector": {"non-existing": "true"}}}}}'
-   ```
-   通过 deepflow-ctl 删除 macvlan 的 agent：
-   ```bash
-   deepflow-ctl agent delete <agent name>
-   ```
-   启动 deepflow-agent：
-   ```bash
-   kubectl -n deepflow  patch daemonset deepflow-agent --type json -p='[{"op": "remove", "path": "/spec/template/spec/nodeSelector/non-existing"}]'
-   ```
-   查看 deepflow agent list， 确保 agent 加入了 macvlan group：
-   ```bash
-   deepflow-ctl agent list
-   ```
 
 ### 同时采集 RootNS 和 PodNS 中的网卡流量
 
