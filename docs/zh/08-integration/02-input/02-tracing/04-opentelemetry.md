@@ -131,6 +131,8 @@ processors:
         action: insert
 ```
 
+但仍需注意，对 K8S 环境而言，需要确保提供的 `k8s.pod.ip` 能正确对应上 K8S Pod IP，否则 DeepFlow 收集 OTel 标签时没法正确关联到 K8S Pod 上。
+
 最后，在 service.pipeline 中，对 `traces` 一节增加：
 
 ```yaml
