@@ -77,6 +77,9 @@ end
 kubectl apply -n open-telemetry -f https://raw.githubusercontent.com/deepflowio/deepflow-demo/main/open-telemetry/open-telemetry.yaml
 ```
 
+> 注：若使用自有环境的 OpenTelemetry，建议将对应 Kubernetes Service 的 `Service.spec.internalTrafficPolicy` 参数配置为 `Local`，这样可使业务数据直接发送至本机 Otel，避免源地址转换导致 DeepFlow 数据关联异常。
+>
+
 安装完毕之后，可以在环境里看到这样一个组件清单：
 
 ```bash
@@ -89,9 +92,9 @@ kubectl get all -n open-telemetry
 | Service   | otel-agent |
 | ConfigMap | otel-agent |
 
-如果你需要使用其他版本或更新的 opentelemetry-collector-contrib，
-请在 [otel-docker](https://hub.docker.com/r/otel/opentelemetry-collector-contrib/tags) 仓库中，
-找到你想要的镜像版本，然后使用如下命令更新镜像：
+如果使用其他版本 opentelemetry，可以在 [otel-docker](https://hub.docker.com/r/otel/opentelemetry-collector-contrib/tags) 官方仓库中拉取并更新镜像：
+
+> 注：自 0.80.0 版本起，OpenTelemetry 修改了 SkyWalking Receiver 的 Parent Span ID，[此改动](https://github.com/open-telemetry/opentelemetry-collector-contrib/pull/21799)会影响 DeepFlow 的关联逻辑。如你使用了 SkyWalking Receiver，请务必使用 0.79.0 或更早的版本；如未使用，则任意版本均可。
 
 ```bash
 LATEST_TAG="xxx"  # FIXME
@@ -139,50 +142,20 @@ processors:
 service:
   pipelines:
     traces:
-      processors: [k8sattributes, resource] # 确保 k8sattributes processor 先被处理
+      ## 确保 k8sattributes processor 先被处理
+      processors: [k8sattributes, resource]
       exporters: [otlphttp]
 ```
 
 # 配置 DeepFlow
 
-接下来我们需要开启 deepflow-agent 的数据接收服务。
-
-首先我们确定 deepflow-agent 所在的采集器组 ID，一般为名为 default 的组的 ID：
+接下来通过 [deepflow-ctl](../best-practice/agent-advanced-config) 添加或更新 [agent-group-config](../configuration/agent/) 后使 agent 接收 otel 数据：
 
 ```bash
-deepflow-ctl agent-group list
-```
-
-确认该采集器组是否已经有了配置：
-
-```bash
-deepflow-ctl agent-group-config list
-```
-
-若已有配置，将其导出至 yaml 文件中便于进行修改：
-
-```bash
-deepflow-ctl agent-group-config list <your-agent-group-id> -o yaml > your-agent-group-config.yaml
-```
-
-修改 yaml 文件，确认包含如下配置项：
-
-```bash
-vtap_group_id: <your-agent-group-id>
-external_agent_http_proxy_enabled: 1   # required
-external_agent_http_proxy_port: 38086  # optional, default 38086
-```
-
-更新采集器组的配置：
-
-```
-deepflow-ctl agent-group-config update <your-agent-group-id> -f your-agent-group-config.yaml
-```
-
-如果采集器组还没有配置，可使用如下命令基于 your-agent-group-config.yaml 文件新建配置：
-
-```bash
-deepflow-ctl agent-group-config create -f your-agent-group-config.yaml
+inputs:
+  integration:
+    enabled: true
+    listen_port: 38086
 ```
 
 # 基于 Spring Boot Demo 体验
@@ -201,11 +174,11 @@ kubectl apply -n deepflow-otel-spring-demo -f https://raw.githubusercontent.com/
 
 ## 查看追踪数据
 
-前往 Grafana，打开 `Distributed Tracing` Dashboard，选择 `namespace = deepflow-otel-spring-demo` 后，可选择一个调用进行追踪。
+在 Grafana 中查看 `DeepFlow Templates` 目录下 `Distributed Tracing` 面板，通过图中上方变量变量过滤后查看追踪效果。
 DeepFlow 能够将 OpenTelemetry、eBPF、BPF 获取到的追踪数据关联展示在一个 Trace 火焰图中，
 覆盖一个 Spring Boot 应用从业务代码、系统函数、网络接口的全栈调用路径，实现真正的全链路分布式追踪，效果如下：
 
-![OTel Spring Demo](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/2022082363044b24c3b37.png)
+![OTel Spring Demo](https://yunshan-guangzhou.oss-cn-beijing.aliyuncs.com/pub/pic/fda8a329505c8fc0070e416d607751c2_20251106154838.png)
 
 你也可以访问 [DeepFlow Online Demo](https://ce-demo.deepflow.yunshan.net/d/Distributed_Tracing/distributed-tracing?var-namespace=deepflow-otel-spring-demo&from=deepflow-doc) 查看效果。
 
