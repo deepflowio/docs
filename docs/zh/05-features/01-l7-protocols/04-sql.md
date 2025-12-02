@@ -16,7 +16,7 @@ permalink: /features/l7-protocols/sql
 |       | request_domain     | 请求域名     | --                            | --              | --                                                        |
 |       | request_resource   | 请求资源     | Statement 或 COM_STMT_EXECUTE | --              | 解析 `COM_STMT_EXECUTE` 详见 [4]                          |
 |       | request_id         | 请求 ID      | Statement ID                  | Statement ID    | 从 `COM_STMT_PREPARE` 响应、`COM_STMT_EXECUTE` 请求中提取 |
-|       | endpoint           | 端点         | --                            | --              | --                                                        |
+|       | endpoint           | 端点         | SQL 摘要                      | --              | 增删查改语句赋值为 `$动词 $表名`，否则赋值为整个语句      |
 | Resp. | response_code      | 响应码       | --                            | Error Code      | --                                                        |
 |       | response_status    | 响应状态     | --                            | Error Code      | 正常: 非 `ERR` 消息；客户端异常/服务端异常详见 [2]        |
 |       | response_exception | 响应异常     | --                            | Error Message   | --                                                        |
