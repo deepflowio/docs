@@ -143,6 +143,55 @@ service:
       exporters: [otlphttp]
 ```
 
+额外的，如果 otel-agent 接收数据不是应用 Pod 到 otel-agent 直连，而是中间经过了 LB 或者 otel-agent Service 使用 NodePort，再发送 Span 数据等等“中间过了一层网元”的场景，使得最终 `k8sattributes` 找到的上游 `k8s.pod.ip` 与应用的 Pod IP 无法匹配，可以尝试通过如下方式来发现真实 Pod IP:
+
+```yaml
+processors:
+  resource/pre:
+    attributes:
+    - key: k8s.pod.name
+      from_attribute: host.name
+      action: insert
+  k8sattributes:
+    auth_type: "serviceAccount"
+    extract:
+      metadata:
+      - k8s.pod.name
+      - k8s.pod.uid
+      - k8s.pod.ip
+    passthrough: false
+    pod_association:
+    - sources:
+      - from: resource_attribute
+        name: k8s.pod.name
+    - sources:
+      - from: resource_attribute
+        name: k8s.pod.ip
+    - sources:
+      - from: resource_attribute
+        name: k8s.pod.uid
+    - sources:
+      - from: connection
+  resource/post:
+    attributes:
+    - key: app.host.ip
+      from_attribute: k8s.pod.ip
+      action: insert
+service:
+  pipelines:
+    traces:
+      processors:
+      - resource/pre
+      - k8sattributes
+      - resource/post
+```
+
+解释一下这个配置的含义：在流水线里，先通过 `resource/pre` 来发现 `host.name`，并把它设置为 `k8s.pod.name`，然后通过 `k8sattributes` 的 `pod_association` 配置关联上 K8s Pod 元信息，然后，通过 `k8sattributes` 的 `extract` 模块提取 `k8s.pod.ip`，最后，在 `resource/post` 模块中，把它修改为 `app.host.ip` attribute，并发送到 `deepflow-agent`。
+
+可以注意到，在这个过程中，真正实现了服务发现其实是 `host.name` 标签，这个 attribute 来源于 Span 数据源。实际上，它一般是由 OTel Sdk 或 OTel Agent 自动生成的，当然，你也可以通过 [K8s Downward API](https://kubernetes.io/zh-cn/docs/concepts/workloads/pods/downward-api/) 获取到 Pod 运行的 Pod IP 或者 Pod Name，并注入到实际发送的 Span 中。其中，`pod_association` 的 `name` 属性会尝试匹配 Pod 的元数据进行关联，并找到对应的 Pod。
+
+可以发现，这里给的示例是通过 `k8s.pod.name` 尝试匹配，如果有其他 attribute 通过同样的方法注入，同样可以找到目标 Pod，目前已知支持的 attribute 可以在 [Otel K8sAttributesProcessor 模块](https://github.com/open-telemetry/opentelemetry-collector-contrib/blob/HEAD/processor/k8sattributesprocessor/internal/kube/client.go#L1354) 中找到。
+
 # 配置 DeepFlow
 
 接下来我们需要开启 deepflow-agent 的数据接收服务。
