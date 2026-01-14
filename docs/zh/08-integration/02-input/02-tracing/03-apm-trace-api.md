@@ -79,3 +79,29 @@ app:
 | l7Protocol      | 应用协议         | span.layer=Http: HTTP, span.tags.[db.type/db.system/http.scheme/rpc.system/messaging.system/messaging.protocol] | 若 span.layer 不等于 Http，则尝试从 span.tags 中获取，如果有任意 `http.` 开头的 tag，均视为 HTTP 协议 |
 | l7ProtocolStr   | 应用协议（名称） | --                                                                                                              | 根据 l7Protocol 的枚举值获取具体名称                                                                  |
 | attribute       | 标签             | span.tags                                                                                                       | --                                                                                                    |
+
+# 规格
+
+对于任意支持 OpenTracing 协议的 APM，都可以使用相同方式将 APM Span 呈现在 DeepFlow 上，作为提供数据的 APM API，我们要求它满足以下规格：
+
+入参应包含以下参数：
+
+| 名称 | 描述 | 必填 |
+| ---  | ---  | ---  |
+| Trace ID | 唯一标识一个完整的追踪链路，且在实际业务应用之间通过网络报文的形式互相传递 | 是 |
+
+出参应是一个数组，且每一项元素应包含以下信息：
+
+| 名称           | 描述                                                                             | 必填 |
+|:--------------:|:--------------------------------------------------------------------------------:|:----:|
+| Start Time     | 开始时间                                                                         | 是   |
+| End Time       | 结束时间                                                                         | 是   |
+| Span Type      | Span 类型，用于标识 Span 的位置，例如：客户端/服务端/内部 Span ...               | 是   |
+| Trace ID       | 唯一标识一个完整的追踪链路，且在实际业务应用之间通过网络报文的形式互相传递       | 否   |
+| Span ID        | 唯一标识处于一个追踪下的某个 Span                                                | 是   |
+| Parent Span ID | Span 的上级 Span，用于找到一个 Span 的上游                                       | 否   |
+| Endpoint       | Span 的实际执行终端，例如，在 HTTP 协议下是一个 URL，在 RPC 协议下是一个函数名称 | 是   |
+| Service        | Span 发生时所在服务的服务名称                                                    | 是   |
+| Instance       | Span 发生时所在服务的服务实例名称                                                | 是   |
+| Status         | Span 的执行结果，一般用于记录成功/失败/错误/正常 状态                            | 否   |
+| Attributes     | Span 携带的额外信息                                                              | 否   |
