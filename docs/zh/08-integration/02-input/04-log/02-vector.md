@@ -415,6 +415,30 @@ curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/query/" \
     --data-urlencode "sql=select attribute.cluster, body from log where attribute.cluster='Production'"
 ```
 
+### 基于日志构建指标序列
+
+如果应用里带了一些运行时指标信息，比如 `nginx` 记录了请求时延，同样地，也可以使用 Transforms 的 Remap 模块，写一段注入指标的代码，其中，我们要求自定义标签必须写入 `.metrics` 结构体内，才能被存储、查询，示例如下：
+
+```yaml
+transforms:
+  inject_json_tags:
+    type: remap
+    inputs:
+      - remap_kubernetes_logs
+    source: |-
+      .metrics = {
+        "response_duration": xxx, # FIXME: 把从日志中提取到的指定数据添加到此处
+      }
+```
+
+然后，在使用 [SQL API](../../output/query/sql) 查询时，我们可以使用如下语句搜索指定的指标，同样，指标也支持此文档中的 [聚合算子](../../../features/universal-map/metrics-and-operators)：
+
+```bash
+curl -XPOST "http://${deepflow_server_node_ip}:${port}/v1/query/" \
+    --data-urlencode "db=application_log" \
+    --data-urlencode "sql=select metrics.response_duration from log"
+```
+
 ### 提取分布式追踪 ID
 
 如果应用具有分布式追踪能力，无论是做了 [OTel](https://opentelemetry.io/docs/concepts/instrumentation/) 插桩或者应用中天然存在具有唯一性的全局流水号，且输出到日志中，同样可以上报到后端，把分布式追踪请求链路与日志关联起来。例如：将日志中的 `TID:xxx` 提取为 trace_id 的示例如下：
@@ -475,6 +499,9 @@ transforms:
       .json = {
         "cluster": "Production",
         "module": "nginx"
+      }
+      .metrics = {
+        "ready_status": 1,
       }
 sinks:
   http:

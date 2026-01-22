@@ -76,7 +76,7 @@ DeepFlow 的指标对外提供 PromQL 查询时，指标名称遵循 `${database
 基于 PromQL 直接查询或编写告警规则时，目前已知的限制如下：
 
 - 无法通过`~/!~`正则搜索 metrics 名称
-- 对 DeepFlow 提供的指标，必须先通过 [appregation operator](https://prometheus.io/docs/prometheus/latest/querying/operators/#aggregation-operators) 确定聚合求值方式，再进行具体的指标查询。其中，`stdvar`、`topk`、`bottomk`、`quantile` 这几个函数尚未支持，将会在后续的迭代中继续支持。
+- 对 DeepFlow 提供的指标，必须先通过 [appregation operator](https://prometheus.io/docs/prometheus/latest/querying/operators/#aggregation-operators) 确定聚合求值方式，再进行具体的指标查询。其中，`stdvar`、`quantile` 这几个函数尚未支持，将会在后续的迭代中继续支持。
 
 # 基于 PromQL 查询 DeepFlow 指标
 
