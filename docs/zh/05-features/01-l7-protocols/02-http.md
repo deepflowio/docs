@@ -35,10 +35,12 @@ permalink: /features/l7-protocols/http
   - `traceparent` Header 中的 `trace-id` 部分
   - `sw8`/`sw6` Header 中的 `trace ID` 部分
   - `uber-trace-id` Header 中的 `{trace-id}` 部分
+  - `b3` Header 中的 `{trace-id}` 部分
 - [2] SpanID 只截取以下 HTTP Header 的部分值，其他自定义 Header 读取全部值：
   - `traceparent` Header 中的 `parent-id` 部分
   - `sw8`/`sw6` Header 中的 `segment ID-span ID` 部分
   - `uber-trace-id` Header 中的 `{span-id}` 部分
+  - `b3` Header 中的 `{span-id}` 部分
 - [3] 可通过采集器配置中的 static_config.l7-protocol-advanced-features.extra-log-fields 定义需要额外采集的协议头字段，例如在配置中添加 User-Agent、Cookie 时调用日志中可查看到 attribute.user_agent 和 attribute.cookie 字段。
 
 **Metrics 字段映射表格，以下表格只包含存在映射关系的字段**
