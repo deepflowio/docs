@@ -104,12 +104,6 @@ inputs:
     workload_resource_sync_enabled: true
 ```
 
-创建采集器组配置：
-
-```bash
-deepflow-ctl agent-group-config create -f agent-group-config.yaml
-```
-
 # 部署 DeepFlow Agent
 
 注：deepflow-agent 版本必须 ≤ deepflow-server 版本，否则会导致注册、上报数据异常
