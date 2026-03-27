@@ -64,7 +64,7 @@ cat << EOF > values-custom.yaml
 global:
   allInOneLocalStorage: true
 EOF
-helm install deepflow -n deepflow deepflow/deepflow --version 6.6.018 --create-namespace -f values-custom.yaml
+helm install deepflow -n deepflow deepflow/deepflow --version 7.0.014 --create-namespace -f values-custom.yaml
 ```
 
 @tab Use Aliyun
@@ -78,7 +78,7 @@ global:
   image:
       repository: registry.cn-beijing.aliyuncs.com/deepflow-ce
 EOF
-helm install deepflow -n deepflow deepflow/deepflow --version 6.6.018 --create-namespace -f values-custom.yaml
+helm install deepflow -n deepflow deepflow/deepflow --version 7.0.014 --create-namespace -f values-custom.yaml
 ```
 
 :::
@@ -148,9 +148,13 @@ tar -zxf deepflow-docker-compose.tar
 
 配置`.env`变量
 
+> [!TIP]
+>
+> 建议使用[最新 LTS](../release-notes/release-timeline.md)
+
 ```bash
 vim ./deepflow-docker-compose/.env
-DEEPFLOW_VERSION=v6.6  # FIXME: DeepFlow Version
+DEEPFLOW_VERSION=v7.0  # FIXME: LTS Version
 NODE_IP_FOR_DEEPFLOW=192.168.101.116  # FIXME: Node IP
 ```
 
@@ -179,7 +183,7 @@ deepflow-ctl 是 DeepFlow 的命令行管理工具，建议部署至 deepflow-se
 
 ```bash
 # 与当前 server 版本同步即可
-Version=v6.6
+Version=v7.0
 
 # 使用变量下载
 curl -o /usr/bin/deepflow-ctl \

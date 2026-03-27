@@ -66,7 +66,7 @@ kubectl patch storageclass openebs-hostpath  -p '{"metadata": {"annotations":{"s
 ```bash
 helm repo add deepflow https://deepflowio.github.io/deepflow
 helm repo update deepflow # use `helm repo update` when helm < 3.7.0
-helm install deepflow -n deepflow deepflow/deepflow --version 6.6.018 --create-namespace
+helm install deepflow -n deepflow deepflow/deepflow --version 7.0.014 --create-namespace
 ```
 
 @tab Use Aliyun
@@ -79,7 +79,7 @@ global:
   image:
       repository: registry.cn-beijing.aliyuncs.com/deepflow-ce
 EOF
-helm install deepflow -n deepflow deepflow/deepflow --version 6.6.018 --create-namespace -f values-custom.yaml
+helm install deepflow -n deepflow deepflow/deepflow --version 7.0.014 --create-namespace -f values-custom.yaml
 ```
 
 :::
@@ -96,7 +96,7 @@ deepflow-ctl 是管理 DeepFlow 的一个命令行工具，建议下载至 deepf
 
 ```bash
 # 设置临时变量
-Version=v6.6
+Version=v7.0
 
 # 使用变量下载
 curl -o /usr/bin/deepflow-ctl \
