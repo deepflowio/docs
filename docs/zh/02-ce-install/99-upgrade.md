@@ -22,7 +22,7 @@ helm upgrade deepflow -n deepflow deepflow/deepflow -f values-custom.yaml
 
 ```bash
 # 与当前 server 版本同步即可
-Version=v6.6
+Version=v7.0
 
 # 使用变量下载
 curl -o /usr/bin/deepflow-ctl \
@@ -95,14 +95,14 @@ K8s 远程升级使用 deepflow-agent 在集群中对其所在命名空间的 da
 ```bash
 deepflow-ctl repo agent create --arch x86 \
    --version-image /root/deepflow-agent \
-   --k8s-image registry.cn-beijing.aliyuncs.com/deepflow-ce/deepflowio-agent:latest
+   --k8s-image registry.cn-beijing.aliyuncs.com/deepflow-ce/deepflowio-agent:v7.0
 ```
 
 执行 deepflow-agent 的远程升级命令。一个集群中的 agent 只需要指定一个 agent 即可对整个集群的 agent 进行升级。
 
 ```bash
 deepflow-ctl agent-upgrade <AGENT_NAME> \
-   --image-name="kube.registry.local:5000/deepflow-agent:v6.4.4594"
+   --image-name="registry.cn-beijing.aliyuncs.com/deepflow-ce/deepflowio-agent:v7.0"
 ```
 
 - 【注意】当前版本暂时不支持验证镜像可拉取及可用性, 使用之前请确保镜像可拉取、可运行、版本正确

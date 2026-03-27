@@ -113,7 +113,7 @@ inputs:
 @tab rpm
 
 ```bash
-AGENT_VERSION=v6.6 FIXME: 此处与 server 版本同步
+AGENT_VERSION=v7.0 #FIXME: 此处与 server 版本同步
 curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/rpm/agent/$AGENT_VERSION/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent-rpm.zip
 unzip deepflow-agent-rpm.zip
 yum -y localinstall x86_64/deepflow-agent-1.0*.rpm
@@ -122,7 +122,7 @@ yum -y localinstall x86_64/deepflow-agent-1.0*.rpm
 @tab deb
 
 ```bash
-AGENT_VERSION=v6.6 FIXME: 此处与 server 版本同步
+AGENT_VERSION=v7.0 #FIXME: 此处与 server 版本同步
 curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/deb/agent/$AGENT_VERSION/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent-deb.zip
 unzip deepflow-agent-deb.zip
 dpkg -i x86_64/deepflow-agent-1.0*.systemd.deb
@@ -131,7 +131,7 @@ dpkg -i x86_64/deepflow-agent-1.0*.systemd.deb
 @tab binary file
 
 ```bash
-AGENT_VERSION=v6.6 FIXME: 此处与 server 版本同步
+AGENT_VERSION=v7.0 #FIXME: 此处与 server 版本同步
 curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/agent/$AGENT_VERSION/linux/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent.tar.gz
 tar -zxvf deepflow-agent.tar.gz -C /usr/sbin/
 
@@ -212,7 +212,7 @@ systemctl restart deepflow-agent
 @tab rpm
 
 ```bash
-AGENT_VERSION=v6.6 FIXME: 此处与 server 版本同步
+AGENT_VERSION=v7.0 #FIXME: 此处与 server 版本同步
 curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/rpm/agent/$AGENT_VERSION/linux/static-link/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent-rpm.zip
 unzip deepflow-agent-rpm.zip
 yum -y localinstall x86_64/deepflow-agent-1.0*.rpm
@@ -221,7 +221,7 @@ yum -y localinstall x86_64/deepflow-agent-1.0*.rpm
 @tab deb
 
 ```bash
-AGENT_VERSION=v6.6 FIXME: 此处与 server 版本同步
+AGENT_VERSION=v7.0 #FIXME: 此处与 server 版本同步
 curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/deb/agent/$AGENT_VERSION/linux/static-link/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent-deb.zip
 unzip deepflow-agent-deb.zip
 dpkg -i x86_64/deepflow-agent-1.0*.systemd.deb
@@ -230,7 +230,7 @@ dpkg -i x86_64/deepflow-agent-1.0*.systemd.deb
 @tab binary file
 
 ```bash
-AGENT_VERSION=v6.6 FIXME: 此处与 server 版本同步
+AGENT_VERSION=v7.0 #FIXME: 此处与 server 版本同步
 curl -O https://deepflow-ce.oss-cn-beijing.aliyuncs.com/bin/agent/$AGENT_VERSION/linux/static-link/$(arch | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|')/deepflow-agent.tar.gz
 tar -zxvf deepflow-agent.tar.gz -C /usr/sbin/
 
