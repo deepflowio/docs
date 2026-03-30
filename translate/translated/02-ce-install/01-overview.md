@@ -39,9 +39,9 @@ The eBPF capabilities (AutoTracing, AutoProfiling) in DeepFlow have the followin
 | | \* | 4.17+ | Y | Y | Y | Y |
 | | SUSE 12 SP5 | 4.12 [5] | Y | Y | | Y |
 | ARM | CentOS 8 | 4.18 | Y | Y | Y | Y |
-| | EulerOS | 5.10+ | Y | Y | Y | Y |
-| | KylinOS V10 SP1 | 4.19.90-23 [6] | Y | Y | Y | Y |
-| | KylinOS V10 SP2 | 4.19.90-25.24+ [7] | Y | Y | Y | Y |
+| | EulerOS | 5.10+ [6]| Y | Y | Y | Y |
+| | KylinOS V10 SP1 | 4.19.90-23 [7] | Y | Y | Y | Y |
+| | KylinOS V10 SP2 | 4.19.90-25.24+ [8] | Y | Y | Y | Y |
 | | KylinOS V10 SP3 | 4.19.90-52.24+ | Y | Y | Y | Y |
 | | Other Distributions | 5.8+ | Y | Y | Y | Y |
 
@@ -59,8 +59,11 @@ Additional notes on kernel versions:
 - [3]: Golang/OpenSSL processes inside containers are not supported.
 - [4]: In kernel version 4.14, a `tracepoint` cannot be attached by multiple eBPF programs (e.g., two or more deepflow-agents cannot run simultaneously), this issue does not exist in other versions.
 - [5]: Currently supports SUSE 12 SP5 4.12.14, but the Linux community's 4.12 version still does not support it.
-- [6]: Some kernels of KylinOS V10 SP1, such as 4.19.90-23.48.v2101.ky10.aarch64, run normally, but it is not guaranteed that all aarch64 architecture kernels of KylinOS V10 SP1 can run deepflow-agent normally.
-- [7]: Some kernels of KylinOS V10 SP2, such as 4.19.90-24.4.v2101.ky10.aarch64, do not support `bpf_probe_read_user()` and cannot read any user-space data, thus not supporting AutoTracing functionality, but can support continuous profiling and file read/write tracing functions.
+- [6]: Although the documentation recommends kernel version 5.10 or later for EulerOS, some EulerOS V2R10 systems (with 4.19 vhulk kernels) have been verified to run deepflow-agent correctly in practice. For example:
+  - 4.19.90-vhulk2204.1.0.h1160.eulerosv2r10.aarch64
+  - 4.19.90-vhulk2211.3.0.h1543.eulerosv2r10.aarch64
+- [7]: Some aarch64 kernels of KylinOS V10 SP1 (e.g., 4.19.90-23.48.v2101.ky10.aarch64) have been verified to run deepflow-agent correctly. However, not all kernel versions of KylinOS V10 SP1 are guaranteed to be compatible.
+- [8]: Some kernels of KylinOS V10 SP2, such as 4.19.90-24.4.v2101.ky10.aarch64, do not support `bpf_probe_read_user()` and cannot read any user-space data, thus not supporting AutoTracing functionality, but can support continuous profiling and file read/write tracing functions.
 
 Requirements for running permissions of deepflow-agent:
 
