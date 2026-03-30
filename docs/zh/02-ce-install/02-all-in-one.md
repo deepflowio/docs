@@ -150,7 +150,7 @@ tar -zxf deepflow-docker-compose.tar
 
 > [!TIP]
 >
-> 建议使用[最新 LTS](../release-notes/release-timeline.md)
+> 建议使用[最新 LTS](../release-notes/release-timeline)
 
 ```bash
 vim ./deepflow-docker-compose/.env
