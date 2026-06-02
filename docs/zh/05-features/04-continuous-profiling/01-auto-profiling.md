@@ -13,15 +13,15 @@ permalink: /features/continuous-profiling/auto-profiling
 
 支持的 eBPF Profiling 数据类型：
 
-| 类型      | 支持语言/库      | 社区版 | 企业版 |
+| 类型       | 支持语言/库       | 社区版  | 企业版  |
 | --------- | ---------------- | ------ | ------ |
 | on-cpu    | Java             | ✔      | ✔      |
 |           | C/C++            | ✔      | ✔      |
 |           | Rust             | ✔      | ✔      |
 |           | Golang           | ✔      | ✔      |
-|           | Python `***`     | ✔      | ✔      |
 |           | CUDA             | ✔      | ✔      |
-|           | Lua `*`          | ✔      | ✔      |
+|           | Lua              |        | ✔      |
+|           | Python `***`     |        | ✔      |
 | off-cpu   | Java             |        | ✔      |
 |           | C/C++            |        | ✔      |
 |           | Rust             |        | ✔      |
