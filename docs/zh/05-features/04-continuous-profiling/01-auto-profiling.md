@@ -92,16 +92,15 @@ Off-CPU Profiling 功能**仅会**采集如下调用栈：
   - cpu：Java 方法在 CPU 上消耗的时间及函数调用栈
 - 语言：
   - 使用 JVM 虚拟机的语言：Java
-
-除通用的 eBPF On-CPU Profiling 外，DeepFlow 还支持通过 Java Agent 持续采集 JVM 方法调用栈。该功能使用 HotSpot 的 AsyncGetCallTrace（AGCT）获取 Java 栈并补全 JIT 方法符号，可用于定位 Java 方法的 CPU 热点。
-
-Java CPU Profiling 与 eBPF On-CPU Profiling 是两个相互独立的功能：
-
-- Java CPU Profiling 通过 JVM 内的 Java Agent 采集 Java 方法栈，使用 `java.profile.cpu` 选择进程；
-- eBPF On-CPU Profiling 通过内核 eBPF/perf 采集用户态和内核态调用栈，使用 `ebpf.profile.on_cpu` 选择进程；
-- 两者可以同时采集同一个 Java 进程，也可以只开启其中一个。若只需要清晰的 Java 方法栈，可以只开启 Java CPU Profiling，避免同时采集两份不同来源的数据。
-
-Java CPU Profiling 当前支持 HotSpot JVM 的 Java CPU 调用栈采样。OpenJ9 JVM 仅支持符号解析，暂不支持 Java CPU 调用栈采样。该功能不要求目标 JVM 配置 `-XX:+PreserveFramePointer`。
+- 采集原理：通过 Java Agent 持续采集 JVM 方法调用栈，使用 HotSpot 的 AsyncGetCallTrace（AGCT）获取 Java 栈并补全 JIT 方法符号，用于定位 Java 方法的 CPU 热点。
+- 与 eBPF On-CPU Profiling 的关系：
+  - Java CPU Profiling 通过 JVM 内的 Java Agent 采集 Java 方法栈，使用 `java.profile.cpu` 选择进程。
+  - eBPF On-CPU Profiling 通过内核 eBPF/perf 采集用户态和内核态调用栈，使用 `ebpf.profile.on_cpu` 选择进程。
+  - 两者相互独立，可以同时采集同一个 Java 进程，也可以只开启其中一个。若只需要清晰的 Java 方法栈，可以只开启 Java CPU Profiling，避免同时采集两份不同来源的数据。
+- JVM 兼容性：
+  - HotSpot JVM 支持 Java CPU 调用栈采样。
+  - OpenJ9 JVM 仅支持符号解析，暂不支持 Java CPU 调用栈采样。
+- Frame Pointer：不要求目标 JVM 配置 `-XX:+PreserveFramePointer`。
 
 具体配置方法请参考[配置方法](./02-configuration.md#java-cpu-profiling)。
 
