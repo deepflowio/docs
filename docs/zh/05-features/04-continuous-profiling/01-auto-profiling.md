@@ -102,7 +102,7 @@ Off-CPU Profiling 功能**仅会**采集如下调用栈：
   - OpenJ9 JVM 仅支持符号解析，暂不支持 Java CPU 调用栈采样。
 - Frame Pointer：不要求目标 JVM 配置 `-XX:+PreserveFramePointer`。
 
-具体配置方法请参考[配置方法](./02-configuration.md#java-cpu-profiling)。
+具体配置方法请参考[配置方法](./configuration/#java-cpu-profiling)。
 
 # 常见问题
 
