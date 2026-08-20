@@ -77,47 +77,6 @@ inputs:
 - **refresh_defer_duration**: Java 符号表的刷新延迟，避免高频刷新。
 - **max_symbol_file_size**: Java 符号表占用的最大空间大小，单位为 GB，避免占用过大的 `/tmp` 空间。
 
-# Java CPU Profiling
-
-Java CPU Profiling 通过 Java Agent 的 AsyncGetCallTrace（AGCT）持续采集 JVM 方法调用栈，并补全 Java JIT 方法符号。该功能独立于 eBPF On-CPU Profiling，必须同时满足以下两个条件才会采集目标进程：
-
-- 配置 `inputs.java.profile.cpu.enabled: true`，开启 Java CPU Profiler 基础能力；
-- `inputs.proc.process_matcher` 命中目标进程，并且 `enabled_features` 中包含 `java.profile.cpu`。
-
-推荐先按 JAR 包或完整命令行精确匹配少量业务进程，验证资源开销后再扩大范围。以下配置需要合并到现有采集器组配置中，请勿直接覆盖已有的 Process Matcher 和其他配置：
-
-```yaml
-inputs:
-  proc:
-    process_matcher:
-      - match_regex: '.*my-order-service\.jar.*'
-        match_type: cmdline_with_args
-        only_in_container: false
-        enabled_features:
-          - java.profile.cpu
-          - proc.gprocess_info
-  java:
-    profile:
-      cpu:
-        enabled: true
-        frequency: 99
-        max_depth: 98
-        sample_ring_size: 512
-        method_cache_size: 256
-```
-
-如果同一进程还需要普通 eBPF On-CPU Profiling，可在 `enabled_features` 中同时保留 `ebpf.profile.on_cpu`，并确保 `inputs.ebpf.profile.on_cpu.disabled: false`。两个功能使用独立的采样链路和进程名单，任何一个都不是另一个的前置条件。
-
-配置参数说明：
-
-- **enabled**：默认为 false。设置为 true 后，Agent 在启动时准备 Java CPU Profiler 基础能力；修改后需重启 Agent 生效。
-- **frequency**：采样频率，单位为 Hz，默认为 99，范围为 1～1000。资源敏感场景可从 49 开始；199 仅建议用于短时诊断，并应先进行压测。
-- **max_depth**：单条 Java 调用栈最多保留的栈帧数，默认为 98，范围为 1～128。增大该值可保留更深的调用路径，但会增加样本大小和处理开销。
-- **sample_ring_size**：每个 JVM 中的样本环形队列容量，默认为 512，范围为 64～8192。增大该值可以缓解突发采样或发送端短时背压造成的样本丢弃，但会增加 JVM 内存占用。
-- **method_cache_size**：每个 JVM 中的方法缓存容量，默认为 256，范围为 64～8192。方法数量较多、符号反复解析时可适当调大，但会增加 JVM 内存占用。
-
-`enabled` 和上述采样参数修改后需重启 Agent；Process Matcher 支持热更新，增删 `java.profile.cpu` 不需要重启目标 JVM。关闭采样不会卸载已经加载到 JVM 中的 Agent SO；如需彻底释放其占用的资源，需要在维护窗口重启目标 JVM。
-
 # eBPF On-CPU Profiling
 
 eBPF On-CPU Profiling 是默认开启的，但需要修改 `inputs.proc.process_matcher` 来指定进程列表。Agent 支持的配置参数如下：
@@ -185,3 +144,44 @@ inputs:
   - 配置该选项可以参考采集器性能统计 `deepflow_agent_ebpf_memory_profiler` 中 `time_backtracked` 指标，增大该参数使之为 0 即可。注意可能需要相应增大 `sort_length` 参数。
 - **queue_size**：内存剖析组件内部的队列大小。
   - 配置该选项可以参考采集器性能统计 `deepflow_agent_ebpf_memory_profiler` 中 `overwritten` 和 `pending` 指标，增大该配置使得前者为 0，后者不高于该配置即可。
+
+# Java CPU Profiling
+
+Java CPU Profiling 通过 Java Agent 的 AsyncGetCallTrace（AGCT）持续采集 JVM 方法调用栈，并补全 Java JIT 方法符号。该功能独立于 eBPF On-CPU Profiling，必须同时满足以下两个条件才会采集目标进程：
+
+- 配置 `inputs.java.profile.cpu.enabled: true`，开启 Java CPU Profiler 基础能力；
+- `inputs.proc.process_matcher` 命中目标进程，并且 `enabled_features` 中包含 `java.profile.cpu`。
+
+推荐先按 JAR 包或完整命令行精确匹配少量业务进程，验证资源开销后再扩大范围。以下配置需要合并到现有采集器组配置中，请勿直接覆盖已有的 Process Matcher 和其他配置：
+
+```yaml
+inputs:
+  proc:
+    process_matcher:
+      - match_regex: '.*my-order-service\.jar.*'
+        match_type: cmdline_with_args
+        only_in_container: false
+        enabled_features:
+          - java.profile.cpu
+          - proc.gprocess_info
+  java:
+    profile:
+      cpu:
+        enabled: true
+        frequency: 99
+        max_depth: 98
+        sample_ring_size: 512
+        method_cache_size: 256
+```
+
+如果同一进程还需要普通 eBPF On-CPU Profiling，可在 `enabled_features` 中同时保留 `ebpf.profile.on_cpu`，并确保 `inputs.ebpf.profile.on_cpu.disabled: false`。两个功能使用独立的采样链路和进程名单，任何一个都不是另一个的前置条件。
+
+配置参数说明：
+
+- **enabled**：默认为 false。设置为 true 后，Agent 在启动时准备 Java CPU Profiler 基础能力；修改后需重启 Agent 生效。
+- **frequency**：采样频率，单位为 Hz，默认为 99，范围为 1～1000。资源敏感场景可从 49 开始；199 仅建议用于短时诊断，并应先进行压测。
+- **max_depth**：单条 Java 调用栈最多保留的栈帧数，默认为 98，范围为 1～128。增大该值可保留更深的调用路径，但会增加样本大小和处理开销。
+- **sample_ring_size**：每个 JVM 中的样本环形队列容量，默认为 512，范围为 64～8192。增大该值可以缓解突发采样或发送端短时背压造成的样本丢弃，但会增加 JVM 内存占用。
+- **method_cache_size**：每个 JVM 中的方法缓存容量，默认为 256，范围为 64～8192。方法数量较多、符号反复解析时可适当调大，但会增加 JVM 内存占用。
+
+`enabled` 和上述采样参数修改后需重启 Agent；Process Matcher 支持热更新，增删 `java.profile.cpu` 不需要重启目标 JVM。关闭采样不会卸载已经加载到 JVM 中的 Agent SO；如需彻底释放其占用的资源，需要在维护窗口重启目标 JVM。
