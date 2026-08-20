@@ -80,6 +80,10 @@ Off-CPU Profiling 功能**仅会**采集如下调用栈：
 
 ## Java CPU Profiling
 
+| 类型 | 支持语言/库 | 社区版 | 企业版 |
+| ---- | ----------- | ------ | ------ |
+| cpu  | Java        |        | ✔      |
+
 除通用的 eBPF On-CPU Profiling 外，DeepFlow 还支持通过 Java Agent 持续采集 JVM 方法调用栈。该功能使用 HotSpot 的 AsyncGetCallTrace（AGCT）获取 Java 栈并补全 JIT 方法符号，可用于定位 Java 方法的 CPU 热点。
 
 Java CPU Profiling 与 eBPF On-CPU Profiling 是两个相互独立的功能：
