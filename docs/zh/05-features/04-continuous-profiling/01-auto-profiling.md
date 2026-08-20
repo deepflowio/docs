@@ -88,7 +88,7 @@ Java CPU Profiling 与 eBPF On-CPU Profiling 是两个相互独立的功能：
 - eBPF On-CPU Profiling 通过内核 eBPF/perf 采集用户态和内核态调用栈，使用 `ebpf.profile.on_cpu` 选择进程；
 - 两者可以同时采集同一个 Java 进程，也可以只开启其中一个。若只需要清晰的 Java 方法栈，可以只开启 Java CPU Profiling，避免同时采集两份不同来源的数据。
 
-Java CPU Profiling 当前主要支持 HotSpot JVM。该功能不要求目标 JVM 配置 `-XX:+PreserveFramePointer`。
+Java CPU Profiling 当前支持 HotSpot JVM 的 Java CPU 调用栈采样。OpenJ9 JVM 仅支持符号解析，暂不支持 Java CPU 调用栈采样。该功能不要求目标 JVM 配置 `-XX:+PreserveFramePointer`。
 
 具体配置方法请参考[配置方法](./02-configuration.md#java-cpu-profiling)。
 
