@@ -184,4 +184,4 @@ inputs:
 - **sample_ring_size**：每个 JVM 中的样本环形队列容量，默认为 512，范围为 64～8192。增大该值可以缓解突发采样或发送端短时背压造成的样本丢弃，但会增加 JVM 内存占用。
 - **method_cache_size**：每个 JVM 中的方法缓存容量，默认为 256，范围为 64～8192。方法数量较多、符号反复解析时可适当调大，但会增加 JVM 内存占用。
 
-`enabled` 和上述采样参数修改后需重启 Agent；Process Matcher 支持热更新，增删 `java.profile.cpu` 不需要重启目标 JVM。
+`enabled` 和上述采样参数修改后需重启 Agent；Process Matcher 支持热更新，增删 `java.profile.cpu` 不会重启目标 JVM。
