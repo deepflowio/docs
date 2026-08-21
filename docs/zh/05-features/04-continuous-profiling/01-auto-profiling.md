@@ -11,6 +11,8 @@ permalink: /features/continuous-profiling/auto-profiling
 
 # 能力和限制
 
+## eBPF Profiling
+
 支持的 eBPF Profiling 数据类型：
 
 | 类型       | 支持语言/库       | 社区版  | 企业版  |
@@ -40,7 +42,6 @@ permalink: /features/continuous-profiling/auto-profiling
 | rdma      | C/C++ `*`        |        | ✔      |
 
 说明：
-
 - `*`: features in development
 - `**`: 运行 Java 程序的 JVM 须有符号表，参考[检查方法](#jvm-符号表检查)
 - `***`: 当前支持版本为 Python 3.10
@@ -57,7 +58,7 @@ permalink: /features/continuous-profiling/auto-profiling
   - 使用 JVM 虚拟机的语言：Java
   - 解释型语言：Python
 
-获取 Profiling 数据需满足两个前提条件：
+通过通用 eBPF On-CPU/Off-CPU Profiling 获取调用栈时，需满足以下两个前提条件：
 
 - 应用进程需要开启 Frame Pointer 或启用 Agent 的 DWARF 栈回溯能力
   - 应用进程开启 Frame Pointer（帧指针寄存器）：
@@ -75,6 +76,27 @@ Off-CPU Profiling 功能**仅会**采集如下调用栈：
 - 0 号进程（Idle 进程）**以外**的调用栈
 - 含有**至少一个**用户态函数的调用栈
 - 等待 CPU 的时间**不超过** 1 小时的调用栈
+
+## Java Profiling
+
+支持的 Java Profiling 数据类型：
+
+| 类型 | 支持语言/库 | 社区版 | 企业版 |
+| ---- | ----------- | ------ | ------ |
+| cpu  | Java        |        | ✔      |
+
+说明：
+- 类型：
+  - cpu：Java 方法在 CPU 上消耗的时间及函数调用栈
+- 语言：
+  - 使用 JVM 虚拟机的语言：Java
+- 采集原理：通过 Java Agent 持续采集 JVM 方法调用栈，使用 HotSpot 的 AsyncGetCallTrace（AGCT）获取 Java 栈并补全 JIT 方法符号，用于定位 Java 方法的 CPU 热点。
+- 与 eBPF On-CPU Profiling 的关系：
+  - Java CPU Profiling 通过 JVM 内的 Java Agent 采集 Java 方法栈，使用 `java.profile.cpu` 选择进程，不依赖 Frame Pointer 开启。
+  - eBPF On-CPU Profiling 通过内核 eBPF/perf 采集用户态和内核态调用栈，使用 `ebpf.profile.on_cpu` 选择进程。
+  - 两者相互独立，可以同时采集同一个 Java 进程，也可以只开启其中一个。若只需要清晰的 Java 方法栈，可以只开启 Java CPU Profiling，避免同时采集两份不同来源的数据。
+
+具体配置方法请参考[配置方法](./configuration/#java-cpu-profiling)。
 
 # 常见问题
 
