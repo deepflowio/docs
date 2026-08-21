@@ -148,7 +148,6 @@ inputs:
 # Java CPU Profiling
 
 Java CPU Profiling 通过 Java Agent 的 AsyncGetCallTrace（AGCT）持续采集 JVM 方法调用栈，并补全 Java JIT 方法符号。该功能独立于 eBPF On-CPU Profiling，必须同时满足以下两个条件才会采集目标进程：
-
 - 配置 `inputs.java.profile.cpu.enabled: true`，开启 Java CPU Profiler 基础能力；
 - `inputs.proc.process_matcher` 命中目标进程，并且 `enabled_features` 中包含 `java.profile.cpu`。
 
@@ -177,7 +176,6 @@ inputs:
 如果同一进程还需要普通 eBPF On-CPU Profiling，可在 `enabled_features` 中同时保留 `ebpf.profile.on_cpu`，并确保 `inputs.ebpf.profile.on_cpu.disabled: false`。两个功能使用独立的采样链路和进程名单，任何一个都不是另一个的前置条件。
 
 配置参数说明：
-
 - **enabled**：默认为 false。设置为 true 后，Agent 在启动时准备 Java CPU Profiler 基础能力；修改后需重启 Agent 生效。
 - **frequency**：采样频率，单位为 Hz，默认为 99，范围为 1～1000。资源敏感场景可从 49 开始；199 仅建议用于短时诊断，并应先进行压测。
 - **max_depth**：单条 Java 调用栈最多保留的栈帧数，默认为 98，范围为 1～128。增大该值可保留更深的调用路径，但会增加样本大小和处理开销。
