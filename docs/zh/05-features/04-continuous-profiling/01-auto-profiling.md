@@ -59,7 +59,7 @@ permalink: /features/continuous-profiling/auto-profiling
   - 使用 JVM 虚拟机的语言：Java
   - 解释型语言：Python
 
-通过通用 eBPF On-CPU/Off-CPU Profiling 获取调用栈时，需满足以下两个前提条件；Java CPU Profiling 不受这些条件限制：
+通过通用 eBPF On-CPU/Off-CPU Profiling 获取调用栈时，需满足以下两个前提条件：
 
 - 应用进程需要开启 Frame Pointer 或启用 Agent 的 DWARF 栈回溯能力
   - 应用进程开启 Frame Pointer（帧指针寄存器）：
