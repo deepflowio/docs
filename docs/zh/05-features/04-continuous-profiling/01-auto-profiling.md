@@ -42,7 +42,6 @@ permalink: /features/continuous-profiling/auto-profiling
 | rdma      | C/C++ `*`        |        | ✔      |
 
 说明：
-
 - `*`: features in development
 - `**`: 运行 Java 程序的 JVM 须有符号表，参考[检查方法](#jvm-符号表检查)
 - `***`: 当前支持版本为 Python 3.10
@@ -87,7 +86,6 @@ Off-CPU Profiling 功能**仅会**采集如下调用栈：
 | cpu  | Java        |        | ✔      |
 
 说明：
-
 - 类型：
   - cpu：Java 方法在 CPU 上消耗的时间及函数调用栈
 - 语言：
