@@ -18,7 +18,27 @@ inputs:
         only_in_container: false
         rewrite_name: $3
         enabled_features: [ebpf.profile.on_cpu, proc.gprocess_info]
+      - match_regex: \bjava( +\S+)* +-(?:cp|classpath) +\S+ +(?P<CLASS_NAME>[$_A-Za-z][$_0-9A-Za-z]*(?:\.[$_A-Za-z][$_0-9A-Za-z]*)*)
+        match_type: cmdline_with_args
+        only_in_container: false
+        rewrite_name: ${CLASS_NAME}
+        enabled_features: [ebpf.profile.on_cpu, proc.gprocess_info]
       - match_regex: \bpython(\S)*( +-\S+)* +(\S*/)*([^ /]+)
+        match_type: cmdline_with_args
+        only_in_container: false
+        rewrite_name: $4
+        enabled_features: [ebpf.profile.on_cpu, proc.gprocess_info]
+      - match_regex: \b(?:lua|luajit)(\S)*( +-\S+)* +(\S*/)*([^ /]+)
+        match_type: cmdline_with_args
+        only_in_container: false
+        rewrite_name: $5
+        enabled_features: [ebpf.profile.on_cpu, proc.gprocess_info]
+      - match_regex: \bphp(\d+)?(-fpm|-cli|-cgi)?( +-\S+)* +(\S*/)*([^ /]+\.php)
+        match_type: cmdline_with_args
+        only_in_container: false
+        rewrite_name: $5
+        enabled_features: [ebpf.profile.on_cpu, proc.gprocess_info]
+      - match_regex: \b(node|nodejs)( +--\S+)* +(\S*/)*([^ /]+\.js)
         match_type: cmdline_with_args
         only_in_container: false
         rewrite_name: $4
@@ -33,9 +53,9 @@ inputs:
 上述配置的含义如下：
 
 - **match_regex**: 进程匹配的正则表达式，匹配规则如下:
-  - 第一条规则匹配 Java 进程，例如 `java -jar app.jar`，并将进程名重写为 jar 包名
-  - 第二条规则匹配 Python 进程，例如 `python app.py`，并将进程名重写为 Python 脚本名
-  - 第三条规则匹配以 `deepflow-` 开头的进程
+  - 前两条规则分别匹配以 JAR 包和主类启动的 Java 进程，并将进程名重写为 JAR 包名或主类名
+  - 后续规则匹配 Python、Lua/LuaJIT、PHP 和 Node.js 进程，并将进程名重写为脚本名
+  - `^deepflow-` 规则匹配以 `deepflow-` 开头的进程
   - 最后一条规则匹配所有进程
 - **match_type**: 匹配类型，可选值:
   - `cmdline_with_args`: 匹配完整命令行（包含参数）
@@ -48,6 +68,8 @@ inputs:
   - `ebpf.profile.on_cpu`: 开启 On-CPU 剖析，需要配置 `inputs.ebpf.profile.on_cpu.disabled: false`
   - `ebpf.profile.off_cpu`: 开启 Off-CPU 剖析，需要配置 `inputs.ebpf.profile.off_cpu.disabled: false`
   - `ebpf.profile.memory`: 开启内存剖析，需要配置 `inputs.ebpf.profile.memory.disabled: false`
+
+默认 Process Matcher 已为 Java、Python、Lua/LuaJIT、PHP、Node.js 和 DeepFlow 进程开启 `ebpf.profile.on_cpu`。如需采集 Off-CPU 或 Memory Profile，必须同时在目标进程的 `enabled_features` 中增加相应功能，并开启对应的全局 Profile 类型。Memory Profile 的解释器函数栈当前仅支持 Python。
 
 同时可以使用 `inputs.proc.process_blacklist` 来忽略某些进程，其优先级比 `process_matcher` 高。
 
@@ -76,6 +98,28 @@ inputs:
 - **golang_specific.enabled**：配置是否开启 Golang 特有符号表的解析能力。
 - **refresh_defer_duration**: Java 符号表的刷新延迟，避免高频刷新。
 - **max_symbol_file_size**: Java 符号表占用的最大空间大小，单位为 GB，避免占用过大的 `/tmp` 空间。
+
+# 解释器 Profiling
+
+Node.js/V8、PHP、Lua 和 Python 的脚本函数栈展开默认启用。若主机上不运行某种解释器，可通过以下配置禁用对应的展开能力，以减少内核内存占用：
+
+```yaml
+inputs:
+  ebpf:
+    profile:
+      languages:
+        python_disabled: false
+        php_disabled: false
+        nodejs_disabled: false
+        lua_disabled: false
+```
+
+- 四项配置均默认为 `false`，表示启用对应解释器的函数栈展开。
+- 配置项设为 `true` 后，目标进程的通用 Native Profile 仍可继续采集，但不再展开对应语言的脚本函数。
+- 修改这些配置后需重启 Agent 生效。
+- 全部启用时预计占用约 17～20 MB 内核内存。可关闭未使用的语言以降低内存占用。
+
+语言开关只控制脚本函数栈展开。目标进程仍须由 `inputs.proc.process_matcher` 选中，并开启所需的全局 Profile 类型。支持版本、架构和内核条件请参考[能力和限制](./auto-profiling/#解释器运行时)。
 
 # eBPF On-CPU Profiling
 
@@ -144,6 +188,19 @@ inputs:
   - 配置该选项可以参考采集器性能统计 `deepflow_agent_ebpf_memory_profiler` 中 `time_backtracked` 指标，增大该参数使之为 0 即可。注意可能需要相应增大 `sort_length` 参数。
 - **queue_size**：内存剖析组件内部的队列大小。
   - 配置该选项可以参考采集器性能统计 `deepflow_agent_ebpf_memory_profiler` 中 `overwritten` 和 `pending` 指标，增大该配置使得前者为 0，后者不高于该配置即可。
+
+## CUDA/HBM Profiling
+
+HBM Profiling 不限制目标进程的编程语言。对于 Python/PyTorch/vLLM，必须确保真正执行 GPU 分配的 Worker 子进程也被 `inputs.proc.process_matcher` 匹配，并启用 `ebpf.profile.memory`；仅匹配父进程无法采集子进程的显存事件。`inputs.ebpf.profile.languages.python_disabled` 只控制 Python 脚本函数栈展开，不控制 HBM 事件采集。
+
+当前 Agent 通过 uprobe 采集 `cudaMalloc`、`cudaFree`、`cuMemAlloc_v2` 和 `cuMemFree_v2` 调用，并据此生成：
+
+- `hbm-alloc`：uprobe 生效后观测到的显存分配量及调用栈。
+- `hbm-inuse`：根据已观测到的分配地址及后续释放事件计算的当前显存用量及调用栈。
+
+Agent 约每 10 秒扫描一次进程。对于新匹配的非 Agent 进程，当前还会等待约 120 秒再解析已加载的 CUDA 库并挂载 Memory uprobe。uprobe 生效前发生的显存分配不会补采，也不会计入后续的 `hbm-inuse`。挂载完成后，如果进程持续调用上述受支持的 CUDA 分配和释放 API，则可正常生成新的 HBM Profile。
+
+PyTorch/vLLM 等框架可能通过 Caching Allocator 预留大块显存，再在池内完成对象分配和释放；未再次调用上述 CUDA API 的池内操作不会产生 HBM 事件。当前也不采集 `cudaMallocAsync`、`cudaFreeAsync`、`cuMemAllocAsync` 等其他 CUDA 分配接口。
 
 # Java CPU Profiling
 
