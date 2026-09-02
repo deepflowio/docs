@@ -37,7 +37,7 @@ API 请求参数说明：
 
 - **app_service**：进程名
 - **profile_language_type**：获取 Agent 采集的 eBPF Profile 数据时使用 `eBPF`。Node.js/V8、PHP、Lua 和 Python 的解释器函数栈也统一使用 `eBPF`，不会按运行时拆分为不同的 Language Type
-- **profile_event_type**：对于本文涉及的解释器 Profile，根据支持类型使用 `on-cpu`、`off-cpu`、`mem-alloc` 或 `mem-inuse`
+- **profile_event_type**：对于本文涉及的解释器 Profile，根据支持类型使用 `on-cpu`、`off-cpu`、`mem-alloc`、`mem-inuse`、`hbm-alloc` 或 `hbm-inuse`
 - **tag_filter**：当进程名冲突时，可使用其他 Tag 过滤
   - 例如 `"tag_filter": "pod_cluster='prod-cluster' AND pod_ns='app'"`
 - **time_start**、**time_end**：时间范围
@@ -200,7 +200,7 @@ Node.js/V8 和 PHP 脚本帧分别带有 `[JS]`、`[PHP]` 后缀。Python 和 Lu
 
 | Function Type | 含义           | Profile Event Type | 特征                                     |
 | ------------- | -------------- | ------------------ | ---------------------------------------- |
-| O             | 对象类型       | `mem-*`            | Memory Profile 的叶子节点                |
+| O             | 对象类型       | `mem-*`、`hbm-*`   | Memory/HBM Profile 的叶子节点            |
 | H             | 云主机         | `*`                | 等于 `Total` 的根节点                    |
 | P             | 进程           | `*`                | `[p] ` 开头，以及不等于 `Total` 的根节点 |
 | T             | 线程           | `*`                | `[t] ` 开头                              |

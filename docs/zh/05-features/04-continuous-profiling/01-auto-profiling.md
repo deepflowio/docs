@@ -42,7 +42,9 @@ permalink: /features/continuous-profiling/auto-profiling
 | mem-inuse  | Rust        |        | ✔      |
 |            | Python      |        | ✔      |
 | hbm-alloc  | CUDA `*`    |        | ✔      |
+|            | Python（调用 CUDA） |        | ✔      |
 | hbm-inuse  | CUDA `*`    |        | ✔      |
+|            | Python（调用 CUDA） |        | ✔      |
 | rdma       | C/C++ `*`   |        | ✔      |
 
 说明：
@@ -70,7 +72,9 @@ permalink: /features/continuous-profiling/auto-profiling
 | Node.js/V8 | Node.js 16～23（V8 9～12） | x86_64、AArch64 | On-CPU、Off-CPU |
 | PHP | 7.4～8.3 | x86_64、AArch64 | On-CPU、Off-CPU |
 | Lua | Lua 5.1～5.4、LuaJIT 2.1 | x86_64、AArch64 | On-CPU |
-| Python | CPython 3.10～3.13 | x86_64、AArch64 | On-CPU、Off-CPU、mem-alloc、mem-inuse |
+| Python | CPython 3.10～3.13 | x86_64、AArch64 | On-CPU、Off-CPU、mem-alloc、mem-inuse、hbm-alloc、hbm-inuse |
+
+Python 的 HBM Profile 来自目标进程调用的 CUDA API，而不是 CPython 内存分配器。PyTorch、vLLM 等 Python 应用通过受支持的 CUDA API 分配和释放显存时，可生成 `hbm-alloc` 和 `hbm-inuse`，具体采集范围和启动时序限制请参考[配置方法](./configuration/#cuda-hbm-profiling)。
 
 脚本函数栈展开依赖 Agent 加载增强型 Continuous Profiler：
 

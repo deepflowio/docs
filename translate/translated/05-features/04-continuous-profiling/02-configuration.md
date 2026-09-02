@@ -191,6 +191,19 @@ The meaning of the above configuration is as follows:
 - **queue_size**: The internal queue size of the memory profiling component.
   - When configuring this option, refer to the collector performance metrics `deepflow_agent_ebpf_memory_profiler`, specifically the `overwritten` and `pending` metrics. Increase this configuration until the former is 0 and the latter does not exceed this configuration value.
 
+## CUDA/HBM Profiling
+
+HBM Profiling is independent of the target process's programming language. For Python/PyTorch/vLLM, the worker process that actually performs GPU allocations must also match `inputs.proc.process_matcher` and have `ebpf.profile.memory` enabled. Matching only the parent process does not collect GPU memory events from its children. `inputs.ebpf.profile.languages.python_disabled` controls Python script stack unwinding only; it does not disable HBM event collection.
+
+The Agent currently traces calls to `cudaMalloc`, `cudaFree`, `cuMemAlloc_v2`, and `cuMemFree_v2` with uprobes and generates:
+
+- `hbm-alloc`: GPU memory allocations and call stacks observed after the uprobes are active.
+- `hbm-inuse`: Current GPU memory usage and call stacks calculated from observed allocation addresses and subsequent free events.
+
+The Agent scans processes approximately every 10 seconds. For a newly matched non-Agent process, it currently waits approximately another 120 seconds before resolving loaded CUDA libraries and attaching Memory uprobes. GPU allocations made before the uprobes are active are not backfilled and are not included in subsequent `hbm-inuse` data. After attachment, new HBM Profiles are generated when the process continues to call the supported CUDA allocation and free APIs listed above.
+
+Frameworks such as PyTorch and vLLM may reserve large GPU memory blocks through a caching allocator and then allocate and free objects within that pool. Pool operations that do not call the CUDA APIs listed above do not generate HBM events. Other CUDA allocation APIs, including `cudaMallocAsync`, `cudaFreeAsync`, and `cuMemAllocAsync`, are not currently traced.
+
 # Java CPU Profiling
 
 Java CPU Profiling continuously samples JVM method stacks through a Java Agent using AsyncGetCallTrace (AGCT), and resolves Java JIT method symbols. This feature is independent of eBPF On-CPU Profiling. Both of the following conditions must be met before a target process is profiled:

@@ -44,7 +44,9 @@ Supported eBPF profiling data types:
 | mem-inuse  | Rust                          |                   | ✔                  |
 |            | Python                        |                   | ✔                  |
 | hbm-alloc  | CUDA `*`                      |                   | ✔                  |
+|            | Python (using CUDA)           |                   | ✔                  |
 | hbm-inuse  | CUDA `*`                      |                   | ✔                  |
+|            | Python (using CUDA)           |                   | ✔                  |
 | rdma       | C/C++ `*`                     |                   | ✔                  |
 
 Notes:
@@ -73,7 +75,9 @@ Interpreter-level script stack unwinding is an Enterprise Edition capability. Th
 | Node.js/V8 | Node.js 16–23 (V8 9–12) | x86_64, AArch64 | On-CPU, Off-CPU |
 | PHP | 7.4–8.3 | x86_64, AArch64 | On-CPU, Off-CPU |
 | Lua | Lua 5.1–5.4, LuaJIT 2.1 | x86_64, AArch64 | On-CPU |
-| Python | CPython 3.10–3.13 | x86_64, AArch64 | On-CPU, Off-CPU, mem-alloc, mem-inuse |
+| Python | CPython 3.10–3.13 | x86_64, AArch64 | On-CPU, Off-CPU, mem-alloc, mem-inuse, hbm-alloc, hbm-inuse |
+
+Python HBM Profiles come from CUDA APIs called by the target process, not from the CPython allocator. Python applications such as PyTorch and vLLM can generate `hbm-alloc` and `hbm-inuse` when they allocate and release GPU memory through supported CUDA APIs. See [Configuration](./configuration/#cuda-hbm-profiling) for the collection scope and startup timing limitations.
 
 Script stack unwinding requires the Agent to load the enhanced Continuous Profiler:
 

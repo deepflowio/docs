@@ -189,6 +189,19 @@ inputs:
 - **queue_size**：内存剖析组件内部的队列大小。
   - 配置该选项可以参考采集器性能统计 `deepflow_agent_ebpf_memory_profiler` 中 `overwritten` 和 `pending` 指标，增大该配置使得前者为 0，后者不高于该配置即可。
 
+## CUDA/HBM Profiling
+
+HBM Profiling 不限制目标进程的编程语言。对于 Python/PyTorch/vLLM，必须确保真正执行 GPU 分配的 Worker 子进程也被 `inputs.proc.process_matcher` 匹配，并启用 `ebpf.profile.memory`；仅匹配父进程无法采集子进程的显存事件。`inputs.ebpf.profile.languages.python_disabled` 只控制 Python 脚本函数栈展开，不控制 HBM 事件采集。
+
+当前 Agent 通过 uprobe 采集 `cudaMalloc`、`cudaFree`、`cuMemAlloc_v2` 和 `cuMemFree_v2` 调用，并据此生成：
+
+- `hbm-alloc`：uprobe 生效后观测到的显存分配量及调用栈。
+- `hbm-inuse`：根据已观测到的分配地址及后续释放事件计算的当前显存用量及调用栈。
+
+Agent 约每 10 秒扫描一次进程。对于新匹配的非 Agent 进程，当前还会等待约 120 秒再解析已加载的 CUDA 库并挂载 Memory uprobe。uprobe 生效前发生的显存分配不会补采，也不会计入后续的 `hbm-inuse`。挂载完成后，如果进程持续调用上述受支持的 CUDA 分配和释放 API，则可正常生成新的 HBM Profile。
+
+PyTorch/vLLM 等框架可能通过 Caching Allocator 预留大块显存，再在池内完成对象分配和释放；未再次调用上述 CUDA API 的池内操作不会产生 HBM 事件。当前也不采集 `cudaMallocAsync`、`cudaFreeAsync`、`cuMemAllocAsync` 等其他 CUDA 分配接口。
+
 # Java CPU Profiling
 
 Java CPU Profiling 通过 Java Agent 的 AsyncGetCallTrace（AGCT）持续采集 JVM 方法调用栈，并补全 Java JIT 方法符号。该功能独立于 eBPF On-CPU Profiling，必须同时满足以下两个条件才会采集目标进程：

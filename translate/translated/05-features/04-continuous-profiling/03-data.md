@@ -39,7 +39,7 @@ Explanation of API request parameters:
 
 - **app_service**: Process name
 - **profile_language_type**: Use `eBPF` for Profiles collected by the Agent's eBPF profiler. Interpreter frames for Node.js/V8, PHP, Lua, and Python also use `eBPF`; they are not split into runtime-specific Language Types
-- **profile_event_type**: For the interpreter Profiles covered here, use `on-cpu`, `off-cpu`, `mem-alloc`, or `mem-inuse`, according to the supported Profile type
+- **profile_event_type**: For the interpreter Profiles covered here, use `on-cpu`, `off-cpu`, `mem-alloc`, `mem-inuse`, `hbm-alloc`, or `hbm-inuse`, according to the supported Profile type
 - **tag_filter**: When process names conflict, other tags can be used for filtering
   - For example, `"tag_filter": "pod_cluster='prod-cluster' AND pod_ns='app'"`
 - **time_start**, **time_end**: Time range
@@ -202,7 +202,7 @@ Using the API return result, you can draw an On-CPU flame graph for the **specif
 
 | Function Type | Meaning         | Profile Event Type | Characteristics                           |
 | ------------- | --------------- | ------------------ | ---------------------------------------- |
-| O             | Object type     | `mem-*`            | Leaf node of Memory Profile              |
+| O             | Object type     | `mem-*`, `hbm-*`   | Leaf node of Memory/HBM Profile          |
 | H             | Cloud host      | `*`                | Root node equal to `Total`               |
 | P             | Process         | `*`                | Starts with `[p] `, and root nodes not equal to `Total` |
 | T             | Thread          | `*`                | Starts with `[t] `                       |
