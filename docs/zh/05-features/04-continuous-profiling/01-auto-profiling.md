@@ -15,36 +15,39 @@ permalink: /features/continuous-profiling/auto-profiling
 
 支持的 eBPF Profiling 数据类型：
 
-| 类型       | 支持语言/库       | 社区版  | 企业版  |
-| --------- | ---------------- | ------ | ------ |
-| on-cpu    | Java             | ✔      | ✔      |
-|           | C/C++            | ✔      | ✔      |
-|           | Rust             | ✔      | ✔      |
-|           | Golang           | ✔      | ✔      |
-|           | CUDA             | ✔      | ✔      |
-|           | Lua              |        | ✔      |
-|           | Python `***`     |        | ✔      |
-| off-cpu   | Java             |        | ✔      |
-|           | C/C++            |        | ✔      |
-|           | Rust             |        | ✔      |
-|           | Golang           |        | ✔      |
-|           | Python `***`     |        | ✔      |
-|           | CUDA             |        | ✔      |
-|           | Lua `*`          |        | ✔      |
-| on-gpu    | CUDA `*`         |        | ✔      |
-| mem-alloc | Java `**`        |        | ✔      |
-|           | Rust             |        | ✔      |
-|           | Golang `*`       |        | ✔      |
-|           | Python `*` `***` |        | ✔      |
-| mem-inuse | Rust             |        | ✔      |
-| hbm-alloc | CUDA `*`         |        | ✔      |
-| hbm-inuse | CUDA `*`         |        | ✔      |
-| rdma      | C/C++ `*`        |        | ✔      |
+| 类型       | 支持语言/库 | 社区版 | 企业版 |
+| ---------- | ----------- | ------ | ------ |
+| on-cpu     | Java        | ✔      | ✔      |
+|            | C/C++       | ✔      | ✔      |
+|            | Rust        | ✔      | ✔      |
+|            | Golang      | ✔      | ✔      |
+|            | CUDA        | ✔      | ✔      |
+|            | Node.js/V8  |        | ✔      |
+|            | PHP         |        | ✔      |
+|            | Lua         |        | ✔      |
+|            | Python      |        | ✔      |
+| off-cpu    | Java        |        | ✔      |
+|            | C/C++       |        | ✔      |
+|            | Rust        |        | ✔      |
+|            | Golang      |        | ✔      |
+|            | CUDA        |        | ✔      |
+|            | Node.js/V8  |        | ✔      |
+|            | PHP         |        | ✔      |
+|            | Python      |        | ✔      |
+| on-gpu     | CUDA `*`    |        | ✔      |
+| mem-alloc  | Java `**`   |        | ✔      |
+|            | Rust        |        | ✔      |
+|            | Golang `*`  |        | ✔      |
+|            | Python      |        | ✔      |
+| mem-inuse  | Rust        |        | ✔      |
+|            | Python      |        | ✔      |
+| hbm-alloc  | CUDA `*`    |        | ✔      |
+| hbm-inuse  | CUDA `*`    |        | ✔      |
+| rdma       | C/C++ `*`   |        | ✔      |
 
 说明：
 - `*`: features in development
 - `**`: 运行 Java 程序的 JVM 须有符号表，参考[检查方法](#jvm-符号表检查)
-- `***`: 当前支持版本为 Python 3.10
 - 类型：
   - on-cpu：函数在 CPU 上消耗的时间
   - off-cpu：函数等待 CPU 的时间
@@ -56,7 +59,27 @@ permalink: /features/continuous-profiling/auto-profiling
 - 语言：
   - 编译为 ELF 格式可执行文件的语言：Golang、Rust、C/C++
   - 使用 JVM 虚拟机的语言：Java
-  - 解释型语言：Python
+  - 解释器运行时：Node.js/V8、PHP、Lua、Python
+
+### 解释器运行时
+
+解释器脚本函数栈展开属于企业版能力，当前支持范围如下：
+
+| 运行时 | 支持版本 | 支持架构 | Profile 类型 |
+| ------ | -------- | -------- | ------------ |
+| Node.js/V8 | Node.js 16～23（V8 9～12） | x86_64、AArch64 | On-CPU、Off-CPU |
+| PHP | 7.4～8.3 | x86_64、AArch64 | On-CPU、Off-CPU |
+| Lua | Lua 5.1～5.4、LuaJIT 2.1 | x86_64、AArch64 | On-CPU |
+| Python | CPython 3.10～3.13 | x86_64、AArch64 | On-CPU、Off-CPU、mem-alloc、mem-inuse |
+
+脚本函数栈展开依赖 Agent 加载增强型 Continuous Profiler：
+
+- 标准 Linux 内核版本须为 5.2 或更高。
+- Kylin V10 SP3 v2207 的 `4.19.90-*.v2207.ky10.*` 内核也支持该能力，包括 x86_64 和 AArch64 架构。
+- 普通 Linux 4.19 内核和 Kylin V10 SP3 v2101 内核不支持脚本函数栈展开。Agent 仍可使用通用 Profiler 采集满足条件的 Native 栈。
+- 如果增强型 Profiler 加载失败，Agent 会自动降级为通用 Profiler；降级后不再提供 DWARF 和解释器脚本函数栈展开。
+
+Agent 必须能够识别目标解释器版本，并读取目标进程的可执行文件及已加载的解释器共享库。不支持的运行时版本、识别失败或文件不可访问时，Profile 中仍可能包含 Native/运行时函数，但不会显示脚本函数。Python 内存剖析通过 CPython 的 `PyObject_Malloc/Free/Realloc` 和 `PyMem_RawMalloc/Free/Realloc` 公共符号采集对象分配与释放事件。
 
 通过通用 eBPF On-CPU/Off-CPU Profiling 获取调用栈时，需满足以下两个前提条件：
 

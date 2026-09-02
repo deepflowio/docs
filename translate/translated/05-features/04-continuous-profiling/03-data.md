@@ -38,8 +38,8 @@ curl -X POST http://${deepflow_server_node_ip}:$port/v1/profile/ProfileTracing \
 Explanation of API request parameters:
 
 - **app_service**: Process name
-- **profile_language_type**: Use `eBPF` when retrieving eBPF Profile data
-- **profile_event_type**: For eBPF On-CPU Profile data, set the value to `on-cpu`
+- **profile_language_type**: Use `eBPF` for Profiles collected by the Agent's eBPF profiler. Interpreter frames for Node.js/V8, PHP, Lua, and Python also use `eBPF`; they are not split into runtime-specific Language Types
+- **profile_event_type**: For the interpreter Profiles covered here, use `on-cpu`, `off-cpu`, `mem-alloc`, or `mem-inuse`, according to the supported Profile type
 - **tag_filter**: When process names conflict, other tags can be used for filtering
   - For example, `"tag_filter": "pod_cluster='prod-cluster' AND pod_ns='app'"`
 - **time_start**, **time_end**: Time range
@@ -47,7 +47,7 @@ Explanation of API request parameters:
 The `profile.in_process` table supports the following `tag_filter` fields:
 [csv-profile-tag-filters](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/tag/profile/in_process.en)
 
-Example of API return result:
+Example API response (using a CPU Profile):
 
 ```json
 {
@@ -101,6 +101,8 @@ Explanation of API return result:
   - `[k] function_name`: Linux kernel functions, CUDA dynamic library functions ([libcuda](https://developer.nvidia.com/cuda-toolkit), [libcublas](https://developer.nvidia.com/cublas), etc.)
   - `[l] function_name`: Functions in dynamic libraries
   - `function_name`: Represents business functions of the application
+  - `function_name [JS]`: A Node.js/V8 JavaScript function, for example `workLoop [JS]`
+  - `Class::method:line [PHP]` or `function:line [PHP]`: A PHP method or function and its source line
   - `$app_service`: The top node of the flame graph, named after the process name
   - Additionally, when the function name translation fails, it may appear in one of the following forms:
     - `[/tmp/perf-29887.map]`: The file name of the Java process symbol file for process number 29887 in square brackets, the function address was not found in this file. Java process symbol files are automatically generated periodically, usually because the function was not loaded when the symbol file was generated.
@@ -118,6 +120,19 @@ Explanation of API return result:
   - The difference between On-CPU and Off-CPU is the same as above
 
 Using the API return result, you can draw a CPU flame graph for the **specified process**.
+
+## Verify Interpreter Frames
+
+Node.js/V8 and PHP script frames use the `[JS]` and `[PHP]` suffixes, respectively. Python and Lua script functions also appear alongside native/runtime frames, although their rendering can vary with the runtime version and available symbols. Even when querying an interpreter process, set `profile_language_type` to `eBPF`.
+
+If a Profile contains only native or runtime functions and no business script functions, check the following:
+
+1. Verify that the runtime version and host architecture are within the [supported range](./auto-profiling/#interpreter-runtimes).
+2. Verify that the kernel supports the enhanced Continuous Profiler and check the Agent log for `falling back to common (no DWARF/unwind)`.
+3. Verify that Process Matcher enables the required Profile type for the target process and that the corresponding `inputs.ebpf.profile.languages` switch is not disabled.
+4. Verify that the Agent can read the target process executable and loaded interpreter libraries, and check the log for version detection or symbol-reading failures.
+
+See [Configuration Method](./configuration/) for configuration details.
 
 # Retrieve Profile for a Specific Host
 
