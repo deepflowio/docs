@@ -20,7 +20,27 @@ inputs:
         only_in_container: false
         rewrite_name: $3
         enabled_features: [ebpf.profile.on_cpu, proc.gprocess_info]
+      - match_regex: \bjava( +\S+)* +-(?:cp|classpath) +\S+ +(?P<CLASS_NAME>[$_A-Za-z][$_0-9A-Za-z]*(?:\.[$_A-Za-z][$_0-9A-Za-z]*)*)
+        match_type: cmdline_with_args
+        only_in_container: false
+        rewrite_name: ${CLASS_NAME}
+        enabled_features: [ebpf.profile.on_cpu, proc.gprocess_info]
       - match_regex: \bpython(\S)*( +-\S+)* +(\S*/)*([^ /]+)
+        match_type: cmdline_with_args
+        only_in_container: false
+        rewrite_name: $4
+        enabled_features: [ebpf.profile.on_cpu, proc.gprocess_info]
+      - match_regex: \b(?:lua|luajit)(\S)*( +-\S+)* +(\S*/)*([^ /]+)
+        match_type: cmdline_with_args
+        only_in_container: false
+        rewrite_name: $5
+        enabled_features: [ebpf.profile.on_cpu, proc.gprocess_info]
+      - match_regex: \bphp(\d+)?(-fpm|-cli|-cgi)?( +-\S+)* +(\S*/)*([^ /]+\.php)
+        match_type: cmdline_with_args
+        only_in_container: false
+        rewrite_name: $5
+        enabled_features: [ebpf.profile.on_cpu, proc.gprocess_info]
+      - match_regex: \b(node|nodejs)( +--\S+)* +(\S*/)*([^ /]+\.js)
         match_type: cmdline_with_args
         only_in_container: false
         rewrite_name: $4
@@ -35,9 +55,9 @@ inputs:
 The meaning of the above configuration is as follows:
 
 - **match_regex**: The regular expression for process matching. The matching rules are as follows:
-  - The first rule matches Java processes, e.g., `java -jar app.jar`, and rewrites the process name to the JAR filename.
-  - The second rule matches Python processes, e.g., `python app.py`, and rewrites the process name to the Python script name.
-  - The third rule matches processes starting with `deepflow-`.
+  - The first two rules match Java processes started with a JAR or a main class, and rewrite the process name to the JAR filename or class name.
+  - The following rules match Python, Lua/LuaJIT, PHP, and Node.js processes and rewrite the process name to the script filename.
+  - The `^deepflow-` rule matches processes starting with `deepflow-`.
   - The last rule matches all processes.
 - **match_type**: The matching type. Optional values are:
   - `cmdline_with_args`: Matches the full command line (including arguments).
@@ -46,9 +66,12 @@ The meaning of the above configuration is as follows:
 - **only_in_container**: Whether to match only processes within containers.
 - **rewrite_name**: The rule for rewriting the process name, supporting references to regex capture groups.
 - **enabled_features**: The list of features enabled for matched processes:
+  - `java.profile.cpu`: Enables Java CPU Profiling, requires `inputs.java.profile.cpu.enabled: true`, and does not depend on `ebpf.profile.on_cpu`
   - `ebpf.profile.on_cpu`: Enables On-CPU profiling, requires `inputs.ebpf.profile.on_cpu.disabled: false`
   - `ebpf.profile.off_cpu`: Enables Off-CPU profiling, requires `inputs.ebpf.profile.off_cpu.disabled: false`
   - `ebpf.profile.memory`: Enables memory profiling, requires `inputs.ebpf.profile.memory.disabled: false`
+
+The default Process Matcher enables `ebpf.profile.on_cpu` for Java, Python, Lua/LuaJIT, PHP, Node.js, and DeepFlow processes. To collect Off-CPU or Memory Profiles, add the corresponding feature to `enabled_features` for the target process and enable the matching global Profile type. Interpreter-level Memory Profiling currently supports Python only.
 
 Additionally, `inputs.proc.process_blacklist` can be used to ignore specific processes. It has higher priority than `process_matcher`.
 
@@ -64,7 +87,7 @@ Symbol table related settings can be configured for specific languages. These se
 
 ```yaml
 inputs:
-  ebpf:
+  proc:
     symbol_table:
       golang_specific:
         enabled: false
@@ -77,6 +100,28 @@ The meaning of the above configuration is as follows:
 - **golang_specific.enabled**: Configures whether to enable Golang-specific symbol table parsing capability.
 - **refresh_defer_duration**: The refresh deferral duration for the Java symbol table, to avoid high-frequency refreshing.
 - **max_symbol_file_size**: The maximum disk space occupied by the Java symbol table, in GB, to avoid consuming excessive `/tmp` space.
+
+# Interpreter Profiling
+
+Script stack unwinding for Node.js/V8, PHP, Lua, and Python is enabled by default. If a runtime is not used on a host, disable its unwinder to reduce kernel memory usage:
+
+```yaml
+inputs:
+  ebpf:
+    profile:
+      languages:
+        python_disabled: false
+        php_disabled: false
+        nodejs_disabled: false
+        lua_disabled: false
+```
+
+- All four options default to `false`, which enables stack unwinding for the corresponding runtime.
+- When an option is set to `true`, common native profiles of the target process can still be collected, but its script functions are no longer unwound.
+- Restart the Agent after changing these options.
+- Enabling all runtime unwinders uses approximately 17–20 MB of kernel memory. Disable unused runtimes to reduce this overhead.
+
+The language switches only control script stack unwinding. The target process must still be selected by `inputs.proc.process_matcher`, and the required global Profile type must be enabled. See [Capabilities and Limitations](./auto-profiling/#interpreter-runtimes) for supported versions, architectures, and kernel requirements.
 
 # eBPF On-CPU Profiling
 
@@ -145,4 +190,57 @@ The meaning of the above configuration is as follows:
   - When configuring this option, refer to the collector performance metric `deepflow_agent_ebpf_memory_profiler`, specifically the `time_backtracked` metric. Increase this parameter until the metric becomes 0. Note that it might be necessary to correspondingly increase the `sort_length` parameter.
 - **queue_size**: The internal queue size of the memory profiling component.
   - When configuring this option, refer to the collector performance metrics `deepflow_agent_ebpf_memory_profiler`, specifically the `overwritten` and `pending` metrics. Increase this configuration until the former is 0 and the latter does not exceed this configuration value.
+
+## CUDA/HBM Profiling
+
+HBM Profiling is independent of the target process's programming language. For Python/PyTorch/vLLM, the worker process that actually performs GPU allocations must also match `inputs.proc.process_matcher` and have `ebpf.profile.memory` enabled. Matching only the parent process does not collect GPU memory events from its children. `inputs.ebpf.profile.languages.python_disabled` controls Python script stack unwinding only; it does not disable HBM event collection.
+
+The Agent currently traces calls to `cudaMalloc`, `cudaFree`, `cuMemAlloc_v2`, and `cuMemFree_v2` with uprobes and generates:
+
+- `hbm-alloc`: GPU memory allocations and call stacks observed after the uprobes are active.
+- `hbm-inuse`: Current GPU memory usage and call stacks calculated from observed allocation addresses and subsequent free events.
+
+The Agent scans processes approximately every 10 seconds. For a newly matched non-Agent process, it currently waits approximately another 120 seconds before resolving loaded CUDA libraries and attaching Memory uprobes. GPU allocations made before the uprobes are active are not backfilled and are not included in subsequent `hbm-inuse` data. After attachment, new HBM Profiles are generated when the process continues to call the supported CUDA allocation and free APIs listed above.
+
+Frameworks such as PyTorch and vLLM may reserve large GPU memory blocks through a caching allocator and then allocate and free objects within that pool. Pool operations that do not call the CUDA APIs listed above do not generate HBM events. Other CUDA allocation APIs, including `cudaMallocAsync`, `cudaFreeAsync`, and `cuMemAllocAsync`, are not currently traced.
+
+# Java CPU Profiling
+
+Java CPU Profiling continuously samples JVM method stacks through a Java Agent using AsyncGetCallTrace (AGCT), and resolves Java JIT method symbols. This feature is independent of eBPF On-CPU Profiling. Both of the following conditions must be met before a target process is profiled:
+
+- Set `inputs.java.profile.cpu.enabled: true` to enable the Java CPU Profiler.
+- Match the target process with `inputs.proc.process_matcher` and include `java.profile.cpu` in `enabled_features`.
+
+Start with a small number of business processes matched by JAR filename or full command line, and verify the resource overhead before expanding the scope. Merge the following example into the existing Agent group configuration; do not replace existing Process Matchers or unrelated settings:
+
+```yaml
+inputs:
+  proc:
+    process_matcher:
+      - match_regex: '.*my-order-service\.jar.*'
+        match_type: cmdline_with_args
+        only_in_container: false
+        enabled_features:
+          - java.profile.cpu
+          - proc.gprocess_info
+  java:
+    profile:
+      cpu:
+        enabled: true
+        frequency: 99
+        max_depth: 98
+        sample_ring_size: 512
+        method_cache_size: 256
 ```
+
+To also collect ordinary eBPF On-CPU Profiles from the same process, retain `ebpf.profile.on_cpu` in `enabled_features` and ensure `inputs.ebpf.profile.on_cpu.disabled: false`. The two features use independent sampling paths and process lists; neither is a prerequisite for the other.
+
+Configuration parameters:
+
+- **enabled**: Defaults to false. When set to true, the Agent prepares the Java CPU Profiler at startup. Restart the Agent after changing this option.
+- **frequency**: Sampling frequency in Hz. The default is 99 and the allowed range is 1–1000. For resource-sensitive environments, start at 49. Use 199 only for short diagnostics and after load testing.
+- **max_depth**: Maximum number of frames retained in a Java stack. The default is 98 and the allowed range is 1–128. A larger value preserves deeper call paths but increases sample size and processing overhead.
+- **sample_ring_size**: Per-JVM sample ring capacity. The default is 512 and the allowed range is 64–8192. A larger ring can absorb burst sampling or temporary sender backpressure, at the cost of additional JVM memory.
+- **method_cache_size**: Per-JVM method cache capacity. The default is 256 and the allowed range is 64–8192. Increase it when a JVM has many methods or repeatedly resolves symbols, at the cost of additional JVM memory.
+
+Changes to `enabled` and the sampling parameters require an Agent restart. Process Matcher supports hot updates; adding or removing `java.profile.cpu` does not restart the target JVM.
