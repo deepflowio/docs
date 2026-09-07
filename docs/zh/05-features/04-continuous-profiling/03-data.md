@@ -36,8 +36,8 @@ curl -X POST http://${deepflow_server_node_ip}:$port/v1/profile/ProfileTracing \
 API 请求参数说明：
 
 - **app_service**：进程名
-- **profile_language_type**：获取 eBPF Profile 数据时使用 `eBPF`
-- **profile_event_type**：对于 eBPF On-CPU Profile 数据赋值为 `on-cpu` 即可
+- **profile_language_type**：获取 Agent 采集的 eBPF Profile 数据时使用 `eBPF`。Node.js/V8、PHP、Lua 和 Python 的解释器函数栈也统一使用 `eBPF`，不会按运行时拆分为不同的 Language Type
+- **profile_event_type**：对于本文涉及的解释器 Profile，根据支持类型使用 `on-cpu`、`off-cpu`、`mem-alloc`、`mem-inuse`、`hbm-alloc` 或 `hbm-inuse`
 - **tag_filter**：当进程名冲突时，可使用其他 Tag 过滤
   - 例如 `"tag_filter": "pod_cluster='prod-cluster' AND pod_ns='app'"`
 - **time_start**、**time_end**：时间范围
@@ -45,7 +45,7 @@ API 请求参数说明：
 `profile.in_process` 表支持使用的 `tag_filter` 字段如下：
 [csv-profile-tag-filters](https://raw.githubusercontent.com/deepflowio/deepflow/main/server/querier/db_descriptions/clickhouse/tag/profile/in_process.ch)
 
-API 返回结果示例：
+API 返回结果示例（以下以 CPU Profile 为例）：
 
 ```json
 {
@@ -99,6 +99,8 @@ API 返回结果说明：
   - `[k] function_name`：Linux 内核函数、CUDA 动态链接库函数（[libcuda](https://developer.nvidia.com/cuda-toolkit)、[libcublas](https://developer.nvidia.com/cublas) 等）
   - `[l] function_name`：动态链接库中的函数
   - `function_name`：表示应用程序的业务函数
+  - `function_name [JS]`：Node.js/V8 的 JavaScript 函数，例如 `workLoop [JS]`
+  - `Class::method:line [PHP]` 或 `function:line [PHP]`：PHP 方法或函数及其源码行号
   - `$app_service`：火焰图最顶层的节点，名字为进程名
   - 除此之外，当函数名未成功翻译时，可能显示为如下几种形式之一
     - `[/tmp/perf-29887.map]`：方括号中为进程号 29887 的 Java 进程符号文件名，函数地址未能在该文件中找到。Java 进程符号文件会自动周期性生成，此时一般由于该符号文件生成时该函数尚未加载导致。
@@ -116,6 +118,19 @@ API 返回结果说明：
   - On-CPU 和 Off-CPU 的差异同上
 
 使用 API 的返回结果，可以绘制**指定进程**的 CPU 火焰图。
+
+## 确认解释器函数栈
+
+Node.js/V8 和 PHP 脚本帧分别带有 `[JS]`、`[PHP]` 后缀。Python 和 Lua 的脚本函数也会与 Native/运行时函数一起出现在火焰图中，但展示格式可能随运行时版本和符号内容变化。即使查询解释器进程，`profile_language_type` 仍须使用 `eBPF`。
+
+如果 Profile 中只有 Native 或解释器运行时函数，没有业务脚本函数，请依次检查：
+
+1. 运行时版本和主机架构是否位于[支持范围](./auto-profiling/#解释器运行时)内。
+2. 内核是否支持增强型 Continuous Profiler，以及 Agent 是否出现 `falling back to common (no DWARF/unwind)` 降级日志。
+3. 目标进程是否已由 Process Matcher 开启所需 Profile 类型，且对应的 `inputs.ebpf.profile.languages` 开关未禁用。
+4. Agent 是否能读取目标进程的可执行文件及已加载的解释器共享库，日志中是否存在版本识别或符号读取失败。
+
+配置方法请参考[配置方法](./configuration/)。
 
 # 获取指定主机的 Profile
 
@@ -185,7 +200,7 @@ API 返回结果说明：
 
 | Function Type | 含义           | Profile Event Type | 特征                                     |
 | ------------- | -------------- | ------------------ | ---------------------------------------- |
-| O             | 对象类型       | `mem-*`            | Memory Profile 的叶子节点                |
+| O             | 对象类型       | `mem-*`、`hbm-*`   | Memory/HBM Profile 的叶子节点            |
 | H             | 云主机         | `*`                | 等于 `Total` 的根节点                    |
 | P             | 进程           | `*`                | `[p] ` 开头，以及不等于 `Total` 的根节点 |
 | T             | 线程           | `*`                | `[t] ` 开头                              |
