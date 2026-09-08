@@ -17,42 +17,43 @@ By using eBPF to capture snapshots of an application's function call stack, Deep
 
 Supported eBPF profiling data types:
 
-| Type       | Supported Languages/Libraries | Community Edition | Enterprise Edition |
-| ---------- | ----------------------------- | ----------------- | ------------------ |
-| on-cpu     | Java                          | ✔                 | ✔                  |
-|            | C/C++                         | ✔                 | ✔                  |
-|            | Rust                          | ✔                 | ✔                  |
-|            | Golang                        | ✔                 | ✔                  |
-|            | CUDA                          | ✔                 | ✔                  |
-|            | Node.js/V8                    |                   | ✔                  |
-|            | PHP                           |                   | ✔                  |
-|            | Lua                           |                   | ✔                  |
-|            | Python                        |                   | ✔                  |
-| off-cpu    | Java                          |                   | ✔                  |
-|            | C/C++                         |                   | ✔                  |
-|            | Rust                          |                   | ✔                  |
-|            | Golang                        |                   | ✔                  |
-|            | CUDA                          |                   | ✔                  |
-|            | Node.js/V8                    |                   | ✔                  |
-|            | PHP                           |                   | ✔                  |
-|            | Python                        |                   | ✔                  |
-| on-gpu     | CUDA `*`                      |                   | ✔                  |
-| mem-alloc  | Java `**`                     |                   | ✔                  |
-|            | Rust                          |                   | ✔                  |
-|            | Golang `*`                    |                   | ✔                  |
-|            | Python                        |                   | ✔                  |
-| mem-inuse  | Rust                          |                   | ✔                  |
-|            | Python                        |                   | ✔                  |
-| hbm-alloc  | CUDA `*`                      |                   | ✔                  |
-|            | Python (using CUDA)           |                   | ✔                  |
-| hbm-inuse  | CUDA `*`                      |                   | ✔                  |
-|            | Python (using CUDA)           |                   | ✔                  |
-| rdma       | C/C++ `*`                     |                   | ✔                  |
+| Type       | Supported Languages/Libraries | Supported Kernel Versions | Community Edition | Enterprise Edition |
+| ---------- | ----------------------------- | ------------------------- | ----------------- | ------------------ |
+| on-cpu     | Java                          | Linux 4.14+ | ✔ | ✔ |
+|            | C/C++                         | Linux 4.14+ | ✔ | ✔ |
+|            | Rust                          | Linux 4.14+ | ✔ | ✔ |
+|            | Golang                        | Linux 4.14+ | ✔ | ✔ |
+|            | CUDA                          | Linux 4.14+ | ✔ | ✔ |
+|            | Node.js/V8                    | Linux 5.2+/whitelisted kernels `***` | | ✔ |
+|            | PHP                           | Linux 5.2+/whitelisted kernels `***` | | ✔ |
+|            | Lua                           | Linux 5.2+/whitelisted kernels `***` | | ✔ |
+|            | Python                        | Linux 5.2+/whitelisted kernels `***` | | ✔ |
+| off-cpu    | Java                          | Linux 4.14+ | | ✔ |
+|            | C/C++                         | Linux 4.14+ | | ✔ |
+|            | Rust                          | Linux 4.14+ | | ✔ |
+|            | Golang                        | Linux 4.14+ | | ✔ |
+|            | CUDA                          | Linux 4.14+ | | ✔ |
+|            | Node.js/V8                    | Linux 5.2+/whitelisted kernels `***` | | ✔ |
+|            | PHP                           | Linux 5.2+/whitelisted kernels `***` | | ✔ |
+|            | Python                        | Linux 5.2+/whitelisted kernels `***` | | ✔ |
+| on-gpu     | CUDA `*`                      | Linux 4.14+ | | ✔ |
+| mem-alloc  | Java `**`                     | Linux 4.14+ | | ✔ |
+|            | Rust                          | Linux 4.14+ | | ✔ |
+|            | Golang `*`                    | Linux 4.14+ | | ✔ |
+|            | Python                        | Linux 5.2+/whitelisted kernels `***` | | ✔ |
+| mem-inuse  | Rust                          | Linux 4.14+ | | ✔ |
+|            | Python                        | Linux 5.2+/whitelisted kernels `***` | | ✔ |
+| hbm-alloc  | CUDA `*`                      | Linux 4.14+ | | ✔ |
+|            | Python (using CUDA)           | Linux 5.2+/whitelisted kernels `***` | | ✔ |
+| hbm-inuse  | CUDA `*`                      | Linux 4.14+ | | ✔ |
+|            | Python (using CUDA)           | Linux 5.2+/whitelisted kernels `***` | | ✔ |
+| rdma       | C/C++ `*`                     | Linux 4.14+ | | ✔ |
 
 Notes:
 
 - `*`: features in development
 - `**`: The JVM running the Java program must have a symbol table. See the [check method](#jvm-symbol-table-check).
+- `***`: Adapted Kylin V2207 kernels whose versions start with `4.19.90-` and contain `.v2207.ky10.`
 - Types:
   - on-cpu: Time a function spends on the CPU
   - off-cpu: Time a function waits for the CPU
@@ -111,9 +112,9 @@ The Off-CPU profiling feature **only** collects the following call stacks:
 
 Supported Java Profiling data types:
 
-| Type | Supported Language/Library | Community Edition | Enterprise Edition |
-| ---- | -------------------------- | ----------------- | ------------------ |
-| cpu  | Java                       |                   | ✔                  |
+| Type | Supported Language/Library | Supported Kernel Versions | Community Edition | Enterprise Edition |
+| ---- | -------------------------- | ------------------------- | ----------------- | ------------------ |
+| cpu  | Java                       | Linux 4.14+ recommended | | ✔ |
 
 Notes:
 

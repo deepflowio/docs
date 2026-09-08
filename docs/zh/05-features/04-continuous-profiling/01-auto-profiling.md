@@ -15,41 +15,42 @@ permalink: /features/continuous-profiling/auto-profiling
 
 支持的 eBPF Profiling 数据类型：
 
-| 类型       | 支持语言/库 | 社区版 | 企业版 |
-| ---------- | ----------- | ------ | ------ |
-| on-cpu     | Java        | ✔      | ✔      |
-|            | C/C++       | ✔      | ✔      |
-|            | Rust        | ✔      | ✔      |
-|            | Golang      | ✔      | ✔      |
-|            | CUDA        | ✔      | ✔      |
-|            | Node.js/V8  |        | ✔      |
-|            | PHP         |        | ✔      |
-|            | Lua         |        | ✔      |
-|            | Python      |        | ✔      |
-| off-cpu    | Java        |        | ✔      |
-|            | C/C++       |        | ✔      |
-|            | Rust        |        | ✔      |
-|            | Golang      |        | ✔      |
-|            | CUDA        |        | ✔      |
-|            | Node.js/V8  |        | ✔      |
-|            | PHP         |        | ✔      |
-|            | Python      |        | ✔      |
-| on-gpu     | CUDA `*`    |        | ✔      |
-| mem-alloc  | Java `**`   |        | ✔      |
-|            | Rust        |        | ✔      |
-|            | Golang `*`  |        | ✔      |
-|            | Python      |        | ✔      |
-| mem-inuse  | Rust        |        | ✔      |
-|            | Python      |        | ✔      |
-| hbm-alloc  | CUDA `*`    |        | ✔      |
-|            | Python（调用 CUDA） |        | ✔      |
-| hbm-inuse  | CUDA `*`    |        | ✔      |
-|            | Python（调用 CUDA） |        | ✔      |
-| rdma       | C/C++ `*`   |        | ✔      |
+| 类型       | 支持语言/库 | 支持的内核版本 | 社区版 | 企业版 |
+| ---------- | ----------- | -------------- | ------ | ------ |
+| on-cpu     | Java        | Linux 4.14+ | ✔ | ✔ |
+|            | C/C++       | Linux 4.14+ | ✔ | ✔ |
+|            | Rust        | Linux 4.14+ | ✔ | ✔ |
+|            | Golang      | Linux 4.14+ | ✔ | ✔ |
+|            | CUDA        | Linux 4.14+ | ✔ | ✔ |
+|            | Node.js/V8  | Linux 5.2+/白名单内核 `***` | | ✔ |
+|            | PHP         | Linux 5.2+/白名单内核 `***` | | ✔ |
+|            | Lua         | Linux 5.2+/白名单内核 `***` | | ✔ |
+|            | Python      | Linux 5.2+/白名单内核 `***` | | ✔ |
+| off-cpu    | Java        | Linux 4.14+ | | ✔ |
+|            | C/C++       | Linux 4.14+ | | ✔ |
+|            | Rust        | Linux 4.14+ | | ✔ |
+|            | Golang      | Linux 4.14+ | | ✔ |
+|            | CUDA        | Linux 4.14+ | | ✔ |
+|            | Node.js/V8  | Linux 5.2+/白名单内核 `***` | | ✔ |
+|            | PHP         | Linux 5.2+/白名单内核 `***` | | ✔ |
+|            | Python      | Linux 5.2+/白名单内核 `***` | | ✔ |
+| on-gpu     | CUDA `*`    | Linux 4.14+ | | ✔ |
+| mem-alloc  | Java `**`   | Linux 4.14+ | | ✔ |
+|            | Rust        | Linux 4.14+ | | ✔ |
+|            | Golang `*`  | Linux 4.14+ | | ✔ |
+|            | Python      | Linux 5.2+/白名单内核 `***` | | ✔ |
+| mem-inuse  | Rust        | Linux 4.14+ | | ✔ |
+|            | Python      | Linux 5.2+/白名单内核 `***` | | ✔ |
+| hbm-alloc  | CUDA `*`    | Linux 4.14+ | | ✔ |
+|            | Python（调用 CUDA） | Linux 5.2+/白名单内核 `***` | | ✔ |
+| hbm-inuse  | CUDA `*`    | Linux 4.14+ | | ✔ |
+|            | Python（调用 CUDA） | Linux 5.2+/白名单内核 `***` | | ✔ |
+| rdma       | C/C++ `*`   | Linux 4.14+ | | ✔ |
 
 说明：
 - `*`: features in development
 - `**`: 运行 Java 程序的 JVM 须有符号表，参考[检查方法](#jvm-符号表检查)
+- `***`: 已适配的麒麟 V2207 内核：版本以 `4.19.90-` 开头且包含 `.v2207.ky10.`
 - 类型：
   - on-cpu：函数在 CPU 上消耗的时间
   - off-cpu：函数等待 CPU 的时间
@@ -108,9 +109,9 @@ Off-CPU Profiling 功能**仅会**采集如下调用栈：
 
 支持的 Java Profiling 数据类型：
 
-| 类型 | 支持语言/库 | 社区版 | 企业版 |
-| ---- | ----------- | ------ | ------ |
-| cpu  | Java        |        | ✔      |
+| 类型 | 支持语言/库 | 支持的内核版本 | 社区版 | 企业版 |
+| ---- | ----------- | -------------- | ------ | ------ |
+| cpu  | Java        | 推荐 Linux 4.14+ | | ✔ |
 
 说明：
 - 类型：
