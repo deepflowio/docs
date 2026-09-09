@@ -68,7 +68,7 @@ DeepFlow 中的 eBPF 能力（AutoTracing、AutoProfiling）对内核版本的�
   - DWARF 栈回溯（DWARF Unwind）：支持 Linux 5.3+，以及 Kylin V10 SP3 v2207 的 `4.19.90-*.v2207.ky10.*` 白名单内核。
   - 解释器脚本函数栈展开（Node.js/V8、PHP、Lua、Python Profiling）：支持 Linux 5.2+，以及 Kylin V10 SP3 v2207 的 `4.19.90-*.v2207.ky10.*` 白名单内核。
 - [10]: TCP Option Trace 要求 Linux 5.10+，并启用 cgroup v2。
-- [11]: CPU Balancer 要求 Linux 4.15+，且内核支持 XDP 和 CPUMAP。
+- [11]: CPU Balancer 要求 Linux 4.15+，且内核及网卡驱动支持 XDP，内核支持 CPUMAP。
 
 deepflow-agent 运行权限的要求：
 

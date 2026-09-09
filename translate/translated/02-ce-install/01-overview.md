@@ -69,7 +69,7 @@ Additional notes on kernel versions:
   - DWARF stack unwinding: Linux 5.3 or later, or a whitelisted Kylin V10 SP3 v2207 kernel matching `4.19.90-*.v2207.ky10.*`.
   - Interpreter-level script stack unwinding (Node.js/V8, PHP, Lua, and Python Profiling): Linux 5.2 or later, or a whitelisted Kylin V10 SP3 v2207 kernel matching `4.19.90-*.v2207.ky10.*`.
 - [10]: TCP Option Trace requires Linux 5.10 or later with cgroup v2 enabled.
-- [11]: CPU Balancer requires Linux 4.15 or later and kernel support for XDP and CPUMAP.
+- [11]: CPU Balancer requires Linux 4.15 or later, XDP support from both the kernel and NIC driver, and kernel support for CPUMAP.
 
 Requirements for running permissions of deepflow-agent:
 
