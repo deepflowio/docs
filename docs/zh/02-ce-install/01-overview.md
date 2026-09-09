@@ -65,7 +65,7 @@ DeepFlow 中的 eBPF 能力（AutoTracing、AutoProfiling）对内核版本的�
 - [7]: 已验证 KylinOS V10 SP1 的部分 aarch64 内核（如 4.19.90-23.48.v2101.ky10.aarch64）可以正常运行 deepflow-agent，但不保证 KylinOS V10 SP1 的所有内核版本均能正常运行。
 - [8]: KylinOS V10 SP2 某些内核如：4.19.90-24.4.v2101.ky10.aarch64 由于不支持 `bpf_probe_read_user()` 无法读取用户态的任何数据因而不支持 AutoTracing 功能，但可支持持续剖析和文件读写追踪功能。
 - [9]: `perf` 表示通用 eBPF Profiling 能力。其中，以下增强能力有额外的内核要求：
-  - DWARF 栈回溯（DWARF Unwind）：支持 Linux 5.2+，以及 Kylin V10 SP3 v2207 的 `4.19.90-*.v2207.ky10.*` 白名单内核。
+  - DWARF 栈回溯（DWARF Unwind）：支持 Linux 5.3+，以及 Kylin V10 SP3 v2207 的 `4.19.90-*.v2207.ky10.*` 白名单内核。
   - 解释器脚本函数栈展开（Node.js/V8、PHP、Lua、Python Profiling）：支持 Linux 5.2+，以及 Kylin V10 SP3 v2207 的 `4.19.90-*.v2207.ky10.*` 白名单内核。
 - [10]: TCP Option Trace 要求 Linux 5.10+，并启用 cgroup v2。
 - [11]: CPU Balancer 要求 Linux 4.15+，且内核支持 XDP 和 CPUMAP。
