@@ -53,6 +53,7 @@ Notes:
 
 - `*`: features in development
 - `**`: The JVM running the Java program must have a symbol table. See the [check method](#jvm-symbol-table-check).
+- For supported kernel versions, see [Running Permissions and Kernel Requirements](../../ce-install/overview/#running-permissions-and-kernel-requirements).
 - Types:
   - on-cpu: Time a function spends on the CPU
   - off-cpu: Time a function waits for the CPU
@@ -111,9 +112,9 @@ The Off-CPU profiling feature **only** collects the following call stacks:
 
 Supported Java Profiling data types:
 
-| Type | Supported Language/Library | Community Edition | Enterprise Edition |
-| ---- | -------------------------- | ----------------- | ------------------ |
-| cpu  | Java                       |                   | ✔                  |
+| Type | Supported Language/Library | Supported Kernel Versions | Community Edition | Enterprise Edition |
+| ---- | -------------------------- | ------------------------- | ----------------- | ------------------ |
+| cpu  | Java                       | Linux 4.14+ or CentOS/RedHat 3.10.0-940+ recommended | | ✔ |
 
 Notes:
 

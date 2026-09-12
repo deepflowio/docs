@@ -50,6 +50,7 @@ permalink: /features/continuous-profiling/auto-profiling
 说明：
 - `*`: features in development
 - `**`: 运行 Java 程序的 JVM 须有符号表，参考[检查方法](#jvm-符号表检查)
+- 内核版本支持情况：请查看[运行权限及内核要求](../../ce-install/overview/#运行权限及内核要求)。
 - 类型：
   - on-cpu：函数在 CPU 上消耗的时间
   - off-cpu：函数等待 CPU 的时间
@@ -108,9 +109,9 @@ Off-CPU Profiling 功能**仅会**采集如下调用栈：
 
 支持的 Java Profiling 数据类型：
 
-| 类型 | 支持语言/库 | 社区版 | 企业版 |
-| ---- | ----------- | ------ | ------ |
-| cpu  | Java        |        | ✔      |
+| 类型 | 支持语言/库 | 支持的内核版本 | 社区版 | 企业版 |
+| ---- | ----------- | -------------- | ------ | ------ |
+| cpu  | Java        | 推荐 Linux 4.14+ 或 CentOS/RedHat 3.10.0-940+ | | ✔ |
 
 说明：
 - 类型：
