@@ -29,21 +29,22 @@ If you currently do not have suitable resources to deploy DeepFlow, you can log 
 # Running Permissions and Kernel Requirements
 
 The eBPF capabilities (AutoTracing, AutoProfiling) in DeepFlow have the following kernel version requirements:
-| Architecture | Distribution | Kernel Version | kprobe [1] | Golang uprobe | OpenSSL uprobe | perf |
-| -------- | ------ | ------- | ---------- | ------------- | -------------- | ---- |
-| X86 | CentOS 7.9 | 3.10.0-940+ **[2]** | Y | Y **[3]** | Y **[3]** | Y |
-| | RedHat 7.6 | 3.10.0-940+ **[2]** | Y | Y **[3]** | Y **[3]** | Y |
-| | \* | 4.14 **[4]** | Y | Y **[3]** | | Y |
-| | \* | 4.15 | Y | Y **[3]** | | Y |
-| | \* | 4.16 | Y | Y | | Y |
-| | \* | 4.17+ | Y | Y | Y | Y |
-| | SUSE 12 SP5 | 4.12 [5] | Y | Y | | Y |
-| ARM | CentOS 8 | 4.18 | Y | Y | Y | Y |
-| | EulerOS | 5.10+ [6]| Y | Y | Y | Y |
-| | KylinOS V10 SP1 | 4.19.90-23 [7] | Y | Y | Y | Y |
-| | KylinOS V10 SP2 | 4.19.90-25.24+ [8] | Y | Y | Y | Y |
-| | KylinOS V10 SP3 | 4.19.90-52.24+ | Y | Y | Y | Y |
-| | Other Distributions | 5.8+ | Y | Y | Y | Y |
+
+| Architecture | Distribution | Kernel Version | kprobe [1] | Golang uprobe | OpenSSL uprobe | perf [9] | TCP Option Trace | CPU Balancer |
+| ------------ | ------------ | -------------- | ---------- | ------------- | -------------- | ---- | ---------------- | ------------ |
+| X86 | CentOS 7.9 | 3.10.0-940+ **[2]** | Y | Y **[3]** | Y **[3]** | Y | | |
+| | RedHat 7.6 | 3.10.0-940+ **[2]** | Y | Y **[3]** | Y **[3]** | Y | | |
+| | \* | 4.14 **[4]** | Y | Y **[3]** | | Y | | |
+| | \* | 4.15 | Y | Y **[3]** | | Y | | Y **[11]** |
+| | \* | 4.16 | Y | Y | | Y | | Y **[11]** |
+| | \* | 4.17+ | Y | Y | Y | Y | 5.10+ **[10]** | Y **[11]** |
+| | SUSE 12 SP5 | 4.12 [5] | Y | Y | | Y | | |
+| ARM | CentOS 8 | 4.18 | Y | Y | Y | Y | | Y **[11]** |
+| | EulerOS | 5.10+ [6] | Y | Y | Y | Y | Y **[10]** | Y **[11]** |
+| | KylinOS V10 SP1 | 4.19.90-23 [7] | Y | Y | Y | Y | | Y **[11]** |
+| | KylinOS V10 SP2 | 4.19.90-25.24+ [8] | Y | Y | Y | Y | | Y **[11]** |
+| | KylinOS V10 SP3 | 4.19.90-52.24+ | Y | Y | Y | Y | | Y **[11]** |
+| | Other Distributions | 5.8+ | Y | Y | Y | Y | 5.10+ **[10]** | Y **[11]** |
 
 Additional notes on kernel versions:
 
@@ -64,6 +65,11 @@ Additional notes on kernel versions:
   - 4.19.90-vhulk2211.3.0.h1543.eulerosv2r10.aarch64
 - [7]: Some aarch64 kernels of KylinOS V10 SP1 (e.g., 4.19.90-23.48.v2101.ky10.aarch64) have been verified to run deepflow-agent correctly. However, not all kernel versions of KylinOS V10 SP1 are guaranteed to be compatible.
 - [8]: Some kernels of KylinOS V10 SP2, such as 4.19.90-24.4.v2101.ky10.aarch64, do not support `bpf_probe_read_user()` and cannot read any user-space data, thus not supporting AutoTracing functionality, but can support continuous profiling and file read/write tracing functions.
+- [9]: `perf` indicates the generic eBPF Profiling capability. The following enhanced capabilities have additional kernel requirements:
+  - DWARF stack unwinding: Linux 5.3 or later, or a whitelisted Kylin V10 SP3 v2207 kernel matching `4.19.90-*.v2207.ky10.*`.
+  - Interpreter-level script stack unwinding (Node.js/V8, PHP, Lua, and Python Profiling): Linux 5.2 or later, or a whitelisted Kylin V10 SP3 v2207 kernel matching `4.19.90-*.v2207.ky10.*`.
+- [10]: TCP Option Trace requires Linux 5.10 or later with cgroup v2 enabled.
+- [11]: CPU Balancer requires Linux 4.15 or later, XDP support from both the kernel and NIC driver, and kernel support for CPUMAP.
 
 Requirements for running permissions of deepflow-agent:
 
