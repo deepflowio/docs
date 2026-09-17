@@ -312,6 +312,64 @@ th, td
     .sidebar
       top 0
 
+// 全局的侧边栏开关按钮（挂在 Layout 下）：默认始终隐藏，仅嵌入模式的移动端显示
+.theme-container .embedded-sidebar-button
+  display none
+
+// 以 iframe 方式打开时（templates 模板中的内联脚本给 <html> 加 embedded 类），隐藏导航栏和页脚，并去掉导航栏的占位间距
+html.embedded
+  .navbar
+  .footer
+    display none
+
+  {$contentClass}:not(.custom) > h1, h2, h3, h4, h5, h6
+    margin-top 1.5rem
+    padding-top 0
+
+  .sidebar
+    top 0
+
+  .home
+    padding-top 0
+
+  .page.content-layout-container .main-content
+    margin-top 0
+
+  // 隐藏导航栏后，移动端改用面包屑左侧的全局按钮展开/收起侧边栏
+  .embedded-sidebar-button
+    position absolute
+    top 0.3rem
+    left 0.2rem
+    z-index 21
+    padding 0.4rem
+    width 0.75rem
+    height 0.75rem
+    color #888
+    opacity 0.8
+    .icon
+      width 0.75rem
+      height 0.75rem
+
+  // 无侧边栏的页面（如首页）不需要该按钮
+  .theme-container.no-sidebar .embedded-sidebar-button
+    display none
+
+  // 侧边栏展开后隐藏按钮，仅通过点击侧边栏外部（蒙层）关闭
+  .theme-container.sidebar-open .embedded-sidebar-button
+    display none
+
+@media (max-width $MQMobile)
+  html.embedded
+    .sidebar
+      padding-top 0
+    .page
+      padding-top 0
+    .embedded-sidebar-button
+      display block
+    // 给按钮留出面包屑左侧的避让空间（选择器需盖过 ArticleInfo 的 scoped 样式）
+    .articleInfo .breadcrumbs
+      padding-left 2.5rem
+
 
 @media (min-width: ($MQMobile + 1px))
   .theme-container.no-sidebar

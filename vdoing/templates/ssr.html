@@ -3,6 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- 以 iframe 方式打开时标记 embedded，配合样式隐藏导航栏和页脚 -->
+    <script>
+      if (window.self !== window.top) document.documentElement.classList.add('embedded');
+    </script>
     <title>{{ title }}</title>
     <meta name="generator" content="VuePress {{ version }}" />
     {{{ userHeadTags }}} {{{ pageMeta }}} {{{ canonicalLink }}} {{{

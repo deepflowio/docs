@@ -2,6 +2,12 @@
   <div :class="pageClasses" @touchstart="onTouchStart" @touchend="onTouchEnd">
     <Navbar v-if="shouldShowNavbar" @toggle-sidebar="toggleSidebar" />
 
+    <!-- 嵌入模式隐藏导航栏后，移动端用面包屑左侧的全局按钮展开/收起侧边栏（显隐与定位见样式中的 html.embedded） -->
+    <SidebarButton
+      class="embedded-sidebar-button"
+      @toggle-sidebar="toggleSidebar()"
+    />
+
     <div class="sidebar-mask" @click="toggleSidebar(false)"></div>
 
     <div
@@ -87,6 +93,7 @@
 <script>
 import Home from "@theme/components/Home.vue";
 import Navbar from "@theme/components/Navbar.vue";
+import SidebarButton from "@theme/components/SidebarButton.vue";
 import Page from "@theme/components/Page.vue";
 import Sidebar from "@theme/components/Sidebar.vue";
 import Buttons from "@theme/components/Buttons.vue";
@@ -104,6 +111,7 @@ export default {
   components: {
     Home,
     Navbar,
+    SidebarButton,
     Page,
     Sidebar,
     Footer,
