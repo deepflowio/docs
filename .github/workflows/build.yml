@@ -1,4 +1,4 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code, and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
 name: Build CI
@@ -28,86 +28,61 @@ jobs:
     strategy:
       matrix:
         node-version:
-          - 12.x
+          - 22.x
           # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         fetch-depth: 0
 
+    - name: Install pnpm
+      uses: pnpm/action-setup@v4
+
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
-
-    - name: Install pnpm
-      run: npm install -g pnpm@6
-
-    - name: Get pnpm store directory
-      id: pnpm-cache
-      run: |
-        echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
-
-    - uses: actions/cache@v3
-      name: Setup pnpm cache
-      with:
-        path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-        key: docs-${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-        restore-keys: |
-          docs-${{ runner.os }}-pnpm-store-
+        cache: 'pnpm'
 
     - name: Get current branch
       id: get_branch
       run: |
           if [ "$GITHUB_EVENT_NAME" == "push" ]; then
-            echo "BRANCH=${GITHUB_REF##*/}" >> $GITHUB_ENV
+              echo "BRANCH=${GITHUB_REF##*/}" >> $GITHUB_ENV
           elif [ "$GITHUB_EVENT_NAME" == "pull_request" ]; then
-            echo "BRANCH=$GITHUB_HEAD_REF" >> $GITHUB_ENV
+              echo "BRANCH=$GITHUB_HEAD_REF" >> $GITHUB_ENV
           fi
 
     - name: Node build
       shell: bash
-      env:
-        NODE_OPTIONS: "--max-old-space-size=4096"
       run: |
-        # 清理缓存以释放内存
-        pnpm store prune || true
-        # 安装依赖
-        pnpm install gray-matter json2yaml
-        # 显示内存使用情况
-        free -h
-        # 执行构建步骤
-        node --max-old-space-size=4096 addTime.js
-        node --max-old-space-size=4096 addTime.js ./translate/translated
-        node --max-old-space-size=4096 copy-file.js ./docs/zh ./translate/translated false
+        pnpm install --frozen-lockfile
+        # 英文翻译树:补充中文侧资源后合并进 docs/(英文页位于根路径)
+        node copy-file.js ./docs/zh ./translate/translated false
         rm -rf translate/translated/README.md
         mv translate/translated/* ./docs
         rm -rf ./docs/map.txt
-        pnpm install
-        node --max-old-space-size=4096 downloadFile.js ${{ env.BRANCH }}
-        node --max-old-space-size=4096 downloadCSV.js ${{ env.BRANCH }}
-        # 清理内存
-        node --max-old-space-size=4096 -e "if (global.gc) global.gc()"
+        node downloadFile.js ${{ env.BRANCH }}
+        node downloadCSV.js ${{ env.BRANCH }}
+        # VitePress 构建(自带死链检测,产物输出 dist/;vdoing 旧语法
+        # (code-tabs、相对链接)由 .vitepress/markdown/ 下的适配插件在渲染期转换)
         pnpm run build
-        node --max-old-space-size=4096 copy-file.js
+        pnpm run build
+        # 资源文件(json/txt/图片等)按去序号路径拷贝到 dist
+        node copy-file.js
 
     - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v1
+      uses: docker/setup-buildx-action@v3
 
     - name: Log in to ALIYUN Docker Registry
       if: ${{ github.repository	== 'deepflowio/docs'}}
-      uses: docker/login-action@v2
+      uses: docker/login-action@v3
       with:
         registry: "${{ secrets.REGISTRY_ALIYUN_ADDR }}"
         username: "${{ secrets.REGISTRY_ALIYUN_USER }}"
         password: "${{ secrets.ALIYUN_DF_CLOUD_REGISTRY_PASSWORD }}"
-
-    # - name: debug
-    #   shell: bash
-    #   run:  |
-    #     more $GITHUB_EVENT_PATH
 
     - name: set env
       if: ${{ github.event_name == 'pull_request' && github.repository	== 'deepflowio/docs' && github.event.pull_request.base.ref == 'main' }}
@@ -125,8 +100,8 @@ jobs:
         echo "IMAGE_TAG_PREFIX=${{ github.ref_name }}"|sed 's|main|latest|' >> $GITHUB_ENV
 
     - name: Build and push docs image
-      if: ${{ github.repository	== 'deepflowio/docs'}}
-      uses: docker/build-push-action@v2
+      if: ${{ github.repository == 'deepflowio/docs'}}
+      uses: docker/build-push-action@v6
       with:
         context: .
         file: Dockerfile
@@ -152,7 +127,7 @@ jobs:
       shell: bash
       if: ${{ github.repository	== 'deepflowio/docs'}}
       run: |
-        curl -X POST -H "Content-Type: application/json"   -d  \
+         curl -X POST -H "Content-Type: application/json"   -d  \
         '{"msg_type":"interactive","card":
         {
           "config": {
@@ -191,7 +166,7 @@ jobs:
         kubectl set image -n deepservice-test deployment deepservice-docs deepservice-docs=${{ secrets.REGISTRY_ALIYUN_ADDR }}/deepservice/${{ env.IMAGE }}:${{ env.IMAGE_TAG_PREFIX }}-${{ github.run_id }}-${{ github.run_attempt }}
 
     - name: update
-      if: ${{ github.event_name == 'workflow_dispatch' &&  github.ref == 'refs/heads/main' &&  github.repository	== 'deepflowio/docs' }}
+      if: ${{ github.event_name == 'workflow_dispatch' &&  github.ref == 'refs/heads/main' && github.repository == 'deepflowio/docs' }}
       shell: bash
       run: |
         kubectl set image -n deepservice deployment deepservice-docs deepservice-docs=${{ secrets.REGISTRY_ALIYUN_ADDR }}/deepservice/${{ env.IMAGE }}:${{ env.IMAGE_TAG_PREFIX }}-${{ github.run_id }}-${{ github.run_attempt }}

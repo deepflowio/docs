@@ -7,3 +7,12 @@ node_modules
 
 #build
 /dist/
+/dist-doc-only/
+
+# CI/本地经 downloadFile.js 下载生成的 Agent 配置页(downloadFile.json)
+/docs/07-configuration/
+/docs/zh/07-configuration/
+
+# vitepress
+.vitepress/cache/
+/cache/

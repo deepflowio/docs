@@ -11,3 +11,4 @@ RUN ln -fs /usr/share/zoneinfo/${TZ} /etc/localtime \
     && rm -rf /var/lib/apt/lists/*
 
 COPY ./nginx/default.conf /etc/nginx/conf.d/docs.conf
+COPY ./nginx/zh-only-redirects.conf /etc/nginx/conf.d/zh-only-redirects.conf
