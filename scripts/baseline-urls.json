@@ -1,0 +1,1082 @@
+[
+  {
+    "url": "about/architecture",
+    "en": "01-about/02-architecture.md",
+    "zh": "zh/01-about/02-architecture.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "about/editions",
+    "en": "01-about/05-editions.md",
+    "zh": "zh/01-about/05-editions.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "about/features",
+    "en": "01-about/03-features.md",
+    "zh": "zh/01-about/03-features.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "about/milestone",
+    "en": "01-about/04-milestone.md",
+    "zh": "zh/01-about/04-milestone.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "about/overview",
+    "en": "01-about/01-overview.md",
+    "zh": "zh/01-about/01-overview.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "about/users",
+    "en": "01-about/06-users.md",
+    "zh": "zh/01-about/06-users.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "best-practice/agent-advanced-config",
+    "en": "04-best-practice/01-agent-advanced-config.md",
+    "zh": "zh/04-best-practice/01-agent-advanced-config.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "best-practice/agent-performance-tuning",
+    "en": "04-best-practice/05-agent-performance-tuning.md",
+    "zh": "zh/04-best-practice/05-agent-performance-tuning.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "best-practice/production-deployment",
+    "en": "04-best-practice/06-production-deployment.md",
+    "zh": "zh/04-best-practice/06-production-deployment.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "best-practice/reduce-storage-overhead",
+    "en": "04-best-practice/04-reduce-storage-overhead.md",
+    "zh": "zh/04-best-practice/04-reduce-storage-overhead.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "best-practice/server-advanced-config",
+    "en": "04-best-practice/02-server-advanced-config.md",
+    "zh": "zh/04-best-practice/02-server-advanced-config.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "best-practice/special-environment-deployment",
+    "en": "04-best-practice/03-special-environment-deployment.md",
+    "zh": "zh/04-best-practice/03-special-environment-deployment.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "best-practice/storage-engine-use-byconity",
+    "en": "04-best-practice/07-storage-engine-use-byconity.md",
+    "zh": "zh/04-best-practice/07-storage-engine-use-byconity.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "ce-install/ai-agent",
+    "en": "02-ce-install/09-ai-agent.md",
+    "zh": "zh/02-ce-install/09-ai-agent.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "ce-install/all-in-one",
+    "en": "02-ce-install/02-all-in-one.md",
+    "zh": "zh/02-ce-install/02-all-in-one.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "ce-install/cloud-host",
+    "en": "02-ce-install/06-cloud-host.md",
+    "zh": "zh/02-ce-install/06-cloud-host.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "ce-install/legacy-host",
+    "en": "02-ce-install/05-legacy-host.md",
+    "zh": "zh/02-ce-install/05-legacy-host.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "ce-install/managed-k8s",
+    "en": "02-ce-install/07-managed-k8s.md",
+    "zh": "zh/02-ce-install/07-managed-k8s.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "ce-install/multi-k8s",
+    "en": "02-ce-install/04-multi-k8s.md",
+    "zh": "zh/02-ce-install/04-multi-k8s.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "ce-install/overview",
+    "en": "02-ce-install/01-overview.md",
+    "zh": "zh/02-ce-install/01-overview.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "ce-install/serverless-pod",
+    "en": "02-ce-install/08-serverless-pod.md",
+    "zh": "zh/02-ce-install/08-serverless-pod.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "ce-install/single-k8s",
+    "en": "02-ce-install/03-single-k8s.md",
+    "zh": "zh/02-ce-install/03-single-k8s.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "ce-install/upgrade",
+    "en": "02-ce-install/99-upgrade.md",
+    "zh": "zh/02-ce-install/99-upgrade.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "configuration/agent",
+    "en": "07-configuration/01-agent.md",
+    "zh": "zh/07-configuration/01-agent.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "diagnose/FAQ",
+    "en": "09-diagnose/01-FAQ.md",
+    "zh": "zh/09-diagnose/01-FAQ.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "diagnose/agent",
+    "en": "09-diagnose/03-deepflow-agent.md",
+    "zh": "zh/09-diagnose/03-deepflow-agent.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "diagnose/grafana",
+    "en": "09-diagnose/02-grafana.md",
+    "zh": "zh/09-diagnose/02-grafana.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "diagnose/how-to-profile-deepflow-server-ingester",
+    "en": "09-diagnose/04-deepflow-server.md",
+    "zh": "zh/09-diagnose/04-deepflow-server.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "ee-install/on-prem/cloud-host",
+    "en": "03-ee-install/02-on-prem/02-cloud-host.md",
+    "zh": "zh/03-ee-install/02-on-prem/02-cloud-host.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "ee-install/on-prem/k8s",
+    "en": "03-ee-install/02-on-prem/01-k8s.md",
+    "zh": "zh/03-ee-install/02-on-prem/01-k8s.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "ee-install/on-prem/legacy-host",
+    "en": "03-ee-install/02-on-prem/03-legacy-host.md",
+    "zh": "zh/03-ee-install/02-on-prem/03-legacy-host.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "ee-install/saas/check",
+    "en": "03-ee-install/01-saas/04-check.md",
+    "zh": "zh/03-ee-install/01-saas/04-check.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "ee-install/saas/cloud",
+    "en": "03-ee-install/01-saas/01-cloud.md",
+    "zh": "zh/03-ee-install/01-saas/01-cloud.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "ee-install/saas/cloud-host",
+    "en": "03-ee-install/01-saas/03-cloud-host.md",
+    "zh": "zh/03-ee-install/01-saas/03-cloud-host.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "ee-install/saas/k8s",
+    "en": "03-ee-install/01-saas/02-k8s.md",
+    "zh": "zh/03-ee-install/01-saas/02-k8s.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "features/auto-tagging/additional-cloud-tags",
+    "en": "05-features/05-auto-tagging/06-additional-cloud-tags.md",
+    "zh": "zh/05-features/05-auto-tagging/06-additional-cloud-tags.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "features/auto-tagging/cmdb-tags",
+    "en": "05-features/05-auto-tagging/07-cmdb-tags.md",
+    "zh": "zh/05-features/05-auto-tagging/07-cmdb-tags.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "features/auto-tagging/custom-tags",
+    "en": "05-features/05-auto-tagging/04-custom-tags.md",
+    "zh": "zh/05-features/05-auto-tagging/04-custom-tags.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "features/auto-tagging/eliminate-data-silos",
+    "en": "05-features/05-auto-tagging/01-eliminate-data-silos.md",
+    "zh": "zh/05-features/05-auto-tagging/01-eliminate-data-silos.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "features/auto-tagging/k8s-crd",
+    "en": "05-features/05-auto-tagging/08-k8s-crd.md",
+    "zh": "zh/05-features/05-auto-tagging/08-k8s-crd.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "features/auto-tagging/meta-tags",
+    "en": "05-features/05-auto-tagging/03-meta-tags.md",
+    "zh": "zh/05-features/05-auto-tagging/03-meta-tags.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "features/auto-tagging/process-tags",
+    "en": "05-features/05-auto-tagging/05-process-tags.md",
+    "zh": "zh/05-features/05-auto-tagging/05-process-tags.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "features/auto-tagging/smart-encoding",
+    "en": "05-features/05-auto-tagging/02-smart-encoding.md",
+    "zh": "zh/05-features/05-auto-tagging/02-smart-encoding.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "features/continuous-profiling/auto-profiling",
+    "en": "05-features/04-continuous-profiling/01-auto-profiling.md",
+    "zh": "zh/05-features/04-continuous-profiling/01-auto-profiling.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "features/continuous-profiling/configuration",
+    "en": "05-features/04-continuous-profiling/02-configuration.md",
+    "zh": "zh/05-features/04-continuous-profiling/02-configuration.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "features/continuous-profiling/data",
+    "en": "05-features/04-continuous-profiling/03-data.md",
+    "zh": "zh/05-features/04-continuous-profiling/03-data.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "features/distributed-tracing/auto-tracing",
+    "en": "05-features/03-distributed-tracing/01-auto-tracing.md",
+    "zh": "zh/05-features/03-distributed-tracing/01-auto-tracing.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "features/distributed-tracing/istio-bookinfo-demo",
+    "en": "05-features/03-distributed-tracing/03-istio-bookinfo-demo.md",
+    "zh": "zh/05-features/03-distributed-tracing/03-istio-bookinfo-demo.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "features/distributed-tracing/spring-boot-demo",
+    "en": "05-features/03-distributed-tracing/02-spring-boot-demo.md",
+    "zh": "zh/05-features/03-distributed-tracing/02-spring-boot-demo.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "features/l7-protocols/http",
+    "en": "05-features/01-l7-protocols/02-http.md",
+    "zh": "zh/05-features/01-l7-protocols/02-http.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "features/l7-protocols/mq",
+    "en": "05-features/01-l7-protocols/06-mq.md",
+    "zh": "zh/05-features/01-l7-protocols/06-mq.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "features/l7-protocols/network",
+    "en": "05-features/01-l7-protocols/07-network.md",
+    "zh": "zh/05-features/01-l7-protocols/07-network.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "features/l7-protocols/nosql",
+    "en": "05-features/01-l7-protocols/05-nosql.md",
+    "zh": "zh/05-features/01-l7-protocols/05-nosql.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "features/l7-protocols/otel",
+    "en": "05-features/01-l7-protocols/08-otel.md",
+    "zh": "zh/05-features/01-l7-protocols/08-otel.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "features/l7-protocols/overview",
+    "en": "05-features/01-l7-protocols/01-overview.md",
+    "zh": "zh/05-features/01-l7-protocols/01-overview.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "features/l7-protocols/rpc",
+    "en": "05-features/01-l7-protocols/03-rpc.md",
+    "zh": "zh/05-features/01-l7-protocols/03-rpc.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "features/l7-protocols/skywalking",
+    "en": "05-features/01-l7-protocols/09-skywalking.md",
+    "zh": "zh/05-features/01-l7-protocols/09-skywalking.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "features/l7-protocols/sql",
+    "en": "05-features/01-l7-protocols/04-sql.md",
+    "zh": "zh/05-features/01-l7-protocols/04-sql.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "features/universal-map/application-metrics",
+    "en": "05-features/02-universal-map/02-application-metrics.md",
+    "zh": "zh/05-features/02-universal-map/02-application-metrics.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "features/universal-map/auto-metrics",
+    "en": "05-features/02-universal-map/01-auto-metrics.md",
+    "zh": "zh/05-features/02-universal-map/01-auto-metrics.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "features/universal-map/flow-log",
+    "en": "05-features/02-universal-map/05-flow-log.md",
+    "zh": "zh/05-features/02-universal-map/05-flow-log.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "features/universal-map/metrics-and-operators",
+    "en": "05-features/02-universal-map/07-metrics-and-operators.md",
+    "zh": "zh/05-features/02-universal-map/07-metrics-and-operators.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "features/universal-map/network-metrics",
+    "en": "05-features/02-universal-map/04-network-metrics.md",
+    "zh": "zh/05-features/02-universal-map/04-network-metrics.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "features/universal-map/request-log",
+    "en": "05-features/02-universal-map/03-request-log.md",
+    "zh": "zh/05-features/02-universal-map/03-request-log.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/alert/alert-event",
+    "en": "06-guide/02-ee-tenant/09-alert/04-alert-event.md",
+    "zh": "zh/06-guide/02-ee-tenant/09-alert/04-alert-event.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/alert/alert-policy",
+    "en": "06-guide/02-ee-tenant/09-alert/02-alert-policy.md",
+    "zh": "zh/06-guide/02-ee-tenant/09-alert/02-alert-policy.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/alert/overview",
+    "en": "06-guide/02-ee-tenant/09-alert/01-overview.md",
+    "zh": "zh/06-guide/02-ee-tenant/09-alert/01-overview.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/alert/push-endpoint",
+    "en": "06-guide/02-ee-tenant/09-alert/03-push-endpoint.md",
+    "zh": "zh/06-guide/02-ee-tenant/09-alert/03-push-endpoint.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/configuration/settings",
+    "en": "06-guide/02-ee-tenant/13-configuration/01-settings.md",
+    "zh": "zh/06-guide/02-ee-tenant/13-configuration/01-settings.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/dashboard/add-panel",
+    "en": "06-guide/02-ee-tenant/02-dashboard/04-add-panel.md",
+    "zh": "zh/06-guide/02-ee-tenant/02-dashboard/04-add-panel.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/dashboard/list",
+    "en": "06-guide/02-ee-tenant/02-dashboard/02-list.md",
+    "zh": "zh/06-guide/02-ee-tenant/02-dashboard/02-list.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/dashboard/overview",
+    "en": "06-guide/02-ee-tenant/02-dashboard/01-overview.md",
+    "zh": "zh/06-guide/02-ee-tenant/02-dashboard/01-overview.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/dashboard/panel/bar",
+    "en": "06-guide/02-ee-tenant/02-dashboard/99-panel/05-bar.md",
+    "zh": "zh/06-guide/02-ee-tenant/02-dashboard/99-panel/05-bar.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/dashboard/panel/flame",
+    "en": "06-guide/02-ee-tenant/02-dashboard/99-panel/03-flame.md",
+    "zh": "zh/06-guide/02-ee-tenant/02-dashboard/99-panel/03-flame.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/dashboard/panel/histogram",
+    "en": "06-guide/02-ee-tenant/02-dashboard/99-panel/07-histogram.md",
+    "zh": "zh/06-guide/02-ee-tenant/02-dashboard/99-panel/07-histogram.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/dashboard/panel/line",
+    "en": "06-guide/02-ee-tenant/02-dashboard/99-panel/04-line.md",
+    "zh": "zh/06-guide/02-ee-tenant/02-dashboard/99-panel/04-line.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/dashboard/panel/overview",
+    "en": "06-guide/02-ee-tenant/02-dashboard/99-panel/01-overview.md",
+    "zh": "zh/06-guide/02-ee-tenant/02-dashboard/99-panel/01-overview.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/dashboard/panel/pie",
+    "en": "06-guide/02-ee-tenant/02-dashboard/99-panel/06-pie.md",
+    "zh": "zh/06-guide/02-ee-tenant/02-dashboard/99-panel/06-pie.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/dashboard/panel/stat",
+    "en": "06-guide/02-ee-tenant/02-dashboard/99-panel/09-stat.md",
+    "zh": "zh/06-guide/02-ee-tenant/02-dashboard/99-panel/09-stat.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/dashboard/panel/table",
+    "en": "06-guide/02-ee-tenant/02-dashboard/99-panel/08-table.md",
+    "zh": "zh/06-guide/02-ee-tenant/02-dashboard/99-panel/08-table.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/dashboard/panel/text",
+    "en": "06-guide/02-ee-tenant/02-dashboard/99-panel/10-text.md",
+    "zh": "zh/06-guide/02-ee-tenant/02-dashboard/99-panel/10-text.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/dashboard/panel/topology",
+    "en": "06-guide/02-ee-tenant/02-dashboard/99-panel/02-topology.md",
+    "zh": "zh/06-guide/02-ee-tenant/02-dashboard/99-panel/02-topology.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/dashboard/right-slide-box",
+    "en": "06-guide/02-ee-tenant/02-dashboard/06-right-slide-box.md",
+    "zh": "zh/06-guide/02-ee-tenant/02-dashboard/06-right-slide-box.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/dashboard/use",
+    "en": "06-guide/02-ee-tenant/02-dashboard/03-use.md",
+    "zh": "zh/06-guide/02-ee-tenant/02-dashboard/03-use.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/dashboard/variable-template",
+    "en": "06-guide/02-ee-tenant/02-dashboard/05-variable-template.md",
+    "zh": "zh/06-guide/02-ee-tenant/02-dashboard/05-variable-template.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/log/log",
+    "en": "06-guide/02-ee-tenant/08-log/01-log.md",
+    "zh": "zh/06-guide/02-ee-tenant/08-log/01-log.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/metrics/container",
+    "en": "06-guide/02-ee-tenant/07-metrics/03-container.md",
+    "zh": "zh/06-guide/02-ee-tenant/07-metrics/03-container.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/metrics/host",
+    "en": "06-guide/02-ee-tenant/07-metrics/02-host.md",
+    "zh": "zh/06-guide/02-ee-tenant/07-metrics/02-host.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/metrics/metric-summary",
+    "en": "06-guide/02-ee-tenant/07-metrics/05-metric-summary.md",
+    "zh": "zh/06-guide/02-ee-tenant/07-metrics/05-metric-summary.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/metrics/metrics-template",
+    "en": "06-guide/02-ee-tenant/07-metrics/06-metrics-template.md",
+    "zh": "zh/06-guide/02-ee-tenant/07-metrics/06-metrics-template.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/metrics/metrics-viewing",
+    "en": "06-guide/02-ee-tenant/07-metrics/04-metrics-viewing.md",
+    "zh": "zh/06-guide/02-ee-tenant/07-metrics/04-metrics-viewing.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/metrics/overview",
+    "en": "06-guide/02-ee-tenant/07-metrics/01-overview.md",
+    "zh": "zh/06-guide/02-ee-tenant/07-metrics/01-overview.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/network/NAT-traversal",
+    "en": "06-guide/02-ee-tenant/06-network/06-NAT-traversal.md",
+    "zh": "zh/06-guide/02-ee-tenant/06-network/06-NAT-traversal.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/network/flow-log",
+    "en": "06-guide/02-ee-tenant/06-network/05-flow-log.md",
+    "zh": "zh/06-guide/02-ee-tenant/06-network/05-flow-log.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/network/network-map",
+    "en": "06-guide/02-ee-tenant/06-network/04-network-map.md",
+    "zh": "zh/06-guide/02-ee-tenant/06-network/04-network-map.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/network/network-path",
+    "en": "06-guide/02-ee-tenant/06-network/03-network-path.md",
+    "zh": "zh/06-guide/02-ee-tenant/06-network/03-network-path.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/network/overview",
+    "en": "06-guide/02-ee-tenant/06-network/01-overview.md",
+    "zh": "zh/06-guide/02-ee-tenant/06-network/01-overview.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/network/pacp-strategy",
+    "en": "06-guide/02-ee-tenant/06-network/08-pacp-strategy.md",
+    "zh": "zh/06-guide/02-ee-tenant/06-network/08-pacp-strategy.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/network/pcap-download",
+    "en": "06-guide/02-ee-tenant/06-network/09-pcap-download.md",
+    "zh": "zh/06-guide/02-ee-tenant/06-network/09-pcap-download.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/network/resource-inventory",
+    "en": "06-guide/02-ee-tenant/06-network/07-resource-inventory.md",
+    "zh": "zh/06-guide/02-ee-tenant/06-network/07-resource-inventory.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/network/service-statistics",
+    "en": "06-guide/02-ee-tenant/06-network/02-service-statistics.md",
+    "zh": "zh/06-guide/02-ee-tenant/06-network/02-service-statistics.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/profiling/continue-profile",
+    "en": "06-guide/02-ee-tenant/05-profiling/01-continue-profile.md",
+    "zh": "zh/06-guide/02-ee-tenant/05-profiling/01-continue-profile.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/query/history",
+    "en": "06-guide/02-ee-tenant/01-query/06-history.md",
+    "zh": "zh/06-guide/02-ee-tenant/01-query/06-history.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/query/left-quick-filter",
+    "en": "06-guide/02-ee-tenant/01-query/07-left-quick-filter.md",
+    "zh": "zh/06-guide/02-ee-tenant/01-query/07-left-quick-filter.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/query/log-search",
+    "en": "06-guide/02-ee-tenant/01-query/04-log-search.md",
+    "zh": "zh/06-guide/02-ee-tenant/01-query/04-log-search.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/query/metric-search",
+    "en": "06-guide/02-ee-tenant/01-query/05-metric-search.md",
+    "zh": "zh/06-guide/02-ee-tenant/01-query/05-metric-search.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/query/overview",
+    "en": "06-guide/02-ee-tenant/01-query/01-overview.md",
+    "zh": "zh/06-guide/02-ee-tenant/01-query/01-overview.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/query/path-search",
+    "en": "06-guide/02-ee-tenant/01-query/03-path-search.md",
+    "zh": "zh/06-guide/02-ee-tenant/01-query/03-path-search.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/query/service-search",
+    "en": "06-guide/02-ee-tenant/01-query/02-service-search.md",
+    "zh": "zh/06-guide/02-ee-tenant/01-query/02-service-search.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/report/report",
+    "en": "06-guide/02-ee-tenant/10-report/01-report.md",
+    "zh": "zh/06-guide/02-ee-tenant/10-report/01-report.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/resources/computing-resources",
+    "en": "06-guide/02-ee-tenant/11-resources/05-computing-resources.md",
+    "zh": "zh/06-guide/02-ee-tenant/11-resources/05-computing-resources.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/resources/container-resources",
+    "en": "06-guide/02-ee-tenant/11-resources/09-container-resources.md",
+    "zh": "zh/06-guide/02-ee-tenant/11-resources/09-container-resources.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/resources/network-resources",
+    "en": "06-guide/02-ee-tenant/11-resources/06-network-resources.md",
+    "zh": "zh/06-guide/02-ee-tenant/11-resources/06-network-resources.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/resources/network-services",
+    "en": "06-guide/02-ee-tenant/11-resources/07-network-services.md",
+    "zh": "zh/06-guide/02-ee-tenant/11-resources/07-network-services.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/resources/other-resources",
+    "en": "06-guide/02-ee-tenant/11-resources/11-other-resources.md",
+    "zh": "zh/06-guide/02-ee-tenant/11-resources/11-other-resources.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/resources/overview",
+    "en": "06-guide/02-ee-tenant/11-resources/01-overview.md",
+    "zh": "zh/06-guide/02-ee-tenant/11-resources/01-overview.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/resources/process-resources",
+    "en": "06-guide/02-ee-tenant/11-resources/10-process-resources.md",
+    "zh": "zh/06-guide/02-ee-tenant/11-resources/10-process-resources.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/resources/resource-changes",
+    "en": "06-guide/02-ee-tenant/11-resources/03-resource-changes.md",
+    "zh": "zh/06-guide/02-ee-tenant/11-resources/03-resource-changes.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/resources/resource-pool",
+    "en": "06-guide/02-ee-tenant/11-resources/04-resource-pool.md",
+    "zh": "zh/06-guide/02-ee-tenant/11-resources/04-resource-pool.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/resources/storage-services",
+    "en": "06-guide/02-ee-tenant/11-resources/08-storage-services.md",
+    "zh": "zh/06-guide/02-ee-tenant/11-resources/08-storage-services.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/resources/summary",
+    "en": "06-guide/02-ee-tenant/11-resources/02-summary.md",
+    "zh": "zh/06-guide/02-ee-tenant/11-resources/02-summary.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/system/account-management",
+    "en": "06-guide/02-ee-tenant/12-system/04-account-management.md",
+    "zh": "zh/06-guide/02-ee-tenant/12-system/04-account-management.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/system/agent",
+    "en": "06-guide/02-ee-tenant/12-system/02-agent.md",
+    "zh": "zh/06-guide/02-ee-tenant/12-system/02-agent.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/system/data-node",
+    "en": "06-guide/02-ee-tenant/12-system/03-data-node.md",
+    "zh": "zh/06-guide/02-ee-tenant/12-system/03-data-node.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/system/operation-log",
+    "en": "06-guide/02-ee-tenant/12-system/05-operation-log.md",
+    "zh": "zh/06-guide/02-ee-tenant/12-system/05-operation-log.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/system/overview",
+    "en": "06-guide/02-ee-tenant/12-system/01-overview.md",
+    "zh": "zh/06-guide/02-ee-tenant/12-system/01-overview.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/tracing/call-chain-tracing",
+    "en": "06-guide/02-ee-tenant/04-tracing/06-call-chain-tracing.md",
+    "zh": "zh/06-guide/02-ee-tenant/04-tracing/06-call-chain-tracing.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/tracing/call-log",
+    "en": "06-guide/02-ee-tenant/04-tracing/05-call-log.md",
+    "zh": "zh/06-guide/02-ee-tenant/04-tracing/05-call-log.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/tracing/file-reading-and-writing",
+    "en": "06-guide/02-ee-tenant/04-tracing/07-file-reading-and-writing.md",
+    "zh": "zh/06-guide/02-ee-tenant/04-tracing/07-file-reading-and-writing.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/tracing/overview",
+    "en": "06-guide/02-ee-tenant/04-tracing/01-overview.md",
+    "zh": "zh/06-guide/02-ee-tenant/04-tracing/01-overview.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/tracing/path-topology",
+    "en": "06-guide/02-ee-tenant/04-tracing/04-path-topology.md",
+    "zh": "zh/06-guide/02-ee-tenant/04-tracing/04-path-topology.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/tracing/right-sliding-box",
+    "en": "06-guide/02-ee-tenant/04-tracing/08-right-sliding-box.md",
+    "zh": "zh/06-guide/02-ee-tenant/04-tracing/08-right-sliding-box.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/tracing/service-list",
+    "en": "06-guide/02-ee-tenant/04-tracing/02-service-list.md",
+    "zh": "zh/06-guide/02-ee-tenant/04-tracing/02-service-list.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/tracing/service-statistics",
+    "en": "06-guide/02-ee-tenant/04-tracing/03-service-statistics.md",
+    "zh": "zh/06-guide/02-ee-tenant/04-tracing/03-service-statistics.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/universal-map/business-def",
+    "en": "06-guide/02-ee-tenant/03-universal-map/02-business-def.md",
+    "zh": "zh/06-guide/02-ee-tenant/03-universal-map/02-business-def.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/universal-map/overview",
+    "en": "06-guide/02-ee-tenant/03-universal-map/01-overview.md",
+    "zh": "zh/06-guide/02-ee-tenant/03-universal-map/01-overview.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/universal-map/service-list",
+    "en": "06-guide/02-ee-tenant/03-universal-map/03-service-list.md",
+    "zh": "zh/06-guide/02-ee-tenant/03-universal-map/03-service-list.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/ee-tenant/universal-map/service-map",
+    "en": "06-guide/02-ee-tenant/03-universal-map/04-service-map.md",
+    "zh": "zh/06-guide/02-ee-tenant/03-universal-map/04-service-map.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "guide/quick-start/5w-method",
+    "en": "06-guide/01-quick-start/01-5w-method.md",
+    "zh": "zh/06-guide/01-quick-start/01-5w-method.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "integration/input/log/log-auto-tagging",
+    "en": "08-integration/02-input/04-log/01-log-auto-tagging.md",
+    "zh": "zh/08-integration/02-input/04-log/01-log-auto-tagging.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "integration/input/log/vector",
+    "en": "08-integration/02-input/04-log/02-vector.md",
+    "zh": "zh/08-integration/02-input/04-log/02-vector.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "integration/input/metrics/grafana-agent",
+    "en": "08-integration/02-input/01-metrics/04-grafana-agent.md",
+    "zh": "zh/08-integration/02-input/01-metrics/04-grafana-agent.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "integration/input/metrics/metrics-auto-tagging",
+    "en": "08-integration/02-input/01-metrics/01-metrics-auto-tagging.md",
+    "zh": "zh/08-integration/02-input/01-metrics/01-metrics-auto-tagging.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "integration/input/metrics/prometheus",
+    "en": "08-integration/02-input/01-metrics/02-prometheus.md",
+    "zh": "zh/08-integration/02-input/01-metrics/02-prometheus.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "integration/input/metrics/telegraf",
+    "en": "08-integration/02-input/01-metrics/03-telegraf.md",
+    "zh": "zh/08-integration/02-input/01-metrics/03-telegraf.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "integration/input/profile/profile",
+    "en": "08-integration/02-input/03-profile/02-profile.md",
+    "zh": "zh/08-integration/02-input/03-profile/02-profile.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "integration/input/profile/profile-auto-tagging",
+    "en": "08-integration/02-input/03-profile/01-profile-auto-tagging.md",
+    "zh": "zh/08-integration/02-input/03-profile/01-profile-auto-tagging.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "integration/input/tracing/apm-trace-api",
+    "en": "08-integration/02-input/02-tracing/03-apm-trace-api.md",
+    "zh": "zh/08-integration/02-input/02-tracing/03-apm-trace-api.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "integration/input/tracing/full-stack-distributed-tracing",
+    "en": "08-integration/02-input/02-tracing/01-full-stack-distributed-tracing.md",
+    "zh": "zh/08-integration/02-input/02-tracing/01-full-stack-distributed-tracing.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "integration/input/tracing/opentelemetry",
+    "en": "08-integration/02-input/02-tracing/04-opentelemetry.md",
+    "zh": "zh/08-integration/02-input/02-tracing/04-opentelemetry.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "integration/input/tracing/skywalking",
+    "en": "08-integration/02-input/02-tracing/05-skywalking.md",
+    "zh": "zh/08-integration/02-input/02-tracing/05-skywalking.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "integration/input/tracing/traccing-auto-tagging",
+    "en": "08-integration/02-input/02-tracing/02-traccing-auto-tagging.md",
+    "zh": "zh/08-integration/02-input/02-tracing/02-traccing-auto-tagging.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "integration/output/export/exporter-config",
+    "en": "08-integration/03-output/02-export/04-exporter-config.md",
+    "zh": "zh/08-integration/03-output/02-export/04-exporter-config.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "integration/output/export/kafka-exporter",
+    "en": "08-integration/03-output/02-export/03-kafka-exporter.md",
+    "zh": "zh/08-integration/03-output/02-export/03-kafka-exporter.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "integration/output/export/opentelemetry-exporter",
+    "en": "08-integration/03-output/02-export/01-opentelemetry-exporter.md",
+    "zh": "zh/08-integration/03-output/02-export/01-opentelemetry-exporter.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "integration/output/export/prometheus-remote-write",
+    "en": "08-integration/03-output/02-export/02-prom-remote-write.md",
+    "zh": "zh/08-integration/03-output/02-export/02-prom-remote-write.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "integration/output/query/mcp-server",
+    "en": "08-integration/03-output/01-query/04-mcp-server.md",
+    "zh": "zh/08-integration/03-output/01-query/04-mcp-server.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "integration/output/query/promql",
+    "en": "08-integration/03-output/01-query/02-promql.md",
+    "zh": "zh/08-integration/03-output/01-query/02-promql.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "integration/output/query/sql",
+    "en": "08-integration/03-output/01-query/01-sql.md",
+    "zh": "zh/08-integration/03-output/01-query/01-sql.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "integration/output/query/trace-completion",
+    "en": "08-integration/03-output/01-query/03-trace-completion.md",
+    "zh": "zh/08-integration/03-output/01-query/03-trace-completion.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "integration/process/wasm-plugin",
+    "en": "08-integration/01-process/01-wasm-plugin.md",
+    "zh": "zh/08-integration/01-process/01-wasm-plugin.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "release-notes/release-6.1-ce",
+    "en": "10-release-notes/17-ce-6.1-release.md",
+    "zh": "zh/10-release-notes/18-ce-6.1-release.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "release-notes/release-6.1-ee",
+    "en": "10-release-notes/18-ee-6.1-release.md",
+    "zh": "zh/10-release-notes/19-ee-6.1-release.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "release-notes/release-6.2-ce",
+    "en": "10-release-notes/15-ce-6.2-release.md",
+    "zh": "zh/10-release-notes/16-ce-6.2-release.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "release-notes/release-6.2-ee",
+    "en": "10-release-notes/16-ee-6.2-release.md",
+    "zh": "zh/10-release-notes/17-ee-6.2-release.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "release-notes/release-6.3-ce",
+    "en": "10-release-notes/13-ce-6.3-release.md",
+    "zh": "zh/10-release-notes/14-ce-6.3-release.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "release-notes/release-6.3-ee",
+    "en": "10-release-notes/14-ee-6.3-release.md",
+    "zh": "zh/10-release-notes/15-ee-6.3-release.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "release-notes/release-6.4-ce",
+    "en": "10-release-notes/11-ce-6.4-release.md",
+    "zh": "zh/10-release-notes/12-ce-6.4-release.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "release-notes/release-6.4-ee",
+    "en": "10-release-notes/12-ee-6.4-release.md",
+    "zh": "zh/10-release-notes/13-ee-6.4-release.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "release-notes/release-6.5-ce",
+    "en": "10-release-notes/09-ce-6.5-release.md",
+    "zh": "zh/10-release-notes/10-ce-6.5-release.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "release-notes/release-6.5-ee",
+    "en": "10-release-notes/10-ee-6.5-release.md",
+    "zh": "zh/10-release-notes/11-ee-6.5-release.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "release-notes/release-6.6-ce",
+    "en": "10-release-notes/07-ce-6.6-release.md",
+    "zh": "zh/10-release-notes/08-ce-6.6-release.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "release-notes/release-6.6-ee",
+    "en": "10-release-notes/08-ee-6.6-release.md",
+    "zh": "zh/10-release-notes/09-ee-6.6-release.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "release-notes/release-7.0-ce",
+    "en": "10-release-notes/05-ce-7.0-release.md",
+    "zh": "zh/10-release-notes/06-ce-7.0-release.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "release-notes/release-7.0-ee",
+    "en": "10-release-notes/06-ee-7.0-release.md",
+    "zh": "zh/10-release-notes/07-ee-7.0-release.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "release-notes/release-7.1-ce",
+    "en": "10-release-notes/03-ce-7.1-release.md",
+    "zh": "zh/10-release-notes/04-ce-7.1-release.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "release-notes/release-7.1-ee",
+    "en": "10-release-notes/04-ee-7.1-release.md",
+    "zh": "zh/10-release-notes/05-ee-7.1-release.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "release-notes/release-7.2-ee",
+    "en": null,
+    "zh": "zh/10-release-notes/03-ee-7.2-release.md",
+    "liveAt": "redirect-to-zh"
+  },
+  {
+    "url": "release-notes/release-timeline",
+    "en": "10-release-notes/02-release-timeline.md",
+    "zh": "zh/10-release-notes/02-release-timeline.md",
+    "liveAt": "root"
+  },
+  {
+    "url": "release-notes/versioning",
+    "en": "10-release-notes/01-versioning.md",
+    "zh": "zh/10-release-notes/01-versioning.md",
+    "liveAt": "root"
+  }
+]

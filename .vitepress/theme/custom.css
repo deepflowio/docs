@@ -1,0 +1,211 @@
+/* 品牌色:对齐旧版 vdoing 主题 accentColor(#396aff) */
+:root {
+  --vp-c-brand-1: #396aff;
+  --vp-c-brand-2: #2757d6;
+  --vp-c-brand-3: #6b93ff;
+  --vp-c-brand-soft: rgba(57, 106, 255, 0.14);
+}
+
+/* ===== 自定义导航栏(替代默认 navbar) =====
+   默认导航整体隐藏,由 SiteNavbar.vue 经 layout-top 插槽渲染旧版
+   DeepFlow 渐变色导航;内容区顶部偏移改为自定义栏的高度 */
+.VPNav {
+  display: none;
+}
+:root {
+  /* 新版 global-nav 高度:68px(≤640px 时 56px) */
+  --vp-nav-height: 68px;
+  --df-nav-height-mobile: 68px;
+}
+@media (max-width: 640px) {
+  :root {
+    --df-nav-height-mobile: 56px;
+  }
+}
+@media (max-width: 959px) {
+  .VPContent {
+    padding-top: var(--df-nav-height-mobile);
+  }
+  /* 移动端文档页的"菜单"吸顶条避开自定义导航栏 */
+  .Layout .VPLocalNav.VPLocalNav {
+    top: var(--df-nav-height-mobile);
+  }
+}
+
+/* ===== embedded:全站 chrome 隐藏(参考 eaf3930) =====
+   <html> 带 embedded 类时隐藏全站导航栏(SiteNavbar)/页脚(SiteFooter)
+   并清空其占位间距;移动端以内容区左上角的悬浮按钮
+   (EmbeddedSidebarButton,doc-top 插槽)展开侧边栏。
+   该类由 head 内联脚本标记(见 config.mts):iframe 检测保留,但目前
+   常规构建也无条件标记,即导航栏/页脚始终隐藏;doc-only 变体在此基础上
+   通过 doc-only 类恢复 doc 专属顶栏(见下方 doc-only 段) */
+html.embedded .df-navbar,
+html.embedded .df-footer {
+  display: none;
+}
+html.embedded {
+  /* 导航高度归零:内容区/侧边栏/首页 hero 的顶部占位全部随之清空 */
+  --vp-nav-height: 0px;
+  --df-nav-height-mobile: 0px;
+}
+/* 嵌入式下隐藏"菜单"吸顶条:桌面端侧边栏常驻可见无需它,
+   移动端由悬浮按钮承担(该条隐藏后其菜单按钮仍在 DOM 中,供程序化点击) */
+html.embedded .VPLocalNav {
+  display: none;
+}
+/* 嵌入式桌面端导航高度归零后侧边栏内容会顶到视口边缘,
+   给顶部(搜索/语言切换区)补回间距 */
+@media (min-width: 960px) {
+  html.embedded .VPSidebar nav {
+    padding-top: 24px;
+  }
+}
+/* 嵌入式首页 hero 顶部间距收敛 */
+html.embedded .Layout .VPHero.VPHero {
+  padding-top: 2rem;
+}
+@media (max-width: 959px) {
+  /* 给内容区左上角的悬浮按钮留位 */
+  html.embedded .VPContent {
+    padding-top: 48px;
+  }
+  html.embedded .embedded-sidebar-button {
+    display: flex;
+  }
+  /* 侧边栏展开后隐藏按钮,通过点击蒙层关闭 */
+  html.embedded:has(.VPSidebar.open) .embedded-sidebar-button {
+    display: none;
+  }
+}
+
+/* ===== doc-only 变体(build:doc-only,独立文档站形态) =====
+   该形态下 <html> 同时带 embedded 与 doc-only 类(构建期写死,见
+   config.mts 的 head 脚本):复用上方 embedded 的导航栏/页脚隐藏与占位
+   清零,页脚保持隐藏;doc 专属顶栏(DocHeader,layout-top 插槽)为固定
+   定位,其高度写回 --vp-nav-height / --df-nav-height-mobile 后,内容区/
+   侧边栏/首页 hero 的顶部留白机制与 SiteNavbar 在位时一致 */
+html.doc-only {
+  --df-doc-header-height: 64px;
+  --vp-nav-height: var(--df-doc-header-height);
+}
+@media (max-width: 959px) {
+  html.doc-only {
+    --df-doc-header-height: 56px;
+    --df-nav-height-mobile: var(--df-doc-header-height);
+  }
+}
+/* 常规(非 doc-only)构建同样渲染了 DocHeader,但始终不显示 */
+html:not(.doc-only) .doc-header {
+  display: none;
+}
+/* 侧边栏内容已由 .VPSidebar 的 padding-top(--vp-nav-height)避让顶栏,
+   去掉 embedded 为高度归零补偿的 24px 顶部间距 */
+@media (min-width: 960px) {
+  html.doc-only .VPSidebar nav {
+    padding-top: 0;
+  }
+}
+/* 侧边栏顶部的搜索/主题(SidebarActions)与顶栏能力重复,隐藏(组件保留) */
+html.doc-only .sidebar-actions {
+  display: none;
+}
+/* 首页 hero:embedded 的 2rem 收敛值未计入顶栏高度,按原"顶栏高度+间距"
+   恢复(hero 自带的负 margin 会抵消内容区的 padding-top,不重复计算) */
+@media (min-width: 640px) {
+  html.doc-only .Layout .VPHero.VPHero {
+    padding-top: calc(var(--vp-nav-height) + 7rem);
+  }
+}
+@media (max-width: 639px) {
+  html.doc-only .Layout .VPHero.VPHero {
+    padding-top: calc(var(--vp-nav-height) + 2rem);
+  }
+}
+/* 移动端:内容避让固定顶栏(在 embedded 的 48px 基础上改为顶栏高度+余量,
+   同时保证悬浮按钮不压到正文),悬浮按钮随顶栏下移 */
+@media (max-width: 959px) {
+  html.doc-only .VPContent {
+    padding-top: calc(var(--df-nav-height-mobile) + 16px);
+  }
+  html.doc-only .embedded-sidebar-button {
+    top: calc(var(--df-nav-height-mobile) + 10px);
+  }
+}
+
+/* ===== 首页:对齐旧版 vdoing Home 布局 =====
+   覆盖默认主题组件的 scoped 样式,选择器多带一层祖先保证优先级 */
+.VPHero .container {
+  text-align: center;
+}
+.VPHero .container .main {
+  width: 100%;
+}
+@media (min-width: 640px) {
+  .Layout .VPHero.VPHero {
+    padding-top: calc(var(--vp-nav-height) + 7rem);
+  }
+}
+/* 旧版首页 features 距 footer 约 2rem,去掉默认主题 96px 的大间距 */
+.Layout .VPHome.VPHome {
+  margin-bottom: 2rem;
+}
+
+/* 旧版 features:三列纯文本布局,去掉默认卡片外壳。
+   注意:卡片灰底/边框/圆角在 .VPFeature 根元素上(不在内层 .box),
+   必须覆写根元素才能去掉 var(--vp-c-bg-soft) 的灰色背景 */
+.Layout .VPFeatures .container {
+  max-width: 1100px;
+}
+.Layout .VPFeatures .items {
+  border-top: 1px solid var(--vp-c-divider);
+  margin-top: 2.5rem;
+  padding-top: 1.2rem;
+}
+.Layout .VPFeatures .item .VPFeature {
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+  transition: none;
+}
+.Layout .VPFeatures .item .VPFeature .box {
+  padding: 6px 4px;
+}
+.Layout .VPFeatures .VPFeature .box .title {
+  font-size: 1.4rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--vp-c-text-1);
+  border-bottom: none;
+  padding-bottom: 0;
+  margin: 0 0 0.5rem;
+}
+.Layout .VPFeatures .VPFeature .box .details {
+  color: var(--vp-c-text-2);
+  font-size: 0.9375rem;
+  line-height: 1.7;
+}
+
+/* downloadCSV.js 在构建期把 [csv-x](url) 替换为 markdown 表格,
+   外层包 <div class="csv-box">,沿用旧版样式 */
+.csv-box {
+  display: inline-block;
+  max-width: 100%;
+  overflow-x: auto;
+}
+.csv-box > table {
+  margin-bottom: 0;
+}
+.csv-box > p.csv-url {
+  margin: 0;
+  text-align: center;
+  color: #999;
+  font-size: 14px;
+}
+
+/* mermaid 图居中并限制宽度 */
+.vp-doc .mermaid {
+  text-align: center;
+}
+.vp-doc .mermaid svg {
+  max-width: 100%;
+}

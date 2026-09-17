@@ -47,6 +47,8 @@ const downloadFile = (fileUrl, outputPath, cb) => {
   fileUrl = fileUrl.replace(/\<BRANCH\>/, branch);
   const url = new URL(fileUrl);
   const h = fileUrl.startsWith("https") ? https : http;
+  // 目标目录可能不存在(如 07-configuration 在提交态无文件),先递归创建
+  fs.mkdirSync(path.dirname(outputPath), { recursive: true });
   const file = fs.createWriteStream(outputPath);
 
   h.get(url, (response) => {
@@ -64,8 +66,11 @@ const downloadFile = (fileUrl, outputPath, cb) => {
       cb();
     });
   }).on("error", (err) => {
-    fs.unlink(outputPath); // 删除文件
+    // 删除下载失败留下的空文件:文件缺失会让后续构建死链检测报错,
+    // 而不是把空页面静默发布;unlink 在 Node 10+ 必须传回调
+    fs.unlink(outputPath, () => {});
     console.error(`下载失败: ${err.message}`);
+    process.exitCode = 1;
   });
 };
 
