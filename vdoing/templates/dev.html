@@ -3,10 +3,14 @@
 
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <script>
-    window._YS_RENDER_IMAGE = function renderImage(svg, id, cb) { var canvas = document.getElementById(id); var c = canvas.getContext("2d"); var img = new Image(); img.src = "data:image/svg+xml;base64," + window.btoa(window.unescape(window.encodeURIComponent(svg))); img.onload = function () { canvas.width = img.width; canvas.height = img.height; c.drawImage(img, 0, 0); cb(img) } };
-  </script>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <!-- 以 iframe 方式打开时标记 embedded，配合样式隐藏导航栏和页脚 -->
+    <script>
+      if (window.self !== window.top) document.documentElement.classList.add('embedded');
+    </script>
+    <script>
+      window._YS_RENDER_IMAGE = function renderImage(svg, id, cb) { var canvas = document.getElementById(id); var c = canvas.getContext("2d"); var img = new Image(); img.src = "data:image/svg+xml;base64," + window.btoa(window.unescape(window.encodeURIComponent(svg))); img.onload = function () { canvas.width = img.width; canvas.height = img.height; c.drawImage(img, 0, 0); cb(img) } };
+    </script>
 </head>
 
 <body class="theme-mode-light">
