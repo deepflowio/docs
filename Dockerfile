@@ -11,4 +11,6 @@ RUN ln -fs /usr/share/zoneinfo/${TZ} /etc/localtime \
     && rm -rf /var/lib/apt/lists/*
 
 COPY ./nginx/default.conf /etc/nginx/conf.d/docs.conf
-COPY ./nginx/zh-only-redirects.conf /etc/nginx/conf.d/zh-only-redirects.conf
+# rewrite 只能在 server 上下文使用,故不放 conf.d/(那里会被 include 进 http 块),
+# 而是由 default.conf 的 server 块 include 本文件
+COPY ./nginx/zh-only-redirects.conf /etc/nginx/zh-only-redirects.conf

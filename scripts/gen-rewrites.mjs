@@ -131,6 +131,8 @@ const zhOnly = baseline.filter((b) => b.liveAt === 'redirect-to-zh')
 const conf = [
   '# 本文件由 scripts/gen-rewrites.mjs 生成,勿手改。',
   '# 仅中文版本(暂无英文翻译)的页面:旧根路径 URL -> /zh/ 新路径。',
+  '# 注意:rewrite 不能出现在 http 上下文,本文件须由 server 块 include',
+  '# (见 nginx/default.conf 与 Dockerfile),不能放进 /etc/nginx/conf.d/。',
   ...zhOnly.map(
     ({ url }) =>
       `rewrite ^/docs/${url}/?$ /docs/zh/${url}? permanent;\nrewrite ^/docs/${url}\\.html$ /docs/zh/${url}? permanent;`
