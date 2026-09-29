@@ -127,7 +127,7 @@ jobs:
       shell: bash
       if: ${{ github.repository	== 'deepflowio/docs'}}
       run: |
-         curl -X POST -H "Content-Type: application/json"   -d  \
+        curl -X POST -H "Content-Type: application/json"   -d  \
         '{"msg_type":"interactive","card":
         {
           "config": {
