@@ -13,15 +13,18 @@
         <span class="doc-brand-name">DeepFlow</span>
       </a>
 
-      <input
-        type="text"
-        class="doc-search"
-        readonly
-        :placeholder="isZh ? '搜索文档' : 'Search docs'"
-        :aria-label="isZh ? '搜索文档' : 'Search docs'"
-        @mousedown.prevent="openSearch"
-        @focus="openSearch"
-      />
+      <div class="doc-search-trigger">
+        <span class="vpi-search search-icon" aria-hidden="true" />
+        <input
+          type="text"
+          class="doc-search"
+          readonly
+          :placeholder="isZh ? '搜索文档' : 'Search docs'"
+          :aria-label="isZh ? '搜索文档' : 'Search docs'"
+          @mousedown.prevent="openSearch"
+          @focus="openSearch"
+        />
+      </div>
 
       <div class="doc-actions">
         <div
@@ -164,35 +167,44 @@ function openSearch() {
 }
 
 /* 中:搜索(readonly,点击唤起 VitePress 本地搜索弹层) */
-.doc-search {
+.doc-search-trigger {
+  position: relative;
   width: min(320px, 36vw);
+  min-width: 0;
+}
+.doc-search-trigger .search-icon {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  width: 16px;
+  height: 16px;
+  transform: translateY(-50%);
+  color: var(--df-md-text-3);
+  pointer-events: none;
+}
+.doc-search {
+  width: 100%;
   height: 38px;
   line-height: 38px;
   padding: 0 1rem 0 2.1rem;
-  color: var(--vp-c-text-1);
-  border: 1px solid var(--vp-c-border);
+  color: var(--df-md-text-1);
+  border: 1px solid var(--df-md-border-2);
   border-radius: 999px;
   font-size: 13.5px;
   font-family: inherit;
   cursor: pointer;
-  background:
-    var(--vp-c-bg-soft)
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='13'%3E%3Cg stroke-width='2' stroke='%23aaa' fill='none'%3E%3Cpath d='M11.29 11.71l-4-4'/%3E%3Ccircle cx='5' cy='5' r='4'/%3E%3C/g%3E%3C/svg%3E")
-    0.8rem
-    0.55rem
-    no-repeat;
-  background-size: 1rem;
+  background: var(--df-md-fill-1);
   transition: border-color 0.2s ease;
 }
 .doc-search:hover {
-  border-color: var(--vp-c-brand-1);
+  border-color: var(--df-md-primary-6);
 }
 .doc-search:focus {
-  border-color: var(--vp-c-brand-1);
+  border-color: var(--df-md-primary-6);
   outline: none;
 }
 .doc-search::placeholder {
-  color: var(--vp-c-text-3);
+  color: var(--df-md-text-3);
 }
 
 /* 右:语言切换 + 主题切换 */
@@ -327,7 +339,7 @@ html.dark .theme-toggle .icon-moon {
     gap: 10px;
     padding: 0 14px;
   }
-  .doc-search {
+  .doc-search-trigger {
     width: 100%;
   }
 }

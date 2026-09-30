@@ -9,6 +9,8 @@ import HomeHero from './components/HomeHero.vue'
 import EmbeddedSidebarButton from './components/EmbeddedSidebarButton.vue'
 import SidebarActions from './components/SidebarActions.vue'
 import './custom.css'
+import './markdown.css'
+import './search.css'
 
 export default {
   extends: DefaultTheme,
