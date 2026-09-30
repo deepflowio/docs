@@ -21,15 +21,18 @@
         <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
       </svg>
     </button>
-    <input
-      type="text"
-      class="search-box"
-      readonly
-      :placeholder="isZh ? '搜索' : 'Search'"
-      aria-label="Search"
-      @mousedown.prevent="openSearch"
-      @focus="openSearch"
-    />
+    <div class="search-trigger">
+      <span class="vpi-search search-icon" aria-hidden="true" />
+      <input
+        type="text"
+        class="search-box"
+        readonly
+        :placeholder="isZh ? '搜索' : 'Search'"
+        aria-label="Search"
+        @mousedown.prevent="openSearch"
+        @focus="openSearch"
+      />
+    </div>
     <div
       :class="['lang-switch', { open: langOpen }]"
       @mouseenter="langOpen = true"
@@ -201,6 +204,21 @@ html.dark .theme-toggle .icon-moon {
 }
 
 /* 搜索框:暗色玻璃输入框,点击唤起 VitePress 本地搜索 */
+.search-trigger {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+}
+.search-trigger .search-icon {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  width: 16px;
+  height: 16px;
+  transform: translateY(-50%);
+  color: var(--text-3);
+  pointer-events: none;
+}
 .search-box {
   width: 100%;
   height: 36px;
@@ -212,13 +230,7 @@ html.dark .theme-toggle .icon-moon {
   font-size: 13px;
   font-family: inherit;
   cursor: pointer;
-  background:
-    var(--fill-1)
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='13'%3E%3Cg stroke-width='2' stroke='%23aaa' fill='none'%3E%3Cpath d='M11.29 11.71l-4-4'/%3E%3Ccircle cx='5' cy='5' r='4'/%3E%3C/g%3E%3C/svg%3E")
-    0.6rem
-    0.55rem
-    no-repeat;
-  background-size: 1rem;
+  background: var(--fill-1);
   transition: border-color 0.2s ease;
 }
 .search-box:focus {

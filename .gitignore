@@ -16,3 +16,7 @@ node_modules
 # vitepress
 .vitepress/cache/
 /cache/
+
+# Local preview and design files
+/.impeccable.md
+/docs/zh/markdown-style-preview.md
