@@ -1,0 +1,56 @@
+/* The local-search dialog is teleported to body; it shares the DeepFlow tokens. */
+.VPLocalSearchBox {
+  --vp-c-brand-1: var(--df-md-primary-6);
+  --vp-c-brand-2: var(--df-md-primary-hover);
+  --vp-c-text-1: var(--df-md-text-1);
+  --vp-c-text-2: var(--df-md-text-2);
+  --vp-c-text-3: var(--df-md-text-3);
+  --vp-c-divider: var(--df-md-border-2);
+  --vp-code-color: var(--df-md-text-1);
+  --vp-code-bg: var(--df-md-fill-1);
+  --vp-backdrop-bg-color: var(--df-md-mask-bg);
+  --vp-local-search-bg: var(--df-md-bg-4);
+  --vp-local-search-result-bg: var(--df-md-bg-4);
+  --vp-local-search-result-border: var(--df-md-border-1);
+  --vp-local-search-result-selected-bg: var(--df-md-fill-1);
+  --vp-local-search-result-selected-border: var(--df-md-primary-6);
+  --vp-local-search-highlight-bg: var(--df-md-primary-6);
+  --vp-local-search-highlight-text: var(--df-md-text-on-primary);
+  color: var(--df-md-text-1);
+}
+
+.VPLocalSearchBox .shell {
+  border: 1px solid var(--df-md-border-2);
+}
+
+.VPLocalSearchBox .search-bar {
+  background-color: var(--df-md-fill-1);
+}
+
+.VPLocalSearchBox .search-input {
+  color: var(--df-md-text-1);
+}
+
+.VPLocalSearchBox .search-input::placeholder,
+.VPLocalSearchBox .search-icon,
+.VPLocalSearchBox .search-actions,
+.VPLocalSearchBox .no-results {
+  color: var(--df-md-text-3);
+}
+
+.VPLocalSearchBox .result {
+  background-color: var(--vp-local-search-result-bg);
+  color: var(--df-md-text-2);
+}
+
+.VPLocalSearchBox .search-keyboard-shortcuts {
+  color: var(--df-md-text-3);
+  opacity: 1;
+}
+
+.VPLocalSearchBox .search-keyboard-shortcuts kbd {
+  background-color: var(--df-md-fill-1);
+  border-color: var(--df-md-border-2);
+  color: var(--df-md-text-2);
+  box-shadow: none;
+}
