@@ -6,24 +6,34 @@
 //   - 英文:CI 构建时 translate/translated 会被合并进 docs/,故优先读 docs/
 //     下的编号目录,本地 dev 回退读 translate/translated
 //   - downloadFile.json 中声明的 CI 下载页面(如 Agent 配置)静态并入
+//   - 各级目录(分区与子目录分组)的展示名取自仓库根 LOCALES/{zh,en}.json
 import fs from 'node:fs'
 import path from 'node:path'
 import rewrites from './rewrites.generated.json'
 
 const ROOT = path.resolve(import.meta.dirname, '..')
 
-/** 分区清单:文档信息架构的唯一人工维护来源 */
-const SECTIONS: Record<string, { en: string; zh: string }> = {
-  '01-about': { en: 'About', zh: '关于 DeepFlow' },
-  '02-ce-install': { en: 'Community Edition Installation', zh: '社区版安装' },
-  '03-ee-install': { en: 'Enterprise Edition Installation', zh: '企业版安装' },
-  '04-best-practice': { en: 'Best Practices', zh: '最佳实践' },
-  '05-features': { en: 'Features', zh: '功能特性' },
-  '06-guide': { en: 'Guide', zh: '使用指南' },
-  '07-configuration': { en: 'Configuration', zh: '配置说明' },
-  '08-integration': { en: 'Integration', zh: '集成' },
-  '09-diagnose': { en: 'Troubleshooting', zh: '故障诊断' },
-  '10-release-notes': { en: 'Release Notes', zh: '版本发布笔记' }
+/** 分区目录清单:文档信息架构的唯一人工维护来源,数组顺序即分区顺序,
+ *  展示名见 LOCALES/{zh,en}.json 中的一级 key */
+const SECTION_DIRS = [
+  '01-about',
+  '02-ce-install',
+  '03-ee-install',
+  '04-best-practice',
+  '05-features',
+  '06-guide',
+  '07-configuration',
+  '08-integration',
+  '09-diagnose',
+  '10-release-notes'
+]
+
+// 目录展示名的翻译存于仓库根 LOCALES/{zh,en}.json(迁移前旧 vdoing 主题的
+// 原文件原样恢复),key 为去掉数字前缀的逻辑路径,覆盖顶级分区与子目录分组:
+// 目录重新编号无需同步改 key,查不到回退 humanizeDir
+const dirTitles: Record<'en' | 'zh', Record<string, string>> = {
+  en: JSON.parse(fs.readFileSync(path.join(ROOT, 'LOCALES/en.json'), 'utf8')),
+  zh: JSON.parse(fs.readFileSync(path.join(ROOT, 'LOCALES/zh.json'), 'utf8'))
 }
 
 /** 常见缩写,避免 humanize 出现 "Ee Tenant" 这类展示名 */
@@ -84,15 +94,18 @@ function linkFor(relPath: string): string | null {
   return '/' + target.replace(/\.md$/, '')
 }
 
-function walkDir(dir: string, relBase: string): (LinkItem | GroupItem)[] {
+function walkDir(dir: string, relBase: string, logicalBase: string, lang: 'en' | 'zh'): (LinkItem | GroupItem)[] {
   const items: (LinkItem | GroupItem)[] = []
   const entries = fs.readdirSync(dir).filter((n) => !n.startsWith('.')).sort(byNumericPrefix)
   for (const name of entries) {
     const full = path.join(dir, name)
     const rel = `${relBase}/${name}`
     if (fs.statSync(full).isDirectory()) {
-      const children = walkDir(full, rel)
-      if (children.length) items.push({ text: humanizeDir(name), collapsed: true, items: children })
+      const logical = `${logicalBase}/${name.replace(/^\d+-/, '')}`
+      const children = walkDir(full, rel, logical, lang)
+      if (children.length) {
+        items.push({ text: dirTitles[lang][logical] ?? humanizeDir(name), collapsed: true, items: children })
+      }
       continue
     }
     if (!name.endsWith('.md') || name === 'README.md' || name === 'index.md') continue
@@ -109,29 +122,35 @@ function walkDir(dir: string, relBase: string): (LinkItem | GroupItem)[] {
 
 function buildSidebar(treeRoot: string, prefix: string, lang: 'en' | 'zh'): GroupItem[] {
   const result: GroupItem[] = []
-  for (const [dir, labels] of Object.entries(SECTIONS)) {
+  for (const dir of SECTION_DIRS) {
     const sectionDir = path.join(treeRoot, dir)
     if (!fs.existsSync(sectionDir)) continue
-    const items = walkDir(sectionDir, `${prefix}${dir}`)
-    if (items.length) result.push({ text: labels[lang], collapsed: true, items })
+    const logical = dir.replace(/^\d+-/, '')
+    const items = walkDir(sectionDir, `${prefix}${dir}`, logical, lang)
+    if (items.length) {
+      result.push({ text: dirTitles[lang][logical] ?? humanizeDir(dir), collapsed: true, items })
+    }
   }
   return result
 }
 
 /** downloadFile.json 声明的 CI 下载页面静态并入(本地 dev 时文件尚不存在) */
-function mergeDownloadedPages(items: GroupItem[]): void {
+function mergeDownloadedPages(items: GroupItem[], lang: 'en' | 'zh'): void {
   const jsonPath = path.join(ROOT, 'downloadFile.json')
   if (!fs.existsSync(jsonPath)) return
   for (const { output, meta } of JSON.parse(fs.readFileSync(jsonPath, 'utf8'))) {
     const rel = output.replace(/^\.\//, '').replace(/^docs\//, '')
     const section = rel.replace(/^zh\//, '').split('/')[0]
-    let group = items.find((g) => g.text === SECTIONS[section]?.en || g.text === SECTIONS[section]?.zh)
+    const title = dirTitles[lang][section.replace(/^\d+-/, '')] ?? humanizeDir(section)
+    let group = items.find((g) => g.text === title)
     if (!group) {
-      group = { text: SECTIONS[section]?.en ?? section, collapsed: true, items: [] }
+      group = { text: title, collapsed: true, items: [] }
       items.push(group)
     }
     const link = linkFor(rel)
     if (!link) continue
+    // CI 构建时该文件已存在并被上方 walkDir 收录,避免重复条目
+    if (group.items.some((i) => 'link' in i && i.link === link)) continue
     group.items.push({ text: meta.title || humanizeDir(path.basename(rel)), link })
   }
 }
@@ -142,9 +161,9 @@ const enRoot = fs.existsSync(path.join(ROOT, 'docs/01-about'))
   : path.join(ROOT, 'translate/translated')
 
 const enSidebar = buildSidebar(enRoot, '', 'en')
-mergeDownloadedPages(enSidebar)
+mergeDownloadedPages(enSidebar, 'en')
 const zhSidebar = buildSidebar(path.join(ROOT, 'docs/zh'), 'zh/', 'zh')
-mergeDownloadedPages(zhSidebar)
+mergeDownloadedPages(zhSidebar, 'zh')
 
 export const sidebar = {
   '/zh/': zhSidebar,
