@@ -1,66 +1,93 @@
-/* Shared DeepFlow Markdown styles for all VitePress documentation pages. */
+/* Documentation colors sampled from LobeHub docs (light and dark modes). */
 :root {
-  /* Semantic tokens from DeepFlow design.md — light mode. */
-  --df-md-bg-0: #e9ecf2;
-  --df-md-bg-0-1: #f4f5f7;
+  --df-md-font-sans: Geist, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Display", "Segoe UI", Roboto, "Helvetica Neue", Arial, "HarmonyOS Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei UI", "Microsoft YaHei", "Source Han Sans SC", "Noto Sans CJK SC", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  --df-md-font-mono: "Geist Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, "Cascadia Code", Consolas, "Liberation Mono", monospace;
+  --df-md-font-normal: 400;
+  --df-md-font-strong: 600;
+  --df-md-font-heading: 700;
+  --df-md-reading-width: 680px;
+  --df-md-bg-0: #f8f8f8;
+  --df-md-bg-0-1: #f5f5f5;
   --df-md-bg-1: #ffffff;
-  --df-md-bg-2: #ffffff;
+  --df-md-bg-2: rgba(0, 0, 0, 0.016);
   --df-md-bg-4: #ffffff;
-  --df-md-fill-1: #f4f5f7;
-  --df-md-fill-2: #e9ecf2;
-  --df-md-fill-3: #d8dce5;
-  --df-md-border-1: #e9ecf2;
-  --df-md-border-2: #d8dce5;
-  --df-md-border-3: #c1c9d6;
-  --df-md-sidebar-divider: #d8dce5;
-  --df-md-text-1: #18212e;
-  --df-md-text-2: #3c485c;
-  --df-md-text-3: #5a677a;
-  --df-md-primary-6: #5a65f6;
-  --df-md-primary-link: #5a65f6;
-  --df-md-primary-hover: #4f46e5;
+  --df-md-fill-1: rgba(0, 0, 0, 0.03);
+  --df-md-fill-2: rgba(0, 0, 0, 0.06);
+  --df-md-fill-3: rgba(0, 0, 0, 0.12);
+  --df-md-border-1: #eeeeee;
+  --df-md-border-2: #e3e3e3;
+  --df-md-border-3: #dddddd;
+  --df-md-inline-code-border: var(--df-md-border-1);
+  --df-md-layout-divider: var(--df-md-border-1);
+  --df-md-sidebar-divider: var(--df-md-border-1);
+  --df-md-sidebar-guide: #d4d4d4;
+  --df-md-search-bg: var(--df-md-bg-1);
+  --df-md-search-border: var(--df-md-border-1);
+  --df-md-search-text: var(--df-md-text-3);
+  --df-md-search-hover-bg: var(--df-md-fill-1);
+  --df-md-search-hover-border: var(--df-md-border-2);
+  --df-md-text-1: #080808;
+  --df-md-text-2: #666666;
+  --df-md-text-3: #999999;
+  --df-md-primary-6: #222222;
+  --df-md-primary-hover: #333333;
+  --df-md-primary-link: #0072f5;
+  --df-md-link-hover: #4c90ff;
   --df-md-text-on-primary: #ffffff;
-  --df-md-mask-bg: rgba(0, 0, 0, 0.7);
-  --df-md-success-border: #aff0b5;
-  --df-md-success-bg: #e8ffea;
-  --df-md-success-text: #008026;
-  --df-md-warning-border: #ffe4ba;
-  --df-md-warning-bg: #fff7e8;
-  --df-md-warning-text: #d96a00;
-  --df-md-danger-border: #fdcdc5;
-  --df-md-danger-bg: #ffece8;
-  --df-md-danger-text: #da3838;
+  --df-md-mask-bg: rgba(0, 0, 0, 0.44);
+  --df-md-info-bg: #e6f4ff;
+  --df-md-info-border: #91caff;
+  --df-md-success-border: #c7eabd;
+  --df-md-success-bg: #f4fdeb;
+  --df-md-success-text: #379d4a;
+  --df-md-warning-border: #ffd591;
+  /* Give warning callouts a visible amber tint on the white canvas. */
+  --df-md-warning-bg: #fff7e6;
+  --df-md-warning-text: #ee9e0b;
+  --df-md-danger-border: #ffcec5;
+  --df-md-danger-bg: #fff7f6;
+  --df-md-danger-text: #ec5e41;
 }
 
 .dark {
-  /* The same roles resolve to the dark values in DeepFlow design.md. */
-  --df-md-bg-0: #11151f;
-  --df-md-bg-0-1: #161b29;
-  --df-md-bg-1: #11151f;
-  --df-md-bg-2: #161b29;
-  --df-md-bg-4: #1f283d;
-  --df-md-fill-1: rgba(255, 255, 255, 0.04);
-  --df-md-fill-2: rgba(255, 255, 255, 0.08);
-  --df-md-fill-3: rgba(255, 255, 255, 0.12);
-  --df-md-border-1: #1e293b;
-  --df-md-border-2: #2a3646;
-  --df-md-border-3: #475569;
-  --df-md-sidebar-divider: #1e293b;
-  --df-md-text-1: #e2e8f0;
-  --df-md-text-2: #cbd5e1;
-  --df-md-text-3: #94a3b8;
-  --df-md-primary-6: #5a65f6;
-  --df-md-primary-link: #5a65f6;
-  --df-md-primary-hover: #b1b3fa;
-  --df-md-success-border: #0a802d;
-  --df-md-success-bg: rgba(0, 180, 42, 0.12);
-  --df-md-success-text: #b2f0b7;
-  --df-md-warning-border: #a64b0a;
-  --df-md-warning-bg: rgba(255, 125, 0, 0.12);
-  --df-md-warning-text: #ff7d00;
-  --df-md-danger-border: #a1161f;
-  --df-md-danger-bg: rgba(245, 63, 63, 0.12);
-  --df-md-danger-text: #f53f3f;
+  --df-md-bg-0: #000000;
+  --df-md-bg-0-1: #141414;
+  --df-md-bg-1: #151518;
+  --df-md-bg-2: rgba(255, 255, 255, 0.02);
+  --df-md-bg-4: #1a1a1a;
+  --df-md-fill-1: rgba(255, 255, 255, 0.06);
+  --df-md-fill-2: rgba(255, 255, 255, 0.10);
+  --df-md-fill-3: rgba(255, 255, 255, 0.16);
+  --df-md-border-1: #1a1a1a;
+  --df-md-border-2: #202020;
+  --df-md-border-3: #333333;
+  --df-md-inline-code-border: var(--df-md-border-2);
+  --df-md-layout-divider: var(--df-md-border-3);
+  --df-md-sidebar-guide: #444448;
+  --df-md-search-bg: #222226;
+  --df-md-search-border: #444448;
+  --df-md-search-text: var(--df-md-text-2);
+  --df-md-search-hover-bg: #2b2b30;
+  --df-md-search-hover-border: #66666c;
+  --df-md-text-1: #ffffff;
+  --df-md-text-2: #aaaaaa;
+  --df-md-text-3: #6f6f6f;
+  --df-md-primary-6: #eeeeee;
+  --df-md-primary-hover: #ffffff;
+  --df-md-primary-link: #0072f5;
+  --df-md-link-hover: #a7d3ff;
+  --df-md-text-on-primary: #080808;
+  --df-md-info-bg: #111f33;
+  --df-md-info-border: #244d75;
+  --df-md-success-border: #4b6800;
+  --df-md-success-bg: #142100;
+  --df-md-success-text: #c4f042;
+  --df-md-warning-border: #916400;
+  --df-md-warning-bg: #2a1b00;
+  --df-md-warning-text: #ffb224;
+  --df-md-danger-border: #9d0042;
+  --df-md-danger-bg: #380015;
+  --df-md-danger-text: #f4416c;
 }
 
 body:has(.VPDoc) {
@@ -68,7 +95,7 @@ body:has(.VPDoc) {
 }
 
 .Layout:has(.VPDoc) .VPSidebar {
-  --vp-sidebar-bg-color: var(--df-md-bg-0-1);
+  --vp-sidebar-bg-color: var(--df-md-bg-1);
   --vp-c-text-1: var(--df-md-text-1);
   --vp-c-text-2: var(--df-md-text-2);
   --vp-c-text-3: var(--df-md-text-3);
@@ -91,28 +118,32 @@ body:has(.VPDoc) {
   --shadow-1: none;
 }
 
-.Layout:has(.VPDoc) .VPSidebar .VPSidebarItem.level-1.is-link > .item {
-  width: calc(100% + 8px);
-  margin-left: -8px;
-  padding-left: 8px;
-}
-
-.Layout:has(.VPDoc) .VPSidebar .VPSidebarItem.level-1.is-link > .item:hover {
-  border-radius: 4px;
-  background-color: var(--df-md-fill-3);
-}
-
 .Layout:has(.VPDoc) .VPDoc {
   --vp-c-brand-1: var(--df-md-primary-link);
-  --vp-c-brand-2: var(--df-md-primary-hover);
+  --vp-c-brand-2: var(--df-md-link-hover);
+  --vp-c-text-1: var(--df-md-text-1);
+  --vp-c-text-2: var(--df-md-text-2);
+  --vp-c-text-3: var(--df-md-text-3);
+  --vp-c-divider: var(--df-md-border-1);
+  --vp-c-border: var(--df-md-border-2);
+  --vp-c-bg-soft: var(--df-md-fill-1);
+  font-family: var(--df-md-font-sans);
 }
 
 .Layout:has(.VPDoc) .vp-doc {
   --vp-code-font-size: 1em;
+  --vp-code-line-height: 1.8;
   --vp-code-color: var(--df-md-text-1);
-  --vp-code-bg: var(--df-md-fill-1);
+  --vp-code-bg: var(--df-md-fill-2);
   --vp-code-block-bg: var(--df-md-bg-2);
   --vp-code-block-divider-color: var(--df-md-border-2);
+  --vp-code-line-highlight-color: var(--df-md-fill-1);
+  --vp-code-line-error-color: var(--df-md-danger-bg);
+  --vp-code-line-warning-color: var(--df-md-warning-bg);
+  --vp-code-line-diff-add-color: var(--df-md-success-bg);
+  --vp-code-line-diff-add-symbol-color: var(--df-md-success-text);
+  --vp-code-line-diff-remove-color: var(--df-md-danger-bg);
+  --vp-code-line-diff-remove-symbol-color: var(--df-md-danger-text);
   --vp-code-tab-bg: var(--df-md-fill-1);
   --vp-code-tab-divider: var(--df-md-border-1);
   --vp-code-tab-text-color: var(--df-md-text-3);
@@ -123,10 +154,11 @@ body:has(.VPDoc) {
   --vp-code-copy-code-bg: var(--df-md-fill-1);
   --vp-code-copy-code-hover-border-color: var(--df-md-primary-6);
   --vp-code-copy-code-hover-bg: var(--df-md-fill-2);
-  color: var(--df-md-text-2);
-  font-family: "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--df-md-text-1);
+  font-family: var(--df-md-font-sans);
+  font-weight: var(--df-md-font-normal);
   font-size: 16px;
-  line-height: 1.7;
+  line-height: 1.8;
   overflow-wrap: break-word;
 }
 
@@ -142,25 +174,31 @@ body:has(.VPDoc) {
 .Layout:has(.VPDoc) .vp-doc h1,
 .Layout:has(.VPDoc) .vp-doc h2,
 .Layout:has(.VPDoc) .vp-doc h3,
-.Layout:has(.VPDoc) .vp-doc h4 {
+.Layout:has(.VPDoc) .vp-doc h4,
+.Layout:has(.VPDoc) .vp-doc h5,
+.Layout:has(.VPDoc) .vp-doc h6 {
   color: var(--df-md-text-1);
-  font-weight: 500;
-  letter-spacing: -0.02em;
+  font-weight: var(--df-md-font-heading);
+  letter-spacing: normal;
 }
 
 .Layout:has(.VPDoc) .vp-doc h1 {
-  margin: 0 0 20px;
-  font-size: 32px;
-  line-height: 1.3;
+  margin: 0 0 24px;
+  font-size: 40px;
+  line-height: 1.25;
+}
+
+.Layout:has(.VPDoc) .vp-doc h1 ~ h1 {
+  margin-top: 48px;
 }
 
 .Layout:has(.VPDoc) .vp-doc h2 {
-  --df-md-heading-padding-top: 16px;
-  margin-top: 48px;
+  --df-md-heading-padding-top: 0px;
+  margin: 40px 0 20px;
   padding-top: var(--df-md-heading-padding-top);
-  border-top: 1px solid var(--df-md-border-1);
-  font-size: 24px;
-  line-height: 1.35;
+  border-top: 0;
+  font-size: 32px;
+  line-height: 1.25;
 }
 
 .Layout:has(.VPDoc) .vp-doc h2 .header-anchor {
@@ -168,18 +206,27 @@ body:has(.VPDoc) {
 }
 
 .Layout:has(.VPDoc) .vp-doc h3 {
-  margin-top: 32px;
+  margin: 32px 0 16px;
+  font-size: 24px;
+  line-height: 1.25;
+}
+
+.Layout:has(.VPDoc) .vp-doc h4 {
+  margin: 28px 0 12px;
   font-size: 20px;
   line-height: 1.4;
 }
 
-.Layout:has(.VPDoc) .vp-doc h4 {
+.Layout:has(.VPDoc) .vp-doc h5,
+.Layout:has(.VPDoc) .vp-doc h6 {
+  margin: 24px 0 12px;
   font-size: 16px;
+  line-height: 1.5;
 }
 
 .Layout:has(.VPDoc) .vp-doc p,
 .Layout:has(.VPDoc) .vp-doc li {
-  line-height: 1.7;
+  line-height: 1.8;
 }
 
 .Layout:has(.VPDoc) .vp-doc p {
@@ -188,19 +235,20 @@ body:has(.VPDoc) {
 
 .Layout:has(.VPDoc) .vp-doc strong {
   color: var(--df-md-text-1);
-  font-weight: 500;
+  font-weight: var(--df-md-font-strong);
 }
 
 .Layout:has(.VPDoc) .vp-doc a:not(.header-anchor) {
   color: var(--df-md-primary-link);
+  font-weight: inherit;
   text-decoration-color: var(--df-md-primary-link);
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
 }
 
 .Layout:has(.VPDoc) .vp-doc a:not(.header-anchor):hover {
-  color: var(--df-md-primary-hover);
-  text-decoration-color: var(--df-md-primary-hover);
+  color: var(--df-md-link-hover);
+  text-decoration-color: var(--df-md-link-hover);
 }
 
 .Layout:has(.VPDoc) .vp-doc a:focus-visible,
@@ -212,20 +260,20 @@ body:has(.VPDoc) {
 
 .Layout:has(.VPDoc) .vp-doc :not(pre) > code {
   padding: 0.14em 0.34em;
-  border: 1px solid var(--df-md-border-1);
+  border: 1px solid var(--df-md-inline-code-border);
   border-radius: 4px;
-  background-color: var(--df-md-fill-1);
+  background-color: var(--vp-code-bg);
   color: var(--df-md-text-1);
   font-size: var(--vp-code-font-size);
-  font-weight: 500;
+  font-weight: var(--df-md-font-normal);
   overflow-wrap: break-word;
 }
 
 .Layout:has(.VPDoc) .vp-doc blockquote {
   margin: 24px 0;
   padding: 8px 0 8px 16px;
-  border-left: 2px solid var(--df-md-primary-6);
-  color: var(--df-md-text-3);
+  border-left: 2px solid var(--df-md-border-3);
+  color: var(--df-md-text-2);
 }
 
 .Layout:has(.VPDoc) .vp-doc blockquote p {
@@ -251,7 +299,7 @@ body:has(.VPDoc) {
 }
 
 .Layout:has(.VPDoc) .vp-doc li::marker {
-  color: var(--df-md-primary-link);
+  color: var(--df-md-text-3);
 }
 
 .Layout:has(.VPDoc) .vp-doc input[type='checkbox'] {
@@ -261,14 +309,14 @@ body:has(.VPDoc) {
 .Layout:has(.VPDoc) .vp-doc div[class*='language-'] {
   margin: 20px 0 24px;
   border: 1px solid var(--df-md-border-1);
-  border-radius: 6px;
+  border-radius: 12px;
   background-color: var(--df-md-bg-2);
   box-shadow: none;
 }
 
 .Layout:has(.VPDoc) .vp-doc div[class*='language-'] pre {
-  font-size: 13px;
-  line-height: 1.7;
+  font-size: 14px;
+  line-height: 1.8;
 }
 
 .Layout:has(.VPDoc) .vp-doc .vp-code-group {
@@ -278,39 +326,39 @@ body:has(.VPDoc) {
 .Layout:has(.VPDoc) .vp-doc .vp-code-group .tabs {
   border: 1px solid var(--df-md-border-1);
   border-bottom: 0;
-  border-radius: 6px 6px 0 0;
+  border-radius: 12px 12px 0 0;
 }
 
 .Layout:has(.VPDoc) .vp-doc .vp-code-group div[class*='language-'] {
   margin: 0;
-  border-radius: 0 0 6px 6px;
+  border-radius: 0 0 12px 12px;
 }
 
 .Layout:has(.VPDoc) .vp-doc table {
-  display: table;
-  width: 100%;
+  display: block;
+  width: fit-content;
   max-width: 100%;
   margin: 20px 0 24px;
   overflow-x: auto;
   border: 1px solid var(--df-md-border-1);
-  border-radius: 6px;
+  border-radius: 12px;
   border-collapse: separate;
   border-spacing: 0;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .Layout:has(.VPDoc) .vp-doc tr,
 .Layout:has(.VPDoc) .vp-doc tr:nth-child(2n) {
   border: 0;
-  background-color: var(--df-md-bg-2);
+  background-color: var(--df-md-bg-1);
 }
 
 .Layout:has(.VPDoc) .vp-doc th,
 .Layout:has(.VPDoc) .vp-doc td {
-  padding: 10px 12px;
+  padding: 12px 16px;
   border: 0;
   border-bottom: 1px solid var(--df-md-border-1);
-  color: var(--df-md-text-2);
+  color: var(--df-md-text-1);
   text-align: left;
   vertical-align: top;
 }
@@ -318,8 +366,8 @@ body:has(.VPDoc) {
 .Layout:has(.VPDoc) .vp-doc th {
   background-color: var(--df-md-fill-1);
   color: var(--df-md-text-1);
-  font-size: 14px;
-  font-weight: 500;
+  font-size: inherit;
+  font-weight: var(--df-md-font-heading);
 }
 
 .Layout:has(.VPDoc) .vp-doc tr:last-child td {
@@ -328,11 +376,11 @@ body:has(.VPDoc) {
 
 .Layout:has(.VPDoc) .vp-doc .custom-block {
   margin: 20px 0;
-  padding: 14px 16px;
+  padding: 12px 16px;
   border: 1px solid var(--df-md-border-1);
-  border-radius: 6px;
+  border-radius: 12px;
   background-color: var(--df-md-fill-1);
-  color: var(--df-md-text-2);
+  color: var(--df-md-text-1);
   box-shadow: none;
 }
 
@@ -381,7 +429,8 @@ body:has(.VPDoc) {
 
 .Layout:has(.VPDoc) .vp-doc .custom-block-title {
   color: var(--df-md-text-1);
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: var(--df-md-font-strong);
 }
 
 .Layout:has(.VPDoc) .vp-doc .custom-block.tip .custom-block-title,
@@ -390,7 +439,9 @@ body:has(.VPDoc) {
 }
 
 .Layout:has(.VPDoc) .vp-doc .custom-block.tip .custom-block-title,
+.Layout:has(.VPDoc) .vp-doc .custom-block.info .custom-block-title,
 .Layout:has(.VPDoc) .vp-doc .custom-block.warning .custom-block-title,
+.Layout:has(.VPDoc) .vp-doc .custom-block.success .custom-block-title,
 .Layout:has(.VPDoc) .vp-doc .custom-block.danger .custom-block-title {
   display: flex;
   align-items: center;
@@ -398,6 +449,8 @@ body:has(.VPDoc) {
 }
 
 .Layout:has(.VPDoc) .vp-doc .custom-block.tip .custom-block-title::before,
+.Layout:has(.VPDoc) .vp-doc .custom-block.info .custom-block-title::before,
+.Layout:has(.VPDoc) .vp-doc .custom-block.success .custom-block-title::before,
 .Layout:has(.VPDoc) .vp-doc .custom-block.warning .custom-block-title::before,
 .Layout:has(.VPDoc) .vp-doc .custom-block.danger .custom-block-title::before {
   content: '';
@@ -420,7 +473,7 @@ body:has(.VPDoc) {
 
 .Layout:has(.VPDoc) .vp-doc .custom-block p {
   color: var(--df-md-text-2);
-  line-height: 1.7;
+  line-height: 1.8;
 }
 
 .Layout:has(.VPDoc) .vp-doc .footnotes {
@@ -432,22 +485,117 @@ body:has(.VPDoc) {
   border-color: var(--df-md-border-1);
 }
 
+/* Smaller Markdown elements, media and legacy content use the same palette. */
+.Layout:has(.VPDoc) .vp-doc :is(hr, .footnotes-sep) {
+  height: 0;
+  margin: 32px 0;
+  border: 0;
+  border-top: 1px solid var(--df-md-border-1);
+}
+
+.Layout:has(.VPDoc) .vp-doc :is(h1, h2, h3, h4, h5, h6) .header-anchor {
+  color: var(--df-md-primary-link);
+  font-weight: var(--df-md-font-heading);
+}
+
+.Layout:has(.VPDoc) .vp-doc li + li { margin-top: 6px; }
+.Layout:has(.VPDoc) .vp-doc li > :is(ul, ol) { margin: 8px 0; }
+.Layout:has(.VPDoc) .vp-doc .contains-task-list { list-style: none; padding-left: 0; }
+.Layout:has(.VPDoc) .vp-doc .task-list-item { padding-left: 0; }
+.Layout:has(.VPDoc) .vp-doc .task-list-item input { margin-right: 8px; }
+
+.Layout:has(.VPDoc) .vp-doc kbd {
+  padding: 2px 6px;
+  border: 1px solid var(--df-md-border-2);
+  border-radius: 4px;
+  background: var(--df-md-fill-1);
+  color: var(--df-md-text-2);
+  font-size: 13px;
+}
+
+.Layout:has(.VPDoc) .vp-doc mark {
+  padding: 1px 3px;
+  border-radius: 3px;
+  background: var(--df-md-warning-bg);
+  color: var(--df-md-text-1);
+}
+
+.Layout:has(.VPDoc) .vp-doc :is(s, del) { color: var(--df-md-text-3); }
+.Layout:has(.VPDoc) .vp-doc sup,
+.Layout:has(.VPDoc) .vp-doc sub { line-height: 0; }
+
+.Layout:has(.VPDoc) .vp-doc div[class*='language-'] .line-numbers-wrapper {
+  border-color: var(--df-md-border-2);
+  color: var(--df-md-text-3);
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.Layout:has(.VPDoc) .vp-doc div[class*='language-'] > span.lang {
+  color: var(--df-md-text-3);
+  font-size: 12px;
+}
+
+.Layout:has(.VPDoc) .vp-doc div[class*='language-'] > button.copy {
+  width: 32px;
+  height: 32px;
+  top: 8px;
+  right: 8px;
+  border-radius: 6px;
+}
+
+.Layout:has(.VPDoc) .vp-doc .vp-code-group .tabs label {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.Layout:has(.VPDoc) .vp-doc :is(img, video, iframe) {
+  max-width: 100%;
+  border-radius: 12px;
+}
+.Layout:has(.VPDoc) .vp-doc img { height: auto; margin: 24px auto; }
+.Layout:has(.VPDoc) .vp-doc .mermaid { margin: 24px 0; overflow-x: auto; }
+.Layout:has(.VPDoc) .vp-doc .csv-box { display: block; width: 100%; }
+.Layout:has(.VPDoc) .vp-doc .csv-url { color: var(--df-md-text-3); font-size: 13px; }
+
+.Layout:has(.VPDoc) .vp-doc .custom-block > :first-child { margin-top: 0; }
+.Layout:has(.VPDoc) .vp-doc .custom-block > :last-child { margin-bottom: 0; }
+.Layout:has(.VPDoc) .vp-doc .custom-block .custom-block-title + p { margin-top: 8px; }
+.Layout:has(.VPDoc) .vp-doc .custom-block.details > summary {
+  color: var(--df-md-text-2);
+  font-size: 14px;
+  font-weight: var(--df-md-font-strong);
+  cursor: pointer;
+}
+.Layout:has(.VPDoc) .vp-doc .custom-block.details > summary:hover { color: var(--df-md-text-1); }
+.Layout:has(.VPDoc) .vp-doc .custom-block.info {
+  --df-md-callout-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M12 16v-4M12 8h.01'/%3E%3C/svg%3E");
+  border-color: var(--df-md-info-border);
+  background: var(--df-md-info-bg);
+}
+.Layout:has(.VPDoc) .vp-doc .custom-block.info .custom-block-title {
+  color: var(--df-md-primary-link);
+}
+
+.Layout:has(.VPDoc) .vp-doc .footnote-ref { font-size: 0.8em; }
+.Layout:has(.VPDoc) .vp-doc .footnotes li::marker { color: var(--df-md-text-3); }
+
 @media (max-width: 640px) {
   .Layout:has(.VPDoc) .vp-doc h1 {
-    font-size: 28px;
+    font-size: 32px;
   }
 
   .Layout:has(.VPDoc) .vp-doc h2 {
-    margin-top: 40px;
-    font-size: 22px;
+    margin-top: 32px;
+    font-size: 26px;
   }
 
   .Layout:has(.VPDoc) .vp-doc h3 {
-    font-size: 18px;
+    font-size: 22px;
   }
 
   .Layout:has(.VPDoc) .vp-doc table {
     display: block;
-    white-space: nowrap;
+    font-size: 14px;
   }
 }

@@ -2,15 +2,30 @@
   <!-- doc-only 变体(build:doc-only)专属顶栏:常规构建也渲染本组件,但由
        custom.css 隐藏(html.doc-only 未标记时 .doc-header 不显示),与
        SiteNavbar 的显隐同由构建期写入 head 的 html 类驱动,无需构建开关。
-       布局:左 logo / 中搜索 / 右语言切换 + 明暗主题切换。
+       布局:左文档 Logo 和 Docs / 中搜索 / 右语言切换 + 明暗主题切换。
        搜索/语言/主题的实现与 SidebarActions 一致:点击唤起 VitePress 本地
        搜索、router 切换中英路径、翻转 isDark。配色走 VitePress 主题变量,
        随明暗主题自适应(区别于刻意的深色品牌导航 SiteNavbar) -->
   <header class="doc-header">
     <div class="doc-header-inner">
-      <a class="doc-brand" :href="docsHref" aria-label="DeepFlow Docs">
-        <img class="doc-brand-logo" :src="withBase('/img/logo.png')" alt="DeepFlow" />
-        <span class="doc-brand-name">DeepFlow</span>
+      <a class="doc-brand" :href="docsHref" aria-label="Docs">
+        <img
+          class="doc-brand-logo doc-brand-logo-on-light"
+          :src="darkLogo"
+          width="24"
+          height="24"
+          alt=""
+          aria-hidden="true"
+        />
+        <img
+          class="doc-brand-logo doc-brand-logo-on-dark"
+          :src="lightLogo"
+          width="24"
+          height="24"
+          alt=""
+          aria-hidden="true"
+        />
+        <span class="doc-brand-name">Docs</span>
       </a>
 
       <div class="doc-search-trigger">
@@ -78,7 +93,9 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { useData, useRouter, withBase } from 'vitepress'
+import { useData, useRouter } from 'vitepress'
+import darkLogo from '../assets/docs-logo-dark.png'
+import lightLogo from '../assets/docs-logo-light.png'
 
 const { lang, site, isDark } = useData()
 const router = useRouter()
@@ -146,7 +163,7 @@ function openSearch() {
   padding: 0 20px;
 }
 
-/* 左:logo(彩色图标明暗主题均可用)+ 站名 */
+/* 左:文档 Logo + 站名。深色图案用于浅色主题,浅色图案用于深色主题。 */
 .doc-brand {
   display: inline-flex;
   align-items: center;
@@ -157,8 +174,20 @@ function openSearch() {
 }
 .doc-brand-logo {
   display: block;
-  width: 28px;
-  height: 28px;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+/* Follow the html class set before the first frame to avoid hydration flicker. */
+.doc-brand-logo-on-dark {
+  display: none;
+}
+:global(html.dark .doc-brand-logo-on-light) {
+  display: none;
+}
+:global(html.dark .doc-brand-logo-on-dark) {
+  display: block;
 }
 .doc-brand-name {
   font-size: 17px;
