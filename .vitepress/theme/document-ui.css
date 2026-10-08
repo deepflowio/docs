@@ -1,0 +1,287 @@
+/* Reading layout and navigation shared by normal and doc-only builds. */
+.Layout:has(.VPDoc) {
+  --vp-sidebar-width: 272px;
+  --vp-font-family-base: var(--df-md-font-sans);
+  --vp-font-family-mono: var(--df-md-font-mono);
+  font-weight: var(--df-md-font-normal);
+}
+
+.Layout:has(.VPDoc) .VPDoc > .container > .content {
+  min-width: 0;
+}
+
+.Layout:has(.VPDoc) .VPDoc .content-container {
+  max-width: var(--df-md-reading-width);
+}
+
+.Layout:has(.VPDoc) .VPDoc > .container {
+  max-width: 1056px;
+}
+
+.Layout:has(.VPDoc) .VPDoc .aside {
+  max-width: 240px;
+  padding-left: 40px;
+}
+
+.Layout:has(.VPDoc) .VPDoc .aside-container,
+.Layout:has(.VPDoc) .VPDoc .aside-curtain {
+  width: 200px;
+}
+
+.Layout:has(.VPDoc) .VPDoc .aside-container {
+  padding-top: calc(var(--vp-nav-height) + 48px);
+}
+
+.Layout:has(.VPDoc) .VPDocAsideOutline > .content {
+  padding: 0 0 0 16px;
+  border-color: var(--df-md-border-1);
+  font-weight: var(--df-md-font-normal);
+}
+
+.Layout:has(.VPDoc) .VPDocAsideOutline .outline-title {
+  margin-bottom: 8px;
+  color: var(--df-md-text-1);
+  font-weight: var(--df-md-font-strong);
+}
+
+.Layout:has(.VPDoc) .VPDocAsideOutline .outline-link {
+  color: var(--df-md-text-2);
+  line-height: 28px;
+  font-size: 13px;
+}
+
+.Layout:has(.VPDoc) .VPDocAsideOutline .outline-link:hover {
+  color: var(--df-md-text-1);
+}
+
+.Layout:has(.VPDoc) .VPDocAsideOutline .outline-link.active {
+  color: var(--df-md-text-1);
+  font-weight: var(--df-md-font-normal);
+}
+
+.Layout:has(.VPDoc) .VPDocAsideOutline .outline-marker {
+  background-color: var(--df-md-primary-6);
+}
+
+.Layout:has(.VPDoc) .VPSidebar {
+  font-family: var(--df-md-font-sans);
+  border-right: 1px solid var(--df-md-border-1);
+}
+
+.Layout:has(.VPDoc) .VPSidebar .group {
+  padding: 12px 0 0;
+  border-top: 0;
+}
+
+.Layout:has(.VPDoc) .VPSidebar .VPSidebarItem.level-0 {
+  padding-bottom: 8px;
+}
+
+.Layout:has(.VPDoc) .VPSidebar .VPSidebarItem.level-0 > .item .text {
+  padding: 8px 0;
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: var(--df-md-font-normal);
+  color: var(--df-md-text-2);
+}
+
+.Layout:has(.VPDoc) .VPSidebar .VPSidebarItem:not(.level-0) > .item {
+  width: calc(100% + 8px);
+  margin-left: -8px;
+  padding-left: 8px;
+  border-radius: 8px;
+}
+
+.Layout:has(.VPDoc) .VPSidebar .VPSidebarItem:not(.level-0) > .item .text {
+  padding: 6px 8px 6px 0;
+  line-height: 22px;
+  font-size: 14px;
+  font-weight: var(--df-md-font-normal);
+}
+
+.Layout:has(.VPDoc) .VPSidebar .VPSidebarItem:not(.level-0) > .item:hover,
+.Layout:has(.VPDoc) .VPSidebar .VPSidebarItem.is-active > .item {
+  background-color: var(--df-md-fill-2);
+}
+
+.Layout:has(.VPDoc) .VPSidebar .VPSidebarItem.is-active > .item .text {
+  color: var(--df-md-text-1);
+  font-weight: var(--df-md-font-normal);
+}
+
+.Layout:has(.VPDoc) .VPSidebar .VPSidebarItem .items {
+  border-color: var(--df-md-border-1);
+}
+
+.Layout:has(.VPDoc) .VPSidebar .VPSidebarItem .caret {
+  align-self: center;
+  color: var(--df-md-text-3);
+}
+
+.Layout:has(.VPDoc) .VPSidebar .sidebar-actions {
+  width: 100%;
+  padding-bottom: 12px;
+  border-bottom: 0;
+}
+
+.Layout:has(.VPDoc) .sidebar-actions .search-box {
+  border-radius: 8px;
+  border-color: var(--df-md-border-1);
+  background: var(--df-md-bg-1);
+}
+
+.Layout:has(.VPDoc) .sidebar-actions .search-box:hover {
+  border-color: var(--df-md-border-2);
+  background: var(--df-md-fill-1);
+}
+
+.Layout:has(.VPDoc) .sidebar-actions .search-box:focus {
+  border-color: var(--df-md-primary-6);
+}
+
+.Layout:has(.VPDoc) .sidebar-actions .theme-toggle {
+  border-radius: 8px;
+  border-color: var(--df-md-border-1);
+}
+
+.Layout:has(.VPDoc) .doc-header {
+  --vp-c-text-1: var(--df-md-text-1);
+  --vp-c-text-2: var(--df-md-text-2);
+  --vp-c-text-3: var(--df-md-text-3);
+  --vp-c-border: var(--df-md-border-1);
+  --vp-c-brand-1: var(--df-md-primary-6);
+  --vp-c-bg: var(--df-md-bg-1);
+  --vp-c-bg-soft: var(--df-md-fill-1);
+  font-family: var(--df-md-font-sans);
+}
+
+.Layout:has(.VPDoc) .doc-header .doc-search,
+.Layout:has(.VPDoc) .doc-header .theme-toggle,
+.Layout:has(.VPDoc) .doc-header .lang-switch-trigger {
+  border-radius: 8px;
+  border-color: var(--df-md-border-1);
+}
+
+.Layout:has(.VPDoc) .doc-header .doc-search {
+  background: var(--df-md-bg-1);
+}
+
+.Layout:has(.VPDoc) .doc-header .doc-search:hover,
+.Layout:has(.VPDoc) .doc-header .theme-toggle:hover,
+.Layout:has(.VPDoc) .doc-header .lang-switch-trigger:hover {
+  border-color: var(--df-md-border-2);
+  background-color: var(--df-md-fill-1);
+}
+
+.Layout:has(.VPDoc) .doc-header .doc-search:focus {
+  border-color: var(--df-md-primary-6);
+}
+
+.Layout:has(.VPDoc) .VPDocFooter {
+  margin-top: 56px;
+  font-family: var(--df-md-font-sans);
+}
+
+.Layout:has(.VPDoc) .VPDocFooter .edit-link-button {
+  color: var(--df-md-text-3);
+  font-weight: var(--df-md-font-normal);
+}
+
+.Layout:has(.VPDoc) .VPDocFooter .edit-link-button:hover {
+  color: var(--df-md-primary-6);
+}
+
+.Layout:has(.VPDoc) .VPDocFooter .VPLastUpdated {
+  color: var(--df-md-text-3);
+  font-size: 13px;
+  font-weight: var(--df-md-font-normal);
+}
+
+.Layout:has(.VPDoc) .VPDocFooter .prev-next {
+  border-color: var(--df-md-border-1);
+  padding-top: 24px;
+}
+
+.Layout:has(.VPDoc) .VPDocFooter .pager-link {
+  padding: 16px 20px;
+  border-color: var(--df-md-border-1);
+  border-radius: 12px;
+  background-color: var(--df-md-bg-1);
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.Layout:has(.VPDoc) .VPDocFooter .pager-link:hover {
+  border-color: var(--df-md-border-2);
+  background-color: var(--df-md-fill-1);
+}
+
+.Layout:has(.VPDoc) .VPDocFooter .pager-link .desc {
+  margin-bottom: 8px;
+  color: var(--df-md-text-3);
+  font-size: 13px;
+  font-weight: var(--df-md-font-normal);
+}
+
+.Layout:has(.VPDoc) .VPDocFooter .pager-link .title {
+  color: var(--df-md-text-1);
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 500;
+}
+
+.Layout:has(.VPDoc) .VPDocFooter .pager-link:hover .title {
+  color: var(--df-md-primary-6);
+}
+
+.Layout:has(.VPDoc) .embedded-sidebar-button {
+  color: var(--df-md-text-2);
+  background: var(--df-md-bg-1);
+  border-color: var(--df-md-border-1);
+}
+
+.Layout:has(.VPDoc) :is(.VPSidebar, .VPDocFooter, .doc-header, .embedded-sidebar-button) :is(a, button):focus-visible {
+  outline: 2px solid var(--df-md-primary-6);
+  outline-offset: 2px;
+}
+
+@media (min-width: 960px) {
+  .Layout:has(.VPDoc) .VPDoc {
+    padding: 40px 24px 0;
+  }
+
+  .Layout:has(.VPDoc) .VPDoc > .container > .content {
+    padding: 0 16px 96px;
+  }
+
+  .Layout:has(.VPDoc) .VPSidebar {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .Layout:has(.VPDoc) .VPDoc > .container > .content {
+    flex: 1 1 680px;
+    max-width: 744px;
+  }
+}
+
+@media (max-width: 639px) {
+  .Layout:has(.VPDoc) .VPDoc {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .Layout:has(.VPDoc) .VPDocFooter .pager-link {
+    padding: 14px 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .Layout:has(.VPDoc) *,
+  .VPLocalSearchBox * {
+    scroll-behavior: auto;
+    transition-duration: 0.01ms;
+    animation-duration: 0.01ms;
+  }
+}
