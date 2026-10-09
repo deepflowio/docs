@@ -13,6 +13,7 @@ import './custom.css'
 import './markdown.css'
 import './document-ui.css'
 import './search.css'
+import './doc-embedded.css'
 
 export default {
   extends: DefaultTheme,

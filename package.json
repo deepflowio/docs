@@ -14,6 +14,9 @@
     "dev:doc-only": "DOCS_MODE=doc-only vitepress dev",
     "build:doc-only": "DOCS_MODE=doc-only vitepress build",
     "preview:doc-only": "DOCS_MODE=doc-only vitepress preview",
+    "dev:doc-embedded": "DOCS_MODE=doc-embedded vitepress dev",
+    "build:doc-embedded": "DOCS_MODE=doc-embedded vitepress build",
+    "preview:doc-embedded": "DOCS_MODE=doc-embedded vitepress preview",
     "gen:rewrites": "node scripts/gen-rewrites.mjs"
   },
   "devDependencies": {
