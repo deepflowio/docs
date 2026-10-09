@@ -1,7 +1,7 @@
 <template>
-  <!-- 嵌入式(iframe)模式下导航栏被隐藏,移动端用内容区左上角的悬浮按钮
+  <!-- 嵌入式(iframe)模式下导航栏被隐藏,移动端用面包屑同行的目录按钮
        展开侧边栏。默认隐藏,显隐规则在 custom.css 的 html.embedded 部分,
-       经 doc-top 插槽渲染(仅文档页存在,首页等无侧边栏页面天然没有) -->
+       经 doc-before 插槽渲染(仅文档页存在,首页等无侧边栏页面天然没有) -->
   <button
     type="button"
     class="embedded-sidebar-button"
