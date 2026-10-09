@@ -1,0 +1,14 @@
+/* Product iframe build: reuse the doc-only header and navigation controls.
+   This class is set in head before the first frame, including outside an iframe. */
+html.doc-embedded .doc-header .doc-brand {
+  display: none;
+}
+
+html.doc-embedded .doc-header .doc-header-inner {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+html.doc-embedded .doc-header .doc-search-trigger {
+  justify-self: start;
+  width: min(320px, 100%);
+}

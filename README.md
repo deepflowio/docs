@@ -1,5 +1,13 @@
 # [DeepFlow-docs](https://deepflow.yunshan.net/deepflow-docs/)
 
+## Documentation build modes
+
+- `pnpm build`: existing build, output in `dist/`.
+- `pnpm build:doc-only`: standalone docs with Logo and Docs title, output in `dist-doc-only/`.
+- `pnpm build:doc-embedded`: product iframe version with no Logo/title, search at the left of the header, and a 32px gap from the header to the document content; output in `dist-doc-embedded/`.
+
+Use `pnpm dev:doc-embedded` for development, or `pnpm preview:doc-embedded` after building to preview the product version. Serve `dist-doc-embedded/` at `/docs/`; document URLs stay the same in all modes.
+
 # Notes for writing markdown
 
 1. The HOME file cannot be deleted. It belongs to the content of the home page in each language, and the content in its markdown can be adjusted.
