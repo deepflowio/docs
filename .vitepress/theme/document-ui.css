@@ -1,12 +1,22 @@
-/* Reading layout and navigation shared by normal and doc-only builds. */
+/* Reading layout and navigation shared by all documentation builds. */
 .Layout:has(.VPDoc) {
   --vp-sidebar-width: 272px;
   --df-doc-layout-width: 1360px;
   --df-doc-side-space: max(24px, calc((100vw - var(--df-doc-layout-width)) / 2));
-  --df-doc-top-space: 40px;
+  --df-doc-top-space: 32px;
   --vp-font-family-base: var(--df-md-font-sans);
   --vp-font-family-mono: var(--df-md-font-mono);
   font-weight: var(--df-md-font-normal);
+}
+
+/* Count the header height once, then apply the same content gap at every width.
+   Builds without a visible header use a zero navigation height. */
+.Layout:has(.VPDoc) .VPContent {
+  padding-top: var(--vp-nav-height);
+}
+
+.Layout:has(.VPDoc) .VPDoc {
+  padding-top: var(--df-doc-top-space);
 }
 
 .Layout:has(.VPDoc) .VPDoc > .container > .content {
@@ -32,7 +42,7 @@
 }
 
 .Layout:has(.VPDoc) .VPDoc .aside-container {
-  padding-top: calc(var(--vp-nav-height) + 48px);
+  padding-top: calc(var(--vp-nav-height) + var(--df-doc-top-space));
 }
 
 .Layout:has(.VPDoc) .VPDocAsideOutline > .content {
