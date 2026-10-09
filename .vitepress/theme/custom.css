@@ -34,13 +34,13 @@
 
 /* ===== embedded:全站 chrome 隐藏(参考 eaf3930) =====
    <html> 带 embedded 类时隐藏全站导航栏(SiteNavbar)/页脚(SiteFooter)
-   并清空其占位间距;移动端以内容区左上角的悬浮按钮
-   (EmbeddedSidebarButton,doc-top 插槽)展开侧边栏。
-   该类由 head 内联脚本标记(见 config.mts):iframe 检测保留,但目前
-   常规构建也无条件标记,即导航栏/页脚始终隐藏;doc-only 变体在此基础上
-   通过 doc-only 类恢复 doc 专属顶栏(见下方 doc-only 段) */
-html.embedded .df-navbar,
-html.embedded .df-footer {
+   并清空其占位间距;移动端以面包屑同行的目录按钮
+   (EmbeddedSidebarButton,doc-before 插槽)展开侧边栏。
+   该类由 head 内联脚本标记(见 config.mts):常规构建无条件标记(主站
+   嵌入形态,始终隐藏);doc-only 变体仅在真实 iframe 环境(产品内嵌
+   文档)标记,独立访问时不带此类,导航栏/页脚由下方 doc-only 段隐藏 */
+html:is(.embedded, .doc-only) .df-navbar,
+html:is(.embedded, .doc-only) .df-footer {
   display: none;
 }
 html.embedded {
@@ -49,8 +49,9 @@ html.embedded {
   --df-nav-height-mobile: 0px;
 }
 /* 嵌入式下隐藏"菜单"吸顶条:桌面端侧边栏常驻可见无需它,
-   移动端由悬浮按钮承担(该条隐藏后其菜单按钮仍在 DOM 中,供程序化点击) */
-html.embedded .VPLocalNav {
+   移动端由目录按钮承担(该条隐藏后其菜单按钮仍在 DOM 中,供程序化点击)。
+   doc-only 变体同样隐藏,保持独立站与产品内嵌一致的观感 */
+html:is(.embedded, .doc-only) .VPLocalNav {
   display: none;
 }
 /* 嵌入式桌面端导航高度归零后侧边栏内容会顶到视口边缘,
@@ -69,21 +70,23 @@ html.embedded .Layout .VPHero.VPHero {
   html.embedded .VPContent {
     padding-top: 48px;
   }
-  html.embedded .embedded-sidebar-button {
+  html:is(.embedded, .doc-only) .embedded-sidebar-button {
     display: flex;
   }
   /* 侧边栏展开后隐藏按钮,通过点击蒙层关闭 */
-  html.embedded:has(.VPSidebar.open) .embedded-sidebar-button {
+  html:is(.embedded, .doc-only):has(.VPSidebar.open) .embedded-sidebar-button {
     display: none;
   }
 }
 
 /* ===== doc-only 变体(build:doc-only,独立文档站形态) =====
-   该形态下 <html> 同时带 embedded 与 doc-only 类(构建期写死,见
-   config.mts 的 head 脚本):复用上方 embedded 的导航栏/页脚隐藏与占位
-   清零,页脚保持隐藏;doc 专属顶栏(DocHeader,layout-top 插槽)为固定
+   该形态下 <html> 带 doc-only 类(构建期写死,见 config.mts 的 head
+   脚本):站点导航栏/页脚的隐藏已并入上方 embedded 段(:is 选择器),
+   页脚保持隐藏;doc 专属顶栏(DocHeader,layout-top 插槽)为固定
    定位,其高度写回 --vp-nav-height / --df-nav-height-mobile 后,内容区/
-   侧边栏/首页 hero 的顶部留白机制与 SiteNavbar 在位时一致 */
+   侧边栏/首页 hero 的顶部留白机制与 SiteNavbar 在位时一致。
+   产品内嵌同一份产物:页面在 iframe 中打开时 head 脚本追加 embedded
+   类,顶栏去掉品牌区、搜索移到左侧(见本段末尾) */
 html.doc-only {
   --df-doc-header-height: 64px;
   --vp-nav-height: var(--df-doc-header-height);
@@ -130,6 +133,22 @@ html.doc-only .sidebar-actions {
   html.doc-only .embedded-sidebar-button {
     top: calc(var(--df-nav-height-mobile) + 10px);
   }
+}
+
+/* ===== 产品内嵌(doc-only 产物在 iframe 中打开) =====
+   embedded 类由 head 内联脚本在真实 iframe 环境下添加(首帧前,无闪烁):
+   顶栏去掉 Logo/站名,搜索从居中移到左侧 */
+html.doc-only.embedded .doc-header .doc-brand {
+  display: none;
+}
+
+html.doc-only.embedded .doc-header .doc-header-inner {
+  grid-template-columns: minmax(0, 1fr) auto;
+}
+
+html.doc-only.embedded .doc-header .doc-search-trigger {
+  justify-self: start;
+  width: min(320px, 100%);
 }
 
 /* ===== 首页:对齐旧版 vdoing Home 布局 =====
@@ -208,4 +227,9 @@ html.doc-only .sidebar-actions {
 }
 .vp-doc .mermaid svg {
   max-width: 100%;
+}
+
+
+.medium-zoom-overlay, .medium-zoom-image--opened {
+  z-index: 100;
 }

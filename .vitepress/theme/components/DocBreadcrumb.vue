@@ -61,7 +61,6 @@ const parents = computed(() => crumbs.value.slice(0, -1))
   max-width: var(--df-md-reading-width);
   margin: 0 auto 28px;
   color: var(--df-md-text-3);
-  font-family: var(--df-md-font-sans);
   font-size: 13px;
   line-height: 1.6;
   overflow-wrap: anywhere;
