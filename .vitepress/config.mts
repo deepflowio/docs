@@ -11,15 +11,13 @@ import { legacyLinks } from './markdown/legacy-links'
 const GITHUB_DOCS = 'https://github.com/deepflowio/docs'
 
 // 构建变体(由 package.json 的 dev:doc-only / build:doc-only /
-// preview:doc-only 注入 DOCS_MODE=doc-only;产品内嵌模式为 doc-embedded):
+// preview:doc-only 注入 DOCS_MODE=doc-only):
 //   默认    —— 供主站嵌入,全站导航栏/页脚始终隐藏(产物 dist);
 //   doc-only —— 独立文档站,渲染 doc 专属顶栏(DocHeader)、无页脚
-//              (产物 dist-doc-only);
-//   doc-embedded —— 产品内嵌文档,无 Logo/站名,搜索位于左侧,正文顶距 32px
-//              (产物 dist-doc-embedded)。差异均由构建期写进 head 的
-//              html 类标记驱动,见下方 head 与 theme/custom.css
+//              (产物 dist-doc-only)。产品内嵌同一份产物:页面在 iframe
+//              中打开时 head 脚本标记 embedded,custom.css 据此去掉
+//              顶栏品牌区并把搜索移到左侧(见下方 head 与 theme/custom.css)
 const DOC_ONLY = process.env.DOCS_MODE === 'doc-only'
-const DOC_EMBEDDED = process.env.DOCS_MODE === 'doc-embedded'
 
 export default withMermaid(
   defineConfig({
@@ -31,8 +29,8 @@ export default withMermaid(
     srcDir: 'docs',
     // 产物输出到仓库根 dist(默认是 .vitepress/dist),与 Dockerfile 的 COPY ./dist
     // 及 df-help 企业版 CI 的 mv ./docs/dist/* 对齐;doc-only 变体单独输出到
-    // dist-doc-only / dist-doc-embedded,避免不同形态互相覆盖
-    outDir: DOC_EMBEDDED ? 'dist-doc-embedded' : DOC_ONLY ? 'dist-doc-only' : 'dist',
+    // dist-doc-only,避免两种形态互相覆盖
+    outDir: DOC_ONLY ? 'dist-doc-only' : 'dist',
     base: '/docs/',
     // 主题默认 dark(旧站观感)。'dark' 下 VitePress 优先读 localStorage
     // (vitepress-theme-appearance),无记录时回退此默认值,切换时写回;
@@ -103,21 +101,19 @@ export default withMermaid(
       ['meta', { name: 'theme-color', content: '#0a72ef' }],
       // html 类标记(内联在 head 中于首帧前执行,无闪烁),配合
       // theme/custom.css 控制全站 chrome 的显隐:
-      //   - embedded:隐藏全站导航栏/页脚(SiteNavbar/SiteFooter)并清空其
-      //     占位。首行的 iframe 检测保留(参考 eaf3930)——后续若恢复
-      //     "仅 iframe 嵌入时隐藏"的策略,删掉下方无条件标记即可;
-      //     目前常规构建也始终隐藏
-      //   - doc-only:独立站与产品内嵌变体共用,恢复 doc 专属顶栏(DocHeader)
-      //     的高度占位,页脚保持隐藏
-      //   - doc-embedded:产品内嵌变体添加,在共用布局上调整品牌区和间距
+      //   - embedded:真实 iframe 环境(head 首行检测,参考 eaf3930)。常规
+      //     构建供主站嵌入、无论如何都隐藏全站导航栏/页脚,故额外无条件
+      //     标记;doc-only 构建则只在真的嵌入 iframe(产品内嵌文档)时
+      //     带上此类,custom.css 据此微调 doc 专属顶栏
+      //   - doc-only:doc-only 变体添加,恢复 doc 专属顶栏(DocHeader)的
+      //     高度占位,页脚保持隐藏
       [
         'script',
         {},
         [
           "if (window.self !== window.top) document.documentElement.classList.add('embedded');",
-          "document.documentElement.classList.add('embedded');",
-          DOC_ONLY || DOC_EMBEDDED ? "document.documentElement.classList.add('doc-only');" : '',
-          DOC_EMBEDDED ? "document.documentElement.classList.add('doc-embedded');" : ''
+          DOC_ONLY ? '' : "document.documentElement.classList.add('embedded');",
+          DOC_ONLY ? "document.documentElement.classList.add('doc-only');" : ''
         ]
           .filter(Boolean)
           .join('')

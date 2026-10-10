@@ -4,98 +4,95 @@
   --df-doc-layout-width: 1360px;
   --df-doc-side-space: max(24px, calc((100vw - var(--df-doc-layout-width)) / 2));
   --df-doc-top-space: 32px;
-  --vp-font-family-base: var(--df-md-font-sans);
-  --vp-font-family-mono: var(--df-md-font-mono);
   font-weight: var(--df-md-font-normal);
 }
 
 /* Count the header height once, then apply the same content gap at every width.
    Builds without a visible header use a zero navigation height. */
-.Layout:has(.VPDoc) .VPContent {
+.Layout .VPContent.has-sidebar {
   padding-top: var(--vp-nav-height);
 }
 
-.Layout:has(.VPDoc) .VPDoc {
+.Layout .VPDoc {
   padding-top: var(--df-doc-top-space);
 }
 
-.Layout:has(.VPDoc) .VPDoc > .container > .content {
+.Layout .VPDoc > .container > .content {
   min-width: 0;
 }
 
-.Layout:has(.VPDoc) .VPDoc .content-container {
+.Layout .VPDoc .content-container {
   max-width: var(--df-md-reading-width);
 }
 
-.Layout:has(.VPDoc) .VPDoc > .container {
+.Layout .VPDoc > .container {
   max-width: 1056px;
 }
 
-.Layout:has(.VPDoc) .VPDoc .aside {
+.Layout .VPDoc .aside {
   max-width: 240px;
   padding-left: 40px;
 }
 
-.Layout:has(.VPDoc) .VPDoc .aside-container,
-.Layout:has(.VPDoc) .VPDoc .aside-curtain {
+.Layout .VPDoc .aside-container,
+.Layout .VPDoc .aside-curtain {
   width: 200px;
 }
 
-.Layout:has(.VPDoc) .VPDoc .aside-container {
+.Layout .VPDoc .aside-container {
   padding-top: calc(var(--vp-nav-height) + var(--df-doc-top-space));
 }
 
-.Layout:has(.VPDoc) .VPDocAsideOutline > .content {
+.Layout .VPDoc .VPDocAsideOutline > .content {
   padding: 0 0 0 16px;
   border-color: var(--df-md-border-1);
   font-weight: var(--df-md-font-normal);
 }
 
-.Layout:has(.VPDoc) .VPDocAsideOutline .outline-title {
+.Layout .VPDoc .VPDocAsideOutline .outline-title {
   margin-bottom: 8px;
   color: var(--df-md-text-1);
   font-weight: var(--df-md-font-strong);
 }
 
-.Layout:has(.VPDoc) .VPDocAsideOutline .outline-link {
+.Layout .VPDoc .VPDocAsideOutline .outline-link {
   color: var(--df-md-text-2);
   line-height: 28px;
   font-size: 13px;
 }
 
-.Layout:has(.VPDoc) .VPDocAsideOutline .outline-link:hover {
+.Layout .VPDoc .VPDocAsideOutline .outline-link:hover {
   color: var(--df-md-text-1);
 }
 
-.Layout:has(.VPDoc) .VPDocAsideOutline .outline-link.active {
+.Layout .VPDoc .VPDocAsideOutline .outline-link.active {
   color: var(--df-md-text-1);
   font-weight: var(--df-md-font-normal);
 }
 
-.Layout:has(.VPDoc) .VPDocAsideOutline .outline-marker {
+.Layout .VPDoc .VPDocAsideOutline .outline-marker {
   background-color: var(--df-md-primary-6);
 }
 
-.Layout:has(.VPDoc) .VPSidebar {
-  font-family: var(--df-md-font-sans);
+.Layout .VPSidebar {
   border-right: 1px solid var(--df-md-layout-divider);
 }
 
-.Layout:has(.VPDoc) .VPSidebar .group {
+.Layout .VPSidebar .group {
   width: 100%;
   padding: 12px 0 0;
   border-top: 0;
 }
 
-.Layout:has(.VPDoc) .VPSidebar .group ~ .group {
+.Layout .VPSidebar .group ~ .group {
   padding-top: 0;
 }
 
-.Layout:has(.VPDoc) .VPSidebar .VPSidebarItem.level-0 {
+.Layout .VPSidebar .VPSidebarItem.level-0 {
   padding-bottom: 0;
 }
 
-.Layout:has(.VPDoc) .VPSidebar .VPSidebarItem.level-0 > .item .text {
+.Layout .VPSidebar .VPSidebarItem.level-0 > .item .text {
   padding: 8px 0;
   font-size: 13px;
   line-height: 20px;
@@ -103,7 +100,7 @@
   color: var(--df-md-text-2);
 }
 
-.Layout:has(.VPDoc) .VPSidebar .VPSidebarItem > .item {
+.Layout .VPSidebar .VPSidebarItem > .item {
   width: calc(100% + 8px);
   margin-left: -8px;
   padding-left: 8px;
@@ -111,72 +108,72 @@
   border-radius: 8px;
 }
 
-.Layout:has(.VPDoc) .VPSidebar .VPSidebarItem:not(.level-0) > .item .text {
+.Layout .VPSidebar .VPSidebarItem:not(.level-0) > .item .text {
   padding: 8px 8px 8px 0;
   line-height: 20px;
   font-size: 14px;
   font-weight: var(--df-md-font-normal);
 }
 
-.Layout:has(.VPDoc) .VPSidebar .VPSidebarItem > .item:hover,
-.Layout:has(.VPDoc) .VPSidebar .VPSidebarItem.is-active > .item {
+.Layout .VPSidebar .VPSidebarItem > .item:hover,
+.Layout .VPSidebar .VPSidebarItem.is-active > .item {
   background-color: var(--df-md-fill-2);
 }
 
-.Layout:has(.VPDoc) .VPSidebar .VPSidebarItem.is-active > .item .text {
+.Layout .VPSidebar .VPSidebarItem.is-active > .item .text {
   color: var(--df-md-text-1);
   font-weight: var(--df-md-font-normal);
 }
 
-.Layout:has(.VPDoc) .VPSidebar .VPSidebarItem .items {
+.Layout .VPSidebar .VPSidebarItem .items {
   border-color: var(--df-md-sidebar-guide);
 }
 
-.Layout:has(.VPDoc) .VPSidebar .VPSidebarItem.level-0 > .items {
+.Layout .VPSidebar .VPSidebarItem.level-0 > .items {
   border-left: 1px solid var(--df-md-sidebar-guide);
   padding-left: 16px;
 }
 
-.Layout:has(.VPDoc) .VPSidebar .VPSidebarItem .caret {
+.Layout .VPSidebar .VPSidebarItem .caret {
   align-self: center;
   margin-right: -7px;
   color: var(--df-md-text-3);
 }
 
-.Layout:has(.VPDoc) .VPSidebar .sidebar-actions {
+.Layout .VPSidebar .sidebar-actions {
   width: 100%;
   padding-bottom: 12px;
   border-bottom: 0;
 }
 
-.Layout:has(.VPDoc) .sidebar-actions .search-box {
+.Layout .sidebar-actions .search-box {
   border-radius: 8px;
   border-color: var(--df-md-search-border);
   background: var(--df-md-search-bg);
 }
 
-.Layout:has(.VPDoc) .sidebar-actions .search-box:hover {
+.Layout .sidebar-actions .search-box:hover {
   border-color: var(--df-md-search-hover-border);
   background: var(--df-md-search-hover-bg);
 }
 
-.Layout:has(.VPDoc) :is(.sidebar-actions, .doc-header) .search-icon,
-.Layout:has(.VPDoc) .sidebar-actions .search-box::placeholder,
-.Layout:has(.VPDoc) .doc-header .doc-search::placeholder {
+.Layout :is(.sidebar-actions, .doc-header) .search-icon,
+.Layout .sidebar-actions .search-box::placeholder,
+.Layout .doc-header .doc-search::placeholder {
   color: var(--df-md-search-text);
   opacity: 1;
 }
 
-.Layout:has(.VPDoc) .sidebar-actions .search-box:focus {
+.Layout .sidebar-actions .search-box:focus {
   border-color: var(--df-md-primary-6);
 }
 
-.Layout:has(.VPDoc) .sidebar-actions .theme-toggle {
+.Layout .sidebar-actions .theme-toggle {
   border-radius: 8px;
   border-color: var(--df-md-border-1);
 }
 
-.Layout:has(.VPDoc) .doc-header {
+.Layout .doc-header {
   border-bottom-color: var(--df-md-layout-divider);
   --vp-c-text-1: var(--df-md-text-1);
   --vp-c-text-2: var(--df-md-text-2);
@@ -185,63 +182,61 @@
   --vp-c-brand-1: var(--df-md-primary-6);
   --vp-c-bg: var(--df-md-bg-1);
   --vp-c-bg-soft: var(--df-md-fill-1);
-  font-family: var(--df-md-font-sans);
 }
 
-.Layout:has(.VPDoc) .doc-header .doc-search,
-.Layout:has(.VPDoc) .doc-header .theme-toggle,
-.Layout:has(.VPDoc) .doc-header .lang-switch-trigger {
+.Layout .doc-header .doc-search,
+.Layout .doc-header .theme-toggle,
+.Layout .doc-header .lang-switch-trigger {
   border-radius: 8px;
   border-color: var(--df-md-border-1);
 }
 
-.Layout:has(.VPDoc) .doc-header .doc-search {
+.Layout .doc-header .doc-search {
   border-color: var(--df-md-search-border);
   background: var(--df-md-search-bg);
 }
 
-.Layout:has(.VPDoc) .doc-header .doc-search:hover,
-.Layout:has(.VPDoc) .doc-header .theme-toggle:hover,
-.Layout:has(.VPDoc) .doc-header .lang-switch-trigger:hover {
+.Layout .doc-header .doc-search:hover,
+.Layout .doc-header .theme-toggle:hover,
+.Layout .doc-header .lang-switch-trigger:hover {
   border-color: var(--df-md-border-2);
   background-color: var(--df-md-fill-1);
 }
 
-.Layout:has(.VPDoc) .doc-header .doc-search:hover {
+.Layout .doc-header .doc-search:hover {
   border-color: var(--df-md-search-hover-border);
   background-color: var(--df-md-search-hover-bg);
 }
 
-.Layout:has(.VPDoc) .doc-header .doc-search:focus {
+.Layout .doc-header .doc-search:focus {
   border-color: var(--df-md-primary-6);
 }
 
-.Layout:has(.VPDoc) .VPDocFooter {
+.Layout .VPDoc .VPDocFooter {
   margin-top: 56px;
-  font-family: var(--df-md-font-sans);
 }
 
-.Layout:has(.VPDoc) .VPDocFooter .edit-link-button {
+.Layout .VPDoc .VPDocFooter .edit-link-button {
   color: var(--df-md-text-3);
   font-weight: var(--df-md-font-normal);
 }
 
-.Layout:has(.VPDoc) .VPDocFooter .edit-link-button:hover {
+.Layout .VPDoc .VPDocFooter .edit-link-button:hover {
   color: var(--df-md-primary-6);
 }
 
-.Layout:has(.VPDoc) .VPDocFooter .VPLastUpdated {
+.Layout .VPDoc .VPDocFooter .VPLastUpdated {
   color: var(--df-md-text-3);
   font-size: 13px;
   font-weight: var(--df-md-font-normal);
 }
 
-.Layout:has(.VPDoc) .VPDocFooter .prev-next {
+.Layout .VPDoc .VPDocFooter .prev-next {
   border-color: var(--df-md-border-1);
   padding-top: 24px;
 }
 
-.Layout:has(.VPDoc) .VPDocFooter .pager-link {
+.Layout .VPDoc .VPDocFooter .pager-link {
   padding: 16px 20px;
   border-color: var(--df-md-border-1);
   border-radius: 12px;
@@ -249,50 +244,50 @@
   transition: background-color 0.2s, border-color 0.2s;
 }
 
-.Layout:has(.VPDoc) .VPDocFooter .pager-link:hover {
+.Layout .VPDoc .VPDocFooter .pager-link:hover {
   border-color: var(--df-md-border-2);
   background-color: var(--df-md-fill-1);
 }
 
-.Layout:has(.VPDoc) .VPDocFooter .pager-link .desc {
+.Layout .VPDoc .VPDocFooter .pager-link .desc {
   margin-bottom: 8px;
   color: var(--df-md-text-3);
   font-size: 13px;
   font-weight: var(--df-md-font-normal);
 }
 
-.Layout:has(.VPDoc) .VPDocFooter .pager-link .title {
+.Layout .VPDoc .VPDocFooter .pager-link .title {
   color: var(--df-md-text-1);
   font-size: 16px;
   line-height: 1.5;
   font-weight: 500;
 }
 
-.Layout:has(.VPDoc) .VPDocFooter .pager-link:hover .title {
+.Layout .VPDoc .VPDocFooter .pager-link:hover .title {
   color: var(--df-md-primary-6);
 }
 
-.Layout:has(.VPDoc) .embedded-sidebar-button,
-.Layout:has(.VPDoc) :is(.sidebar-actions, .doc-header) .theme-toggle {
+.Layout .VPDoc .embedded-sidebar-button,
+.Layout :is(.sidebar-actions, .doc-header) .theme-toggle {
   color: var(--df-md-text-2);
   background: var(--df-md-search-bg);
   border-color: var(--df-md-search-border);
 }
 
-.Layout:has(.VPDoc) .embedded-sidebar-button:hover,
-.Layout:has(.VPDoc) :is(.sidebar-actions, .doc-header) .theme-toggle:hover {
+.Layout .VPDoc .embedded-sidebar-button:hover,
+.Layout :is(.sidebar-actions, .doc-header) .theme-toggle:hover {
   color: var(--df-md-text-1);
   background: var(--df-md-search-hover-bg);
   border-color: var(--df-md-search-hover-border);
 }
 
-.Layout:has(.VPDoc) .embedded-sidebar-button:focus-visible,
-.Layout:has(.VPDoc) :is(.sidebar-actions, .doc-header) .theme-toggle:focus-visible {
+.Layout .VPDoc .embedded-sidebar-button:focus-visible,
+.Layout :is(.sidebar-actions, .doc-header) .theme-toggle:focus-visible {
   outline: 2px solid var(--df-md-primary-6);
   outline-offset: 2px;
 }
 
-.Layout:has(.VPDoc) .doc-heading-row {
+.Layout .VPDoc .doc-heading-row {
   position: relative;
   display: flex;
   align-items: center;
@@ -301,13 +296,13 @@
   margin: 0 auto 28px;
 }
 
-.Layout:has(.VPDoc) .doc-heading-row .doc-breadcrumb {
+.Layout .VPDoc .doc-heading-row .doc-breadcrumb {
   flex: 1;
   min-width: 0;
   margin: 0;
 }
 
-.Layout:has(.VPDoc) .doc-heading-row .embedded-sidebar-button {
+.Layout .VPDoc .doc-heading-row .embedded-sidebar-button {
   position: absolute;
   top: 50%;
   /* Keep the menu at the viewport's left edge beside the centered reading column. */
@@ -317,38 +312,38 @@
 }
 
 @media (max-width: 959px) {
-  .Layout:has(.VPDoc) .doc-heading-row {
+  .Layout .VPDoc .doc-heading-row {
     min-height: 34px;
     margin-bottom: 24px;
   }
 
-  html.embedded .Layout:has(.VPDoc) .doc-heading-row .doc-breadcrumb {
+  html:is(.embedded, .doc-only) .Layout .doc-heading-row .doc-breadcrumb {
     /* Reserve space only when the centered column approaches the menu button. */
     padding-left: max(0px, calc(58px - (100vw - 100%) / 2));
   }
 }
 
-.Layout:has(.VPDoc) :is(.VPSidebar, .VPDocFooter, .doc-header, .embedded-sidebar-button) :is(a, button):focus-visible {
+.Layout :is(.VPSidebar, .VPDocFooter, .doc-header, .embedded-sidebar-button) :is(a, button):focus-visible {
   outline: 2px solid var(--df-md-primary-6);
   outline-offset: 2px;
 }
 
 @media (min-width: 960px) {
   /* Center the sidebar, reading column and outline using the same outer gutters. */
-  .Layout:has(.VPDoc) .VPContent.has-sidebar {
+  .Layout .VPContent.has-sidebar {
     padding-left: calc(var(--df-doc-side-space) + var(--vp-sidebar-width));
     padding-right: var(--df-doc-side-space);
   }
 
-  .Layout:has(.VPDoc) .VPDoc {
+  .Layout .VPDoc {
     padding: var(--df-doc-top-space) 24px 0;
   }
 
-  .Layout:has(.VPDoc) .VPDoc > .container > .content {
+  .Layout .VPDoc > .container > .content {
     padding: 0 16px 96px;
   }
 
-  .Layout:has(.VPDoc) .VPSidebar {
+  .Layout .VPSidebar {
     left: var(--df-doc-side-space);
     width: var(--vp-sidebar-width);
     padding-left: 24px;
@@ -357,37 +352,37 @@
 
   /* Exclude both 24px paddings and the 1px divider; keep this width when
      a vertical scrollbar reduces the sidebar's available content width. */
-  .Layout:has(.VPDoc) .VPSidebar .nav {
+  .Layout .VPSidebar .nav {
     width: calc(var(--vp-sidebar-width) - 48px - 1px);
   }
 
   /* Align the first label with the breadcrumb after the group's 12px
      top padding and the label's 8px top padding. */
-  html.doc-only .Layout:has(.VPDoc) .VPSidebar .nav {
+  html.doc-only .Layout .VPSidebar .nav {
     padding-top: calc(var(--df-doc-top-space) - 12px - 8px);
   }
 }
 
 @media (min-width: 1280px) {
-  .Layout:has(.VPDoc) .VPDoc > .container > .content {
+  .Layout .VPDoc > .container > .content {
     flex: 1 1 680px;
     max-width: 744px;
   }
 }
 
 @media (max-width: 639px) {
-  .Layout:has(.VPDoc) .VPDoc {
+  .Layout .VPDoc {
     padding-left: 24px;
     padding-right: 24px;
   }
 
-  .Layout:has(.VPDoc) .VPDocFooter .pager-link {
+  .Layout .VPDoc .VPDocFooter .pager-link {
     padding: 14px 16px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .Layout:has(.VPDoc) *,
+  .Layout *,
   .VPLocalSearchBox * {
     scroll-behavior: auto;
     transition-duration: 0.01ms;
