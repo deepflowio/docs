@@ -2,11 +2,10 @@
 
 ## Documentation build modes
 
-- `pnpm build`: existing build, output in `dist/`.
+- `pnpm build`: existing build served inside the main site, output in `dist/`.
 - `pnpm build:doc-only`: standalone docs with Logo and Docs title, output in `dist-doc-only/`.
-- `pnpm build:doc-embedded`: product iframe version with no Logo/title, search at the left of the header, and a 32px gap from the header to the document content; output in `dist-doc-embedded/`.
 
-Use `pnpm dev:doc-embedded` for development, or `pnpm preview:doc-embedded` after building to preview the product version. Serve `dist-doc-embedded/` at `/docs/`; document URLs stay the same in all modes.
+The `doc-only` build also covers the product-embedded scenario: when a page is opened inside an iframe, a head script marks `<html>` with `embedded` at runtime, which hides the header brand and moves search to the left. Document URLs stay the same in all modes.
 
 # Notes for writing markdown
 

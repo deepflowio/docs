@@ -93,13 +93,14 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { useData, useRouter } from 'vitepress'
-import darkLogo from '../assets/docs-logo-dark.png'
-import lightLogo from '../assets/docs-logo-light.png'
+import { useData, useRouter, withBase } from 'vitepress'
 
 const { lang, site, isDark } = useData()
 const router = useRouter()
 const base = site.value.base // '/docs/'
+// 深色图案用于浅色主题,浅色图案用于深色主题(统一存放于 public/img)
+const darkLogo = withBase('/img/docs-logo-dark.png')
+const lightLogo = withBase('/img/docs-logo-light.png')
 
 const isZh = computed(() => lang.value?.startsWith('zh'))
 const currentType = computed(() => (isZh.value ? 'zh' : 'en'))
