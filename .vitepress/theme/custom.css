@@ -34,8 +34,8 @@
 
 /* ===== embedded:全站 chrome 隐藏(参考 eaf3930) =====
    <html> 带 embedded 类时隐藏全站导航栏(SiteNavbar)/页脚(SiteFooter)
-   并清空其占位间距;移动端以面包屑同行的目录按钮
-   (EmbeddedSidebarButton,doc-before 插槽)展开侧边栏。
+   并清空其占位间距;移动端以固定在左上角的目录按钮
+   (EmbeddedSidebarButton,doc-top 插槽,直接挂在 .VPDoc 下)展开侧边栏。
    该类由 head 内联脚本标记(见 config.mts):常规构建无条件标记(主站
    嵌入形态,始终隐藏);doc-only 变体仅在真实 iframe 环境(产品内嵌
    文档)标记,独立访问时不带此类,导航栏/页脚由下方 doc-only 段隐藏 */
@@ -131,7 +131,7 @@ html.doc-only .sidebar-actions {
     padding-top: calc(var(--df-nav-height-mobile) + 16px);
   }
   html.doc-only .embedded-sidebar-button {
-    top: calc(var(--df-nav-height-mobile) + 10px);
+    top: calc(var(--df-nav-height-mobile) + var(--df-doc-top-space));
   }
 }
 
