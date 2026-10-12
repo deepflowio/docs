@@ -50,7 +50,7 @@
 }
 
 .Layout .VPDoc .VPDocAsideOutline .outline-title {
-  margin-bottom: 8px;
+  margin-bottom: 2px;
   color: var(--df-md-text-1);
   font-weight: var(--df-md-font-strong);
 }
@@ -288,7 +288,6 @@
 }
 
 .Layout .VPDoc .doc-heading-row {
-  position: relative;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -300,15 +299,6 @@
   flex: 1;
   min-width: 0;
   margin: 0;
-}
-
-.Layout .VPDoc .doc-heading-row .embedded-sidebar-button {
-  position: absolute;
-  top: 50%;
-  /* Keep the menu at the viewport's left edge beside the centered reading column. */
-  left: calc((100% - 100vw) / 2 + 12px);
-  transform: translateY(-50%);
-  flex: none;
 }
 
 @media (max-width: 959px) {

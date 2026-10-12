@@ -40,9 +40,11 @@ export default {
         // 页脚:旧版深色链接矩阵 footer。组件内部按官方 VPFooter 的规则
         // 只在无侧边栏的页面(首页/404)渲染,内容页不显示
         'layout-bottom': () => h(SiteFooter),
-        // 将嵌入模式的目录按钮与面包屑放在同一行。
+        // 嵌入模式的目录按钮:fixed 定位悬浮于视口左上角,经 doc-top
+        // 插槽直接挂在 .VPDoc 下(仅文档页渲染,首页等无侧边栏页面天然没有)
+        'doc-top': () => h(EmbeddedSidebarButton),
+        // 文档顶部的面包屑行
         'doc-before': () => h('div', { class: 'doc-heading-row' }, [
-          h(EmbeddedSidebarButton),
           h(DocBreadcrumb)
         ]),
         // 侧边栏菜单上方的搜索 + 语言切换(自 SiteNavbar 迁来):iframe 嵌入
