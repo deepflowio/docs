@@ -49,19 +49,19 @@ permalink: /diagnose/how-to-profile-deepflow-server-ingester
 - 查看 server 向 clickhouse 写入时丢包量:
   <img src="./imgs/server_drop.png">
 
-      |   队列名                                                  |   队列数量配置                        |   队列长度配置                              |   队列说明                |
-      |   ---                                                    |   ----                                |          ---                               |    ----                  |
-      |   1-recv-unmarshall                                      |   unmarshall-queue-count              |          unmarshall-queue-size             |    指标数据处理队列       |
-      |   1-receive-to-decode-l4/l7                              |   flow-log-decoder-queue-count        |          flow-log-decoder-queue-size       |    流日志处理队列         |
-      |   1-receive-to-decode-telegraf/prometheus/deepflow_stats |   ext-metrics-decoder-queue-count     |          ext-metrics-decoder-queue-size    |    其他数据处理队列       |
-      |   1-receive-to-decode-profile                            |   profile-decoder-queue-count         |          profile-decoder-queue-size        |    性能分析数据处理队列    |
-      |   1-receive-to-decode-proc_event                         |   perf-event-decoder-queue-count      |          perf-event-decoder-queue-size     |    IO等事件的处理队列      |
-      |   1-receive-to-decode-raw_pcap                           |   pcap-queue-count                    |          pcap-queue-size                   |    pcap包处理队列         |
-      |   flow_metrics- 前缀                                     |   metrics-ck-writer->queue-count      |          metrics-ck-writer->queue-size      |    指标数据写入队列       |
-      |   flow_log-l7_packet 前缀                                |   pcap-ck-writer->queue-count         |          pcap-ck-writer->queue-size         |    pcap数据写入队列       |
-      |   flow_log- 前缀除flow_log-l7_packet                     |   flowlog-ck-writer->queue-count      |          flowlog-ck-writer->queue-size      |    流日志数据写入队列      |
-      |   ext_metrics- 前缀                                      |   ext_metrics-ck-writer->queue-count  |          ext_metrics-ck-writer->queue-size  |    其他数据写入队列        |
-      |   profile- 前缀                                          |   profile-ck-writer->queue-count      |          profile-ck-writer->queue-size      |    性能分析数据写入队列    |
+  |   队列名                                                  |   队列数量配置                        |   队列长度配置                              |   队列说明                |
+  |   ---                                                    |   ----                                |          ---                               |    ----                  |
+  |   1-recv-unmarshall                                      |   unmarshall-queue-count              |          unmarshall-queue-size             |    指标数据处理队列       |
+  |   1-receive-to-decode-l4/l7                              |   flow-log-decoder-queue-count        |          flow-log-decoder-queue-size       |    流日志处理队列         |
+  |   1-receive-to-decode-telegraf/prometheus/deepflow_stats |   ext-metrics-decoder-queue-count     |          ext-metrics-decoder-queue-size    |    其他数据处理队列       |
+  |   1-receive-to-decode-profile                            |   profile-decoder-queue-count         |          profile-decoder-queue-size        |    性能分析数据处理队列    |
+  |   1-receive-to-decode-proc_event                         |   perf-event-decoder-queue-count      |          perf-event-decoder-queue-size     |    IO等事件的处理队列      |
+  |   1-receive-to-decode-raw_pcap                           |   pcap-queue-count                    |          pcap-queue-size                   |    pcap包处理队列         |
+  |   flow_metrics- 前缀                                     |   metrics-ck-writer->queue-count      |          metrics-ck-writer->queue-size      |    指标数据写入队列       |
+  |   flow_log-l7_packet 前缀                                |   pcap-ck-writer->queue-count         |          pcap-ck-writer->queue-size         |    pcap数据写入队列       |
+  |   flow_log- 前缀除flow_log-l7_packet                     |   flowlog-ck-writer->queue-count      |          flowlog-ck-writer->queue-size      |    流日志数据写入队列      |
+  |   ext_metrics- 前缀                                      |   ext_metrics-ck-writer->queue-count  |          ext_metrics-ck-writer->queue-size  |    其他数据写入队列        |
+  |   profile- 前缀                                          |   profile-ck-writer->queue-count      |          profile-ck-writer->queue-size      |    性能分析数据写入队列    |
 
 - 其余类型丢包处理方式:
   <img src="./imgs/other_drop.png">
