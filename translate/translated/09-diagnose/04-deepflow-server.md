@@ -51,19 +51,19 @@ permalink: /diagnose/how-to-profile-deepflow-server-ingester
 - View packet loss when the server writes to ClickHouse:
   <img src="./imgs/server_drop.png">
 
-      |   Queue Name                                             |   Queue Count Config                  |   Queue Length Config                    |   Queue Description           |
-      |   ---                                                    |   ----                                |          ---                              |    ----                       |
-      |   1-recv-unmarshall                                      |   unmarshall-queue-count              |          unmarshall-queue-size            |    Metrics data processing queue |
-      |   1-receive-to-decode-l4/l7                              |   flow-log-decoder-queue-count        |          flow-log-decoder-queue-size      |    Flow log processing queue   |
-      |   1-receive-to-decode-telegraf/prometheus/deepflow_stats |   ext-metrics-decoder-queue-count     |          ext-metrics-decoder-queue-size   |    Other data processing queue |
-      |   1-receive-to-decode-profile                            |   profile-decoder-queue-count         |          profile-decoder-queue-size       |    Performance analysis data processing queue |
-      |   1-receive-to-decode-proc_event                         |   perf-event-decoder-queue-count      |          perf-event-decoder-queue-size    |    IO and other event processing queue |
-      |   1-receive-to-decode-raw_pcap                           |   pcap-queue-count                    |          pcap-queue-size                  |    pcap packet processing queue |
-      |   flow_metrics- prefix                                   |   metrics-ck-writer->queue-count      |          metrics-ck-writer->queue-size    |    Metrics data write queue    |
-      |   flow_log-l7_packet prefix                              |   pcap-ck-writer->queue-count         |          pcap-ck-writer->queue-size       |    pcap data write queue       |
-      |   flow_log- prefix except flow_log-l7_packet             |   flowlog-ck-writer->queue-count      |          flowlog-ck-writer->queue-size    |    Flow log data write queue   |
-      |   ext_metrics- prefix                                    |   ext_metrics-ck-writer->queue-count  |          ext_metrics-ck-writer->queue-size|    Other data write queue      |
-      |   profile- prefix                                        |   profile-ck-writer->queue-count      |          profile-ck-writer->queue-size    |    Performance analysis data write queue |
+  |   Queue Name                                             |   Queue Count Config                  |   Queue Length Config                    |   Queue Description           |
+  |   ---                                                    |   ----                                |          ---                              |    ----                       |
+  |   1-recv-unmarshall                                      |   unmarshall-queue-count              |          unmarshall-queue-size            |    Metrics data processing queue |
+  |   1-receive-to-decode-l4/l7                              |   flow-log-decoder-queue-count        |          flow-log-decoder-queue-size      |    Flow log processing queue   |
+  |   1-receive-to-decode-telegraf/prometheus/deepflow_stats |   ext-metrics-decoder-queue-count     |          ext-metrics-decoder-queue-size   |    Other data processing queue |
+  |   1-receive-to-decode-profile                            |   profile-decoder-queue-count         |          profile-decoder-queue-size       |    Performance analysis data processing queue |
+  |   1-receive-to-decode-proc_event                         |   perf-event-decoder-queue-count      |          perf-event-decoder-queue-size    |    IO and other event processing queue |
+  |   1-receive-to-decode-raw_pcap                           |   pcap-queue-count                    |          pcap-queue-size                  |    pcap packet processing queue |
+  |   flow_metrics- prefix                                   |   metrics-ck-writer->queue-count      |          metrics-ck-writer->queue-size    |    Metrics data write queue    |
+  |   flow_log-l7_packet prefix                              |   pcap-ck-writer->queue-count         |          pcap-ck-writer->queue-size       |    pcap data write queue       |
+  |   flow_log- prefix except flow_log-l7_packet             |   flowlog-ck-writer->queue-count      |          flowlog-ck-writer->queue-size    |    Flow log data write queue   |
+  |   ext_metrics- prefix                                    |   ext_metrics-ck-writer->queue-count  |          ext_metrics-ck-writer->queue-size|    Other data write queue      |
+  |   profile- prefix                                        |   profile-ck-writer->queue-count      |          profile-ck-writer->queue-size    |    Performance analysis data write queue |
 
 - Handling other types of packet loss:
   <img src="./imgs/other_drop.png">

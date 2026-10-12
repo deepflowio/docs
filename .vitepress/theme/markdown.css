@@ -596,3 +596,8 @@ body:has(.VPDoc) {
     font-size: 14px;
   }
 }
+
+/* TIPS: 全局 1.8 行高会导致 mermaid 的 label 文本被遮挡 */
+.vp-doc .mermaid .label p {
+  line-height: 1.5;
+}
