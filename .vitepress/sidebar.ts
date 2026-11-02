@@ -140,6 +140,9 @@ function mergeDownloadedPages(items: GroupItem[], lang: 'en' | 'zh'): void {
   if (!fs.existsSync(jsonPath)) return
   for (const { output, meta } of JSON.parse(fs.readFileSync(jsonPath, 'utf8'))) {
     const rel = output.replace(/^\.\//, '').replace(/^docs\//, '')
+    // 按语言过滤:中文条目 rel 以 zh/ 开头,英文条目在根路径;不过滤会把另一
+    // 语言的下载页(如 Agent 配置)混进当前语言的侧边栏
+    if ((lang === 'zh') !== rel.startsWith('zh/')) continue
     const section = rel.replace(/^zh\//, '').split('/')[0]
     const title = dirTitles[lang][section.replace(/^\d+-/, '')] ?? humanizeDir(section)
     let group = items.find((g) => g.text === title)
