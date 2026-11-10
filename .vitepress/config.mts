@@ -79,7 +79,7 @@ export default withMermaid(
             { text: '功能特性', link: '/zh/features/l7-protocols/overview' },
             { text: '版本发布', link: '/zh/release-notes/release-7.2-ce' }
           ],
-          outline: { level: [2, 3], label: '本页目录' },
+          outline: { level: [1, 4], label: '本页目录' },
           lastUpdated: { text: '上次更新' },
           docFooter: { prev: '上一篇', next: '下一篇' },
           returnToTopLabel: '回到顶部',
