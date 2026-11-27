@@ -89,17 +89,26 @@ Script stack unwinding requires the Agent to load the enhanced Continuous Profil
 
 The Agent must be able to identify the target interpreter version and read the process executable and loaded interpreter libraries. With an unsupported runtime, a failed identification, or inaccessible files, a Profile may still contain native/runtime frames but no script functions. Python Memory Profiling captures object allocation and release events through the public CPython symbols `PyObject_Malloc/Free/Realloc` and `PyMem_RawMalloc/Free/Realloc`.
 
-Two prerequisites must be met when the common eBPF On-CPU/Off-CPU profiler obtains call stacks:
+### User-space stack unwinding
 
-- The application process must enable Frame Pointer or enable the Agent's DWARF stack unwinding capability  
-  - Enable Frame Pointer (frame pointer register) for the application process:  
-    - Compile C/C++: `gcc -fno-omit-frame-pointer`  
-    - Compile Rust: `RUSTFLAGS="-C force-frame-pointers=yes"`  
-    - Compile Golang: Enabled by default, no extra compile parameters needed  
-    - Run Java: `-XX:+PreserveFramePointer` 
-      - Enabling this parameter disables certain compiler optimizations. However, based on real-world measurements from [Netflix](https://netflixtechblog.com/java-in-flames-e763b3d32166) and [Brendan Gregg](https://www.brendangregg.com/FlameGraphs/cpuflamegraphs.html), this configuration typically introduces less than 1% performance overhead. As a result, Netflix has been widely using it in production since 2015 to support daily performance analysis of its Java applications. 
-  - For enabling the Agent's DWARF stack unwinding capability, please refer to the [documentation](../../configuration/agent/#inputs.ebpf.profile.unwinding)  
-- For compiled languages, ensure the symbol table is preserved during compilation  
+eBPF On-CPU/Off-CPU Profiling can unwind user-space call stacks using frame pointers or DWARF.
+
+- **Prefer frame pointers for continuous collection when you control the build or startup flags.** The profiler follows the frame pointer chain one frame at a time.
+  - For C/C++, rebuild and redeploy with `gcc -fno-omit-frame-pointer`.
+  - For Rust, set `RUSTFLAGS="-C force-frame-pointers=yes"`, then rebuild and redeploy.
+  - Go preserves frame pointers by default on amd64 and arm64.
+  - For Java, pass `-XX:+PreserveFramePointer` at JVM startup. A running JVM needs a restart to pick up the flag. Published tests have reported less than 1% overhead. The actual impact depends on the JDK and workload. See [Netflix](https://netflixtechblog.com/java-in-flames-e763b3d32166) and [Brendan Gregg](https://www.brendangregg.com/FlameGraphs/cpuflamegraphs.html).
+- **Consider DWARF when a native program omits frame pointers and rebuilding or restarting is impractical.** For example, an existing third-party C/C++ process can keep running while the Agent builds unwind tables from `.eh_frame` in the executable and shared libraries.
+  - **Higher CPU overhead per sample.** Looking up unwind rules and restoring registers usually takes more CPU than following the frame pointer chain.
+  - **Additional kernel memory.** At their default capacities, the DWARF process and shard maps use an estimated 136 MB of kernel memory combined.
+
+  Confirm that the kernel supports DWARF unwinding, then set `inputs.ebpf.profile.unwinding.dwarf_disabled` to `false`. See [kernel requirements](../../ce-install/overview/#running-permissions-and-kernel-requirements) and [Agent unwinding configuration](../../configuration/agent/#inputs.ebpf.profile.unwinding).
+
+To capture HotSpot JIT-compiled Java methods in an eBPF flame graph, use `-XX:+PreserveFramePointer`. The DeepFlow Agent's DWARF unwinder cannot unwind HotSpot JIT frames because the generated code lacks the required ELF unwind information. If you only need to find CPU hotspots in Java methods, the Enterprise Edition can sample inside the JVM without frame pointers (you can omit `-XX:+PreserveFramePointer`). See [Java Profiling](#java-profiling).
+
+Unwinding recovers call addresses. For compiled languages, preserve the symbol table during the build so the Agent can resolve those addresses to function names in the flame graph.
+
+### Off-CPU stack collection
 
 The Off-CPU profiling feature **only** collects the following call stacks:
 
