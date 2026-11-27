@@ -86,17 +86,26 @@ Python 的 HBM Profile 来自目标进程调用的 CUDA API，而不是 CPython 
 
 Agent 必须能够识别目标解释器版本，并读取目标进程的可执行文件及已加载的解释器共享库。不支持的运行时版本、识别失败或文件不可访问时，Profile 中仍可能包含 Native/运行时函数，但不会显示脚本函数。Python 内存剖析通过 CPython 的 `PyObject_Malloc/Free/Realloc` 和 `PyMem_RawMalloc/Free/Realloc` 公共符号采集对象分配与释放事件。
 
-通过通用 eBPF On-CPU/Off-CPU Profiling 获取调用栈时，需满足以下两个前提条件：
+### 用户态调用栈回溯
 
-- 应用进程需要开启 Frame Pointer 或启用 Agent 的 DWARF 栈回溯能力
-  - 应用进程开启 Frame Pointer（帧指针寄存器）：
-    - 编译 C/C++：`gcc -fno-omit-frame-pointer`
-    - 编译 Rust：`RUSTFLAGS="-C force-frame-pointers=yes"`
-    - 编译 Golang：默认开启，无需额外编译参数
-    - 运行 Java：`-XX:+PreserveFramePointer`
-      - 开启此参数会禁用某些编译器优化，不过根据 [Netflix](https://netflixtechblog.com/java-in-flames-e763b3d32166) 和 [Brendan Gregg](https://www.brendangregg.com/FlameGraphs/cpuflamegraphs.html) 的实测结果，该配置通常只会引入 <1% 的性能损耗。因此，Netflix 早在 2015 年开始已经在生产环境大规模使用，以支撑其 Java 程序的每日性能分析。
-  - 启用 Agent 的 DWARF 栈回溯能力请参考[文档](../../configuration/agent/#inputs.ebpf.profile.unwinding)
-- 对于编译型语言的应用进程，编译时需要注意保留符号表
+eBPF On-CPU/Off-CPU Profiling 可通过帧指针（Frame Pointer）或 DWARF 回溯用户态调用栈。
+
+- **能够控制编译或启动参数时，长期抓取优先使用帧指针。** 采集器沿帧指针链逐帧回溯。
+  - C/C++ 使用 `gcc -fno-omit-frame-pointer` 重新编译并部署。
+  - Rust 设置 `RUSTFLAGS="-C force-frame-pointers=yes"` 后重新编译并部署。
+  - Golang 在 amd64 和 arm64 上默认保留帧指针。
+  - Java 在启动 JVM 时添加 `-XX:+PreserveFramePointer`，运行中的 JVM 需要重新启动才能应用该参数。公开测试曾测得低于 1% 的性能开销，实际影响取决于 JDK 和应用负载。参见 [Netflix](https://netflixtechblog.com/java-in-flames-e763b3d32166) 和 [Brendan Gregg](https://www.brendangregg.com/FlameGraphs/cpuflamegraphs.html)。
+- **原生程序缺少帧指针且不便重编译或重启时，考虑使用 DWARF。** 例如，已有的第三方 C/C++ 进程可以继续运行，由 Agent 从可执行文件和共享库的 `.eh_frame` 构建回溯表。
+  - **采样 CPU 开销较高。** 回溯时需要查表并恢复寄存器，通常比沿帧指针链回溯消耗更多 CPU。
+  - **占用额外的内核内存。** 按默认容量估算，DWARF 回溯进程表和分片表合计占用约 136 MB 内核内存。
+
+  确认内核支持 DWARF 后，将 `inputs.ebpf.profile.unwinding.dwarf_disabled` 设为 `false`。参见 [内核要求](../../ce-install/overview/#运行权限及内核要求) 和 [Agent 栈回溯配置](../../configuration/agent/#inputs.ebpf.profile.unwinding)。
+
+如果需要在 eBPF 火焰图中看到 HotSpot JIT 编译的 Java 方法，请使用 `-XX:+PreserveFramePointer`。DeepFlow Agent 的 DWARF 回溯无法展开 HotSpot JIT 栈帧，因为 JIT 生成的代码没有 Agent 所需的 ELF 回溯信息。如果只需要定位 Java 方法的 CPU 热点，可使用企业版的 JVM 内采样，无需保留帧指针（可不加 `-XX:+PreserveFramePointer`）。参见 [Java Profiling](#java-profiling)。
+
+回溯得到的是调用地址。对于编译型语言，构建时保留符号表可帮助 Agent 将这些地址解析为火焰图中的函数名。
+
+### Off-CPU 采集范围
 
 Off-CPU Profiling 功能**仅会**采集如下调用栈：
 
